@@ -1,5 +1,6 @@
 <?php
-    const SERVERURL = "http://localhost/devkireds/";
+
+    const SERVERURL = "https://devkireds.kireds.com/";
 	
 	//PATH IMAGES
 	const PRODUCT_PATH = "/devkireds/vistas/plantilla/img/products/";
