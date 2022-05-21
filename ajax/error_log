@@ -1,0 +1,398 @@
+[11-May-2022 08:34:53 America/Tegucigalpa] PHP Warning:  mysqli::__construct(): (42000/1044): Access denied for user 'kireds_kireds'@'localhost' to database 'kireds_kireds' in /home/kireds/public_html/devkireds/core/mainModel.php on line 16
+[11-May-2022 10:46:58 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[11-May-2022 10:54:03 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[11-May-2022 10:55:47 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[13-May-2022 13:42:37 America/Tegucigalpa] PHP Notice:  Undefined index: colaborador_id_sd in /home/kireds/public_html/devkireds/controladores/cotizacionControlador.php on line 27
+[13-May-2022 13:42:37 America/Tegucigalpa] PHP Notice:  Undefined index: empresa_id_sd in /home/kireds/public_html/devkireds/controladores/cotizacionControlador.php on line 29
+[17-May-2022 09:40:35 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 09:41:00 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 09:41:53 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 09:44:05 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 09:44:37 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 09:44:42 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 09:45:17 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 09:51:28 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 09:52:35 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 10:09:24 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 10:11:40 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 10:14:04 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 10:22:04 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 10:22:53 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 11:47:06 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 14:23:44 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 14:23:55 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 14:24:50 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 14:25:46 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 14:40:38 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[17-May-2022 15:21:03 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[18-May-2022 10:33:23 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[18-May-2022 10:33:44 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[18-May-2022 10:42:41 America/Tegucigalpa] PHP Fatal error:  Access level to facturasModelo::secuencia_facturacion() must be public (as in class mainModel) in /home/kireds/public_html/devkireds/modelos/facturasModelo.php on line 8
+[18-May-2022 10:48:08 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 10:48:08 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 10:48:08 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 10:48:08 America/Tegucigalpa] PHP Fatal error:  Uncaught Error: Call to undefined method mainModel::getCambioDolar() in /home/kireds/public_html/devkireds/controladores/facturasControlador.php:153
+Stack trace:
+#0 /home/kireds/public_html/devkireds/ajax/addFacturaAjax.php(8): facturasControlador->agregar_facturas_controlador()
+#1 {main}
+  thrown in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 153
+[18-May-2022 10:49:41 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 10:49:41 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 10:49:41 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 10:49:41 America/Tegucigalpa] PHP Fatal error:  Uncaught Error: Call to undefined method mainModel::getCambioDolar() in /home/kireds/public_html/devkireds/controladores/facturasControlador.php:153
+Stack trace:
+#0 /home/kireds/public_html/devkireds/ajax/addFacturaAjax.php(8): facturasControlador->agregar_facturas_controlador()
+#1 {main}
+  thrown in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 153
+[18-May-2022 10:57:16 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 10:57:16 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 10:57:16 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 10:57:16 America/Tegucigalpa] PHP Fatal error:  Uncaught Error: Call to a member function fetch_assoc() on boolean in /home/kireds/public_html/devkireds/controladores/facturasControlador.php:153
+Stack trace:
+#0 /home/kireds/public_html/devkireds/ajax/addFacturaAjax.php(8): facturasControlador->agregar_facturas_controlador()
+#1 {main}
+  thrown in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 153
+[18-May-2022 11:14:27 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 11:14:27 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 11:14:27 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 11:14:27 America/Tegucigalpa] PHP Fatal error:  Uncaught Error: Call to a member function fetch_assoc() on boolean in /home/kireds/public_html/devkireds/controladores/facturasControlador.php:153
+Stack trace:
+#0 /home/kireds/public_html/devkireds/ajax/addFacturaAjax.php(8): facturasControlador->agregar_facturas_controlador()
+#1 {main}
+  thrown in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 153
+[18-May-2022 11:16:05 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 11:16:05 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 11:16:05 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 11:16:05 America/Tegucigalpa] PHP Fatal error:  Uncaught Error: Call to a member function fetch_assoc() on boolean in /home/kireds/public_html/devkireds/controladores/facturasControlador.php:153
+Stack trace:
+#0 /home/kireds/public_html/devkireds/ajax/addFacturaAjax.php(8): facturasControlador->agregar_facturas_controlador()
+#1 {main}
+  thrown in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 153
+[18-May-2022 11:25:50 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 11:25:50 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 11:25:50 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 11:25:50 America/Tegucigalpa] PHP Fatal error:  Uncaught Error: Call to a member function fetch_assoc() on boolean in /home/kireds/public_html/devkireds/controladores/facturasControlador.php:153
+Stack trace:
+#0 /home/kireds/public_html/devkireds/ajax/addFacturaAjax.php(8): facturasControlador->agregar_facturas_controlador()
+#1 {main}
+  thrown in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 153
+[18-May-2022 11:43:13 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 11:43:13 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 11:43:13 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 11:43:13 America/Tegucigalpa] PHP Fatal error:  Uncaught Error: Call to undefined method mainModel::getCambioDolar() in /home/kireds/public_html/devkireds/controladores/facturasControlador.php:153
+Stack trace:
+#0 /home/kireds/public_html/devkireds/ajax/addFacturaAjax.php(8): facturasControlador->agregar_facturas_controlador()
+#1 {main}
+  thrown in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 153
+[18-May-2022 11:47:26 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 11:47:26 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 11:47:26 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 11:47:27 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 11:47:27 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 11:47:27 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:23:03 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:23:03 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:23:03 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:23:49 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:23:49 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:23:49 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:23:54 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:23:54 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:23:54 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:24:10 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:24:10 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:24:10 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:24:20 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:24:21 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:24:21 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:24:46 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:24:46 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:24:46 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:22 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:22 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:22 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:23 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:23 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:23 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:24 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:25 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:26 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:26 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:26 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:26 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:26 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:26 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:25:26 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:25:26 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:25:26 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:30:11 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:30:11 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:30:11 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:30:12 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:30:12 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:30:12 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:30:13 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:30:14 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:30:14 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:30:14 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:30:18 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:30:18 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:30:18 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:31:16 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:31:16 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:31:16 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:31:16 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:31:16 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:31:16 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:11 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:11 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:11 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:12 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:12 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:12 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:13 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:14 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:15 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:16 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:17 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:17 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:17 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:17 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:17 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:17 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:17 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:17 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:17 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[18-May-2022 15:36:18 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[18-May-2022 15:36:18 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[18-May-2022 15:36:18 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:58:33 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:58:33 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:58:33 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:58:34 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:58:34 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:58:34 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:58:37 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:58:37 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:58:37 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:58:37 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:58:37 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:58:37 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:58:38 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:58:38 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:58:38 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:58:38 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:58:38 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:58:38 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:58:38 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:58:38 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:58:38 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:58:40 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:58:40 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:58:40 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:58:43 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:58:43 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:58:43 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:58:43 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:58:43 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:58:43 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:58:44 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:58:44 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:58:44 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:59:18 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:59:18 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:59:18 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 14:59:20 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 14:59:20 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 14:59:20 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:16:45 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:16:45 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:16:45 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:16:51 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:16:51 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:16:51 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:18:45 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:18:45 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:18:45 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:18:47 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:18:47 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:18:47 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:18:48 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:18:48 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:18:48 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:18:55 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:18:55 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:18:55 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:18:56 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:18:56 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:18:56 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:19:04 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:19:04 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:19:04 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:19:04 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:19:04 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:19:04 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:20:24 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:20:24 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:20:24 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:20:26 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:20:26 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:20:26 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:20:28 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:20:28 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:20:28 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:20:29 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:20:29 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:20:29 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:20:30 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:20:30 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:20:30 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:20:35 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:20:35 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:20:35 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:20:37 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:20:37 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:20:37 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:40:26 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:40:26 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:40:26 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:40:27 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:40:27 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:40:27 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:42:09 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:42:09 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:42:09 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:42:10 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:42:10 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:42:10 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 15:42:10 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 15:42:10 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 15:42:10 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 17:09:28 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 17:09:28 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 17:09:28 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 17:09:31 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 17:09:31 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 17:09:31 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 17:09:31 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 17:09:31 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 17:09:31 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 17:09:31 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 17:09:31 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 17:09:31 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 17:09:32 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 17:09:32 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 17:09:32 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
+[19-May-2022 17:09:33 America/Tegucigalpa] PHP Notice:  Undefined index: cambioBillValor in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 31
+[19-May-2022 17:09:33 America/Tegucigalpa] PHP Notice:  Undefined index: notesBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 73
+[19-May-2022 17:09:33 America/Tegucigalpa] PHP Notice:  Undefined index: totalHNLBill in /home/kireds/public_html/devkireds/controladores/facturasControlador.php on line 81
