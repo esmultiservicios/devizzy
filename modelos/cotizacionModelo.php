@@ -1,107 +1,53 @@
 <?php
-
     if($peticionAjax){
-
         require_once "../core/mainModel.php";
-
     }else{
-
         require_once "./core/mainModel.php";	
-
     }
 
-	
-
 	class cotizacionModelo extends mainModel{		
-
 		protected function agregar_cotizacion_modelo($datos){
+			$insert = "INSERT INTO cotizacion VALUES('".$datos['cotizacion_id']."','".$datos['clientes_id']."','".$datos['numero']."','".$datos['tipo_factura']."','".$datos['colaboradores_id']."','".$datos['importe']."','".$datos['notas']."','".$datos['fecha']."','".$datos['estado']."','".$datos['vigencia_quote']."','".$datos['usuario']."','".$datos['empresa']."','".$datos['fecha_registro']."','".$datos['fecha_dolar']."')";
 
-			$insert = "INSERT INTO cotizacion 
-
-				VALUES('".$datos['cotizacion_id']."','".$datos['clientes_id']."','".$datos['numero']."','".$datos['tipo_factura']."','".$datos['colaboradores_id']."','".$datos['importe']."','".$datos['notas']."','".$datos['fecha']."','".$datos['estado']."','".$datos['vigencia_quote']."','".$datos['usuario']."','".$datos['empresa']."','".$datos['fecha_registro']."','".$datos['fecha_dolar']."')";
-
-
-
-			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-
-			
+			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);		
 
 			return $result;			
-
-		}
-
-		
+		}		
 
 		protected function agregar_detalle_cotizacion($datos){
-
 			$cotizacion_detalle_id = mainModel::correlativo("cotizacion_detalle_id", "cotizacion_detalles");
+			$insert = "INSERT INTO cotizacion_detalles VALUES('$cotizacion_detalle_id','".$datos['cotizacion_id']."','".$datos['productos_id']."','".$datos['cantidad']."','".$datos['precio']."','".$datos['isv_valor']."','".$datos['descuento']."')";
 
-			$insert = "INSERT INTO cotizacion_detalles
-
-				VALUES('$cotizacion_detalle_id','".$datos['cotizacion_id']."','".$datos['productos_id']."','".$datos['cantidad']."','".$datos['precio']."','".$datos['isv_valor']."','".$datos['descuento']."')";
-
-
-
-			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-
-			
+			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);			
 
 			return $result;			
-
 		}
-
 		
-
 		protected function actualizar_detalle_cotizacion($datos){
-
 			$update = "UPDATE cotizacion_detalles
-
 				SET 
-
 					cantidad = '".$datos['cantidad']."',
-
 					precio = '".$datos['precio']."',
-
 					isv_valor = '".$datos['isv_valor']."',
-
 					descuento = '".$datos['descuento']."'
-
 				WHERE cotizacion_id = '".$datos['cotizacion_id']."' AND productos_id = '".$datos['productos_id']."'";
-
 			
-
-			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
-
-			
+			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);			
 
 			return $result;					
-
-		}
-
-		
+		}		
 
 		protected function actualizar_cotizacion_importe($datos){
-
 			$update = "UPDATE cotizacion
-
 				SET
-
 					importe = '".$datos['importe']."'
-
 				WHERE cotizacion_id = '".$datos['cotizacion_id']."'";
-
 				
-
 			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
-
-			
-
-			return $result;				
-
-		}
-
 		
-
+			return $result;				
+		}
+		
 		protected function cancelar_cotizacion_modelo($cotizacion_id){
 
 			$estado = 4;//COTIZACIÓN CANCELADA

@@ -37,6 +37,7 @@
 			$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);
 			$notas = mainModel::cleanString($_POST['notesBill']);
 			$fecha = $_POST['fecha'];
+			$fecha_dolar = $_POST['fecha_dolar'];
 			$fecha_registro = date("Y-m-d H:i:s");
 			$facturas_id = mainModel::correlativo("facturas_id", "facturas");	
 
@@ -71,6 +72,7 @@
 				"usuario" => $usuario,
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
+				"fecha_dolar" => $fecha_dolar
 			];	
 
 			if($clientes_id != "" && $colaborador_id != ""){

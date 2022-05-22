@@ -195,7 +195,23 @@
 		?></p>
 		<p class="nota"><br/><br/></p>		
 		<p class="nota"><center><?php echo $insMainModel->convertir($total_despues_isv).' LEMPIRAS';?></center></p>
-		<br/>		
+		<br>
+		<p class="nota"><center>
+			<?php 
+				include_once 'cambioDolar.php';
+				if($consulta_registro['fecha_dolar'] != '0000-00-00' ){
+					$new_fecha_dolar = $consulta_registro['fecha_dolar'];
+					$dolar = cambioDolar($total_despues_isv,$new_fecha_dolar);
+					echo 'Total Dolares $ '.round($dolar->result,2);
+				}
+			?>
+			</center>
+		</p>
+
+		<p class="nota"><center><?php 
+				if($consulta_registro['fecha_dolar'] != '0000-00-00') { echo $insMainModel->convertir($dolar->result).' DOLARES';}?>
+		
+		</center></p>		
 		<p class="nota"><br/><br/></p>
 		<p class="nota">La factura es beneficio de todos "Exíjala"</p>	
 		<p class="nota">N° correlativo de orden de compra excenta __________________</p>

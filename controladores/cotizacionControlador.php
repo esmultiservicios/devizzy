@@ -1,107 +1,57 @@
 <?php
-
     if($peticionAjax){
-
         require_once "../modelos/cotizacionModelo.php";
-
     }else{
-
         require_once "./modelos/cotizacionModelo.php";
-
     }
 
-	
 
 	class cotizacionControlador extends cotizacionModelo{
-
 		public function agregar_cotizacion_controlador(){
-
 			if(!isset($_SESSION['user_sd'])){ 
-
 				session_start(['name'=>'SD']); 
-
 			}
-
-			
-
+	
 			$usuario = $_SESSION['colaborador_id_sd'];
-
 			$empresa_id = $_SESSION['empresa_id_sd'];			
 
 			//ENCABEZADO DE FACTURA
-
 			$clientes_id = $_POST['cliente_id'];
-
 			$colaborador_id = $_POST['colaborador_id'];
-
 			$notas = mainModel::cleanStringConverterCase($_POST['notesQuote']);
-
 			$fecha = $_POST['fecha'];
-
 			$fecha_dolar = $_POST['fecha_dolar'];
-
 			$fecha_registro = date("Y-m-d H:i:s");
-
 		    $estado = 1;//CONTADO
-
 			$cotizacion_id = mainModel::correlativo("cotizacion_id", "cotizacion");
-
 			$numero = mainModel::correlativo("number", "cotizacion");
-
 			$tipo_factura = 1;
-
 			
-
 			if(isset($_POST['vigencia_quote'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
-
 				if($_POST['vigencia_quote'] == ""){
-
 					$vigencia_quote = 0;
-
 				}else{
-
 					$vigencia_quote = $_POST['vigencia_quote'];
-
 				}
-
 			}else{
-
 				$vigencia_quote = 0;
-
 			}
 
-
-
 			$datos = [
-
 				"cotizacion_id" => $cotizacion_id,
-
 				"clientes_id" => $clientes_id,				
-
 				"tipo_factura" => $tipo_factura,				
-
 				"numero" => $numero,
-
 				"colaboradores_id" => $colaborador_id,
-
 				"importe" => 0,
-
 				"notas" => $notas,
-
 				"fecha" => $fecha,				
-
 				"estado" => $estado,
-
 				"usuario" => $usuario,
-
 				"fecha_registro" => $fecha_registro,
-
 				"empresa" => $empresa_id,
-
-				"vigencia_quote" => $vigencia_quote,		
-				
+				"vigencia_quote" => $vigencia_quote,					
 				"fecha_dolar" => $fecha_dolar
-
 			];	
 
 						

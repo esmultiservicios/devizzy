@@ -1,69 +1,36 @@
-
-
 <?php
-
     if($peticionAjax){
-
         require_once "../core/configAPP.php";
-
 		require_once "../core/phpmailer/class.phpmailer.php";
-
 		require_once "../core/phpmailer/class.smtp.php";
-
     }else{
-
         require_once "./core/configAPP.php";
-
 		require_once "./core/phpmailer/class.phpmailer.php";
-
 		require_once "./core/phpmailer/class.smtp.php";
-
     }
 
-
-
     class mainModel{
-
          /*FUNCTION QUE PERMITE REALIZAR LA CONEXIÓN A LA DB*/
-
         protected function connection(){			
-
             $mysqli = new mysqli(SERVER, USER, PASS, DB);
 
-
-
             if ($mysqli->connect_errno) {
-
                 echo "Fallo al conectar a MySQL: " . $mysqli->connect_error;
-
                 exit;
-
             }
-
 			
-
 			$mysqli->set_charset("utf8");
 
-
-
             return $mysqli;
-
         }
-
 		
-
 		protected function ejecutar_consulta_simple($query){
-
 			$result = self::connection()->query($query);
-
 			
-
 			return $result;
-
 		}
 
-		
-
+	
 		//FUNCION CORRELATIVO
 
 		protected function correlativo($campo_id, $tabla){
@@ -3132,84 +3099,46 @@
 
 		}	
 
-
-
 		public function getSecuenciaFacturacionEdit($secuencia_facturacion_id){
-
 			$query = "SELECT *
-
 				FROM secuencia_facturacion
-
-				WHERE secuencia_facturacion_id = '$secuencia_facturacion_id'";
-
-			
+				WHERE secuencia_facturacion_id = '$secuencia_facturacion_id'";			
 
 			$result = self::connection()->query($query);
-
 			
-
 			return $result;					
-
 		}
-
-		
+	
 
 		public function getFactura($noFactura){
-
-			$query = "SELECT c.nombre AS 'cliente', c.rtn AS 'rtn_cliente', c.telefono AS 'telefono', c.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn_empresa', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn'
-
+			$query = "SELECT c.nombre AS 'cliente', c.rtn AS 'rtn_cliente', c.telefono AS 'telefono', c.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn_empresa', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn', f.fecha_dolar AS 'fecha_dolar'
 				FROM facturas AS f
-
 				INNER JOIN clientes AS c
-
 				ON f.clientes_id = c.clientes_id
-
 				INNER JOIN secuencia_facturacion AS sf
-
 				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-
 				INNER JOIN empresa AS e
-
 				ON sf.empresa_id = e.empresa_id
-
 				INNER JOIN colaboradores AS co
-
 				ON f.colaboradores_id = co.colaboradores_id
-
-				WHERE f.facturas_id = '$noFactura'";
-
-			
-
+				WHERE f.facturas_id = '$noFactura'";			
 			$result = self::connection()->query($query);
-
 			
-
 			return $result;				
-
 		}
 
-
-
 		public function getCotizacion($noCotizacion){
-
 			$query = "SELECT cl.nombre AS 'cliente', cl.rtn AS 'rtn_cliente', cl.telefono AS 'telefono', cl.localidad AS 'localidad',
 			 e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular',
 			  e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido',
 			   DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', c.fecha_dolar,
 			    time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito'END) AS 'tipo_documento', vg.valor AS 'vigencia_cotizacion', e.rtn AS 'rtn_empresa'
-
 				FROM cotizacion AS c
-
 				INNER JOIN clientes AS cl
-
 				ON c.clientes_id = cl.clientes_id
-
 				INNER JOIN colaboradores AS co
-
 				ON c.colaboradores_id = co.colaboradores_id
-
 				INNER JOIN empresa AS e
-
 				ON co.empresa_id = e.empresa_id
 
 				INNER JOIN vigencia_cotizacion AS vg
