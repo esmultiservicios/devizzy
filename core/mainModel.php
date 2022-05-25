@@ -24,9 +24,11 @@
             return $mysqli;
         }
 
-		protected function ejecutar_consulta_simple($query){
-			$result = self::connection()->query($query);
+		
 
+		public function consulta_total_ingreso($query){
+			$result = self::connection()->query($query);
+	
 			return $result;
 		}
 
@@ -2835,6 +2837,18 @@
 
 		}
 
+		public function ejecutar_consulta_simple($query){
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+
+		public function consulta_total_gastos($query){
+			$result = self::connection()->query($query);
+	
+			return $result;
+		}
 
 
 		public function getEgresosContables($datos){

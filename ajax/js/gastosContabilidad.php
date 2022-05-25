@@ -25,6 +25,31 @@ $('#formMainGastosContabilidad #search').on("click", function(e){
 
 
 //INICIO ACCIONES FORMULARIO EGRESOS
+var total_gastos_footer = function(){	
+
+var fechai = $("#formMainGastosContabilidad #fechai").val();
+
+var fechaf = $("#formMainGastosContabilidad #fechaf").val();
+
+$.ajax({
+	url : '<?php echo SERVERURL;?>core/totalIngresoFooter.php',
+	type: "POST",
+	data : {
+		"fechai": fechai,
+		"fechaf":fechaf
+		}
+	})
+	.done(function(data) {
+		$("#total-footer-gastos").html(data);
+		
+	})
+	.fail(function(data) {
+		console.log( "total ingreso error" );
+	
+});
+
+
+}
 
 var listar_gastos_contabilidad = function(){	
 
@@ -208,6 +233,8 @@ var listar_gastos_contabilidad = function(){
 	edit_reporte_gastos_dataTable("#dataTableGastosContabilidad tbody", table_gastos_contabilidad);
 
 	view_reporte_gastos_dataTable("#dataTableGastosContabilidad tbody", table_gastos_contabilidad);
+
+	total_gastos_footer();
 
 }
 
