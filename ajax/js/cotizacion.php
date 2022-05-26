@@ -1,25 +1,15 @@
 <script>
-
 $(document).ready(function() {
-
     cleanQuote();
-
 	getVigencia(); 
-
 });
-
-
 
 //INICIO COTIZACIONES
 
 $(document).ready(function(){
-
     $("#quoteForm #QuoteItem").on('keypress', '.product-bar-code', function(event) {	
-
 		//EVALUAMOS EL ENTER event.which == '13'
-
 		if (event.which === 10 || event.which === 13) {
-
 			event.preventDefault();	
 
 			$(".product-bar-code").focus();
@@ -152,22 +142,14 @@ $(document).ready(function(){
 
 							addRowQuote();
 
-
-
 							if(row_index>0){
-
 								var icon_search =  row_index - 1;
-
 							}
 
 							
-
 							$("#quoteForm #QuoteItem #icon-search-bar_" + row_index).hide();
-
 							$("#quoteForm #QuoteItem #icon-search-bar_" + icon_search).hide();	
-
-							
-
+				
 							calculateTotalQuote();
 
 						}else{
@@ -322,8 +304,6 @@ $(document).ready(function(){
 
 			}
 
-
-
 			calculateTotalQuote();
 
 		}
@@ -437,11 +417,8 @@ $(document).ready(function(){
 				}						
 
 			}
-
-						
-
+					
 			calculateTotalQuote();
-
 		}			
 
 	});
@@ -746,10 +723,8 @@ $("#reg_modificar_precio_quote").on("click", function(e){
 
 	$('#modalModificarPrecioCotizaciones').modal('hide');
 
-	
 
 	calculateTotalQuote();
-
 });			
 
 
@@ -2110,123 +2085,71 @@ $(document).ready(function(){
 				data:{id:id, action:'delete_invoice'},
 
 				success:function(response) {
-
 					if(response.status == 1) {
-
 						$('#'+id).closest("tr").remove();
-
 					}
-
 				}
-
 			});
-
 		} else {
-
 			return false;
-
 		}
-
 	});
-
 });
 
 
-
 function calculateTotalQuote(){
-
 	var totalAmount = 0;
-
 	var totalDiscount = 0;
-
 	var totalISV = 0;
-
 	var totalGeneral = 0;
 
-
-
 	$("[id^='priceQuote_']").each(function() {
-
 		var id = $(this).attr('id');
-
 		id = id.replace("priceQuote_",'');
-
 		var price = $('#priceQuote_'+id).val();
-
 		var isv_calculo = $('#valorQuote_isv_'+id).val();
-
 		var discount = $('#discountQuote_'+id).val();
-
 		var quantity  = $('#quantityQuote_'+id).val();
 
 		if(!discount){
-
 			discount = 0;
-
 		}
 
 		if(!quantity) {
-
 			quantity = 1;
-
 		}
-
 
 
 		if(!isv_calculo){
-
 			isv_calculo = 0;
-
-		}
-
-		
+		}	
 
 		var total = (price*quantity)-discount;
-
 		$('#totalQuote_'+id).val(parseFloat(price*quantity) - parseFloat(discount));		
-
 		totalAmount += total;
-
 		totalGeneral += (price*quantity);
-
 		totalISV += parseFloat(isv_calculo);
-
 		totalDiscount += parseFloat(discount);
-
 	});
 
 	$('#subTotalQuote').val(parseFloat(totalAmount).toFixed(2));
-
 	$('#subTotalQuoteFooter').val(parseFloat(totalAmount).toFixed(2));
-
 	$('#taxDescuentoQuote').val(parseFloat(totalDiscount).toFixed(2));
-
-	$('#taxDescuentoQuoteFooter').val(parseFloat(totalDiscount).toFixed(2));
-
+	$('#taxDescuentoFooter').val(parseFloat(totalDiscount).toFixed(2));
 	var taxRate = $("#taxRateQuote").val();
-
 	var subTotal = $('#subTotalQuote').val();
 
 	if(subTotal) {
-
 		$('#subTotalImporteQuote').val(parseFloat(totalGeneral).toFixed(2));
-
 		$('#taxAmountQuote').val(parseFloat(totalISV).toFixed(2));
-
 		$('#taxAmountQuoteFooter').val(parseFloat(totalISV).toFixed(2));
-
 		subTotal = (parseFloat(subTotal)+parseFloat($('#taxAmountQuote').val()))-parseFloat(totalDiscount);
-
 		$('#totalAftertaxQuote').val(parseFloat(subTotal + totalDiscount).toFixed(2));
-
 		$('#totalAftertaxQuoteFooter').val(parseFloat(subTotal + totalDiscount).toFixed(2));
-
 		var totalAftertax = $('#totalAftertaxQuote').val();
-
 	}
 
 }
-
 
 
 function cleanFooterValueQuote(){
