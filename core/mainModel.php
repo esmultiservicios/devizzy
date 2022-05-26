@@ -1702,68 +1702,39 @@
 
 
 		public function getPrivilegio($datos){
-
 			if($datos['privilegio_id'] == 1){
-
 				$where = "WHERE estado = 1";
-
 			}else{
-
 				$where = "WHERE estado = 1 AND privilegio_id NOT IN(1)";
-
 			}
 
-
-
 			$query = "SELECT *
-
 				FROM privilegio
-
 				".$where."";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 
-
 		public function getCajas($datos){
-
 			if($datos['privilegio_id'] == 1 || $datos['privilegio_id'] == 2){
-
-				$where = "WHERE a.fecha = '".$datos['fecha']."'";
-
+				$where = "WHERE a.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND a.estado = '".$datos['estado']."'";
 			}else{
-
-				$where = "WHERE a.fecha = '".$datos['fecha']."' AND a.colaboradores_id = '".$datos['colaborador_id']."'";
-
+				$where = "WHERE a.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND a.colaboradores_id = '".$datos['colaborador_id']."' AND a.estado = '".$datos['estado']."'";
 			}
 
-
-
 			$query = "SELECT a.fecha AS 'fecha', a.factura_inicial AS 'factura_inicial', a.factura_final AS 'factura_final', a.apertura AS 'monto_apertura', (CASE WHEN a.estado = '1' THEN 'Activa' ELSE 'Inactiva' END) AS 'caja', CONCAT(c.nombre, ' ', c.apellido) AS 'usuario', a.colaboradores_id AS 'colaboradores_id', a.apertura_id AS 'apertura_id'
-
 				FROM apertura AS a
-
 				INNER JOIN colaboradores AS c
-
 				ON a.colaboradores_id = c.colaboradores_id
-
 				".$where;
 
 			$result = self::connection()->query($query);
 
 
-
 			return $result;
-
 		}
-
-
 
 		public function getFacturaInicial($apertura_id){
 

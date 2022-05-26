@@ -220,7 +220,7 @@
 		<?php
 			if($consulta_registro["estado"] == 2){
 		?>
-			<p class="nota"><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/sello.png" width="220px" height="130px"></p>
+			<p class="nota"><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/sello.png" width="150px" height="130px"></p>
 		<?php
 			}
 		?>

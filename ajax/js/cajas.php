@@ -10,7 +10,9 @@ $('#formMainCajas #search').on("click", function(e){
 
 //INICIO ACCIONES FORMULARIO REGISTRO DE CAJA
 var listar_registro_cajas = function(){
-	var fecha = $("#formMainCajas #fecha_cajas").val();
+	var fechai = $("#formMainCajas #fecha_cajas").val();
+	var fechaf = $("#formMainCajas #fecha_cajas_f").val();
+	var estado = $("#formMainCajas #estado_cajas").val();
 	
 	var table_registro_cajas = $("#dataTableCajas").DataTable({
 		"destroy":true,
@@ -18,7 +20,9 @@ var listar_registro_cajas = function(){
 			"method":"POST",
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableCajaDisponibles.php",
 			"data":{
-				"fecha":fecha
+				"fechai":fechai,
+				"fechaf":fechaf,
+				"estado":estado,
 			}			
 		},
 		"columns":[

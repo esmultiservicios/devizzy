@@ -10,7 +10,9 @@
 	}
 	
 	$datos = [
-		"fecha" => $_POST['fecha'],
+		"fechai" => $_POST['fechai'],
+		"fechaf" => $_POST['fechaf'],
+		"estado" => $_POST['estado'],
 		"privilegio_id" => $_SESSION['privilegio_sd'],
 		"colaborador_id" => $_SESSION['colaborador_id_sd'],	
 	];	
