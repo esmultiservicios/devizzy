@@ -304,6 +304,8 @@ var listar_productos_factura_buscar = function(){
 	view_productos_busqueda_factura_dataTable("#DatatableProductosBusquedaFactura tbody", table_productos_factura_buscar);
 }
 
+var row = 0;
+
 var view_productos_busqueda_factura_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.table_view");
 	$(tbody).on("click", "button.table_view", function(e){
@@ -318,8 +320,7 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table){
 		}else{
 			if($("#invoice-form #cliente_id").val() != "" && $("#invoice-form #cliente").val() != "" && $("#invoice-form #colaborador_id").val() != "" && $("#invoice-form #colaborador").val() != ""){
 				var data = table.row( $(this).parents("tr") ).data();
-				var row = $('#formulario_busqueda_productos_facturacion #row').val();
-
+				
 				$('#invoice-form #invoiceItem #productos_id_'+ row).val(data.productos_id);
 				$('#invoice-form #invoiceItem #bar-code-id_'+ row).val(data.barCode);
 				$('#invoice-form #invoiceItem #productName_'+ row).val(data.nombre);
@@ -365,6 +366,8 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table){
 				$("#invoice-form #invoiceItem #icon-search-bar_" + icon_search).hide();	
 						
 				$('#modal_buscar_productos_facturacion').modal('hide');
+
+				row++;
 			}else{
 				swal({
 					title: "Error",
@@ -496,7 +499,8 @@ function limpiarTablaFactura(){
 }
 
 function addRowFacturas(){
-	var count = $(".itemRow").length;
+	var count = row + 1;
+
 	var htmlRows = '';
 	htmlRows += '<tr>';
 	htmlRows += '<td><input class="itemRow" id="itemRow_'+count+'" type="checkbox"></td>';

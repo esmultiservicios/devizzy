@@ -93,10 +93,10 @@
 						
 					?>
 				</div>
-				<div class="col-6">
-					<h3 id="total-footer-ingreso">
+				<div class="col-12 col-md-6 text-right">
+					<h5 id="total-footer-ingreso">
 						
-					</h3>
+					</h5>
 				</div>
 			</div>
         </div>

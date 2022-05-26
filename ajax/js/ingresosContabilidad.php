@@ -32,7 +32,7 @@ var total_ingreso_footer = function(){
 	var fechaf = $("#formMainIngresosContabilidad #fechaf").val();
 
 	$.ajax({
-		url : 'getDataUser.php',
+		url : '<?php echo SERVERURL;?>core/totalIngresoFooter.php',
 		type: "POST",
 		data : {
 			"fechai": fechai,
@@ -41,12 +41,11 @@ var total_ingreso_footer = function(){
 		})
 		.done(function(data) {
 			$("#total-footer-ingreso").html(data);
+			
 		})
 		.fail(function(data) {
 			console.log( "total ingreso error" );
-		})
-		.always(function(data) {
-			console.log( "total ingreso error" );
+		
 	});
 
 
@@ -237,8 +236,9 @@ var listar_ingresos_contabilidad = function(){
 
 	view_reporte_ingresos_dataTable("#dataTableIngresosContabilidad tbody", table_ingresos_contabilidad);
 
-}
+	total_ingreso_footer();
 
+}
 
 
 var edit_reporte_ingresos_dataTable = function(tbody, table){

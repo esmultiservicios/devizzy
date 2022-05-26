@@ -58,7 +58,7 @@
 						    <th>Fecha Factura</th>
 						    <th>Forma de Pago</th>							
 							<th>Proveedor</th>
-							<th>N�mero Factura</th>
+							<th>N�mero Factura</th>
                             <th>Subtotal</th>
                             <th>Impuesto</th>
                             <th>Descuento</th>
@@ -72,23 +72,33 @@
             </div>                   
             </div>
         <div class="card-footer small text-muted">
- 			<?php
-				require_once "./core/mainModel.php";
-				
-				$insMainModel = new mainModel();
-				$entidad = "egresos";
-				
-				if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
-					$consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();
-					
-					$fecha_registro = $consulta_last_update['fecha_registro'];
-					$hora = date('g:i:s a',strtotime($fecha_registro));
-									
-					echo "Última Actualización ".$insMainModel->getTheDay($fecha_registro, $hora);						
-				}else{
-					echo "No se encontraron registros ";
-				}			
-			?>
+			<div class="row">
+				<div class="col-md-6">
+					<?php
+						require_once "./core/mainModel.php";
+						
+						$insMainModel = new mainModel();
+						$entidad = "egresos";
+						
+						if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
+							$consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();
+							
+							$fecha_registro = $consulta_last_update['fecha_registro'];
+							$hora = date('g:i:s a',strtotime($fecha_registro));
+											
+							echo "Última Actualización ".$insMainModel->getTheDay($fecha_registro, $hora);						
+						}else{
+							echo "No se encontraron registros ";
+						}			
+					?>
+
+				</div>
+				<div class="col-12 col-md-6 text-right">
+					<h5 id="total-footer-gastos">
+						
+					</h5>
+				</div>
+			</div>
         </div>
     </div>
 </div>
