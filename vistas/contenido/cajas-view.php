@@ -10,7 +10,7 @@
 				<div class="form-group mx-sm-3 mb-1">
 						<div class="input-group">				
 							<div class="input-group-append">				
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Tipo Factura</span>
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
 							</div>
 							<select id="estado_cajas" name="estado_cajas" class="custom-select" data-toggle="tooltip" data-placement="top" title="Estado">
 								<option value="1">Activas</option>
