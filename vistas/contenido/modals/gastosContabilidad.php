@@ -109,7 +109,7 @@
 </div>
 <!--FIN MODAL PARA EL FORMULARIO DE EGRESOS CONTABLES-->
 
-<!--INICIO MODAL BUSQUEDA DE PROVEEDORES EN COMPRAS-->
+<!--INICIO MODAL BUSQUEDA DE PROVEEDORES-->
 <div class="modal fade" id="modal_buscar_proveedores_gastos_contabilidad">
 	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
@@ -146,4 +146,4 @@
       </div>
     </div>
 </div>
-<!--FIN MODAL BUSQUEDA DE PROVEEDORES EN COMPRAS-->
+<!--FIN MODAL BUSQUEDA DE PROVEEDORES-->

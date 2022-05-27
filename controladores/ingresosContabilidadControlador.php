@@ -151,29 +151,17 @@
 				
 
 					$alert = [
-
 						"alert" => "clear",
-
 						"title" => "Registro almacenado",
-
 						"text" => "El registro se ha almacenado correctamente",
-
 						"type" => "success",
-
 						"btn-class" => "btn-primary",
-
 						"btn-text" => "¡Bien Hecho!",
-
 						"form" => "formIngresosContables",
-
 						"id" => "pro_ingresos_contabilidad",
-
 						"valor" => "Registro",	
-
 						"funcion" => "listar_ingresos_contabilidad();printIngresos(".$ingresos_id.");total_ingreso_footer();",
-
 						"modal" => "",
-
 					];
 
 				}else{

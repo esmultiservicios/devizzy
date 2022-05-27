@@ -41,11 +41,11 @@ $.ajax({
 	})
 	.done(function(data) {
 		data = JSON.parse(data)
-		$("#total-footer-gastos").html(data.total);
-		$("#subtotal-g").html(data.subtotal)
-		$("#impuesto-g").html(data.impuesto)
-		$("#descuento-g").html(data.descuento)
-		$("#nc-g").html(data.nc)
+		$("#total-footer-gastos").html("L. " + data.total);
+		$("#subtotal-g").html("L. " + data.subtotal)
+		$("#impuesto-g").html("L. " + data.impuesto)
+		$("#descuento-g").html("L. " + data.descuento)
+		$("#nc-g").html("L. " + data.nc)
 		
 	})
 	.fail(function(data) {
@@ -243,8 +243,6 @@ var listar_gastos_contabilidad = function(){
 
 }
 
-
-
 var edit_reporte_gastos_dataTable = function(tbody, table){
 
 	$(tbody).off("click", "button.table_editar");
@@ -414,117 +412,61 @@ var listar_proveedores_egresos_contabilidad_buscar = function(){
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableProveedores.php"
 
 		},
-
 		"columns":[
-
 			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-copy'></span></button>"},
-
 			{"data":"proveedor"},
-
 			{"data":"rtn"},
-
 			{"data":"telefono"},
-
 			{"data":"correo"}
-
 		],
-
         "lengthMenu": lengthMenu,
-
 		"stateSave": true,
-
 		"bDestroy": true,
-
 		"language": idioma_español,
-
 		"dom": dom,
-
 		"columnDefs": [
-
 		  { width: "5%", targets: 0 },
-
 		  { width: "25%", targets: 1 },
-
 		  { width: "25%", targets: 2 },
-
 		  { width: "20%", targets: 3 },
-
 		  { width: "25%", targets: 4 }
-
 		],
-
 		"buttons":[
-
 			{
-
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-
 				titleAttr: 'Actualizar Proveedores',
-
 				className: 'table_actualizar btn btn-secondary ocultar',
-
 				action: 	function(){
-
 					listar_proveedores_egresos_contabilidad_buscar();
-
 				}
-
 			},
-
 			{
-
 				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
-
 				titleAttr: 'Agregar Proveedores',
-
 				className: 'table_crear btn btn-primary ocultar',
-
-				action: 	function(){
-
+				action:	function(){
 					modal_proveedores();
-
 				}
-
 			}
-
 		],
-
 		"drawCallback": function( settings ) {
-
         	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
-
     	}	
-
 	});
-
 	table_proveedores_egresos_contabilidad_buscar.search('').draw();
-
 	$('#buscar').focus();
 
-
-
 	view_proveedores_busqueda_egresos_contabilidad_dataTable("#DatatableProveedoresBusquedaProveedores tbody", table_proveedores_egresos_contabilidad_buscar);
-
 }
 
-
-
 var view_proveedores_busqueda_egresos_contabilidad_dataTable = function(tbody, table){
-
 	$(tbody).off("click", "button.table_view");
-
 	$(tbody).on("click", "button.table_view", function(e){
-
 		e.preventDefault();
-
 		var data = table.row( $(this).parents("tr") ).data();
-
 		$('#formEgresosContables #proveedor_egresos').val(data.proveedores_id);				
-
 		$('#modal_buscar_proveedores_gastos_contabilidad').modal('hide');
-
 	});
-
 }
 
 //FIN BUSQUEDA PROVEEDORES EN GASTOS CONTABILIDAD
@@ -1217,4 +1159,9 @@ $(document).ready(function() {
 
 //FIN CALCULAR VALORES INGRESADOS EN EGRESOS
 
+$(document).ready(function(){
+    $("#modal_buscar_proveedores_gastos_contabilidad").on('shown.bs.modal', function(){
+        $(this).find('#formulario_busqueda_proveedores_gastos_contabilidad #buscar').focus();
+    });
+});
 </script>

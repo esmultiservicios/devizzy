@@ -84,7 +84,7 @@
 						"form" => "formEgresosContables",
 						"id" => "pro_egresos_contabilidad",
 						"valor" => "Registro",	
-						"funcion" => "listar_gastos_contabilidad();printGastos(".$egresos_id.")",
+						"funcion" => "listar_gastos_contabilidad();printGastos(".$egresos_id.");total_gastos_footer();",
 						"modal" => "",
 					];
 				}else{
