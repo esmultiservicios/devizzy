@@ -40,7 +40,12 @@ var total_ingreso_footer = function(){
 			}
 		})
 		.done(function(data) {
-			$("#total-footer-ingreso").html(data);
+			data = JSON.parse(data)
+			$("#total-footer-ingreso").html(data.total);
+			$("#subtotal-i").html(data.subtotal)
+			$("#impuesto-i").html(data.impuesto)
+			$("#descuento-i").html(data.descuento)
+			$("#nc-i").html(data.nc)
 			
 		})
 		.fail(function(data) {
@@ -160,7 +165,7 @@ var listar_ingresos_contabilidad = function(){
 
 			{
 
-				extend:    'excelHtml5',
+				extend:    'excelHtml5',footer:true,
 
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
 
@@ -179,6 +184,7 @@ var listar_ingresos_contabilidad = function(){
 			{
 
 				extend:    'pdf',
+				footer: true,
 
 				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 

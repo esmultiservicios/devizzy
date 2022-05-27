@@ -21,26 +21,24 @@
 	];		
 
 
-    $query = "SELECT sum(e.total) AS total
-
-				FROM egresos AS e
+    $query = "SELECT sum(i.subtotal) as 'subtotal', sum(i.impuesto) AS 'impuesto', sum(i.descuento) AS 'descuento', 
+                sum(i.nc) AS 'nc', sum(i.total) AS 'total'
+				FROM ingresos AS i
 
 				INNER JOIN cuentas AS c
 
-				ON e.cuentas_id = c.cuentas_id
+				ON i.cuentas_id = c.cuentas_id
 
-				INNER JOIN proveedores AS p
+				INNER JOIN clientes AS cli
 
-				ON e.proveedores_id = p.proveedores_id
+				ON i.clientes_id = cli.clientes_id
 
-				WHERE CAST(e.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND e.tipo_egreso = 2
+				WHERE CAST(i.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
 
-				ORDER BY e.fecha_registro DESC";
+				ORDER BY i.fecha_registro DESC";
 
     $result = $insMainModel->consulta_total_gastos($query);
 
     $row = $result->fetch_assoc();
-   
-    $result = number_format($row['total'],2);	
 
-	echo 'Total: L. '.$result;
+    echo json_encode($row);

@@ -57,6 +57,8 @@
 			$apertura = facturasModelo::getAperturaIDModelo($datos_apertura)->fetch_assoc();
 			$apertura_id = $apertura['apertura_id'];
 
+
+
 			$datos = [
 				"facturas_id" => $facturas_id,
 				"clientes_id" => $clientes_id,
@@ -75,9 +77,11 @@
 				"fecha_dolar" => $fecha_dolar
 			];	
 
+
+
 			if($clientes_id != "" && $colaborador_id != ""){
 				//OBTENEMOS EL TAMAÑO DE LA TABLA
-				if(isset($_POST['productName'])){	
+				if(isset($_POST['productName'])){
 					if($_POST['productos_id'][0] && $_POST['productName'][0] != "" && $_POST['quantity'][0] && $_POST['price'][0]){
 						$tamano_tabla = count( $_POST['productName']);
 					}else{
@@ -89,10 +93,11 @@
 
 				//SI EXITE VALORES EN LA TABLA, PROCEDEMOS ALMACENAR LA FACTURA Y EL DETALLE DE ESTA
 				if($tamano_tabla > 0){
+
 					//INICIO FACTURA CONTADO
 					if($tipo_factura == 1){		
 						$query = facturasModelo::agregar_facturas_modelo($datos);
-
+											
 						if($query){
 							//ALMACENAMOS LOS DETALLES DE LA FACTURA
 							$total_valor = 0;

@@ -32,7 +32,7 @@ var fechai = $("#formMainGastosContabilidad #fechai").val();
 var fechaf = $("#formMainGastosContabilidad #fechaf").val();
 
 $.ajax({
-	url : '<?php echo SERVERURL;?>core/totalIngresoFooter.php',
+	url : '<?php echo SERVERURL;?>core/totalGastosFooter.php',
 	type: "POST",
 	data : {
 		"fechai": fechai,
@@ -40,7 +40,12 @@ $.ajax({
 		}
 	})
 	.done(function(data) {
-		$("#total-footer-gastos").html(data);
+		data = JSON.parse(data)
+		$("#total-footer-gastos").html(data.total);
+		$("#subtotal-g").html(data.subtotal)
+		$("#impuesto-g").html(data.impuesto)
+		$("#descuento-g").html(data.descuento)
+		$("#nc-g").html(data.nc)
 		
 	})
 	.fail(function(data) {
@@ -158,7 +163,7 @@ var listar_gastos_contabilidad = function(){
 
 			{
 
-				extend:    'excelHtml5',
+				extend:    'excelHtml5',footer:true,
 
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
 
@@ -176,7 +181,7 @@ var listar_gastos_contabilidad = function(){
 
 			{
 
-				extend:    'pdfHtml5',
+				extend:    'pdfHtml5',footer:true,
 
 				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 

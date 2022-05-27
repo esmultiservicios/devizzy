@@ -54,7 +54,7 @@
                     <thead>
                         <tr>
                             <th>Fecha Registro</th> 
-				<th>Numero de Ingreso</th>  
+							<th>Numero de Ingreso</th>  
 						    <th>Fecha Factura</th>
 						    <th>Forma de Pago</th>							
 							<th>Cliente</th>
@@ -68,6 +68,19 @@
 							<th>Imprimir</th>							
                         </tr>
                     </thead>
+					<tfoot class="bg-info text-white font-weight-bold">
+						<tr>
+						<td colspan='1'>Total</td>
+						<td colspan="5"></td>
+						<td id="subtotal-i"></td>
+						<td id="impuesto-i"></td>
+						<td id="descuento-i"></td>
+						<td id="nc-i"></td>
+						 <td colspan='1' id='total-footer-ingreso'></td>
+						<td colspan="2"></td>
+
+						</tr>
+					</tfoot>
                 </table>  
             </div>                   
             </div>
@@ -93,11 +106,7 @@
 						
 					?>
 				</div>
-				<div class="col-12 col-md-6 text-right">
-					<h5 id="total-footer-ingreso">
-						
-					</h5>
-				</div>
+				
 			</div>
         </div>
     </div>

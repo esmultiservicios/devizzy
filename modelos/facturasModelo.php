@@ -203,6 +203,7 @@
 				FROM apertura
 				WHERE colaboradores_id = '".$datos['colaboradores_id']."' AND fecha = '".$datos['fecha']."' AND estado = '".$datos['estado']."'";
 			
+			
 			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $result;			

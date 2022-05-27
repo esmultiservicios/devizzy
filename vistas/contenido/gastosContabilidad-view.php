@@ -68,6 +68,19 @@
 							<th>Imprimir</th>						
                         </tr>
                     </thead>
+					<tfoot class="bg-info text-white font-weight-bold">
+						<tr>
+						<td colspan='1'>Total</td>
+						<td colspan="5"></td>
+						<td id="subtotal-g"></td>
+						<td id="impuesto-g"></td>
+						<td id="descuento-g"></td>
+						<td id="nc-g"></td>
+						 <td colspan='1' id='total-footer-gastos'></td>
+						<td colspan="2"></td>
+
+						</tr>
+					</tfoot>
                 </table>  
             </div>                   
             </div>
@@ -93,11 +106,7 @@
 					?>
 
 				</div>
-				<div class="col-12 col-md-6 text-right">
-					<h5 id="total-footer-gastos">
-						
-					</h5>
-				</div>
+				
 			</div>
         </div>
     </div>
