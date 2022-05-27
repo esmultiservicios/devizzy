@@ -2,11 +2,11 @@
 	$peticionAjax = true;
 	require_once "../core/configGenerales.php";
 	
-	if(isset($_POST['monto_efectivo']) && isset($_POST['exp']) && isset($_POST['cvcpwd']) ){
+	if(isset($_POST['monto_efectivo']) && isset($_POST['exp']) && isset($_POST['cvcpwd']) && isset($_POST['efectivo_bill'])){
 		require_once "../controladores/pagoFacturaControlador.php";
 		$insVarios = new pagoFacturaControlador();
 		
-		echo $insVarios->agregar_pago_factura_controlador_tarjeta();
+		echo $insVarios->agregar_pago_factura_controlador_mixto();
 	}else{
 		echo "
 			<script>

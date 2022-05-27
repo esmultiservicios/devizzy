@@ -1787,6 +1787,12 @@ function pago(facturas_id){
 			$('#formTarjetaBill #factura_id_tarjeta').val(facturas_id);
 			$('#formTarjetaBill #pago_efectivo').attr('disabled', true);	
 
+			//MIXTO
+			$('#formMixtoBill')[0].reset();
+			$('#formMixtoBill #monto_efectivo_mixto').val(datos[3]);
+			$('#formMixtoBill #factura_id_mixto').val(facturas_id);
+			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', true);
+
 			//TRANSFERENCIA
 			$('#formTransferenciaBill')[0].reset();
 			$('#formTransferenciaBill #monto_efectivo').val(datos[3]);
@@ -1833,7 +1839,13 @@ $(document).ready(function(){
 		$("#modal_pagos").on('shown.bs.modal', function(){
            $(this).find('#formChequeBill #bk_nm_chk').focus();
 		});	
-	});		
+	});	
+	
+	$("#tab5").on("click", function(){	
+		$("#modal_pagos").on('shown.bs.modal', function(){
+           $(this).find('#formMixtoBill #efectivo_bill_mixto').focus();
+		});	
+	});	
 });
 
 $(document).ready(function(){
@@ -1846,6 +1858,19 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 	$('#formTarjetaBill #cvcpwd').inputmask("999999");
+});
+
+// MIXTO
+$(document).ready(function(){
+	$('#formMixtoBill #cr_bill_mixto').inputmask("9999");
+});
+
+$(document).ready(function(){
+	$('#formMixtoBill #exp_mixto').inputmask("99/99");
+});
+
+$(document).ready(function(){
+	$('#formMixtoBill #cvcpwd_mixto').inputmask("999999");
 });
 
 $(document).ready(function(){
@@ -1861,6 +1886,22 @@ $(document).ready(function(){
 		}else{
 			$('#formEfectivoBill #cambio_efectivo').val(parseFloat(0).toFixed(2));
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
+		}				
+	});
+
+	//MIXTO
+	$("#formMixtoBill #efectivo_bill_mixto").on("keyup", function(){	
+		var efectivo = parseFloat($("#formMixtoBill #efectivo_bill_mixto").val()).toFixed(2);
+		var monto = parseFloat($("#formMixtoBill #monto_efectivo_mixto").val()).toFixed(2);
+		
+		var total = efectivo - monto;				
+		
+		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){			
+			$('#formMixtoBill #cambio_efectivo_mixto').val(parseFloat(total).toFixed(2));
+			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', false);				
+		}else{
+			$('#formMixtoBill #cambio_efectivo_mixto').val(parseFloat(0).toFixed(2));
+			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', true);
 		}				
 	});
 });

@@ -383,6 +383,11 @@
 										<div class="list-div my-2">
 											<div class="far fa-credit-card fa-lg"></div> &nbsp;&nbsp; Tarjeta
 										</div>
+									</a> 	
+									<a data-toggle="tab" href="#menu2Purchase" id="tab5Purchase" class="tabs list-group-item">
+										<div class="list-div my-2">
+											<div class="far fa-credit-card fa-lg"></div> &nbsp;&nbsp; Mixto
+										</div>
 									</a> 									
 									<a data-toggle="tab" href="#menu3Purchase" id="tab3Purchase" class="tabs list-group-item bg-light">
 										<div class="list-div my-2">
@@ -612,7 +617,12 @@
 										<div class="list-div my-2">
 											<div class="far fa-credit-card fa-lg"></div> &nbsp;&nbsp; Tarjeta
 										</div>
-									</a> 									
+									</a> 	
+									<a data-toggle="tab" href="#menu5" id="tab5" class="tabs list-group-item">
+										<div class="list-div my-2">
+											<div class="fa fa-pause fa-lg"></div> &nbsp;&nbsp; Mixto
+										</div>
+									</a> 								
 									<a data-toggle="tab" href="#menu3" id="tab3" class="tabs list-group-item bg-light">
 										<div class="list-div my-2">
 											<div class="fas fa-exchange-alt fa-lg"></div> &nbsp;&nbsp; Transferencia
@@ -719,6 +729,62 @@
 														<div class="row">
 															<div class="col-md-12"> 
 																<input type="submit" value="Efectuar Pago" id="pago_tarjeta" class="pay btn btn-info placeicon" form="formTarjetaBill">
+															</div>
+														</div>
+														<div class="RespuestaAjax"></div>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="menu5" class="tab-pane in active">
+										<div class="row justify-content-center">
+											<div class="col-11">
+												<div class="form-card">
+													<h6 class="mt-0 mb-4 text-center">Ingrese Pago Mixto</h6>
+													<form class="FormularioAjax" id="formMixtoBill" action="<?php echo SERVERURL;?>ajax/addPagoMixtoAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
+														<div class="row">
+															<div class="col-12 col-md-6">
+																<div class="input-group"> 	
+																	<label for="monto_efectivo">Efectivo</label>
+																	<input type="hidden" name="factura_id_mixto" id="factura_id_mixto"> 
+																	<input type="hidden" name="monto_efectivo" id="monto_efectivo_mixto" placeholder="0.00"> 
+																	<input type="number" name="efectivo_bill" id="efectivo_bill_mixto" class="inputfield" placeholder="0.00" step="0.01">																						
+																</div>
+															</div>
+															<div class="col-12 col-md-6">
+																<div class="input-group">
+																	<label for="cambio_efectivo">Cambio</label>
+																	<input type="number" readonly name="cambio_efectivo" id="cambio_efectivo_mixto" class="inputfield" step="0.01" placeholder="0.00">																
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-12">
+																<div class="input-group"> 
+																<label>Número de Tarjeta</label> 
+																<input type="text" id="cr_bill_mixto" name="cr_bill" class="inputfield"  placeholder="XXXX">
+																																																
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-6">
+																<div class="input-group"> 
+																	<label> Fecha de Expiración</label>
+																	<input type="text" name="exp" id="exp_mixto" class="mask inputfield" placeholder="MM/YY">
+																</div>
+															</div>
+															<div class="col-6">
+																<div class="input-group"> 
+																	<label>Número Aprobación</label>
+																	<input type="text" name="cvcpwd" id="cvcpwd_mixto" class="placeicon inputfield"> 																	 
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-12"> 
+																<input type="submit" value="Efectuar Pago" id="pago_efectivo_mixto" class="pay btn btn-info placeicon" form="formMixtoBill">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
