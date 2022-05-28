@@ -74,6 +74,7 @@ var listar_reporte_ventas = function(){
 			},
 			{
 				extend:    'excelHtml5',
+				footer: true,
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
 				titleAttr: 'Excel',
 				title: 'Reporte de Ventas',
@@ -83,6 +84,7 @@ var listar_reporte_ventas = function(){
 			},
 			{
 				extend:    'pdf',
+				footer: true,
 				orientation: 'landscape',
 				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 				titleAttr: 'PDF',
@@ -113,6 +115,8 @@ var listar_reporte_ventas = function(){
 	view_correo_facturas_dataTable("#dataTablaReporteVentas tbody", table_reporteVentas);
 	view_reporte_facturas_dataTable("#dataTablaReporteVentas tbody", table_reporteVentas);
 	view_anular_facturas_dataTable("#dataTablaReporteVentas tbody", table_reporteVentas);	
+
+	total_ingreso_footer();
 }
 
 var view_anular_facturas_dataTable = function(tbody, table){
@@ -200,4 +204,27 @@ function getReporteFactura(){
      });
 }
 //FIN REPORTE DE VENTAS
+
+var total_ingreso_footer = function(){	
+	var fechai = $("#form_main_ventas #fechai").val();
+	var fechaf = $("#form_main_ventas #fechaf").val();
+	$.ajax({
+		url : '<?php echo SERVERURL;?>core/totalVentasFooter.php',
+		type: "POST",
+		data : {
+			"fechai": fechai,
+			"fechaf":fechaf
+			}
+		})
+		.done(function(data) {
+			data = JSON.parse(data)
+			$("#total-footer-ingreso").html("L. " + data.total);
+			$("#subtotal-i").html("L. " + data.subtotal);
+			$("#impuesto-i").html("L. " + data.impuesto);
+			$("#descuento-i").html("L. " + data.descuento);			
+		})
+		.fail(function(data) {
+			console.log( "total ingreso error" );
+	});
+}
 </script>

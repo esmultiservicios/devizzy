@@ -74,6 +74,7 @@ var listar_reporte_cotizaciones = function(){
 			},
 			{
 				extend:    'excelHtml5',
+				footer: true,
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
 				titleAttr: 'Excel',
 				title: 'Reporte de Cotizaciones',
@@ -83,6 +84,7 @@ var listar_reporte_cotizaciones = function(){
 			},
 			{
 				extend:    'pdf',
+				footer: true,
 				orientation: 'landscape',
 				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 				titleAttr: 'PDF',
@@ -112,7 +114,9 @@ var listar_reporte_cotizaciones = function(){
 
 	view_reporteCotizaciones_dataTable("#dataTablaReporteCotizaciones tbody", table_reporteCotizaciones);
 	view_enviarCotizaciones_dataTable("#dataTablaReporteCotizaciones tbody", table_reporteCotizaciones);	
-	view_anularCotizaciones_dataTable("#dataTablaReporteCotizaciones tbody", table_reporteCotizaciones);	
+	view_anularCotizaciones_dataTable("#dataTablaReporteCotizaciones tbody", table_reporteCotizaciones);
+	
+	total_ingreso_footer();
 }
 
 var view_anularCotizaciones_dataTable = function(tbody, table){
@@ -200,4 +204,27 @@ function getReporteCotizacion(){
      });
 }
 //FIN REPORTE DE COTIZACIONES
+
+var total_ingreso_footer = function(){	
+	var fechai = $("#form_main_cotizaciones #fechai").val();
+	var fechaf = $("#form_main_cotizaciones #fechaf").val();
+	$.ajax({
+		url : '<?php echo SERVERURL;?>core/totalCotizacionFooter.php',
+		type: "POST",
+		data : {
+			"fechai": fechai,
+			"fechaf":fechaf
+			}
+		})
+		.done(function(data) {
+			data = JSON.parse(data)
+			$("#total-footer-ingreso").html("L. " + data.total);
+			$("#subtotal-i").html("L. " + data.subtotal);
+			$("#impuesto-i").html("L. " + data.impuesto);
+			$("#descuento-i").html("L. " + data.descuento);			
+		})
+		.fail(function(data) {
+			console.log( "total ingreso error" );
+	});
+}
 </script>

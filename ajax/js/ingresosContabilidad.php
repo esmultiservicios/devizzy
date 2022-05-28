@@ -26,10 +26,10 @@ var total_ingreso_footer = function(){
 		.done(function(data) {
 			data = JSON.parse(data)
 			$("#total-footer-ingreso").html("L. " + data.total);
-			$("#subtotal-i").html("L. " + data.subtotal)
-			$("#impuesto-i").html("L. " + data.impuesto)
-			$("#descuento-i").html("L. " + data.descuento)
-			$("#nc-i").html("L. " + data.nc)
+			$("#subtotal-i").html("L. " + data.subtotal);
+			$("#impuesto-i").html("L. " + data.impuesto);
+			$("#descuento-i").html("L. " + data.descuento);
+			$("#nc-i").html("L. " + data.nc);
 			
 		})
 		.fail(function(data) {
@@ -104,7 +104,8 @@ var listar_ingresos_contabilidad = function(){
 				}
 			},			
 			{
-				extend:    'excelHtml5',footer:true,
+				extend:    'excelHtml5',
+				footer:true,
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
 				titleAttr: 'Excel',
 				title: 'Reporte Registro Ingresos',
@@ -592,14 +593,11 @@ function getClientesIngresos(){
 //INICIO CALCULAR VALORES INGRESADOS EN INGRESOS
 
 $(document).ready(function() {
-
 	$("#formIngresosContables #subtotal_ingresos").on("keyup", function(){
 		var subtotal;
 		var isv;
 		var descuento;
 		var nc;
-
-
 		if($("#formIngresosContables #subtotal_ingresos").val() != ""){
 			 subtotal = parseFloat($("#formIngresosContables #subtotal_ingresos").val());
 		}else{
@@ -614,247 +612,126 @@ $(document).ready(function() {
 
 			isv = 0;
 
-		}
-
-		
+		}		
 
 		if($("#formIngresosContables #descuento_ingresos").val() != ""){
-
 			descuento = parseFloat($("#formIngresosContables #descuento_ingresos").val());
-
 		}else{
-
 			descuento = 0;
-
-		}
-
-		
+		}		
 
 		if($("#formIngresosContables #nc_ingresos").val() != ""){
-
 			nc = parseFloat($("#formIngresosContables #nc_ingresos").val());
-
 		}else{
-
 			nc = 0;
-
 		}
 
-
-
-		var total = subtotal + isv - descuento - nc;
-
-		
+		var total = subtotal + isv - descuento - nc;		
 
 		$("#formIngresosContables #total_ingresos").val(parseFloat(total).toFixed(2));
-
 	});
-
 	
-
 	$("#formIngresosContables #isv_ingresos").on("keyup", function(){	
-
 		var subtotal;
-
 		var isv;
-
 		var descuento;
-
-		var nc;
-
-		
+		var nc;	
 
 		if($("#formIngresosContables #subtotal_ingresos").val() != ""){
-
 			 subtotal = parseFloat($("#formIngresosContables #subtotal_ingresos").val());
-
 		}else{
-
 			subtotal = 0;
-
-		}
-
-		
+		}		
 
 		if($("#formIngresosContables #isv_ingresos").val() != ""){
-
 			isv = parseFloat($("#formIngresosContables #isv_ingresos").val());
-
 		}else{
-
 			isv = 0;
-
-		}
-
-		
+		}		
 
 		if($("#formIngresosContables #descuento_ingresos").val() != ""){
-
 			descuento = parseFloat($("#formIngresosContables #descuento_ingresos").val());
-
 		}else{
-
 			descuento = 0;
-
-		}
-
-		
+		}		
 
 		if($("#formIngresosContables #nc_ingresos").val() != ""){
-
 			nc = parseFloat($("#formIngresosContables #nc_ingresos").val());
-
 		}else{
-
 			nc = 0;
-
 		}
-
-
 
 		var total = subtotal + isv - descuento - nc;
 
-		
-
 		$("#formIngresosContables #total_ingresos").val(parseFloat(total).toFixed(2));
-
 	});	
-
 	
-
 	$("#formIngresosContables #descuento_ingresos").on("keyup", function(){		
-
 		var subtotal;
-
 		var isv;
-
 		var descuento;
-
-		var nc;
-
-		
+		var nc;		
 
 		if($("#formIngresosContables #subtotal_ingresos").val() != ""){
-
 			 subtotal = parseFloat($("#formIngresosContables #subtotal_ingresos").val());
-
 		}else{
-
 			subtotal = 0;
-
-		}
-
-		
+		}		
 
 		if($("#formIngresosContables #isv_ingresos").val() != ""){
-
 			isv = parseFloat($("#formIngresosContables #isv_ingresos").val());
-
 		}else{
-
 			isv = 0;
-
-		}
-
-		
+		}		
 
 		if($("#formIngresosContables #descuento_ingresos").val() != ""){
-
 			descuento = parseFloat($("#formIngresosContables #descuento_ingresos").val());
-
 		}else{
-
 			descuento = 0;
-
-		}
-
-		
+		}		
 
 		if($("#formIngresosContables #nc_ingresos").val() != ""){
-
 			nc = parseFloat($("#formIngresosContables #nc_ingresos").val());
-
 		}else{
-
 			nc = 0;
-
 		}
 
-
-
-		var total = subtotal + isv - descuento - nc;
-
-		
+		var total = subtotal + isv - descuento - nc;		
 
 		$("#formIngresosContables #total_ingresos").val(parseFloat(total).toFixed(2));
-
 	});	
-
-
 
 	$("#formIngresosContables #nc_ingresos").on("keyup", function(){
-
 		var subtotal;
-
 		var isv;
-
 		var descuento;
-
-		var nc;
-
-		
+		var nc;		
 
 		if($("#formIngresosContables #subtotal_ingresos").val() != ""){
-
 			 subtotal = parseFloat($("#formIngresosContables #subtotal_ingresos").val());
-
 		}else{
-
 			subtotal = 0;
-
 		}
-
 		
-
 		if($("#formIngresosContables #isv_ingresos").val() != ""){
-
 			isv = parseFloat($("#formIngresosContables #isv_ingresos").val());
-
 		}else{
-
 			isv = 0;
-
 		}
-
-		
-
+	
 		if($("#formIngresosContables #descuento_ingresos").val() != ""){
-
 			descuento = parseFloat($("#formIngresosContables #descuento_ingresos").val());
-
 		}else{
-
 			descuento = 0;
-
 		}
-
-		
 
 		if($("#formIngresosContables #nc_ingresos").val() != ""){
-
 			nc = parseFloat($("#formIngresosContables #nc_ingresos").val());
-
 		}else{
-
 			nc = 0;
-
 		}
 
-
-
 		var total = subtotal + isv - descuento - nc;
-
-		
 
 		$("#formIngresosContables #total_ingresos").val(parseFloat(total).toFixed(2));
 

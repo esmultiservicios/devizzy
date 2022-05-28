@@ -70,15 +70,14 @@
                     </thead>
 					<tfoot class="bg-info text-white font-weight-bold">
 						<tr>
-						<td colspan='1'>Total</td>
-						<td colspan="5"></td>
-						<td id="subtotal-i"></td>
-						<td id="impuesto-i"></td>
-						<td id="descuento-i"></td>
-						<td id="nc-i"></td>
-						 <td colspan='1' id='total-footer-ingreso'></td>
-						<td colspan="2"></td>
-
+							<td colspan='1'>Total</td>
+							<td colspan="5"></td>
+							<td id="subtotal-i"></td>
+							<td id="impuesto-i"></td>
+							<td id="descuento-i"></td>
+							<td id="nc-i"></td>
+							<td colspan='1' id='total-footer-ingreso'></td>
+							<td colspan="2"></td>
 						</tr>
 					</tfoot>
                 </table>  

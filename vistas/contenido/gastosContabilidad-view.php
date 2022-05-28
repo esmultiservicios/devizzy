@@ -58,7 +58,7 @@
 						    <th>Fecha Factura</th>
 						    <th>Forma de Pago</th>							
 							<th>Proveedor</th>
-							<th>N�mero Factura</th>
+							<th>Numero Factura</th>
                             <th>Subtotal</th>
                             <th>Impuesto</th>
                             <th>Descuento</th>
