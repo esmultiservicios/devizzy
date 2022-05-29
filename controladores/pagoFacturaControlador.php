@@ -28,6 +28,13 @@
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 1;
+			$estado_factura = 2;//PAGADA
+
+			$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($empresa_id)->fetch_assoc();
+			$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+			$numero = $secuenciaFacturacion['numero'];
+			$incremento = $secuenciaFacturacion['incremento'];
+			$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);			
 			
 			$datos = [
 				"facturas_id" => $facturas_id,
@@ -79,6 +86,19 @@
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($facturas_id);
 					}
 					
+					//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
+					$datos_update_factura = [
+						"facturas_id" => $facturas_id,
+						"estado" => $estado_factura,
+						"number" => $numero,
+					];	
+
+					pagoFacturaModelo::actualizar_factura($datos_update_factura);
+
+					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
+					$numero += $incremento;
+					pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);			
+
 					$alert = [
 						"alert" => "clear_pay",
 						"title" => "Registro almacenado",
@@ -188,6 +208,19 @@
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($facturas_id);
 					}
 					
+					//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
+					$datos_update_factura = [
+						"facturas_id" => $facturas_id,
+						"estado" => $estado_factura,
+						"number" => $numero,
+					];	
+
+					pagoFacturaModelo::actualizar_factura($datos_update_factura);
+
+					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
+					$numero += $incremento;
+					pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);	
+
 					$alert = [
 						"alert" => "clear_pay",
 						"title" => "Registro almacenado",
@@ -297,6 +330,19 @@
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($facturas_id);
 					}
 					
+					//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
+					$datos_update_factura = [
+						"facturas_id" => $facturas_id,
+						"estado" => $estado_factura,
+						"number" => $numero,
+					];	
+
+					pagoFacturaModelo::actualizar_factura($datos_update_factura);
+
+					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
+					$numero += $incremento;
+					pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);	
+
 					$alert = [
 						"alert" => "clear_pay",
 						"title" => "Registro almacenado",
@@ -331,7 +377,6 @@
 		
 			return mainModel::sweetAlert($alert);
 		}
-
 		
 		//PAGO CON TRANSFERENCIA
 		public function agregar_pago_factura_controlador_transferencia(){
@@ -407,6 +452,19 @@
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($facturas_id);
 					}
 					
+					//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
+					$datos_update_factura = [
+						"facturas_id" => $facturas_id,
+						"estado" => $estado_factura,
+						"number" => $numero,
+					];	
+
+					pagoFacturaModelo::actualizar_factura($datos_update_factura);
+
+					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
+					$numero += $incremento;
+					pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);	
+
 					$alert = [
 						"alert" => "clear_pay",
 						"title" => "Registro almacenado",
@@ -516,6 +574,19 @@
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($facturas_id);
 					}
 					
+					//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
+					$datos_update_factura = [
+						"facturas_id" => $facturas_id,
+						"estado" => $estado_factura,
+						"number" => $numero,
+					];	
+
+					pagoFacturaModelo::actualizar_factura($datos_update_factura);
+
+					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
+					$numero += $incremento;
+					pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);	
+										
 					$alert = [
 						"alert" => "clear_pay",
 						"title" => "Registro almacenado",

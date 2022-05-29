@@ -10,6 +10,7 @@ $(document).ready(function() {
 	//getCambioDolar();
 	getTotalFacturasDisponibles();
 	getReporteCotizacion();
+	getReporteFactura();
 });
 
 //INICIO BUSQUEDA FROMULARIO CLIENTES FACTURACION
@@ -96,7 +97,6 @@ var listar_clientes_factura_buscar = function(){
 			{"data":"telefono"},
 			{"data":"correo"}
 		],
-		"pageLength": 5,
         "lengthMenu": lengthMenu,
 		"stateSave": true,
 		"bDestroy": true,
@@ -172,7 +172,6 @@ var listar_colaboradores_buscar_factura = function(){
 			{"data":"identidad"},
 			{"data":"telefono"}
 		],
-		"pageLength": 5,
         "lengthMenu": lengthMenu,
 		"stateSave": true,
 		"bDestroy": true,
@@ -1364,7 +1363,7 @@ var listar_busqueda_cotizaciones = function(){
 		"destroy":true,
 		"ajax":{
 			"method":"POST",
-			"url":"<?php echo SERVERURL;?>core/llenarDataTableReporteCotizacionesFacturas.php",
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableReporteCotizaciones.php",
 			"data":{
 				"tipo_cotizacion_reporte":tipo_cotizacion_reporte,
 				"fechai":fechai,
@@ -1482,7 +1481,7 @@ var listar_busqueda_cuentas_por_cobrar_clientes = function(){
 			{"data":"abono"},
 			{"data":"saldo"}
 		],
-		"pageLength": 10,
+		"pageLength": 5,
         "lengthMenu": lengthMenu,
 		"stateSave": true,
 		"bDestroy": true,
@@ -1639,4 +1638,318 @@ function convertirCotizacion(cotizacion_id){
 	  }
 	});
 }
+
+//BUSQUEDA DE FACTURAS EN BORRADOR
+$("#addDraft").on("click", function(e){
+	e.preventDefault();
+
+	listar_busqueda_bill_draf();
+
+	$('#modal_buscar_bill_draft').modal({
+		show:true,
+		keyboard: false,
+		backdrop:'static'
+	});	
+});
+
+var listar_busqueda_bill_draf = function(){
+	var fechai = $("#formulario_bill_draft #fechai").val();
+	var fechaf = $("#formulario_bill_draft #fechaf").val();
+
+	var table_busqueda_bill_draft = $("#DatatableBusquedaBillDraft").DataTable({
+		"destroy":true,
+		"ajax":{
+			"method":"POST",
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableFacturasBorrador.php",
+			"data":{
+				"fechai":fechai,
+				"fechaf":fechaf
+			}
+		},
+		"columns":[
+			{"defaultContent":"<button class='table_pay pay btn btn-dark ocultar'><span class='fas fa-hand-holding-usd fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_eliminar eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"},
+			{"data":"fecha"},
+			{"data":"tipo_documento"},
+			{"data":"cliente"},
+			{"data":"numero"},
+			{"data":"subtotal"},
+			{"data":"isv"},
+			{"data":"descuento"},
+			{"data":"total"}			
+		],
+		"pageLength": 5,
+        "lengthMenu": lengthMenu,
+		"stateSave": true,
+		"bDestroy": true,
+		"language": idioma_español,
+		"dom": dom,
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Facturas Borrador',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
+					listar_busqueda_bill_draf();
+				}
+			}
+		],
+		"drawCallback": function( settings ) {
+        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+    	}
+	});
+	table_busqueda_bill_draft.search('').draw();
+	$('#buscar').focus();
+
+	pay_bill_draft_dataTable("#DatatableBusquedaBillDraft tbody", table_busqueda_bill_draft);
+	delete_bill_draft_dataTable("#DatatableBusquedaBillDraft tbody", table_busqueda_bill_draft);	
+}
+
+var pay_bill_draft_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.pay");
+	$(tbody).on("click", "button.pay", function(e){
+		e.preventDefault();
+		swal({
+			title: "Mantenimiento",
+			text: "Opción en desarrollo",
+			type: "warning",
+			confirmButtonClass: "btn-warning"
+		});	
+	});
+}
+
+var delete_bill_draft_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.eliminar");
+	$(tbody).on("click", "button.eliminar", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();	
+		deleteBillDraft(data.facturas_id)
+	});
+}
+
+function deleteBillDraft(facturas_id){
+	swal({
+	  title: "¿Estas seguro?",
+	  text: "¿Desea anular la factura: # " + getNumeroFactura(facturas_id) + "?",
+	  type: "info",
+	  showCancelButton: true,
+	  confirmButtonClass: "btn-primary",
+	  confirmButtonText: "¡Sí, enviar anularla!",
+	  cancelButtonText: "Cancelar",
+	  closeOnConfirm: false
+	},
+	function(){
+		deleteBill(facturas_id);
+	});
+}
+
+function deleteBill(facturas_id){
+	var url = '<?php echo SERVERURL; ?>core/deleteBillDraft.php';
+
+	$.ajax({
+	   type:'POST',
+	   url:url,
+	   async: false,
+	   data:'facturas_id='+facturas_id,
+	   success:function(data){
+	      if(data == 1){
+			swal({
+				title: "Success",
+				text: "La factura en borrador ha sido eliminada con éxito",
+				type: "success",
+			});
+			listar_busqueda_bill_draf();
+		  }else{
+			swal({
+				title: "Error",
+				text: "La factura no se puede eliminar",
+				type: "error",
+				confirmButtonClass: "btn-danger",
+			});			  
+		  }
+	  }
+	});
+}
+
+//BUSQUEDA FACTURAS AL CREDITO Y CONTADO
+$("#BillReports").on("click", function(e){
+	e.preventDefault();
+
+	listar_busqueda_bill();
+
+	$('#modal_buscar_bill').modal({
+		show:true,
+		keyboard: false,
+		backdrop:'static'
+	});	
+});
+
+var listar_busqueda_bill = function(){
+	if($("#formulario_bill #tipo_factura_reporte").val() == null || $("#formulario_bill #tipo_factura_reporte").val() == ""){
+		tipo_factura_reporte = 1;
+	}else{
+		tipo_factura_reporte = $("#formulario_bill #tipo_factura_reporte").val();
+	}
+
+	var fechai = $("#formulario_bill #fechai").val();
+	var fechaf = $("#formulario_bill #fechaf").val();
+
+	var table_busqueda_bill = $("#DatatableBusquedaBill").DataTable({
+		"destroy":true,
+		"ajax":{
+			"method":"POST",
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableReporteVentas.php",
+			"data":{
+				"tipo_factura_reporte":tipo_factura_reporte,
+				"fechai":fechai,
+				"fechaf":fechaf
+			}
+		},
+		"columns":[
+			{"data":"fecha"},
+			{"data":"tipo_documento"},
+			{"data":"cliente"},
+			{"data":"numero"},
+			{"data":"subtotal"},
+			{"data":"isv"},
+			{"data":"descuento"},			
+			{"data":"total"},
+		    {"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
+		    {"defaultContent":"<button class='table_reportes email_factura btn btn-dark ocultar'><span class='fas fa-paper-plane fa-lg'></span></button>"},
+		    {"defaultContent":"<button class='table_cancelar cancelar_factura btn btn-dark ocultar'><span class='fas fa-ban fa-lg'></span></button>"}		
+		],
+        "lengthMenu": lengthMenu,
+		"stateSave": true,
+		"bDestroy": true,
+		"language": idioma_español,
+		"dom": dom,
+		"columnDefs": [
+		  { width: "9.09%", targets: 0 },
+		  { width: "9.09%", targets: 1 },
+		  { width: "19.09%", targets: 2 },
+		  { width: "18.09%", targets: 3 },
+		  { width: "9.09%", targets: 4 },
+		  { width: "9.09%", targets: 5 },
+		  { width: "9.09%", targets: 6 },
+		  { width: "9.09%", targets: 7 },
+		  { width: "3.09%", targets: 8 },
+		  { width: "3.09%", targets: 9 },
+		  { width: "2.09%", targets: 10 }		  		  		  
+		],		
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Facturas Borrador',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
+					listar_busqueda_bill();
+				}
+			}
+		],
+		"drawCallback": function( settings ) {
+        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+    	}
+	});
+	table_busqueda_bill.search('').draw();
+	$('#buscar').focus();
+
+	view_correo_bills_dataTable("#DatatableBusquedaBill tbody", table_busqueda_bill);
+	view_reporte_bill_dataTable("#DatatableBusquedaBill tbody", table_busqueda_bill);
+	view_anular_bill_dataTable("#DatatableBusquedaBill tbody", table_busqueda_bill);	
+}
+
+var view_anular_bill_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.cancelar_factura");
+	$(tbody).on("click", "button.cancelar_factura", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		anularFacturas(data.facturas_id);
+	});
+}
+
+var view_correo_bills_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.email_factura");
+	$(tbody).on("click", "button.email_factura", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		mailBill(data.facturas_id);
+	});
+}
+
+var view_reporte_bill_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.print_factura");
+	$(tbody).on("click", "button.print_factura", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		printBill(data.facturas_id);
+	});
+}
+
+function anularFacturas(facturas_id){
+	swal({
+	  title: "¿Estas seguro?",
+	  text: "¿Desea anular la factura: # " + getNumeroFactura(facturas_id) + "?",
+	  type: "info",
+	  showCancelButton: true,
+	  confirmButtonClass: "btn-primary",
+	  confirmButtonText: "¡Sí, enviar anularla!",
+	  cancelButtonText: "Cancelar",
+	  closeOnConfirm: false
+	},
+	function(){
+		anular(facturas_id);
+	});
+}
+
+function anular(facturas_id){
+	var url = '<?php echo SERVERURL; ?>core/anularFactura.php';
+
+	$.ajax({
+	   type:'POST',
+	   url:url,
+	   async: false,
+	   data:'facturas_id='+facturas_id,
+	   success:function(data){
+	      if(data == 1){
+			swal({
+				title: "Success",
+				text: "La factura ha sido anulada con éxito",
+				type: "success",
+			});
+			listar_busqueda_bill();
+		  }else{
+			swal({
+				title: "Error",
+				text: "La factura no se puede anular",
+				type: "error",
+				confirmButtonClass: "btn-danger",
+			});			  
+		  }
+	  }
+	});
+}
+
+function getReporteFactura(){
+    var url = '<?php echo SERVERURL;?>core/getTipoFacturaReporte.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formulario_bill #tipo_factura_reporte').html("");
+			$('#formulario_bill #tipo_factura_reporte').html(data);		
+		}
+     });
+}
+
+$('#formulario_bill_draft #search').on("click", function(e){
+	e.preventDefault();
+	listar_busqueda_bill_draf();
+});
+
+$('#formulario_bill #search').on("click", function(e){
+	e.preventDefault();
+	listar_busqueda_bill();
+});
 </script>

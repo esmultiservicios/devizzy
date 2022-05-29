@@ -63,17 +63,17 @@
 					<table id="dataTablaReporteVentas" class="table table-striped table-condensed table-hover" style="width:100%">
 						<thead>
 							<tr>							
-							<th>Fecha</th>	
-							<th>Tipo</th>
-							<th>Cliente</th>
-							<th>Factura</th>
-							<th>SubTotal</th>
-							<th>ISV</th>
-							<th>Descuento</th>							
-							<th>Total</th>
-							<th>Imprimir</th>
-							<th>Enviar</th>	
-							<th>Anular</th>							
+								<th>Fecha</th>	
+								<th>Tipo</th>
+								<th>Cliente</th>
+								<th>Factura</th>
+								<th>SubTotal</th>
+								<th>ISV</th>
+								<th>Descuento</th>							
+								<th>Total</th>
+								<th>Imprimir</th>
+								<th>Enviar</th>	
+								<th>Anular</th>							
 							</tr>
 						</thead>
 						<tfoot class="bg-info text-white font-weight-bold">

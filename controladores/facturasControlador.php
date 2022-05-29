@@ -32,9 +32,7 @@
 			$numero  = 0;
 			$secuenciaFacturacion = facturasModelo::secuencia_facturacion_modelo($empresa_id)->fetch_assoc();
 			$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
-			$numero = $secuenciaFacturacion['numero'];
-			$incremento = $secuenciaFacturacion['incremento'];
-			$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);
+
 			$notas = mainModel::cleanString($_POST['notesBill']);
 			$fecha = $_POST['fecha'];
 			$fecha_dolar = $_POST['fecha_dolar'];
@@ -42,7 +40,7 @@
 			$facturas_id = mainModel::correlativo("facturas_id", "facturas");	
 
 			if($tipo_factura == 1){
-				$estado = 2;//PAGADA
+				$estado = 1;//BORRADOR
 			}else{
 				$estado = 3;//CRÉDITO
 			}	
@@ -56,8 +54,6 @@
 
 			$apertura = facturasModelo::getAperturaIDModelo($datos_apertura)->fetch_assoc();
 			$apertura_id = $apertura['apertura_id'];
-
-
 
 			$datos = [
 				"facturas_id" => $facturas_id,
@@ -76,8 +72,6 @@
 				"empresa" => $empresa_id,
 				"fecha_dolar" => $fecha_dolar
 			];	
-
-
 
 			if($clientes_id != "" && $colaborador_id != ""){
 				//OBTENEMOS EL TAMAÑO DE LA TABLA
@@ -227,11 +221,7 @@
 
 							}//FIN CICLO FOR
 
-							$total_despues_isv = ($total_valor + $isv_neto) - $descuentos;						
-
-							//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
-							$numero += $incremento;
-							facturasModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);
+							$total_despues_isv = ($total_valor + $isv_neto) - $descuentos;
 						
 							//ACTUALIZAMOS EL IMPORTE EN LA FACTURA
 							$datos_factura = [
@@ -472,7 +462,6 @@
 
 			return mainModel::sweetAlert($alert);
 		}
-
 		
 
 		public function cancelar_facturas_controlador(){

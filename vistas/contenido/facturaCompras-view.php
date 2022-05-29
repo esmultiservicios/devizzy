@@ -99,8 +99,8 @@
 				  <hr class="line_table" />
 					<div class="form-group row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">	
-							<button class="btn btn-primary ml-3 bill-bottom-add" id="addRowsPurchase" type="button" data-toggle="tooltip" data-placement="top" title="Agregar filas en la factura"><div class="sb-nav-link-icon"></div><i class="fas fa-plus fa-lg"></i></button>
-							<button class="btn btn-secondary delete bill-bottom-remove" id="removeRowsPurchase" type="button" data-toggle="tooltip" data-placement="top" title="Remover filas en la factura"><div class="sb-nav-link-icon"></div><i class="fas fa-minus fa-lg"></i></button>							
+							<button class="btn btn-secondary ml-3 bill-bottom-add" id="addRowsPurchase" type="button" data-toggle="tooltip" data-placement="top" title="Agregar filas en la factura"><div class="sb-nav-link-icon"></div><i class="fas fa-plus fa-lg"></i> Agregar</button>
+							<button class="btn btn-secondary delete bill-bottom-remove" id="removeRowsPurchase" type="button" data-toggle="tooltip" data-placement="top" title="Remover filas en la factura"><div class="sb-nav-link-icon"></div><i class="fas fa-minus fa-lg"></i> Quitar</button>							
 						</div>
 					</div>					  
 				  <div class="form-group row">

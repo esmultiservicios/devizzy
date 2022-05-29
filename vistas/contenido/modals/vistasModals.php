@@ -737,7 +737,7 @@
 											</div>
 										</div>
 									</div>
-									<div id="menu5" class="tab-pane in active">
+									<div id="menu5" class="tab-pane">
 										<div class="row justify-content-center">
 											<div class="col-11">
 												<div class="form-card">

@@ -286,157 +286,92 @@
 
 
 		public function anular_cotizacion($cotizacion_id){
-
 			$update = "UPDATE cotizacion
-
 			SET
-
 				estado = 2
-
 			WHERE cotizacion_id = '$cotizacion_id'";
 
-
-
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 
-
-
 			return $sql;
-
 		}
-
-
 
 		public function anular_factura($facturas_id){
-
 			$update = "UPDATE facturas
-
 			SET
-
 				estado = 4
-
 			WHERE facturas_id = '$facturas_id'";
-
-
 
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 
-
-
 			return $sql;
-
 		}
 
 
+		public function delete_bill_draft($facturas_id){
+			$delete = "DELETE FROM facturas WHERE facturas_id = '$facturas_id' AND estado = 1";
+
+			$sql = mainModel::connection()->query($delete) or die(mainModel::connection()->error);
+
+			return $sql;			
+		}
 
 		public function anular_compra($compras_id){
-
 			$update = "UPDATE compras
-
 			SET
-
 				estado = 4
 
 			WHERE compras_id = '$compras_id'";
 
-
-
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 
-
-
 			return $sql;
-
 		}
-
-
 
 		public function anular_pago_factura($facturas_id){
-
 			$update = "UPDATE pagos
-
 			SET
-
 				estado = 2
-
 			WHERE facturas_id = '$facturas_id'";
 
-
-
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 
-
-
 			return $sql;
-
 		}
-
-
 
 		public function anular_pago_compras($compras_id){
-
 			$update = "UPDATE pagoscompras
-
 			SET
-
 				estado = 2
-
 			WHERE compras_id = '$compras_id'";
-
-
 
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 
-
-
 			return $sql;
-
 		}
 
-
-
 		public function valid_pago_factura($facturas_id){
-
 			$query = "SELECT pagos_id
-
 				FROM pagos
-
 				WHERE facturas_id = '$facturas_id'";
-
-
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 
-
-
 			return $sql;
-
 		}
-
 
 
 		public function valid_pago_compras($compras_id){
-
 			$query = "SELECT pagoscompras_id
-
 				FROM pagoscompras
-
 				WHERE compras_id = '$compras_id'";
-
-
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 
-
-
 			return $sql;
-
 		}
 
-
-
 		//FUNCION PARA ENVIAR CORREO ELECTRONICO
-
 		protected function sendEmail($server, $port, $SMTPSecure, $password, $from, $para, $asunto, $mensaje){
 
 			$cabeceras = "MIME-Version: 1.0\r\n";
@@ -4053,173 +3988,105 @@
 				FROM movimientos AS m
 
 				INNER JOIN productos AS p
-
 				ON m.productos_id = p.productos_id
-
 				INNER JOIN medida AS me
-
 				ON p.medida_id = me.medida_id
-
 				WHERE p.tipo_producto_id = '".$datos['tipo_producto_id']."' AND CAST(m.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
-
 				ORDER BY m.fecha_registro ASC";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function consultaVentas($datos){
-
 			if($datos['tipo_factura_reporte'] == 1){
-
 				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado IN(2,3)";
-
 			}else{
-
 				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 4";
-
 			}
-
-
 
 			$query = "SELECT f.facturas_id AS 'facturas_id', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.nombre AS 'cliente', CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', FORMAT(f.importe,2) As 'total', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento'
-
 				FROM facturas AS f
-
 				INNER JOIN clientes AS c
-
 				ON f.clientes_id = c.clientes_id
-
 				INNER JOIN secuencia_facturacion AS sf
-
 				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-
 				".$where;
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
+		public function consultaBillDraft($datos){
+			$query = "SELECT f.facturas_id AS 'facturas_id', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.nombre AS 'cliente', CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', FORMAT(f.importe,2) As 'total', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', f.number AS 'numero_factura'
+				FROM facturas AS f
+				INNER JOIN clientes AS c
+				ON f.clientes_id = c.clientes_id
+				INNER JOIN secuencia_facturacion AS sf
+				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
+				WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 1";
 
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
 
 		public function consultaCompras($datos){
-
 			if($datos['tipo_compra_reporte'] == 1){
-
 				$where = "WHERE c.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND c.estado IN(2,3)";
-
 			}else{
-
 				$where = "WHERE c.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND c.estado = 4";
-
 			}
 
-
-
 			$query = "SELECT c.compras_id AS 'compras_id', DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', p.nombre AS 'proveedor', c.number AS 'numero', FORMAT(c.importe,2) As 'total', (CASE WHEN c.tipo_compra = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento'
-
 				FROM compras AS c
-
 				INNER JOIN proveedores AS p
-
 				ON c.proveedores_id = p.proveedores_id
-
 				".$where;
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function consultaCotizaciones($datos){
-
 			if($datos['tipo_cotizacion_reporte'] == 1){
-
 				$where = "WHERE c.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND c.estado = 1";
-
 			}else{
-
 				$where = "WHERE c.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND c.estado = 2";
-
 			}
 
-
-
 			$query = "SELECT c.cotizacion_id AS 'cotizacion_id', DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', cl.nombre AS 'cliente', c.number AS 'numero', FORMAT(c.importe,2) As 'total', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento'
-
 				FROM cotizacion AS c
-
 				INNER JOIN clientes AS cl
-
 				ON c.clientes_id = cl.clientes_id
-
 				".$where;
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getBanco(){
-
 			$query = "SELECT * FROM banco";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getImpuestos(){
-
 			$query = "SELECT isv_id, valor, (CASE WHEN isv_tipo_id = 1 THEN 'Factura' ELSE 'Compra' END) AS 'tipo_isv_nombre'
-
 				FROM isv";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getImpuestosEdit($isv_id){

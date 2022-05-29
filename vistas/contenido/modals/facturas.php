@@ -335,3 +335,175 @@
     </div>
 </div>
 <!--FIN MODAL BUSQUEDA COBRAR CUENTAS POR COBRAR CLIENTES-->
+
+<!--INICIO MODAL BUSQUEDA FACTURAS BORRADOR-->
+<div class="modal fade" id="modal_buscar_bill_draft">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Buscar Facturas Borrador</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div><div class="container"></div>
+        <div class="modal-body">
+			<form class="FormularioAjax" id="formulario_bill_draft">	
+				<div class="form-row">
+					<div class="col-md-5 mb-3">
+						<div class="input-group">				
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
+							</div>
+								<input type="date" required id="fechai" name="fechai" value="<?php 
+								$fecha = date ("Y-m-d");
+								
+								$año = date("Y", strtotime($fecha));
+								$mes = date("m", strtotime($fecha));
+								$dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
+
+								$dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
+								$dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
+
+								$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
+								$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));						
+								
+								
+								echo $fecha_inicial;
+							?>" class="form-control ml-1" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
+						</div>
+					</div>	
+					<div class="col-md-5 mb-3">
+						<div class="input-group">				
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
+							</div>
+							<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control ml-1" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
+						</div>						
+					</div>	
+					<div class="col-md-2">
+						<button class="consultar btn btn-secondary ml-1" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>							
+					</div>																		
+				</div>
+
+				<div class="form-group">				  
+					<div class="col-md-12">			
+						<div class="overflow-auto">											
+							<table id="DatatableBusquedaBillDraft" class="table table-striped table-condensed table-hover" style="width:100%">
+								<thead>
+									<tr>
+										<th>Cobrar</th>
+										<th>Eliminar</th>					
+										<th>Fecha</th>
+										<th>Tipo</th>
+										<th>Empresa</th>
+										<th>Factura</th>
+										<th>SubTotal</th>
+										<th>ISV</th>
+										<th>Descuento</th>								
+										<th>Total</th>	
+									</tr>
+								</thead>
+							</table>
+						</div>				
+					</div>				  
+				</div>
+			</form>
+        </div>
+		<div class="modal-footer">
+
+		</div>			
+      </div>
+    </div>
+</div>
+<!--FIN MODAL BUSQUEDA FACTURAS BORRADOR-->
+
+<!--INICIO MODAL BUSQUEDA CREDITO Y CONTADO-->
+<div class="modal fade" id="modal_buscar_bill">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Buscar Facturas</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div><div class="container"></div>
+        <div class="modal-body">
+			<form class="FormularioAjax" id="formulario_bill">	
+			<div class="form-row">
+					<div class="col-md-3 mb-3">
+						<div class="input-group">				
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Tipo Factura</span>
+							</div>
+							<select id="tipo_factura_reporte" name="tipo_factura_reporte" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
+						  </select>
+						</div>						
+					</div>				
+					<div class="col-md-4 mb-3">
+						<div class="input-group">				
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
+							</div>
+								<input type="date" required id="fechai" name="fechai" value="<?php 
+								$fecha = date ("Y-m-d");
+								
+								$año = date("Y", strtotime($fecha));
+								$mes = date("m", strtotime($fecha));
+								$dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
+
+								$dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
+								$dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
+
+								$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
+								$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));						
+								
+								
+								echo $fecha_inicial;
+							?>" class="form-control ml-1" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
+						</div>	
+					</div>	
+					<div class="col-md-3 mb-3">
+						<div class="input-group">				
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Fin</span>
+							</div>
+							<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control ml-1" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
+						</div>							
+					</div>	
+					<div class="col-md-2 mb-3">
+						<button class="consultar btn btn-secondary ml-2" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>							
+					</div>																		
+				</div>
+
+				<div class="form-group">				  
+					<div class="col-md-12">			
+						<div class="overflow-auto">											
+							<table id="DatatableBusquedaBill" class="table table-striped table-condensed table-hover" style="width:100%">
+								<thead>
+									<tr>
+										<th>Fecha</th>	
+										<th>Tipo</th>
+										<th>Cliente</th>
+										<th>Factura</th>
+										<th>SubTotal</th>
+										<th>ISV</th>
+										<th>Descuento</th>							
+										<th>Total</th>
+										<th>Imprimir</th>
+										<th>Enviar</th>	
+										<th>Anular</th>	
+									</tr>
+								</thead>
+							</table>
+						</div>				
+					</div>				  
+				</div>
+			</form>
+        </div>
+		<div class="modal-footer">
+
+		</div>			
+      </div>
+    </div>
+</div>
+<!--FIN MODAL BUSQUEDA FACTURAS CREDITO Y CONTADO-->

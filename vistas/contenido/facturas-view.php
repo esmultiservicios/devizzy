@@ -130,10 +130,12 @@
 						<hr class="line_table" />
 						<div class="form-group row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<button class="btn btn-primary ml-3 bill-bottom-add" id="addRows" type="button" data-toggle="tooltip" data-placement="top" title="Agregar filas en la factura"><div class="sb-nav-link-icon"></div><i class="fas fa-plus"></i></button>
-								<button class="btn btn-secondary delete bill-bottom-remove" id="removeRows" type="button" data-toggle="tooltip" data-placement="top" title="Remover filas en la factura"><div class="sb-nav-link-icon"></div><i class="fas fa-minus"></i></button>	
-								<button class="btn btn-primary bill-bottom-remove" id="addQuotetoBill" type="button" data-toggle="tooltip" data-placement="top" title="Convertir Cotizacion en Factura"><div class="sb-nav-link-icon"></div><i class="fas fa-file-invoice-dollar fa-lg"></i></button>	
-								<button class="btn btn-primary bill-bottom-remove" id="addPayCustomers" type="button" data-toggle="tooltip" data-placement="top" title="Cobrar Cuentas por Pagar Clientes"><div class="sb-nav-link-icon"></div><i class="fas fa-hand-holding-usd fa-lg"></i></button>					
+								<button class="btn btn-secondary ml-3 bill-bottom-add" id="addRows" type="button" data-toggle="tooltip" data-placement="top" title="Agregar filas en la factura"><div class="sb-nav-link-icon"></div><i class="fas fa-plus"></i> Agregar</button>
+								<button class="btn btn-secondary delete bill-bottom-remove" id="removeRows" type="button" data-toggle="tooltip" data-placement="top" title="Remover filas en la factura"><div class="sb-nav-link-icon"></div><i class="fas fa-minus"></i> Quitar</button>	
+								<button class="btn btn-secondary bill-bottom-remove" id="addQuotetoBill" type="button" data-toggle="tooltip" data-placement="top" title="Convertir Cotizacion en Factura"><div class="sb-nav-link-icon"></div><i class="fas fa-file-invoice-dollar fa-lg"></i> Convertir</button>	
+								<button class="btn btn-secondary bill-bottom-remove" id="addPayCustomers" type="button" data-toggle="tooltip" data-placement="top" title="Cobrar Cuentas por Pagar Clientes"><div class="sb-nav-link-icon"></div><i class="fas fa-hand-holding-usd fa-lg"></i> CxC</button>					
+								<button class="btn btn-secondary bill-bottom-remove" id="addDraft" type="button" data-toggle="tooltip" data-placement="top" title="Facturas Guardadas en Borrador"><div class="sb-nav-link-icon"></div><i class="fas fa-file-invoice"></i> Borrador</button>	
+								<button class="btn btn-secondary bill-bottom-remove" id="BillReports" type="button" data-toggle="tooltip" data-placement="top" title="Facturas Guardadas"><div class="sb-nav-link-icon"></div><i class="fas fa-file-invoice"></i> Facturas</button>																
 							</div>
 						</div>
 						<div class="form-group row">

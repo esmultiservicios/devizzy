@@ -181,7 +181,7 @@ function anular(facturas_id){
 		  }else{
 			swal({
 				title: "Error",
-				text: "La factura no se pudo anular",
+				text: "La factura no se puede anular",
 				type: "error",
 				confirmButtonClass: "btn-danger",
 			});			  
