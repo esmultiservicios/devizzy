@@ -1198,6 +1198,7 @@ function validarAperturaCajaUsuario(){
 		$("#invoice-form #addPayCustomers").attr("disabled", true);				
 		$("#invoice-form #addRows").attr("disabled", true);
 		$("#invoice-form #removeRows").attr("disabled", true);
+		$("#invoice-form #addDraft").attr("disabled", true);
 		$("#invoice-form #notasFactura").attr("disabled", true);
 		$("#invoice-form #btn_apertura").show();
 		$("#invoice-form #btn_cierre").hide();		
@@ -1212,6 +1213,7 @@ function validarAperturaCajaUsuario(){
 		$("#invoice-form #addRows").attr("disabled", false);
 		$("#invoice-form #removeRows").attr("disabled", false);	
 		$("#invoice-form #notasFactura").attr("disabled", false);
+		$("#invoice-form #addDraft").attr("disabled", false);
 		$("#invoice-form #btn_cierre").show();
 		$("#invoice-form #btn_apertura").hide();		
 	}	
