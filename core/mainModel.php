@@ -1002,9 +1002,11 @@
 
 							allowOutsideClick: false
 
+							
+
 						});
 
-
+						location.reload();
 
 						$('#".$datos['form']."')[0].reset();
 
@@ -1013,6 +1015,9 @@
 						".$datos['funcion'].";
 
 						$('#".$datos['modal']."').modal('hide');
+
+                        
+
 
                     </script>
 

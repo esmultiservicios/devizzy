@@ -384,11 +384,12 @@
 											<div class="far fa-credit-card fa-lg"></div> &nbsp;&nbsp; Tarjeta
 										</div>
 									</a> 	
-									<a data-toggle="tab" href="#menu2Purchase" id="tab5Purchase" class="tabs list-group-item">
+											
+									<a data-toggle="tab" href="#menu5Purchase" id="tab5Purchase" class="tabs list-group-item">
 										<div class="list-div my-2">
-											<div class="far fa-credit-card fa-lg"></div> &nbsp;&nbsp; Mixto
+											<div class="fa fa-pause fa-lg"></div> &nbsp;&nbsp; Mixto
 										</div>
-									</a> 									
+									</a> 							
 									<a data-toggle="tab" href="#menu3Purchase" id="tab3Purchase" class="tabs list-group-item bg-light">
 										<div class="list-div my-2">
 											<div class="fas fa-exchange-alt fa-lg"></div> &nbsp;&nbsp; Transferencia
@@ -495,6 +496,62 @@
 														<div class="row">
 															<div class="col-md-12"> 
 																<input type="submit" value="Efectuar Pago" id="pago_tarjeta" class="pay btn btn-info placeicon" form="formTarjetaPurchase">
+															</div>
+														</div>
+														<div class="RespuestaAjax"></div>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="menu5Purchase" class="tab-pane">
+										<div class="row justify-content-center">
+											<div class="col-11">
+												<div class="form-card">
+													<h6 class="mt-0 mb-4 text-center">Ingrese Pago Mixto</h6>
+													<form class="FormularioAjax" id="formMixtoPurchaseBill" action="<?php echo SERVERURL;?>ajax/addPagoCompraMixtoAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
+														<div class="row">
+															<div class="col-12 col-md-6">
+																<div class="input-group"> 	
+																	<label for="monto_efectivo">Efectivo</label>
+																	<input type="hidden" name="compras_id_mixto" id="compras_id_mixto"> 
+																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivo_mixtoPurchase" placeholder="0.00"> 
+																	<input type="number" name="efectivo_bill" id="efectivo_bill_mixtoPurchase" class="inputfield" placeholder="0.00" step="0.01">																						
+																</div>
+															</div>
+															<div class="col-12 col-md-6">
+																<div class="input-group">
+																	<label for="cambio_efectivo">Cambio</label>
+																	<input type="number" readonly name="cambio_efectivo" id="cambio_efectivo_mixtoPurchase" class="inputfield" step="0.01" placeholder="0.00">																
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-12">
+																<div class="input-group"> 
+																<label>Número de Tarjeta</label> 
+																<input type="text" id="cr_bill_mixtoPurchase" name="cr_bill" class="inputfield"  placeholder="XXXX">
+																																																
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-6">
+																<div class="input-group"> 
+																	<label> Fecha de Expiración</label>
+																	<input type="text" name="exp" id="exp_mixtoPurchase" class="mask inputfield" placeholder="MM/YY">
+																</div>
+															</div>
+															<div class="col-6">
+																<div class="input-group"> 
+																	<label>Número Aprobación</label>
+																	<input type="text" name="cvcpwd" id="cvcpwd_mixtoPurchase" class="placeicon inputfield"> 																	 
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-12"> 
+																<input type="submit" value="Efectuar Pago" id="pago_mixto_Purchase" class="pay btn btn-info placeicon" form="formMixtoPurchaseBill">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>

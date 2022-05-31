@@ -1949,7 +1949,13 @@ function pagoCompras(compras_id){
 			$('#formTarjetaPurchase')[0].reset();
 			$('#formTarjetaPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formTarjetaPurchase #compras_id_tarjeta').val(compras_id);
-			$('#formTarjetaPurchase #pago_efectivo').attr('disabled', true);	
+			$('#formTarjetaPurchase #pago_efectivo').attr('disabled', true);
+			
+			//mixto
+			$('#formMixtoPurchaseBill')[0].reset();
+			$('#formMixtoPurchaseBill #monto_efectivo_mixtoPurchase').val(datos[3]);
+			$('#formMixtoPurchaseBill #compras_id_mixto').val(compras_id);
+			$('#formMixtoPurchaseBill #pago_mixto_Purchase').attr('disabled', true);
 
 			//TRANSFERENCIA
 			$('#formTransferenciaPurchase')[0].reset();
@@ -2000,6 +2006,20 @@ $(document).ready(function(){
 	$('#formTarjetaPurchase #cvcpwd').inputmask("999999");
 });
 
+//mixto
+
+$(document).ready(function(){
+	$('#formMixtoPurchaseBill #cr_bill_mixtoPurchase').inputmask("9999");
+});
+
+$(document).ready(function(){
+	$('#formMixtoPurchaseBill #exp_mixtoPurchase').inputmask("99/99");
+});
+
+$(document).ready(function(){
+	$('#formMixtoPurchaseBill #cvcpwd_mixtoPurchase').inputmask("999999");
+});
+
 $(document).ready(function(){
 	$("#formEfectivoPurchase #efectivo_Purchase").on("keyup", function(){				
 		var efectivo = parseFloat($("#formEfectivoPurchase #efectivo_Purchase").val()).toFixed(2);
@@ -2014,6 +2034,25 @@ $(document).ready(function(){
 		}else{				
 			$('#formEfectivoPurchase #cambio_efectivoPurchase').val(parseFloat(0).toFixed(2));
 			$('#formEfectivoPurchase #pago_efectivo').attr('disabled', true);
+		}				
+	});
+});	
+
+//mixto
+$(document).ready(function(){
+	$("#formMixtoPurchaseBill #efectivo_bill_mixtoPurchase").on("keyup", function(){				
+		var efectivo = parseFloat($("#formMixtoPurchaseBill #efectivo_bill_mixtoPurchase").val()).toFixed(2);
+		var monto = parseFloat($("#formMixtoPurchaseBill #monto_efectivo_mixtoPurchase").val()).toFixed(2);
+		
+		var total = efectivo - monto;				
+		//Math.floor NOS PERMITE COMPARAR UN FLOAT CONVIRTIENDOLO A ENTERO CUANDO SE MULTIPLICA POR 100
+		
+		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){	
+			$('#formMixtoPurchaseBill #cambio_efectivo_mixtoPurchase').val(parseFloat(total).toFixed(2));
+			$('#formMixtoPurchaseBill #pago_mixto_Purchase').attr('disabled', false);				
+		}else{				
+			$('#formMixtoPurchaseBill #cambio_efectivo_mixtoPurchase').val(parseFloat(0).toFixed(2));
+			$('#formMixtoPurchaseBill #pago_mixto_Purchase').attr('disabled', true);
 		}				
 	});
 });	
