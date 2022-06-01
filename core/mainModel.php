@@ -3988,15 +3988,44 @@
 
 		public function getMovimientosProductos($datos){
 
-			$query = "SELECT m.movimientos_id AS 'movimientos_id', p.barCode AS 'barCode', p.nombre AS 'producto', me.nombre AS 'medida', m.cantidad_entrada AS 'entrada', m.cantidad_salida AS 'salida', m.saldo AS 'saldo', DATE_FORMAT(m.fecha_registro, '%d/%m/%Y %H:%i:%s') AS 'fecha_registro', m.documento AS 'documento', p.productos_id AS 'productos_id'
+			if($datos['bodega'] != ''){
+				$bodega = "AND bo.almacen_id = '".$datos['bodega']."'";
+			}else{ $bodega = '';}
 
-				FROM movimientos AS m
+			if($datos['bodega'] == '0'){
+				$bodega = '';
+			}
+			
 
+
+			$query = "
+					SELECT
+					m.movimientos_id AS 'movimientos_id',
+					p.barCode AS 'barCode',
+					p.nombre AS 'producto',
+					me.nombre AS 'medida',
+					m.cantidad_entrada AS 'entrada',
+					m.cantidad_salida AS 'salida',
+					m.saldo AS 'saldo',
+					bo.nombre AS 'bodega',
+					DATE_FORMAT(
+						m.fecha_registro,
+						'%d/%m/%Y %H:%i:%s'
+					) AS 'fecha_registro',
+					m.documento AS 'documento',
+					p.productos_id AS 'productos_id'
+				FROM
+					movimientos AS m
 				INNER JOIN productos AS p
-				ON m.productos_id = p.productos_id
+				ON
+					m.productos_id = p.productos_id
 				INNER JOIN medida AS me
-				ON p.medida_id = me.medida_id
+				ON
+					p.medida_id = me.medida_id
+				INNER JOIN almacen AS bo
+				on p.almacen_id = bo.almacen_id
 				WHERE p.tipo_producto_id = '".$datos['tipo_producto_id']."' AND CAST(m.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
+				$bodega
 				ORDER BY m.fecha_registro ASC";
 
 			$result = self::connection()->query($query);

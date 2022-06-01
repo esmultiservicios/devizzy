@@ -8,7 +8,8 @@
 	$datos = [
 		"tipo_producto_id" => $_POST['tipo_producto_id'],
 		"fechai" => $_POST['fechai'],
-		"fechaf" => $_POST['fechaf'],		
+		"fechaf" => $_POST['fechaf'],
+		"bodega" => $_POST['bodega'] 		
 	];	
 	
 	$result = $insMainModel->getMovimientosProductos($datos);
@@ -27,6 +28,7 @@
 			"entrada"=>$row['entrada'],
 			"salida"=>$row['salida'],
 			"saldo"=>$row['saldo'],
+			"bodega"=>$row['bodega'],
 			"productos_id"=>$row['productos_id']						
 		);	
 	}

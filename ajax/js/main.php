@@ -580,6 +580,9 @@ function getAlmacen(){
         success: function(data){
 		    $('#formProductos #almacen').html("");
 			$('#formProductos #almacen').html(data);
+
+			$('#form_main_movimientos #almacen').append("");
+			$('#form_main_movimientos #almacen').append("<option value='0'>Todos</option>"+data);
 		}
      });
 }

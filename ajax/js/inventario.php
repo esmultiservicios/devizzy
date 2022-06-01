@@ -23,6 +23,10 @@ $('#form_main_movimientos #fechaf').on('change',function(){
   listar_movimientos();
 });
 
+$('#form_main_movimientos #almacen').on('change',function(){
+  listar_movimientos();
+});
+
 $('#form_main_movimientos #search').on("click", function(e){
 	e.preventDefault();
 	listar_movimientos();
@@ -40,6 +44,11 @@ var listar_movimientos = function(){
 
 	var fechai = $("#form_main_movimientos #fechai").val();
 	var fechaf = $("#form_main_movimientos #fechaf").val();
+	var bodega = $("#form_main_movimientos #almacen").val();
+
+	//if(bodega == null){ bodega = 1}
+
+	console.log('bodega',bodega)
 
 	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
 		"destroy":true,
@@ -49,7 +58,8 @@ var listar_movimientos = function(){
 			"data":{
 				"tipo_producto_id":tipo_producto_id,
 				"fechai":fechai,
-				"fechaf":fechaf
+				"fechaf":fechaf,
+				"bodega":bodega
 			}
 		},
 		"columns":[
@@ -60,7 +70,9 @@ var listar_movimientos = function(){
 			{"data":"documento"},
 			{"data":"entrada"},
 			{"data":"salida"},
-			{"data":"saldo"}
+			{"data":"saldo"},
+			{"data":"bodega"}
+
 		],
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -75,7 +87,9 @@ var listar_movimientos = function(){
 		  { width: "18.5%", targets: 4 },
 		  { width: "10.5%", targets: 5 },
 		  { width: "10.5%", targets: 6 },
-		  { width: "10.5%", targets: 7 }
+		  { width: "10.5%", targets: 7 },
+		  { width: "10.5%", targets: 8 }
+
 		],
 		"buttons":[
 			{

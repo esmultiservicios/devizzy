@@ -5,36 +5,62 @@
     </ol>
    <div class="card mb-4">
         <div class="card-body">
-			<form class="form-inline" id="form_main_movimientos">
-				  <div class="form-group mx-sm-3 mb-1">
-					<div class="input-group">				
-						<div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Categoría</span>
+			<form class="" id="form_main_movimientos">
+				<div class="row">
+					<div class="col-4">
+						<div class="form-group mx-sm-3 mb-1">
+						  <div class="input-group">				
+							  <div class="input-group-append">				
+								  <span class="input-group-text"><div class="sb-nav-link-icon"></div>Categoría</span>
+							  </div>
+							  <select id="inventario_tipo_productos_id" name="inventario_tipo_productos_id" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
+								  <option value="">Seleccione</option>
+							</select>
+						  </div>
 						</div>
-						<select id="inventario_tipo_productos_id" name="inventario_tipo_productos_id" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
-							<option value="">Seleccione</option>
-					  </select>
 					</div>
-				  </div>
-				  <div class="form-group mx-sm-3 mb-1">
-					<div class="input-group">				
-						<div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
+					<div class="col-4">
+						<div class="form-group mx-sm-3 mb-1">
+						  <div class="input-group">				
+							  <div class="input-group-append">				
+								  <span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
+							  </div>
+							  <input type="date" required id="fechai" name="fechai" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
+						  </div>
+						</div>	
+					</div>
+					<div class="col-4">
+						<div class="form-group mx-sm-3 mb-1">
+						   <div class="input-group">				
+							  <div class="input-group-append">				
+								  <span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Fin</span>
+							  </div>
+							  <input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
+						  </div>
 						</div>
-						<input type="date" required id="fechai" name="fechai" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
+
 					</div>
-				  </div>	
-				  <div class="form-group mx-sm-3 mb-1">
-				 	<div class="input-group">				
-						<div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Fin</span>
-						</div>
-						<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
+				</div>
+				    <div class="row mt-4">
+						  <div class="col-12 col-md-4">
+						  		<div class="form-group mx-sm-3 mb-1">
+									<div class="input-group">				
+										<div class="input-group-append">				
+											<span class="input-group-text"><div class="sb-nav-link-icon"></div>Bodega</span>
+										</div>
+										<select id="almacen" name="almacen" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
+											<!-- <option value="0">Todos</option> -->
+									</select>
+									</div>
+								</div>
+						  </div>
+						  <div class="col-12 col-md-4">
+							  <div class="form-group mx-sm-2 mb-1">
+									<button class="consultar btn btn-secondary form-control ml-2" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
+							  </div> 				  				  
+						  </div>
 					</div>
-				  </div>
-				  <div class="form-group mx-sm-2 mb-1">
-               		 <button class="consultar btn btn-secondary ml-2" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
-			 	 </div> 				  				  
+				  
 			</form>          
         </div>
     </div>	
@@ -57,6 +83,7 @@
 							<th>Entrada</th>
 							<th>Salida</th>
 							<th>Saldo</th>
+							<th>Bodega</th>
 							</tr>
 						</thead>
 					</table>  
