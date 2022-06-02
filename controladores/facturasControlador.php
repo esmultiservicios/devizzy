@@ -55,24 +55,6 @@
 			$apertura = facturasModelo::getAperturaIDModelo($datos_apertura)->fetch_assoc();
 			$apertura_id = $apertura['apertura_id'];
 
-			$datos = [
-				"facturas_id" => $facturas_id,
-				"clientes_id" => $clientes_id,
-				"secuencia_facturacion_id" => $secuencia_facturacion_id,
-				"apertura_id" => $apertura_id,				
-				"tipo_factura" => $tipo_factura,				
-				"numero" => $numero,
-				"colaboradores_id" => $colaborador_id,
-				"importe" => 0,
-				"notas" => $notas,
-				"fecha" => $fecha,				
-				"estado" => $estado,
-				"usuario" => $usuario,
-				"fecha_registro" => $fecha_registro,
-				"empresa" => $empresa_id,
-				"fecha_dolar" => $fecha_dolar
-			];	
-
 			if($clientes_id != "" && $colaborador_id != ""){
 				//OBTENEMOS EL TAMAÑO DE LA TABLA
 				if(isset($_POST['productName'])){
@@ -87,9 +69,26 @@
 
 				//SI EXITE VALORES EN LA TABLA, PROCEDEMOS ALMACENAR LA FACTURA Y EL DETALLE DE ESTA
 				if($tamano_tabla > 0){
-
 					//INICIO FACTURA CONTADO
-					if($tipo_factura == 1){		
+					if($tipo_factura == 1){	
+						$datos = [
+							"facturas_id" => $facturas_id,
+							"clientes_id" => $clientes_id,
+							"secuencia_facturacion_id" => $secuencia_facturacion_id,
+							"apertura_id" => $apertura_id,				
+							"tipo_factura" => $tipo_factura,				
+							"numero" => $numero,
+							"colaboradores_id" => $colaborador_id,
+							"importe" => 0,
+							"notas" => $notas,
+							"fecha" => $fecha,				
+							"estado" => $estado,
+							"usuario" => $usuario,
+							"fecha_registro" => $fecha_registro,
+							"empresa" => $empresa_id,
+							"fecha_dolar" => $fecha_dolar
+						];							
+						
 						$query = facturasModelo::agregar_facturas_modelo($datos);
 											
 						if($query){
@@ -180,7 +179,7 @@
 																									
 											$cantidad_entrada = 0;
 											$cantidad_salida = $quantity;
-											$documento = "Factura ".$no_factura;									
+											$documento = "Factura ".$facturas_id;									
 											
 											$datos_movimientos_productos = [
 												"productos_id" => $productos_id,
@@ -256,7 +255,28 @@
 
 					//FIN FACTURA CONTADO
 					}else{//INICIO FACTURA CRÉDITO
-						//SI LA FACTURA ES AL CRÉDITO ALMACENAMOS LOS DATOS DE LA FACTURA PERO NO REGISTRAMOS EL PAGO, SIMPLEMENTE DEJAMOS LA CUENTA POR COBRAR A LOS CLIENTES
+						//SI LA FACTURA ES AL CRÉDITO ALMACENAMOS LOS DATOS DE LA FACTURA PERO NO REGISTRAMOS EL PAGO, SIMPLEMENTE DEJAMOS LA CUENTA POR COBRAR A LOS CLIENTES						
+						$numero = $secuenciaFacturacion['numero'];
+						$incremento = $secuenciaFacturacion['incremento'];	
+
+						$datos = [
+							"facturas_id" => $facturas_id,
+							"clientes_id" => $clientes_id,
+							"secuencia_facturacion_id" => $secuencia_facturacion_id,
+							"apertura_id" => $apertura_id,				
+							"tipo_factura" => $tipo_factura,				
+							"numero" => $numero,
+							"colaboradores_id" => $colaborador_id,
+							"importe" => 0,
+							"notas" => $notas,
+							"fecha" => $fecha,				
+							"estado" => $estado,
+							"usuario" => $usuario,
+							"fecha_registro" => $fecha_registro,
+							"empresa" => $empresa_id,
+							"fecha_dolar" => $fecha_dolar
+						];	
+												
 						$query = facturasModelo::agregar_facturas_modelo($datos);
 
 						if($query){
@@ -348,7 +368,7 @@
 											$saldo = $saldo_productos - $quantity;																														
 											$cantidad_entrada = 0;
 											$cantidad_salida = $quantity;
-											$documento = "Factura ".$no_factura;																			
+											$documento = "Factura ".$facturas_id;																			
 
 											$datos_movimientos_productos = [
 												"productos_id" => $productos_id,
@@ -428,7 +448,7 @@
 								"form" => "invoice-form",	
 								"id" => "proceso_factura",
 								"valor" => "Registro",
-								"funcion" => "limpiarTablaFactura();getEstadoFactura();cleanBill();printBill(".$facturas_id.");cleanFooterValueBill();",
+								"funcion" => "limpiarTablaFactura();getEstadoFactura();printBill(".$facturas_id.");cleanFooterValueBill();",
 								"modal" => "",
 							];							
 						}else{

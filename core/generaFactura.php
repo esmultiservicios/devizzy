@@ -49,7 +49,7 @@
 		file_put_contents(dirname('__FILE__').'/facturas/factura_'.$no_factura.'.pdf', $dompdf->output());
 		
 		// Output the generated PDF to Browser
-		$dompdf->stream('factura_'.$no_factura.'.pdf',array('Attachment'=>0));
+		$dompdf->stream('factura_'.$no_factura.'_'.$consulta_registro['cliente'].'.pdf',array('Attachment'=>0));
 		
 		exit;	
 	}

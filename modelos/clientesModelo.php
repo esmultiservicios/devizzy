@@ -49,6 +49,7 @@
 		
 		protected function valid_clientes_facturas_modelo($clientes_id){
 			$query = "SELECT facturas_id FROM facturas WHERE clientes_id = '$clientes_id'";
+			
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;			

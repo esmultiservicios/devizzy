@@ -53,10 +53,10 @@
 					<table class="datos_cliente">
 						<tr>
 							<td><label>RTN:</label><p><?php 
-									if(strlen($consulta_registro['rtn'])<10){
+									if(strlen($consulta_registro['rtn_cliente'])<10){
 										echo "";
 									}else{
-										echo $consulta_registro['rtn'];
+										echo $consulta_registro['rtn_cliente'];
 									}
 							
 							?></p></td>							
@@ -201,16 +201,27 @@
 				include_once 'cambioDolar.php';
 				if($consulta_registro['fecha_dolar'] != '0000-00-00' ){
 					$new_fecha_dolar = $consulta_registro['fecha_dolar'];
-					$dolar = cambioDolar($total_despues_isv,$new_fecha_dolar);
-					echo 'Total Dolares $ '.round($dolar->result,2);
+
+					if($total_despues_isv != 0 || $total_despues_isv != ""){
+						$dolar = cambioDolar($total_despues_isv,$new_fecha_dolar);
+						if($dolar->result != 0 || $dolar->result != null || $dolar->result != ""){
+							echo "Tasa de Cambio L. ". number_format($total_despues_isv/$dolar->result,2)."<br/>";
+							echo 'Total Dolares $ '.round($dolar->result,2);
+						}
+					}										
 				}
 			?>
 			</center>
 		</p>
 
 		<p class="nota"><center><?php 
-				if($consulta_registro['fecha_dolar'] != '0000-00-00') { echo $insMainModel->convertir($dolar->result).' DOLARES';}?>
-		
+				if($consulta_registro['fecha_dolar'] != '0000-00-00') { 
+					if($total_despues_isv != 0 || $total_despues_isv != ""){
+						if($dolar->result != 0 || $dolar->result != null || $dolar->result != ""){
+							echo $insMainModel->convertir($dolar->result).' DOLARES';
+						}
+					}			
+				}?>	
 		</center></p>		
 		<p class="nota"><br/><br/></p>
 		<p class="nota">La factura es beneficio de todos "Exíjala"</p>	
