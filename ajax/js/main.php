@@ -583,6 +583,9 @@ function getAlmacen(){
 
 			$('#form_main_movimientos #almacen').append("");
 			$('#form_main_movimientos #almacen').append("<option value='0'>Todos</option>"+data);
+
+			$('#formTransferencia #id_bodega').html("");
+			$('#formTransferencia #id_bodega').html(data);
 		}
      });
 }

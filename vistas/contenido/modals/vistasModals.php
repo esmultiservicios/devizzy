@@ -1852,3 +1852,44 @@
     </div>
 </div>
 <!--FIN MODAL PRODUCTOS-->
+
+<!--Modal Transferencia de Producto / Bodega-->
+
+<div class="modal" tabindex="-1" role="dialog" id="modal_transferencia_producto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Transferir Producto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<form class="" id="formTransferencia" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
+
+			<div class="form-group text-center">
+				<input type="hidden" value="" id="productos_id" name="productos_id">
+				<label class="modal-title" id="nameProduct" class="col-form-label"></label>
+          	</div>
+			 <div class="form-group mx-sm-3 mb-1">
+				<div class="input-group">				
+					<div class="input-group-append">				
+						<span class="input-group-text"><div class="sb-nav-link-icon"></div>Bodega</span>
+					</div>
+						<select id="id_bodega" name="id_bodega" class="custom-select" data-toggle="tooltip" data-placement="top" >
+			 			</select>
+				</div>
+			  </div>	
+			  
+			  <div class="RespuestaAjax"></div>	  
+		</form>
+      </div>
+      <div class="modal-footer">
+			<button class="btn btn-primary ml-2" type="submit" id="putEditarBodega" ><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>
+        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--FN Modal Transferencia de Producto / Bodega-->

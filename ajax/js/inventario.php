@@ -46,9 +46,6 @@ var listar_movimientos = function(){
 	var fechaf = $("#form_main_movimientos #fechaf").val();
 	var bodega = $("#form_main_movimientos #almacen").val();
 
-	//if(bodega == null){ bodega = 1}
-
-	console.log('bodega',bodega)
 
 	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
 		"destroy":true,
@@ -71,7 +68,8 @@ var listar_movimientos = function(){
 			{"data":"entrada"},
 			{"data":"salida"},
 			{"data":"saldo"},
-			{"data":"bodega"}
+			{"data":"bodega"},
+			{"defaultContent":"<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"},
 
 		],
         "lengthMenu": lengthMenu,
@@ -88,7 +86,9 @@ var listar_movimientos = function(){
 		  { width: "10.5%", targets: 5 },
 		  { width: "10.5%", targets: 6 },
 		  { width: "10.5%", targets: 7 },
-		  { width: "10.5%", targets: 8 }
+		  { width: "10.5%", targets: 8 },
+		  { width: "10.5%", targets: 9 },
+
 
 		],
 		"buttons":[
@@ -143,8 +143,59 @@ var listar_movimientos = function(){
 	});
 	table_movimientos.search('').draw();
 	$('#buscar').focus();
+
+	//transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos);
+
 }
 //FIN MOVIMIENTOS
+
+//TRANSFERIR PRODUCTO/BODEGA
+var transferencia_producto_dataTable = function(tbody, table){
+
+	$(tbody).off("click", "button.table_transferencia");
+	$(tbody).on("click", "button.table_transferencia", function(){
+	
+		var data = table.row( $(this).parents("tr") ).data();
+		
+		$('#formTransferencia #productos_id').val(data.productos_id);
+		$('#formTransferencia #nameProduct').html(data.producto);
+
+			
+		$('#modal_transferencia_producto').modal({
+			show:true,
+			keyboard: false,
+			backdrop:'static'
+		});
+	
+	})
+
+};
+
+$("#putEditarBodega").click(function(){
+	var form = $("#formTransferencia");
+	var respuesta=form.children('.RespuestaAjax');
+	var url = '<?php echo SERVERURL;?>ajax/modificarBodegaProductosAjax.php';
+	$.ajax({
+		type:'POST',
+		url:url,
+		data:$('#formTransferencia').serialize(),
+			beforeSend: function() {
+			  $('#modal_transferencia_producto').modal({
+				show:false,
+				keyboard: false,
+				backdrop:'static'
+			  });
+
+			},
+			success: function(data){
+				$('#modal_transferencia_producto').modal('toggle');
+				respuesta.html(data);
+			}
+	})
+});
+//TRANSFERIR PRODUCTO/BODEGA
+
+
 
 //INIICO OBTENER EL TIPO DE PRODUCTO
 function getTipoProductos(){

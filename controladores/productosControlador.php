@@ -292,6 +292,46 @@
 			return mainModel::sweetAlert($alert);
 		}
 		
+		public function edit_bodega_productos_controlador(){
+			$productos_id = mainModel::cleanString($_POST['productos_id']);		
+			$bodega = mainModel::cleanString($_POST['id_bodega']);
+					
+
+			$datos = [
+				"productos_id" => $productos_id,
+				"bodega" => $bodega
+							
+			];
+					
+			$query = productosModelo::edit_bodega_productos_modelo($datos);
+			
+			if($query){				
+				$alert = [
+					"alert" => "reload",
+					"title" => "Registro modificado",
+					"text" => "El registro se ha modificado correctamente",
+					"type" => "success",
+					"btn-class" => "btn-primary",
+					"btn-text" => "¡Bien Hecho!",
+					"form" => "formTransferencia",	
+					"id" => "proceso_productos",
+					"valor" => "Editar",
+					"funcion" => "listar_productos();",
+					"modal" => "modal_transferencia_producto",
+				];
+			}else{
+				$alert = [
+					"alert" => "simple",
+					"title" => "Ocurrio un error inesperado",
+					"text" => "No hemos podido procesar su solicitud",
+					"type" => "error",
+					"btn-class" => "btn-danger",					
+				];				
+			}			
+			
+			return mainModel::sweetAlert($alert);
+		}
+
 		public function delete_productos_controlador(){
 			$productos_id = $_POST['productos_id'];
 			

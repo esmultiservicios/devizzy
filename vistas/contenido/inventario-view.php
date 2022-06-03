@@ -49,7 +49,7 @@
 											<span class="input-group-text"><div class="sb-nav-link-icon"></div>Bodega</span>
 										</div>
 										<select id="almacen" name="almacen" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
-											<!-- <option value="0">Todos</option> -->
+											
 									</select>
 									</div>
 								</div>
@@ -84,6 +84,7 @@
 							<th>Salida</th>
 							<th>Saldo</th>
 							<th>Bodega</th>
+							<th>Transferencia</th>
 							</tr>
 						</thead>
 					</table>  

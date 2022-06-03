@@ -120,6 +120,7 @@
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
 					    <input type="hidden" required="required" readonly id="descuento_productos_id" name="descuento_productos_id"/>
+					    <input type="hidden" required="required" readonly id="descuento_cantidad" name="descuento_cantidad"/>
 						<input type="hidden" required="required" readonly id="row_index" name="row_index"/>
 						<input type="hidden" required="required" readonly id="col_index" name="col_index"/>
 						<div class="input-group mb-3">

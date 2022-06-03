@@ -4008,6 +4008,7 @@
 					m.cantidad_salida AS 'salida',
 					m.saldo AS 'saldo',
 					bo.nombre AS 'bodega',
+					bo.almacen_id,
 					DATE_FORMAT(
 						m.fecha_registro,
 						'%d/%m/%Y %H:%i:%s'
@@ -4029,6 +4030,7 @@
 				ORDER BY m.fecha_registro ASC";
 
 			$result = self::connection()->query($query);
+
 
 			return $result;
 		}

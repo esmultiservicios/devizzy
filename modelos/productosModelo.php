@@ -52,6 +52,17 @@
 			
 			return $sql;			
 		}
+
+		protected function edit_bodega_productos_modelo($datos){
+			$update = "UPDATE productos
+			SET
+				
+			almacen_id = '".$datos['bodega']."'			
+			WHERE productos_id = '".$datos['productos_id']."'";
+			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}
 		
 		protected function delete_productos_modelo($productos_id){
 			$delete = "DELETE FROM productos WHERE productos_id = '$productos_id'";

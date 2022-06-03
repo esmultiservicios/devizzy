@@ -553,6 +553,8 @@ $(document).ready(function(){
 
 				  var precio = $("#quoteForm #QuoteItem #precio_realQuote_" + row_index).val();
 
+				  var cantidad = $("#quoteForm #QuoteItem #quantityQuote_" + row_index).val();
+
 				  
 
 				  $('#formDescuentoCotizaciones #descuento_productos_id').val(productos_id);
@@ -560,6 +562,8 @@ $(document).ready(function(){
 				  $('#formDescuentoCotizaciones #producto_descuento_fact').val(producto);
 
 				  $('#formDescuentoCotizaciones #precio_descuento_fact').val(precio);
+
+				  $('#formDescuentoCotizaciones #descuento_cantidad').val(cantidad);
 
 				  
 
@@ -736,20 +740,24 @@ $(document).ready(function() {
 	$("#formDescuentoCotizaciones #porcentaje_descuento_fact").on("keyup", function(){
 
 		var precio;
-
 		var porcentaje;
+		var descuento;
+		var total_descuento;
+		var cantidad;
 
 			
 
 		if($("#formDescuentoCotizaciones #porcentaje_descuento_fact").val()){
 
 			precio = parseFloat($('#formDescuentoCotizaciones #precio_descuento_fact').val());
-
 			porcentaje = parseFloat($('#formDescuentoCotizaciones #porcentaje_descuento_fact').val());
-
+			cantidad = parseFloat($('#formDescuentoCotizaciones #descuento_cantidad').val());
+			descuento = precio * (porcentaje/100);
+			total_descuento = descuento * cantidad;
+			
 			
 
-			$('#formDescuentoCotizaciones #descuento_fact').val(parseFloat(precio * (porcentaje/100)).toFixed(2));
+			$('#formDescuentoCotizaciones #descuento_fact').val(parseFloat(total_descuento).toFixed(2));
 
 		}else{
 

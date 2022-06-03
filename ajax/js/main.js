@@ -68,7 +68,7 @@ $('.FormularioAjax').submit(function(e){
                 }, false);
                 return xhr;
             },
-            success: function (data){			
+            success: function (data){	
                 respuesta.html(data);
 			},
             error: function() {
