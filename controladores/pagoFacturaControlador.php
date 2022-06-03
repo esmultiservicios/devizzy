@@ -21,7 +21,6 @@
 			$tipo_pago_id = 1;//EFECTIVO		
 			$banco_id = 0;//SIN BANCO
 			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO
-
 			$referencia_pago1 = "";
 			$referencia_pago2 = "";
 			$referencia_pago3 = "";
@@ -29,12 +28,6 @@
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 1;
 			$estado_factura = 2;//PAGADA
-
-			$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($empresa_id)->fetch_assoc();
-			$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
-			$numero = $secuenciaFacturacion['numero'];
-			$incremento = $secuenciaFacturacion['incremento'];
-			$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);			
 			
 			$datos = [
 				"facturas_id" => $facturas_id,
@@ -86,6 +79,21 @@
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($facturas_id);
 					}
 					
+					//VALIDAMOS EL TIPO DE FACTURA, SI ES AL CONTADO, VERIFICAMOS EL NUMERO DE FACTURA QUE SIGUE, SI ES AL CREDITO, SOLO CONSULTAMOS EL ULTIMO NUMERO ALMACENADO PARA QUE NO PASE AL SIGUIENTE
+					$tipo_factura = pagoFacturaModelo::consultar_tipo_factura($facturas_id)->fetch_assoc();
+
+					if($tipo_factura['tipo_factura'] == 1){
+						$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($empresa_id)->fetch_assoc();
+						$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+						$numero = $secuenciaFacturacion['numero'];
+						$incremento = $secuenciaFacturacion['incremento'];
+						$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);
+					}else{
+						$secuenciaFacturacion = pagoFacturaModelo::consultar_numero_factura($facturas_id)->fetch_assoc();
+						$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+						$numero = $secuenciaFacturacion['number'];				
+					}
+
 					//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
 					$datos_update_factura = [
 						"facturas_id" => $facturas_id,
@@ -95,9 +103,11 @@
 
 					pagoFacturaModelo::actualizar_factura($datos_update_factura);
 
-					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
-					$numero += $incremento;
-					pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);			
+					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION, SIEMPRE QUE LA FACTURA SEA AL CONTADO
+					if($tipo_factura['tipo_factura'] == 1){
+						$numero += $incremento;
+						pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);		
+					}	
 
 					$alert = [
 						"alert" => "clear_pay",
@@ -148,7 +158,8 @@
 			$empresa_id = $_SESSION['empresa_id_sd'];			
 			$tipo_pago_id = 2;//MIXTO	
 			$banco_id = 0;//SIN BANCO	
-			$tipo_pago = 2;//1. CONTADO 2. CRÉDITO	3.MIXTO		
+			$tipo_pago = 2;//1. CONTADO 2. CRÉDITO	3.MIXTO	
+			$estado_factura = 2;//PAGADA	
 
 			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['cr_bill']);//TARJETA DE CREDITO
 			$referencia_pago2 = mainModel::cleanStringConverterCase($_POST['exp']);//FECHA DE EXPIRACION
@@ -208,6 +219,21 @@
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($facturas_id);
 					}
 					
+					//VALIDAMOS EL TIPO DE FACTURA, SI ES AL CONTADO, VERIFICAMOS EL NUMERO DE FACTURA QUE SIGUE, SI ES AL CREDITO, SOLO CONSULTAMOS EL ULTIMO NUMERO ALMACENADO PARA QUE NO PASE AL SIGUIENTE
+					$tipo_factura = pagoFacturaModelo::consultar_tipo_factura($facturas_id)->fetch_assoc();
+
+					if($tipo_factura['tipo_factura'] == 1){
+						$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($empresa_id)->fetch_assoc();
+						$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+						$numero = $secuenciaFacturacion['numero'];
+						$incremento = $secuenciaFacturacion['incremento'];
+						$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);
+					}else{
+						$secuenciaFacturacion = pagoFacturaModelo::consultar_numero_factura($facturas_id)->fetch_assoc();
+						$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+						$numero = $secuenciaFacturacion['number'];				
+					}
+
 					//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
 					$datos_update_factura = [
 						"facturas_id" => $facturas_id,
@@ -217,9 +243,11 @@
 
 					pagoFacturaModelo::actualizar_factura($datos_update_factura);
 
-					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
-					$numero += $incremento;
-					pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);	
+					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION, SIEMPRE QUE LA FACTURA SEA AL CONTADO
+					if($tipo_factura['tipo_factura'] == 1){
+						$numero += $incremento;
+						pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);		
+					}
 
 					$alert = [
 						"alert" => "clear_pay",
@@ -271,6 +299,7 @@
 			$tipo_pago_id = 3;//MIXTO		
 			$banco_id = 0;//SIN BANCO	
 			$tipo_pago = 3;//1. CONTADO 2. CRÉDITO 3.MIXTO		
+			$estado_factura = 2;//PAGADA
 
 			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['cr_bill']);//TARJETA DE CREDITO
 			$referencia_pago2 = mainModel::cleanStringConverterCase($_POST['exp']);//FECHA DE EXPIRACION
@@ -330,6 +359,21 @@
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($facturas_id);
 					}
 					
+					//VALIDAMOS EL TIPO DE FACTURA, SI ES AL CONTADO, VERIFICAMOS EL NUMERO DE FACTURA QUE SIGUE, SI ES AL CREDITO, SOLO CONSULTAMOS EL ULTIMO NUMERO ALMACENADO PARA QUE NO PASE AL SIGUIENTE
+					$tipo_factura = pagoFacturaModelo::consultar_tipo_factura($facturas_id)->fetch_assoc();
+
+					if($tipo_factura['tipo_factura'] == 1){
+						$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($empresa_id)->fetch_assoc();
+						$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+						$numero = $secuenciaFacturacion['numero'];
+						$incremento = $secuenciaFacturacion['incremento'];
+						$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);
+					}else{
+						$secuenciaFacturacion = pagoFacturaModelo::consultar_numero_factura($facturas_id)->fetch_assoc();
+						$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+						$numero = $secuenciaFacturacion['number'];				
+					}
+
 					//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
 					$datos_update_factura = [
 						"facturas_id" => $facturas_id,
@@ -339,9 +383,11 @@
 
 					pagoFacturaModelo::actualizar_factura($datos_update_factura);
 
-					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
-					$numero += $incremento;
-					pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);	
+					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION, SIEMPRE QUE LA FACTURA SEA AL CONTADO
+					if($tipo_factura['tipo_factura'] == 1){
+						$numero += $incremento;
+						pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);		
+					}
 
 					$alert = [
 						"alert" => "clear_pay",
@@ -393,6 +439,7 @@
 			$tipo_pago_id = 3;//TRANSFERENCIA		
 			$banco_id = $_POST['bk_nm'];
 			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO			
+			$estado_factura = 2;//PAGADA
 
 			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['ben_nm']);//TARJETA DE CREDITO
 			$referencia_pago2 = "";
@@ -452,6 +499,21 @@
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($facturas_id);
 					}
 					
+					//VALIDAMOS EL TIPO DE FACTURA, SI ES AL CONTADO, VERIFICAMOS EL NUMERO DE FACTURA QUE SIGUE, SI ES AL CREDITO, SOLO CONSULTAMOS EL ULTIMO NUMERO ALMACENADO PARA QUE NO PASE AL SIGUIENTE
+					$tipo_factura = pagoFacturaModelo::consultar_tipo_factura($facturas_id)->fetch_assoc();
+
+					if($tipo_factura['tipo_factura'] == 1){
+						$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($empresa_id)->fetch_assoc();
+						$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+						$numero = $secuenciaFacturacion['numero'];
+						$incremento = $secuenciaFacturacion['incremento'];
+						$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);
+					}else{
+						$secuenciaFacturacion = pagoFacturaModelo::consultar_numero_factura($facturas_id)->fetch_assoc();
+						$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+						$numero = $secuenciaFacturacion['number'];				
+					}
+
 					//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
 					$datos_update_factura = [
 						"facturas_id" => $facturas_id,
@@ -461,9 +523,11 @@
 
 					pagoFacturaModelo::actualizar_factura($datos_update_factura);
 
-					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
-					$numero += $incremento;
-					pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);	
+					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION, SIEMPRE QUE LA FACTURA SEA AL CONTADO
+					if($tipo_factura['tipo_factura'] == 1){
+						$numero += $incremento;
+						pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);		
+					}
 
 					$alert = [
 						"alert" => "clear_pay",
@@ -515,7 +579,8 @@
 			$tipo_pago_id = 3;//CHEQUE		
 			$banco_id = $_POST['bk_nm_chk'];
 			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO			
-
+			$estado_factura = 2;//PAGADA
+			
 			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['check_num']);//TARJETA DE CREDITO
 			$referencia_pago2 = "";
 			$referencia_pago3 = "";
@@ -574,6 +639,21 @@
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($facturas_id);
 					}
 					
+					//VALIDAMOS EL TIPO DE FACTURA, SI ES AL CONTADO, VERIFICAMOS EL NUMERO DE FACTURA QUE SIGUE, SI ES AL CREDITO, SOLO CONSULTAMOS EL ULTIMO NUMERO ALMACENADO PARA QUE NO PASE AL SIGUIENTE
+					$tipo_factura = pagoFacturaModelo::consultar_tipo_factura($facturas_id)->fetch_assoc();
+
+					if($tipo_factura['tipo_factura'] == 1){
+						$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($empresa_id)->fetch_assoc();
+						$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+						$numero = $secuenciaFacturacion['numero'];
+						$incremento = $secuenciaFacturacion['incremento'];
+						$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);
+					}else{
+						$secuenciaFacturacion = pagoFacturaModelo::consultar_numero_factura($facturas_id)->fetch_assoc();
+						$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+						$numero = $secuenciaFacturacion['number'];				
+					}
+
 					//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
 					$datos_update_factura = [
 						"facturas_id" => $facturas_id,
@@ -583,9 +663,11 @@
 
 					pagoFacturaModelo::actualizar_factura($datos_update_factura);
 
-					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
-					$numero += $incremento;
-					pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);	
+					//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION, SIEMPRE QUE LA FACTURA SEA AL CONTADO
+					if($tipo_factura['tipo_factura'] == 1){
+						$numero += $incremento;
+						pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);		
+					}
 										
 					$alert = [
 						"alert" => "clear_pay",

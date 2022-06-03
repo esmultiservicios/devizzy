@@ -1514,19 +1514,14 @@ var pay_factura_cxc_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.pay");
 	$(tbody).on("click", "button.pay", function(e){
 		e.preventDefault();
-		swal({
-			title: "Mantenimiento",
-			text: "Opción en desarrollo",
-			type: "warning",
-			confirmButtonClass: "btn-warning"
-		});	
+		var data = table.row( $(this).parents("tr") ).data();
+		pago(data.facturas_id);
 	});
 }
 
 var view_factura_cxcdataTable = function(tbody, table){
 	$(tbody).off("click", "button.abono");
-	$(tbody).on("click", "button.abono", function(e){
-		e.preventDefault();
+	$(tbody).on("click", "button.abono", function(){
 		swal({
 			title: "Mantenimiento",
 			text: "Opción en desarrollo",

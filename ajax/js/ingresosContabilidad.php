@@ -536,28 +536,16 @@ function getEmpresaIngresos(){
 
     var url = '<?php echo SERVERURL;?>core/getEmpresa.php';
 
-
-
 	$.ajax({
-
         type: "POST",
-
         url: url,
-
 	    async: true,
-
         success: function(data){
-
 		    $('#formIngresosContables #empresa_ingresos').html("");
-
 			$('#formIngresosContables #empresa_ingresos').html(data);			
-
 		}
-
      });
-
 }
-
 
 
 function getCuentaIngresos(){

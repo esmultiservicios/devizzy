@@ -89,6 +89,25 @@
 			return $result;				
 		}
 		
+		protected function consultar_tipo_factura($facturas_id){
+			$query = "SELECT tipo_factura
+				FROM facturas
+				WHERE facturas_id = '$facturas_id'";
+
+			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $result;	
+		}
+
+		protected function consultar_numero_factura($facturas_id){
+			$query = "SELECT number, secuencia_facturacion_id
+				FROM facturas
+				WHERE facturas_id = '$facturas_id'";
+			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $result;	
+		}
+
 		protected function valid_pagos_factura($facturas_id){
 			$query = "SELECT pagos_id
 				FROM pagos
