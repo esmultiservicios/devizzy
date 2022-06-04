@@ -1701,96 +1701,49 @@
 		}
 
 
-
 		public function getSaldoMovimientosCuentasSaldoAnterior($cuentas_id, $año, $mes){
-
 			$query = "SELECT saldo
-
 				FROM movimientos_cuentas
-
 				WHERE YEAR(fecha_registro) = '$año' AND MONTH(fecha_registro) = '$mes' AND cuentas_id = '$cuentas_id'
-
 				ORDER BY movimientos_cuentas_id DESC LIMIT 1";
-
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getSaldoMovimientosCuentasUltimoSaldo($cuentas_id){
-
 			$query = "SELECT saldo, fecha_registro
-
 				FROM movimientos_cuentas
-
 				WHERE cuentas_id = '$cuentas_id'
-
 				ORDER BY movimientos_cuentas_id DESC LIMIT 1";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getSaldoMovimientosCuentasUltimaFecha($cuentas_id, $fecha_registro){
-
 			$query = "SELECT saldo, fecha_registro
-
 				FROM movimientos_cuentas
-
-				WHERE cuentas_id = 1 AND MONTH(fecha_registro) < MONTH('$fecha_registro')
-
+				WHERE cuentas_id = '$cuentas_id' AND MONTH(fecha_registro) = MONTH('$fecha_registro')
 				ORDER BY movimientos_cuentas_id DESC LIMIT 1";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getFacturaFinal($apertura_id){
-
 			$query = "SELECT f.number AS 'numero', sf.prefijo AS 'prefijo', sf.relleno As 'relleno'
-
 				FROM facturas AS f
-
 				INNER JOIN secuencia_facturacion AS sf
-
 				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-
 				WHERE apertura_id = '$apertura_id' AND estado = 2
-
 				ORDER BY f.number DESC LIMIT 1";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getImporteVentaporUsuario($apertura_id){
 
@@ -2612,94 +2565,48 @@
 
 		}
 
-
-
 		public function getTipoProductosMovimientos(){
-
 			$query = "SELECT *
-
 				FROM tipo_producto
-
 				WHERE nombre NOT IN ('Servicio')";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getCuentasContabilidad(){
-
 			$query = "SELECT *
-
 				FROM cuentas
-
 				WHERE estado = 1";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getCuentasIngresos($datos){
-
 			$query = "SELECT sum(total) AS 'ingresos'
-
 				FROM ingresos
-
 				WHERE cuentas_id = '".$datos['cuentas_id']."' AND CAST(fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
-
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getCuentaEgresos($datos){
-
 			$query = "SELECT sum(total) AS 'egresos'
-
 				FROM egresos
-
 				WHERE cuentas_id = '".$datos['cuentas_id']."' AND CAST(fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
-
-
 		public function getMovimientosCuentasContables($datos){
-
 			$query = "SELECT mc.movimientos_cuentas_id AS 'movimientos_cuentas_id', mc.fecha_registro AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', mc.ingreso As 'ingreso', mc.egreso AS 'egreso', mc.saldo AS 'saldo'
-
 				FROM movimientos_cuentas AS mc
-
 				INNER JOIN cuentas AS c
 
 				ON mc.cuentas_id = c.cuentas_id

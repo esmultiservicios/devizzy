@@ -16,12 +16,12 @@
 	$data = array();
 	
 	while($row = $result->fetch_assoc()){
-	   $cuentas_id	= $row['cuentas_id'];
+	   $cuentas_id = $row['cuentas_id'];
 	   
 	   $datos = [
 			"fechai" => $_POST['fechai'],
 			"fechaf" => $_POST['fechaf'],
-			"cuentas_id" => $row['cuentas_id']	
+			"cuentas_id" => $cuentas_id	
 	   ];		
 
 	   $result_ingresos = $insMainModel->getCuentasIngresos($datos);
@@ -34,7 +34,7 @@
 	   $mes_anterior = date("m", strtotime($fecha_anterior));
 
 	   /*#######################################################################################*/
-	   $result_saldo_anterior = $insMainModel->getSaldoMovimientosCuentasSaldoAnterior($row['cuentas_id'], $año_anterior, $mes_anterior);
+	   $result_saldo_anterior = $insMainModel->getSaldoMovimientosCuentasSaldoAnterior($cuentas_id, $año_anterior, $mes_anterior);
 	   
 	   $saldo_anterior = 0.00;
 	   $saldo_cierre = 0.00;
@@ -44,7 +44,7 @@
 			$saldo_anterior = $row_saldo_anterior['saldo'];
 	   }else{
 			//CONSULTAMOS EL ULTIMO SALDO DE LA CUENTA
-			$result__ultimo_saldo = $insMainModel->getSaldoMovimientosCuentasUltimoSaldo($row['cuentas_id']);
+			$result__ultimo_saldo = $insMainModel->getSaldoMovimientosCuentasUltimoSaldo($cuentas_id);
 
 			if($result__ultimo_saldo->num_rows>0){
 				$row_ultimo_saldo = $result__ultimo_saldo->fetch_assoc();
@@ -52,7 +52,7 @@
 				$fecha_registro = $row_ultimo_saldo['fecha_registro'];
 
 				//CONSULTAMOS LOS REGISTROS ANTERIORES A LA FECHA DEL
-				$result_ultimo_fecha_valores = $insMainModel->getSaldoMovimientosCuentasUltimaFecha($row['cuentas_id'], $fecha_registro);
+				$result_ultimo_fecha_valores = $insMainModel->getSaldoMovimientosCuentasUltimaFecha($cuentas_id, $fecha_registro);
 
 				if($result_ultimo_fecha_valores->num_rows>0){
 					$saldo_anterior = $row_ultimo_saldo['saldo'];
