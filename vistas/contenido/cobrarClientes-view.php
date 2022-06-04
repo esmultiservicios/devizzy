@@ -6,6 +6,17 @@
     <div class="card mb-4">
         <div class="card-body">
 			<form class="form-inline" id="form_main_cobrar_clientes">
+				<div class="form-group mx-sm-3 mb-1">
+					<div class="input-group">				
+						<div class="input-group-append">				
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Buscar por </span>
+						</div>
+						<select id="tipo_busqueda" name="tipo_busqueda" class="custom-select" data-toggle="tooltip" data-placement="top" title="Tipo Busqueda">
+							<option value="1">Registro</option>
+							<option value="2">Fecha</option>
+					  </select>
+					</div>
+				</div>					
 				  <div class="form-group mx-sm-3 mb-2">
 					<label>Fecha Inicio</label>
 					<input type="date" required id="fechai" name="fechai" value="<?php 

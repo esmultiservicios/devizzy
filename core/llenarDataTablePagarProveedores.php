@@ -6,6 +6,7 @@
 	$insMainModel = new mainModel();
 	
 	$datos = [
+		"tipo_busqueda" => $_POST['tipo_busqueda'],
 		"fechai" => $_POST['fechai'],
 		"fechaf" => $_POST['fechaf'],		
 	];	
