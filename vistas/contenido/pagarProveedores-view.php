@@ -7,27 +7,38 @@
         <div class="card-body">
 			<form class="form-inline" id="form_main_pagar_proveedores">
 				<div class="form-group mx-sm-3 mb-1">
-					<div class="input-group">				
-						<div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
+						<div class="input-group">				
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Buscar por </span>
+							</div>
+							<select id="tipo_busqueda" name="tipo_busqueda" class="custom-select" data-toggle="tooltip" data-placement="top" title="Tipo Busqueda">
+								<option value="1">Registro</option>
+								<option value="2">Fecha</option>
+						</select>
 						</div>
-						<input type="date" required id="fechai" name="fechai" value="<?php 
-						$fecha = date ("Y-m-d");
-						
-						$año = date("Y", strtotime($fecha));
-						$mes = date("m", strtotime($fecha));
-						$dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
+					</div>					
+					<div class="form-group mx-sm-3 mb-1">
+						<div class="input-group">				
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
+							</div>
+							<input type="date" required id="fechai" name="fechai" value="<?php 
+							$fecha = date ("Y-m-d");
+							
+							$año = date("Y", strtotime($fecha));
+							$mes = date("m", strtotime($fecha));
+							$dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
 
-						$dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
-						$dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
+							$dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
+							$dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
 
-						$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
-						$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));						
-						
-						
-						echo $fecha_inicial;
-					?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
-					</div>
+							$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
+							$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));						
+							
+							
+							echo $fecha_inicial;
+						?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
+						</div>
 				  </div>	
 				  <div class="form-group mx-sm-3 mb-1">
 				 	<div class="input-group">				

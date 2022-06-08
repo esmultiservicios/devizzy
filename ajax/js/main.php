@@ -1322,6 +1322,7 @@ function getConsultarAperturaCaja(){
 
 //INICIO CUENTAS POR COBRAR CLIENTES
 var listar_cuentas_por_cobrar_clientes = function(){
+	var tipo_busqueda = $("#form_main_cobrar_clientes #tipo_busqueda").val();
 	var fechai = $("#form_main_cobrar_clientes #fechai").val();
 	var fechaf = $("#form_main_cobrar_clientes #fechaf").val();
 	
@@ -1331,6 +1332,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
 			"method":"POST",
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableCobrarClientes.php",
 			"data":{
+				"tipo_busqueda":tipo_busqueda,
 				"fechai":fechai,
 				"fechaf":fechaf
 			}
@@ -1416,6 +1418,7 @@ var registrar_pago_clientes_dataTable = function(tbody, table){
 
 //INICIO CUENTAS POR PAGAR PROVEEDORES
 var listar_cuentas_por_pagar_proveedores = function(){
+	var tipo_busqueda = $("#form_main_pagar_proveedores #tipo_busqueda").val();
 	var fechai = $("#form_main_pagar_proveedores #fechai").val();
 	var fechaf = $("#form_main_pagar_proveedores #fechaf").val();
 
@@ -1425,6 +1428,7 @@ var listar_cuentas_por_pagar_proveedores = function(){
 			"method":"POST",
 			"url":"<?php echo SERVERURL;?>core/llenarDataTablePagarProveedores.php",
 			"data":{
+				"tipo_busqueda":tipo_busqueda,
 				"fechai":fechai,
 				"fechaf":fechaf
 			}
