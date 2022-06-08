@@ -1907,8 +1907,7 @@ $(document).ready(function(){
 		var total = efectivo - monto;				
 		
 		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){			
-			$('#formMixtoBill #cambio_efectivo_mixto').val(parseFloat(total).toFixed(2));
-			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', false);	
+			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', true);	
 			$('#formMixtoBill #monto_tarjeta').val(parseFloat(0).toFixed(2));
 			$('#formMixtoBill #monto_tarjeta').attr('disabled', true);			
 		}else{
@@ -2062,8 +2061,7 @@ $(document).ready(function(){
 		//Math.floor NOS PERMITE COMPARAR UN FLOAT CONVIRTIENDOLO A ENTERO CUANDO SE MULTIPLICA POR 100
 		
 		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){	
-			$('#formMixtoPurchaseBill #cambio_efectivo_mixtoPurchase').val(parseFloat(total).toFixed(2));
-			$('#formMixtoPurchaseBill #pago_mixto_Purchase').attr('disabled', false);
+			$('#formMixtoPurchaseBill #pago_mixto_Purchase').attr('disabled', true);
 			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').val(parseFloat(0).toFixed(2));
 			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').attr('disabled', true);			
 		}else{				

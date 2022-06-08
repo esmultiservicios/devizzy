@@ -2125,6 +2125,8 @@ function calculateTotalQuote(){
 
 		if(!quantity) {
 			quantity = 1;
+			discount = 0;
+			$('#discountQuote_'+id).val(0);
 		}
 
 
@@ -2133,7 +2135,12 @@ function calculateTotalQuote(){
 		}	
 
 		var total = (price*quantity)-discount;
-		$('#totalQuote_'+id).val(parseFloat(price*quantity) - parseFloat(discount));		
+		//$('#totalQuote_'+id).val(parseFloat(price*quantity) - parseFloat(discount));	
+		$('#totalQuote_'+id).val(parseFloat(total));		
+
+		console.log(total)
+		//console.log(price*quantity,'-' ,parseFloat(discount))
+
 		totalAmount += total;
 		totalGeneral += (price*quantity);
 		totalISV += parseFloat(isv_calculo);

@@ -178,7 +178,7 @@
 				</div>	
 				
 				<div class="form-group custom-control custom-checkbox custom-control-inline" id="subMenuAlmacen">				  
-				  <div class="col-md-7">	
+				  <div class="col-md-4">	
 						<label for="menu_productos">Productos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						<label class="switch">
 							<input type="checkbox" id="menu_productos" name="menu_productos" value="1">
@@ -186,13 +186,21 @@
 						</label>
 						<span class="question mb-2" id="label_menu_productos"></span>				
 				  </div>	
-				  <div class="col-md-8">	
-						<label for="menu_inventario">Inventario</label>
+				  <div class="col-md-4">	
+						<label for="menu_inventario">Movimientos</label>
 						<label class="switch">
 							<input type="checkbox" id="menu_inventario" name="menu_inventario" value="1">
 							<div class="slider round"></div>
 						</label>
 						<span class="question mb-2" id="label_menu_inventario"></span>				
+				  </div>
+				  <div class="col-md-4">	
+						<label for="menu_transferencia">Inventario</label>
+						<label class="switch">
+							<input type="checkbox" id="menu_transferencia" name="menu_transferencia" value="1">
+							<div class="slider round"></div>
+						</label>
+						<span class="question mb-2" id="label_menu_transferencia"></span>				
 				  </div>					  
 				</div>					
 

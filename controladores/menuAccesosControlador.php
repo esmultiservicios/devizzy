@@ -403,7 +403,36 @@
 			}else{
 				menuAccesosModelo::agregar_subMenuAccesos_modelo($datos_inventario);
 			}	
+
+			//SUBMENU transferencia
+			if (isset($_POST['menu_transferencia'])){
+				$menu_transferencia = $_POST['menu_transferencia'];
+			}else{
+				$menu_transferencia = 2;
+			}
+			
+			$consultatransferencia = menuAccesosModelo::consultarSubMenu("transferencia")->fetch_assoc();
+			$submenu_id = $consultatransferencia['submenu_id'];		
+			
+			$datos_transferencia = [
+				"submenu_id" => $submenu_id,
+				"estado" => $menu_transferencia,
+				"privilegio_id" => $privilegio_id,
+				"fecha_registro" => $fecha_registro,				
+			];
+			
+			$result_Menufacturas = menuAccesosModelo::valid_subMenuAccesos_modelo($datos_transferencia);
+			
+			if($result_Menufacturas->num_rows>0){
+				menuAccesosModelo::edit_subMenuAccesos_modelo($datos_transferencia);
+			}else{
+				menuAccesosModelo::agregar_subMenuAccesos_modelo($datos_transferencia);
+			}	
+		
+
 			//FIN SUBMENU PARA EL MENU ALMACEN	
+
+			
 
 			//INICIO SUBMENU PARA EL MENU CONTABILIDAD
 			//SUBMENU CUENTAS

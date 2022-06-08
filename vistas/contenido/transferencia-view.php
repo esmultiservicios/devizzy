@@ -95,5 +95,5 @@
 	</div>
 
 <?php
-	$insMainModel->guardar_historial_accesos("Ingreso al modulo Inventario");
+	//$insMainModel->guardar_historial_accesos("Ingreso al modulo Inventario");
 ?>

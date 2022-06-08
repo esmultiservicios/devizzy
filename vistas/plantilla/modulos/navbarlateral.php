@@ -42,7 +42,8 @@
             <div class="collapse" id="collapseAlmacen" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
                     <a class="nav-link link" href="<?php echo SERVERURL; ?>productos/" id="productos" style="display:none"><div class="sb-nav-link-icon"><i class="fab fa-product-hunt"></i></div>Productos</a>
-                    <a class="nav-link link" href="<?php echo SERVERURL; ?>inventario/" id="inventario" style="display:none"><div class="sb-nav-link-icon"><i class="fab fa-servicestack"></i></div>Inventario</a>
+                    <a class="nav-link link" href="<?php echo SERVERURL; ?>inventario/" id="inventario" style="display:none"><div class="sb-nav-link-icon"><i class="fab fa-servicestack"></i></div>Movimientos</a>
+                    <a class="nav-link link" href="<?php echo SERVERURL; ?>transferencia/" id="transferencia" style="display:none"><div class="sb-nav-link-icon"><i class="fab fa-servicestack"></i></div>Inventario</a>
                 </nav>
             </div> 
 			
