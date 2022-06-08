@@ -387,8 +387,10 @@
 			$consulta_fecha_compra = pagoCompraModelo::consultar_compra_fecha($compras_id)->fetch_assoc();
 			$fecha = date("Y-m-d");
 			$importe = $_POST['monto_efectivoPurchase'];
-			$cambio = $_POST['cambio_efectivo'];;
-			$empresa_id = $_SESSION['empresa_id_sd'];			
+			$efectivo = $_POST['efectivo_bill'];
+			$cambio = $_POST['cambio_efectivo'];
+			$empresa_id = $_SESSION['empresa_id_sd'];	
+			$tarjeta = 	$_POST['monto_tarjeta'];	
 			$tipo_pago_id = 3;//mixto			
 			$banco_id = 0;//SIN BANCO	
 			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO 3.mixto	
@@ -406,7 +408,9 @@
 				"compras_id" => $compras_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
+				"efectivo" => $efectivo,
 				"cambio" => $cambio,
+				"tarjeta" => $tarjeta,
 				"usuario" => $usuario,
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,

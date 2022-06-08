@@ -2,6 +2,7 @@
 $(document).ready(function() {
     funciones();   
     listar_movimientos();
+	inventario_transferencia();
 });
 
 function funciones(){
@@ -148,6 +149,123 @@ var listar_movimientos = function(){
 
 }
 //FIN MOVIMIENTOS
+
+//INVENTARIO TRANSFERENCIA
+var inventario_transferencia = function(){
+	var tipo_producto_id;
+
+	if ($('#form_main_movimientos #inventario_tipo_productos_id').val() == "" || $('#form_main_movimientos #inventario_tipo_productos_id').val() == null){
+	  tipo_producto_id = 1;
+	}else{
+	  tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
+	}
+
+	var fechai = $("#form_main_movimientos #fechai").val();
+	var fechaf = $("#form_main_movimientos #fechaf").val();
+	var bodega = $("#form_main_movimientos #almacen").val();
+
+
+	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
+		"destroy":true,
+		"ajax":{
+			"method":"POST",
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableInventarioTransferencia.php",
+			"data":{
+				"tipo_producto_id":tipo_producto_id,
+				"fechai":fechai,
+				"fechaf":fechaf,
+				"bodega":bodega
+			}
+		},
+		"columns":[
+			{"data":"fecha_registro"},
+			{"data":"barCode"},
+			{"data":"producto"},
+			{"data":"medida"},
+			{"data":"documento"},
+			{"data":"entrada"},
+			{"data":"salida"},
+			{"data":"saldo"},
+			{"data":"bodega"},
+			{"defaultContent":"<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"},
+
+		],
+        "lengthMenu": lengthMenu,
+		"stateSave": true,
+		"bDestroy": true,
+		"language": idioma_español,//esta se encuenta en el archivo main.js
+		"dom": dom,
+		"columnDefs": [
+		  { width: "13.5%", targets: 0 },
+		  { width: "10.5%", targets: 1 },
+		  { width: "20.5%", targets: 2 },
+		  { width: "5.5%", targets: 3 },
+		  { width: "18.5%", targets: 4 },
+		  { width: "10.5%", targets: 5 },
+		  { width: "10.5%", targets: 6 },
+		  { width: "10.5%", targets: 7 },
+		  { width: "10.5%", targets: 8 },
+		  { width: "10.5%", targets: 9 },
+
+
+		],
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Movimientos',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
+					listar_movimientos();
+				}
+			},
+			{
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				titleAttr: 'Agregar Movimientos',
+				className: 'table_crear btn btn-primary ocultar',
+				action: 	function(){
+					modal_movimientos();
+				}
+			},
+			{
+				extend:    'excelHtml5',
+				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
+				titleAttr: 'Excel',
+				title: 'Reporte Movimientos',
+				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'table_reportes btn btn-success ocultar'
+			},
+			{
+				extend:    'pdf',
+				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+				titleAttr: 'PDF',
+				orientation: 'landscape',
+				title: 'Reporte Movimientos',
+				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'table_reportes btn btn-danger ocultar',
+				customize: function ( doc ) {
+					doc.content.splice( 1, 0, {
+						margin: [ 0, 0, 0, 12 ],
+						alignment: 'left',
+						image: imagen,
+						width:170,
+                        height:45
+					} );
+				}
+			}
+		],
+		"drawCallback": function( settings ) {
+        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+    	}
+	});
+	table_movimientos.search('').draw();
+	$('#buscar').focus();
+
+	transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos);
+
+}
+//FIN TRANSFERENCIA
 
 //TRANSFERIR PRODUCTO/BODEGA
 var transferencia_producto_dataTable = function(tbody, table){

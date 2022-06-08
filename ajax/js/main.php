@@ -1904,10 +1904,14 @@ $(document).ready(function(){
 		
 		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){			
 			$('#formMixtoBill #cambio_efectivo_mixto').val(parseFloat(total).toFixed(2));
-			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', false);				
+			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', false);	
+			$('#formMixtoBill #monto_tarjeta').val(parseFloat(0).toFixed(2));
+			$('#formMixtoBill #monto_tarjeta').attr('disabled', true);			
 		}else{
+			var tarjeta = monto - efectivo;
+			$('#formMixtoBill #monto_tarjeta').val(parseFloat(tarjeta).toFixed(2))
 			$('#formMixtoBill #cambio_efectivo_mixto').val(parseFloat(0).toFixed(2));
-			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', true);
+			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', false);
 		}				
 	});
 });
@@ -2055,10 +2059,14 @@ $(document).ready(function(){
 		
 		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){	
 			$('#formMixtoPurchaseBill #cambio_efectivo_mixtoPurchase').val(parseFloat(total).toFixed(2));
-			$('#formMixtoPurchaseBill #pago_mixto_Purchase').attr('disabled', false);				
+			$('#formMixtoPurchaseBill #pago_mixto_Purchase').attr('disabled', false);
+			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').val(parseFloat(0).toFixed(2));
+			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').attr('disabled', true);			
 		}else{				
+			var tarjeta = monto - efectivo;
+			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').val(parseFloat(tarjeta).toFixed(2))
 			$('#formMixtoPurchaseBill #cambio_efectivo_mixtoPurchase').val(parseFloat(0).toFixed(2));
-			$('#formMixtoPurchaseBill #pago_mixto_Purchase').attr('disabled', true);
+			$('#formMixtoPurchaseBill #pago_mixto_Purchase').attr('disabled', false);
 		}				
 	});
 });	

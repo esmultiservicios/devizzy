@@ -294,7 +294,9 @@
 			$consulta_fecha_factura = pagoFacturaModelo::consultar_factura_fecha($facturas_id)->fetch_assoc();
 			$fecha = date("Y-m-d");
 			$importe = $_POST['monto_efectivo'];
-			$cambio = $_POST['cambio_efectivo'];;
+			$efectivo = $_POST['efectivo_bill'];
+			$tarjeta = 	$_POST['monto_tarjeta'];	
+			$cambio = $_POST['cambio_efectivo'];
 			$empresa_id = $_SESSION['empresa_id_sd'];			
 			$tipo_pago_id = 3;//MIXTO		
 			$banco_id = 0;//SIN BANCO	
@@ -313,12 +315,14 @@
 				"facturas_id" => $facturas_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
+				"efectivo" => $efectivo,
 				"cambio" => $cambio,
+				"tarjeta" => $tarjeta,
 				"usuario" => $usuario,
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
-				"tipo_pago" => $tipo_pago					
+				"tipo_pago" => $tipo_pago				
 			];
 			
 			$result_valid_pagos_facturas = pagoFacturaModelo::valid_pagos_factura($facturas_id);

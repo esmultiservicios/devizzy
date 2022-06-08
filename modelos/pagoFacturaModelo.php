@@ -9,7 +9,9 @@
 		protected function agregar_pago_factura_modelo($datos){
 			$pagos_id = mainModel::correlativo("pagos_id", "pagos");
 			$insert = "INSERT INTO pagos 
-				VALUES('$pagos_id','".$datos['facturas_id']."','".$datos['tipo_pago']."','".$datos['fecha']."','".$datos['importe']."','".$datos['cambio']."','".$datos['usuario']."','".$datos['estado']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
+				VALUES('$pagos_id','".$datos['facturas_id']."','".$datos['tipo_pago']."','".$datos['fecha']."',
+				'".$datos['importe']."','".$datos['efectivo']."','".$datos['cambio']."','".$datos['tarjeta']."',
+				'".$datos['usuario']."','".$datos['estado']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
 
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			

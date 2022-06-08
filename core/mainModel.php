@@ -4035,6 +4035,49 @@
 			return $result;
 		}
 
+		public function getTranferenciaProductos($datos){
+
+			if($datos['bodega'] != ''){
+				$bodega = "AND bo.almacen_id = '".$datos['bodega']."'";
+			}else{ $bodega = '';}
+
+			if($datos['bodega'] == '0'){
+				$bodega = '';
+			}
+			
+
+
+			$query = "
+					SELECT
+					p.barCode AS 'barCode',
+					p.nombre AS 'producto',
+					me.nombre AS 'medida',
+					bo.nombre AS 'bodega',
+					bo.almacen_id,
+					DATE_FORMAT(
+						p.fecha_registro,
+						'%d/%m/%Y %H:%i:%s'
+					) AS 'fecha_registro',
+					p.productos_id AS 'productos_id'
+				FROM
+				productos AS p
+				
+				INNER JOIN medida AS me
+				ON
+					p.medida_id = me.medida_id
+				INNER JOIN almacen AS bo
+				ON
+					p.almacen_id = bo.almacen_id
+				WHERE p.tipo_producto_id = '".$datos['tipo_producto_id']."' AND CAST(p.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
+				$bodega
+				ORDER BY p.fecha_registro ASC";
+
+			$result = self::connection()->query($query);
+
+
+			return $result;
+		}
+
 		public function consultaVentas($datos){
 			if($datos['tipo_factura_reporte'] == 1){
 				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado IN(2,3)";
