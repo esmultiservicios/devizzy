@@ -636,6 +636,8 @@ function calculateTotalFacturas(){
 		}
 		if(!quantity) {
 			quantity = 1;
+			discount = 0;
+			$('#discount_'+id).val(0);			
 		}
 
 		if(!isv_calculo){
