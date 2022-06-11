@@ -8,3 +8,4 @@ core/compra
 core/cotizaciones
 core/facturas
 
+core/cambioDolar.php

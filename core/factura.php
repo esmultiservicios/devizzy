@@ -61,16 +61,6 @@
 							
 							?></p></td>							
 							<td><label>Teléfono:</label> <p><?php echo $consulta_registro['telefono']; ?></p></td>
-							<td><label>Vendedor:</label> <p><?php 
-								$nombre_ = explode(" ", trim(ucwords($consulta_registro['colaborador_nombre']), " "));
-								$nombre_usuario = $nombre_[0];
-								$apellido_ = explode(" ", trim(ucwords($consulta_registro['colaborador_apellido']), " "));	
-								$nombre_apellido = $apellido_[0];	
-								
-								$vendedor = $nombre_usuario." ".$nombre_apellido;
-
-								echo $vendedor; 
-							?></p></td>
 						</tr>
 						<tr>
 							<td colspan="2"><label>Cliente:</label><p><?php echo $consulta_registro['cliente']; ?></p></td>
@@ -106,6 +96,7 @@
 					$totalHNL = 0;
 					$tasaCambioHNL = 0;
 					$descuentos = 0;
+					$producto_name = '';
 					
 					while($registro_detalles = $result_factura_detalle->fetch_assoc()){																
 						$total_ = 0;
@@ -125,10 +116,16 @@
 							$importe_excento += ($registro_detalles["precio"] * $registro_detalles["cantidad"] - $registro_detalles["descuento"]);
 						}						
 						
+						if($registro_detalles["barCode"] != "" || $registro_detalles["barCode"] != null){
+							$producto_name = '['.$registro_detalles["barCode"].'] '.$registro_detalles["producto"];
+						}else{
+							$producto_name = $registro_detalles["producto"];
+						}
+
 						echo '
 						  <tr>
 							<td>'.$i.'</td>
-							<td>'.$registro_detalles["producto"].'</td>
+							<td>'.$producto_name.'</td>
 							<td align="center">'.$registro_detalles["cantidad"].'</td>
 							<td class="textright">L. '.number_format($registro_detalles["precio"],2).'</td>
 							<td class="textright">L. '.number_format($descuentos,2).'</td>

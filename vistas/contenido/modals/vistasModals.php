@@ -1809,8 +1809,8 @@
 				
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
-					  <label for="descripcion">Descripción <span class="priority">*<span/></label>
-					  <textarea id="descripcion" name="descripcion" required placeholder="Descripción" class="form-control" maxlength="100" rows="2"></textarea>	
+					  <label for="descripcion">Descripción</label>
+					  <textarea id="descripcion" name="descripcion" placeholder="Descripción" class="form-control" maxlength="100" rows="2"></textarea>	
 					  <p id="charNum_descripcion">100 Caracteres</p>	
 					</div>					
 				</div>

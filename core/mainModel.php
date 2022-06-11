@@ -3000,78 +3000,43 @@
 				INNER JOIN proveedores AS p
 
 				ON c.proveedores_id = p.proveedores_id
-
 				INNER JOIN colaboradores AS co
-
 				ON c.colaboradores_id = co.colaboradores_id
-
 				INNER JOIN empresa AS e
-
 				ON co.empresa_id = e.empresa_id
-
 				WHERE c.compras_id = '$noCotizacion'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getDetalleFactura($noFactura){
 
-			$query = "SELECT p.nombre AS 'producto', fd.cantidad As 'cantidad', fd.precio AS 'precio', fd.descuento AS 'descuento', fd.productos_id  AS 'productos_id', fd.isv_valor AS 'isv_valor'
-
+			$query = "SELECT p.barCode AS 'barCode', p.nombre AS 'producto', fd.cantidad As 'cantidad', fd.precio AS 'precio', fd.descuento AS 'descuento', fd.productos_id  AS 'productos_id', fd.isv_valor AS 'isv_valor'
 				FROM facturas_detalles AS fd
-
 				INNER JOIN productos AS p
-
 				ON fd.productos_id = p.productos_id
-
 				WHERE fd.facturas_id = '$noFactura'
-
 				GROUP BY fd.productos_id";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getEmpresaFacturaCorreo($usuario){
-
 			$query = "SELECT e.telefono AS 'telefono', e.celular AS 'celular', e.correo AS 'correo', e.horario AS 'horario', e.eslogan AS 'eslogan', e.facebook AS 'facebook', e.sitioweb AS 'sitioweb'
-
 			FROM users AS u
-
 			INNER JOIN empresa AS e
-
 			ON u.empresa_id = e.empresa_id
-
 			WHERE u.colaboradores_id = '$usuario'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getEmpresaFacturaCorreoUsuario($users_id){
 
@@ -3336,54 +3301,30 @@
 		public function getDetalleCompra($noFactura){
 
 			$query = "SELECT p.nombre AS 'producto', cd.cantidad As 'cantidad', cd.precio AS 'precio', cd.descuento AS 'descuento', cd.productos_id  AS 'productos_id', cd.isv_valor AS 'isv_valor'
-
 				FROM compras_detalles AS cd
-
 				INNER JOIN productos AS p
-
 				ON cd.productos_id = p.productos_id
-
 				WHERE cd.compras_id = '$noFactura'
-
 				GROUP BY cd.productos_id";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getDetalleCotizaciones($noCotizacion){
-
-			$query = "SELECT p.nombre AS 'producto', cd.cantidad As 'cantidad', cd.precio AS 'precio', cd.descuento AS 'descuento', cd.productos_id  AS 'productos_id', cd.isv_valor AS 'isv_valor'
-
+			$query = "SELECT p.barCode AS 'barCode', p.nombre AS 'producto', cd.cantidad As 'cantidad', cd.precio AS 'precio', cd.descuento AS 'descuento', cd.productos_id  AS 'productos_id', cd.isv_valor AS 'isv_valor'
 				FROM cotizacion_detalles AS cd
-
 				INNER JOIN productos AS p
-
 				ON cd.productos_id = p.productos_id
-
 				WHERE cd.cotizacion_id = '$noCotizacion'
-
 				GROUP BY cd.productos_id";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getDetalleCompras($compras_id){
 

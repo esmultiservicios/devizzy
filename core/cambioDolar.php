@@ -6,7 +6,7 @@
     CURLOPT_URL => "https://api.apilayer.com/currency_data/convert?to=USD&from=HNL&amount=$amount&date=$date",
     CURLOPT_HTTPHEADER => array(
         "Content-Type: text/plain",
-        "apikey: ilPNx229CcAm2Z3bTyEBdEdkNcfCkiuu"
+        "apikey: VlzXp0OA3IHQrplFafPCIafsXY2caxyE"
     ),
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => "",
