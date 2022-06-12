@@ -160,7 +160,7 @@
 			$importe = $_POST['monto_efectivo'];
 			$cambio = 0;
 			$empresa_id = $_SESSION['empresa_id_sd'];			
-			$tipo_pago_id = 2;//MIXTO	
+			$tipo_pago_id = 2;//TARJETA	
 			$banco_id = 0;//SIN BANCO	
 			$tipo_pago = 2;//1. CONTADO 2. CRÉDITO	3.MIXTO	
 			$estado_factura = 2;//PAGADA
@@ -306,7 +306,7 @@
 			$tarjeta = 	$_POST['monto_tarjeta'];	
 			$cambio = $_POST['cambio_efectivo'];
 			$empresa_id = $_SESSION['empresa_id_sd'];			
-			$tipo_pago_id = 3;//MIXTO		
+			$tipo_pago_id = 5;//PAGO MIXTO		
 			$banco_id = 0;//SIN BANCO	
 			$tipo_pago = 3;//1. CONTADO 2. CRÉDITO 3.MIXTO		
 			$estado_factura = 2;//PAGADA
@@ -592,7 +592,7 @@
 			$importe = $_POST['monto_efectivo'];
 			$cambio = 0;
 			$empresa_id = $_SESSION['empresa_id_sd'];			
-			$tipo_pago_id = 3;//CHEQUE		
+			$tipo_pago_id = 4;//CHEQUE		
 			$banco_id = $_POST['bk_nm_chk'];
 			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO			
 			$estado_factura = 2;//PAGADA

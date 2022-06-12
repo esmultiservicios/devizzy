@@ -2020,7 +2020,6 @@ $(document).ready(function(){
 });
 
 //mixto
-
 $(document).ready(function(){
 	$('#formMixtoPurchaseBill #cr_bill_mixtoPurchase').inputmask("9999");
 });
