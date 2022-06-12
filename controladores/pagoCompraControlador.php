@@ -19,7 +19,9 @@
 			$empresa_id = $_SESSION['empresa_id_sd'];			
 			$tipo_pago_id = 1;//EFECTIVO		
 			$banco_id = 0;//SIN BANCO	
-			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO		
+			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO
+			$efectivo = 0;
+			$tarjeta = 	0;					
 
 			$referencia_pago1 = "";
 			$referencia_pago2 = "";
@@ -38,7 +40,9 @@
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
-				"tipo_pago" => $tipo_pago
+				"tipo_pago" => $tipo_pago,
+				"efectivo" => $efectivo,
+				"tarjeta" => $tarjeta	
 			];
 			
 			$result_valid_pagos_compras = pagoCompraModelo::valid_pagos_compras($compras_id);
@@ -205,7 +209,9 @@
 			$empresa_id = $_SESSION['empresa_id_sd'];			
 			$tipo_pago_id = 2;//TARJETA			
 			$banco_id = 0;//SIN BANCO	
-			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO			
+			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO
+			$efectivo = 0;
+			$tarjeta = 	0;						
 
 			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['cr_Purchase']);//TARJETA DE CREDITO
 			$referencia_pago2 = mainModel::cleanStringConverterCase($_POST['exp']);//FECHA DE EXPIRACION
@@ -225,7 +231,9 @@
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
-				"tipo_pago" => $tipo_pago
+				"tipo_pago" => $tipo_pago,
+				"efectivo" => $efectivo,
+				"tarjeta" => $tarjeta	
 			];
 			
 			$result_valid_pagos_compras = pagoCompraModelo::valid_pagos_compras($compras_id);
@@ -581,7 +589,9 @@
 			$empresa_id = $_SESSION['empresa_id_sd'];			
 			$tipo_pago_id = 3;//TRANSFERENCIA			
 			$banco_id = $_POST['bk_nm'];
-			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO			
+			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO	
+			$efectivo = 0;
+			$tarjeta = 	0;					
 
 			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['ben_nm']);//TARJETA DE CREDITO
 			$referencia_pago2 = "";
@@ -601,7 +611,9 @@
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
-				"tipo_pago" => $tipo_pago
+				"tipo_pago" => $tipo_pago,
+				"efectivo" => $efectivo,
+				"tarjeta" => $tarjeta	
 			];
 			
 			$result_valid_pagos_compras = pagoCompraModelo::valid_pagos_compras($compras_id);
@@ -767,7 +779,9 @@
 			$empresa_id = $_SESSION['empresa_id_sd'];			
 			$tipo_pago_id = 3;//TRANSFERENCIA			
 			$banco_id = $_POST['bk_nm_chk'];
-			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO			
+			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO
+			$efectivo = 0;
+			$tarjeta = 	0;						
 
 			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['check_num']);//TARJETA DE CREDITO
 			$referencia_pago2 = "";
@@ -787,7 +801,9 @@
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
-				"tipo_pago" => $tipo_pago
+				"tipo_pago" => $tipo_pago,
+				"efectivo" => $efectivo,
+				"tarjeta" => $tarjeta	
 			];
 			
 			$result_valid_pagos_compras = pagoCompraModelo::valid_pagos_compras($compras_id);

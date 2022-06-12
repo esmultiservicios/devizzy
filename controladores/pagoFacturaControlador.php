@@ -28,6 +28,8 @@
 			$fecha_registro = date("Y-m-d H:i:s");
 			$estado = 1;
 			$estado_factura = 2;//PAGADA
+			$efectivo = 0;
+			$tarjeta = 	0;			
 			
 			$datos = [
 				"facturas_id" => $facturas_id,
@@ -38,7 +40,9 @@
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
-				"tipo_pago" => $tipo_pago				
+				"tipo_pago" => $tipo_pago,
+				"efectivo" => $efectivo,
+				"tarjeta" => $tarjeta							
 			];
 			
 			//VERIFICAMOS QUE NO SE HA INGRESADO EL PAGO, SI NO SE HA REALIZADO EL INGRESO, PROCEDEMOS A ALMACENAR EL PAGO
@@ -159,7 +163,9 @@
 			$tipo_pago_id = 2;//MIXTO	
 			$banco_id = 0;//SIN BANCO	
 			$tipo_pago = 2;//1. CONTADO 2. CRÉDITO	3.MIXTO	
-			$estado_factura = 2;//PAGADA	
+			$estado_factura = 2;//PAGADA
+			$efectivo = 0;
+			$tarjeta = 	0;					
 
 			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['cr_bill']);//TARJETA DE CREDITO
 			$referencia_pago2 = mainModel::cleanStringConverterCase($_POST['exp']);//FECHA DE EXPIRACION
@@ -178,7 +184,9 @@
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
-				"tipo_pago" => $tipo_pago					
+				"tipo_pago" => $tipo_pago,
+				"efectivo" => $efectivo,
+				"tarjeta" => $tarjeta						
 			];
 			
 			$result_valid_pagos_facturas = pagoFacturaModelo::valid_pagos_factura($facturas_id);
@@ -444,6 +452,8 @@
 			$banco_id = $_POST['bk_nm'];
 			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO			
 			$estado_factura = 2;//PAGADA
+			$efectivo = 0;
+			$tarjeta = 	0;				
 
 			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['ben_nm']);//TARJETA DE CREDITO
 			$referencia_pago2 = "";
@@ -462,7 +472,9 @@
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
-				"tipo_pago" => $tipo_pago					
+				"tipo_pago" => $tipo_pago,
+				"efectivo" => $efectivo,
+				"tarjeta" => $tarjeta						
 			];
 			
 			$result_valid_pagos_facturas = pagoFacturaModelo::valid_pagos_factura($facturas_id);
@@ -584,6 +596,8 @@
 			$banco_id = $_POST['bk_nm_chk'];
 			$tipo_pago = 1;//1. CONTADO 2. CRÉDITO			
 			$estado_factura = 2;//PAGADA
+			$efectivo = 0;
+			$tarjeta = 	0;				
 			
 			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['check_num']);//TARJETA DE CREDITO
 			$referencia_pago2 = "";
@@ -602,7 +616,9 @@
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
-				"tipo_pago" => $tipo_pago					
+				"tipo_pago" => $tipo_pago,
+				"efectivo" => $efectivo,
+				"tarjeta" => $tarjeta						
 			];
 			
 			$result_valid_pagos_facturas = pagoFacturaModelo::valid_pagos_factura($facturas_id);
