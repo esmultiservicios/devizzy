@@ -7,8 +7,8 @@
 
 	$datos = [
 		"tipo_producto_id" => $_POST['tipo_producto_id'],
-		"fechai" => $_POST['fechai'],
-		"fechaf" => $_POST['fechaf'],
+		//"fechai" => $_POST['fechai'],
+		//"fechaf" => $_POST['fechaf'],
 		"bodega" => $_POST['bodega'] 		
 	];	
 	
@@ -19,12 +19,12 @@
 	
 	while($row = $result->fetch_assoc()){				
 		$data[] = array( 
-			"movimientos_id"=>$row['movimientos_id'],
+			
 			"fecha_registro"=>$row['fecha_registro'],
 			"barCode"=>$row['barCode'],
 			"producto"=>$row['producto'],
 			"medida"=>$row['medida'],
-			"documento"=>$row['documento'],
+			"movimientos_id"=>$row['movimientos_id'],
 			"entrada"=>$row['entrada'],
 			"salida"=>$row['salida'],
 			"saldo"=>$row['saldo'],

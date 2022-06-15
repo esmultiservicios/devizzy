@@ -16,7 +16,7 @@
 			$almacen_almacen = mainModel::cleanStringConverterCase($_POST['almacen_almacen']);
 			$ubicacion_almacen = mainModel::cleanStringConverterCase($_POST['ubicacion_almacen']);
 			$estado = 1;
-			
+			$facturar_cero = $_POST['facturar_cero'];
 			$fecha_registro = date("Y-m-d H:i:s");	
 			
 			$datos = [
@@ -24,7 +24,8 @@
 				"ubicacion_almacen" => $ubicacion_almacen,
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
-				"empresa" => $empresa,				
+				"empresa" => $empresa,	
+				"facturar_cero"=>$facturar_cero,		
 			];
 			
 			$resultAlmacen = almacenModelo::valid_almacen_modelo($almacen_almacen);
@@ -71,17 +72,14 @@
 		public function edit_almacen_controlador(){
 			$almacen_id = $_POST['almacen_id'];
 			$almacen_almacen = mainModel::cleanStringConverterCase($_POST['almacen_almacen']);
-			
-			if (isset($_POST['almacen_activo'])){
-				$estado = $_POST['almacen_activo'];
-			}else{
-				$estado = 2;
-			}
-			
+			$estado = $_POST['almacen_activo'];
+			$facturar_cero = $_POST['facturar_cero'];
+						
 			$datos = [
 				"almacen_id" => $almacen_id,
 				"almacen_almacen" => $almacen_almacen,
-				"estado" => $estado,				
+				"estado" => $estado,		
+				"facturar_cero" => $facturar_cero,
 			];	
 
 			$query = almacenModelo::edit_almacen_modelo($datos);

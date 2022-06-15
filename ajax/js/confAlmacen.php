@@ -16,6 +16,7 @@ var listar_almacen = function(){
 		"columns":[
 			{"data":"empresa"},
 			{"data":"almacen"},
+			{"data":"facturarCero"},		
 			{"data":"ubicacion"},
 			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash'></span></button>"}
@@ -28,9 +29,11 @@ var listar_almacen = function(){
 		"columnDefs": [
 		  { width: "30%", targets: 0 },
 		  { width: "30%", targets: 1 },
-		  { width: "30%", targets: 2 },
-		  { width: "5%", targets: 3 },
-		  { width: "5%", targets: 4 }
+		  { width: "20%", targets: 2 },
+		  { width: "30%", targets: 3 },
+		  { width: "5%", targets: 4},
+		  { width: "5%", targets: 5 }
+
 		],		
 		"buttons":[
 			{
@@ -242,17 +245,41 @@ $(document).ready(function(){
         $(this).find('#formAlmacen #almacen_almacen').focus();
     });
 });
-
+//almacen activo
 $('#formAlmacen #label_almacen_activo').html("Activo");
 	
 $('#formAlmacen .switch').change(function(){    
-    if($('input[name=almacen_activo]').is(':checked')){
+    if($('input[name=almacen_activo1]').is(':checked')){
+		
         $('#formAlmacen #label_almacen_activo').html("Activo");
+		$("#almacen_activo").val(1);
+		$("#val_almacen_activo").val(1); 
+		return true;
+    }
+    else{
+
+        $('#formAlmacen #label_almacen_activo').html("Inactivo");
+		$("#almacen_activo").val(0);
+		$("#val_almacen_activo").val(0);
+        return false;
+    }
+});	
+
+//facturar en cero switch
+$('#formAlmacen #label_facturar_cero').html("Si");
+	
+$('#formAlmacen .switch').change(function(){    
+    if($('input[name=facturar_cero]').is(':checked')){
+        $('#formAlmacen #label_facturar_cero').html("Si");
+		$("#facturar_cero").val(1)
+		$("#cero").val(1)
         return true;
     }
     else{
-        $('#formAlmacen #label_almacen_activo').html("Inactivo");
-        return false;
+        $('#formAlmacen #label_facturar_cero').html("No");
+		$("#facturar_cero").val(0)
+		$("#cero").val(0)
+		return false;
     }
 });	
 </script>

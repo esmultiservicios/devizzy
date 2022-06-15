@@ -2453,7 +2453,8 @@
 
 		public function getAlmacen(){
 
-			$query = "SELECT a.almacen_id AS 'almacen_id', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa'
+			$query = "SELECT a.almacen_id AS 'almacen_id', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
+				a.facturar_cero
 
 				FROM almacen AS a
 
@@ -3885,44 +3886,60 @@
 
 		public function getTranferenciaProductos($datos){
 
+			$bodega = '';
+			$tipo_product = '';
+			//$fecha = "AND CAST(p.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
 			if($datos['bodega'] != ''){
 				$bodega = "AND bo.almacen_id = '".$datos['bodega']."'";
-			}else{ $bodega = '';}
-
-			if($datos['bodega'] == '0'){
-				$bodega = '';
 			}
+
+			if($datos['bodega'] == '0'){$bodega = '';}
+
+			if($datos['tipo_producto_id'] != ''){
+				$tipo_product = "AND p.tipo_producto_id = '".$datos['tipo_producto_id']."' ";
+			}
+
+			
 			
 
 
 			$query = "
-					SELECT
-					p.barCode AS 'barCode',
-					p.nombre AS 'producto',
-					me.nombre AS 'medida',
-					bo.nombre AS 'bodega',
-					bo.almacen_id,
-					DATE_FORMAT(
-						p.fecha_registro,
-						'%d/%m/%Y %H:%i:%s'
-					) AS 'fecha_registro',
-					p.productos_id AS 'productos_id'
-				FROM
-				productos AS p
-				
-				INNER JOIN medida AS me
-				ON
-					p.medida_id = me.medida_id
-				INNER JOIN almacen AS bo
-				ON
+						SELECT
+						m.movimientos_id AS 'movimientos_id',
+						p.barCode AS 'barCode',
+						p.nombre AS 'producto',
+						me.nombre AS 'medida',
+						SUM(m.cantidad_entrada) as 'entrada',
+						SUM(m.cantidad_salida) as 'salida',
+						(SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)) as 'saldo',
+						bo.nombre AS 'bodega',
+						bo.almacen_id,
+						DATE_FORMAT(
+							p.fecha_registro,
+							'%d/%m/%Y %H:%i:%s'
+						) AS 'fecha_registro',
+						p.productos_id AS 'productos_id'
+					FROM
+						movimientos AS m
+						RIGHT JOIN productos AS p
+					ON
+						m.productos_id = p.productos_id
+					INNER JOIN medida AS me
+					ON
+						p.medida_id = me.medida_id
+					LEFT JOIN almacen AS bo
+					ON		
 					p.almacen_id = bo.almacen_id
-				WHERE p.tipo_producto_id = '".$datos['tipo_producto_id']."' AND CAST(p.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
-				$bodega
-				ORDER BY p.fecha_registro ASC";
+					WHERE p.estado = 1
+					$tipo_product
+				    $bodega
+					GROUP BY p.productos_id
+				    ORDER BY p.fecha_registro ASC";
+
+			
 
 			$result = self::connection()->query($query);
-
-
+			
 			return $result;
 		}
 

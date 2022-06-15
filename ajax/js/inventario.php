@@ -1,8 +1,10 @@
 <script>
 $(document).ready(function() {
-    funciones();   
-    listar_movimientos();
-	inventario_transferencia();
+	funciones();   
+	
+		listar_movimientos();
+		
+
 });
 
 function funciones(){
@@ -215,7 +217,7 @@ var inventario_transferencia = function(){
 				titleAttr: 'Actualizar Movimientos',
 				className: 'table_actualizar btn btn-secondary ocultar',
 				action: 	function(){
-					listar_movimientos();
+					inventario_transferencia();
 				}
 			},
 			{

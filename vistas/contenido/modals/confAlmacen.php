@@ -3,7 +3,7 @@
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Almacén</h4>
+          <h4 class="modal-title">Nuevo Almacén</h4>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			  <span aria-hidden="true">&times;</span>
 			</button>
@@ -40,19 +40,31 @@
 				</div>								
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
-					  <label for="apellido_proveedores">Ubicación <span class="priority">*<span/></label>
+					  <label for="ubicacion_almacen">Ubicación <span class="priority">*<span/></label>
 					  <select id="ubicacion_almacen" name="ubicacion_almacen" class="form-control" data-toggle="tooltip" data-placement="top" title="Ubicacion" required>   				   
 					  </select>
-					</div>					
-				</div>
-				<div class="form-group" id="estado_almacen">				  
-				  <div class="col-md-12">			
+					</div>	
+					<input type="hidden" name="facturar_cero" id="cero" value="1">
+					<div class="col-md-6">	
+					  	<p for="">Facturar inventario en cero?</p>		
 						<label class="switch">
-							<input type="checkbox" id="almacen_activo" name="almacen_activo" value="1" checked>
+							<input type="checkbox" id="facturar_cero" name="" value="1" checked>
+							<div class="slider round"></div>
+						</label>
+						<span class="question mb-2" id="label_facturar_cero"></span>				
+				  	</div>				
+				</div>
+				<input type="hidden" id="almacen_activo" name="almacen_activo" value="1" checked>
+				<div class="form-group" id="estado_almacen">
+					<div class="col-md-6">			
+						<p for="">Estado</p>		
+						<label class="switch">
+							<input type="checkbox" id="val_almacen_activo" name="almacen_activo1" value="1" checked>
 							<div class="slider round"></div>
 						</label>
 						<span class="question mb-2" id="label_almacen_activo"></span>				
 				  </div>				  
+				  				  
 				</div>					
 				<div class="RespuestaAjax"></div> 
 			</form>

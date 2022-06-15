@@ -16,6 +16,7 @@
 							<tr>
 								<th>Empresa</th>
 								<th>Almacén</th>
+								<th>Facturar en Cero</th>
 								<th>Ubicación</th>
 								<th>Editar</th>
 								<th>Eliminar</th>

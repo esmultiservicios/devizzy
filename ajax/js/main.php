@@ -1,5 +1,6 @@
 <script>
 $(document).ready(function() {
+	
 	//LLAMAMOS LOS METODOS CORRESPONDIENTES AL LOS MENUS
 	getMenu(getPrivilegioUsuario());
 	getSubMenu(getPrivilegioUsuario());
@@ -22,6 +23,8 @@ $(document).ready(function() {
 	getEmpresaColaboradores();
 	getPuestoColaboradores();
 });
+
+
 
 //INICIO MENUS
 function getPermisosTipoUsuarioAccesosTable(privilegio_id){

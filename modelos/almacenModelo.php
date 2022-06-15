@@ -8,7 +8,10 @@
 	class almacenModelo extends mainModel{
 		protected function agregar_almacen_modelo($datos){
 			$almacen_id = mainModel::correlativo("almacen_id", "almacen");
-			$insert = "INSERT INTO almacen VALUES('$almacen_id','".$datos['ubicacion_almacen']."','".$datos['almacen_almacen']."','".$datos['estado']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO almacen VALUES('$almacen_id','".$datos['ubicacion_almacen']."',
+			'".$datos['almacen_almacen']."','".$datos['estado']."','".$datos['empresa']."','".$datos['facturar_cero']."',
+			'".$datos['fecha_registro']."')";
+
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			
@@ -25,7 +28,8 @@
 			$update = "UPDATE almacen
 			SET 
 				nombre = '".$datos['almacen_almacen']."',				
-				estado = '".$datos['estado']."'
+				estado = '".$datos['estado']."',
+				facturar_cero = '".$datos['facturar_cero']."'
 			WHERE almacen_id = '".$datos['almacen_id']."'";
 			
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
