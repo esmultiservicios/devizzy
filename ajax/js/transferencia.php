@@ -56,7 +56,6 @@
 			{"data":"barCode"},
 			{"data":"producto"},
 			{"data":"medida"},
-			//{"data":"cantidad"},
 			{"data":"entrada"},
 			{"data":"salida"},
 			{"data":"saldo"},
@@ -79,7 +78,6 @@
 		  { width: "10.5%", targets: 6 },
 		  { width: "10.5%", targets: 7 },
 		  { width: "10.5%", targets: 8 },
-		//   { width: "10.5%", targets: 9 },
 
 
 		],

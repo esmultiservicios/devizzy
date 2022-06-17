@@ -39,7 +39,7 @@
 						  </div>
 						</div>
 					</div> -->
-					<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3">
 						  		<div class="form-group mx-sm-3 mb-1">
 									<div class="input-group">				
 										<div class="input-group-append">				
@@ -71,7 +71,6 @@
 						    <th>Bar Code</th>
 							<th>Producto</th>
 							<th>Medida</th>
-							<!-- <th>Documento</th> -->
 							<th>Entrada</th>
 							<th>Salida</th>
 							<th>Saldo</th>

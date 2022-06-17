@@ -13,6 +13,10 @@ $(document).ready(function() {
 	getReporteFactura();
 });
 
+$('#formulario_busqueda_productos_facturacion #almacen').on('change',function(){
+	listar_productos_factura_buscar();
+});
+
 //INICIO BUSQUEDA FROMULARIO CLIENTES FACTURACION
 $("#invoice-form #add_cliente").on("click", function(e){
 	e.preventDefault();
@@ -243,11 +247,17 @@ $(document).ready(function(){
 });
 
 var listar_productos_factura_buscar = function(){
+
+	var bodega = $("#formulario_busqueda_productos_facturacion #almacen").val();
+
 	var table_productos_factura_buscar = $("#DatatableProductosBusquedaFactura").DataTable({
 		"destroy":true,
 		"ajax":{
 			"method":"POST",
-			"url":"<?php echo SERVERURL;?>core/llenarDataTableProductosFacturas.php"
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableProductosFacturas.php",
+			"data":{
+                "bodega":bodega
+            }
 		},
 		"columns":[
 			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus fa-lg'></span></button>"},
@@ -257,7 +267,9 @@ var listar_productos_factura_buscar = function(){
 			{"data":"medida"},
 			{"data":"tipo_producto_id"},
 			{"data":"precio_venta"},
-			{"data":"almacen"}
+			{"data":"almacen"},
+			{"data":"almacen_id"}
+
 		],	
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -273,7 +285,8 @@ var listar_productos_factura_buscar = function(){
 		  { width: "5.5%", targets: 4 },
 		  { width: "12.5%", targets: 5 },
 		  { width: "12.5%", targets: 6 },
-		  { width: "21.5%", targets: 7 }
+		  { width: "21.5%", targets: 7 },
+		  { width: "21.5%", targets: 8 ,visible: false,}
 		],
 		"buttons":[
 			{
@@ -309,6 +322,8 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.table_view");
 	$(tbody).on("click", "button.table_view", function(e){
         e.preventDefault();
+
+
 		if(getConsultarAperturaCaja() == 2){
 			swal({
 				title: "Error",
@@ -317,8 +332,27 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table){
 				confirmButtonClass: "btn-danger"
 			});			
 		}else{
-			if($("#invoice-form #cliente_id").val() != "" && $("#invoice-form #cliente").val() != "" && $("#invoice-form #colaborador_id").val() != "" && $("#invoice-form #colaborador").val() != ""){
+			getTotalFacturasDisponibles();
+			
+					
+				if($("#invoice-form #cliente_id").val() != "" && $("#invoice-form #cliente").val() != "" && $("#invoice-form #colaborador_id").val() != "" && $("#invoice-form #colaborador").val() != ""){
 				var data = table.row( $(this).parents("tr") ).data();
+				var facturar_cero = facturarEnCeroAlmacen(data.almacen_id);
+
+				if(data.cantidad <= 0){
+					if(facturar_cero == 'false'){
+					swal({
+						title: "Error",
+						text: "No se puede facturar este producto inventario en cero",
+						type: "error",
+						confirmButtonClass: "btn-danger"
+						});	
+						return false
+					}
+				}
+				
+
+				
 				
 				$('#invoice-form #invoiceItem #productos_id_'+ row).val(data.productos_id);
 				$('#invoice-form #invoiceItem #bar-code-id_'+ row).val(data.barCode);
@@ -376,6 +410,8 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table){
 				});
 			}			
 		}
+
+		
 		e.preventDefault();
 	});
 }
@@ -711,8 +747,26 @@ $(document).ready(function(){
 					data:'barcode='+barcode,
 					async: false,
 					success:function(registro){		
+
+						getTotalFacturasDisponibles();
 						var valores = eval(registro);
+												
 						if(valores[0]){	
+
+							var facturar_cero = facturarEnCeroAlmacen(valores[7]);
+	
+							if(valores[6] <= 0){
+								if(facturar_cero == 'false'){
+								swal({
+									title: "Error",
+									text: "No se puede facturar este producto inventario en cero",
+									type: "error",
+									confirmButtonClass: "btn-danger"
+									});	
+									return false
+								}
+							}
+
 							$("#invoice-form #invoiceItem #productName_" + row_index).val(valores[0]);
 							$("#invoice-form #invoiceItem #price_" + row_index).val(valores[1]);
 							$("#invoice-form #invoiceItem #productos_id_" + row_index).val(valores[2]);
@@ -1238,6 +1292,25 @@ function getConsultarAperturaCaja(){
 	return estado_apertura;	
 }
 
+function facturarEnCeroAlmacen(almacen_id){
+
+    var url = '<?php echo SERVERURL;?>core/getFacturarCeroAlmacen.php';
+	var estado = true;
+	
+	$.ajax({
+	    type:'POST',
+		url:url,
+		data:'almacen_id='+almacen_id,
+		async: false,
+		success:function(res){
+			estado = res;
+		   console.log('res',res)
+		}
+	});
+	return estado;	
+}
+
+
 //INICIO ESTADOS
 function getEstadoFactura(){
 	$('#invoice-form #label_facturas_activo').html("Contado");
@@ -1593,7 +1666,8 @@ function getTotalFacturasDisponibles(){
 	   }
 	});
 }
-setInterval('getTotalFacturasDisponibles()',1000);
+
+//setInterval('getTotalFacturasDisponibles()',1000);
 
 function getReporteCotizacion(){
     var url = '<?php echo SERVERURL;?>core/getTipoFacturaReporte.php';

@@ -4,8 +4,13 @@
 	require_once "mainModel.php";
 	
 	$insMainModel = new mainModel();
+
+	$datos = [
+		"bodega" => $_POST['bodega'],
+		"barcode" => '',	
+	];
 	
-	$result = $insMainModel->getProductosFacturas();
+	$result = $insMainModel->getProductosFacturas($datos);
 	
 	$arreglo = array();
 	$data = array();
@@ -20,6 +25,7 @@
 			"tipo_producto_id"=>$row['tipo_producto_id'],
 			"precio_venta"=>$row['precio_venta'],
 			"almacen"=>$row['almacen'],
+			"almacen_id"=>$row['almacen_id'],
 			"tipo_producto"=>$row['tipo_producto'],
 			"impuesto_venta"=>$row['impuesto_venta'],
 			"precio_mayoreo"=>$row['precio_mayoreo'],

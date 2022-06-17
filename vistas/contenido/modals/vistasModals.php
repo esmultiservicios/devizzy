@@ -1154,7 +1154,19 @@
 			<form class="FormularioAjax" id="formulario_busqueda_productos_facturacion">	
 				<input type="hidden" id="row" name="row" class="form-control"/>
 				<input type="hidden" id="col" name="col" class="form-control"/>	
-				<div class="form-group">				  
+				<div class="form-group">	
+					<div class="col-12 col-md-3">
+						<div class="form-group">
+							<div class="input-group">				
+								<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Bodega</span>
+							</div>
+							<select id="almacen" name="almacen" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
+							
+							</select>
+						</div>
+					</div>
+					</div>			  
 					<div class="col-md-12">			
 						<div class="overflow-auto">											
 							<table id="DatatableProductosBusquedaFactura" class="table table-striped table-condensed table-hover" style="width:100%">
@@ -1168,6 +1180,7 @@
 										<th>Categoria</th>
 										<th>Precio Venta</th>							
 										<th>Almacén</th>
+										<th></th>
 									</tr>
 								</thead>
 							</table>
