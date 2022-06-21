@@ -13,6 +13,7 @@
 			}
 
 			$facturas_id = $_POST['factura_id_efectivo'];
+			$print_comprobante = $_POST['comprobante_print'];
 			$consulta_fecha_factura = pagoFacturaModelo::consultar_factura_fecha($facturas_id)->fetch_assoc();
 			$fecha = date("Y-m-d");
 			$importe = $_POST['monto_efectivo'];
@@ -123,7 +124,7 @@
 						"form" => "formEfectivoBill",
 						"id" => "proceso_pagos",
 						"valor" => "Registro",	
-						"funcion" => "printBill(".$facturas_id.");listar_cuentas_por_cobrar_clientes();cleanBill();mailBill(".$facturas_id.");",
+						"funcion" => "printBill(".$facturas_id.",".$print_comprobante.");listar_cuentas_por_cobrar_clientes();cleanBill();mailBill(".$facturas_id.");",
 						"modal" => "modal_pagos",
 					];
 				}else{
@@ -155,6 +156,7 @@
 			}
 
 			$facturas_id = $_POST['factura_id_tarjeta'];
+			$print_comprobante = $_POST['comprobante_print'];
 			$consulta_fecha_factura = pagoFacturaModelo::consultar_factura_fecha($facturas_id)->fetch_assoc();
 			$fecha = date("Y-m-d");
 			$importe = $_POST['monto_efectivo'];
@@ -267,7 +269,7 @@
 						"form" => "formTarjetaBill",
 						"id" => "proceso_pagos",
 						"valor" => "Registro",	
-						"funcion" => "printBill(".$facturas_id.");listar_cuentas_por_cobrar_clientes();mailBill(".$facturas_id.");",
+						"funcion" => "printBill(".$facturas_id.",".$print_comprobante.");listar_cuentas_por_cobrar_clientes();mailBill(".$facturas_id.");",
 						"modal" => "modal_pagos",
 					];
 				}else{
@@ -299,6 +301,7 @@
 			}
 
 			$facturas_id = $_POST['factura_id_mixto'];
+			$print_comprobante = $_POST['comprobante_print'];
 			$consulta_fecha_factura = pagoFacturaModelo::consultar_factura_fecha($facturas_id)->fetch_assoc();
 			$fecha = date("Y-m-d");
 			$importe = $_POST['monto_efectivo'];
@@ -411,7 +414,7 @@
 						"form" => "formTarjetaBill",
 						"id" => "proceso_pagos",
 						"valor" => "Registro",	
-						"funcion" => "printBill(".$facturas_id.");listar_cuentas_por_cobrar_clientes();mailBill(".$facturas_id.");",
+						"funcion" => "printBill(".$facturas_id.",".$print_comprobante.");listar_cuentas_por_cobrar_clientes();mailBill(".$facturas_id.");",
 						"modal" => "modal_pagos",
 					];
 				}else{
@@ -443,6 +446,7 @@
 			}
 			
 			$facturas_id = $_POST['factura_id_transferencia'];
+			$print_comprobante = $_POST['comprobante_print'];
 			$consulta_fecha_factura = pagoFacturaModelo::consultar_factura_fecha($facturas_id)->fetch_assoc();
 			$fecha = date("Y-m-d");
 			$importe = $_POST['monto_efectivo'];
@@ -555,7 +559,7 @@
 						"form" => "formTransferenciaBill",
 						"id" => "proceso_pagos",
 						"valor" => "Registro",	
-						"funcion" => "printBill(".$facturas_id.");listar_cuentas_por_cobrar_clientes();mailBill(".$facturas_id.");",
+						"funcion" => "printBill(".$facturas_id.",".$print_comprobante.");listar_cuentas_por_cobrar_clientes();mailBill(".$facturas_id.");",
 						"modal" => "modal_pagos",
 					];
 				}else{
@@ -587,6 +591,7 @@
 			}
 			
 			$facturas_id = $_POST['factura_id_cheque'];
+			$print_comprobante = $_POST['comprobante_print'];
 			$consulta_fecha_factura = pagoFacturaModelo::consultar_factura_fecha($facturas_id)->fetch_assoc();
 			$fecha = date("Y-m-d");
 			$importe = $_POST['monto_efectivo'];
@@ -699,7 +704,7 @@
 						"form" => "formTransferenciaBill",
 						"id" => "proceso_pagos",
 						"valor" => "Registro",	
-						"funcion" => "printBill(".$facturas_id.");listar_cuentas_por_cobrar_clientes();mailBill(".$facturas_id.");",
+						"funcion" => "printBill(".$facturas_id.",".$print_comprobante.");listar_cuentas_por_cobrar_clientes();mailBill(".$facturas_id.");",
 						"modal" => "modal_pagos",
 					];
 				}else{

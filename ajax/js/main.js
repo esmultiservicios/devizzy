@@ -229,6 +229,8 @@ $(document).ready(function(){
 		$("#tab5").addClass("active1");
 		$("#tab5").removeClass("bg-light");
 	});		
+
+	
 })
 
 $(".menu-toggle1").on("click", function(e){
@@ -243,6 +245,27 @@ $(".menu-toggle2").on("click", function(e){
 	$(".menu-toggle2").hide();
 	$(".menu-toggle1").show();
 	$("#modal_pagos #sidebar-wrapper").show();
+});
+
+
+$(document).ready(function(){
+	//INICIO PRINT COMPROBANTE
+	console.log('comprobaten')
+	$('#modal_pagos #label_print_comprobant').html("No");
+	
+    $('#modal_pagos .switch').change(function(){    
+        if($('input[name=comprobante_print_switch]').is(':checked')){
+            $('#modal_pagos #label_print_comprobant').html("Si");
+			$('.comprobante_print_value').val(1);
+            return true;
+        }
+        else{
+            $('#modal_pagos #label_print_comprobant').html("No");
+			$('.comprobante_print_value').val(0);
+            return false;
+        }
+    });		
+	//FIN PRINT COMPROBANTE
 });
 
 //FIN MENU FACTURAS

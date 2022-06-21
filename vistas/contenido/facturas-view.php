@@ -147,19 +147,22 @@
 									<p id="charNum_notasQuote">2000 Caracteres</p>
 								</div>				
 							</div>
-							<div class="form-group row">
-								<div class="card-body">
-									<div class="form-group mx-sm-3 mb-1">
-											<div class="input-group">				
-												<div class="input-group-append">				
-													<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Cambio Dolar</span>
+							<div class="col-12 col-md-4">
+								<div class="form-group row">
+									<div class="card-body">
+										<div class="form-group mx-sm-3 mb-1">
+												<div class="input-group">				
+													<div class="input-group-append">				
+														<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Cambio Dolar</span>
+													</div>
+													<input type="date" class="form-control" id="fecha_dolar" name="fecha_dolar" value="<?php echo date('Y-m-d');?>">
 												</div>
-												<input type="date" class="form-control" id="fecha_dolar" name="fecha_dolar" value="<?php echo date('Y-m-d');?>">
-											</div>
-									</div>			  
-												
+										</div>			  
+													
+									</div>
 								</div>
-							</div>											
+							</div>	
+															
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4" style="display: none;">
 							  <div class="row">					  
 								<div class="col-sm-3 form-inline">

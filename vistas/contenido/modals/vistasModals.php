@@ -399,7 +399,8 @@
 										<div class="list-div my-2">
 											<div class="fas fa-money-check fa-lg"></div> &nbsp;&nbsp; Cheque
 										</div>
-									</a>									
+									</a>
+																		
 								</div>
 							</div> <!-- Page Content -->
 							<div id="page-content-wrapper">
@@ -691,7 +692,15 @@
 										<div class="list-div my-2">
 											<div class="fas fa-money-check fa-lg"></div> &nbsp;&nbsp; Cheque
 										</div>
-									</a>									
+									</a>	
+									<div class="container mt-md-0">
+										<p class="mb-0 mt-3">Imprimir Comprobante de Entrega:</p>
+										<label class="switch mb-2" data-toggle="tooltip" data-placement="top">
+											<input type="checkbox" id="" name="comprobante_print_switch" value="0">
+											<div class="slider round"></div>
+										</label>
+										<span class="question mb-2" id="label_print_comprobant"></span>
+									</div>								
 								</div>
 							</div> <!-- Page Content -->
 							<div id="page-content-wrapper">
@@ -731,6 +740,7 @@
 															<div class="col-11">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
+																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
 																	<input type="hidden" name="factura_id_efectivo" id="factura_id_efectivo"> 
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00"> 
 																	<input type="number" name="efectivo_bill" id="efectivo_bill" class="inputfield" placeholder="0.00" step="0.01">																						
@@ -765,6 +775,7 @@
 																<div class="input-group"> 
 																<label>Número de Tarjeta</label> 
 																<input type="hidden" name="factura_id_tarjeta" id="factura_id_tarjeta">
+																<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
 																<input type="text" id="cr_bill" name="cr_bill" class="inputfield"  placeholder="XXXX">
 																<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">
 																																
@@ -806,6 +817,7 @@
 															<div class="col-12 col-md-6">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
+																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
 																	<input type="hidden" name="factura_id_mixto" id="factura_id_mixto"> 
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo_mixto" placeholder="0.00"> 
 																	<input type="number" name="efectivo_bill" id="efectivo_bill_mixto" class="inputfield" placeholder="0.00" step="0.01">																						
@@ -867,7 +879,8 @@
 																	<input type="hidden" name="factura_id_transferencia" id="factura_id_transferencia">
 																	<select required name="bk_nm" id="bk_nm" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
 																		<option value="">Seleccione un Banco</option>
-																	</select> 																	
+																	</select> 	
+																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">																
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">								
 																</div>
 															</div>
@@ -907,7 +920,8 @@
 														<div class="row">
 															<div class="col-12">
 															    <label>Banco</label> 
-																<div class="input-group"> 																	
+																<div class="input-group"> 	
+																    <input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">																
 																	<input type="hidden" name="factura_id_cheque" id="factura_id_cheque">
 																	<select required name="bk_nm_chk" id="bk_nm_chk" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
 																		<option value="">Seleccione un Banco</option>

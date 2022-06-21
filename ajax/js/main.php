@@ -1006,9 +1006,15 @@ function printQuote(cotizacion_id){
     window.open(url);
 }
 
-function printBill(facturas_id){
+function printBill(facturas_id,$print_comprobante){
 	var url = '<?php echo SERVERURL; ?>core/generaFactura.php?facturas_id='+facturas_id;
-    window.open(url);
+	window.open(url);
+
+	if($print_comprobante == 1 || $print_comprobante == true || $print_comprobante == '1'){
+		var url_comprobante = '<?php echo SERVERURL; ?>core/generaComprobante.php?facturas_id='+facturas_id;
+		window.open(url_comprobante);
+	}
+
 }
 
 function printPurchase(compras_id){
