@@ -1471,35 +1471,15 @@
 						</div>	 
 					</div>
 					<div class="col-md-6 mb-3">
-						<label for="prefijo">Otra Información </label>
+						<label>Sitio WEB</label>
 						<div class="input-group mb-3">
-							<input type="text" name="empresa_otra_informacion" id="empresa_otra_informacion" class="form-control" placeholder="Otra Información" maxlength="150">
+							<input type="text" name="sitioweb_empresa" id="sitioweb_empresa" class="form-control" placeholder="Sitio WEB" maxlength="150" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
 							<div class="input-group-append">				
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-info-circle fa-lg"></i></span>
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-globe-americas fa-lg"></i></span>
 							</div>
 						</div>	 
-					</div>						
-				</div>				
-				<div class="form-row">
-					<div class="col-md-6 mb-3">
-						<label for="prefijo">Eslogan </label>
-						<div class="input-group mb-3">
-							<input type="text" name="empresa_eslogan" id="empresa_eslogan" class="form-control" placeholder="Eslogan" maxlength="150">
-							<div class="input-group-append">				
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-file-alt fa-lg"></i></span>
-							</div>
-						</div>	 
-					</div>	
-					<div class="col-md-6 mb-3">
-						<label for="correo_empresa">Correo</label>
-						<div class="input-group mb-3">
-						  <input type="email" class="form-control" placeholder="Correo" id="correo_empresa" name="correo_empresa" aria-label="Correo" aria-describedby="basic-addon2">
-						  <div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>@algo.com</span>
-						  </div>
-						</div>	 
-					</div>						
-				</div>				
+					</div>
+				</div>							
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
 						<label>Teléfono <span class="priority">*<span/></label>
@@ -1520,42 +1500,72 @@
 						</div>	 
 					</div>																
 				</div>
+
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
-						<label>Horario</label>
+					<div class="col-md-12 mb-3">
+						<label for="correo_empresa">Correo</label>
 						<div class="input-group mb-3">
-							<input type="text" name="horario_empresa" id="horario_empresa" class="form-control" placeholder="Horario" maxlength="100" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-							<div class="input-group-append">				
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="far fa-clock fa-lg"></i></span>
-							</div>
+						  <input type="email" class="form-control" placeholder="Correo" id="correo_empresa" name="correo_empresa" aria-label="Correo" aria-describedby="basic-addon2">
+						  <div class="input-group-append">				
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>@algo.com</span>
+						  </div>
 						</div>	 
-					</div>	
-					<div class="col-md-6 mb-3">
+					</div>						
+				</div>	
+
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
 						<label>Facebook</label>
 						<div class="input-group mb-3">
-							<input type="text" name="facebook_empresa" id="facebook_empresa" class="form-control" placeholder="URL de Facebook" maxlength="150" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+							<textarea id="facebook_empresa" name="facebook_empresa" placeholder="Facebook" class="form-control" maxlength="100" rows="2"></textarea>
 							<div class="input-group-append">				
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fab fa-facebook fa-lg"></i></span>
 							</div>
 						</div>	 
 					</div>																
 				</div>	
+
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
-						<label>Sitio WEB</label>
+					<div class="col-md-12 mb-3">
+						<label>Horario</label>
 						<div class="input-group mb-3">
-							<input type="text" name="sitioweb_empresa" id="sitioweb_empresa" class="form-control" placeholder="Sitio WEB" maxlength="150" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+							<textarea id="horario_empresa" name="horario_empresa" placeholder="Horario" class="form-control" maxlength="100" rows="2"></textarea>	
 							<div class="input-group-append">				
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-globe-americas fa-lg"></i></span>
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-clock fa-lg"></i></span>
 							</div>
 						</div>	 
 					</div>																
-				</div>								
+				</div>					
+				
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
+						<label>Eslogan</label>
+						<div class="input-group mb-3">
+							<textarea id="empresa_eslogan" name="empresa_eslogan" placeholder="Eslogan" class="form-control" maxlength="100" rows="2"></textarea>	
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-file-alt fa-lg"></i></span>
+							</div>
+						</div>	 
+					</div>																
+				</div>	
+
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
+						<label>Otra Información</label>
+						<div class="input-group mb-3">
+							<textarea id="empresa_otra_informacion" name="empresa_otra_informacion" placeholder="Otra Información" class="form-control" maxlength="100" rows="4"></textarea>	
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-info-circle fa-lg"></i></span>
+							</div>
+						</div>	 
+					</div>																
+				</div>				
+
 				<div class="form-row">					
 					<div class="col-md-12 mb-3">
 						<label for="incremento">Dirección <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
-							<input type="text" name="direccion_empresa" id="direccion_empresa" class="form-control" placeholder="Dirección" required>
+							<textarea id="direccion_empresa" name="direccion_empresa" placeholder="Dirección " class="form-control" maxlength="100" rows="4" required></textarea>
 							<div class="input-group-append">				
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-address-card fa-lg"></i></span>
 							</div>

@@ -23,7 +23,7 @@
 			<td class="info_empresa">
 				<div>
 					<span class="h2"><?php echo $consulta_registro['empresa']; ?></span>
-					<p><?php echo $consulta_registro['direccion_empresa']; ?></p>
+					<p><?php echo nl2br($consulta_registro['direccion_empresa']); ?></p>
 					<p>PBX: <?php echo $consulta_registro['empresa_telefono']; ?></p>
 					<p>WhatsApp: <?php echo $consulta_registro['empresa_celular']; ?></p>
 					<p>Correo: <?php echo $consulta_registro['empresa_correo']; ?></p>
@@ -116,7 +116,7 @@
 				<p class="nota"><center><?php echo $insMainModel->convertir($consulta_registro["total"]).' LEMPIRAS';?></center></p>
 		<p class="nota"></p>
 		<p class="nota"><br/><br/><br/><br/></p>		
-		<<h4 class="label_gracias"><?php  echo $consulta_registro["eslogan"]?></h4>
+		<<h4 class="label_gracias"><?php  echo nl2br($consulta_registro["eslogan"]); ?></h4>
 		<p class="nota"><br/><br/><br/><br/></p>
 		<p class="nota"><br/><br/><br/><br/></p>											
 	</div>

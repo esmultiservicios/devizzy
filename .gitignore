@@ -9,3 +9,4 @@ core/cotizaciones
 core/facturas
 
 core/cambioDolar.php
+core/configGenerales.php

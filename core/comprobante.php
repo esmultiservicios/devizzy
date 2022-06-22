@@ -23,7 +23,7 @@
 			<td class="info_empresa">
 				<div>
 					<span class="h2"><?php echo $consulta_registro['empresa']; ?></span>
-					<p><?php echo $consulta_registro['direccion_empresa']; ?></p>
+					<p><?php echo nl2br($consulta_registro['direccion_empresa']); ?></p>
 					<p>PBX: <?php echo $consulta_registro['empresa_telefono']; ?></p>
 					<p>WhatsApp: <?php echo $consulta_registro['empresa_celular']; ?></p>					
 					<p><?php echo nl2br($consulta_registro['otra_informacion']); ?></p>	
@@ -210,7 +210,7 @@
 		?>
 		<p class="nota"><center><b>Original:</b> Cliente</center></p>	
 		<p class="nota"><center><b>Copia:</b> Emisor</center></p>			
-		<h4 class="label_gracias"><?php  echo $consulta_registro["eslogan"]?></h4>
+		<h4 class="label_gracias"><?php  echo nl2br($consulta_registro["eslogan"]); ?></h4>
 	</div>
 
 </div>
