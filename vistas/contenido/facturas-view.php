@@ -147,7 +147,7 @@
 									<p id="charNum_notasQuote">2000 Caracteres</p>
 								</div>				
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-6">
 								<div class="form-group row">
 									<div class="card-body">
 										<div class="form-group mx-sm-3 mb-1">
