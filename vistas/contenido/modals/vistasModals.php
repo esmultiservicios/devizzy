@@ -1896,8 +1896,8 @@
 
 <!--Modal Transferencia de Producto / Bodega-->
 
-<div class="modal" tabindex="-1" role="dialog" id="modal_transferencia_producto">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal_transferencia_producto">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Transferir Producto</h5>
