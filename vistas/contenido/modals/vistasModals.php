@@ -1927,7 +1927,7 @@
       </div>
       <div class="modal-footer">
 			<button class="btn btn-primary ml-2" type="submit" id="putEditarBodega" ><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>
-        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			<button class="btn btn-secondary ml-2" type="button" data-dismiss="modal"><div class="sb-nav-link-icon"></div><i class="fas fa-window-close"></i> Cerrar</button>
       </div>
     </div>
   </div>
