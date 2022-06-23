@@ -71,7 +71,8 @@
 								<th>ISV</th>
 								<th>Descuento</th>							
 								<th>Total</th>
-								<th>Imprimir</th>
+								<th>Factura</th>
+								<th>Comprobante</th>
 								<th>Enviar</th>	
 								<th>Anular</th>							
 							</tr>
@@ -84,7 +85,7 @@
 								<td id="impuesto-i"></td>
 								<td id="descuento-i"></td>
 								<td colspan='1' id='total-footer-ingreso'></td>
-								<td colspan="3"></td>
+								<td colspan="4"></td>
 							</tr>
 						</tfoot>						
 					</table>  

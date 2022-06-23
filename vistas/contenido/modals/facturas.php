@@ -489,7 +489,8 @@
 										<th>ISV</th>
 										<th>Descuento</th>							
 										<th>Total</th>
-										<th>Imprimir</th>
+										<th>Factura</th>
+										<th>Comprobante</th>
 										<th>Enviar</th>	
 										<th>Anular</th>	
 									</tr>

@@ -1889,6 +1889,7 @@ var listar_busqueda_bill = function(){
 			{"data":"descuento"},			
 			{"data":"total"},
 		    {"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_reportes print_comprobante btn btn-dark ocultar'><span class='far fa-file-pdf fa-lg'></span></button>"},
 		    {"defaultContent":"<button class='table_reportes email_factura btn btn-dark ocultar'><span class='fas fa-paper-plane fa-lg'></span></button>"},
 		    {"defaultContent":"<button class='table_cancelar cancelar_factura btn btn-dark ocultar'><span class='fas fa-ban fa-lg'></span></button>"}		
 		],
@@ -1929,6 +1930,7 @@ var listar_busqueda_bill = function(){
 
 	view_correo_bills_dataTable("#DatatableBusquedaBill tbody", table_busqueda_bill);
 	view_reporte_bill_dataTable("#DatatableBusquedaBill tbody", table_busqueda_bill);
+	view_comoprobante_bill_dataTable("#DatatableBusquedaBill tbody", table_busqueda_bill);
 	view_anular_bill_dataTable("#DatatableBusquedaBill tbody", table_busqueda_bill);	
 }
 
@@ -1956,6 +1958,16 @@ var view_reporte_bill_dataTable = function(tbody, table){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
 		printBill(data.facturas_id);
+	});
+}
+
+var view_comoprobante_bill_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.print_comprobante");
+	$(tbody).on("click", "button.print_comprobante", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		var url_comprobante = '<?php echo SERVERURL; ?>core/generaComprobante.php?facturas_id='+data.facturas_id;
+		window.open(url_comprobante);
 	});
 }
 
