@@ -1481,7 +1481,10 @@ var listar_cuentas_por_pagar_proveedores = function(){
 				titleAttr: 'Excel',
 				title: 'Reporte Cuentas por Pagar Proveedores',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-				className: 'table_reportes btn btn-success ocultar'
+				className: 'table_reportes btn btn-success ocultar',
+				exportOptions: {
+						columns: [1,2,3,4,5,6]
+				}				
 			},
 			{
 				extend:    'pdf',
@@ -1491,6 +1494,9 @@ var listar_cuentas_por_pagar_proveedores = function(){
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),				
 				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [1,2,3,4,5,6]
+				},				
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 12 ],

@@ -54,7 +54,10 @@ var listar_tipo_pago_contabilidad = function(){
 				titleAttr: 'Excel',
 				title: 'Reporte Tipo de Pago',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-				className: 'table_reportes btn btn-success ocultar'
+				className: 'table_reportes btn btn-success ocultar',
+				exportOptions: {
+						columns: [0,1,2]
+				}				
 			},
 			{
 				extend:    'pdf',
@@ -63,6 +66,9 @@ var listar_tipo_pago_contabilidad = function(){
 				title: 'Reporte Tipo de Pago',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [0,1,2]
+				},					
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 12 ],

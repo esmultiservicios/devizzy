@@ -50,7 +50,10 @@ var listar_privilegio = function(){
 				titleAttr: 'Excel',
 				title: 'Reporte Privilegios',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-				className: 'btn btn-success'
+				className: 'btn btn-success',
+				exportOptions: {
+						columns: [0]
+				},
 			},
 			{
 				extend:    'pdf',
@@ -59,6 +62,9 @@ var listar_privilegio = function(){
 				title: 'Reporte Privilegios',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'btn btn-danger',
+				exportOptions: {
+						columns: [0]
+				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 12 ],

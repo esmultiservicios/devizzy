@@ -123,7 +123,7 @@ var listar_ingresos_contabilidad = function(){
 				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 				titleAttr: 'PDF',
 				orientation: 'landscape',
-				pageSize: 'TABLOID',
+				pageSize: 'LEGAL',
 				title: 'Reporte Registro Ingresos',
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),

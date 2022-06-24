@@ -128,77 +128,43 @@ var listar_gastos_contabilidad = function(){
 		],
 
 		"buttons":[
-
 			{
-
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-
-			titleAttr: 'Actualizar Registro Gastos',
-
+				titleAttr: 'Actualizar Registro Gastos',
 				className: 'table_actualizar btn btn-secondary ocultar',
-
 				action: 	function(){
-
 					listar_gastos_contabilidad();
-
 				}
-
 			},
-
 			{
-
 				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
-
 				titleAttr: 'Agregar Egresos',
-
 				className: 'table_crear btn btn-primary ocultar',
-
 				action: 	function(){
-
 					modal_egresos_contabilidad();
-
 				}
-
 			},			
-
 			{
-
 				extend:    'excelHtml5',footer:true,
-
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
-
 				titleAttr: 'Excel',
-
 				title: 'Reporte Registro Gastos',
-
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
-
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				exportOptions: {
 						columns: [0,1,2,3,4,5,6,7,8,9,10]
 				},
 				className: 'table_reportes btn btn-success ocultar'
-
 			},
-
 			{
-
 				extend:    'pdfHtml5',footer:true,
-
 				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
-
 				titleAttr: 'PDF',
-
 				orientation: 'landscape',
-
-				pageSize: 'TABLOID',
-
+				pageSize: 'LEGAL',
 				title: 'Reporte Registro Gastos',
-
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
-
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-
 				className: 'table_reportes btn btn-danger ocultar',
 				exportOptions: {
 						columns: [0,1,2,3,4,5,6,7,8,9,10]

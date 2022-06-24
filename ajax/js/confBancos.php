@@ -49,7 +49,10 @@ var listar_banco_contabilidad = function(){
 				titleAttr: 'Excel',
 				title: 'Reporte Bancos',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-				className: 'table_reportes btn btn-success ocultar'
+				className: 'table_reportes btn btn-success ocultar',
+				exportOptions: {
+						columns: [0]
+				},					
 			},
 			{
 				extend:    'pdf',
@@ -58,6 +61,9 @@ var listar_banco_contabilidad = function(){
 				title: 'Reporte Bancos',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [0]
+				},	
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 12 ],

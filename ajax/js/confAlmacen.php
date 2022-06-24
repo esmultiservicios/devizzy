@@ -58,7 +58,10 @@ var listar_almacen = function(){
 				titleAttr: 'Excel',
 				title: 'Reporte Almacén',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-				className: 'table_reportes btn btn-success ocultar'
+				className: 'table_reportes btn btn-success ocultar',
+				exportOptions: {
+						columns: [0,1,2,3]
+				},	
 			},
 			{
 				extend:    'pdf',
@@ -67,6 +70,9 @@ var listar_almacen = function(){
 				title: 'Reporte Almacén',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [0,1,2,3]
+				},					
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 12 ],

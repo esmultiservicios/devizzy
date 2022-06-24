@@ -51,7 +51,10 @@ var listar_tipo_usuario = function(){
 				titleAttr: 'Excel',
 				title: 'Reporte Tipos de Usuario',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-				className: 'btn btn-success'
+				className: 'btn btn-success',
+				exportOptions: {
+						columns: [0]
+				},				
 			},
 			{
 				extend:    'pdf',
@@ -60,6 +63,9 @@ var listar_tipo_usuario = function(){
 				title: 'Reporte Tipos de Usuario',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'btn btn-danger',
+				exportOptions: {
+						columns: [0]
+				},				
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 12 ],
