@@ -1,5 +1,5 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-color-navarlateral">
-	<a class="navbar-brand" href="<?php echo SERVERURL; ?>dashboard/"><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo_kired.png" width="90%" alt="We share" loading="lazy"></center></a>
+	<a class="navbar-brand" href="<?php echo SERVERURL; ?>dashboard/"><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo1.png" width="90%" alt="We share" loading="lazy"></center></a>
     <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars fa-lg"></i></button>
     <!-- Navbar Search-->
     <!-- Navbar-->
