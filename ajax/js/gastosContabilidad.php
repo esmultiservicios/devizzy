@@ -174,7 +174,9 @@ var listar_gastos_contabilidad = function(){
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6,7,8,9,10]
+				},
 				className: 'table_reportes btn btn-success ocultar'
 
 			},
@@ -198,6 +200,9 @@ var listar_gastos_contabilidad = function(){
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 
 				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6,7,8,9,10]
+				},
 
 				customize: function ( doc ) {
 

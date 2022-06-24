@@ -1389,6 +1389,9 @@ var listar_cuentas_por_cobrar_clientes = function(){
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
 				titleAttr: 'Excel',
 				title: 'Reporte Cuents por Cobrar Clientes',
+				exportOptions: {
+						columns: [2,3,4,5,6,7]
+				},
 				className: 'table_reportes btn btn-success ocultar'
 			},
 			{
@@ -1399,6 +1402,9 @@ var listar_cuentas_por_cobrar_clientes = function(){
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),				
 				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [2,3,4,5,6,7]
+				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 12 ],
@@ -1615,6 +1621,9 @@ var listar_clientes = function(){
 				titleAttr: 'Excel',
 				title: 'Reporte de Clientes',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6,6]
+				},
 				className: 'table_reportes btn btn-success ocultar'
 			},
 			{
@@ -1626,6 +1635,9 @@ var listar_clientes = function(){
 				title: 'Reporte de Clientes',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6]
+				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 12 ],

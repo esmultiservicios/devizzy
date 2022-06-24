@@ -66,7 +66,10 @@ var listar_registro_cajas = function(){
 				titleAttr: 'Excel',
 				title: 'Reporte Registro de Cajas',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-				className: 'table_reportes btn btn-success ocultar'
+				className: 'table_reportes btn btn-success ocultar',
+				exportOptions: {
+						columns: [1,2,3,4,5,6,7]
+				},
 			},
 			{
 				extend:    'pdf',
@@ -76,6 +79,9 @@ var listar_registro_cajas = function(){
 				title: 'Reporte Registro de Cajas',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [1,2,3,4,5,6,7]
+				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 12 ],

@@ -60,7 +60,10 @@ var listar_productos = function(){
 				titleAttr: 'Excel',
 				title: 'Reporte Productos',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-				className: 'table_reportes btn btn-success ocultar'
+				className: 'table_reportes btn btn-success ocultar',
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6,7]
+				},
 			},
 			{
 				extend:    'pdf',
@@ -68,7 +71,10 @@ var listar_productos = function(){
 				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 				titleAttr: 'PDF',
 				title: 'Reporte Productos',
-				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),				
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6,7]
+				},				
 				className: 'table_reportes btn btn-danger ocultar',
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {

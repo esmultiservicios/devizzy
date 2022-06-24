@@ -78,7 +78,10 @@ var listar_reporte_compras = function(){
 				title: 'Reporte de Compras',
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-				className: 'table_reportes btn btn-success ocultar'
+				className: 'table_reportes btn btn-success ocultar',
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6,7]
+				},
 			},
 			{
 				extend:    'pdf',
@@ -92,6 +95,9 @@ var listar_reporte_compras = function(){
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6,7]
+				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 2 ],

@@ -61,6 +61,9 @@ var listar_secuencia_facturacion = function(){
 				titleAttr: 'Excel',
 				title: 'Reporte de Secuencia de Facturación',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6]
+				},
 				className: 'table_reportes btn btn-success ocultar'
 			},
 			{
@@ -71,6 +74,9 @@ var listar_secuencia_facturacion = function(){
 				title: 'Reporte de Secuencia de Facturación',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6]
+				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 12 ],

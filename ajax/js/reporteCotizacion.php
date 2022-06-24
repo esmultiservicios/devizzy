@@ -80,6 +80,9 @@ var listar_reporte_cotizaciones = function(){
 				title: 'Reporte de Cotizaciones',
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6,7]
+				},
 				className: 'table_reportes btn btn-success ocultar'
 			},
 			{
@@ -94,6 +97,9 @@ var listar_reporte_cotizaciones = function(){
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6,7]
+				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 2 ],

@@ -60,7 +60,7 @@
 			{"data":"salida"},
 			{"data":"saldo"},
 			{"data":"bodega"},
-			{"defaultContent":"<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"},	
 
 		],
         "lengthMenu": lengthMenu,
@@ -68,6 +68,7 @@
 		"bDestroy": true,
 		"language": idioma_español,//esta se encuenta en el archivo main.js
 		"dom": dom,
+		
 		"columnDefs": [
 		  { width: "13.5%", targets: 0 },
 		  { width: "10.5%", targets: 1 },
@@ -78,8 +79,6 @@
 		  { width: "10.5%", targets: 6 },
 		  { width: "10.5%", targets: 7 },
 		  { width: "10.5%", targets: 8 },
-
-
 		],
 		"buttons":[
 			{
@@ -105,7 +104,10 @@
 				title: 'Reporte Movimientos',
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-				className: 'table_reportes btn btn-success ocultar'
+				className: 'table_reportes btn btn-success ocultar',
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6,7]
+				},
 			},
 			{
 				extend:    'pdf',
@@ -116,6 +118,9 @@
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6,7]
+				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
 						margin: [ 0, 0, 0, 12 ],
