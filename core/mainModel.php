@@ -3918,7 +3918,6 @@
 		}
 
 		public function getTranferenciaProductos($datos){
-
 			$bodega = '';
 			$tipo_product = '';
 			//$fecha = "AND CAST(p.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
@@ -3926,15 +3925,15 @@
 				$bodega = "AND bo.almacen_id = '".$datos['bodega']."'";
 			}
 
-			if($datos['bodega'] == '0'){$bodega = '';}
-
-			if($datos['tipo_producto_id'] != ''){
-				$tipo_product = "AND p.tipo_producto_id = '".$datos['tipo_producto_id']."' ";
+			if($datos['bodega'] == '0'){
+				$bodega = '';
 			}
 
-			
-			
-
+			if($datos['tipo_producto_id'] != ''){
+				$tipo_product = "AND p.tipo_producto_id = '".$datos['tipo_producto_id']."'";
+			}else{
+				$tipo_product = "AND p.tipo_producto_id = 1";
+			}
 
 			$query = "
 						SELECT
@@ -3968,11 +3967,8 @@
 				    $bodega
 					GROUP BY p.productos_id
 				    ORDER BY p.fecha_registro ASC";
-
-			
-
+	
 			$result = self::connection()->query($query);
-			
 			return $result;
 		}
 
