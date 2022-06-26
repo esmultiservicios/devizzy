@@ -19,7 +19,6 @@
 	
 	while($row = $result->fetch_assoc()){				
 		$data[] = array( 
-			
 			"fecha_registro"=>$row['fecha_registro'],
 			"barCode"=>$row['barCode'],
 			"producto"=>$row['producto'],

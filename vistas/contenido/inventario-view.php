@@ -89,7 +89,7 @@
 						</thead>
 					</table>  
 				</div>                   
-				</div>
+			</div>
 			<div class="card-footer small text-muted">
  			<?php
 				require_once "./core/mainModel.php";

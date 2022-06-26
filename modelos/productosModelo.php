@@ -55,9 +55,8 @@
 
 		protected function edit_bodega_productos_modelo($datos){
 			$update = "UPDATE productos
-			SET
-				
-			almacen_id = '".$datos['bodega']."'			
+			SET				
+				almacen_id = '".$datos['bodega']."'			
 			WHERE productos_id = '".$datos['productos_id']."'";
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 			

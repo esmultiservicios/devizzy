@@ -80,11 +80,29 @@
 						</thead>
 					</table>  
 				</div>                   
-				</div>
-			
+			</div>
+			<div class="card-footer small text-muted">
+				<?php
+					require_once "./core/mainModel.php";
+					
+					$insMainModel = new mainModel();
+					$entidad = "productos";
+					
+					if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
+						$consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();
+						
+						$fecha_registro = $consulta_last_update['fecha_registro'];
+						$hora = date('g:i:s a',strtotime($fecha_registro));
+										
+						echo "Última Actualización ".$insMainModel->getTheDay($fecha_registro, $hora);						
+					}else{
+						echo "No se encontraron registros ";
+					}			
+				?>
+			</div>						
 		</div>
 	</div>
 
 <?php
-	//$insMainModel->guardar_historial_accesos("Ingreso al modulo Inventario");
+	$insMainModel->guardar_historial_accesos("Ingreso al modulo Inventario");
 ?>

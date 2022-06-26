@@ -2,7 +2,6 @@
 	$peticionAjax = true;
 	require_once "../core/configGenerales.php";
 
-
 	if(isset($_POST['productos_id']) && isset($_POST['id_bodega'])){
 		require_once "../controladores/productosControlador.php";
 		$insVarios = new productosControlador();

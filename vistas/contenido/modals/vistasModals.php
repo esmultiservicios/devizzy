@@ -1907,7 +1907,6 @@
       </div>
       <div class="modal-body">
 		<form class="" id="formTransferencia" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
-
 			<div class="form-group text-center">
 				<input type="hidden" value="" id="productos_id" name="productos_id">
 				<label class="modal-title" id="nameProduct" class="col-form-label"></label>
@@ -1920,8 +1919,7 @@
 						<select id="id_bodega" name="id_bodega" class="custom-select" data-toggle="tooltip" data-placement="top" >
 			 			</select>
 				</div>
-			  </div>	
-			  
+			  </div>				
 			  <div class="RespuestaAjax"></div>	  
 		</form>
       </div>

@@ -39,7 +39,6 @@ var inventario_transferencia = function(){
 	var fechaf = $("#form_main_movimientos #fechaf").val();
 	var bodega = $("#form_main_movimientos #almacen").val();
 	
-	
 	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
 		"destroy":true,
 		"ajax":{
@@ -69,7 +68,6 @@ var inventario_transferencia = function(){
 	"bDestroy": true,
 	"language": idioma_español,//esta se encuenta en el archivo main.js
 	"dom": dom,
-	
 	"columnDefs": [
 		{ width: "13.5%", targets: 0 },
 		{ width: "10.5%", targets: 1 },
@@ -150,24 +148,21 @@ var transferencia_producto_dataTable = function(tbody, table){
 
 	$(tbody).off("click", "button.table_transferencia");
 	$(tbody).on("click", "button.table_transferencia", function(){
-	
 		var data = table.row( $(this).parents("tr") ).data();
 		
 		$('#formTransferencia #productos_id').val(data.productos_id);
 		$('#formTransferencia #nameProduct').html(data.producto);
 
-			
 		$('#modal_transferencia_producto').modal({
 			show:true,
 			keyboard: false,
 			backdrop:'static'
 		});
-	
 	})
-
 };
 
-$("#putEditarBodega").click(function(){
+$('#putEditarBodega').on('click', function(e){
+	event.preventDefault();
 	var form = $("#formTransferencia");
 	var respuesta=form.children('.RespuestaAjax');
 	var url = '<?php echo SERVERURL;?>ajax/modificarBodegaProductosAjax.php';
@@ -176,18 +171,17 @@ $("#putEditarBodega").click(function(){
 		url:url,
 		data:$('#formTransferencia').serialize(),
 			beforeSend: function() {
-			  $('#modal_transferencia_producto').modal({
-				show:false,
-				keyboard: false,
-				backdrop:'static'
-			  });
-
+				$('#modal_transferencia_producto').modal({
+					show:false,
+					keyboard: false,
+					backdrop:'static'
+				});
 			},
 			success: function(data){
 				$('#modal_transferencia_producto').modal('toggle');
-				respuesta.html(data);
+				respuesta.html(data);				
 			}
-	})
+	});	
 });
 //TRANSFERIR PRODUCTO/BODEGA
 

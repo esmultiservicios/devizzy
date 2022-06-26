@@ -296,18 +296,16 @@
 			$productos_id = mainModel::cleanString($_POST['productos_id']);		
 			$bodega = mainModel::cleanString($_POST['id_bodega']);
 					
-
 			$datos = [
 				"productos_id" => $productos_id,
-				"bodega" => $bodega
-							
+				"bodega" => $bodega						
 			];
 					
 			$query = productosModelo::edit_bodega_productos_modelo($datos);
 			
-			if($query){				
+			if($query){
 				$alert = [
-					"alert" => "reload",
+					"alert" => "edit",
 					"title" => "Registro modificado",
 					"text" => "El registro se ha modificado correctamente",
 					"type" => "success",
@@ -316,9 +314,9 @@
 					"form" => "formTransferencia",	
 					"id" => "proceso_productos",
 					"valor" => "Editar",
-					"funcion" => "listar_productos();",
+					"funcion" => "inventario_transferencia();",
 					"modal" => "modal_transferencia_producto",
-				];
+				];				
 			}else{
 				$alert = [
 					"alert" => "simple",
