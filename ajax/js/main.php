@@ -1013,6 +1013,9 @@ function printBill(facturas_id,$print_comprobante){
 	$.ajax({
 		type:'POST',
 		url:url,
+		data:{
+			id: 1,
+		},
 			success: function(data){
 				$.each(JSON.parse(data), function(){	
 			

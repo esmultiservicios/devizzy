@@ -10,6 +10,11 @@
 	$arreglo = array();
 	$data = array();
     $activo = '';
+	$tipo = 0;
+
+	if(isset($_POST['id'])){
+		$tipo = $_POST['id'];
+	}
 	
 	while($row = $result->fetch_assoc()){	
         $activo = ($row['estado'] == '1')? 'Activado': 'Desactivado';
@@ -23,11 +28,15 @@
 		);	
 	}
 	
-	// $arreglo = array(
-	// 	"echo" => 1,
-	// 	"totalrecords" => count($data),
-	// 	"totaldisplayrecords" => count($data),
-	// 	"data" => $data
-	// );
+	$arreglo = array(
+		"echo" => 1,
+		"totalrecords" => count($data),
+		"totaldisplayrecords" => count($data),
+		"data" => $data
+	);
 
-	echo json_encode($data);
+	if($tipo == 1){
+		echo json_encode($data);
+	}else{
+		echo json_encode($arreglo);
+	}

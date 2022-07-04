@@ -18,7 +18,7 @@ var getImpresora = function(){
 			"data":{
 				"impresora_id":impresora_id,
 				"descripcion":descripcion,
-				"activo":activo,
+				"activo":activo
 			}
 		},
 	"columns":[
