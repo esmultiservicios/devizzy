@@ -9,7 +9,12 @@
 	
     class vistasModelo extends mainModel{
         protected function getVistasModelo($vistas){
-            $listaBlanca = ["transferencia","dashboard","clientes", "facturas", "cotizacion", "cajas", "proveedores", "facturaCompras", "productos", "inventario", "cuentasContabilidad", "movimientosContabilidad", "ingresosContabilidad", "gastosContabilidad", "chequesContabilidad", "confCtaContabilidad", 'confTipoPago', "confBancos", "confImpuestos", "historialAccesos", "bitacora", "colaboradores", "puestos", "users", "secuencia", "empresa", "privilegio", "tipoUser", "cobrarClientes", "pagarProveedores", "reporteCompras", "reporteVentas", "reporteCotizacion", "confAlmacen", "confUbicacion", "confCategoria", "confMedida", "confEmail", "confHost", "confPlanes", "confHostProductos"];
+            $listaBlanca = ["transferencia","dashboard","clientes", "facturas", "cotizacion", "cajas", "proveedores",
+			 "facturaCompras", "productos", "inventario", "cuentasContabilidad", "movimientosContabilidad", "ingresosContabilidad",
+			 "gastosContabilidad", "chequesContabilidad", "confCtaContabilidad", 'confTipoPago', "confBancos", "confImpuestos",
+			 "historialAccesos", "bitacora", "colaboradores", "puestos", "users", "secuencia", "empresa", "privilegio", "tipoUser",
+			 "cobrarClientes", "pagarProveedores", "reporteCompras", "reporteVentas", "reporteCotizacion", "confAlmacen", "confUbicacion",
+			 "confCategoria", "confMedida", "confEmail", "confHost", "confPlanes", "confHostProductos","confImpresora"];
 
             if(in_array($vistas, $listaBlanca)){
 				if(is_file("./vistas/contenido/".$vistas."-view.php")){

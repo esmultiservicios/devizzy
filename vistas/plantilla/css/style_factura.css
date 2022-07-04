@@ -117,3 +117,9 @@ p, label, span, table{
 	top: 50%;
 	transform: translateX(-50%) translateY(-50%);
 }
+
+.center-align{
+	display: flex;
+  justify-content: center;
+	width: 100%;
+}

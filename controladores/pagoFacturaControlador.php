@@ -126,6 +126,7 @@
 						"valor" => "Registro",	
 						"funcion" => "printBill(".$facturas_id.",".$print_comprobante.");listar_cuentas_por_cobrar_clientes();cleanBill();mailBill(".$facturas_id.");",
 						"modal" => "modal_pagos",
+												
 					];
 				}else{
 					$alert = [

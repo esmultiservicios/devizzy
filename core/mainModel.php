@@ -3992,6 +3992,28 @@
 			return $result;
 		}
 
+		public function consultaImpresora(){
+			
+			$query = "
+			SELECT
+			*
+			FROM `impresora`
+			";
+
+			$result = self::connection()->query($query);
+			return $result;
+		}
+
+		public function updateImpresora($id,$estado){
+			
+			$update = " UPDATE impresora
+				SET estado = '$estado'
+				WHERE impresora_id = '$id'";
+
+			$result = self::connection()->query($update);
+			return $result;
+		}
+
 		public function consultaBillDraft($datos){
 			$query = "SELECT f.facturas_id AS 'facturas_id', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.nombre AS 'cliente', CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', FORMAT(f.importe,2) As 'total', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', f.number AS 'numero_factura'
 				FROM facturas AS f

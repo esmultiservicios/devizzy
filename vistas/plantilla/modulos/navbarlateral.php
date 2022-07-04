@@ -123,7 +123,8 @@
                     <a class="nav-link link" href="<?php echo SERVERURL; ?>users/" id="users" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>Usuarios</a>
                     <a class="nav-link link" href="<?php echo SERVERURL; ?>secuencia/" id="secuencia" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-sliders-h"></i></div>Secuencia</a>
                     <a class="nav-link link" href="<?php echo SERVERURL; ?>empresa/" id="empresa" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>Empresa</a>	
-					<a class="nav-link link" href="<?php echo SERVERURL; ?>confAlmacen/" id="confAlmacen" style="display:none"><div class="sb-nav-link-icon"><i class="fab fas fa-warehouse"></i></div>Almacén</a>	
+					<a class="nav-link link" href="<?php echo SERVERURL; ?>confAlmacen/" id="confAlmacen" style="display:none"><div class="sb-nav-link-icon"><i class="fab fas fa-warehouse"></i></div>Almacén</a>
+					<a class="nav-link link" href="<?php echo SERVERURL; ?>confImpresora/" id="confImpresora" style="display:none"><div class="sb-nav-link-icon"><i class="fab fas fa-print"></i></div>Impresora</a>	
 					<a class="nav-link link" href="<?php echo SERVERURL; ?>confUbicacion/" id="confUbicacion" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-search-location"></i></div>Ubicación</a>
 					<a class="nav-link link" href="<?php echo SERVERURL; ?>confCategoria/" id="confCategoria" style="display:none"><div class="sb-nav-link-icon"><i class="fas fas fa-layer-group"></i></div>Categoría</a>					
 					<a class="nav-link link" href="<?php echo SERVERURL; ?>confMedida/" id="confMedida" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-balance-scale-left"></i></div>Medidas</a>

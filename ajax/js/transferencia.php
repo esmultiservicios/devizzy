@@ -87,15 +87,7 @@ var inventario_transferencia = function(){
 			action: 	function(){
 				inventario_transferencia();
 			}
-		}/*,
-		{
-			text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
-			titleAttr: 'Agregar Movimientos',
-			className: 'table_crear btn btn-primary ocultar',
-			action: 	function(){
-				modal_movimientos();
-			}
-		}*/,
+		},
 		{
 			extend:    'excelHtml5',
 			text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',

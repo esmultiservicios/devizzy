@@ -250,7 +250,6 @@ $(".menu-toggle2").on("click", function(e){
 
 $(document).ready(function(){
 	//INICIO PRINT COMPROBANTE
-	console.log('comprobaten')
 	$('#modal_pagos #label_print_comprobant').html("No");
 	
     $('#modal_pagos .switch').change(function(){    
