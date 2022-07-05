@@ -27,7 +27,7 @@
 				require_once "./core/mainModel.php";
 				
 				$insMainModel = new mainModel();
-				$entidad = "almacen";
+				$entidad = "impresora";
 				
 				if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
 					$consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();					
