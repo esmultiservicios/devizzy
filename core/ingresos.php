@@ -17,7 +17,7 @@
 		<tr>
 			<td class="logo_factura">
 				<div>
-					<img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="250px" height="95px">
+					<img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="150px" height="95px">
 				</div>
 			</td>
 			<td class="info_empresa">
