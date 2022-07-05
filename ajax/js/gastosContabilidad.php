@@ -180,7 +180,7 @@ var listar_gastos_contabilidad = function(){
 
 						image: imagen,
 
-						width:170,
+						width:100,
 
                         height:45
 

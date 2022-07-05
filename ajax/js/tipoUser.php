@@ -71,7 +71,7 @@ var listar_tipo_usuario = function(){
 						margin: [ 0, 0, 0, 12 ],
 						alignment: 'left',
 						image: imagen,
-						width:170,
+						width:100,
                         height:45
 					} );
 				}

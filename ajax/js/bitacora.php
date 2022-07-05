@@ -67,7 +67,7 @@ var listar_bitacora = function(){
 						margin: [ 0, 0, 0, 12 ],
 						alignment: 'left',
 						image: imagen,
-						width:170,
+						width:100,
                         height:45
 					} );
 				}
