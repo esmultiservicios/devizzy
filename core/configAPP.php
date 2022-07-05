@@ -3,8 +3,8 @@
         Parametros de conexión a la DB
     */
     const SERVER = "localhost";
-    const DB = "kireds_devkireds";
-    const USER = "kireds_devkireds";
+    const DB = "kireds_fayad";
+    const USER = "kireds_fayad";
     const PASS = "F@y@dSlSt3m@2021hn05";
 
     /*

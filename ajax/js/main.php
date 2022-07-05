@@ -1017,11 +1017,10 @@ function printBill(facturas_id,$print_comprobante){
 			id: 1,
 		},
 			success: function(data){
-				$.each(JSON.parse(data), function(){	
-			
+				$.each(JSON.parse(data), function(){						
 					if(this.tipo == 1 && this.estado == 1){
-					var url = '<?php echo SERVERURL;?>core/generaFactura.php?facturas_id='+facturas_id;
-					window.open(url);
+						var url = '<?php echo SERVERURL;?>core/generaFactura.php?facturas_id='+facturas_id;
+						window.open(url);
 					}
 					
 					if(this.tipo == 2 && this.estado == 1){
@@ -1030,28 +1029,23 @@ function printBill(facturas_id,$print_comprobante){
 
 					}
 					
-					if(this.tipo == 3 && this.estado == 1){
-						var url_comprobante = '<?php echo SERVERURL;?>core/generaComprobante.php?facturas_id='+facturas_id;
-						window.open(url_comprobante);
-						console.log('compriante',this.tipo)			
+					if($print_comprobante == 1){
+						if(this.tipo == 3 && this.estado == 1){
+							var url_comprobante = '<?php echo SERVERURL;?>core/generaComprobante.php?facturas_id='+facturas_id;
+							window.open(url_comprobante);		
+						}
 
-					}
-
-					if(this.tipo == 4 && this.estado == 1){
-						var url = '<?php echo SERVERURL;?>core/generaTicketComprobante.php?facturas_id='+facturas_id;
-						window.open(url);	
-
-					}
-			
+						if(this.tipo == 4 && this.estado == 1){
+							var url = '<?php echo SERVERURL;?>core/generaTicketComprobante.php?facturas_id='+facturas_id;
+							window.open(url);
+						}
+					}			
 				}
 	
 			)}
 		});	
 		
-	if($print_comprobante == 1 || $print_comprobante == true || $print_comprobante == '1'){
-		var url_comprobante = '<?php echo SERVERURL;?>core/generaComprobante.php?facturas_id='+facturas_id;
-		window.open(url_comprobante);
-	}
+		return false;
 
 }
 
