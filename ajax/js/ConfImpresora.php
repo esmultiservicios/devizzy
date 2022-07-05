@@ -3,7 +3,6 @@ $(document).ready(function() {
 	getImpresora();
 });
 
-
 //CONFIGURACION DE IMPRESORA    
 var getImpresora = function(){
 	var impresora_id;
