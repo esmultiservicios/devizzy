@@ -150,7 +150,7 @@ var view_reporte_facturas_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.print_factura", function(e){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
-		printBill(data.facturas_id);
+		printBillReporteVentas(data.facturas_id);
 	});
 }
 
@@ -159,8 +159,7 @@ var view_reporte_comprobante_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.print_comprobante", function(e){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
-		var url_comprobante = '<?php echo SERVERURL; ?>core/generaComprobante.php?facturas_id='+data.facturas_id;
-		window.open(url_comprobante);
+		printBillComprobanteReporteVentas(data.facturas_id);
 	});
 }
 
