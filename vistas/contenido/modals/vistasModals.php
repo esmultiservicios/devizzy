@@ -692,15 +692,7 @@
 										<div class="list-div my-2">
 											<div class="fas fa-money-check fa-lg"></div> &nbsp;&nbsp; Cheque
 										</div>
-									</a>	
-									<div class="container mt-md-0">
-										<p class="mb-0 mt-3">Imprimir Comprobante de Entrega:</p>
-										<label class="switch mb-2" data-toggle="tooltip" data-placement="top">
-											<input type="checkbox" id="" name="comprobante_print_switch" value="0">
-											<div class="slider round"></div>
-										</label>
-										<span class="question mb-2" id="label_print_comprobant"></span>
-									</div>								
+									</a>								
 								</div>
 							</div> <!-- Page Content -->
 							<div id="page-content-wrapper">

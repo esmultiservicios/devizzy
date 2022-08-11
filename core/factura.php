@@ -107,7 +107,7 @@
 						$importe += ($registro_detalles["precio"] * $registro_detalles["cantidad"] - $registro_detalles["descuento"]);
 						$subtotal += $importe;
 						$descuentos += $registro_detalles["descuento"];
-						$descuentos_neto += $descuentos;
+						$descuentos_neto += $registro_detalles["descuento"];
 						$isv_neto += $registro_detalles["isv_valor"];
 						
 						if($registro_detalles["isv_valor"] > 0){
@@ -128,7 +128,7 @@
 							<td>'.$producto_name.'</td>
 							<td align="center">'.$registro_detalles["cantidad"].'</td>
 							<td class="textright">L. '.number_format($registro_detalles["precio"],2).'</td>
-							<td class="textright">L. '.number_format($descuentos,2).'</td>
+							<td class="textright">L. '.number_format($registro_detalles["descuento"],2).'</td>
 							<td class="textright">L. '.number_format($importe,2).'</td>
 						  </tr>
 						';
