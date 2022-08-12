@@ -1677,7 +1677,8 @@ var listar_clientes = function(){
 			{"data":"correo"},
 			{"data":"departamento"},
 			{"data":"municipio"},
-			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_editar editar_rtn btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_editar editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
         "lengthMenu": lengthMenu,
@@ -1754,13 +1755,22 @@ var listar_clientes = function(){
 	table_clientes.search('').draw();
 	$('#buscar').focus();
 
+	editar_clientes_rtn_dataTable("#dataTableClientes tbody", table_clientes);
 	editar_clientes_dataTable("#dataTableClientes tbody", table_clientes);
 	eliminar_clientes_dataTable("#dataTableClientes tbody", table_clientes);
 }
 
+var editar_clientes_rtn_dataTable = function(tbody, table){
+    $(tbody).off("click", "button.editar_rtn");
+    $(tbody).on("click", "button.editar_rtn", function(){
+        var data = table.row( $(this).parents("tr") ).data();
+        editRTNClient(data.clientes_id);
+    });
+}
+
 var editar_clientes_dataTable = function(tbody, table){
-	$(tbody).off("click", "button.table_editar");
-	$(tbody).on("click", "button.table_editar", function(){
+	$(tbody).off("click", "button.editar");
+	$(tbody).on("click", "button.editar", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		var url = '<?php echo SERVERURL;?>core/editarClientes.php';
 		$('#formClientes #clientes_id').val(data.clientes_id)
@@ -1890,6 +1900,86 @@ $('#formClientes .switch').change(function(){
         return false;
     }
 });
+
+function editRTNClient(clientes_id){
+    swal({
+            title: "¿Estas seguro?",
+            text: "¿Desea editar el RTN para el cliente: # " + getNombreCliente(clientes_id) + "?",
+            type: "input",
+            input: 'number',
+            showCancelButton: true,
+            confirmButtonClass: "btn-primary",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "¡Sí, editar el RTN!",
+            closeOnConfirm: false,
+            inputPlaceholder: "RTN",
+            allowEscapeKey: false,
+            allowOutsideClick: false
+        },
+        function(inputValue){
+          if (inputValue === false) return false;
+          if (inputValue === "") {
+            swal.showInputError("Necesitas escribir algo");
+            return false
+          } 
+          editRTNCliente(clientes_id,inputValue);
+    });
+}
+
+function editRTNCliente(clientes_id, rtn){
+    var url = '<?php echo SERVERURL; ?>core/editRTNCliente.php';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'clientes_id='+clientes_id+'&rtn='+rtn,
+       success:function(data){
+          if(data == 1){
+            swal({
+                title: "Success",
+                text: "El RTN ha sido actualizado satisfactoriamente",
+                type: "success",
+				confirmButtonClass: "btn-primary"
+            });
+			listar_clientes();
+          }else if(data == 2){
+            swal({
+                title: "Error",
+                text: "Error el RTN no se puede actualizar",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });
+          }else if(data == 3){
+            swal({
+                title: "Error",
+                text: "El RTN ya existe",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });
+          }
+      }
+    });
+}
+
+function getNombreCliente(clientes_id){
+	var url = '<?php echo SERVERURL; ?>core/getNombreCliente.php';
+    var nombreCliente = '';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'clientes_id='+clientes_id,
+       success:function(data){
+            var datos = eval(data);
+            nombreCliente = datos[0];
+      }	  
+    });
+
+	return nombreCliente;
+
+}
 //FIN ACCIONES FROMULARIO CLIENTES
 
 //INICIO MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES

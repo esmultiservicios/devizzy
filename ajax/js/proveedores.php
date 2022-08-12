@@ -19,7 +19,8 @@ var listar_proveedores = function(){
 			{"data":"correo"},
 			{"data":"departamento"},
 			{"data":"municipio"},
-			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_editar editar_rtn btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_editar editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
         "lengthMenu": lengthMenu,
@@ -96,13 +97,22 @@ var listar_proveedores = function(){
 	table_proveedores.search('').draw();
 	$('#buscar').focus();
 
+	editar_proveedores_rtn_dataTable("#dataTableProveedores tbody", table_proveedores);
 	editar_proveedores_dataTable("#dataTableProveedores tbody", table_proveedores);
 	eliminar_proveedores_dataTable("#dataTableProveedores tbody", table_proveedores);
 }
 
+var editar_proveedores_rtn_dataTable = function(tbody, table){
+    $(tbody).off("click", "button.editar_rtn");
+    $(tbody).on("click", "button.editar_rtn", function(){
+        var data = table.row( $(this).parents("tr") ).data();
+        editRTNProvider(data.proveedores_id);
+    });
+}
+
 var editar_proveedores_dataTable = function(tbody, table){
-	$(tbody).off("click", "button.table_editar");
-	$(tbody).on("click", "button.table_editar", function(){
+	$(tbody).off("click", "button.editar");
+	$(tbody).on("click", "button.editar", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		var url = '<?php echo SERVERURL;?>core/editarProveedores.php';
 		$('#formProveedores #proveedores_id').val(data.proveedores_id);
@@ -217,6 +227,86 @@ var eliminar_proveedores_dataTable = function(tbody, table){
 			}
 		});
 	});
+}
+
+function editRTNProvider(proveedores_id){
+    swal({
+            title: "¿Estas seguro?",
+            text: "¿Desea editar el RTN para el cliente: # " + getNombreProveedor(proveedores_id) + "?",
+            type: "input",
+            input: 'number',
+            showCancelButton: true,
+            confirmButtonClass: "btn-primary",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "¡Sí, editar el RTN!",
+            closeOnConfirm: false,
+            inputPlaceholder: "RTN",
+            allowEscapeKey: false,
+            allowOutsideClick: false
+        },
+        function(inputValue){
+          if (inputValue === false) return false;
+          if (inputValue === "") {
+            swal.showInputError("Necesitas escribir algo");
+            return false
+          } 
+          editRTNProveedor(proveedores_id,inputValue);
+    });
+}
+
+function editRTNProveedor(proveedores_id, rtn){
+    var url = '<?php echo SERVERURL; ?>core/editRTNProveedor.php';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'proveedores_id='+proveedores_id+'&rtn='+rtn,
+       success:function(data){
+          if(data == 1){
+            swal({
+                title: "Success",
+                text: "El RTN ha sido actualizado satisfactoriamente",
+                type: "success",
+				confirmButtonClass: "btn-primary"
+            });
+			listar_proveedores();
+          }else if(data == 2){
+            swal({
+                title: "Error",
+                text: "Error el RTN no se puede actualizar",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });
+          }else if(data == 3){
+            swal({
+                title: "Error",
+                text: "El RTN ya existe",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });
+          }
+      }
+    });
+}
+
+function getNombreProveedor(proveedores_id){
+	var url = '<?php echo SERVERURL; ?>core/getNombreProveedor.php';
+    var nombreProveedor = '';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'proveedores_id='+proveedores_id,
+       success:function(data){
+            var datos = eval(data);
+            nombreProveedor = datos[0];
+      }	  
+    });
+
+	return nombreProveedor;
+
 }
 //FIN ACCIONES FROMULARIO PROVEEDORES
 /*FIN FORMULARIO PROVEEDORES*/

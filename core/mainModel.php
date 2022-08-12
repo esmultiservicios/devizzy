@@ -3170,92 +3170,107 @@
 
 		}
 
-
-
 		public function getNumeroFactura($facturas_id){
-
 			$query = "SELECT f.number AS 'numero', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno'
-
 				FROM facturas AS f
-
 				INNER JOIN clientes AS c
-
 				ON f.clientes_id = c.clientes_id
-
 				INNER JOIN secuencia_facturacion AS sf
-
 				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-
 				WHERE f.facturas_id = '$facturas_id'";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getNumeroCompra($compras_id){
-
 			$query = "SELECT c.number AS 'numero'
-
 				FROM compras AS c
-
 				INNER JOIN proveedores AS p
-
 				ON c.proveedores_id = p.proveedores_id
-
 				WHERE c.compras_id = '$compras_id'";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
-
-
-		public function getNumeroCotizacion($cotizacion_id){
-
-			$query = "SELECT c.number AS 'numero', cl.nombre AS 'cliente'
-
-			FROM cotizacion AS c
-
-			INNER JOIN clientes AS cl
-
-			ON c.clientes_id = cl.clientes_id
-
-			WHERE c.cotizacion_id = '$cotizacion_id'";
-
-
+		public function getNombreCliente($clientes_id){
+			$query = "SELECT nombre
+			FROM clientes
+			WHERE clientes_id = '$clientes_id'";
 
 			$result = self::connection()->query($query);
 
+			return $result;
+		}
 
+		public function getRTNCliente($clientes_id, $rtn){
+			$query = "SELECT rtn
+			FROM clientes
+			WHERE clientes_id = '$clientes_id' AND rtn = '$rtn'";
+			$result = self::connection()->query($query);
 
 			return $result;
+		}
 
+		public function actualizarRTNCliente($clientes_id, $rtn){
+			$update = " UPDATE clientes
+				SET rtn = '$rtn'
+				WHERE clientes_id = '$clientes_id'";
+
+			$result = self::connection()->query($update);
+			return $result;
+		}
+
+		public function getNombreProveedor($proveedores_id){
+			$query = "SELECT nombre
+			FROM proveedores
+			WHERE proveedores_id = '$proveedores_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
+		public function getRTNProveedor($proveedores_id, $rtn){
+			$query = "SELECT rtn
+			FROM proveedores
+			WHERE proveedores_id = '$proveedores_id' AND rtn = '$rtn'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}				
+
+		public function actualizarRTNProveedor($proveedores_id, $rtn){
+			$update = " UPDATE proveedores
+				SET rtn = '$rtn'
+				WHERE proveedores_id = '$proveedores_id'";
+
+			$result = self::connection()->query($update);
+			return $result;
+		}
+
+		public function getNumeroCotizacion($cotizacion_id){
+			$query = "SELECT c.number AS 'numero', cl.nombre AS 'cliente'
+			FROM cotizacion AS c
+			INNER JOIN clientes AS cl
+			ON c.clientes_id = cl.clientes_id
+			WHERE c.cotizacion_id = '$cotizacion_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
 		}
 
 
 
 		function rellenarDigitos($valor, $long){
-
 			$numero = str_pad($valor, $long, '0', STR_PAD_LEFT);
 
-
-
 			return $numero;
-
 		}
 
 
@@ -4005,7 +4020,6 @@
 		}
 
 		public function updateImpresora($id,$estado){
-			
 			$update = " UPDATE impresora
 				SET estado = '$estado'
 				WHERE impresora_id = '$id'";
