@@ -27,6 +27,20 @@
 			$cantidad_minima = mainModel::cleanString($_POST['cantidad_minima']);
 			$cantidad_maxima = mainModel::cleanString($_POST['cantidad_maxima']);
 
+			if($bar_code_product == "" || $bar_code_product == 0){
+				$flag_barcode = true;
+				while($flag_barcode){
+				   $d=rand(1,99999999);
+					$result_barcode = productosModelo::valid_barcode_modelo($d);
+				   if($result_barcode->num_rows==0){
+					  $bar_code_product = $d;
+					  $flag_barcode = false;
+				   }else{
+					  $flag_barcode = true;
+				   }		
+				}
+			}
+
 			if($cantidad == ""){
 				$cantidad = 0;
 			}

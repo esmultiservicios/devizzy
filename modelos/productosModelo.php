@@ -26,6 +26,14 @@
 			return $result;			
 		}
 		
+		protected function valid_barcode_modelo($barCode){
+			$query = "SELECT productos_id FROM productos WHERE barCode = '$barCode'";
+
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;
+		}	
+
 		protected function valid_productos_modelo($nombre){
 			$query = "SELECT productos_id FROM productos WHERE nombre = '$nombre'";
 
