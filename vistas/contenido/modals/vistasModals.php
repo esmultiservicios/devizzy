@@ -1745,7 +1745,7 @@
 					<div class="col-md-3 mb-3">
 						<label for="bar_code_product">Código de Barra</label>
 						<div class="input-group mb-3">
-							<input type="text" class="form-control" id="bar_code_product" name="bar_code_product" placeholder="Código de Barra" data-toggle="tooltip" data-placement="top">
+							<input type="text" class="form-control" id="bar_code_product" name="bar_code_product" placeholder="Código de Barra" data-toggle="tooltip" data-placement="top" title="Si este campo esta vacío o tiene el número cero el sistema genera un código de barra automáticamente siendo un valor único">
 						</div>	 
 					</div>
 					<div class="col-md-8 mb-3">
