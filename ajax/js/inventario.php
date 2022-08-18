@@ -1,10 +1,7 @@
 <script>
 $(document).ready(function() {
 	funciones();   
-	
 		listar_movimientos();
-		
-
 });
 
 function funciones(){
@@ -456,6 +453,7 @@ var listar_productos_buscar_movimientos = function(){
 		},
 		"columns":[
 			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus fa-lg'></span></button>"},
+			{"data":"barCode"},
 			{"data":"nombre"},
 			{"data":"cantidad"},
 			{"data":"medida"},

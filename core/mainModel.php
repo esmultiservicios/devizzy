@@ -2284,51 +2284,27 @@
 
 		}
 
-
-
 		public function getProductosMovimientos($tipo_producto_id){
-
 			$query = "SELECT p.productos_id AS 'productos_id', p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', p.cantidad AS 'cantidad', p.precio_compra AS 'precio_compra', p.precio_venta AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
-
 			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
-
 			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'tipo_producto', p.isv_venta AS 'impuesto_venta', p.isv_compra AS 'isv_compra', p.colaborador_id AS 'colaborador_id'
-
 				FROM productos AS p
-
 				INNER JOIN medida AS m
-
 				ON p.medida_id = m.medida_id
-
 				INNER JOIN almacen AS a
-
 				ON p.almacen_id = a.almacen_id
-
 				INNER JOIN ubicacion AS u
-
 				ON a.ubicacion_id = u.ubicacion_id
-
 				INNER JOIN empresa AS e
-
 				ON u.empresa_id = e.empresa_id
-
 				INNER JOIN tipo_producto AS tp
-
 				ON p.tipo_producto_id = tp.tipo_producto_id
-
 				WHERE p.estado = 1 AND p.tipo_producto_id = '$tipo_producto_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getProductosCompras(){
 
@@ -2372,19 +2348,11 @@
 
 		}
 
-
-
 		function getProductoTipoProducto($tipo_producto_id){
-
 			$query = "SELECT *
-
 				FROM productos
-
 				WHERE tipo_producto_id = '$tipo_producto_id'";
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 

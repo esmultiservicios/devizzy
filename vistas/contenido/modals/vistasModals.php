@@ -1234,6 +1234,7 @@
 								<thead>
 									<tr>
 										<th>Seleccione</th>
+										<th>Código</th>
 										<th>Producto</th>
 										<th>Cantidad</th>
 										<th>Medida</th>

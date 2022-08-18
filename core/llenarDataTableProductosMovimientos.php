@@ -14,6 +14,7 @@
 
 	while($row = $result->fetch_assoc()){				
 		$data[] = array( 
+			"barCode"=>$row['barCode'],
 			"productos_id"=>$row['productos_id'],
 			"colaborador_id"=>$row['colaborador_id'],
 			"nombre"=>$row['nombre'],
