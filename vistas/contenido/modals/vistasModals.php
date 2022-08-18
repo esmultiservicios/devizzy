@@ -1979,7 +1979,7 @@
 			</form>
         </div>	
 		<div class="modal-footer">
-			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="editar_rtn_clientes" form="formEditarRTNClientes"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>				
+			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="editar_rtn_clientes" form="formEditarRTNClientes"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>				
 		</div>			
       </div>
     </div>
@@ -2025,7 +2025,7 @@
 			</form>
         </div>	
 		<div class="modal-footer">
-			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="editar_rtn_proveedores" form="formEditarRTNProveedores"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>				
+			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="editar_rtn_proveedores" form="formEditarRTNProveedores"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>				
 		</div>			
       </div>
     </div>
@@ -2071,7 +2071,7 @@
 			</form>
         </div>	
 		<div class="modal-footer">
-			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="editar_barcode" form="formEditarBarcode"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>				
+			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="editar_barcode" form="formEditarBarcode"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>				
 		</div>			
       </div>
     </div>
