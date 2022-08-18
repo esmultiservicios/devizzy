@@ -20,8 +20,7 @@
 								<th>Teléfono</th>
 								<th>Correo</th>	
 								<th>Departamento</th>
-								<th>Municipio</th>
-								<th>RTN</th>	
+								<th>Municipio</th>	
 								<th>Editar</th>	
 								<th>Eliminar</th>
 							</tr>

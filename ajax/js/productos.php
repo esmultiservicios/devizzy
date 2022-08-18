@@ -180,7 +180,8 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#formProductos #cantidad').attr("disabled", true);
 				$('#formProductos #buscar_producto_empresa').hide();
 				$('#formProductos #buscar_producto_categorias').hide();	
-				$('#formProductos #estado_producto').show();				
+				$('#formProductos #estado_producto').show();
+				$('#formProductos #grupo_editar_bacode').show();				
 
 				$('#modal_registrar_productos').modal({
 					show:true,
@@ -274,6 +275,7 @@ var eliminar_producto_dataTable = function(tbody, table){
 				$('#formProductos #buscar_producto_empresa').hide();
 				$('#formProductos #buscar_producto_categorias').hide();
 				$('#formProductos #estado_producto').hide();
+				$('#formProductos #grupo_editar_bacode').hide();
 
 				$('#modal_registrar_productos').modal({
 					show:true,
@@ -285,6 +287,87 @@ var eliminar_producto_dataTable = function(tbody, table){
 	});
 }	
 
+//INICIO EDITAR RTN CLIENTE
+//SE LLAMA AL MODAL CUANDO PRESIONAMOS EN EDITAR RTN EN CLIENTES
+$('#formProductos #grupo_editar_bacode').on('click',function(e){
+	e.preventDefault();
+	
+	$('#formEditarBarcode')[0].reset();
+	$('#formEditarBarcode #pro_barcode').val("Editar");
+	$('#formEditarBarcode #productos_id').val($('#formProductos #productos_id').val());
+	$('#formEditarBarcode #producto').val($('#formProductos #producto').val());
+	$('#modalEditarBarcode').modal({
+		show:true,
+		keyboard: false,
+		backdrop:'static'
+	});
+});
+
+$(document).ready(function(){
+    $("#modalEditarBarcode").on('shown.bs.modal', function(){
+        $(this).find('#formEditarBarcode #barcode').focus();
+    });
+});
+
+$('#editar_barcode').on('click',function(e){
+	e.preventDefault();
+	
+	editBarCode($('#formEditarBarcode #productos_id').val(), $('#formEditarBarcode #barcode').val(), $('#formEditarBarcode #producto').val());
+});
+
+function editBarCode(productos_id, barcode, producto){
+	swal({
+		title: "¿Estas seguro?",
+		text: "¿Desea editar el Código de Barra para el producto: " + producto + "?",
+		type: "info",
+		showCancelButton: true,
+		cancelButtonText: "Cancdelar",
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "¡Si, Deseo Editarlo!",
+		closeOnConfirm: false 
+	},
+	function(){
+		editarCodigoBarra(productos_id,barcode);
+	});
+}
+
+function editarCodigoBarra(productos_id, barcode){
+    var url = '<?php echo SERVERURL; ?>core/editBarCode.php';
+
+    $.ajax({
+       type:'POST',
+       url:url,
+       async: false,
+       data:'productos_id='+productos_id+'&barcode='+barcode,
+       success:function(data){
+          if(data == 1){
+            swal({
+                title: "Success",
+                text: "El Código de Barra ha sido actualizado satisfactoriamente",
+                type: "success",
+				confirmButtonClass: "btn-primary"
+            });
+			listar_productos();
+			$('#formProductos #bar_code_product').val(barcode);
+          }else if(data == 2){
+            swal({
+                title: "Error",
+                text: "Error el El Código de Barra no se puede actualizar",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });
+          }else if(data == 3){
+            swal({
+                title: "Error",
+                text: "El El Código de Barra ya existe",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });
+          }
+      }
+    });
+}
+//FIN EDITAR RTN CLIENTE
 $(document).ready(function() {
 	$('#formProductos #tipo_producto').on('change',function(){
 		evaluarCategoria();

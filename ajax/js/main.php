@@ -24,8 +24,6 @@ $(document).ready(function() {
 	getPuestoColaboradores();
 });
 
-
-
 //INICIO MENUS
 function getPermisosTipoUsuarioAccesosTable(privilegio_id){
 	var url = '<?php echo SERVERURL;?>core/getTipoUsuarioAccesos.php';	
@@ -532,7 +530,8 @@ function modal_productos(){
 	
 	$('#formProductos #producto_activo').attr('checked', true);
 	$('#formProductos #producto_isv_factura').attr('checked', true);
-	$('#formProductos #estado_producto').hide();	
+	$('#formProductos #estado_producto').hide();
+	$('#formProductos #grupo_editar_bacode').hide();	
 	
 	$("#formProductos #preview").attr("src", "<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png");
 	
@@ -648,6 +647,7 @@ function modal_clientes(){
 	$('#formClientes #correo_clientes').attr("readonly", false);
 	$('#formClientes #clientes_activo').attr("disabled", false);
 	$('#formClientes #estado_clientes').hide();
+	$('#formClientes #grupo_editar_rtn').hide();
 
 	$('#formClientes #proceso_clientes').val("Registro");
 	$('#modal_registrar_clientes').modal({
@@ -697,6 +697,7 @@ function modal_proveedores(){
 	$('#formProveedores #correo_proveedores').attr("readonly", false);
 	$('#formProveedores #proveedores_activo').attr("disabled", false);
 	$('#formProveedores #estado_proveedores').hide();
+	$('#formProveedores #grupo_editar_rtn').hide();
 
 	$('#formProveedores #proceso_proveedores').val("Registro");
 	$('#modal_registrar_proveedores').modal({
@@ -1229,6 +1230,40 @@ function getNumeroFactura(facturas_id){
 	return noFactura;
 }
 
+function getNumeroEgreso(egresos_id){
+	var url = '<?php echo SERVERURL; ?>core/getNoEgreso.php';
+	var noEgreso = '';
+
+	$.ajax({
+	   type:'POST',
+	   url:url,
+	   async: false,
+	   data:'egresos_id='+egresos_id,
+	   success:function(data){
+			var datos = eval(data);
+			noEgreso = datos[0];
+	  }
+	});
+	return noEgreso;
+}
+
+function getNumeroIngreso(ingresos_id){
+	var url = '<?php echo SERVERURL; ?>core/getNoIngreso.php';
+	var noIngreso = '';
+
+	$.ajax({
+	   type:'POST',
+	   url:url,
+	   async: false,
+	   data:'ingresos_id='+ingresos_id,
+	   success:function(data){
+			var datos = eval(data);
+			noIngreso = datos[0];
+	  }
+	});
+	return noIngreso;
+}
+
 function getNumeroCompra(compras_id){
 	var url = '<?php echo SERVERURL; ?>core/getNoCompra.php';
 	var noCompra = '';
@@ -1677,7 +1712,6 @@ var listar_clientes = function(){
 			{"data":"correo"},
 			{"data":"departamento"},
 			{"data":"municipio"},
-			{"defaultContent":"<button class='table_editar editar_rtn btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_editar editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
@@ -1755,17 +1789,8 @@ var listar_clientes = function(){
 	table_clientes.search('').draw();
 	$('#buscar').focus();
 
-	editar_clientes_rtn_dataTable("#dataTableClientes tbody", table_clientes);
 	editar_clientes_dataTable("#dataTableClientes tbody", table_clientes);
 	eliminar_clientes_dataTable("#dataTableClientes tbody", table_clientes);
-}
-
-var editar_clientes_rtn_dataTable = function(tbody, table){
-    $(tbody).off("click", "button.editar_rtn");
-    $(tbody).on("click", "button.editar_rtn", function(){
-        var data = table.row( $(this).parents("tr") ).data();
-        editRTNClient(data.clientes_id);
-    });
 }
 
 var editar_clientes_dataTable = function(tbody, table){
@@ -1812,6 +1837,7 @@ var editar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #telefono_clientes').attr("readonly", false);
 				$('#formClientes #correo_clientes').attr("readonly", false);
 				$('#formClientes #clientes_activo').attr("disabled", false);
+				$('#formClientes #grupo_editar_rtn').show();
 
 				//DESHABILITAR
 				$('#formClientes #identidad_clientes').attr("readonly", true);
@@ -1876,6 +1902,7 @@ var eliminar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #correo_clientes').attr("readonly", true);
 				$('#formClientes #clientes_activo').attr("disabled", true);
 				$('#formClientes #estado_clientes').hide();
+				$('#formClientes #grupo_editar_rtn').hide();
 
 				$('#formClientes #proceso_clientes').val("Eliminar");
 				$('#modal_registrar_clientes').modal({
@@ -1901,29 +1928,48 @@ $('#formClientes .switch').change(function(){
     }
 });
 
-function editRTNClient(clientes_id){
-    swal({
-            title: "¿Estas seguro?",
-            text: "¿Desea editar el RTN para el cliente: # " + getNombreCliente(clientes_id) + "?",
-            type: "input",
-            input: 'number',
-            showCancelButton: true,
-            confirmButtonClass: "btn-primary",
-            cancelButtonText: "Cancelar",
-            confirmButtonText: "¡Sí, editar el RTN!",
-            closeOnConfirm: false,
-            inputPlaceholder: "RTN",
-            allowEscapeKey: false,
-            allowOutsideClick: false
-        },
-        function(inputValue){
-          if (inputValue === false) return false;
-          if (inputValue === "") {
-            swal.showInputError("Necesitas escribir algo");
-            return false
-          } 
-          editRTNCliente(clientes_id,inputValue);
+//INICIO EDITAR RTN CLIENTE
+//SE LLAMA AL MODAL CUANDO PRESIONAMOS EN EDITAR RTN EN CLIENTES
+$('#formClientes #grupo_editar_rtn').on('click',function(e){
+	e.preventDefault();
+	
+	$('#formEditarRTNClientes')[0].reset();
+	$('#formEditarRTNClientes #pro_clientes').val("Editar");
+	$('#formEditarRTNClientes #clientes_id').val($('#formClientes #clientes_id').val());
+	$('#formEditarRTNClientes #cliente').val($('#formClientes #nombre_clientes').val());
+	$('#modalEditarRTNClientes').modal({
+		show:true,
+		keyboard: false,
+		backdrop:'static'
+	});
+});
+
+$(document).ready(function(){
+    $("#modalEditarRTNClientes").on('shown.bs.modal', function(){
+        $(this).find('#formEditarRTNClientes #rtn_cliente').focus();
     });
+});
+
+$('#editar_rtn_clientes').on('click',function(e){
+	e.preventDefault();
+	
+	editRTNClient($('#formEditarRTNClientes #clientes_id').val(), $('#formEditarRTNClientes #rtn_cliente').val());
+});
+
+function editRTNClient(clientes_id, rtn){
+	swal({
+		title: "¿Estas seguro?",
+		text: "¿Desea editar el RTN para el cliente: " + getNombreCliente(clientes_id) + "?",
+		type: "info",
+		showCancelButton: true,
+		cancelButtonText: "Cancdelar",
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "¡Si, Deseo Editarlo!",
+		closeOnConfirm: false 
+	},
+	function(){
+		editRTNCliente(clientes_id,rtn);
+	});
 }
 
 function editRTNCliente(clientes_id, rtn){
@@ -1943,6 +1989,7 @@ function editRTNCliente(clientes_id, rtn){
 				confirmButtonClass: "btn-primary"
             });
 			listar_clientes();
+			$('#formClientes #identidad_clientes').val(rtn);
           }else if(data == 2){
             swal({
                 title: "Error",
@@ -1978,8 +2025,8 @@ function getNombreCliente(clientes_id){
     });
 
 	return nombreCliente;
-
 }
+//FIN EDITAR RTN CLIENTE
 //FIN ACCIONES FROMULARIO CLIENTES
 
 //INICIO MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES

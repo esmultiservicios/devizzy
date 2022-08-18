@@ -954,7 +954,7 @@
 
 <!--INICIO MODAL CLIENTES-->
 <div class="modal fade" id="modal_registrar_clientes">
-	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Clientes</h4>
@@ -981,8 +981,13 @@
 				  <input type="text" class="form-control" id="nombre_clientes" name="nombre_clientes" placeholder="Nombre" maxlength="100" required>
 				</div>
 				<div class="col-md-4 mb-3">
-				  <label for="identidad_clientes">Identidad o RTN</label>
-				  <input type="number" class="form-control" id="identidad_clientes" name= "identidad_clientes" placeholder="Identidad o RTN" maxlength="14" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+				 	<label for="identidad_clientes">Identidad o RTN</label>			
+				  	<div class="input-group mb-3">
+						<input type="number" class="form-control" id="identidad_clientes" name= "identidad_clientes" placeholder="Identidad o RTN" maxlength="14" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+						<div class="input-group-append" id="grupo_editar_rtn">				
+							<span data-toggle="tooltip" data-placement="top" title="Editar RTN"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control editar_rtn"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i></a></span>
+						</div>
+					</div>				  
 				</div>					
 			  </div>
 			  <div class="form-row">
@@ -1050,7 +1055,7 @@
 
 <!--INICIO MODAL PROVEEDORES-->
 <div class="modal fade" id="modal_registrar_proveedores">
-	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Proveedores</h4>
@@ -1078,7 +1083,12 @@
 				</div>
 				<div class="col-md-4 mb-3">
 				  <label for="rtn_proveedores">Identidad o RTN</label>
-				  <input type="number" class="form-control" id="rtn_proveedores" name= "rtn_proveedores" maxlength="14" placeholder="RTN" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+				  	<div class="input-group mb-3">
+				  		<input type="number" class="form-control" id="rtn_proveedores" name= "rtn_proveedores" maxlength="14" placeholder="RTN" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+						<div class="input-group-append" id="grupo_editar_rtn">				
+							<span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control editar_rtn"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i></a></span>
+						</div>
+					</div>				  
 				</div>					
 				</div>
 				<div class="form-row">
@@ -1743,10 +1753,13 @@
 						<input type="hidden" class="form-control" disabled placeholder="Cargar Imágen" id="file_product" name="file_product">   						
 					</div>	
 					<div class="col-md-3 mb-3">
-						<label for="bar_code_product">Código de Barra</label>
+						<label for="bar_code_product">Código de Barra</label>						
 						<div class="input-group mb-3">
 							<input type="text" class="form-control" id="bar_code_product" name="bar_code_product" placeholder="Código de Barra" data-toggle="tooltip" data-placement="top" title="Si este campo esta vacío o tiene el número cero el sistema genera un código de barra automáticamente siendo un valor único">
-						</div>	 
+							<div class="input-group-append" id="grupo_editar_bacode">				
+								<span data-toggle="tooltip" data-placement="top" title="Editar Código de Barra"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control editar_barcode"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i></a></span>
+							</div>
+						</div>						
 					</div>
 					<div class="col-md-8 mb-3">
 					  <label for="producto">Producto <span class="priority">*<span/></label>
@@ -1923,4 +1936,143 @@
   </div>
 </div>
 
+
 <!--FN Modal Transferencia de Producto / Bodega-->
+
+<!--INICIO MODAL EDITAR RTN CLIENTES-->
+<div class="modal fade" id="modalEditarRTNClientes">
+	<div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">RTN Clientes</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div><div class="container"></div>
+        <div class="modal-body">		
+			<form class="form-horizontal FormularioAjax" id="formEditarRTNClientes" action="" method="POST" data-form="" enctype="multipart/form-data">				
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
+					    <input type="hidden" required="required" readonly id="clientes_id" name="clientes_id"/>
+						<div class="input-group mb-3">
+							<input type="text" required readonly id="pro_clientes" name="pro_clientes" class="form-control"/>
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fa fa-plus-square fa-lg"></i></span>
+							</div>
+						</div>	 
+					</div>							
+				</div>
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
+					  <label for="cuenta_nombre">Cliente <span class="priority">*<span/></label>
+					  <input type="text" required id="cliente" name="cliente" placeholder="Cliente" readonly class="form-control" />
+					</div>					
+				</div>
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
+					  <label for="cuenta_nombre">RTN <span class="priority">*<span/></label>
+					  <input type="number" required id="rtn_cliente" name="rtn_cliente" placeholder="RTN" class="form-control"  maxlength="14" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
+					</div>					
+				</div>					
+				<div class="RespuestaAjax"></div> 
+			</form>
+        </div>	
+		<div class="modal-footer">
+			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="editar_rtn_clientes" form="formEditarRTNClientes"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>				
+		</div>			
+      </div>
+    </div>
+</div>
+<!--FIN MODAL EDITAR RTN CLIENTES-->
+
+<!--INICIO MODAL EDITAR RTN PPROVEEDORES-->
+<div class="modal fade" id="modalEditarRTNProveedores">
+	<div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">RTN Proveedores</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div><div class="container"></div>
+        <div class="modal-body">		
+			<form class="form-horizontal FormularioAjax" id="formEditarRTNProveedores" action="" method="POST" data-form="" enctype="multipart/form-data">				
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
+					    <input type="hidden" required="required" readonly id="proveedores_id" name="proveedores_id"/>
+						<div class="input-group mb-3">
+							<input type="text" required readonly id="pro_proveedores" name="pro_proveedores" class="form-control"/>
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fa fa-plus-square fa-lg"></i></span>
+							</div>
+						</div>	 
+					</div>							
+				</div>
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
+					  <label for="cuenta_nombre">Proveedor <span class="priority">*<span/></label>
+					  <input type="text" required id="proveedor" name="proveedor" readonly placeholder="Proveedor" class="form-control" />
+					</div>					
+				</div>
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
+					  <label for="cuenta_nombre">RTN <span class="priority">*<span/></label>
+					  <input type="number" required id="rtn_proveedor" name="rtn_proveedor" placeholder="RTN" class="form-control"  maxlength="14" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
+					</div>					
+				</div>					
+				<div class="RespuestaAjax"></div> 
+			</form>
+        </div>	
+		<div class="modal-footer">
+			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="editar_rtn_proveedores" form="formEditarRTNProveedores"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>				
+		</div>			
+      </div>
+    </div>
+</div>
+<!--FIN MODAL EDITAR RTN PPROVEEDORES-->
+
+<!--INICIO MODAL EDITAR BARCODE-->
+<div class="modal fade" id="modalEditarBarcode">
+	<div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Código de Barras</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div><div class="container"></div>
+        <div class="modal-body">		
+			<form class="form-horizontal FormularioAjax" id="formEditarBarcode" action="" method="POST" data-form="" enctype="multipart/form-data">				
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
+					    <input type="hidden" required="required" readonly id="productos_id" name="productos_id"/>
+						<div class="input-group mb-3">
+							<input type="text" required readonly id="pro_barcode" name="pro_barcode" class="form-control"/>
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fa fa-plus-square fa-lg"></i></span>
+							</div>
+						</div>	 
+					</div>							
+				</div>
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
+					  <label for="cuenta_nombre">Producto <span class="priority">*<span/></label>
+					  <input type="text" required id="producto" name="producto" readonly placeholder="Producto" class="form-control" />
+					</div>					
+				</div>
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
+					  <label for="cuenta_nombre">Código de Barra <span class="priority">*<span/></label>
+					  <input type="number" required id="barcode" name="barcode" placeholder="Código de Barra" class="form-control"  maxlength="20" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
+					</div>					
+				</div>					
+				<div class="RespuestaAjax"></div> 
+			</form>
+        </div>	
+		<div class="modal-footer">
+			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="editar_barcode" form="formEditarBarcode"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>				
+		</div>			
+      </div>
+    </div>
+</div>
+<!--FIN MODAL EDITAR BARCODE-->

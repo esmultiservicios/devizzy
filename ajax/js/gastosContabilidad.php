@@ -12,8 +12,6 @@ $(document).ready(function() {
 
 });
 
-
-
 $('#formMainGastosContabilidad #search').on("click", function(e){
 
 	e.preventDefault();
@@ -21,8 +19,6 @@ $('#formMainGastosContabilidad #search').on("click", function(e){
 	listar_gastos_contabilidad();
 
 });
-
-
 
 //INICIO ACCIONES FORMULARIO EGRESOS
 var total_gastos_footer = function(){	
@@ -52,8 +48,6 @@ $.ajax({
 		console.log( "total ingreso error" );
 	
 });
-
-
 }
 
 var listar_gastos_contabilidad = function(){	
@@ -65,25 +59,15 @@ var listar_gastos_contabilidad = function(){
 	
 
 	var table_gastos_contabilidad  = $("#dataTableGastosContabilidad").DataTable({
-
 		"destroy":true,
-
 		"ajax":{
-
 			"method":"POST",
-
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableEgresosContabilidad.php",
-
 			"data":{
-
 				"fechai":fechai,
-
 				"fechaf":fechaf
-
 			}	
-
 		},
-
 		"columns":[
 			{"data":"fecha_registro"},
 			{"data":"egresos_id"},
@@ -97,36 +81,30 @@ var listar_gastos_contabilidad = function(){
 			{"data":"nc"},
 			{"data":"total"},
 			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit'></span></button>"},
-			{"defaultContent":"<button class='table_reportes print_gastos btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},			
-
+			{"defaultContent":"<button class='table_reportes print_gastos btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fas fa-ban fa-lg'></span></button>"}
 		],	
-
         "lengthMenu": lengthMenu,
-
 		"stateSave": true,
-
 		"bDestroy": true,
-
 		"language": idioma_español,
-
 		"dom": dom,
-
 		"columnDefs": [
-		  { width: "8.33%", targets: 0 },
-		  { width: "5.33%", targets: 1 }, 
-		  { width: "8.33%", targets: 2 },
-		  { width: "11.33%", targets: 3 },
-		  { width: "8.33%", targets: 4 },
-		  { width: "8.33%", targets: 5 },
-		  { width: "8.33%", targets: 6 },
-		  { width: "8.33%", targets: 7 },
-		  { width: "8.33%", targets: 8 },
-		  { width: "8.33%", targets: 9 },
-		  { width: "8.33%", targets: 10 },
-		  { width: "8.33%", targets: 11 },
-		  { width: "8.33%", targets: 12 }
+		  { width: "7.14%", targets: 0 },
+		  { width: "7.14%", targets: 1 }, 
+		  { width: "7.14%", targets: 2 },
+		  { width: "7.14%", targets: 3 },
+		  { width: "7.14%", targets: 4 },
+		  { width: "7.14%", targets: 5 },
+		  { width: "7.14%", targets: 6 },
+		  { width: "7.14%", targets: 7 },
+		  { width: "7.14%", targets: 8 },
+		  { width: "7.14%", targets: 9 },
+		  { width: "7.14%", targets: 10 },
+		  { width: "7.14%", targets: 11 },
+		  { width: "7.14%", targets: 12 },
+		  { width: "7.14%", targets: 13 }
 		],
-
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
@@ -169,203 +147,167 @@ var listar_gastos_contabilidad = function(){
 				exportOptions: {
 						columns: [0,1,2,3,4,5,6,7,8,9,10]
 				},
-
 				customize: function ( doc ) {
-
 					doc.content.splice( 1, 0, {
-
 						margin: [ 0, 0, 0, 2 ],
-
 						alignment: 'left',
-
 						image: imagen,
-
 						width:100,
-
                         height:45
-
 					} );
-
 				}
-
 			}			
-
 		],
-
 		"drawCallback": function( settings ) {
-
         	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
-
     	}
-
 	});
-
 	table_gastos_contabilidad.search('').draw();
 
 	$('#buscar').focus();
 
-
-
 	edit_reporte_gastos_dataTable("#dataTableGastosContabilidad tbody", table_gastos_contabilidad);
-
 	view_reporte_gastos_dataTable("#dataTableGastosContabilidad tbody", table_gastos_contabilidad);
-
+	anular_reporte_gastos_dataTable("#dataTableGastosContabilidad tbody", table_gastos_contabilidad);
 	total_gastos_footer();
 
 }
 
 var edit_reporte_gastos_dataTable = function(tbody, table){
-
 	$(tbody).off("click", "button.table_editar");
-
 	$(tbody).on("click", "button.table_editar", function(){
-
 		var data = table.row( $(this).parents("tr") ).data();
-
 		var url = '<?php echo SERVERURL;?>core/editarGastos.php';
-
 		$('#formEgresosContables #egresos_id').val(data.egresos_id);
 
-
-
 		$.ajax({
-
 			type:'POST',
-
 			url:url,
-
 			data:$('#formEgresosContables').serialize(),
-
 			success: function(registro){
-
 				var valores = eval(registro);
-
 				$('#formEgresosContables').attr({ 'data-form': 'update' });
-
 				$('#formEgresosContables').attr({ 'action': '<?php echo SERVERURL;?>ajax/modificarGastosAjax.php' });
-
 				$('#formEgresosContables')[0].reset();
-
 				$('#reg_egresosContabilidad').hide();
-
 				$('#edi_egresosContabilidad').show();
-
 				$('#delete_egresosContabilidad').hide();
-
 				$('#formEgresosContables #pro_egresos_contabilidad').val("Editar");
-
 				$('#formEgresosContables #proveedor_egresos').val(valores[0]);
-
 				$('#formEgresosContables #cuenta_egresos').val(valores[1]);
-
 				$('#formEgresosContables #empresa_egresos').val(valores[2]);
-
 				$('#formEgresosContables #fecha_egresos').val(valores[3]);
-
 				$('#formEgresosContables #factura_egresos').val(valores[4]);
-
 				$('#formEgresosContables #subtotal_egresos').val(valores[5]);
-
 				$('#formEgresosContables #isv_egresos').val(valores[6]);
-
 				$('#formEgresosContables #descuento_egresos').val(valores[7]);
-
 				$('#formEgresosContables #nc_egresos').val(valores[8]);
-
 				$('#formEgresosContables #total_egresos').val(valores[9]);
-
 				$('#formEgresosContables #observacion_egresos').val(valores[10]);
 
-
-
 				//DESHABILITAR OBJETOS
-
 				$('#formEgresosContables #cuenta_egresos').attr('disabled', true);
-
 				$('#formEgresosContables #empresa_egresos').attr('disabled', true);
-
 				$('#formEgresosContables #subtotal_egresos').attr('disabled', true);
-
 				$('#formEgresosContables #isv_egresos').attr('disabled', true);
-
 				$('#formEgresosContables #descuento_egresos').attr('disabled', true);
-
 				$('#formEgresosContables #nc_egresos').attr('disabled', true);	
-
 				$('#formEgresosContables #total_egresos').attr('disabled', true);
-
 				$('#formEgresosContables #buscar_cuenta_egresos').hide();
-
 				$('#formEgresosContables #buscar_empresa_egresos').hide();
 
-			
-
 				$('#modalEgresosContables').modal({
-
 					show:true,
-
 					keyboard: false,
-
 					backdrop:'static'
-
 				});
-
 			}
-
 		});
-
 	});
-
 }
 
-
-
 var view_reporte_gastos_dataTable = function(tbody, table){
-
 	$(tbody).off("click", "button.print_gastos");
-
 	$(tbody).on("click", "button.print_gastos", function(e){
-
 		e.preventDefault();
-
 		var data = table.row( $(this).parents("tr") ).data();
-
 		printGastos(data.egresos_id);
 
 	});
-
 }
 
-
+var anular_reporte_gastos_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.table_eliminar");
+	$(tbody).on("click", "button.table_eliminar", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		swal({
+			title: "Matenimiento",
+			text: "Opción en mantenimiento",
+			type: "warning",
+			confirmButtonClass: "btn-warning"
+		});
+	});
+}
 
 function printGastos(egresos_id){
-
 	var url = '<?php echo SERVERURL; ?>core/generaGastos.php?egresos_id='+egresos_id;
-
     window.open(url);
-
 }
 
+function anularEgreso(egresos_id){
+	swal({
+	  title: "¿Estas seguro?",
+	  text: "¿Desea anular la factura: # " + getNumeroEgreso(egresos_id) + "?",
+	  type: "info",
+	  showCancelButton: true,
+	  confirmButtonClass: "btn-primary",
+	  confirmButtonText: "¡Sí, enviar anularla!",
+	  cancelButtonText: "Cancelar",
+	  closeOnConfirm: false
+	},
+	function(){
+		anular(egresos_id);
+	});
+}
 
+function anular(egresos_id){
+	var url = '<?php echo SERVERURL; ?>core/anularIngresos.php';
 
+	$.ajax({
+	   type:'POST',
+	   url:url,
+	   async: false,
+	   data:'egresos_id='+egresos_id,
+	   success:function(data){
+	      if(data == 1){
+			swal({
+				title: "Success",
+				text: "El egreso ha sido anulado con éxito",
+				type: "success",
+			});
+			listar_reporte_ventas();
+		  }else{
+			swal({
+				title: "Error",
+				text: "el egreso no se puede anular",
+				type: "error",
+				confirmButtonClass: "btn-danger",
+			});			  
+		  }
+	  }
+	});
+}
 //INICIO BUSQUEDA PROVEEDORES EN GASTOS CONTABILIDAD
 
 $('#formEgresosContables #buscar_proveedor_egresos').on('click', function(e){
-
 	e.preventDefault();
-
 	listar_proveedores_egresos_contabilidad_buscar();
-
 	 $('#modal_buscar_proveedores_gastos_contabilidad').modal({
-
 		show:true,
-
 		keyboard: false,
-
 		backdrop:'static'
-
 	});
-
 });
 
 

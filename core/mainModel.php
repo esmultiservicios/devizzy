@@ -3184,6 +3184,34 @@
 			return $result;
 		}
 
+		public function getNumeroIngreso($ingresos_id){
+			$query = "SELECT f.number AS 'numero', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno'
+				FROM facturas AS f
+				INNER JOIN clientes AS c
+				ON f.clientes_id = c.clientes_id
+				INNER JOIN secuencia_facturacion AS sf
+				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
+				WHERE f.ingresos_id = '$ingresos_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+		
+		public function getNumeroEgreso($egresos_id){
+			$query = "SELECT f.number AS 'numero', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno'
+				FROM facturas AS f
+				INNER JOIN clientes AS c
+				ON f.clientes_id = c.clientes_id
+				INNER JOIN secuencia_facturacion AS sf
+				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
+				WHERE f.egresos_id = '$egresos_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
 		public function getNumeroCompra($compras_id){
 			$query = "SELECT c.number AS 'numero'
 				FROM compras AS c
@@ -3209,7 +3237,7 @@
 		public function getRTNCliente($clientes_id, $rtn){
 			$query = "SELECT rtn
 			FROM clientes
-			WHERE clientes_id = '$clientes_id' AND rtn = '$rtn'";
+			WHERE rtn = '$rtn'";
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -3219,6 +3247,24 @@
 			$update = " UPDATE clientes
 				SET rtn = '$rtn'
 				WHERE clientes_id = '$clientes_id'";
+
+			$result = self::connection()->query($update);
+			return $result;
+		}
+
+		public function getBarCode($productos_id, $barcode){
+			$query = "SELECT productos_id
+			FROM productos
+			WHERE barCode = '$barcode'";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
+		public function actualizarBarCode($productos_id, $barcode){
+			$update = " UPDATE productos
+				SET barCode = '$barcode'
+				WHERE productos_id = '$productos_id'";
 
 			$result = self::connection()->query($update);
 			return $result;
@@ -3237,7 +3283,7 @@
 		public function getRTNProveedor($proveedores_id, $rtn){
 			$query = "SELECT rtn
 			FROM proveedores
-			WHERE proveedores_id = '$proveedores_id' AND rtn = '$rtn'";
+			WHERE rtn = '$rtn'";
 
 			$result = self::connection()->query($query);
 

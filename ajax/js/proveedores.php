@@ -1,6 +1,7 @@
 <script>
 $(document).ready(function() {
     listar_proveedores();
+	getDepartamentoProveedores();
 });	
 
 //INICIO ACCIONES FROMULARIO PROVEEDORES
@@ -19,7 +20,6 @@ var listar_proveedores = function(){
 			{"data":"correo"},
 			{"data":"departamento"},
 			{"data":"municipio"},
-			{"defaultContent":"<button class='table_editar editar_rtn btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_editar editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
@@ -97,7 +97,6 @@ var listar_proveedores = function(){
 	table_proveedores.search('').draw();
 	$('#buscar').focus();
 
-	editar_proveedores_rtn_dataTable("#dataTableProveedores tbody", table_proveedores);
 	editar_proveedores_dataTable("#dataTableProveedores tbody", table_proveedores);
 	eliminar_proveedores_dataTable("#dataTableProveedores tbody", table_proveedores);
 }
@@ -155,6 +154,7 @@ var editar_proveedores_dataTable = function(tbody, table){
 				$('#formProveedores #correo_proveedores').attr("readonly", false);
 				$('#formProveedores #proveedores_activo').attr("disabled", false);
 				$('#formProveedores #estado_proveedores').show();
+				$('#formProveedores #grupo_editar_rtn').show();
 
 				//DESHABILITAR OBJETOS
 				$('#formProveedores #rtn_proveedores').attr("readonly", true);
@@ -217,6 +217,8 @@ var eliminar_proveedores_dataTable = function(tbody, table){
 				$('#formProveedores #correo_proveedores').attr("readonly", true);
 				$('#formProveedores #proveedores_activo').attr("disabled", true);
 				$('#formProveedores #estado_proveedores').hide();
+				$('#formProveedores #grupo_editar_rtn').hide();
+
 
 				$('#formProveedores #proceso_proveedores').val("Eliminar");
 				$('#modal_registrar_proveedores').modal({
@@ -229,29 +231,48 @@ var eliminar_proveedores_dataTable = function(tbody, table){
 	});
 }
 
-function editRTNProvider(proveedores_id){
-    swal({
-            title: "¿Estas seguro?",
-            text: "¿Desea editar el RTN para el cliente: # " + getNombreProveedor(proveedores_id) + "?",
-            type: "input",
-            input: 'number',
-            showCancelButton: true,
-            confirmButtonClass: "btn-primary",
-            cancelButtonText: "Cancelar",
-            confirmButtonText: "¡Sí, editar el RTN!",
-            closeOnConfirm: false,
-            inputPlaceholder: "RTN",
-            allowEscapeKey: false,
-            allowOutsideClick: false
-        },
-        function(inputValue){
-          if (inputValue === false) return false;
-          if (inputValue === "") {
-            swal.showInputError("Necesitas escribir algo");
-            return false
-          } 
-          editRTNProveedor(proveedores_id,inputValue);
+//INICIO EDITAR RTN PROVEEDORES
+//SE LLAMA AL MODAL CUANDO PRESIONAMOS EN EDITAR RTN EN CLIENTES
+$('#formProveedores #grupo_editar_rtn').on('click',function(e){
+	e.preventDefault();
+	
+	$('#formEditarRTNProveedores')[0].reset();
+	$('#formEditarRTNProveedores #pro_proveedores').val("Editar");
+	$('#formEditarRTNProveedores #proveedores_id').val($('#formProveedores #proveedores_id').val());
+	$('#formEditarRTNProveedores #proveedor').val($('#formProveedores #nombre_proveedores').val());
+	$('#modalEditarRTNProveedores').modal({
+		show:true,
+		keyboard: false,
+		backdrop:'static'
+	});
+});
+
+$(document).ready(function(){
+    $("#modalEditarRTNProveedores").on('shown.bs.modal', function(){
+        $(this).find('#formEditarRTNProveedores #rtn_proveedor').focus();
     });
+});
+
+$('#editar_rtn_proveedores').on('click',function(e){
+	e.preventDefault();
+	
+	editRTNProvider($('#formEditarRTNProveedores #proveedores_id').val(), $('#formEditarRTNProveedores #rtn_proveedor').val());
+});
+
+function editRTNProvider(proveedores_id, rtn){
+	swal({
+		title: "¿Estas seguro?",
+		text: "¿Desea editar el RTN para el proveedor: " + getNombreProveedor(proveedores_id) + "?",
+		type: "info",
+		showCancelButton: true,
+		cancelButtonText: "Cancdelar",
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "¡Si, Deseo Editarlo!",
+		closeOnConfirm: false 
+	},
+	function(){
+		editRTNProveedor(proveedores_id,rtn);
+	});
 }
 
 function editRTNProveedor(proveedores_id, rtn){
@@ -271,6 +292,7 @@ function editRTNProveedor(proveedores_id, rtn){
 				confirmButtonClass: "btn-primary"
             });
 			listar_proveedores();
+			$('#formProveedores #rtn_proveedores').val(rtn);
           }else if(data == 2){
             swal({
                 title: "Error",
@@ -308,7 +330,7 @@ function getNombreProveedor(proveedores_id){
 	return nombreProveedor;
 
 }
-//FIN ACCIONES FROMULARIO PROVEEDORES
+//FIN EDITAR RTN PROVEEDORES
 /*FIN FORMULARIO PROVEEDORES*/
 
 $(document).ready(function(){
