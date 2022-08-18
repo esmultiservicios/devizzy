@@ -2063,7 +2063,7 @@
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
 					  <label for="cuenta_nombre">Código de Barra <span class="priority">*<span/></label>
-					  <input type="number" required id="barcode" name="barcode" placeholder="Código de Barra" class="form-control"  maxlength="20" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
+					  <input type="text" required id="barcode" name="barcode" placeholder="Código de Barra" class="form-control"  maxlength="20" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
 					</div>					
 				</div>					
 				<div class="RespuestaAjax"></div> 
