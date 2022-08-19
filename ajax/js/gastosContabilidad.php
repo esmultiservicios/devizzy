@@ -1,30 +1,20 @@
 <script>
-
 $(document).ready(function() {
-
     listar_gastos_contabilidad();
-
     getEmpresaEgresos();
-
     getCuentaEgresos();
-
     getProveedorEgresos();
 
 });
 
 $('#formMainGastosContabilidad #search').on("click", function(e){
-
 	e.preventDefault();
-
 	listar_gastos_contabilidad();
-
 });
 
 //INICIO ACCIONES FORMULARIO EGRESOS
 var total_gastos_footer = function(){	
-
 var fechai = $("#formMainGastosContabilidad #fechai").val();
-
 var fechaf = $("#formMainGastosContabilidad #fechaf").val();
 
 $.ajax({

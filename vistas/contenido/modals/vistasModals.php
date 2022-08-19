@@ -1086,7 +1086,7 @@
 				  	<div class="input-group mb-3">
 				  		<input type="number" class="form-control" id="rtn_proveedores" name= "rtn_proveedores" maxlength="14" placeholder="RTN" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
 						<div class="input-group-append" id="grupo_editar_rtn">				
-							<span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control editar_rtn"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i></a></span>
+							<span data-toggle="tooltip" data-placement="top" title="Editar RTN"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control editar_rtn"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i></a></span>
 						</div>
 					</div>				  
 				</div>					
