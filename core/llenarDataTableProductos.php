@@ -9,14 +9,21 @@
 	
 	$arreglo = array();
 	$data = array();
+	$saldo_productos = 0;
 	
-	while($row = $result->fetch_assoc()){				
+	while($row = $result->fetch_assoc()){		
+		$result_movimientos = $insMainModel->getSaldoProductosMovimientos($row['productos_id']);
+		if($result_movimientos->num_rows>0){
+		$consulta = $result_movimientos->fetch_assoc();
+		$saldo_productos = $consulta['saldo'];
+		}
+
 		$data[] = array( 
 			"productos_id"=>$row['productos_id'],
 			"image"=>$row['image'],
 			"barCode"=>$row['barCode'],
 			"nombre"=>$row['nombre'],
-			"cantidad"=>$row['cantidad'],
+			"cantidad"=>$saldo_productos,
 			"medida"=>$row['medida'],
 			"categoria"=>$row['categoria'],
 			"precio_compra"=>'L. '.$row['precio_compra'],

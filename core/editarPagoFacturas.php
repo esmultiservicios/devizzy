@@ -22,7 +22,9 @@
 		$cliente = $consulta_registro['cliente'];
 		$clientes_id = $consulta_registro['clientes_id'];
 		$fecha_factura = $consulta_registro['fecha_factura'];
-		$facturas_id = $consulta_registro['facturas_id'];		
+		$facturas_id = $consulta_registro['facturas_id'];
+		$estado = $consulta_registro['credito'];		
+				
 	}
 
 	$result_factura = $insMainModel->getDetalleProductosFactura($facturas_id);
@@ -40,7 +42,8 @@
 		 1 => $clientes_id,		 
 		 2 => $fecha_factura, 
 		 3 => $importe,
-		 4 => $facturas_id,		 
+		 4 => $facturas_id,	
+		 5 => $estado	 
 	);	
 	echo json_encode($datos);
 ?>

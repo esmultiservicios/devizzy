@@ -55,10 +55,36 @@
 								</div>
 						  </div>
 						  <div class="col-12 col-md-4">
-							  <div class="form-group mx-sm-2 mb-1">
-									<button class="consultar btn btn-secondary form-control ml-2" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
-							  </div> 				  				  
+						  		<div class="form-group mx-sm-3 mb-1">
+									<div class="input-group">				
+										<div class="input-group-append">				
+											<span class="input-group-text"><div class="sb-nav-link-icon"></div>Producto</span>
+										</div>
+										<select id="producto_movimiento_filtro" name="producto_movimiento_filtro" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
+											
+									</select>
+									</div>
+								</div>
 						  </div>
+						  <div class="col-12 col-md-4">
+						  		<div class="form-group mx-sm-3 mb-1">
+									<div class="input-group">				
+										<div class="input-group-append">				
+											<span class="input-group-text"><div class="sb-nav-link-icon"></div>Cliente</span>
+										</div>
+										<select id="cliente_movimiento_filtro" name="cliente_movimiento_filtro" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Clientes">
+											
+									</select>
+									</div>
+								</div>
+						  </div>
+						</div>
+					<div class="row mt-4">
+						<div class="col-12 col-md-4">
+							<div class="form-group mx-sm-2 mb-1">
+								  <button class="consultar btn btn-secondary form-control ml-2" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
+							</div> 				  				  
+						</div>
 					</div>
 				  
 			</form>          
@@ -77,14 +103,15 @@
 							<tr>
 							<th>Fecha</th>	
 						    <th>Bar Code</th>
+							<th>Cliente</th>
 							<th>Producto</th>
 							<th>Medida</th>
 							<th>Documento</th>
 							<th>Entrada</th>
 							<th>Salida</th>
 							<th>Saldo</th>
+							<th>Comentario</th>
 							<th>Bodega</th>
-							<th>Transferencia</th>
 							</tr>
 						</thead>
 					</table>  

@@ -13,6 +13,7 @@
 		0 => $valores2['ubicacion_id'],
 		1 => $valores2['nombre'],
 		2 => $valores2['estado'],
-		3 => $valores2['empresa_id'],		
+		3 => $valores2['empresa_id'],	
+		4 => $valores2['facturar_cero']	
 	);
 	echo json_encode($datos);

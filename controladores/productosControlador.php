@@ -14,6 +14,7 @@
 			$bar_code_product = mainModel::cleanStringStrtoupper($_POST['bar_code_product']);
 			$almacen_id = mainModel::cleanStringConverterCase($_POST['almacen']);
 			$medida_id = mainModel::cleanStringConverterCase($_POST['medida']);
+			$producto_superior = mainModel::cleanString($_POST['producto_superior']);
 			$categoria_id = mainModel::cleanStringConverterCase($_POST['producto_categoria']);
 			$tipo_producto = mainModel::cleanStringConverterCase($_POST['tipo_producto']);			
 			$nombre = mainModel::cleanString($_POST['producto']);
@@ -39,7 +40,7 @@
 					  $flag_barcode = true;
 				   }		
 				}
-			}
+			}			
 
 			if($cantidad == ""){
 				$cantidad = 0;
@@ -110,6 +111,7 @@
 				"bar_code_product" => $bar_code_product,
 				"almacen_id" => $almacen_id,
 				"medida_id" => $medida_id,
+				"id_producto_superior" =>$producto_superior,
 				"categoria_id" => $categoria_id,
 				"tipo_producto" => $tipo_producto,				
 				"nombre" => $nombre,
@@ -133,7 +135,7 @@
 			
 			//EVALUAMOS QUE LA VARIABLE DEL ARCHIVO ESTE EN FALSE PARA ALMACENAR EL REGISTRO
 			if($file_exist == 0){
-				$result = productosModelo::valid_productos_modelo($nombre);
+				$result = productosModelo::valid_productos_modelo($nombre,$bar_code_product);
 				
 				if($result->num_rows==0){
 					$query = productosModelo::agregar_productos_modelo($datos);							
@@ -170,7 +172,7 @@
 						}
 						
 						$alert = [
-							"alert" => "clear",
+							"alert" => "save_simple",
 							"title" => "Registro almacenado",
 							"text" => "El registro se ha almacenado correctamente",
 							"type" => "success",
@@ -314,8 +316,23 @@
 				"productos_id" => $productos_id,
 				"bodega" => $bodega						
 			];
-					
+
 			$query = productosModelo::edit_bodega_productos_modelo($datos);
+			
+			$queryS = productosModelo::consultar_productos_superior($productos_id);
+			while($res = mysqli_fetch_assoc($queryS)){
+				if($res['productos_id'] > 0){
+					$datos = [
+						"productos_id" => $res['productos_id'],
+						"bodega" => $bodega						
+					];
+	
+					$query = productosModelo::edit_bodega_productos_modelo($datos);
+				}
+
+			}
+
+
 			
 			if($query){
 				$alert = [

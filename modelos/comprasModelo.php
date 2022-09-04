@@ -19,7 +19,8 @@
 		protected function agregar_detalle_compras($datos){
 			$compras_detalles_id = mainModel::correlativo("compras_detalles_id", "compras_detalles");
 			$insert = "INSERT INTO compras_detalles 
-				VALUES('$compras_detalles_id','".$datos['compras_id']."','".$datos['productos_id']."','".$datos['cantidad']."','".$datos['precio']."','".$datos['isv_valor']."','".$datos['descuento']."')";
+				VALUES('$compras_detalles_id','".$datos['compras_id']."','".$datos['productos_id']."','".$datos['cantidad']."',
+				'".$datos['precio']."','".$datos['isv_valor']."','".$datos['descuento']."','".$datos['medida']."')";
 
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
@@ -29,7 +30,10 @@
 		protected function agregar_movimientos_productos_modelo($datos){
 			$movimientos_id = mainModel::correlativo("movimientos_id", "movimientos");
 			$insert = "INSERT INTO movimientos
-				VALUES('$movimientos_id','".$datos['productos_id']."','".$datos['documento']."','".$datos['cantidad_entrada']."','".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
+				VALUES('$movimientos_id','".$datos['productos_id']."','".$datos['documento']."','".$datos['cantidad_entrada']."',
+				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
+				'".$datos['clientes_id']."','".$datos['comentario']."'
+				)";
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 		
 			return $result;				

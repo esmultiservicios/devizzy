@@ -4,22 +4,25 @@
         <li class="breadcrumb-item active">Cuentas por Cobrar Clientes</li>
     </ol>
     <div class="card mb-4">
-        <div class="card-body">
+        <div class="card-body">		
 			<form class="form-inline" id="form_main_cobrar_clientes">
 				<div class="form-group mx-sm-3 mb-1">
 					<div class="input-group">				
 						<div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Buscar por </span>
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
 						</div>
 						<select id="tipo_busqueda" name="tipo_busqueda" class="custom-select" data-toggle="tooltip" data-placement="top" title="Tipo Busqueda">
-							<option value="1">Registro</option>
-							<option value="2">Fecha</option>
-					  </select>
+							<option value="1">Pendiente</option>
+							<option value="2">Cancelado</option>
+					  	</select>
 					</div>
-				</div>					
-				  <div class="form-group mx-sm-3 mb-2">
-					<label>Fecha Inicio</label>
-					<input type="date" required id="fechai" name="fechai" value="<?php 
+				</div>				
+				<div class="form-group mx-sm-3 mb-1">
+					<div class="input-group">				
+						<div class="input-group-append">				
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
+						</div>
+						<input type="date" required id="fechai" name="fechai" value="<?php 
 						$fecha = date ("Y-m-d");
 						
 						$año = date("Y", strtotime($fecha));
@@ -34,16 +37,21 @@
 						
 						
 						echo $fecha_inicial;
-					?>" class="form-control ml-1" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
+					?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
+					</div>
 				  </div>	
-				  <div class="form-group mx-sm-3 mb-2">
-					<label>Fecha Fin</label>
-					<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control ml-1" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
+				  <div class="form-group mx-sm-3 mb-1">
+				 	<div class="input-group">				
+						<div class="input-group-append">				
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Fin</span>
+						</div>
+						<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
+					</div>
 				  </div>
-				  <div class="form-group mx-sm-2 mb-3">
+				  <div class="form-group mx-sm-2 mb-1">
                		 <button class="consultar btn btn-secondary ml-2" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
-			 	 </div>  				  
-			</form>          
+			 	 </div>   				  
+			</form>   			
         </div>
     </div>    
     <div class="card mb-4">
@@ -56,16 +64,27 @@
                 <table id="dataTableCuentasPorCobrarClientes" class="table table-striped table-condensed table-hover" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Cobrar</th>
-                            <th>Abonar</th>
 							<th>Fecha</th>
                             <th>Cliente</th>
                             <th>Factura</th>
                             <th>Crédito</th>
                             <th>Abonos</th>
-                            <th>Saldo</th>							
+                            <th>Saldo</th>		
+                            <th>Abonar</th>
+							<th>Detalle</th>		
+							<th>Abonos Realizados</th>			
                         </tr>
                     </thead>
+					<tfoot class="bg-info text-white font-weight-bold">
+							<tr>
+								<td colspan='1'>Total</td>
+								<td colspan="3"></td>
+								<td id="credito-cxc"></td>
+								<td id="abono-cxc"></td>
+								<td colspan='1' id='total-footer-cxc'></td>
+								<td colspan="2"></td>
+							</tr>
+						</tfoot>
                 </table>  
             </div>                   
             </div>

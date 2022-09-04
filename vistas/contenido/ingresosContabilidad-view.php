@@ -65,8 +65,7 @@
                             <th>NC</th>		
                             <th>Total</th>
 							<th>Editar</th>
-							<th>Imprimir</th>
-							<th>Anular</th>							
+							<th>Imprimir</th>							
                         </tr>
                     </thead>
 					<tfoot class="bg-info text-white font-weight-bold">
@@ -78,7 +77,7 @@
 							<td id="descuento-i"></td>
 							<td id="nc-i"></td>
 							<td colspan='1' id='total-footer-ingreso'></td>
-							<td colspan="3"></td>
+							<td colspan="2"></td>
 						</tr>
 					</tfoot>
                 </table>  

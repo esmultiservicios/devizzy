@@ -66,9 +66,10 @@
 									<tr>
 										<th width="2%" scope="col"><input id="checkAllPurchase" class="formcontrol" type="checkbox"></th>
 										<th width="38%">Nombre Producto</th>
-										<th width="15%">Cantidad</th>
+										<th width="10%">Cantidad</th>
+										<th width="10%">Medida</th>
 										<th width="15%">Precio</th>	
-										<th width="15%">Descuento</th>									
+										<th width="10%">Descuento</th>									
 										<th width="15%">Total</th>
 									</tr>	
 								</thead>
@@ -87,6 +88,9 @@
 											</div>								
 										</td>			
 										<td><input type="number" name="quantityPurchase[]" id="quantityPurchase_0" class="buscar_cantidad_purchase form-control" autocomplete="off" step="0.01"></td>
+										<td>
+											<input type="text" name="medidaPurchase[]" id="medidaPurchase_0" readonly class="form-control buscar_medida_purchase" autocomplete="off">
+										</td>
 										<td><input type="number" name="pricePurchase[]" id="pricePurchase_0" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>
 										<td><input type="number" name="discountPurchase[]" id="discountPurchase_0" class="form-control" autocomplete="off" step="0.01"></td>
 										<td><input type="number" name="totalPurchase[]" id="totalPurchase_0" class="form-control total" readonly autocomplete="off" step="0.01"></td>

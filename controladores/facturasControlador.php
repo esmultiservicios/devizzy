@@ -13,15 +13,14 @@
 			}
 			
 			$usuario = $_SESSION['colaborador_id_sd'];
-			$empresa_id = $_SESSION['empresa_id_sd'];
-			//$cambioBillValor = $_POST['cambioBillValor'];//ESte no va porque solo existe en el codigo de Maxlab		
+			$empresa_id = $_SESSION['empresa_id_sd'];		
 			//ENCABEZADO DE FACTURA
 			$clientes_id = $_POST['cliente_id'];
 			$colaborador_id = $_POST['colaborador_id'];
 		
 			if(isset($_POST['facturas_activo'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
 				if($_POST['facturas_activo'] == ""){
-					$tipo_factura = 2;
+					$tipo_factura = 2;//CREDITO 
 				}else{
 					$tipo_factura = $_POST['facturas_activo'];
 				}
@@ -40,9 +39,9 @@
 			$facturas_id = mainModel::correlativo("facturas_id", "facturas");	
 
 			if($tipo_factura == 1){
-				$estado = 1;//BORRADOR
+				$estado = 4;//BORRADOR
 			}else{
-				$estado = 3;//CRÉDITO
+				$estado = 1;//CRÉDITO
 			}	
 
 			//CONSULTAMOS LA APERTURA
@@ -90,7 +89,7 @@
 						];							
 						
 						$query = facturasModelo::agregar_facturas_modelo($datos);
-											
+						
 						if($query){
 							//ALMACENAMOS LOS DETALLES DE LA FACTURA
 							$total_valor = 0;
@@ -105,6 +104,7 @@
 								$productos_id = $_POST['productos_id'][$i];
 								$productName = $_POST['productName'][$i];
 								$quantity = $_POST['quantity'][$i];
+								$medida= $_POST['medida'][$i];
 								$price_anterior = $_POST['precio_real'][$i];
 								$price = $_POST['price'][$i];
 
@@ -128,7 +128,8 @@
 										"cantidad" => $quantity,				
 										"precio" => $price,
 										"isv_valor" => $isv_valor,
-										"descuento" => $discount,				
+										"descuento" => $discount,
+										"medida" => $medida,	
 									];	
 
 									$total_valor += ($price * $quantity);
@@ -146,6 +147,8 @@
 									$tipo_producto = "";
 
 									if($result_tipo_producto->num_rows>0){
+							
+
 										$consulta_tipo_producto = $result_tipo_producto->fetch_assoc();
 										$tipo_producto = $consulta_tipo_producto["tipo_producto"];
 
@@ -158,9 +161,20 @@
 											if($result_productos->num_rows>0){
 												$consulta = $result_productos->fetch_assoc();
 												$cantidad_productos = $consulta['cantidad'];
+												$id_producto_superior = intval($consulta['id_producto_superior']);
 											}	
 
-											$cantidad = $cantidad_productos - $quantity;																			
+												$medidaName = strtolower($medida);
+
+												if($medidaName == "ton"){ // Medida en Toneladas
+													$quantity = $quantity * 2205;
+												}
+											
+											$cantidad = $cantidad_productos - $quantity;	
+
+											if($id_producto_superior != 0 || $id_producto_superior != 'null'){
+												$productos_id = $id_producto_superior;
+											}
 
 											//ACTUALIZAMOS LA NUEVA CANTIDAD EN LA ENTIDAD PRODUCTOS
 											facturasModelo::actualizar_cantidad_productos_modelo($productos_id, $cantidad);
@@ -188,13 +202,15 @@
 												"cantidad_salida" => $cantidad_salida,
 												"saldo" => $saldo,
 												"fecha_registro" => $fecha_registro,
-												"empresa" => $empresa_id
+												"empresa" => $empresa_id,
+												"clientes_id" => $clientes_id
 											];	
 
 											facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
 										}								
 
 									}
+
 
 									if($referenciaProducto != ""){
 										//ALMACENAMOS LOS DATOS DEL CAMBIO DE PRECIO DEL PRODUCTO EN LA ENTIDAD precio_factura
@@ -229,7 +245,7 @@
 							];
 							
 							facturasModelo::actualizar_factura_importe($datos_factura);							
-
+							
 							$alert = [
 								"alert" => "save_simple",
 								"title" => "Registro almacenado",
@@ -242,7 +258,8 @@
 								"valor" => "Registro",
 								"funcion" => "limpiarTablaFactura();pago(".$facturas_id.");getCajero();getConsumidorFinal();getEstadoFactura();cleanFooterValueBill();",
 								"modal" => "",
-							];														
+							];			
+							
 						}else{
 							$alert = [
 								"alert" => "simple",
@@ -377,7 +394,8 @@
 												"cantidad_salida" => $cantidad_salida,
 												"saldo" => $saldo,
 												"fecha_registro" => $fecha_registro,
-												"empresa" => $empresa_id
+												"empresa" => $empresa_id,
+												"clientes_id" => $clientes_id
 											];	
 
 											facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);

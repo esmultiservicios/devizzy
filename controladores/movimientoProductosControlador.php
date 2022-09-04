@@ -15,8 +15,11 @@
 			$movimiento_producto = $_POST['movimiento_producto'];
 			$movimiento_operacion = $_POST['movimiento_operacion'];
 			$movimiento_cantidad = $_POST['movimiento_cantidad'];
+			$movimiento_comentario = $_POST['movimiento_comentario'];
+			$cliente_movimientos = $_POST['cliente_movimientos'];
+
 			$empresa_id = $_SESSION['empresa_id_sd'];
-			$fecha_registro = date("Y-m-d H:i:s");
+			$fecha_registro = $_POST['movimiento_fecha'];
 			$cantidad = 0;
 			$saldo = 0;
 			
@@ -58,7 +61,10 @@
 					"cantidad_salida" => $salida,
 					"saldo" => $saldo,	
 					"fecha_registro" => $fecha_registro,
-					"empresa" => $empresa_id
+					"empresa" => $empresa_id,
+					"comentario" => $movimiento_comentario,
+					"cliente" => $cliente_movimientos
+
 				];
 				
 				$query = movimientoProductosModelo::agregar_movimiento_productos_modelo($datos);
@@ -113,7 +119,9 @@
 					"cantidad_salida" => $movimiento_cantidad,
 					"saldo" => $saldo,	
 					"fecha_registro" => $fecha_registro,
-					"empresa" => $empresa_id						
+					"empresa" => $empresa_id,
+					"comentario" => $movimiento_comentario,
+					"cliente" => $cliente_movimientos						
 				];
 				
 				$query = movimientoProductosModelo::agregar_movimiento_productos_modelo($datos);

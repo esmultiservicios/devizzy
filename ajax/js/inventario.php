@@ -1,14 +1,18 @@
 <script>
 $(document).ready(function() {
 	funciones();   
+	
 		listar_movimientos();
+		
+
 });
 
 function funciones(){
 	getTipoProductosMovimientos();
 	getTipoProductos();
 	getProductoOperacion();
-	getProductosMovimientos(1);
+	getClientes();
+    getProductosMovimientos(1);
 }
 
 $('#form_main_movimientos #categoria_id').on('change',function(){
@@ -27,6 +31,18 @@ $('#form_main_movimientos #almacen').on('change',function(){
   listar_movimientos();
 });
 
+$('#producto_movimiento_filtro').on('change',function(){
+  listar_movimientos();
+});
+
+$('#cliente_movimiento_filtro').on('change',function(){
+  listar_movimientos();
+});
+
+$('#inventario_tipo_productos_id').on('change',function(){
+  listar_movimientos();
+});
+
 $('#form_main_movimientos #search').on("click", function(e){
 	e.preventDefault();
 	listar_movimientos();
@@ -36,15 +52,16 @@ $('#form_main_movimientos #search').on("click", function(e){
 var listar_movimientos = function(){
 	var tipo_producto_id;
 
-	if ($('#form_main_movimientos #inventario_tipo_productos_id').val() == "" || $('#form_main_movimientos #inventario_tipo_productos_id').val() == null){
-	  tipo_producto_id = 1;
-	}else{
+	
 	  tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
-	}
+	
 
 	var fechai = $("#form_main_movimientos #fechai").val();
 	var fechaf = $("#form_main_movimientos #fechaf").val();
 	var bodega = $("#form_main_movimientos #almacen").val();
+	var producto = $("#producto_movimiento_filtro").val();
+	var cliente = $('#cliente_movimiento_filtro').val();
+  
 
 
 	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
@@ -56,21 +73,25 @@ var listar_movimientos = function(){
 				"tipo_producto_id":tipo_producto_id,
 				"fechai":fechai,
 				"fechaf":fechaf,
-				"bodega":bodega
+				"bodega":bodega,
+				"producto":producto,
+				"cliente":cliente,
+				
 			}
 		},
 		"columns":[
 			{"data":"fecha_registro"},
 			{"data":"barCode"},
+			{"data":"cliente"},
 			{"data":"producto"},
 			{"data":"medida"},
 			{"data":"documento"},
 			{"data":"entrada"},
 			{"data":"salida"},
 			{"data":"saldo"},
+			{"data":"comentario"},
 			{"data":"bodega"},
-			{"defaultContent":"<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"},
-
+			
 		],
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -88,6 +109,8 @@ var listar_movimientos = function(){
 		  { width: "10.5%", targets: 7 },
 		  { width: "10.5%", targets: 8 },
 		  { width: "10.5%", targets: 9 },
+		  { width: "10.5%", targets: 10 },
+
 
 
 		],
@@ -117,7 +140,7 @@ var listar_movimientos = function(){
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-success ocultar',
 				exportOptions: {
-						columns: [0,1,2,3,4,5,6,7,8]
+					columns: [0,1,2,3,4,5,6,7,8,9,10]
 				},
 			},
 			{
@@ -130,7 +153,7 @@ var listar_movimientos = function(){
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
 				exportOptions: {
-						columns: [0,1,2,3,4,5,6,7,8]
+						columns: [0,1,2,3,4,5,6,7,8,9,10]
 				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
@@ -148,6 +171,7 @@ var listar_movimientos = function(){
     	}
 	});
 	table_movimientos.search('').draw();
+	table_movimientos.order([0,'desc'])
 	$('#buscar').focus();
 
 	//transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos);
@@ -394,6 +418,21 @@ function getProductosMovimientos(tipo_producto_id){
      });
 }
 
+function getClientes(){
+    var url = '<?php echo SERVERURL;?>core/getClientesHostProductos.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formMovimientos #cliente_movimientos').html("");
+			$('#formMovimientos #cliente_movimientos').html(data);	
+			$('#cliente_movimiento_filtro').html(data);	
+		}
+     });
+}
+
 //INICIO FORMULARIO MOVIMIENTOS
 function modal_movimientos(){
 	$('#formMovimientos').attr({ 'data-form': 'save' });
@@ -453,7 +492,6 @@ var listar_productos_buscar_movimientos = function(){
 		},
 		"columns":[
 			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus fa-lg'></span></button>"},
-			{"data":"barCode"},
 			{"data":"nombre"},
 			{"data":"cantidad"},
 			{"data":"medida"},

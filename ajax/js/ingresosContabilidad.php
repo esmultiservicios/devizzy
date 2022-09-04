@@ -64,8 +64,7 @@ var listar_ingresos_contabilidad = function(){
 			{"data":"nc"},
 			{"data":"total"},
 			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit'></span></button>"},
-			{"defaultContent":"<button class='table_reportes print_gastos btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
-			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fas fa-ban fa-lg'></span></button>"}	
+			{"defaultContent":"<button class='table_reportes print_gastos btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},			
 		],	
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -73,20 +72,19 @@ var listar_ingresos_contabilidad = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-			{ width: "7.14%", targets: 0 },
-		  { width: "7.14%", targets: 1 }, 
-		  { width: "7.14%", targets: 2 },
-		  { width: "7.14%", targets: 3 },
-		  { width: "7.14%", targets: 4 },
-		  { width: "7.14%", targets: 5 },
-		  { width: "7.14%", targets: 6 },
-		  { width: "7.14%", targets: 7 },
-		  { width: "7.14%", targets: 8 },
-		  { width: "7.14%", targets: 9 },
-		  { width: "7.14%", targets: 10 },
-		  { width: "7.14%", targets: 11 },
-		  { width: "7.14%", targets: 12 },
-		  { width: "7.14%", targets: 13 }
+		  { width: "8.33%", targets: 0 },
+		  { width: "5.33%", targets: 1 }, 
+		  { width: "8.33%", targets: 2 },
+		  { width: "11.33%", targets: 3 },
+		  { width: "8.33%", targets: 4 },
+		  { width: "8.33%", targets: 5 },
+		  { width: "8.33%", targets: 6 },
+		  { width: "8.33%", targets: 7 },
+		  { width: "8.33%", targets: 8 },
+		  { width: "8.33%", targets: 9 },
+		  { width: "8.33%", targets: 10 },
+		  { width: "8.33%", targets: 11 },
+		  { width: "8.33%", targets: 12 }
 		],
 		"buttons":[
 			{
@@ -118,6 +116,7 @@ var listar_ingresos_contabilidad = function(){
 				},
 				className: 'table_reportes btn btn-success ocultar'
 			},
+
 			{
 				extend:    'pdf',
 				footer: true,
@@ -154,9 +153,9 @@ var listar_ingresos_contabilidad = function(){
 
 	edit_reporte_ingresos_dataTable("#dataTableIngresosContabilidad tbody", table_ingresos_contabilidad);
 	view_reporte_ingresos_dataTable("#dataTableIngresosContabilidad tbody", table_ingresos_contabilidad);
-	anular_reporte_ingresos_dataTable("#dataTableIngresosContabilidad tbody", table_ingresos_contabilidad);
 	total_ingreso_footer();
 }
+
 
 var edit_reporte_ingresos_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.table_editar");
@@ -220,68 +219,11 @@ var view_reporte_ingresos_dataTable = function(tbody, table){
 	});
 }
 
-var anular_reporte_ingresos_dataTable = function(tbody, table){
-	$(tbody).off("click", "button.table_eliminar");
-	$(tbody).on("click", "button.table_eliminar", function(e){
-		e.preventDefault();
-		var data = table.row( $(this).parents("tr") ).data();
-		swal({
-			title: "Matenimiento",
-			text: "Opción en mantenimiento",
-			type: "warning",
-			confirmButtonClass: "btn-warning"
-		});
-	});
-}
-
 function printIngresos(ingresos_id){
 	var url = '<?php echo SERVERURL; ?>core/generaIngresos.php?ingresos_id='+ingresos_id;
     window.open(url);
 }
 
-function anularIngresos(ingresos_id){
-	swal({
-	  title: "¿Estas seguro?",
-	  text: "¿Desea anular la factura: # " + getNumeroIngreso(ingresos_id) + "?",
-	  type: "info",
-	  showCancelButton: true,
-	  confirmButtonClass: "btn-primary",
-	  confirmButtonText: "¡Sí, enviar anularla!",
-	  cancelButtonText: "Cancelar",
-	  closeOnConfirm: false
-	},
-	function(){
-		anular(ingresos_id);
-	});
-}
-
-function anular(ingresos_id){
-	var url = '<?php echo SERVERURL; ?>core/anularIngresos.php';
-
-	$.ajax({
-	   type:'POST',
-	   url:url,
-	   async: false,
-	   data:'ingresos_id='+ingresos_id,
-	   success:function(data){
-	      if(data == 1){
-			swal({
-				title: "Success",
-				text: "El ingreso ha sido anulado con éxito",
-				type: "success",
-			});
-			listar_reporte_ventas();
-		  }else{
-			swal({
-				title: "Error",
-				text: "el ingreso no se puede anular",
-				type: "error",
-				confirmButtonClass: "btn-danger",
-			});			  
-		  }
-	  }
-	});
-}
 //INICIO BUSQUEDA CLIENTES EN INGRESOS CONTABILIDAD
 
 $('#formIngresosContables #buscar_cliente_ingresos').on('click', function(e){

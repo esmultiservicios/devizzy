@@ -177,14 +177,10 @@
 								for ($i = 0; $i < count( $_POST['productNamePurchase']); $i++){//INICIO CICLO FOR
 
 									$productos_id = $_POST['productos_idPurchase'][$i];
-
 									$productName = $_POST['productNamePurchase'][$i];
-
 									$quantity = $_POST['quantityPurchase'][$i];
-
 									$price = $_POST['pricePurchase'][$i];
-
-
+									$medida= $_POST['medidaPurchase'][$i];
 
 									if($_POST['discountPurchase'][$i] != "" || $_POST['discountPurchase'][$i] != null){
 
@@ -226,7 +222,8 @@
 
 											"isv_valor" => $isv_valor,
 
-											"descuento" => $discount,				
+											"descuento" => $discount,	
+											"medida" => $medida,			
 
 										];	
 
@@ -266,27 +263,28 @@
 											if($categoria_producto == "Producto" || $categoria_producto == "Insumos"){
 
 												$result_productos = comprasModelo::cantidad_producto_modelo($productos_id);			  
-
-
-
-												$cantidad_productos = "";
-
-												
+												$cantidad_productos = "";											
 
 												if($result_productos->num_rows>0){
 
 													$consulta = $result_productos->fetch_assoc();
-
 													$cantidad_productos = $consulta['cantidad'];
-
+													$id_producto_superior = intval($consulta['id_producto_superior']);
 												}	
 
 
+												
+												$medidaName = strtolower($medida);
 
-												$cantidad = $cantidad_productos + $quantity;
+												if($medidaName == "ton"){ // Medida en Toneladas
+													$quantity = $quantity * 2205;
+												}
+												$cantidad = $cantidad_productos + $quantity;																			
 
-																					
-
+												if($id_producto_superior != 0 || $id_producto_superior != 'null'){
+													$productos_id = $id_producto_superior;
+												}
+												
 												//ACTUALIZAMOS LA NUEVA CANTIDAD EN LA ENTIDAD PRODUCTOS
 
 												comprasModelo::actualizar_productos_modelo($productos_id, $cantidad, $price);
@@ -339,7 +337,10 @@
 
 													"fecha_registro" => $fecha_registro,
 
-													"empresa" => $empresa_id
+													"empresa" => $empresa_id,
+													
+													"clientes_id" => '',
+													"comentario"  => ''
 
 												];	
 
@@ -655,7 +656,9 @@
 
 													"fecha_registro" => $fecha_registro,
 
-													"empresa" => $empresa_id
+													"empresa" => $empresa_id,
+													
+													"clientes_id" => ''
 
 												];	
 
@@ -861,7 +864,7 @@
 
 			
 
-			$query = comprasModelo::cancelar_facturas_modelo($facturas_id);
+			$query = comprasModelo::cancelar_compra_modelo($facturas_id);
 
 			
 

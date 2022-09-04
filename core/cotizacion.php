@@ -77,6 +77,7 @@ use LDAP\Result;
 					<th width="2.66%">N°</th>
 					<th width="40.66%">Nombre Producto</th>
 					<th width="6.66%" class="textleft">Cantidad</th>
+					<th width="6%" class="textleft">Medida</th>
 					<th width="16.66%" class="textright">Precio</th>
 					<th width="16.66%" class="textright">Descuento</th>
 					<th width="16.66%" class="textright">Importe</th>
@@ -125,6 +126,7 @@ use LDAP\Result;
 							<td>'.$i.'</td>
 							<td>'.$producto_name.'</td>
 							<td align="center">'.$registro_detalles["cantidad"].'</td>
+							<td align="center">'.$registro_detalles["medida"].'</td>
 							<td class="textright">L. '.number_format($registro_detalles["precio"],2).'</td>
 							<td class="textright">L. '.number_format($descuentos,2).'</td>
 							<td class="textright">L. '.number_format($importe,2).'</td>
@@ -139,47 +141,47 @@ use LDAP\Result;
 			</tbody>
 			<tfoot id="detalle_totales">	
 				<tr>
-					<td colspan="5" class="textright"><span>&nbsp;</span></td>
+					<td colspan="6" class="textright"><span>&nbsp;</span></td>
 				</tr>
 				<tr>
-					<td colspan="5" class="textright"><span>Importe</span></td>
+					<td colspan="6" class="textright"><span>Importe</span></td>
 					<td class="textright"><span>L. <?php echo number_format($total,2);?></span></td>
 				</tr>
 				<tr>
-				<td colspan="5" class="textright"><span>Descuentos y Rebajas Otorgados</span></td>
+				<td colspan="6" class="textright"><span>Descuentos y Rebajas Otorgados</span></td>
 					<td class="textright"><span>L. <?php echo number_format($descuentos_neto,2);?></span></td>
 				</tr>							
 				<tr>
-					<td colspan="5" class="textright"><span>Sub-Total</span></td>
+					<td colspan="6" class="textright"><span>Sub-Total</span></td>
 					<td class="textright"><span>L. <?php echo number_format($subtotal,2);?></span></td>
 				</tr>
 				<tr>
-					<td colspan="5" class="textright"><span>Importe Exonerado</span></td>
+					<td colspan="6" class="textright"><span>Importe Exonerado</span></td>
 					<td class="textright"><span>L. <?php echo number_format(0,2);?></span></td>
 				</tr>
 				<tr>
-					<td colspan="5" class="textright"><span>Importe Excento</span></td>
+					<td colspan="6" class="textright"><span>Importe Excento</span></td>
 					<td class="textright"><span>L. <?php echo number_format($importe_excento,2);?></span></td>
 				</tr>				
 				<tr>
-					<td colspan="5" class="textright"><span>Importe Gravado 15%</span></td>
+					<td colspan="6" class="textright"><span>Importe Gravado 15%</span></td>
 					<td class="textright"><span>L. <?php echo number_format($importe_gravado,2); ?></span></td>
 				</tr>
 				<tr>
-					<td colspan="5" class="textright"><span>Importe Gravado 18%</span></td>
+					<td colspan="6" class="textright"><span>Importe Gravado 18%</span></td>
 					<td class="textright"><span>L. <?php echo number_format(0,2);?></span></td>
 				</tr>	
 				<tr>
-					<td colspan="5" class="textright"><span>ISV 15%</span></td>
+					<td colspan="6" class="textright"><span>ISV 15%</span></td>
 					<td class="textright"><span>L. <?php echo number_format($isv_neto,2); ?></span></td>
 				</tr>	
 
 				<tr>
-					<td colspan="5" class="textright"><span>ISV 18%</span></td>
+					<td colspan="6" class="textright"><span>ISV 18%</span></td>
 					<td class="textright"><span>L. <?php echo number_format(0,2);?></span></td>
 				</tr>				
 				<tr>
-					<td colspan="5" class="textright"><span>Total</span></td>
+					<td colspan="6" class="textright"><span>Total</span></td>
 					<td class="textright"><span>L. <?php echo number_format($total_despues_isv,2); ?></span></td>
 				</tr>
 		</tfoot>
@@ -204,10 +206,12 @@ use LDAP\Result;
 					if($total_despues_isv != 0 || $total_despues_isv != ""){
 						$dolar = cambioDolar($total_despues_isv,$new_fecha_dolar);
 						
-						if($dolar->result != 0 || $dolar->result != null || $dolar->result != ""){
-							echo "Tasa de Cambio L. ". number_format($total_despues_isv/$dolar->result,2)."<br/>";
-							echo 'Total Dolares $ '.round($dolar->result,2);
-						}	
+						if(isset($dolar->success)){
+							if($dolar->result != 0 || $dolar->result != null || $dolar->result != ""){
+								echo "Tasa de Cambio L. ". number_format($total_despues_isv/$dolar->result,2)."<br/>";
+								echo 'Total Dolares $ '.round($dolar->result,2);
+							}
+						}
 					}
 				}
 			?>
@@ -217,7 +221,7 @@ use LDAP\Result;
 		<p class="nota"><center><?php 
 				if($consulta_registro['fecha_dolar'] != '0000-00-00') { 
 					if($total_despues_isv != 0 || $total_despues_isv != ""){
-						if($dolar->result != 0 || $dolar->result != null || $dolar->result != ""){
+						if(isset($dolar->success)){
 							echo $insMainModel->convertir($dolar->result).' DOLARES';
 						}	
 					}

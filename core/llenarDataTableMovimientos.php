@@ -9,7 +9,10 @@
 		"tipo_producto_id" => $_POST['tipo_producto_id'],
 		"fechai" => $_POST['fechai'],
 		"fechaf" => $_POST['fechaf'],
-		"bodega" => $_POST['bodega'] 		
+		"bodega" => $_POST['bodega'],
+		"producto" => $_POST['producto'],
+		"cliente" =>  $_POST['cliente'],
+
 	];	
 	
 	$result = $insMainModel->getMovimientosProductos($datos);
@@ -19,6 +22,8 @@
 	
 	while($row = $result->fetch_assoc()){				
 		$data[] = array( 
+			"cliente" => $row['cliente'],
+			"comentario" => $row['comentario'],
 			"movimientos_id"=>$row['movimientos_id'],
 			"fecha_registro"=>$row['fecha_registro'],
 			"barCode"=>$row['barCode'],

@@ -15,10 +15,13 @@
 	
 	$arreglo = array();
 	$data = array();
-
+	$estadoColor = 'bg-warning';
 	$credito = 0.00;
 	$abono = 0.00;
 	$saldo = 0.00;
+	$totalCredito = 0;
+	$totalAbono = 0;
+	$totalPendiente = 0;
 
 	while($row = $result->fetch_assoc()){
 		$resultAbonos = $insMainModel->getAbonosCobrarClientes($row['facturas_id']);
@@ -30,18 +33,31 @@
 			$abono = 0.00;
 		}
 
-		$credito = $row['saldo'];
-		$saldo = $row['saldo'] - $abono;
+		$credito = $row['importe'];
+		$saldo = $row['importe'] - $abono;
+
+		$totalCredito += $credito;
+		$totalAbono += $abono;
+		$totalPendiente += $saldo;
+
+		if($row['estado'] == 2){
+			$estadoColor = 'bg-c-green';
+		}
 
 		$data[] = array( 
 			"cobrar_clientes_id"=>$row['cobrar_clientes_id'],
 			"facturas_id"=>$row['facturas_id'],
 			"fecha"=>$row['fecha'],
-			"cliente"=>$row['cliente'],
+			"cliente"=> $row['cliente'],
 			"numero"=>$row['numero'],
 			"credito"=>'L. '.$credito,
 			"abono"=>'L. '.$abono,						
-			"saldo"=>'L. '.$saldo		  
+			"saldo"=>'L. '.$saldo,
+			"color"=> $estadoColor,
+			"estado"=>$row['estado'],
+			"total_credito"=> number_format($totalCredito,2),
+			"total_abono"=>number_format($totalAbono,2),
+			"total_pendiente"=> number_format($totalPendiente,2)
 		);		
 	}
 	

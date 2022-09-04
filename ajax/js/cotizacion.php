@@ -11,53 +11,29 @@ $(document).ready(function(){
 		//EVALUAMOS EL ENTER event.which == '13'
 		if (event.which === 10 || event.which === 13) {
 			event.preventDefault();	
-
 			$(".product-bar-code").focus();
-
 			var row_index = $(this).closest("tr").index();
-
 			var col_index = $(this).closest("td").index();
-
 			var icon_search = 0;
 
-	
-
 			if($("#quoteForm #QuoteItem #bar-code-id_" + row_index).val() != ""){
-
 				var url = '<?php echo SERVERURL;?>core/getProdcutoBarCode.php';
-
 				var element = $("#quoteForm #QuoteItem #bar-code-id_" + row_index).val().split('*');
-
 				var cantidad = element[0];
-
 				var barcode = element[1];
-
-				
-
+			
 				if(!element[1]){
-
 					barcode = cantidad;
-
 					cantidad = 1;
-
 				}
-
-				
-
+			
 				if(!cantidad){
-
 					cantidad = 1;
-
-				}
-
-				
+				}			
 
 				$.ajax({
-
 					type:'POST',
-
 					url:url,
-
 					data:'barcode='+barcode,
 
 					async: false,
@@ -886,153 +862,83 @@ $("#reg_DescuentoQuote").on("click", function(e){
 $(document).ready(function(){
 
     $("#quoteForm #QuoteItem").on('click', '.buscar_productos_quote', function(e) {
-
 		  e.preventDefault();
-
 		  listar_productos_cotizacion_buscar();
-
 		  var row_index = $(this).closest("tr").index();
-
 		  var col_index = $(this).closest("td").index();
-
 		  $('#formulario_busqueda_productos_facturacion #row').val(row_index);
-
 		  $('#formulario_busqueda_productos_facturacion #col').val(col_index);
-
 		  console.log('row_index',row_index)
 
-
-
 		  $('#modal_buscar_productos_facturacion').modal({
-
 			show:true,
-
 			keyboard: false,
-
 			backdrop:'static'
-
 		  });
-
 	});
-
 });
 
-
-
 var listar_productos_cotizacion_buscar = function(){
-
 	var table_productos_cotizacion_buscar = $("#DatatableProductosBusquedaFactura").DataTable({
-
 		"destroy":true,
-
 		"ajax":{
-
 			"method":"POST",
-
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableProductosFacturas.php"
-
 		},
-
 		"columns":[
-
 			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus fa-lg'></span></button>"},
-
 			{"data":"barCode"},			
-
 			{"data":"nombre"},
-
 			{"data":"cantidad"},
-
 			{"data":"medida"},
-
 			{"data":"tipo_producto"},
-
 			{"data":"precio_venta"},
-
 			{"data":"almacen"}
-
 		],	
-
         "lengthMenu": lengthMenu,
-
 		"stateSave": true,
-
 		"bDestroy": true,
-
 		"responsive": true,
-
 		"language": idioma_español,
-
 		"dom": dom,
-
 		"columnDefs": [
-
 		  { width: "5.5%", targets: 0 },
-
 		  { width: "18.5%", targets: 1 },
-
 		  { width: "19.5%", targets: 2 },
-
 		  { width: "12.5%", targets: 3 },
-
 		  { width: "5.5%", targets: 4 },
-
 		  { width: "12.5%", targets: 5 },
-
 		  { width: "12.5%", targets: 6 },
-
 		  { width: "21.5%", targets: 7 }
-
 		],
 
 		"buttons":[
-
 			{
-
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-
 				titleAttr: 'Actualizar Productos',
-
 				className: 'table_actualizar btn btn-secondary ocultar',
-
 				action: 	function(){
 
 					listar_productos_cotizacion_buscar();
-
 				}
-
 			},
 
 			{
-
 				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
-
 				titleAttr: 'Agregar Productos',
-
 				className: 'table_crear btn btn-primary ocultar',
-
 				action: 	function(){
-
 					modal_productos();
-
 				}
-
 			}
-
 		],
-
 		"drawCallback": function( settings ) {
-
         	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
-
     	}
-
 	});
 
 	table_productos_cotizacion_buscar.search('').draw();
-
 	$('#buscar').focus();
-
 
 
 	view_productos_busqueda_cotizacion_dataTable("#DatatableProductosBusquedaFactura tbody", table_productos_cotizacion_buscar);
@@ -2168,13 +2074,9 @@ function calculateTotalQuote(){
 
 
 function cleanFooterValueQuote(){
-
 	$('#subTotalQuoteFooter').val("");
-
 	$('#taxAmountQuoteFooter').val("");
-
 	$('#totalAftertaxQuoteFooter').val("");
-
 }
 
 //FIN CALCULO DETALLES COTIZACION

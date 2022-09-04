@@ -125,6 +125,18 @@ var edit_alamcen_dataTable = function(tbody, table){
 					$('#formAlmacen #almacen_activo').attr('checked', false);
 				}
 
+				if(valores[4] == 1){
+					$('#formAlmacen #label_facturar_cero').html("Si");
+					$('#formAlmacen #facturar_cero').attr('checked', true);
+					$('#formAlmacen #cero').attr('checked', true);
+
+				}else{
+					$('#formAlmacen #label_facturar_cero').html("No");
+					$('#formAlmacen #cero').attr('checked', false);
+					$('#formAlmacen #facturar_cero').attr('checked', false);
+
+				}
+
 				//HABILITAR OBJETOS			
 				$('#formAlmacen #ubicacion_almacen').attr('disabled', false);
 				$('#formAlmacen #almacen_activo').attr('disabled', false);
@@ -272,13 +284,19 @@ $('#formAlmacen .switch').change(function(){
 });	
 
 //facturar en cero switch
-$('#formAlmacen #label_facturar_cero').html("Si");
+//$('#formAlmacen #label_facturar_cero').html("Si");
 	
 $('#formAlmacen .switch').change(function(){    
-    if($('input[name=facturar_cero]').is(':checked')){
+    if($('#formAlmacen #facturar_cero').is(':checked')){
+		
+		$('#formAlmacen #label_facturar_cero').html("Si");
+		$('#formAlmacen #facturar_cero').attr('checked', true);
+		$('#formAlmacen #cero').attr('checked', true);
+
+
         $('#formAlmacen #label_facturar_cero').html("Si");
-		$("#facturar_cero").val(1)
-		$("#cero").val(1)
+		$("#formAlmacen #facturar_cero").val(1)
+		$("#formAlmacen #cero").val(1)
         return true;
     }
     else{

@@ -7,54 +7,54 @@
 	<form class="form-signin" id="loginform" action="" method="POST" autocomplete="off">
 		<h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Iniciar Sesión</h1>
 		
-		<p><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="70%"></center></p>	
+		<p><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="45%"></center></p>	
 			
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
-				<span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+				<span class="input-group-text boton"><i class="fas fa-envelope-square orange-color"></i></span>
 			</div>
 			<input type="text" id="inputEmail" name="inputEmail" class="form-control" placeholder="Usuario o Correo electrónico" required="" autofocus>
 		</div>
 		
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
-				<span class="input-group-text"><i class="fa fa-lock"></i></span>
+				<span class="input-group-text boton"><i class="fa fa-lock orange-color"></i></span>
 			</div>
 			<input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Contraseña" required="">
 			<div class="input-group-append">
-				<button id="show_password" class="btn btn-primary" type="button"> <span id="icon" class="fa fa-eye-slash icon"></span> </button>
+				<button id="show_password" class="btn btn-primary boton" type="button"> <span id="icon" class="fa fa-eye-slash icon orange-color"></span> </button>
 			</div>
 		</div>			
 
 		<div class="RespuestaAjax"></div>
 		
-		<button class="btn btn-primary btn-block" type="submit" id="enviar"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</button>
-		<a style="text-decoration:none;" href="#" id="forgot_pswd">¿Olvido su contraseña?</a>
+		<button class="btn btn-primary btn-block boton" type="submit" id="enviar"><i class="fas fa-sign-in-alt fa-lg orange-color"></i> Iniciar Sesión</button>
+		<a style="text-decoration:none;" class="ancla" href="#" id="forgot_pswd">¿Olvido su contraseña?</a>
 		<hr>
 		<!-- <p>Don't have an account!</p>  -->
 		<button class="btn btn-primary btn-block" type="button" id="btn-signup" style="display: none;"><i class="fas fa-user-plus"></i> Registrate</button>
 	</form>
 
 	<form class="form-reset" id="forgot_form">
-		<h1 class="h3 mb-3 font-weight-normal" style="text-align: center">Restablecer Contraseña</h1>
-		<p><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="70%" height="20%"></center></p>	
+		<h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Restablecer Contraseña</h1>
+		<p><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="45%"></center></p>
 	
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
-				<span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+				<span class="input-group-text boton"><i class="fas fa-envelope-square orange-color"></i></span>
 			</div>
 			<input type="text" class="form-control" placeholder="Usuario o Correo electrónico" required="" autofocus name="usu_forgot" id="usu_forgot">
 		</div>
 		
 		<div class="RespuestaAjax"></div>		
 		
-		<button class="btn btn-primary btn-block" type="submit"> Restablecer</button>
-		<a style="text-decoration:none;" href="#" id="cancel_reset"><i class="fas fa-angle-left"></i> Atrás</a>
+		<button class="btn btn-primary btn-block boton" type="submit"><i class='fas fa-sync-alt fa-lg orange-color'></i> Restablecer</button>
+		<a style="text-decoration:none;" href="#" id="cancel_reset"><i class="fas fa-angle-left "></i> Atrás</a>
 	</form>
 				
 	<form class="form-signup" id="form_registro">
 		<h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Formulario de Registro</h1>
-		<p><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="70%" height="20%"></center></p>
+		<p><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="45%"></center></p>
 		
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
@@ -98,7 +98,7 @@
 	</form>
 	<!-- Copyright -->
         <div class="footer-copyright text-center py-3">
-		   <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/firma_fayad.png" width="65%"></center>© 2021 -  <?php echo date("Y");?> Copyright: 
+		   <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/firma_fayad.png" width="25%"></center>© 2021 -  <?php echo date("Y");?> Copyright: 
            <center>
 		      <p class="navbar-text"> Todos los derechos reservados 
 			  </p>

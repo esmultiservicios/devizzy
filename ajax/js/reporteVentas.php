@@ -41,6 +41,7 @@ var listar_reporte_ventas = function(){
 			{"data":"isv"},
 			{"data":"descuento"},			
 			{"data":"total"},
+			{"data":"ganancia"},
 		    {"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_reportes print_comprobante btn btn-dark ocultar'><span class='far fa-file-pdf fa-lg'></span></button>"},
 		    {"defaultContent":"<button class='table_reportes email_factura btn btn-dark ocultar'><span class='fas fa-paper-plane fa-lg'></span></button>"},
@@ -62,7 +63,9 @@ var listar_reporte_ventas = function(){
 		  { width: "9.09%", targets: 7 },
 		  { width: "3.09%", targets: 8 },
 		  { width: "3.09%", targets: 9 },
-		  { width: "2.09%", targets: 10 }		  		  		  
+		  { width: "2.09%", targets: 10 },
+		  { width: "2.09%", targets: 11 }		  		  		  
+
 		],
 		"buttons":[
 			{
@@ -82,7 +85,7 @@ var listar_reporte_ventas = function(){
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				exportOptions: {
-						columns: [0,1,2,3,4,5,6,7]
+						columns: [0,1,2,3,4,5,6,7,8]
 				},
 				className: 'table_reportes btn btn-success ocultar'				
 			},
@@ -99,7 +102,7 @@ var listar_reporte_ventas = function(){
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
 				exportOptions: {
-						columns: [0,1,2,3,4,5,6,7]
+						columns: [0,1,2,3,4,5,6,7,8]
 				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {
@@ -235,6 +238,7 @@ var total_ingreso_footer = function(){
 		})
 		.done(function(data) {
 			data = JSON.parse(data)
+			$("#ganancia").html("L. " + data.ganancia);
 			$("#total-footer-ingreso").html("L. " + data.total);
 			$("#subtotal-i").html("L. " + data.subtotal);
 			$("#impuesto-i").html("L. " + data.impuesto);

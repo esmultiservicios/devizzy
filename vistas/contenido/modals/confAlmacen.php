@@ -44,15 +44,18 @@
 					  <select id="ubicacion_almacen" name="ubicacion_almacen" class="form-control" data-toggle="tooltip" data-placement="top" title="Ubicacion" required>   				   
 					  </select>
 					</div>	
+
 					<input type="hidden" name="facturar_cero" id="cero" value="1">
 					<div class="col-md-6">	
 					  	<p for="">Facturar inventario en cero?</p>		
+						
 						<label class="switch">
 							<input type="checkbox" id="facturar_cero" name="" value="1" checked>
 							<div class="slider round"></div>
 						</label>
-						<span class="question mb-2" id="label_facturar_cero"></span>				
-				  	</div>				
+						<span class="question mb-2" id="label_facturar_cero">si</span>				
+				  	</div>	
+
 				</div>
 				<input type="hidden" id="almacen_activo" name="almacen_activo" value="1" checked>
 				<div class="form-group" id="estado_almacen">

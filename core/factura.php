@@ -75,12 +75,13 @@
 	<table id="factura_detalle">
 			<thead>
 				<tr>
-					<th width="2.66%">N°</th>
-					<th width="40.66%">Nombre Producto</th>
-					<th width="6.66%" class="textleft">Cantidad</th>
-					<th width="16.66%" class="textright">Precio</th>
-					<th width="16.66%" class="textright">Descuento</th>
-					<th width="16.66%" class="textright">Importe</th>
+					<th width="3%">N°</th>
+					<th width="40%">Nombre Producto</th>
+					<th width="6%" class="textleft">Cantidad</th>
+					<th width="6%" class="textleft">Medida</th>
+					<th width="15%" class="textright">Precio</th>
+					<th width="15%" class="textright">Descuento</th>
+					<th width="15%" class="textright">Importe</th>
 				</tr>
 			</thead>
 			<tbody id="detalle_productos">
@@ -107,7 +108,7 @@
 						$importe += ($registro_detalles["precio"] * $registro_detalles["cantidad"] - $registro_detalles["descuento"]);
 						$subtotal += $importe;
 						$descuentos += $registro_detalles["descuento"];
-						$descuentos_neto += $registro_detalles["descuento"];
+						$descuentos_neto += $descuentos;
 						$isv_neto += $registro_detalles["isv_valor"];
 						
 						if($registro_detalles["isv_valor"] > 0){
@@ -127,8 +128,9 @@
 							<td>'.$i.'</td>
 							<td>'.$producto_name.'</td>
 							<td align="center">'.$registro_detalles["cantidad"].'</td>
+							<td align="center">'.$registro_detalles["medida"].'</td>
 							<td class="textright">L. '.number_format($registro_detalles["precio"],2).'</td>
-							<td class="textright">L. '.number_format($registro_detalles["descuento"],2).'</td>
+							<td class="textright">L. '.number_format($descuentos,2).'</td>
 							<td class="textright">L. '.number_format($importe,2).'</td>
 						  </tr>
 						';
@@ -140,46 +142,46 @@
 			</tbody>
 			<tfoot id="detalle_totales">				
 				<tr>
-					<td colspan="5" class="textright"><span>&nbsp;</span></td>
+					<td colspan="6" class="textright"><span>&nbsp;</span></td>
 				</tr>
 				<tr>
-					<td colspan="5" class="textright"><span>Importe</span></td>
+					<td colspan="6" class="textright"><span>Importe</span></td>
 					<td class="textright"><span>L. <?php echo number_format($total,2);?></span></td>
 				</tr>
 				<tr>
-				<td colspan="5" class="textright"><span>Descuentos y Rebajas Otorgados</span></td>
+				<td colspan="6" class="textright"><span>Descuentos y Rebajas Otorgados</span></td>
 					<td class="textright"><span>L. <?php echo number_format($descuentos_neto,2);?></span></td>
 				</tr>				
 				<tr>
-					<td colspan="5" class="textright"><span>Sub-Total</span></td>
+					<td colspan="6" class="textright"><span>Sub-Total</span></td>
 					<td class="textright"><span>L. <?php echo number_format($subtotal,2);?></span></td>
 				</tr>
 				<tr>
-					<td colspan="5" class="textright"><span>Importe Exonerado</span></td>
+					<td colspan="6" class="textright"><span>Importe Exonerado</span></td>
 					<td class="textright"><span>L. <?php echo number_format(0,2);?></span></td>
 				</tr>
 				<tr>
-					<td colspan="5" class="textright"><span>Importe Excento</span></td>
+					<td colspan="6" class="textright"><span>Importe Excento</span></td>
 					<td class="textright"><span>L. <?php echo number_format($importe_excento,2);?></span></td>
 				</tr>				
 				<tr>
-					<td colspan="5" class="textright"><span>Importe Gravado 15%</span></td>
+					<td colspan="6" class="textright"><span>Importe Gravado 15%</span></td>
 					<td class="textright"><span>L. <?php echo number_format($importe_gravado,2); ?></span></td>
 				</tr>
 				<tr>
-					<td colspan="5" class="textright"><span>Importe Gravado 18%</span></td>
+					<td colspan="6" class="textright"><span>Importe Gravado 18%</span></td>
 					<td class="textright"><span>L. <?php echo number_format(0,2);?></span></td>
 				</tr>	
 				<tr>
-					<td colspan="5" class="textright"><span>ISV 15%</span></td>
+					<td colspan="6" class="textright"><span>ISV 15%</span></td>
 					<td class="textright"><span>L. <?php echo number_format($isv_neto,2); ?></span></td>
 				</tr>	
 				<tr>
-					<td colspan="5" class="textright"><span>ISV 18%</span></td>
+					<td colspan="6" class="textright"><span>ISV 18%</span></td>
 					<td class="textright"><span>L. <?php echo number_format(0,2);?></span></td>
 				</tr>			
 				<tr>
-					<td colspan="5" class="textright"><span>Total</span></td>
+					<td colspan="6" class="textright"><span>Total</span></td>
 					<td class="textright"><span>L. <?php echo number_format($total_despues_isv,2); ?></span></td>
 				</tr>				
 		</tfoot>
@@ -191,9 +193,9 @@
 			}		
 		?></p>
 		<p class="nota"><br/><br/></p>		
-		<p class="nota"><center><?php echo $insMainModel->convertir($total_despues_isv).' LEMPIRAS';?></center></p>
+		<p class="nota textcenter" style="text-align: center;"><?php echo $insMainModel->convertir($total_despues_isv).' LEMPIRAS';?></p>
 		<br>
-		<p class="nota"><center>
+		<p class="nota textcenter">
 			<?php 
 				include_once 'cambioDolar.php';
 				if($consulta_registro['fecha_dolar'] != '0000-00-00' ){
@@ -201,30 +203,31 @@
 
 					if($total_despues_isv != 0 || $total_despues_isv != ""){
 						$dolar = cambioDolar($total_despues_isv,$new_fecha_dolar);
-						if($dolar->result != 0 || $dolar->result != null || $dolar->result != ""){
+						if(isset($dolar->success)){
 							echo "Tasa de Cambio L. ". number_format($total_despues_isv/$dolar->result,2)."<br/>";
 							echo 'Total Dolares $ '.round($dolar->result,2);
 						}
 					}										
 				}
 			?>
-			</center>
+		
 		</p>
 
-		<p class="nota"><center><?php 
+		<p class="nota textcenter"><?php 
 				if($consulta_registro['fecha_dolar'] != '0000-00-00') { 
 					if($total_despues_isv != 0 || $total_despues_isv != ""){
-						if($dolar->result != 0 || $dolar->result != null || $dolar->result != ""){
+						if(isset($dolar->success)){
 							echo $insMainModel->convertir($dolar->result).' DOLARES';
 						}
 					}			
 				}?>	
-		</center></p>		
+		</p>		
 		<p class="nota"><br/><br/></p>
 		<p class="nota">La factura es beneficio de todos "Exíjala"</p>	
 		<p class="nota">N° correlativo de orden de compra excenta __________________</p>
 		<p class="nota">N° correlativo constancia de registro Exonerado __________________</p>
 		<p class="nota">N° identificativo del registro de la SAG __________________</p>	
+		<!--
 		<?php
 			if($consulta_registro["estado"] == 2){
 		?>
@@ -232,8 +235,9 @@
 		<?php
 			}
 		?>
-		<p class="nota"><center><b>Original:</b> Cliente</center></p>	
-		<p class="nota"><center><b>Copia:</b> Emisor</center></p>			
+		-->
+		<p class="nota textcenter"><b>Original:</b> Cliente</p>	
+		<p class="nota textcenter"><b>Copia:</b> Emisor</p>			
 		<h4 class="label_gracias"><?php  echo nl2br($consulta_registro["eslogan"]); ?></h4>
 	</div>
 

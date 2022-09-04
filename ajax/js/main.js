@@ -4,6 +4,7 @@ $('.FormularioAjax').submit(function(e){
     var form=$(this);
 
     var tipo=form.attr('data-form');
+	
     var action=form.attr('action');
     var method=form.attr('method');
     var respuesta=form.children('.RespuestaAjax');
@@ -69,6 +70,7 @@ $('.FormularioAjax').submit(function(e){
                 return xhr;
             },
             success: function (data){	
+				
                 respuesta.html(data);
 			},
             error: function() {

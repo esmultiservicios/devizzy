@@ -6,8 +6,6 @@ $(document).ready(function() {
     validarAperturaCajaUsuario();  
     getEstadoFactura(); 
 	getBanco(); 
-	//cleanBill();
-	//getCambioDolar();
 	getTotalFacturasDisponibles();
 	getReporteCotizacion();
 	getReporteFactura();
@@ -333,26 +331,20 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table){
 			});			
 		}else{
 			getTotalFacturasDisponibles();
-			
-					
+								
 				if($("#invoice-form #cliente_id").val() != "" && $("#invoice-form #cliente").val() != "" && $("#invoice-form #colaborador_id").val() != "" && $("#invoice-form #colaborador").val() != ""){
 				var data = table.row( $(this).parents("tr") ).data();
 				var facturar_cero = facturarEnCeroAlmacen(data.almacen_id);
 
-				if(data.cantidad <= 0){
-					if(facturar_cero == 'false'){
-					swal({
-						title: "Error",
-						text: "No se puede facturar este producto inventario en cero",
-						type: "error",
-						confirmButtonClass: "btn-danger"
-						});	
-						return false
-					}
+				if(facturar_cero == 'false' || facturar_cero == false){
+				swal({
+					title: "Error",
+					text: "No se puede facturar este producto inventario en cero",
+					type: "error",
+					confirmButtonClass: "btn-danger"
+					});	
+					return false
 				}
-				
-
-				
 				
 				$('#invoice-form #invoiceItem #productos_id_'+ row).val(data.productos_id);
 				$('#invoice-form #invoiceItem #bar-code-id_'+ row).val(data.barCode);
@@ -364,6 +356,7 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table){
 				$('#invoice-form #invoiceItem #isv_'+ row).val(data.impuesto_venta);
 				$('#invoice-form #invoiceItem #precio_mayoreo_'+ row).val(data.precio_mayoreo);
 				$('#invoice-form #invoiceItem #cantidad_mayoreo_'+ row).val(data.cantidad_mayoreo);	
+				$('#invoice-form #invoiceItem #medida_'+ row).val(data.medida);	
 				$('#invoice-form #invoiceItem #precio_real_'+ row).val(data.precio_venta);				
 
 				var isv = 0;
@@ -524,6 +517,7 @@ function limpiarTablaFactura(){
 	htmlRows += '<td><input type="hidden" name="referenciaProducto[]" id="referenciaProducto_'+count+'" class="form-control" placeholder="Referencia Producto Precio" autocomplete="off"><input type="hidden" name="isv[]" id="isv_'+count+'" class="form-control" placeholder="Producto ISV" autocomplete="off"><input type="hidden" name="valor_isv[]" id="valor_isv_'+count+'" class="form-control" placeholder="Valor ISV" autocomplete="off"><input type="hidden" name="productos_id[]" id="productos_id_'+count+'" class="form-control inputfield-details1" placeholder="Código del Producto" autocomplete="off">	<div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_'+count+'"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-id[]" id="bar-code-id_'+count+'" class="form-control product-bar-code inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
 	htmlRows += '<td><input type="text" name="productName[]" id="productName_'+count+'" readonly placeholder="Descripción del Producto" class="form-control inputfield-details1" autocomplete="off"></td>';
 	htmlRows += '<td><input type="number" name="quantity[]" id="quantity_'+count+'" step="0.01" placeholder="Cantidad" class="buscar_cantidad form-control inputfield-details" autocomplete="off"><input type="hidden" name="cantidad_mayoreo[]" id="cantidad_mayoreo_'+count+'" step="0.01" placeholder="Cantidad Mayoreo" class="buscar_cantidad form-control inputfield-details" autocomplete="off"></td>';
+	htmlRows += '<td><input type="text" name="medida[]" id="medida_'+count+'" readonly class="form-control buscar_medida" autocomplete="off" placeholder="Medida"></td>';
 	htmlRows += '<td><input type="number" name="price[]" id="price_'+count+'" placeholder="Precio" class="form-control inputfield-details" readonly autocomplete="off" step="0.01"><input type="hidden" name="pprecio_mayoreo[]" id="precio_mayoreo_'+count+'" placeholder="Precio Mayoreo" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_real[]" id="precio_real_'+count+'" placeholder="Precio Real" class="form-control inputfield-details" readonly autocomplete="off"></td>';
 	htmlRows += '<td><input type="number" name="discount[]" id="discount_'+count+'" placeholder="Descuento" value="0.00" class="form-control inputfield-details" readonly autocomplete="off" step="0.01"></td>';
 	htmlRows += '<td><input type="number" name="total[]" id="total_'+count+'" placeholder="Total" class="form-control total inputfield-details" readonly autocomplete="off" step="0.01"></td>';
@@ -542,11 +536,13 @@ function addRowFacturas(){
 	htmlRows += '<td><input type="hidden" name="referenciaProducto[]" id="referenciaProducto_'+count+'" class="form-control" placeholder="Referencia Producto Precio" autocomplete="off"><input type="hidden" name="isv[]" id="isv_'+count+'" class="form-control" placeholder="Producto ISV" autocomplete="off"><input type="hidden" name="valor_isv[]" id="valor_isv_'+count+'" class="form-control" placeholder="Valor ISV" autocomplete="off"><input type="hidden" name="productos_id[]" id="productos_id_'+count+'" class="form-control inputfield-details1" placeholder="Código del Producto" autocomplete="off">	<div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_'+count+'"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-id[]" id="bar-code-id_'+count+'" class="form-control product-bar-code inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
 	htmlRows += '<td><input type="text" name="productName[]" id="productName_'+count+'" readonly placeholder="Descripción del Producto" class="form-control inputfield-details1" autocomplete="off"></td>';
 	htmlRows += '<td><input type="number" name="quantity[]" id="quantity_'+count+'" step="0.01" placeholder="Cantidad" class="buscar_cantidad form-control inputfield-details" autocomplete="off"><input type="hidden" name="cantidad_mayoreo[]" id="cantidad_mayoreo_'+count+'" step="0.01" placeholder="Cantidad Mayoreo" class="buscar_cantidad form-control inputfield-details" autocomplete="off"></td>';
+	htmlRows += '<td><input type="text" name="medida[]" id="medida_'+count+'" readonly class="form-control buscar_medida" autocomplete="off" placeholder="Medida"></td>';
 	htmlRows += '<td><input type="number" name="price[]" id="price_'+count+'" placeholder="Precio" class="form-control inputfield-details" readonly autocomplete="off" step="0.01"><input type="hidden" name="pprecio_mayoreo[]" id="precio_mayoreo_'+count+'" step="0.01" placeholder="Precio Mayoreo" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_real[]" id="precio_real_'+count+'" placeholder="Precio Real" class="form-control inputfield-details" readonly autocomplete="off"></td>';
 	htmlRows += '<td><input type="number" name="discount[]" id="discount_'+count+'" placeholder="Descuento" value="0.00" class="form-control inputfield-details" readonly autocomplete="off" step="0.01"></td>';
 	htmlRows += '<td><input type="number" name="total[]" id="total_'+count+'" placeholder="Total" class="form-control total inputfield-details" readonly autocomplete="off" step="0.01"></td>';
 	htmlRows += '</tr>';
 	$('#invoiceItem').append(htmlRows);
+
 	//MOVER SCROLL FACTURA TO THE BOTTOM
 	$("#invoice-form .tableFixHead").scrollTop($(document).height());
 	$("#invoice-form #invoiceItem #bar-code-id_"+count).focus();

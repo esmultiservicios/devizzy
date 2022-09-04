@@ -141,6 +141,16 @@ var transferencia_producto_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.table_transferencia");
 	$(tbody).on("click", "button.table_transferencia", function(){
 		var data = table.row( $(this).parents("tr") ).data();
+
+		if(data.superior > 0){
+			swal({
+					title: 'Error', 
+					text: 'No se puede hacer transferencia de producto que depente de otro inventario',
+					type: 'error', 
+					confirmButtonClass: 'btn-danger'
+				});	
+			return false
+		}
 		
 		$('#formTransferencia #productos_id').val(data.productos_id);
 		$('#formTransferencia #nameProduct').html(data.producto);

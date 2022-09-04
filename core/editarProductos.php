@@ -30,6 +30,7 @@
 		17 => $valores2['categoria_id'],
 		18 => $valores2['precio_mayoreo'],	
 		19 => $valores2['cantidad_mayoreo'],
-		20 => $valores2['barCode'],		
+		20 => $valores2['barCode'],	
+		21 => $valores2['id_producto_superior'],
 	);
 	echo json_encode($datos);

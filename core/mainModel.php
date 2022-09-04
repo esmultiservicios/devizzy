@@ -360,6 +360,28 @@
 			return $sql;
 		}
 
+		public function abonos_cxc_cliente($facturas_id){
+			$query = "SELECT
+			pagos.facturas_id,
+			pagos.fecha,
+			pagos.importe as abono,
+			pagos_detalles.descripcion1,
+			facturas.importe,
+			clientes.nombre as cliente,
+            tipo_pago.nombre as tipo_pago
+			FROM
+			pagos
+			LEFT JOIN pagos_detalles ON pagos.pagos_id = pagos_detalles.pagos_id
+			INNER JOIN facturas ON facturas.facturas_id = pagos.facturas_id
+			INNER JOIN clientes ON facturas.clientes_id = clientes.clientes_id
+            INNER JOIN tipo_pago ON pagos.tipo_pago = tipo_pago.tipo_pago_id
+			WHERE pagos.facturas_id = '$facturas_id'";
+
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+
+			return $sql;
+		}
+
 
 		public function valid_pago_compras($compras_id){
 			$query = "SELECT pagoscompras_id
@@ -978,6 +1000,7 @@
 
             }elseif($datos['alert'] == "clear_pay"){
 
+				echo $datos['alert'];
                 $alerta = "
 
                     <script>
@@ -1695,7 +1718,6 @@
 			$result = self::connection()->query($query);
 
 
-
 			return $result;
 
 		}
@@ -2121,93 +2143,48 @@
 
 		}
 
-
-
 		public function getCantidadProductos($productos_id){
-
-			$query = "SELECT cantidad
-
+			$query = "SELECT cantidad,id_producto_superior
 				FROM productos
-
 				WHERE productos_id = '$productos_id'";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getSaldoProductosMovimientos($productos_id){
-
 			$query = "SELECT saldo
-
 				FROM movimientos
-
 				WHERE productos_id = '$productos_id'
-
 				ORDER BY movimientos_id DESC LIMIT 1";
-
-
-
+				
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getProductos(){
-
 			$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', FORMAT(p.cantidad,0) AS 'cantidad', FORMAT(p.precio_compra,2) AS 'precio_compra', FORMAT(p.precio_venta,2) AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
-
 			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
-
 			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'categoria', p.isv_venta AS 'impuesto_venta', p.isv_compra AS 'isv_compra', p.file_name AS 'image'
-
 				FROM productos AS p
-
 				INNER JOIN medida AS m
-
 				ON p.medida_id = m.medida_id
-
 				INNER JOIN almacen AS a
-
 				ON p.almacen_id = a.almacen_id
-
 				INNER JOIN ubicacion AS u
-
 				ON a.ubicacion_id = u.ubicacion_id
-
 				INNER JOIN empresa AS e
-
 				ON u.empresa_id = e.empresa_id
-
 				INNER JOIN tipo_producto AS tp
-
 				ON p.tipo_producto_id = tp.tipo_producto_id
-
 				WHERE p.estado = 1";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getProductosFacturas($datos){
 
@@ -2284,27 +2261,51 @@
 
 		}
 
+
+
 		public function getProductosMovimientos($tipo_producto_id){
+
 			$query = "SELECT p.productos_id AS 'productos_id', p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', p.cantidad AS 'cantidad', p.precio_compra AS 'precio_compra', p.precio_venta AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
+
 			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
+
 			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'tipo_producto', p.isv_venta AS 'impuesto_venta', p.isv_compra AS 'isv_compra', p.colaborador_id AS 'colaborador_id'
+
 				FROM productos AS p
+
 				INNER JOIN medida AS m
+
 				ON p.medida_id = m.medida_id
+
 				INNER JOIN almacen AS a
+
 				ON p.almacen_id = a.almacen_id
+
 				INNER JOIN ubicacion AS u
+
 				ON a.ubicacion_id = u.ubicacion_id
+
 				INNER JOIN empresa AS e
+
 				ON u.empresa_id = e.empresa_id
+
 				INNER JOIN tipo_producto AS tp
+
 				ON p.tipo_producto_id = tp.tipo_producto_id
+
 				WHERE p.estado = 1 AND p.tipo_producto_id = '$tipo_producto_id'";
+
+
 
 			$result = self::connection()->query($query);
 
+
+
 			return $result;
+
 		}
+
+
 
 		public function getProductosCompras(){
 
@@ -2348,11 +2349,19 @@
 
 		}
 
+
+
 		function getProductoTipoProducto($tipo_producto_id){
+
 			$query = "SELECT *
+
 				FROM productos
+
 				WHERE tipo_producto_id = '$tipo_producto_id'";
+
 			$result = self::connection()->query($query);
+
+
 
 			return $result;
 
@@ -2362,20 +2371,16 @@
 
 		public function getMedida(){
 
-			$query = "SELECT *
-
-				FROM medida
-
-				WHERE estado = 1";
-
-
-
+			$query = "
+			SELECT
+			*
+			FROM
+			medida
+			WHERE estado = 1
+			ORDER BY medida_id ASC
+			";
 			$result = self::connection()->query($query);
-
-
-
 			return $result;
-
 		}
 
 
@@ -3015,11 +3020,20 @@
 
 
 		public function getDetalleFactura($noFactura){
-
-			$query = "SELECT p.barCode AS 'barCode', p.nombre AS 'producto', fd.cantidad As 'cantidad', fd.precio AS 'precio', fd.descuento AS 'descuento', fd.productos_id  AS 'productos_id', fd.isv_valor AS 'isv_valor'
-				FROM facturas_detalles AS fd
-				INNER JOIN productos AS p
-				ON fd.productos_id = p.productos_id
+			$query = "SELECT
+			p.barCode AS 'barCode',
+			p.nombre AS 'producto',
+			p.precio_compra AS costo,
+			fd.cantidad AS 'cantidad',
+			fd.precio AS 'precio',
+			fd.descuento AS 'descuento',
+			fd.productos_id AS 'productos_id',
+			fd.isv_valor AS 'isv_valor',
+			med.nombre As 'medida'
+				FROM
+			facturas_detalles AS fd
+				INNER JOIN productos AS p ON fd.productos_id = p.productos_id
+				INNER JOIN medida as med ON p.medida_id = med.medida_id
 				WHERE fd.facturas_id = '$noFactura'
 				GROUP BY fd.productos_id";
 
@@ -3138,6 +3152,8 @@
 
 		}
 
+
+
 		public function getNumeroFactura($facturas_id){
 			$query = "SELECT f.number AS 'numero', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno'
 				FROM facturas AS f
@@ -3149,36 +3165,10 @@
 
 			$result = self::connection()->query($query);
 
-			return $result;
-		}
-
-		public function getNumeroIngreso($ingresos_id){
-			$query = "SELECT f.number AS 'numero', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno'
-				FROM facturas AS f
-				INNER JOIN clientes AS c
-				ON f.clientes_id = c.clientes_id
-				INNER JOIN secuencia_facturacion AS sf
-				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-				WHERE f.ingresos_id = '$ingresos_id'";
-
-			$result = self::connection()->query($query);
 
 			return $result;
 		}
-		
-		public function getNumeroEgreso($egresos_id){
-			$query = "SELECT f.number AS 'numero', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno'
-				FROM facturas AS f
-				INNER JOIN clientes AS c
-				ON f.clientes_id = c.clientes_id
-				INNER JOIN secuencia_facturacion AS sf
-				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-				WHERE f.egresos_id = '$egresos_id'";
 
-			$result = self::connection()->query($query);
-
-			return $result;
-		}		
 
 		public function getNumeroCompra($compras_id){
 			$query = "SELECT c.number AS 'numero'
@@ -3279,44 +3269,26 @@
 			return $result;
 		}
 
-
-
 		function rellenarDigitos($valor, $long){
 			$numero = str_pad($valor, $long, '0', STR_PAD_LEFT);
 
 			return $numero;
 		}
 
-
-
 		function getMontoTipoPago($apertura_id){
-
 			$query = "SELECT tp.cuentas_id AS 'cuentas_id', tp.nombre AS 'tipo_pago', SUM(pd.efectivo) AS 'monto'
-
 				FROM facturas AS f
-
 				INNER JOIN pagos AS p
-
 				ON f.facturas_id = p.facturas_id
-
 				INNER JOIN pagos_detalles AS pd
-
 				ON p.pagos_id = pd.pagos_id
-
 				INNER JOIN tipo_pago AS tp
-
 				ON pd.tipo_pago_id = tp.tipo_pago_id
-
 				WHERE f.apertura_id = '$apertura_id'
-
 				GROUP BY tp.cuentas_id";
 
-
-
 			$result = self::connection()->query($query);
-
-
-
+			
 			return $result;
 
 		}
@@ -3377,10 +3349,13 @@
 
 
 		public function getDetalleCotizaciones($noCotizacion){
-			$query = "SELECT p.barCode AS 'barCode', p.nombre AS 'producto', cd.cantidad As 'cantidad', cd.precio AS 'precio', cd.descuento AS 'descuento', cd.productos_id  AS 'productos_id', cd.isv_valor AS 'isv_valor'
+			$query = "SELECT p.barCode AS 'barCode', p.nombre AS 'producto',
+				 cd.cantidad As 'cantidad', cd.precio AS 'precio', cd.descuento AS 'descuento',
+				  cd.productos_id  AS 'productos_id', cd.isv_valor AS 'isv_valor',med.nombre AS 'medida'
 				FROM cotizacion_detalles AS cd
 				INNER JOIN productos AS p
 				ON cd.productos_id = p.productos_id
+				INNER JOIN medida as med ON p.medida_id = med.medida_id
 				WHERE cd.cotizacion_id = '$noCotizacion'
 				GROUP BY cd.productos_id";
 
@@ -3391,13 +3366,18 @@
 
 		public function getDetalleCompras($compras_id){
 
-			$query = "SELECT p.nombre AS 'producto', cd.cantidad As 'cantidad', cd.precio AS 'precio', cd.descuento AS 'descuento', cd.productos_id  AS 'productos_id', cd.isv_valor AS 'isv_valor'
-
-				FROM compras_detalles AS cd
-
-				INNER JOIN productos AS p
-
-				ON cd.productos_id = p.productos_id
+			$query = "SELECT
+			p.nombre AS 'producto',
+			cd.cantidad AS 'cantidad',
+			cd.precio AS 'precio',
+			cd.descuento AS 'descuento',
+			cd.productos_id AS 'productos_id',
+			cd.isv_valor AS 'isv_valor',
+			med.nombre AS 'medida'
+			FROM
+				compras_detalles AS cd
+			INNER JOIN productos AS p ON cd.productos_id = p.productos_id
+			INNER JOIN medida as med ON p.medida_id = med.medida_id
 
 				WHERE cd.compras_id = '$compras_id'
 
@@ -3895,9 +3875,10 @@
 
 		}
 
-
-
 		public function getMovimientosProductos($datos){
+			$producto = '';
+			$cliente = '';
+			$tipo = '';
 
 			if($datos['bodega'] != ''){
 				$bodega = "AND bo.almacen_id = '".$datos['bodega']."'";
@@ -3906,11 +3887,24 @@
 			if($datos['bodega'] == '0'){
 				$bodega = '';
 			}
+
+			if($datos['producto'] != ''){
+				$producto =  "AND p.productos_id = '".$datos['producto']."'";
+			}
+
+			if($datos['cliente'] != ''){
+				$cliente =  "AND m.clientes_id = '".$datos['cliente']."'";
+			}
 			
+			if($datos['tipo_producto_id'] != ''){
+				$tipo = "AND p.tipo_producto_id = '".$datos['tipo_producto_id']."'";
+			}
 
 
 			$query = "
 					SELECT
+					cl.nombre as cliente,
+					m.comentario,
 					m.movimientos_id AS 'movimientos_id',
 					p.barCode AS 'barCode',
 					p.nombre AS 'producto',
@@ -3936,13 +3930,17 @@
 					p.medida_id = me.medida_id
 				INNER JOIN almacen AS bo
 				on p.almacen_id = bo.almacen_id
-				WHERE p.tipo_producto_id = '".$datos['tipo_producto_id']."' AND CAST(m.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
+				LEFT JOIN clientes AS cl ON cl.clientes_id = m.clientes_id
+				WHERE CAST(m.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
 				$bodega
-				ORDER BY m.fecha_registro ASC";
+				$producto
+				$cliente
+				$tipo
+				ORDER BY m.fecha_registro DESC";
 
 			$result = self::connection()->query($query);
 
-
+		
 			return $result;
 		}
 
@@ -3960,8 +3958,6 @@
 
 			if($datos['tipo_producto_id'] != ''){
 				$tipo_product = "AND p.tipo_producto_id = '".$datos['tipo_producto_id']."'";
-			}else{
-				$tipo_product = "AND p.tipo_producto_id = 1";
 			}
 
 			$query = "
@@ -3979,7 +3975,8 @@
 							p.fecha_registro,
 							'%d/%m/%Y %H:%i:%s'
 						) AS 'fecha_registro',
-						p.productos_id AS 'productos_id'
+						p.productos_id AS 'productos_id',
+						p.id_producto_superior
 					FROM
 						movimientos AS m
 						RIGHT JOIN productos AS p
@@ -4003,12 +4000,15 @@
 
 		public function consultaVentas($datos){
 			if($datos['tipo_factura_reporte'] == 1){
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado IN(2,3)";
+				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado IN(1,2,3)";
 			}else{
 				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 4";
 			}
 
-			$query = "SELECT f.facturas_id AS 'facturas_id', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.nombre AS 'cliente', CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', FORMAT(f.importe,2) As 'total', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento'
+			$query = "SELECT 
+				f.facturas_id AS 'facturas_id', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.nombre AS 'cliente', 
+				CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', FORMAT(f.importe,2) As 'total', 
+				(CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento'
 				FROM facturas AS f
 				INNER JOIN clientes AS c
 				ON f.clientes_id = c.clientes_id
@@ -4017,7 +4017,6 @@
 				".$where;
 
 			$result = self::connection()->query($query);
-
 			return $result;
 		}
 
@@ -4034,6 +4033,7 @@
 		}
 
 		public function updateImpresora($id,$estado){
+			
 			$update = " UPDATE impresora
 				SET estado = '$estado'
 				WHERE impresora_id = '$id'";
@@ -4150,7 +4150,10 @@
 
 		public function getDatosFactura($facturas_id){
 
-			$query = "SELECT f.facturas_id AS facturas_id, DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.clientes_id AS 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn', CONCAT(ven.nombre,' ',ven.apellido) AS 'profesional', f.colaboradores_id AS 'colaborador_id', f.estado AS 'estado', f.fecha AS 'fecha_factura', f.notas AS 'notas'
+			$query = "SELECT f.facturas_id AS facturas_id, DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha',
+				 c.clientes_id AS 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn',
+				 CONCAT(ven.nombre,' ',ven.apellido) AS 'profesional', f.colaboradores_id AS 'colaborador_id',
+				  f.estado AS 'estado', f.fecha AS 'fecha_factura', f.notas AS 'notas',tipo_factura AS 'credito'
 
 				FROM facturas AS f
 
@@ -4238,10 +4241,12 @@
 			if($datos['tipo_busqueda'] == 1){
 				$where = "WHERE cc.estado = 1";
 			}else{
-				$where = "WHERE cc.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND cc.estado = 1";
+				$where = "WHERE cc.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND cc.estado = '".$datos['tipo_busqueda']."'";
 			}
 
-			$query = "SELECT cc.cobrar_clientes_id AS 'cobrar_clientes_id', f.facturas_id AS 'facturas_id', c.nombre AS 'cliente', f.fecha AS 'fecha', cc.saldo AS 'saldo', CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero'
+			$query = "SELECT cc.cobrar_clientes_id AS 'cobrar_clientes_id', f.facturas_id AS 'facturas_id', c.nombre AS 'cliente',
+				 f.fecha AS 'fecha', cc.saldo AS 'saldo', CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', cc.estado,
+				 f.importe
 				FROM cobrar_clientes AS cc
 				INNER JOIN clientes AS c
 				ON cc.clientes_id = c.clientes_id
@@ -4637,48 +4642,27 @@
 
 
 		function getCajero($colaborador_id_sd){
-
 			$query = "SELECT colaboradores_id AS 'colaboradores_id', CONCAT(nombre, ' ', apellido) AS 'colaborador'
-
 				FROM colaboradores
-
 				WHERE colaboradores_id = '$colaborador_id_sd'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		function getNombreUsuario($users_id){
-
 			$query = "SELECT CONCAT(c.nombre, ' ', c.apellido) AS 'usuario', c.identidad AS 'identidad'
-
 				FROM users AS u
-
 				INNER JOIN colaboradores AS c
-
 				ON u.colaboradores_id = c.colaboradores_id
-
 				WHERE u.users_id = '$users_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		function getAperturaCajaUsuario($colaborador_id_sd, $fecha){
 

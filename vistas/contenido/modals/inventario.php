@@ -48,10 +48,32 @@
 					  </select>					  
 					</div>
 					<div class="col-md-6 mb-3">
+					  <label>Cliente <span class="priority">*<span/></label>
+					  <select id="cliente_movimientos" name="cliente_movimientos" class="form-control" data-toggle="tooltip" data-placement="top" required>
+						 <option value="">Seleccione</option>
+					  </select>					  
+					</div>									
+				</div>	
+				<div class="form-row">
+					<div class="col-md-2 mb-3">
 					  <label>Cantidad <span class="priority">*<span/></label>
 					  <input type="number" required id="movimiento_cantidad" name="movimiento_cantidad" class="form-control" required step="0.01">				  
+					</div>
+					<div class="col-md-4 mb-3">
+						<label for="fecha_clientes">Fecha <span class="priority">*<span/></label>
+						<div class="input-group mb-3">
+							<input type="date" required id="movimiento_fecha" name="movimiento_fecha" value="<?php echo date ("Y-m-d");?>" class="form-control"/>
+						</div>	
+					</div> 
+					<div class="col-md-6 mb-3">
+					  <label>Comentario</label>
+					  <input type="text" required id="movimiento_comentario" name="movimiento_comentario" class="form-control">				  
 					</div>										
 				</div>	
+				<div class="form-row">
+				</div>
+				
+
 				<div class="RespuestaAjax"></div> 
 			</form>
         </div>		

@@ -119,8 +119,8 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#delete_producto').hide();
 				$('#formProductos #proceso_productos').val("Editar");
 				evaluarCategoriaDetalle(datos[13]);
-				$('#formProductos #medida').val(datos[0]);
-				$('#formProductos #almacen').val(datos[1]);
+				$('#formProductos #medida').val(datos[1]);
+				$('#formProductos #almacen').val(datos[0]);
 				$('#formProductos #producto').val(datos[2]);
 				$('#formProductos #descripcion').val(datos[3]);
 				$('#formProductos #cantidad').val(datos[4]);
@@ -134,7 +134,8 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#formProductos #producto_categoria').val(datos[17]);
 				$('#formProductos #precio_mayoreo').val(datos[18]);
 				$('#formProductos #cantidad_mayoreo').val(datos[19]);
-				$('#formProductos #bar_code_product').val(datos[20]);	
+				$('#formProductos #bar_code_product').val(datos[20]);
+				$('#formProductos #producto_superior').val(datos[21]);
 
 				if(datos[8] == 1){
 					$('#formProductos #producto_isv_factura').attr('checked', true);
@@ -171,7 +172,8 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#formProductos #producto_activo').attr("disabled", false);
 
 				//DESHABILITAR OBJETOS
-				$('#formProductos #medida').attr("disabled", true);	
+				$('#formProductos #medida').attr("disabled", true);
+				$('#formProductos #producto_superior').attr("disabled", true);	
 				$('#formProductos #almacen').attr("disabled", true);				
 				$('#formProductos #tipo_producto').attr("disabled", true);
 				$('#formProductos #producto_categoria').attr("disabled", true);
@@ -180,8 +182,7 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#formProductos #cantidad').attr("disabled", true);
 				$('#formProductos #buscar_producto_empresa').hide();
 				$('#formProductos #buscar_producto_categorias').hide();	
-				$('#formProductos #estado_producto').show();
-				$('#formProductos #grupo_editar_bacode').show();				
+				$('#formProductos #estado_producto').show();				
 
 				$('#modal_registrar_productos').modal({
 					show:true,
@@ -275,7 +276,6 @@ var eliminar_producto_dataTable = function(tbody, table){
 				$('#formProductos #buscar_producto_empresa').hide();
 				$('#formProductos #buscar_producto_categorias').hide();
 				$('#formProductos #estado_producto').hide();
-				$('#formProductos #grupo_editar_bacode').hide();
 
 				$('#modal_registrar_productos').modal({
 					show:true,
@@ -287,8 +287,8 @@ var eliminar_producto_dataTable = function(tbody, table){
 	});
 }	
 
-//INICIO EDITAR RTN CLIENTE
-//SE LLAMA AL MODAL CUANDO PRESIONAMOS EN EDITAR RTN EN CLIENTES
+//INICIO EDITAR CODIGO DE BARRA
+//SE LLAMA AL MODAL CUANDO PRESIONAMOS EN EDITAR CODIGO DE BARRA DE LOS PRODUCTOS
 $('#formProductos #grupo_editar_bacode').on('click',function(e){
 	e.preventDefault();
 	
@@ -367,7 +367,8 @@ function editarCodigoBarra(productos_id, barcode){
       }
     });
 }
-//FIN EDITAR RTN CLIENTE
+//FIN EDITAR CODIGO DE BARRA
+
 $(document).ready(function() {
 	$('#formProductos #tipo_producto').on('change',function(){
 		evaluarCategoria();

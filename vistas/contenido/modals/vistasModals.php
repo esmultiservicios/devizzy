@@ -692,7 +692,15 @@
 										<div class="list-div my-2">
 											<div class="fas fa-money-check fa-lg"></div> &nbsp;&nbsp; Cheque
 										</div>
-									</a>								
+									</a>	
+									<div class="container mt-md-0">
+										<p class="mb-0 mt-3">Imprimir Comprobante de Entrega:</p>
+										<label class="switch mb-2" data-toggle="tooltip" data-placement="top">
+											<input type="checkbox" id="" name="comprobante_print_switch" value="0">
+											<div class="slider round"></div>
+										</label>
+										<span class="question mb-2" id="label_print_comprobant"></span>
+									</div>								
 								</div>
 							</div> <!-- Page Content -->
 							<div id="page-content-wrapper">
@@ -734,8 +742,9 @@
 																	<label for="monto_efectivo">Efectivo</label>
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
 																	<input type="hidden" name="factura_id_efectivo" id="factura_id_efectivo"> 
-																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00"> 
-																	<input type="number" name="efectivo_bill" id="efectivo_bill" class="inputfield" placeholder="0.00" step="0.01">																						
+																	<input type="hidden" name="tipo_factura" id="tipo_factura_efectivo" value="1"> 
+																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" step="0.01" placeholder="0.00"> 
+																	<input type="number" name="efectivo_bill" id="efectivo_bill" class="inputfield" step="0.01" placeholder="0.00" step="0.01">																						
 																</div>
 															</div>
 															<div class="col-11">
@@ -768,9 +777,10 @@
 																<label>Número de Tarjeta</label> 
 																<input type="hidden" name="factura_id_tarjeta" id="factura_id_tarjeta">
 																<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
-																<input type="text" id="cr_bill" name="cr_bill" class="inputfield"  placeholder="XXXX">
-																<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">
-																																
+																<input type="text" id="cr_bill" name="cr_bill" class="inputfield" placeholder="XXXX">
+																<input type="hidden" name="monto_efectivo" id="monto_efectivo_tarjeta" class="inputfield" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																<input type="hidden" name="importe" id="importe_tarjeta" class="inputfield" step="0.01" placeholder="0.00" >		
+																<input type="hidden" name="tipo_factura" id="tipo_factura" value="1">																	
 																</div>
 															</div>
 														</div>
@@ -811,8 +821,8 @@
 																	<label for="monto_efectivo">Efectivo</label>
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
 																	<input type="hidden" name="factura_id_mixto" id="factura_id_mixto"> 
-																	<input type="hidden" name="monto_efectivo" id="monto_efectivo_mixto" placeholder="0.00"> 
-																	<input type="number" name="efectivo_bill" id="efectivo_bill_mixto" class="inputfield" placeholder="0.00" step="0.01">																						
+																	<input type="hidden" name="monto_efectivo" id="monto_efectivo_mixto" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto"> 
+																	<input type="number" name="efectivo_bill" id="efectivo_bill_mixto" class="inputfield" step="0.01" placeholder="0.00" step="0.01">																						
 																	<input type="hidden" readonly name="cambio_efectivo" id="cambio_efectivo_mixto" class="inputfield" step="0.01" placeholder="0.00">																
 																</div>
 															</div>
@@ -873,7 +883,9 @@
 																		<option value="">Seleccione un Banco</option>
 																	</select> 	
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">																
-																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">								
+																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">		
+																	<input type="hidden" name="importe" id="importe_transferencia" class="inputfield mt-5" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																	<input type="hidden" name="tipo_factura" id="tipo_factura_transferencia" value="1" step="0.01" placeholder="0.00"> 								
 																</div>
 															</div>
 														</div>
@@ -918,7 +930,9 @@
 																	<select required name="bk_nm_chk" id="bk_nm_chk" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
 																		<option value="">Seleccione un Banco</option>
 																	</select> 																	
-																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">								
+																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">		
+																	<input type="hidden" name="importe" id="importe_cheque" class="inputfield mt-5"step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																	<input type="hidden" name="tipo_factura" id="tipo_factura_cheque" value="1" step="0.01" placeholder="0.00"> 								
 																</div>
 															</div>
 														</div>
@@ -1196,7 +1210,6 @@
 										<th>Categoria</th>
 										<th>Precio Venta</th>							
 										<th>Almacén</th>
-										<th></th>
 									</tr>
 								</thead>
 							</table>
@@ -1234,7 +1247,6 @@
 								<thead>
 									<tr>
 										<th>Seleccione</th>
-										<th>Código</th>
 										<th>Producto</th>
 										<th>Cantidad</th>
 										<th>Medida</th>
@@ -1769,13 +1781,24 @@
 				</div>
 				
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
+					<div class="col-md-3 mb-3">
 					  <label>Empresa <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
 						  <select id="producto_empresa_id" name="producto_empresa_id" class="custom-select" data-toggle="tooltip" data-placement="top" required>
 							<option value="">Seleccione</option>
 						  </select>
 						  <div class="input-group-append" id="buscar_producto_empresa">				
+							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
+						  </div>
+					   </div>
+					</div>	
+					<div class="col-md-3 mb-3">
+					  <label>Superior</label>
+					  <div class="input-group mb-3">
+						  <select id="producto_superior" name="producto_superior" class="custom-select" data-toggle="tooltip" data-placement="top">
+							<option value="">Seleccione</option>
+						  </select>
+						  <div class="input-group-append" id="buscar_producto_superior">				
 							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
 						  </div>
 					   </div>
@@ -1937,8 +1960,52 @@
   </div>
 </div>
 
-
 <!--FN Modal Transferencia de Producto / Bodega-->
+
+<!-- modal de abonos cxc -->
+<div class="modal fade" id="ver_abono_cxc" tabindex="-1" role="dialog" aria-labelledby="ver_abono_cxcTitle" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="importe-cxc">Abonos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  <form class="FormularioAjax" id="formulario_ver_abono_cxc">
+			<h5 id="ver_abono_cxcTitle"></h5>
+			<table class="table-modal-abonos w-100" id="table-modal-abonos" >
+				<thead>
+					<tr>
+						<th scope="col">Fecha</th>
+						<th scope="col">Tipo Pago</th>
+						<th scope="col">Descripcion</th>
+						<th scope="col">Abono</th>
+					</tr>
+				</thead>
+				<tbody class="">
+					
+				</tbody>
+				<tfoot class="bg-info text-white font-weight-bold">
+					<tr>
+						<td colspan='2' class="text-left">Total</td>
+						<td colspan="1"></td>
+						<td colspan='1' id='total-footer-modal-cxc' class="text-right"></td>
+						
+					</tr>
+				</tfoot>
+			</table>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FIN modal de abonos cxc -->
 
 <!--INICIO MODAL EDITAR RTN CLIENTES-->
 <div class="modal fade" id="modalEditarRTNClientes">

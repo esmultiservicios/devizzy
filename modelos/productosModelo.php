@@ -8,7 +8,13 @@
 	class productosModelo extends mainModel{
 		protected function agregar_productos_modelo($datos){
 			$productos_id = mainModel::correlativo("productos_id", "productos");
-			$insert = "INSERT INTO productos VALUES('$productos_id','".$datos['bar_code_product']."','".$datos['almacen_id']."','".$datos['medida_id']."','".$datos['categoria_id']."','".$datos['nombre']."','".$datos['descripcion']."','".$datos['tipo_producto']."','".$datos['cantidad']."','".$datos['precio_compra']."','".$datos['porcentaje_venta']."','".$datos['precio_venta']."','".$datos['cantidad_mayoreo']."','".$datos['precio_mayoreo']."','".$datos['cantidad_minima']."','".$datos['cantidad_maxima']."','".$datos['estado']."','".$datos['isv_venta']."','".$datos['isv_compra']."','".$datos['colaborador_id']."','".$datos['file']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO productos VALUES('$productos_id','".$datos['bar_code_product']."','".$datos['almacen_id']."',
+			'".$datos['medida_id']."','".$datos['categoria_id']."','".$datos['nombre']."','".$datos['descripcion']."',
+			'".$datos['tipo_producto']."','".$datos['cantidad']."','".$datos['precio_compra']."','".$datos['porcentaje_venta']."',
+			'".$datos['precio_venta']."','".$datos['cantidad_mayoreo']."','".$datos['precio_mayoreo']."','".$datos['cantidad_minima']."',
+			'".$datos['cantidad_maxima']."','".$datos['estado']."','".$datos['isv_venta']."','".$datos['isv_compra']."',
+			'".$datos['colaborador_id']."','".$datos['file']."','".$datos['empresa']."','".$datos['fecha_registro']."',
+			'".$datos['id_producto_superior']."')";
 			
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
@@ -19,23 +25,15 @@
 			$movimientos_id = mainModel::correlativo("movimientos_id", "movimientos");
 			$documento = "entrada productos ".$movimientos_id;
 			$insert = "INSERT INTO movimientos 
-				VALUES('$movimientos_id','".$datos['productos_id']."','$documento','".$datos['cantidad_entrada']."','".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
+				VALUES('$movimientos_id','".$datos['productos_id']."','$documento','".$datos['cantidad_entrada']."','".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."','0','')";
 
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 		
 			return $result;			
 		}
 		
-		protected function valid_barcode_modelo($barCode){
-			$query = "SELECT productos_id FROM productos WHERE barCode = '$barCode'";
-
-			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
-			
-			return $sql;
-		}	
-
-		protected function valid_productos_modelo($nombre){
-			$query = "SELECT productos_id FROM productos WHERE nombre = '$nombre'";
+		protected function valid_productos_modelo($nombre,$bar_code_product){
+			$query = "SELECT productos_id FROM productos WHERE nombre = '$nombre' and barCode = '$bar_code_product'";
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
@@ -67,7 +65,6 @@
 				almacen_id = '".$datos['bodega']."'			
 			WHERE productos_id = '".$datos['productos_id']."'";
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
-			
 			return $sql;			
 		}
 		
@@ -103,6 +100,15 @@
 				
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
+			return $sql;					
+		}
+
+		protected function consultar_productos_superior($id_producto){
+			$query = "SELECT productos.productos_id
+			FROM productos
+			WHERE id_producto_superior = '$id_producto'";
+				
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			return $sql;					
 		}
 		

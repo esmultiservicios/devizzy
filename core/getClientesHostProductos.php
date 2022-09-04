@@ -5,7 +5,7 @@
 	
 	$insMainModel = new mainModel();
 	
-	$result = $insMainModel->getClientesHostProductosConsulta();
+	$result = $insMainModel->getClientesConsulta();
 	
 	if($result->num_rows>0){
 		echo '<option value="">Seleccione</option>';
