@@ -28,11 +28,11 @@
 			$cantidad_minima = mainModel::cleanString($_POST['cantidad_minima']);
 			$cantidad_maxima = mainModel::cleanString($_POST['cantidad_maxima']);
 
-			if($bar_code_product == "" || $bar_code_product == 0){
+			if(empty($bar_code_product)){
 				$flag_barcode = true;
 				while($flag_barcode){
 				   $d=rand(1,99999999);
-					$result_barcode = productosModelo::valid_barcode_modelo($d);
+					$result_barcode = productosModelo::valid_bar_code_productos_modelo($d);
 				   if($result_barcode->num_rows==0){
 					  $bar_code_product = $d;
 					  $flag_barcode = false;
@@ -40,7 +40,7 @@
 					  $flag_barcode = true;
 				   }		
 				}
-			}			
+			}
 
 			if($cantidad == ""){
 				$cantidad = 0;
@@ -135,69 +135,83 @@
 			
 			//EVALUAMOS QUE LA VARIABLE DEL ARCHIVO ESTE EN FALSE PARA ALMACENAR EL REGISTRO
 			if($file_exist == 0){
-				$result = productosModelo::valid_productos_modelo($nombre,$bar_code_product);
+				//VALIDAMOS QUE NO EXISTA EL CODIGO DE BARRA
+				$result = productosModelo::valid_bar_code_productos_modelo($bar_code_product);
 				
 				if($result->num_rows==0){
-					$query = productosModelo::agregar_productos_modelo($datos);							
+					//VALIDAMOS QUE NO EXISTA EL NOMBRE DEL PRODUCTO
+					$result_nombre = productosModelo::valid_nombre_producto_modelo($nombre);
+
+					if($result_nombre->num_rows==0){
+						$query = productosModelo::agregar_productos_modelo($datos);							
 			
-					if($query){
-						$consulta_factura = productosModelo::consultar_codigo_producto($nombre)->fetch_assoc();
-						$productos_id = $consulta_factura['productos_id'];					
-						
-						//CONSULTAMOS LA CATEGORIA DEL PRODUCTOS
-						$tipo_productos = "";
-						
-						$result_tipo_producto = productosModelo::tipo_producto_modelo($productos_id);
-						
-						if($result_tipo_producto->num_rows > 0){
-							$valores2 = $result_tipo_producto->fetch_assoc();
-
-							$tipo_productos = $valores2['tipo_producto'];			
-						}		
-
-						$salida = 0;
-						$datos_movimientos_productos = [
-							"productos_id" => $productos_id,
-							"cantidad_entrada" => $cantidad,				
-							"cantidad_salida" => $salida,
-							"saldo" => $cantidad,
-							"fecha_registro" => $fecha_registro,
-							"empresa" => $empresa,							
-						];		
+						if($query){
+							$consulta_factura = productosModelo::consultar_codigo_producto($nombre)->fetch_assoc();
+							$productos_id = $consulta_factura['productos_id'];					
 							
-						if($cantidad > 0){
-							if ($tipo_productos == "Producto" || $tipo_productos == "Insumos"){
-								productosModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
+							//CONSULTAMOS LA CATEGORIA DEL PRODUCTOS
+							$tipo_productos = "";
+							
+							$result_tipo_producto = productosModelo::tipo_producto_modelo($productos_id);
+							
+							if($result_tipo_producto->num_rows > 0){
+								$valores2 = $result_tipo_producto->fetch_assoc();
+	
+								$tipo_productos = $valores2['tipo_producto'];			
+							}		
+	
+							$salida = 0;
+							$datos_movimientos_productos = [
+								"productos_id" => $productos_id,
+								"cantidad_entrada" => $cantidad,				
+								"cantidad_salida" => $salida,
+								"saldo" => $cantidad,
+								"fecha_registro" => $fecha_registro,
+								"empresa" => $empresa,							
+							];		
+								
+							if($cantidad > 0){
+								if ($tipo_productos == "Producto" || $tipo_productos == "Insumos"){
+									productosModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
+								}
 							}
-						}
-						
-						$alert = [
-							"alert" => "save_simple",
-							"title" => "Registro almacenado",
-							"text" => "El registro se ha almacenado correctamente",
-							"type" => "success",
-							"btn-class" => "btn-primary",
-							"btn-text" => "¡Bien Hecho!",
-							"form" => "formProductos",	
-							"id" => "proceso_productos",
-							"valor" => "Registro",
-							"funcion" => "listar_productos();",
-							"modal" => "",
-						];
+							
+							$alert = [
+								"alert" => "save_simple",
+								"title" => "Registro almacenado",
+								"text" => "El registro se ha almacenado correctamente",
+								"type" => "success",
+								"btn-class" => "btn-primary",
+								"btn-text" => "¡Bien Hecho!",
+								"form" => "formProductos",	
+								"id" => "proceso_productos",
+								"valor" => "Registro",
+								"funcion" => "listar_productos();",
+								"modal" => "",
+							];
+						}else{
+							$alert = [
+								"alert" => "simple",
+								"title" => "Ocurrio un error inesperado",
+								"text" => "No hemos podido procesar su solicitud",
+								"type" => "error",
+								"btn-class" => "btn-danger",					
+							];				
+						}	
 					}else{
 						$alert = [
 							"alert" => "simple",
-							"title" => "Ocurrio un error inesperado",
-							"text" => "No hemos podido procesar su solicitud",
-							"type" => "error",
-							"btn-class" => "btn-danger",					
+							"title" => "Resgistro ya existe",
+							"text" => "Lo sentimos este nombre de producto ya existe",
+							"type" => "error",	
+							"btn-class" => "btn-danger",						
 						];				
 					}				
 				}else{
 					$alert = [
 						"alert" => "simple",
 						"title" => "Resgistro ya existe",
-						"text" => "Lo sentimos este registro ya existe",
+						"text" => "Lo sentimos este código de barra ya existe",
 						"type" => "error",	
 						"btn-class" => "btn-danger",						
 					];				

@@ -11,6 +11,10 @@ $(document).ready(function() {
 	getReporteFactura();
 });
 
+function resetRow(){
+	row = 0;
+}
+
 $('#formulario_busqueda_productos_facturacion #almacen').on('change',function(){
 	listar_productos_factura_buscar();
 });

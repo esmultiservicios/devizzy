@@ -15,7 +15,6 @@
 			'".$datos['cantidad_maxima']."','".$datos['estado']."','".$datos['isv_venta']."','".$datos['isv_compra']."',
 			'".$datos['colaborador_id']."','".$datos['file']."','".$datos['empresa']."','".$datos['fecha_registro']."',
 			'".$datos['id_producto_superior']."')";
-			
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			
@@ -32,13 +31,21 @@
 			return $result;			
 		}
 		
-		protected function valid_productos_modelo($nombre,$bar_code_product){
-			$query = "SELECT productos_id FROM productos WHERE nombre = '$nombre' and barCode = '$bar_code_product'";
+		protected function valid_bar_code_productos_modelo($bar_code_product){
+			$query = "SELECT productos_id FROM productos WHERE barCode = '$bar_code_product'";
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;
 		}	
+
+		protected function valid_nombre_producto_modelo($nombre){
+			$query = "SELECT productos_id FROM productos WHERE nombre = '$nombre'";
+
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;
+		}			
 
 		protected function edit_productos_modelo($datos){
 			$update = "UPDATE productos

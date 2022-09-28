@@ -5,6 +5,9 @@ $(document).ready(function() {
 });
 
 //INICIO COTIZACIONES
+function resetRow(){
+	row = 0;
+}
 
 $(document).ready(function(){
     $("#quoteForm #QuoteItem").on('keypress', '.product-bar-code', function(event) {	

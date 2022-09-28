@@ -218,7 +218,7 @@
 
 							"valor" => "Registro",	
 
-							"funcion" => "limpiarTablaQuote();printQuote(".$cotizacion_id.");mailQuote(".$cotizacion_id.");	getConsumidorFinal();getCajero();cleanFooterValueQuote();",
+							"funcion" => "limpiarTablaQuote();printQuote(".$cotizacion_id.");mailQuote(".$cotizacion_id.");	getConsumidorFinal();getCajero();cleanFooterValueQuote();resetRow();",
 
 							"modal" => "",
 

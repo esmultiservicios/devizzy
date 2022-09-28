@@ -256,7 +256,7 @@
 								"form" => "invoice-form",	
 								"id" => "proceso_factura",
 								"valor" => "Registro",
-								"funcion" => "limpiarTablaFactura();pago(".$facturas_id.");getCajero();getConsumidorFinal();getEstadoFactura();cleanFooterValueBill();",
+								"funcion" => "limpiarTablaFactura();pago(".$facturas_id.");getCajero();getConsumidorFinal();getEstadoFactura();cleanFooterValueBill();resetRow();",
 								"modal" => "",
 							];			
 							
@@ -466,7 +466,7 @@
 								"form" => "invoice-form",	
 								"id" => "proceso_factura",
 								"valor" => "Registro",
-								"funcion" => "limpiarTablaFactura();getEstadoFactura();printBill(".$facturas_id.");cleanFooterValueBill();",
+								"funcion" => "limpiarTablaFactura();getEstadoFactura();printBill(".$facturas_id.");cleanFooterValueBill();resetRow();",
 								"modal" => "",
 							];							
 						}else{
