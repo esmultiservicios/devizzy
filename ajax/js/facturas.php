@@ -546,6 +546,7 @@ function addRowFacturas(){
 	htmlRows += '<td><input type="number" name="total[]" id="total_'+count+'" placeholder="Total" class="form-control total inputfield-details" readonly autocomplete="off" step="0.01"></td>';
 	htmlRows += '</tr>';
 	$('#invoiceItem').append(htmlRows);
+	
 
 	//MOVER SCROLL FACTURA TO THE BOTTOM
 	$("#invoice-form .tableFixHead").scrollTop($(document).height());
