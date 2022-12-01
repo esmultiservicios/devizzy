@@ -1644,7 +1644,7 @@ function getTotalFacturasDisponibles(){
 				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");				
 			}
 
-			if(valores[0] == 0){
+			if(valores[0] == 0 || valores[0] < 0){
 				mensaje = "No puede seguir facturando";
 
 				$("#invoice-form #reg_factura").attr("disabled", true);			

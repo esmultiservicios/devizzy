@@ -57,7 +57,7 @@
 			if($clientes_id != "" && $colaborador_id != ""){
 				//OBTENEMOS EL TAMAÑO DE LA TABLA
 				if(isset($_POST['productName'])){
-					if($_POST['productos_id'][0] && $_POST['productName'][0] != "" && $_POST['quantity'][0] && $_POST['price'][0]){
+					if($_POST['productos_id'][0] && $_POST['productName'][0] != "" && $_POST['quantity'][0] && $_POST['price'][0] != ""){
 						$tamano_tabla = count( $_POST['productName']);
 					}else{
 						$tamano_tabla = 0;
