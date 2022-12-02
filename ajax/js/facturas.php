@@ -236,10 +236,13 @@ $(document).ready(function(){
     $("#invoice-form #invoiceItem").on('click', '.buscar_productos', function(e) {
 		  e.preventDefault();
 		  listar_productos_factura_buscar();
+		  
 		  var row_index = $(this).closest("tr").index();
 		  var col_index = $(this).closest("td").index();
 		  $('#formulario_busqueda_productos_facturacion #row').val(row_index);
 		  $('#formulario_busqueda_productos_facturacion #col').val(col_index);
+		  console.log('row_index',row_index)
+
 		  $('#modal_buscar_productos_facturacion').modal({
 			show:true,
 			keyboard: false,
@@ -249,17 +252,11 @@ $(document).ready(function(){
 });
 
 var listar_productos_factura_buscar = function(){
-
-	var bodega = $("#formulario_busqueda_productos_facturacion #almacen").val();
-
 	var table_productos_factura_buscar = $("#DatatableProductosBusquedaFactura").DataTable({
 		"destroy":true,
 		"ajax":{
 			"method":"POST",
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableProductosFacturas.php",
-			"data":{
-                "bodega":bodega
-            }
 		},
 		"columns":[
 			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus fa-lg'></span></button>"},
@@ -267,11 +264,9 @@ var listar_productos_factura_buscar = function(){
 			{"data":"nombre"},
 			{"data":"cantidad"},
 			{"data":"medida"},
-			{"data":"tipo_producto_id"},
+			{"data":"tipo_producto"},
 			{"data":"precio_venta"},
-			{"data":"almacen"},
-			{"data":"almacen_id"}
-
+			{"data":"almacen"}
 		],	
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -280,15 +275,14 @@ var listar_productos_factura_buscar = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "5.5%", targets: 0 },
+			{ width: "5.5%", targets: 0 },
 		  { width: "18.5%", targets: 1 },
 		  { width: "19.5%", targets: 2 },
 		  { width: "12.5%", targets: 3 },
 		  { width: "5.5%", targets: 4 },
 		  { width: "12.5%", targets: 5 },
 		  { width: "12.5%", targets: 6 },
-		  { width: "21.5%", targets: 7 },
-		  { width: "21.5%", targets: 8 ,visible: false,}
+		  { width: "21.5%", targets: 7 }
 		],
 		"buttons":[
 			{

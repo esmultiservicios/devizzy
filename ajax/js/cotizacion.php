@@ -846,8 +846,6 @@ $("#reg_DescuentoQuote").on("click", function(e){
 
 	}
 
-
-
 	$('#modalDescuentoCotizaciones').modal('hide');
 
 	calculateTotalQuote();
@@ -857,7 +855,6 @@ $("#reg_DescuentoQuote").on("click", function(e){
 //FIN DESCUENTO PRODUCTO EN FACTURACION
 
 //FIN CAMBIAR PRECIO A PRODUCTO EN COTIZACIONES
-
 
 
 //INICIO BUSQUEDA PRODUCTOS COTIZACION
@@ -1808,30 +1805,22 @@ function addRowQuote(){
 	$('#QuoteItem').append(htmlRows);
 
 	//MOVER SCROLL FACTURA TO THE BOTTOM
-
 	$("#quoteForm .tableFixHead").scrollTop($(document).height());
-
 	$("#quoteForm #QuoteItem #bar-code-id_"+count).focus();
 
 	
 
 	if(count>0){
-
 		var icon_search =  count - 1;
-
 	}
 
 	
-
 	$("#quoteForm #QuoteItem #icon-search-bar_" + icon_search).hide();
-
 	$("#quoteForm #QuoteItem #icon-search-bar_" + icon_search).hide();	
 
 }
 
 //FIN DETALLES COTIZACION
-
-
 
 //INICIO CALCULO DETALLES COTIZACION
 
