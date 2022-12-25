@@ -135,4 +135,5 @@
 	";
 	   
 	$insMainModel->sendMail($servidor, $puerto, $contraseña, $CharSet, $SMTPSecure , $de, $para, $from, $asunto, $mensaje, $URL);
+	
 ?>

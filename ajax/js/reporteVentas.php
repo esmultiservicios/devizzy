@@ -1,12 +1,35 @@
 <script>
 $(document).ready(function() {
-	getReporteFactura();	
+	getReporteFactura();
+	getFacturador();
+	getVendedores();
     listar_reporte_ventas();
+	total_ingreso_footer();
 });
 
-$('#form_main_ventas #search').on("click", function(e){
-	e.preventDefault();
+$('#form_main_ventas #tipo_factura_reporte').on("change", function(e){
 	listar_reporte_ventas();
+	total_ingreso_footer();
+});
+
+$('#form_main_ventas #facturador').on("change", function(e){
+	listar_reporte_ventas();
+	total_ingreso_footer();
+});
+
+$('#form_main_ventas #vendedor').on("change", function(e){
+	listar_reporte_ventas();
+	total_ingreso_footer();
+});
+
+$('#form_main_ventas #fechai').on("change", function(e){
+	listar_reporte_ventas();
+	total_ingreso_footer();
+});
+
+$('#form_main_ventas #fechaf').on("change", function(e){
+	listar_reporte_ventas();
+	total_ingreso_footer();
 });
 
 //INICIO REPORTE DE VENTAS
@@ -20,6 +43,8 @@ var listar_reporte_ventas = function(){
 
 	var fechai = $("#form_main_ventas #fechai").val();
 	var fechaf = $("#form_main_ventas #fechaf").val();
+	var facturador = $("#form_main_ventas #facturador").val();
+	var vendedor = $("#form_main_ventas #vendedor").val();
 
 	var table_reporteVentas  = $("#dataTablaReporteVentas").DataTable({
 		"destroy":true,
@@ -28,6 +53,8 @@ var listar_reporte_ventas = function(){
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableReporteVentas.php",
 			"data":{
 				"tipo_factura_reporte":tipo_factura_reporte,
+				"facturador":facturador,
+				"vendedor":vendedor,
 				"fechai":fechai,
 				"fechaf":fechaf
 			}
@@ -37,11 +64,98 @@ var listar_reporte_ventas = function(){
 			{"data":"tipo_documento"},
 			{"data":"cliente"},
 			{"data":"numero"},
-			{"data":"subtotal"},
-			{"data":"isv"},
-			{"data":"descuento"},			
-			{"data":"total"},
-			{"data":"ganancia"},
+			{"data":"subtotal",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"isv",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"descuento",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},			
+			{"data":"total",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"ganancia",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"vendedor"},
+			{"data":"facturador"},
 		    {"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_reportes print_comprobante btn btn-dark ocultar'><span class='far fa-file-pdf fa-lg'></span></button>"},
 		    {"defaultContent":"<button class='table_reportes email_factura btn btn-dark ocultar'><span class='fas fa-paper-plane fa-lg'></span></button>"},
@@ -52,21 +166,9 @@ var listar_reporte_ventas = function(){
 		"bDestroy": true,
 		"language": idioma_español,//esta se encuenta en el archivo main.js
 		"dom": dom,
-		"columnDefs": [
-		  { width: "9.09%", targets: 0 },
-		  { width: "9.09%", targets: 1 },
-		  { width: "19.09%", targets: 2 },
-		  { width: "18.09%", targets: 3 },
-		  { width: "9.09%", targets: 4 },
-		  { width: "9.09%", targets: 5 },
-		  { width: "9.09%", targets: 6 },
-		  { width: "9.09%", targets: 7 },
-		  { width: "3.09%", targets: 8 },
-		  { width: "3.09%", targets: 9 },
-		  { width: "2.09%", targets: 10 },
-		  { width: "2.09%", targets: 11 }		  		  		  
-
-		],
+		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
+        	$('td', nRow).addClass(aData['color']);		
+		},
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
@@ -74,6 +176,7 @@ var listar_reporte_ventas = function(){
 				className: 'table_actualizar btn btn-secondary ocultar',
 				action: 	function(){
 					listar_reporte_ventas();
+					total_ingreso_footer();
 				}
 			},
 			{
@@ -198,6 +301,7 @@ function anular(facturas_id){
 				type: "success",
 			});
 			listar_reporte_ventas();
+			total_ingreso_footer();
 		  }else{
 			swal({
 				title: "Error",
@@ -219,19 +323,59 @@ function getReporteFactura(){
 	    async: true,
         success: function(data){
 		    $('#form_main_ventas #tipo_factura_reporte').html("");
-			$('#form_main_ventas #tipo_factura_reporte').html(data);		
+			$('#form_main_ventas #tipo_factura_reporte').html(data);
+			$('#form_main_ventas #tipo_factura_reporte').selectpicker('refresh');		
+		}
+     });
+}
+
+function getFacturador(){
+    var url = '<?php echo SERVERURL;?>core/getFacturador.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#form_main_ventas #facturador').html("");
+			$('#form_main_ventas #facturador').html(data);
+			$('#form_main_ventas #facturador').selectpicker('refresh');			
+		}
+     });
+}
+
+function getVendedores(){
+    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+			
+		    $('#form_main_ventas #vendedor').html("");
+			$('#form_main_ventas #vendedor').html(data);
+			$('#form_main_ventas #vendedor').selectpicker('refresh');			
 		}
      });
 }
 //FIN REPORTE DE VENTAS
 
 var total_ingreso_footer = function(){	
+	var tipo_factura_reporte = 1;
+	if($("#form_main_ventas #tipo_factura_reporte").val() == null || $("#form_main_ventas #tipo_factura_reporte").val() == ""){
+		tipo_factura_reporte = 1;
+	}else{
+		tipo_factura_reporte = $("#form_main_ventas #tipo_factura_reporte").val();
+	}
+
 	var fechai = $("#form_main_ventas #fechai").val();
 	var fechaf = $("#form_main_ventas #fechaf").val();
 	$.ajax({
 		url : '<?php echo SERVERURL;?>core/totalVentasFooter.php',
 		type: "POST",
 		data : {
+			"tipo_factura_reporte":tipo_factura_reporte,
 			"fechai": fechai,
 			"fechaf":fechaf
 			}
@@ -248,4 +392,5 @@ var total_ingreso_footer = function(){
 			console.log( "total ingreso error" );
 	});
 }
+
 </script>

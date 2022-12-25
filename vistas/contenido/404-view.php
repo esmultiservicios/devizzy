@@ -18,7 +18,6 @@
 				</div>
 			</main>
 		</div>
-
 		<?php
 			require_once "./vistas/plantilla/modulos/footer_layoutError.php";
 		?>

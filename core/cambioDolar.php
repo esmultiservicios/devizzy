@@ -22,6 +22,6 @@
     curl_close($curl);
     $res = json_decode($res);
     return $res;
-
 }
+
 ?>

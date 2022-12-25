@@ -17,11 +17,12 @@
 								<th>Imagen</th>
 								<th>Bar Code</th>
 								<th>Producto</th>
-								<th>Cantidad</th>
 								<th>Medida</th>
 								<th>Categoria</th>
 								<th>Precio Compra</th>
-								<th>Precio Venta</th>								
+								<th>Precio Venta</th>
+								<th>ISV Venta</th>
+								<th>ISV Compra</th>
 								<th>Editar</th>	
 								<th>Eliminar</th>
 							</tr>
@@ -50,7 +51,6 @@
 			</div>
 		</div>
 	</div>
-
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Productos");
 ?>

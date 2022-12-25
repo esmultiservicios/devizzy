@@ -23,4 +23,3 @@
 	}else{
 		echo false;
 	}
-?>

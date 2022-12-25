@@ -22,4 +22,5 @@
 	}else{
 		echo 2; //ERROR AL ELIMINAR LA FACTURA
 	}
+	
 ?>

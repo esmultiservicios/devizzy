@@ -15,6 +15,7 @@
 						<thead>
 							<tr>
 								<th>Empresa</th>
+								<th>Documento</th>
 								<th>CAI</th>
 								<th>Prefijo</th>
 								<th>Siguiente</th>
@@ -49,7 +50,6 @@
 			</div>
 		</div>
 	</div>
-
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Secuencia de Facturación");
 ?>

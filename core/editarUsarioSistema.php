@@ -18,3 +18,4 @@
 		1 => $valores2['colaborador'], 					
 	);
 	echo json_encode($datos);
+?>	

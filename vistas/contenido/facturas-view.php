@@ -1,9 +1,5 @@
 <body id="view_bill">
-	<div class="container-fluid">
-		<!--<ol class="breadcrumb mt-2 mb-4">
-			<li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo SERVERURL; ?>dashboard/">Dashboard</a></li>
-			<li class="breadcrumb-item active">Facturas</li>
-		</ol>-->	
+	<div class="container-fluid">	
 		<div class="card mb-4">
 			<div class="card-header">
 				<i class="fas fa-file-invoice mr-1"></i>
@@ -36,10 +32,10 @@
 					<div class="bill">
 						<div class="form-group row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<button class="btn btn-secondary" type="submit" id="help_factura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Cobrar"><div class="sb-nav-link-icon"></div><i class="fas fa-question-circle fa-lg"></i> [F1] Ayuda</button>
-								<button class="btn btn-secondary" type="submit" id="reg_factura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Cobrar"><div class="sb-nav-link-icon"></div><i class="fas fa-hand-holding-usd fa-lg"></i> [F6] Cobrar</button>
+								<button class="btn btn-secondary" type="submit" id="help_factura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Ayuda"><div class="sb-nav-link-icon"></div><i class="fas fa-question-circle fa-lg"></i> [F1] Ayuda</button>
+								<button class="btn btn-secondary" type="submit" id="reg_factura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Facturar"><div class="sb-nav-link-icon"></div><i class="fas fa-hand-holding-usd fa-lg"></i> [F6] Facturar</button>
 								<button class="btn btn-secondary" type="submit" id="add_cliente" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Agregar Cliente"><div class="sb-nav-link-icon"></div><i class="fas fa-user-plus fa-lg"></i> [F7] Cliente</button>	
-								<button class="btn btn-secondary" type="submit" id="add_vendedor" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Agregar Vendeor o Empleado"><div class="sb-nav-link-icon"></div><i class="fas fa-plus-circle fa-lg"></i> [F8] Vendedor</button>						
+								<button class="btn btn-secondary" type="submit" id="add_vendedor" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Agregar Vendeor o Empleado"><div class="sb-nav-link-icon"></div><i class="fas fa-plus-circle fa-lg"></i> [F8] Vendedor</button>				
 								<button class="btn btn-secondary" type="submit" id="btn_apertura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Aperturar Caja"><div class="sb-nav-link-icon"></div><i class="fas fa-cash-register fa-lg"></i> [F9] Aperturar</button>					
 								<button class="btn btn-secondary" type="submit" id="btn_cierre" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Cerrar Caja" style="display:none;"><div class="sb-nav-link-icon"></div><i class="fas fa-cash-register fa-lg"></i> [F10] Cerrar</button>
 									<label class="switch mb-2" data-toggle="tooltip" data-placement="top" title="Tipo de Factura, Contado o Crédito">
@@ -118,13 +114,29 @@
 											</td>
 											<td>
 												<input type="text" name="medida[]" id="medida_0" readonly class="form-control buscar_medida" autocomplete="off" placeholder="Medida">
+												<input type="hidden" name="bodega[]" id="bodega_0" readonly class="form-control buscar_bodega" autocomplete="off">
+
 											</td>
 											<td>
-												<input type="hidden" name="precio_real[]" id="precio_real_0" placeholder="Precio Real" class="form-control inputfield-details" step="0.01" readonly autocomplete="off">
-												<input type="number" name="price[]" id="price_0" placeholder="Precio" class="form-control inputfield-details" step="0.01" readonly autocomplete="off">
+												<input type="hidden" name="precio_real[]" id="precio_real_0" placeholder="Precio Real" class="form-control inputfield-details" step="0.01" readonly autocomplete="off">												
+												<div class="input-group mb-3">
+													<input type="number" name="price[]" id="price_0" class="form-control" step="0.01" placeholder="Precio" readonly autocomplete="off">
+													<div id="suggestions_producto_0" class="suggestions"></div>
+													<div class="input-group-append">								
+														<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_precio fas fa-plus fa-lg"></i></a>
+													</div>
+												</div>
 												<input type="hidden" name="precio_mayoreo[]" id="precio_mayoreo_0" placeholder="Precio mayoreo" step="0.01" class="form-control inputfield-details" readonly autocomplete="off">
 											</td>
-											<td><input type="number" name="discount[]" id="discount_0" placeholder="Descuento" value="0.00" step="0.01" class="form-control inputfield-details" readonly autocomplete="off" step="0.01"></td>
+											<td>
+												<div class="input-group mb-3">
+													<input type="number" name="discount[]" id="discount_0" class="form-control" step="0.01" placeholder="Descuento" readonly autocomplete="off">
+													<div id="suggestions_producto_0" class="suggestions"></div>
+													<div class="input-group-append">								
+														<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_descuento fas fa-plus fa-lg"></i></a>
+													</div>
+												</div>
+											</td>
 											<td><input type="number" name="total[]" id="total_0" placeholder="Total" class="form-control total inputfield-details" step="0.01" readonly autocomplete="off"></td>
 										</tr>
 									</tbody>
@@ -165,8 +177,7 @@
 													
 									</div>
 								</div>
-							</div>	
-															
+							</div>															
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4" style="display: none;">
 							  <div class="row">					  
 								<div class="col-sm-3 form-inline">

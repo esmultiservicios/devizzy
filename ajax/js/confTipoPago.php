@@ -2,6 +2,7 @@
 $(document).ready(function() {
     listar_tipo_pago_contabilidad();
     getCuentaTipoPago();
+	getTipoCuenta();
 });
 
 //INICIO TIPO DE PAGO
@@ -41,7 +42,7 @@ var listar_tipo_pago_contabilidad = function(){
 				}
 			},
 			{
-				text:      '<i class="fab fa-bitcoin fa-lg"></i> Crear',
+				text:      '<i class="fab fa-bitcoin fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Tipo de Pago',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -96,6 +97,7 @@ var edit_tipo_pago_contabilidad_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.table_editar", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		var url = '<?php echo SERVERURL;?>core/editarTipoPago.php';
+		$('#formConfTipoPago')[0].reset();
 		$('#formConfTipoPago #tipo_pago_id').val(data.tipo_pago_id);
 
 		$.ajax({
@@ -106,13 +108,15 @@ var edit_tipo_pago_contabilidad_dataTable = function(tbody, table){
 				var valores = eval(registro);
 				$('#formConfTipoPago').attr({ 'data-form': 'update' });
 				$('#formConfTipoPago').attr({ 'action': '<?php echo SERVERURL;?>ajax/modificarTipoPagoAjax.php' });
-				$('#formConfTipoPago')[0].reset();
 				$('#reg_formTipoPago').hide();
 				$('#edi_formTipoPago').show();
 				$('#delete_formTipoPago').hide();
 				$('#formConfTipoPago #pro_tipoPago').val("Editar");
 				$('#formConfTipoPago #confTipoPago').val(valores[0]);
-				$('#formConfTipoPago #confCuentaTipoPago').val(valores[1]);				
+				$('#formConfTipoPago #confCuentaTipoPago').val(valores[1]);	
+				$('#formConfTipoPago #confCuentaTipoPago').selectpicker('refresh');				
+				$('#formConfTipoPago #confTipoCuenta').val(valores[3]);		
+				$('#formConfTipoPago #confTipoCuenta').selectpicker('refresh');	
 
 				if(valores[2] == 1){
 					$('#formConfTipoPago #confTipoPago_activo').attr('checked', true);
@@ -120,10 +124,14 @@ var edit_tipo_pago_contabilidad_dataTable = function(tbody, table){
 					$('#formConfTipoPago #confTipoPago_activo').attr('checked', false);
 				}
 
+				//DESHABILITAR OBJETOS				
+				$('#formConfTipoPago #confCuentaTipoPago').attr('disabled', true);
+				$('#formConfTipoPago #confTipoPago_activo').attr('disabled', true);	
+				$('#formConfTipoPago #confTipoCuenta').attr('disabled', true);
+
 				//HABILITAR OBJETOS
+				$('#formConfTipoPago #confTipoPago_activo').attr('disabled', false);
 				$('#formConfTipoPago #confTipoPago').attr('readonly', false);
-				$('#formConfTipoPago #confCuentaTipoPago').attr('disabled', false);
-				$('#formConfTipoPago #confTipoPago_activo').attr('disabled', false);	
 				$('#formConfTipoPago #buscar_confCuentaTipoPago').show();
 				$('#formConfTipoPago #estado_tipo_pago').show();
 
@@ -144,6 +152,7 @@ var delete_tipo_pago_contabilidad_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.table_eliminar", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		var url = '<?php echo SERVERURL;?>core/editarTipoPago.php';
+		$('#formConfTipoPago')[0].reset();
 		$('#formConfTipoPago #tipo_pago_id').val(data.tipo_pago_id);
 
 		$.ajax({
@@ -154,13 +163,15 @@ var delete_tipo_pago_contabilidad_dataTable = function(tbody, table){
 				var valores = eval(registro);
 				$('#formConfTipoPago').attr({ 'data-form': 'update' });
 				$('#formConfTipoPago').attr({ 'action': '<?php echo SERVERURL;?>ajax/eliminarTipoPagoAjax.php' });
-				$('#formConfTipoPago')[0].reset();
 				$('#reg_formTipoPago').hide();
 				$('#edi_formTipoPago').hide();
 				$('#delete_formTipoPago').show();
 				$('#formConfTipoPago #pro_tipoPago').val("Eliminar");
 				$('#formConfTipoPago #confTipoPago').val(valores[0]);
-				$('#formConfTipoPago #confCuentaTipoPago').val(valores[1]);				
+				$('#formConfTipoPago #confCuentaTipoPago').val(valores[1]);	
+				$('#formConfTipoPago #confCuentaTipoPago').selectpicker('refresh');
+				$('#formConfTipoPago #confTipoCuenta').val(valores[3]);	
+				$('#formConfTipoPago #confTipoCuenta').selectpicker('refresh');			
 
 				if(valores[2] == 1){
 					$('#formConfTipoPago #confTipoPago_activo').attr('checked', true);
@@ -172,6 +183,7 @@ var delete_tipo_pago_contabilidad_dataTable = function(tbody, table){
 				$('#formConfTipoPago #confTipoPago').attr('readonly', true);
 				$('#formConfTipoPago #confCuentaTipoPago').attr('disabled', true);
 				$('#formConfTipoPago #confTipoPago_activo').attr('disabled', true);	
+				$('#formConfTipoPago #confTipoCuenta').attr('disabled', true);	
 				$('#formConfTipoPago #buscar_confCuentaTipoPago').hide();
 				$('#formConfTipoPago #estado_tipo_pago').hide();		
 
@@ -199,7 +211,8 @@ function modalTipoPago(){
 	//HABILITAR OBJETOS
 	$('#formConfTipoPago #confTipoPago').attr('readonly', false);
 	$('#formConfTipoPago #confCuentaTipoPago').attr('disabled', false);
-	$('#formConfTipoPago #confTipoPago_activo').attr('disabled', false);	
+	$('#formConfTipoPago #confTipoPago_activo').attr('disabled', false);
+	$('#formConfTipoPago #confTipoCuenta').attr('disabled', false);	
 	$('#formConfTipoPago #buscar_confCuentaTipoPago').show();
 	$('#formConfTipoPago #estado_tipo_pago').hide();
 
@@ -220,7 +233,23 @@ function getCuentaTipoPago(){
 	    async: true,
         success: function(data){
 		    $('#formConfTipoPago #confCuentaTipoPago').html("");
-			$('#formConfTipoPago #confCuentaTipoPago').html(data);			
+			$('#formConfTipoPago #confCuentaTipoPago').html(data);
+			$('#formConfTipoPago #confCuentaTipoPago').selectpicker('refresh');
+		}
+     });
+}
+
+function getTipoCuenta(){
+    var url = '<?php echo SERVERURL;?>core/getTipoCuenta.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formConfTipoPago #confTipoCuenta').html("");
+			$('#formConfTipoPago #confTipoCuenta').html(data);
+			$('#formConfTipoPago #confTipoCuenta').selectpicker('refresh');			
 		}
      });
 }

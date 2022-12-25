@@ -23,3 +23,4 @@
 	}else{
 		echo 3;//EL RTN YA EXISTE NO SE PUEDE EDITAR
 	}
+?>	

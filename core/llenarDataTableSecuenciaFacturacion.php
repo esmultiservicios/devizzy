@@ -14,6 +14,7 @@
 		$data[] = array( 
 			"secuencia_facturacion_id"=>$row['secuencia_facturacion_id'],
 			"empresa"=>$row['empresa'],
+			"documento"=>$row['documento'],
 			"cai"=>$row['cai'],
 			"prefijo"=>$row['prefijo'],
 			"siguiente"=>$row['siguiente'],
@@ -32,3 +33,5 @@
 	);
 
 	echo json_encode($arreglo);
+	
+?>

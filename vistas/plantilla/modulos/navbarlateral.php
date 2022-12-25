@@ -1,7 +1,7 @@
 <nav class="sb-sidenav accordion bg-color-navarlateral" id="sidenavAccordion">
-	<!--sb-sidenav-menu-heading
-    <div class="sb-sidenav-footer link"> 
-        <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="50%" alt="We share" loading="lazy"></center>
+	<!--sb-sidenav-menu-heading-->
+    <!--<div class="sb-sidenav-footer link"> 
+        <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="100%" alt="We share" loading="lazy"></center>
     </div>-->
 	<br/>
     <div class="sb-sidenav-menu">
@@ -111,14 +111,27 @@
                 </nav>
             </div>
 
+            <!--Area de Recursos Humanos-->
+            <a class="nav-link collapsed link" href="#" data-toggle="collapse" data-target="#recursosHumanos" aria-expanded="false" aria-controls="recursosHumanos" id="recursosHumanos" style="display:none">
+                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                Recursos Humanos
+                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="recursosHumanos" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link link" href="<?php echo SERVERURL; ?>colaboradores/" id="colaboradores" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>Colaboradores</a>
+                    <a class="nav-link link" href="<?php echo SERVERURL; ?>contrato/" id="contrato" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-file-signature"></i></div>Contrato</a>
+                    <a class="nav-link link" href="<?php echo SERVERURL; ?>nomina/" id="nomina" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-hand-holding-usd"></i></div>Nomina</a>				
+                </nav>
+            </div>	
+
             <a class="nav-link collapsed link" href="#" data-toggle="collapse" data-target="#configuracion" aria-expanded="false" aria-controls="configuracion" id="configuracion" style="display:none">
-                <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></i></div>
+                <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                 Configuración
                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
             </a>
             <div class="collapse" id="configuracion" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link link" href="<?php echo SERVERURL; ?>colaboradores/" id="colaboradores" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>Colaboradores</a>
                     <a class="nav-link link" href="<?php echo SERVERURL; ?>puestos/" id="puestos" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>Puestos</a>					
                     <a class="nav-link link" href="<?php echo SERVERURL; ?>users/" id="users" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>Usuarios</a>
                     <a class="nav-link link" href="<?php echo SERVERURL; ?>secuencia/" id="secuencia" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-sliders-h"></i></div>Secuencia</a>
@@ -135,7 +148,7 @@
 					<a class="nav-link link" href="<?php echo SERVERURL; ?>privilegio/" id="privilegio" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-key"></i></div>Privilegios</a>
 					<a class="nav-link link" href="<?php echo SERVERURL; ?>tipoUser/" id="tipoUser" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-user-lock"></i></div>Tipo Usuario</a>				
                 </nav>
-            </div>		
+            </div>	           
 			
         </div>
     </div>

@@ -3,7 +3,6 @@ $(document).ready(function() {
     listar_diarios_configuracion();
 	getCuentaDiarios(); 
 });
-
 //INICIO CONFIGURACION CUENTAS CONTABLES EN DIARIOS
 var listar_diarios_configuracion = function(){
 	var table_diarios_configuracion = $("#dataTableConfDiarios").DataTable({
@@ -98,6 +97,7 @@ var edit_diarios_configuracion_dataTable = function(tbody, table){
 				$('#formConfCuentasEntidades #pro_ConfCuentasEntidades').val("Editar");
 				$('#formConfCuentasEntidades #confEntidad').val(valores[1]);
 				$('#formConfCuentasEntidades #confCuenta').val(valores[2]);
+				$('#formConfCuentasEntidades #confCuenta').selectpicker('refresh');
 				$('#formConfCuentasEntidades #buscar_confCuenta').hide();
 
 				//DESHABILITAR OBJETOS
@@ -122,7 +122,23 @@ function getCuentaDiarios(){
 	    async: true,
         success: function(data){
 		    $('#formConfCuentasEntidades #confCuenta').html("");
-			$('#formConfCuentasEntidades #confCuenta').html(data);			
+			$('#formConfCuentasEntidades #confCuenta').html(data);
+			$('#formConfCuentasEntidades #confCuenta').selectpicker('refresh');	
+		}
+     });
+}
+
+function getCuentaDiarios(){
+    var url = '<?php echo SERVERURL;?>core/getCuenta.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formConfCuentasEntidades #confCuenta').html("");
+			$('#formConfCuentasEntidades #confCuenta').html(data);
+			$('#formConfCuentasEntidades #confCuenta').selectpicker('refresh');		
 		}
      });
 }

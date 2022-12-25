@@ -53,7 +53,6 @@
     </div>
 </div>
 <!--FIN MODAL PRIVILEGIOS-->
-
 <!--INICIO MODAL PARA EL EL REGISTRO DE MENUS SEGUN EL PRIVILEGIO-->
 <div class="modal fade" id="modal_menus_accesos">
 	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">

@@ -22,73 +22,64 @@
 					</div>							
 				</div>
 				<div class="form-row">
-					<div class="col-md-4 mb-3">
-					  <label for="proveedor_ingresos">Cliente <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <select id="cliente_ingresos" name="cliente_ingresos" class="custom-select" data-toggle="tooltip" data-placement="top" title="Proveedor" required>
+					<div class="col-md-3 mb-3">
+						<label for="cliente_ingresos">Proveedor <span class="priority">*<span/></label>
+					    <div class="input-group mb-3">
+						  <select id="cliente_ingresos" name="cliente_ingresos" class="selectpicker" data-live-search="true" title="Proveedor">
 							<option value="">Seleccione</option>
 						  </select>
-						  <div class="input-group-append" id="buscar_cliente_ingresos">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
-					   </div>
+					    </div>
 					</div>
-					<div class="col-md-4 mb-3">
-					  <label for="cuenta_ingresos">Cuenta <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <select id="cuenta_ingresos" name="cuenta_ingresos" class="custom-select" data-toggle="tooltip" data-placement="top" title="Cuenta" required>
+					<div class="col-md-3 mb-3">
+						<label for="cuenta_ingresos">Cuenta <span class="priority">*<span/></label>
+					    <div class="input-group mb-3">
+						  <select id="cuenta_ingresos" name="cuenta_ingresos" class="selectpicker" data-live-search="true" title="Cuenta">
 							<option value="">Seleccione</option>
 						  </select>
-						  <div class="input-group-append" id="buscar_cuenta_ingresos">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
-					   </div>
-					</div>
-					<div class="col-md-4 mb-3">
-					  <label for="empresa_ingresos">Empresa <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <select id="empresa_ingresos" name="empresa_ingresos" class="custom-select" data-toggle="tooltip" data-placement="top" title="Empresa" required>
+					    </div>
+					</div>	
+					<div class="col-md-3 mb-3">
+						<label for="empresa_ingresos">Empresa <span class="priority">*<span/></label>
+					    <div class="input-group mb-3">
+						  <select id="empresa_ingresos" name="empresa_ingresos" class="selectpicker" data-live-search="true" title="Empresa">
 							<option value="">Seleccione</option>
 						  </select>
-						  <div class="input-group-append" id="buscar_empresa_ingresos">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
-					   </div>
-					</div>										
-				</div>
-				<div class="form-row">
-					<div class="col-md-4 mb-3">
+					    </div>
+					</div>				
+					<div class="col-md-3 mb-3">
 					  <label for="fecha_ingresos">Fecha Factura <span class="priority">*<span/></label>
 					  <input type="date" required id="fecha_ingresos" name="fecha_ingresos" value="<?php echo date ("Y-m-d");?>" class="form-control" />
-					</div>
-					<div class="col-md-8 mb-3">
+					</div>					
+				</div>				
+				<div class="form-row">
+					<div class="col-md-6 mb-3">
 					  <label for="factura_ingresos">Factura <span class="priority">*<span/></label>
 					  <input type="text" required id="factura_ingresos" name="factura_ingresos" placeholder="Factura" class="form-control"  maxlength="19" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
+					</div>				
+					<div class="col-md-3 mb-3">
+					  <label for="subtotal_ingresos">Subtotal <span class="priority">*<span/></label>
+					  <input type="number" required id="subtotal_ingresos" name="subtotal_ingresos" placeholder="Subtotal" class="form-control" step="0.01" />
+					</div>				
+					<div class="col-md-3 mb-3">
+					  <label for="isv_ingresos">ISV <span class="priority">*<span/></label>
+					  <input type="number" required id="isv_ingresos" name="isv_ingresos" placeholder="ISV" class="form-control" step="0.01" value = "0"/>
 					</div>						
 				</div>	
 				<div class="form-row">
-					<div class="col-md-4 mb-3">
-					  <label for="subtotal_ingresos">Subtotal <span class="priority">*<span/></label>
-					  <input type="number" required id="subtotal_ingresos" name="subtotal_ingresos" placeholder="Subtotal" class="form-control" step="0.01" />
-					</div>	
-					<div class="col-md-4 mb-3">
-					  <label for="isv_ingresos">ISV <span class="priority">*<span/></label>
-					  <input type="number" required id="isv_ingresos" name="isv_ingresos" placeholder="ISV" class="form-control" step="0.01" value = "0"/>
-					</div>	
 					<div class="col-md-4 mb-3">
 					  <label for="descuento_ingresos">Descuento</label>
 					  <input type="number" id="descuento_ingresos" name="descuento_ingresos" placeholder="Descuento" class="form-control" step="0.01" value = "0"/>
 					</div>				
-				</div>	
-				<div class="form-row">
 					<div class="col-md-4 mb-4">
 					  <label for="nc_ingresos">NC </label>
 					  <input type="number" id="nc_ingresos" name="nc_ingresos" placeholder="NC" class="form-control" step="0.01" value = "0"/>
-					</div>	
+					</div>				
 					<div class="col-md-4 mb-4">
 					  <label for="total_ingresos">Total </label>
 					  <input type="number" readonly id="total_ingresos" name="total_ingresos" placeholder="Total" class="form-control" step="0.01" value = "0"/>
 					</div>						
+				</div>	
+				<div class="form-row">					
 				</div>	
 				<div class="form-row">
 					<div class="col-md-12 mb-4">

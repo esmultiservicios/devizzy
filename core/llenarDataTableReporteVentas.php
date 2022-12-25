@@ -9,12 +9,15 @@
 		"tipo_factura_reporte" => $_POST['tipo_factura_reporte'],
 		"fechai" => $_POST['fechai'],
 		"fechaf" => $_POST['fechaf'],		
+		"facturador" => $_POST['facturador'],
+		"vendedor" => $_POST['vendedor'],
 	];	
 	
 	$result = $insMainModel->consultaVentas($datos);
 	
 	$arreglo = array();
 	$data = [];
+	$footer_total = 0;
 	
 	while($row = $result->fetch_assoc()){
 	   $facturas_id = $row['facturas_id'];
@@ -37,9 +40,23 @@
 	   $isv = number_format($isv,2);
 	   $descuento = number_format($descuento,2);
 	   $total = $row['total'];
-	   $ganancia = $subtotal - $subCosto - $isv - $descuento;
+
+	   $ganancia = doubleval($subtotal) - doubleval($subCosto) - doubleval($isv) - doubleval($descuento);	
 	   
-	
+	   if($row['tipo_documento'] == 'Contado'){
+			$color = 'bg-c-green';
+	   }
+
+	   if($row['tipo_documento'] == 'Crédito'){
+			//CONSULTAMOS LOS PAGOS DEL CLIENTE
+			$result_cxpFacturaPago = $insMainModel->consultaCXPagoFactura($facturas_id);
+
+			if($result_cxpFacturaPago->num_rows>0){
+				$color = 'bg-c-green';
+			}else{
+				$color = 'bg-warning';
+			}			
+	   }
 
 	   $data[] = array( 
 		  "facturas_id"=>$row['facturas_id'],
@@ -47,11 +64,15 @@
 		  "tipo_documento"=>$row['tipo_documento'],
 		  "cliente"=>$row['cliente'],
 		  "numero"=>$row['numero'],
-		  "subtotal"=>'L. '.number_format($subtotal,2),	
-		  "ganancia" =>'L. '.number_format($ganancia,2),
-		  "isv"=>'L. '.$isv,	
-		  "descuento"=>'L. '.$descuento,
-		  "total"=>'L. '.$total	  
+		  "subtotal"=> $subtotal,	
+		  "ganancia" => $ganancia,
+		  "isv"=>$isv,	
+		  "descuento"=>$descuento,
+		  "total"=>$total,
+		  "color"=> $color,
+		  "footer_total" => $footer_total,
+		  "vendedor"=>$row['vendedor'],	  
+		  "facturador"=>$row['facturador'],	
 	  );		
 	}
 	
@@ -63,3 +84,4 @@
 	);
 
 	echo json_encode($arreglo);	
+?>	

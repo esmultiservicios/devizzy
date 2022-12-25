@@ -10895,13 +10895,6 @@ input:checked + .slider:before {
 	z-index: 0
 }
 
-/*
-.btn{
-  color: #fff; 
-  background-color: #0f1a21;
-  border-color:#0f1a21;
-}*/
-
 .boton{
   background-color: #0f1a21;
   font-size: 20px;

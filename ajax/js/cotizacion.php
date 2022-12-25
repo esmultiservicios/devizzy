@@ -3,8 +3,8 @@ $(document).ready(function() {
     cleanQuote();
 	getVigencia(); 
 });
-
 //INICIO COTIZACIONES
+
 function resetRow(){
 	row = 0;
 }
@@ -58,15 +58,11 @@ $(document).ready(function(){
 							$("#quoteForm #QuoteItem #quantityQuote_" + row_index).val(cantidad);
 
 							$("#quoteForm #QuoteItem #bar-code-id_" + row_index).val(barcode);							
-
 							$("#quoteForm #QuoteItem #cantidad_mayoreoQuote_" + row_index).val(valores[4]);
-
 							$("#quoteForm #QuoteItem #precio_realQuote_" + row_index).val(valores[1]);
-
 							$("#quoteForm #QuoteItem #precio_mayoreoQuote_" + row_index).val(valores[5]);							
 
-							
-
+						
 							var impuesto_venta = parseFloat($('#quoteForm #QuoteItem #isvQuote_'+ row_index).val());
 
 							var cantidad1 = parseFloat($('#quoteForm #QuoteItem #quantityQuote_'+ row_index).val());
@@ -181,29 +177,19 @@ $(document).ready(function(){
 
 				event.preventDefault();
 
-				var cantidad = $("#quoteForm #QuoteItem #quantityQuote_" + row_index).val();
-
-						
-
-				
+				var cantidad = $("#quoteForm #QuoteItem #quantityQuote_" + row_index).val();									
 
 				if(!cantidad){
 
 					cantidad = 1;
 
 				}
-
 				
-
 				cantidad++;
-
 				
-
 				if(cantidad > 0){
 
 					$("#quoteForm #QuoteItem #quantityQuote_" + row_index).val(cantidad);	
-
-
 
 					//EVALUAMOS ANTES QUE LA CANTIDAD DE MAYOREO Y EL PRECIO DE MAYOREO NO ESTEN VACIOS					
 
@@ -229,9 +215,7 @@ $(document).ready(function(){
 
 				}					
 
-			}	
-
-			
+			}				
 
 			var impuesto_venta = parseFloat($('#quoteForm #QuoteItem #isvQuote_'+ row_index).val());
 
@@ -253,14 +237,10 @@ $(document).ready(function(){
 
 			var isv_neto = 0;
 
-
-
 			if(impuesto_venta == 1){
 
 				porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
-
-													
-
+												
 				if(total == "" || total == 0){
 
 					porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad1) * porcentaje_isv).toFixed(2);
@@ -286,9 +266,7 @@ $(document).ready(function(){
 			calculateTotalQuote();
 
 		}
-
-		
-
+	
 		//TECLA MENOS
 
 		if (event.which === 45) {
@@ -300,25 +278,19 @@ $(document).ready(function(){
 				var cantidad = $("#quoteForm #QuoteItem #quantityQuote_" + row_index).val();
 
 				
-
 				if(!cantidad){
 
 					cantidad = 1;
 
 				}
-
 				
-
 				cantidad--;
 
 				
-
 				if(cantidad > 0){
 
 					$("#quoteForm #QuoteItem #quantityQuote_" + row_index).val(cantidad);
-
 					
-
 					//EVALUAMOS ANTES QUE LA CANTIDAD DE MAYOREO Y EL PRECIO DE MAYOREO NO ESTEN VACIOS
 
 					if(parseFloat($('#quoteForm #QuoteItem #cantidad_mayoreoQuote_'+ row_index).val()) != 0 && parseFloat($('#quoteForm #QuoteItem #precio_mayoreoQuote_'+ row_index).val()) != 0){
@@ -344,8 +316,6 @@ $(document).ready(function(){
 				}								
 
 			}
-
-
 
 			var impuesto_venta = parseFloat($('#quoteForm #QuoteItem #isvQuote_'+ row_index).val());
 
@@ -408,304 +378,161 @@ $(document).ready(function(){
 
 //FIN BARCODE
 
-
-
 $("#quoteForm #help_factura").on("click", function(e){
-
 	modalAyudaCotizacion();
-
 	e.preventDefault();
-
 });
 
-
-
 function modalAyudaCotizacion(){
-
 	$('#modalAyudaQuote').modal({
-
 		show:true,
-
 		keyboard: false,
-
 		backdrop:'static'
-
 	});	
-
 }
-
-
 
 function cleanQuote(){
-
 	$('#quoteForm #vendedor-customers-quote').html("");
-
 	$('#quoteForm #comentario-customers-quote').html("");
-
 	getConsumidorFinal();
-
 	getCajero();
-
 	$('#quoteForm #notesQuote').html("");
-
 }
-
-
 
 //INICIO COTIZACION
 
 //INICIO CAMBIAR PRECIO A PRODUCTO EN FACTURACION
-
 $(document).ready(function(){
-
   $('#quoteForm #QuoteItem').on("keydown", '.product-bar-code', function(e) { 
-
 		if (e.which === 112) {//TECLA F1
-
 			//modalLogin();
-
 			modalAyudaCotizacion();
-
 			e.preventDefault();
-
-		}	  
-
+		}
   
-
 		//INICIO BUSQUEDA PRODUCTO EN FACTURACION
-
 		if (e.which === 113) {//TECLA F2
-
 			listar_productos_cotizacion_buscar();
-
 			  var row_index = $(this).closest("tr").index();
-
 			  var col_index = $(this).closest("td").index();
-				
-
 
 			  $('#formulario_busqueda_productos_facturacion #row').val(row_index);
-
 			  $('#formulario_busqueda_productos_facturacion #col').val(col_index);	
 
-
-
 			  $('#modal_buscar_productos_facturacion').modal({
-
 				show:true,
-
 				keyboard: false,
-
 				backdrop:'static'
-
 			  });		
-
 			  e.preventDefault();
-
 		}	
 
 		//FIN BUSQUEDA PRODUCTO EN FACTURACION
 
-  
-
 		if (e.which === 114) {//TECLA F3
-
 			  var row_index = $(this).closest("tr").index();
-
-			  var col_index = $(this).closest("td").index();
-
-			  
+			  var col_index = $(this).closest("td").index();			  
 
 			  $('#formDescuentoCotizaciones #row_index').val(row_index);
-
-			  $('#formDescuentoCotizaciones #col_index').val(col_index);			  
-
-			  
+			  $('#formDescuentoCotizaciones #col_index').val(col_index);			  			  
 
 			  if($("#quoteForm #QuoteItem #productosQuote_id_" + row_index).val() != ""){
-
 				  $('#formDescuentoCotizaciones')[0].reset();
-
 				  var productos_id = $("#quoteForm #QuoteItem #productosQuote_id_" + row_index).val();
-
 				  var producto = $("#quoteForm #QuoteItem #productNameQuote_" + row_index).val();
-
 				  var precio = $("#quoteForm #QuoteItem #precio_realQuote_" + row_index).val();
-
-				  var cantidad = $("#quoteForm #QuoteItem #quantityQuote_" + row_index).val();
-
-				  
+				  var cantidad = $("#quoteForm #QuoteItem #quantityQuote_" + row_index).val();			
 
 				  $('#formDescuentoCotizaciones #descuento_productos_id').val(productos_id);
-
 				  $('#formDescuentoCotizaciones #producto_descuento_fact').val(producto);
-
 				  $('#formDescuentoCotizaciones #precio_descuento_fact').val(precio);
-
 				  $('#formDescuentoCotizaciones #descuento_cantidad').val(cantidad);
-
-				  
-
+			
 				  $('#formDescuentoCotizaciones #pro_descuento_fact').val("Registrar");
-
-				  
-
+				
 				  $('#modalDescuentoCotizaciones').modal({
-
 					show:true,
-
 					keyboard: false,
-
 					backdrop:'static'
-
 				  });
-
 			  }
 
 			  e.preventDefault();
-
 		}	
 
-		
 
 		if (e.which === 115) {//TECLA F4
-
 			var row_index = $(this).closest("tr").index();
-
 			var col_index = $(this).closest("td").index();
-
 			$('#formModificarPrecioCotizaciones #row_index').val(row_index);
-
 			$('#formModificarPrecioCotizaciones #col_index').val(col_index);			  
 
-
-
 			if($("#quoteForm #QuoteItem #productosQuote_id_" + row_index).val() != ""){
-
 			  $('#formModificarPrecioCotizaciones')[0].reset();
-
 			  var clientes_id = $("#quoteForm #cliente_id").val();
-
 			  var fecha = $("#quoteForm #fecha").val();
-
 			  var productos_id = $("#quoteForm #QuoteItem #productosQuote_id_" + row_index).val();
-
 			  var producto = $("#quoteForm #QuoteItem #productNameQuote_" + row_index).val();
-
 			  var precio = $("#quoteForm #QuoteItem #precio_realQuote_" + row_index).val();
 
-			  			  
-
 			  $('#formModificarPrecioCotizaciones #modificar_precio_fecha').val(fecha);
-
 			  $('#formModificarPrecioCotizaciones #modificar_precio_clientes_id').val(clientes_id);
-
 			  $('#formModificarPrecioCotizaciones #modificar_precio_productos_id').val(productos_id);
-
 			  $('#formModificarPrecioCotizaciones #producto_modificar_precio_fact').val(producto);		  
-
-			  
-
+			
 			  $('#formModificarPrecioCotizaciones #pro_modificar_precio').val("Registrar");
 
-			  
-
+			
 			  $('#modalModificarPrecioCotizaciones').modal({
-
 				show:true,
-
 				keyboard: false,
-
 				backdrop:'static'
-
 			  });
-
 			}
 
 			e.preventDefault();
-
 		}	
-
 	});
-
 });		
 
 
-
 $("#reg_modificar_precio_quote").on("click", function(e){
-
 	e.preventDefault();	
-
 	var row_index = $('#formModificarPrecioCotizaciones #row_index').val();
-
 	var col_index = $('#formModificarPrecioCotizaciones #col_index').val();
-
 	
-
 	var referencia = $('#formModificarPrecioCotizaciones #referencia_modificar_precio_fact').val();	
-
 	var precio = parseFloat($('#formModificarPrecioCotizaciones #precio_modificar_precio_fact').val()).toFixed(2);
-
 	var cantidad = $("#quoteForm #QuoteItem #quantityQuote_" + row_index).val();
-
 	var impuesto_venta = $("#quoteForm #QuoteItem #isvQuote_" + row_index).val();
-
 	var descuento = parseFloat($('#formDescuentoCotizaciones #descuento_fact').val()).toFixed(2);
 
-
-
 	var isv = 0;
-
 	var isv_total = 0;
-
 	var porcentaje_isv = 0;
-
 	var porcentaje_calculo = 0;
-
 	var isv_neto = 0;
-
 	var total_ = (precio * cantidad) - descuento;
 
-
-
 	if(impuesto_venta == 1){
-
 		porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
-
 		if($('#quoteForm #taxAmountQuote').val() == "" || $('#quoteForm #taxAmountQuote').val() == 0){
-
 			porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
-
 			isv_neto = porcentaje_calculo;
-
 			$('#quoteForm #taxAmountQuote').val(porcentaje_calculo);
-
 			$('#quoteForm #QuoteItem #valorQuote_isv_'+ row_index).val(porcentaje_calculo);
-
 		}else{
-
 			isv_total = parseFloat($('#quoteForm #taxAmountQuote').val());
-
 			porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
-
 			isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
-
 			$('#quoteForm #taxAmountQuote').val(isv_neto);
-
 			$('#quoteForm #QuoteItem #valorQuote_isv_'+ row_index).val(porcentaje_calculo);
-
 		}
-
-	}
-
-			  	
+	}	  	
 
 	$("#quoteForm #QuoteItem #priceQuote_" + row_index).val(precio);
-
 	$("#quoteForm #QuoteItem #referenciaProductoQuote_" + row_index).val(referencia);	
-
 	$('#modalModificarPrecioCotizaciones').modal('hide');
-
 
 	calculateTotalQuote();
 });			
@@ -846,6 +673,8 @@ $("#reg_DescuentoQuote").on("click", function(e){
 
 	}
 
+
+
 	$('#modalDescuentoCotizaciones').modal('hide');
 
 	calculateTotalQuote();
@@ -855,6 +684,7 @@ $("#reg_DescuentoQuote").on("click", function(e){
 //FIN DESCUENTO PRODUCTO EN FACTURACION
 
 //FIN CAMBIAR PRECIO A PRODUCTO EN COTIZACIONES
+
 
 
 //INICIO BUSQUEDA PRODUCTOS COTIZACION
@@ -889,11 +719,51 @@ var listar_productos_cotizacion_buscar = function(){
 			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus fa-lg'></span></button>"},
 			{"data":"barCode"},			
 			{"data":"nombre"},
-			{"data":"cantidad"},
+			{"data":"cantidad",
+				render: function (data, type) {
+					if(data == null){
+						data = 0;
+					}
+										
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, '')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
 			{"data":"medida"},
-			{"data":"tipo_producto"},
-			{"data":"precio_venta"},
-			{"data":"almacen"}
+			{"data":"tipo_producto_nombre"},
+			{"data":"precio_venta",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },			
+			},
+			{"data":"almacen"},
+			{"data":"almacen_id"},
+			{"data":"isv_venta"}
 		],	
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -902,16 +772,17 @@ var listar_productos_cotizacion_buscar = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "5.5%", targets: 0 },
-		  { width: "18.5%", targets: 1 },
-		  { width: "19.5%", targets: 2 },
-		  { width: "12.5%", targets: 3 },
-		  { width: "5.5%", targets: 4 },
-		  { width: "12.5%", targets: 5 },
-		  { width: "12.5%", targets: 6 },
-		  { width: "21.5%", targets: 7 }
+		  { width: "2%", targets: 0 },
+		  { width: "17%", targets: 1 },
+		  { width: "17%", targets: 2 },
+		  { width: "10%", targets: 3 },
+		  { width: "10%", targets: 4 },
+		  { width: "10%", targets: 5 },
+		  { width: "12%", targets: 6 },
+		  { width: "12%", targets: 7 },
+		  { width: "0%", targets: 8, visible: false },
+		  { width: "10%", targets: 9 }
 		],
-
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
@@ -924,7 +795,7 @@ var listar_productos_cotizacion_buscar = function(){
 			},
 
 			{
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 				titleAttr: 'Agregar Productos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -1199,7 +1070,7 @@ var listar_clientes_cotizacion_buscar = function(){
 
 			{
 
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 
 				titleAttr: 'Agregar Clientes',
 
@@ -1363,7 +1234,7 @@ var listar_colaboradores_buscar_cotizacion = function(){
 
 			{
 
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 
 				titleAttr: 'Agregar Productos',
 
@@ -1437,7 +1308,6 @@ $(document).ready(function(){
 
 		}	
 
-  
 
 		if (e.which === 118) {//TECLA F7 (CLIENTES)
 
@@ -1735,89 +1605,52 @@ $(document).ready(function(){
 
 });
 
-
-
 //INICIO DETALLES COTIZACION
-
 function limpiarTablaQuote(){
-
 	$("#quoteForm #QuoteItem > tbody").empty();//limpia solo los registros del body
-
 	var count = 0;
-
 	var htmlRows = '';
-
 	htmlRows += '<tr>';
-
 	htmlRows += '<td><input class="itemRowQuote" type="checkbox"></td>';
-
 	htmlRows += '<td><input type="hidden" name="referenciaProductoQuote[]" id="referenciaProductoQuote_'+count+'" class="form-control" placeholder="Referencia Producto Precio" autocomplete="off"><input type="hidden" name="isvQuote[]" id="isvQuote_'+count+'" class="form-control" placeholder="Producto ISV" autocomplete="off"><input type="hidden" name="valorQuote_isv[]" id="valorQuote_isv_'+count+'" class="form-control" placeholder="Valor ISV" autocomplete="off"><input type="hidden" name="productosQuote_id[]" id="productosQuote_id_'+count+'" class="form-control inputfield-details1" placeholder="Código del Producto" autocomplete="off">	<div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_'+count+'"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos_quote"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-id[]" id="bar-code-id_'+count+'" class="form-control product-bar-code inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
-
 	htmlRows += '<td><input type="text" name="productNameQuote[]" id="productNameQuote_'+count+'" readonly placeholder="Descripción del Producto" class="form-control inputfield-details1" autocomplete="off"></td>';
-
 	htmlRows += '<td><input type="number" name="quantityQuote[]" id="quantityQuote_'+count+'" step="0.01" placeholder="Cantidad" class="buscar_cantidad form-control inputfield-details" autocomplete="off"><input type="hidden" name="cantidad_mayoreoQuote[]" id="cantidad_mayoreoQuote_'+count+'" step="0.01" placeholder="Cantidad Mayoreo" class="buscar_cantidad form-control inputfield-details" autocomplete="off"></td>';
-
-	htmlRows += '<td><input type="number" name="priceQuote[]" id="priceQuote_'+count+'" placeholder="Precio" step="0.01" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_mayoreoQuote[]" id="precio_mayoreoQuote_'+count+'" step="0.01" placeholder="Precio Mayoreo" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_realQuote[]" id="precio_realQuote_'+count+'" placeholder="Precio Real" class="form-control inputfield-details" readonly autocomplete="off"></td>';
-
-	htmlRows += '<td><input type="number" name="discountQuote[]" id="discountQuote_'+count+'" placeholder="Descuento" value="0.00" class="form-control inputfield-details" readonly autocomplete="off" step="0.01"></td>';
-
+	htmlRows += '<td><div class="input-group mb-3"><input type="number" name="priceQuote[]" id="priceQuote_'+count+'" class="form-control" step="0.01" placeholder="Precio" readonly autocomplete="off"><div id="suggestions_producto_0" class="suggestions"></div><div class="input-group-append"><a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_precio_cotizacion fas fa-plus fa-lg"></i></a></div></div><input type="hidden" name="precio_mayoreoQuote[]" id="precio_mayoreoQuote_'+count+'" step="0.01" placeholder="Precio Mayoreo" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_realQuote[]" id="precio_realQuote_'+count+'" placeholder="Precio Real" class="form-control inputfield-details" readonly autocomplete="off"></td>';
+	htmlRows += '<td><div class="input-group mb-3"><input type="number" name="discountQuote[]" id="discountQuote_'+count+'" class="form-control" step="0.01" placeholder="Descuento" readonly autocomplete="off"><div id="suggestions_producto_0" class="suggestions"></div><div class="input-group-append"><a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_descuento_cotizacion fas fa-plus fa-lg"></i></a></div></div></td>';
 	htmlRows += '<td><input type="number" name="totalQuote[]" id="totalQuote_'+count+'" placeholder="Total" class="form-control total inputfield-details" readonly autocomplete="off" step="0.01"></td>';
-
 	htmlRows += '</tr>';
-
 	$('#QuoteItem').append(htmlRows);
-
 	$("#quoteForm .tableFixHead").scrollTop($(document).height());
-
 	$("#quoteForm #QuoteItem #bar-code-id_"+count).focus();
 
 }
 
-
-
 function addRowQuote(){
-	
 	//var count = $(".itemRowQuote").length; 
-	var count = row + 1;
-		
+	var count = row + 1;	
 	var htmlRows = '';
-
 	htmlRows += '<tr>';
-
 	htmlRows += '<td><input class="itemRowQuote" type="checkbox"></td>';
-
 	htmlRows += '<td><input type="hidden" name="referenciaProductoQuote[]" id="referenciaProductoQuote_'+count+'" class="form-control" placeholder="Referencia Producto Precio" autocomplete="off"><input type="hidden" name="isvQuote[]" id="isvQuote_'+count+'" class="form-control" placeholder="Producto ISV" autocomplete="off"><input type="hidden" name="valorQuote_isv[]" id="valorQuote_isv_'+count+'" class="form-control" placeholder="Valor ISV" autocomplete="off"><input type="hidden" name="productosQuote_id[]" id="productosQuote_id_'+count+'" class="form-control inputfield-details1" placeholder="Código del Producto" autocomplete="off">	<div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_'+count+'"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos_quote"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-id[]" id="bar-code-id_'+count+'" class="form-control product-bar-code inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
-
 	htmlRows += '<td><input type="text" name="productNameQuote[]" id="productNameQuote_'+count+'" readonly placeholder="Descripción del Producto" class="form-control inputfield-details1" autocomplete="off"></td>';
-
 	htmlRows += '<td><input type="number" name="quantityQuote[]" id="quantityQuote_'+count+'" step="0.01" placeholder="Cantidad" class="buscar_cantidad form-control inputfield-details" autocomplete="off"><input type="hidden" name="cantidad_mayoreoQuote[]" id="cantidad_mayoreoQuote_'+count+'" step="0.01" placeholder="Cantidad Mayoreo" class="buscar_cantidad form-control inputfield-details" autocomplete="off"></td>';
-
-	htmlRows += '<td><input type="number" name="priceQuote[]" id="priceQuote_'+count+'" step="0.01" placeholder="Precio" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_mayoreoQuote[]" id="precio_mayoreoQuote_'+count+'" step="0.01" placeholder="Precio Mayoreo" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_realQuote[]" id="precio_realQuote_'+count+'" placeholder="Precio Real" class="form-control inputfield-details" readonly autocomplete="off"></td>';
-
-	htmlRows += '<td><input type="number" name="discountQuote[]" id="discountQuote_'+count+'" step="0.01" placeholder="Descuento" value="0.00" class="form-control inputfield-details" readonly autocomplete="off"></td>';
-
+	htmlRows += '<td><div class="input-group mb-3"><input type="number" name="priceQuote[]" id="priceQuote_'+count+'" class="form-control" step="0.01" placeholder="Precio" readonly autocomplete="off"><div id="suggestions_producto_0" class="suggestions"></div><div class="input-group-append"><a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_precio_cotizacion fas fa-plus fa-lg"></i></a></div></div><input type="hidden" name="precio_mayoreoQuote[]" id="precio_mayoreoQuote_'+count+'" step="0.01" placeholder="Precio Mayoreo" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_realQuote[]" id="precio_realQuote_'+count+'" placeholder="Precio Real" class="form-control inputfield-details" readonly autocomplete="off"></td>';
+	htmlRows += '<td><div class="input-group mb-3"><input type="number" name="discountQuote[]" id="discountQuote_'+count+'" class="form-control" step="0.01" placeholder="Descuento" readonly autocomplete="off"><div id="suggestions_producto_0" class="suggestions"></div><div class="input-group-append"><a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_descuento_cotizacion fas fa-plus fa-lg"></i></a></div></div></td>';
 	htmlRows += '<td><input type="number" name="totalQuote[]" id="totalQuote_'+count+'" step="0.01" placeholder="Total" class="form-control total inputfield-details" readonly autocomplete="off"></td>';
-
 	htmlRows += '</tr>';
-
 	console.log('addrow producto', count,);
-
 	$('#QuoteItem').append(htmlRows);
-
 	//MOVER SCROLL FACTURA TO THE BOTTOM
 	$("#quoteForm .tableFixHead").scrollTop($(document).height());
 	$("#quoteForm #QuoteItem #bar-code-id_"+count).focus();
 
-	
-
 	if(count>0){
 		var icon_search =  count - 1;
+
 	}
 
-	
 	$("#quoteForm #QuoteItem #icon-search-bar_" + icon_search).hide();
 	$("#quoteForm #QuoteItem #icon-search-bar_" + icon_search).hide();	
-
 }
 
 //FIN DETALLES COTIZACION
@@ -2101,68 +1934,199 @@ $(document).ready(function(){
 
 });
 
-
-
 $(document).ready(function(){
-
     $("#modal_buscar_clientes_facturacion").on('shown.bs.modal', function(){
-
         $(this).find('#formulario_busqueda_clientes_facturacion #buscar').focus();
-
     });
-
 });
-
 
 
 $(document).ready(function(){
-
     $("#modal_buscar_colaboradores_facturacion").on('shown.bs.modal', function(){
-
         $(this).find('#formulario_busqueda_colaboradores_facturacion #buscar').focus();
-
     });
-
 });
-
-
 
 function getVigencia(){
-
     var url = '<?php echo SERVERURL;?>core/getVigencia.php';
 
-
-
 	$.ajax({
-
         type: "POST",
-
         url: url,
-
 	    async: true,
-
         success: function(data){
-
 		    $('#quoteForm #vigencia_quote').html("");
-
 			$('#quoteForm #vigencia_quote').html(data);			
-
 		}
-
      });
-
 }
 
-
-
 $(document).ready(function(){
-
     $("#modal_buscar_productos_facturacion").on('shown.bs.modal', function(){
-
         $(this).find('#formulario_busqueda_productos_facturacion #buscar').focus();
-
     });
-
 });
 
+//INICIO DESCUENTO PRODUCTO EN COTIZACION
+$(document).ready(function(){
+    $("#quoteForm #QuoteItem").on('click', '.aplicar_descuento_cotizacion', function(e) {
+		  e.preventDefault();
+		  $('#formDescuentoCotizaciones')[0].reset();
+
+		  var row_index = $(this).closest("tr").index();
+		  var col_index = $(this).closest("td").index();
+
+		  if( $('#quoteForm #cliente_id').val() != "" &&  $("#quoteForm #QuoteItem #productosQuote_id_" + row_index).val() != ""){			
+			$('#formDescuentoCotizaciones #row_index').val(row_index);
+			$('#formDescuentoCotizaciones #col_index').val(col_index);
+
+			var productos_id = $("#quoteForm #QuoteItem #productosQuote_id_" + row_index).val();
+			var producto = $("#quoteForm #QuoteItem #productNameQuote_" + row_index).val();
+			var precio = $("#quoteForm #QuoteItem #priceQuote_" + row_index).val();
+					
+			$('#formDescuentoCotizaciones #descuento_productos_id').val(productos_id);
+			$('#formDescuentoCotizaciones #producto_descuento_fact').val(producto);
+			$('#formDescuentoCotizaciones #precio_descuento_fact').val(precio);		  
+
+			$('#formDescuentoCotizaciones #pro_descuento_fact').val("Aplicar Descuento");
+
+			$('#modalDescuentoCotizaciones').modal({
+				show:true,
+				keyboard: false,
+				backdrop:'static'
+			});
+		  }else{
+			swal({
+				title: "Error",
+				text: "Debe seleccionar un cliente y un producto antes de continuar",
+				type: "error",
+				confirmButtonClass: "btn-danger"
+			});				
+		  }
+	});
+});
+
+$(document).ready(function() {
+	$("#formDescuentoCotizaciones #porcentaje_descuento_fact").on("keyup", function(){
+		var precio;
+		var porcentaje;
+			
+		if($("#formDescuentoCotizaciones #porcentaje_descuento_fact").val()){
+			precio = parseFloat($('#formDescuentoCotizaciones #precio_descuento_fact').val());
+			porcentaje = parseFloat($('#formDescuentoCotizaciones #porcentaje_descuento_fact').val());
+			
+			$('#formDescuentoCotizaciones #descuento_fact').val(parseFloat(precio * (porcentaje/100)).toFixed(2));
+		}else{
+			$('#formDescuentoCotizaciones #descuento_fact').val(0);
+		}
+	});	
+	
+	$("#formDescuentoCotizaciones #descuento_fact").on("keyup", function(){
+		var precio;
+		var descuento_fact;
+			
+		if($("#formDescuentoCotizaciones #descuento_fact").val() != ""){
+			precio = parseFloat($('#formDescuentoCotizaciones #precio_descuento_fact').val());
+			descuento_fact = parseFloat($('#formDescuentoCotizaciones #descuento_fact').val());
+			
+			$('#formDescuentoCotizaciones #porcentaje_descuento_fact').val(parseFloat((descuento_fact / precio) * 100).toFixed(2));
+		}else{
+			$('#formDescuentoCotizaciones #porcentaje_descuento_fact').val(0);
+		}
+	});		
+});		
+
+$("#reg_DescuentoFacturacion").on("click", function(e){
+	e.preventDefault();
+	var row_index = $('#formDescuentoCotizaciones #row_index').val();
+	var col_index = $('#formDescuentoCotizaciones #col_index').val();
+
+	var descuento = parseFloat($('#formDescuentoCotizaciones #descuento_fact').val()).toFixed(2);
+
+	var precio = $("#quoteForm #QuoteItem #priceQuote_" + row_index).val();
+	var cantidad = $("#quoteForm #QuoteItem #quantityQuote_" + row_index).val();
+	var impuesto_venta = $("#quoteForm #QuoteItem #isvQuote_" + row_index).val();
+	$("#quoteForm #QuoteItem #discountQuote_" + row_index).val(descuento);
+
+
+	var isv = 0;
+	var isv_total = 0;
+	var porcentaje_isv = 0;
+	var porcentaje_calculo = 0;
+	var isv_neto = 0;
+	var total_ = (precio * cantidad) - descuento;
+
+	if(total_ >= 0){
+		if(impuesto_venta == 1){
+			porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
+			if($('#quoteForm #taxAmountQuote').val() == "" || $('#quoteForm #taxAmountQuote').val() == 0){
+				porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
+				isv_neto = porcentaje_calculo;
+				$('#quoteForm #taxAmount').val(porcentaje_calculo);
+				$('#quoteForm #QuoteItem #valorQuote_isv_'+ row_index).val(porcentaje_calculo);
+			}else{
+				isv_total = parseFloat($('#quoteForm #taxAmountQuote').val());
+				porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
+				isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
+				$('#quoteForm #taxAmountQuote').val(isv_neto);
+				$('#quoteForm #QuoteItem #valorQuote_isv_'+ row_index).val(porcentaje_calculo);
+			}
+		}
+
+		$('#modalDescuentoCotizaciones').modal('hide');
+		calculateTotalQuote();
+	}else{
+		swal({
+			title: "warning",
+			text: "El valor del descuento es mayor al precio total del artículo, por favor corregir",
+			type: "warning",
+			confirmButtonClass: "btn-warning"
+		});		
+	}
+});
+//FIN DESCUENTO PRODUCTO EN COTIZACION
+
+//INICIO MODIFICAR PRECIO EN PRODUCTO COTIZACIONES
+$(document).ready(function(){
+    $("#quoteForm #QuoteItem").on('click', '.aplicar_precio_cotizacion', function(e) {
+		e.preventDefault();
+		$('#formModificarPrecioCotizaciones')[0].reset();
+
+		var row_index = $(this).closest("tr").index();
+			var col_index = $(this).closest("td").index();
+			$('#formModificarPrecioCotizaciones #row_index').val(row_index);
+			$('#formModificarPrecioCotizaciones #col_index').val(col_index);			  
+
+			if($("#quoteForm #QuoteItem #productosQuote_id_" + row_index).val() != ""){
+			  $('#formModificarPrecioCotizaciones')[0].reset();
+			  var clientes_id = $("#quoteForm #cliente_id").val();
+			  var fecha = $("#quoteForm #fecha").val();
+			  var productos_id = $("#quoteForm #QuoteItem #productosQuote_id_" + row_index).val();
+			  var producto = $("#quoteForm #QuoteItem #productNameQuote_" + row_index).val();
+			  var precio = $("#quoteForm #QuoteItem #precio_realQuote_" + row_index).val();
+
+			  $('#formModificarPrecioCotizaciones #modificar_precio_fecha').val(fecha);
+			  $('#formModificarPrecioCotizaciones #modificar_precio_clientes_id').val(clientes_id);
+			  $('#formModificarPrecioCotizaciones #modificar_precio_productos_id').val(productos_id);
+			  $('#formModificarPrecioCotizaciones #producto_modificar_precio_fact').val(producto);		  
+			
+			  $('#formModificarPrecioCotizaciones #pro_modificar_precio').val("Registrar");
+
+			
+			  $('#modalModificarPrecioCotizaciones').modal({
+				show:true,
+				keyboard: false,
+				backdrop:'static'
+			  });
+		}else{
+			swal({
+				title: "Error",
+				text: "Debe seleccionar un cliente y un producto antes de continuar",
+				type: "error",
+				confirmButtonClass: "btn-danger"
+			});				
+		}
+	});
+});
+//FIN MODIFICAR PRECIO EN PRODUCTO COTIZACIONES
 </script>

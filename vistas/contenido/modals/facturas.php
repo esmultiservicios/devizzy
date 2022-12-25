@@ -54,7 +54,6 @@
       </div>
     </div>
 </div>
-
 <!--INICIO MODAL PARA MODIFICAR PRECIO FACTURAS-->
 <div class="modal fade" id="modalModificarPrecioFacturacion">
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
@@ -270,40 +269,42 @@
         <div class="modal-body">
 			<form class="FormularioAjax" id="formulario_busqueda_cuentas_cobrar_clientes">	
 				<div class="form-row">
-					<div class="col-md-5 mb-3">
+					<div class="form-group mx-sm-3 mb-1">
 						<div class="input-group">				
 							<div class="input-group-append">				
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
 							</div>
-								<input type="date" required id="fechai" name="fechai" value="<?php 
-								$fecha = date ("Y-m-d");
-								
-								$año = date("Y", strtotime($fecha));
-								$mes = date("m", strtotime($fecha));
-								$dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
-
-								$dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
-								$dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
-
-								$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
-								$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));						
-								
-								
-								echo $fecha_inicial;
-							?>" class="form-control ml-1" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
+							<select id="cobrar_clientes_estado" name="cobrar_clientes_estado" class="custom-select" data-toggle="tooltip" data-placement="top" title="Estado" style="width:165px;">
+								<option value="1">Pendientes</option>
+								<option value="2">Pagadas</option>
+						</select>
 						</div>
 					</div>	
-					<div class="col-md-5 mb-3">
+					<div class="form-group mx-sm-3 mb-1">
+						<div class="input-group">				
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Clientes</span>
+							</div>
+							<select id="cobrar_clientes" name="cobrar_clientes" class="custom-select" data-toggle="tooltip" data-placement="top" title="Clientes" style="width:165px;">
+						</select>
+						</div>
+					</div>									
+					<div class="form-group mx-sm-3 mb-1">
 						<div class="input-group">				
 							<div class="input-group-append">				
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
 							</div>
-							<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control ml-1" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
-						</div>						
+							<input type="date" required id="fechai" name="fechai" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio" style="width:165px;">
+						</div>
 					</div>	
-					<div class="col-md-2">
-						<button class="consultar btn btn-secondary ml-1" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>							
-					</div>																		
+					<div class="form-group mx-sm-3 mb-1">
+						<div class="input-group">				
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
+							</div>
+							<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control ml-1" data-toggle="tooltip" data-placement="top" title="Fecha Fin" style="width:165px;">
+						</div>						
+					</div>																	
 				</div>
 
 				<div class="form-group">				  
@@ -312,14 +313,15 @@
 							<table id="DatatableBusquedaCuentasCobrarClientes" class="table table-striped table-condensed table-hover" style="width:100%">
 								<thead>
 									<tr>
-										<th>Cobrar</th>
-										<th>Abonar</th>
-										<th>Fecha</th>
-										<th>Cliente</th>
-										<th>Factura</th>
-										<th>Crédito</th>
-										<th>Abonos</th>
-										<th>Saldo</th>
+									<th>Fecha</th>
+									<th>Cliente</th>
+									<th>Factura</th>
+									<th>Crédito</th>
+									<th>Abonos</th>
+									<th>Saldo</th>		
+									<th>Abonar</th>
+									<th>Abonos Realizados</th>							
+									<th>Factura</th>
 									</tr>
 								</thead>
 							</table>
@@ -438,7 +440,31 @@
 							<select id="tipo_factura_reporte" name="tipo_factura_reporte" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
 						  </select>
 						</div>						
-					</div>				
+					</div>	
+					<div class="form-group mx-sm-3 mb-1">
+						<div class="input-group">
+							<div class="input-group-append">
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Facturador</span>
+								<select id="facturador" name="facturador" class="custom-select" data-toggle="tooltip" data-placement="top" title="Facturador" style="width:165px;">
+								</select>
+								<div class="input-group-append">				
+									<span data-toggle="tooltip" data-placement="top" title="Consultar por Facturador"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control consultar_facturador"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a></span>
+								</div>
+							</div>	
+						</div>
+					</div>		
+					<div class="form-group mx-sm-3 mb-1">
+						<div class="input-group">
+							<div class="input-group-append">
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Vendedor</span>
+								<select id="vendedor" name="vendedor" class="custom-select" data-toggle="tooltip" data-placement="top" title="Vendedor" style="width:165px;">
+								</select>
+								<div class="input-group-append">				
+									<span data-toggle="tooltip" data-placement="top" title="Consultar por Vendedor"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control consultar_facturador"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a></span>
+								</div>
+							</div>	
+						</div>
+					</div>													
 					<div class="col-md-4 mb-3">
 						<div class="input-group">				
 							<div class="input-group-append">				
@@ -469,10 +495,7 @@
 							</div>
 							<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control ml-1" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
 						</div>							
-					</div>	
-					<div class="col-md-2 mb-3">
-						<button class="consultar btn btn-secondary ml-2" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>							
-					</div>																		
+					</div>																	
 				</div>
 
 				<div class="form-group">				  

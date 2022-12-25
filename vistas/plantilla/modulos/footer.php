@@ -17,7 +17,7 @@
 					
 				</div>
 				<div class="col-11 text-left">
-					<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/kireds_footer.png" style="max-width: 100%; max-height: 100%;"></center>
+					<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/icono.png" style="max-width: 100%; max-height: 100%;"></center>
 				</div>
 			</div>
 		</div>

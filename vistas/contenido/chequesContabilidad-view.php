@@ -86,7 +86,6 @@
         </div>
     </div>
 </div>
-
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Cuentas por Pagar Proveedores");
 ?>

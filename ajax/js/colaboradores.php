@@ -3,7 +3,6 @@ $(document).ready(function() {
     listar_colaboradores();
 	getEmpresaColaboradores();
 });
-
 //INICIO ACCIONES FROMULARIO COLABORADORES
 var listar_colaboradores = function(){
 	var table_colaboradores  = $("#dataTableColaboradores").DataTable({
@@ -45,7 +44,7 @@ var listar_colaboradores = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Colaboradores',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -119,7 +118,11 @@ var editar_colaboradores_dataTable = function(tbody, table){
 				$('#formColaboradores #identidad_colaborador').val(valores[2]);
 				$('#formColaboradores #telefono_colaborador').val(valores[3]);
 				$('#formColaboradores #puesto_colaborador').val(valores[4]);
+				$('#formColaboradores #puesto_colaborador').selectpicker('refresh');
 				$('#formColaboradores #colaborador_empresa_id').val(valores[6]);
+				$('#formColaboradores #colaborador_empresa_id').selectpicker('refresh');
+				$('#formColaboradores #fecha_ingreso_colaborador').val(valores[8]);
+				$('#formColaboradores #fecha_egreso_colaborador').val(valores[9]);				
 
 				if(valores[5] == 1){
 					$('#formColaboradores #colaboradores_activo').attr('checked', true);
@@ -131,15 +134,15 @@ var editar_colaboradores_dataTable = function(tbody, table){
 				$('#formColaboradores #nombre_colaborador').attr('readonly', false);
 				$('#formColaboradores #apellido_colaborador').attr('readonly', false);
 				$('#formColaboradores #identidad_colaborador').attr('readonly', false);
-				$('#formColaboradores #telefono_colaborador').attr('readonly', false);
-				$('#formColaboradores #puesto_colaborador').attr('disabled', false);
+				$('#formColaboradores #telefono_colaborador').attr('readonly', false);			
 				$('#formColaboradores #estado_colaborador').attr('disabled', false);
 				$('#formColaboradores #colaboradores_activo').attr('disabled', false);
-				$('#formColaboradores #buscar_colaborador_empresa').hide();
-				$('#formColaboradores #estado_colaboradores').show();
+				$('#formColaboradores #fecha_ingreso_colaborador').attr('disabled', false);
+				$('#formColaboradores #fecha_egreso_colaborador').attr('disabled', false);				
 
-				//DESHABIITAR OBJETOS
-				$('#formColaboradores #colaborador_empresa_id').attr('disabled', true);
+				$('#formColaboradores #puesto_colaborador').attr('disabled', false);				
+				$('#formColaboradores #colaborador_empresa_id').attr('disabled', false);
+				$('#formColaboradores #estado_colaboradores').show();
 				
 				$('#formColaboradores #proceso_colaboradores').val("Editar");
 				$('#modal_registrar_colaboradores').modal({
@@ -176,7 +179,11 @@ var eliminar_colaboradores_dataTable = function(tbody, table){
 				$('#formColaboradores #identidad_colaborador').val(valores[2]);
 				$('#formColaboradores #telefono_colaborador').val(valores[3]);
 				$('#formColaboradores #puesto_colaborador').val(valores[4]);
+				$('#formColaboradores #puesto_colaborador').selectpicker('refresh');
 				$('#formColaboradores #colaborador_empresa_id').val(valores[6]);
+				$('#formColaboradores #colaborador_empresa_id').selectpicker('refresh');
+				$('#formColaboradores #fecha_ingreso_colaborador').val(valores[8]);
+				$('#formColaboradores #fecha_egreso_colaborador').val(valores[9]);
 
 				if(valores[5] == 1){
 					$('#formColaboradores #colaboradores_activo').attr('checked', true);
@@ -189,13 +196,15 @@ var eliminar_colaboradores_dataTable = function(tbody, table){
 				$('#formColaboradores #apellido_colaborador').attr('readonly', true);
 				$('#formColaboradores #identidad_colaborador').attr('readonly', true);
 				$('#formColaboradores #telefono_colaborador').attr('readonly', true);
-				$('#formColaboradores #puesto_colaborador').attr('disabled', true);
 				$('#formColaboradores #estado_colaborador').attr('disabled', true);
 				$('#formColaboradores #colaboradores_activo').attr('disabled', true);
+
+				$('#formColaboradores #puesto_colaborador').attr('disabled', true);				
 				$('#formColaboradores #colaborador_empresa_id').attr('disabled', true);
+
+				$('#formColaboradores #fecha_ingreso_colaborador').attr('disabled', true);
+				$('#formColaboradores #fecha_egreso_colaborador').attr('disabled', true);				
 				$('#formColaboradores #estado_colaboradores').hide();
-				
-				$('#formColaboradores #buscar_colaborador_empresa').hide();
 
 				$('#formColaboradores #proceso_colaboradores').val("Eliminar");
 				$('#modal_registrar_colaboradores').modal({

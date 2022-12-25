@@ -37,7 +37,7 @@ var listar_privilegio = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Privilegios',
 				className: 'btn btn-primary',
 				action: 	function(){
@@ -1092,5 +1092,6 @@ $('#formMenuAccesos .switch').change(function(){
 		return false;
 	}
 });		
+
 //FIN ACCESOS
 </script>

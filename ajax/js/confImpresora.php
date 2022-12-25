@@ -2,7 +2,6 @@
 $(document).ready(function() {
 	getImpresora();
 });
-
 //CONFIGURACION DE IMPRESORA    
 var getImpresora = function(){
 	var impresora_id;
@@ -87,43 +86,37 @@ table_impresora.search('').draw();
 $('#buscar').focus();
 
 updateStatus("#dataTableConfImpresora tbody",table_impresora);
-
 }
 //FIN 
 
-
-
 //CAMBIAR EL ESTATUS DE CONFIGURACION
 var updateStatus = function(tbody, table){
-
 	$(tbody).off("click", "button.table_impresora");
 	$(tbody).on("click", "button.table_impresora", function(){
 		var data = table.row( $(this).parents("tr") ).data();	
-
-			swal({
-				title: "Desea Cambiar el estado?",
-				type: "warning",
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Activado!",
-				cancelButtonText: "Desactivado!",
-				closeOnConfirm: false,
-				closeOnCancel: false
-				},
-				function(isConfirm){
-					if (isConfirm) {
-						swal("Estado de Impreso","Activado", "success");
-						editarImpresora(data.impresora_id,1)
-					} else {
-						swal("Estado de Impreso","Desactivado", "success");
-						editarImpresora(data.impresora_id,0)
-					}
-				});
+		swal({
+			title: "Desea Cambiar el estado?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Activado!",
+			cancelButtonText: "Desactivado!",
+			closeOnConfirm: false,
+			closeOnCancel: false
+			},
+			function(isConfirm){
+				if (isConfirm) {
+					swal("Estado de Impreso","Activado", "success");
+					editarImpresora(data.impresora_id,1)
+				} else {
+					swal("Estado de Impreso","Desactivado", "success");
+					editarImpresora(data.impresora_id,0)
+				}
+		});
 	})
 };
 
 function editarImpresora (id,estado){
-
 	var url = '<?php echo SERVERURL; ?>core/editarImpresora.php';
 
 	$.ajax({
@@ -147,6 +140,4 @@ function editarImpresora (id,estado){
 			}
 	});	
 }
-
-
 </script>

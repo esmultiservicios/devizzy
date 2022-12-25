@@ -2,22 +2,28 @@
 $(document).ready(function() {
 	inventario_transferencia();
 	getTipoProductos();
+	getAlmacen();
 });
 
+
 $('#form_main_movimientos #inventario_tipo_productos_id').on('change',function(){
-inventario_transferencia();
+	inventario_transferencia();
+});
+
+$('#form_main_movimientos #inventario_productos_id').on('change',function(){
+	inventario_transferencia();
 });
 
 $('#form_main_movimientos #fechai').on('change',function(){
-inventario_transferencia();
+	inventario_transferencia();
 });
 
 $('#form_main_movimientos #fechaf').on('change',function(){
-inventario_transferencia();
+	inventario_transferencia();
 });
 
 $('#form_main_movimientos #almacen').on('change',function(){
-inventario_transferencia();
+	inventario_transferencia();
 });
 
 $('#form_main_movimientos #search').on("click", function(e){
@@ -37,6 +43,7 @@ var inventario_transferencia = function(){
 	
 	var fechai = $("#form_main_movimientos #fechai").val();
 	var fechaf = $("#form_main_movimientos #fechaf").val();
+	var productos_id = $("#form_main_movimientos #inventario_productos_id").val();
 	var bodega = $("#form_main_movimientos #almacen").val();
 	
 	var table_movimientos  = $("#dataTablaMovimientos").DataTable({
@@ -48,7 +55,8 @@ var inventario_transferencia = function(){
 				"tipo_producto_id":tipo_producto_id,
 				"fechai":fechai,
 				"fechaf":fechaf,
-				"bodega":bodega
+				"bodega":bodega,
+				"productos_id":productos_id
 			}
 		},
 	"columns":[
@@ -56,9 +64,72 @@ var inventario_transferencia = function(){
 		{"data":"barCode"},
 		{"data":"producto"},
 		{"data":"medida"},
-		{"data":"entrada"},
-		{"data":"salida"},
-		{"data":"saldo"},
+		{"data":"entrada",
+			render: function (data, type) {
+				if(data == null){
+					data = 0;
+				}
+								
+				var number = $.fn.dataTable.render
+					.number(',', '.', 2, '')
+					.display(data);
+
+				if (type === 'display') {
+					let color = 'green';
+					if (data < 0) {
+						color = 'red';
+					} 
+
+					return '<span style="color:' + color + '">' + number + '</span>';
+				}
+
+				return number;
+			},		
+		},
+		{"data":"salida",
+			render: function (data, type) {
+				if(data == null){
+					data = 0;
+				}
+
+				var number = $.fn.dataTable.render
+					.number(',', '.', 2, '')
+					.display(data);
+
+				if (type === 'display') {
+					let color = 'green';
+					if (data < 0) {
+						color = 'red';
+					} 
+
+					return '<span style="color:' + color + '">' + number + '</span>';
+				}
+
+				return number;
+			},		
+		},
+		{"data":"saldo",
+			render: function (data, type) {
+				if(data == null){
+					data = 0;
+				}
+
+				var number = $.fn.dataTable.render
+					.number(',', '.', 2, '')
+					.display(data);
+
+				if (type === 'display') {
+					let color = 'green';
+					if (data < 0) {
+						color = 'red';
+					} 
+
+					return '<span style="color:' + color + '">' + number + '</span>';
+				}
+
+				return number;
+			},		
+		},
 		{"data":"bodega"},
 		{"defaultContent":"<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"},	
 
@@ -131,17 +202,15 @@ table_movimientos.search('').draw();
 $('#buscar').focus();
 
 transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos);
-
 }
 //FIN TRANSFERENCIA
 
 //TRANSFERIR PRODUCTO/BODEGA
 var transferencia_producto_dataTable = function(tbody, table){
-
 	$(tbody).off("click", "button.table_transferencia");
 	$(tbody).on("click", "button.table_transferencia", function(){
 		var data = table.row( $(this).parents("tr") ).data();
-
+		$('#formTransferencia')[0].reset();
 		if(data.superior > 0){
 			swal({
 					title: 'Error', 
@@ -154,6 +223,7 @@ var transferencia_producto_dataTable = function(tbody, table){
 		
 		$('#formTransferencia #productos_id').val(data.productos_id);
 		$('#formTransferencia #nameProduct').html(data.producto);
+		$('#formTransferencia #id_bodega_actual').val(data.id_bodega);
 
 		$('#modal_transferencia_producto').modal({
 			show:true,
@@ -198,12 +268,70 @@ function getTipoProductos(){
         success: function(data){
 		    $('#form_main_movimientos #inventario_tipo_productos_id').html("");
 			$('#form_main_movimientos #inventario_tipo_productos_id').html(data);
+			$('#form_main_movimientos #inventario_tipo_productos_id').selectpicker('refresh');
 			
 		    $('#formMovimientos #movimientos_tipo_producto_id').html("");
-			$('#formMovimientos #movimientos_tipo_producto_id').html(data);			
+			$('#formMovimientos #movimientos_tipo_producto_id').html(data);
+			$('#formMovimientos #movimientos_tipo_producto_id').selectpicker('refresh');
+			
+			getProductosMovimientos($('#form_main_movimientos #inventario_tipo_productos_id').val());
 		}
      });
 }
 //FIN OBTENER EL TIPO DE PRODUCTO
 
+$(document).ready(function() {
+	$('#form_main_movimientos #inventario_tipo_productos_id').on('change', function(){
+		var tipo_producto_id;
+
+		if ($('#form_main_movimientos #inventario_tipo_productos_id').val() == "" || $('#form_main_movimientos #inventario_tipo_productos_id').val() == null){
+		  tipo_producto_id = 1;
+		}else{
+		  tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
+		}
+
+		getProductosMovimientos(tipo_producto_id);
+	    return false;
+    });
+});
+
+function getProductosMovimientos(tipo_producto_id){
+    var url = '<?php echo SERVERURL; ?>core/getProductosMovimientosTipoProducto.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+		data:'tipo_producto_id='+tipo_producto_id,
+        success: function(data){
+		    $('#form_main_movimientos #inventario_productos_id').html("");
+			$('#form_main_movimientos #inventario_productos_id').html(data);
+			$('#form_main_movimientos #inventario_productos_id').selectpicker('refresh');
+		}
+     });
+}
+
+$(document).ready(function(){
+    $("#modal_transferencia_producto").on('shown.bs.modal', function(){
+        $(this).find('#formTransferencia #cantidad_movimiento').focus();
+    });
+});
+
+function getAlmacen(){
+    var url = '<?php echo SERVERURL;?>core/getAlmacen.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#form_main_movimientos #almacen').html("");
+			$('#form_main_movimientos #almacen').html(data);
+			$('#form_main_movimientos #almacen').selectpicker('refresh');
+
+		    $('#formTransferencia #id_bodega').html("");
+			$('#formTransferencia #id_bodega').html(data);
+			$('#formTransferencia #id_bodega').selectpicker('refresh');			
+		}
+     });
+}
 </script>

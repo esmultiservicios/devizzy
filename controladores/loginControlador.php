@@ -138,5 +138,68 @@
 			mainModel::guardar_historial_accesos("Cierre de Sesion Forzado");
 			session_destroy();
 			return header("Location: ".SERVERURL."login/");
-		}		
+		}	
+		
+		public function validar_pago_pendiente_main_server_controlador(){
+			$result = loginModel::validar_pago_pendiente_main_server_modelo();
+			$result_validar_cliente = loginModel::validar_cliente_server_modelo();
+			
+			$date = date("Y-m-d");
+			$año = date("Y");
+			$mes = date("m");
+	
+			$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-01"));
+			$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-10"));
+	
+			//SI NOS ESTAMOS CONECTANDO AL SISTEMA PRINCIPAL, SIMPLEMENTE ENTRAMOS SIN PROBLEMA
+			if(DB == "kireds_clientes_dipronor"){
+				$datos = 1;
+			}else{			
+				$result_pagoVencido = loginModel::validar_cliente_pagos_vencidos_main_server_modelo();//METODO QUE VALIDA LOS PAGOS VENCIDOS DE LOS CLIENTES
+
+				$row = $result_validar_cliente->fetch_assoc();
+
+				//EVALUAMOS QUE LA VARIABLE VALIDAR NO VENGA VACIA O NULA
+				if($row['validar'] == "" || $row['validar'] == null){
+					$validar = 0;
+				}else{
+					$validar = $row['validar'];
+				}
+
+				//CONSULTAMOS SI ES NECESARIO VALIDAR EL CLIENTE, SI NO LO ES, LO DEJAMOS INICIAR SESION CORRECTAMENTE
+				if($validar==0){
+					$datos = 1;
+				}else{
+					//VALIDAMOS SI EL CLIENTE TIENE PAGOS VENCIDOS
+					if($result_pagoVencido->num_rows >= 1){
+						$datos = array(
+							0 => "",
+							1 => "ErrorP",
+						);	
+					}else{//SI EL CLIENTE NO TIENE PAGOS VENCIDOS SOLO EVALUAMOS LOS PAGOS PENDIENTES DEL MES  EN CURSO	
+						//CONSULTAMOS SI HAY PENDIENTES DE PAGO POR EL CLIENTE
+						if($result->num_rows == 1){//SI ENCUENTRA UN REGISTRO PENDIENTE DE PAGO
+							if($date >= $fecha_inicial && $date <= $fecha_final){//EVALUAMOS SI ESTA DENTRO DE LA FECHA PERMITIDA PARA INICIAR SESION CON O SIN PAGO EFECUTADO
+								$datos = 1;
+							}else{//SI SE HA PASADO DE LA FECHA PERMITIDA DE PAGO, NO DEJAMOS INICIAR SESION AL CLIENTE
+								$datos = array(
+									0 => "",
+									1 => "ErrorP",
+								);	
+							}
+						}else if($result->num_rows > 1){//SI ENCONTRAMOS MAS DE UN REGISTRO DE PAGO PENDIENTE, NO DEJAMOS INICIAR SESION AL CLIENTE
+							$datos = array(
+								0 => "",
+								1 => "ErrorP",
+							);	
+						}else{//SI NO ENCONTRAMOS NINGUN REGISTO PENDIENTE DE PAGO, DEJAMOS INICIAR SESION AL CLIENTE
+							$datos = 1;
+						}
+					}					
+				}				
+			}
+
+			return json_encode($datos);
+		}
     }
+?>	

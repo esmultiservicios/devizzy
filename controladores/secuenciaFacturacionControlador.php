@@ -12,6 +12,7 @@
 			}
 			
 			$empresa_id = mainModel::cleanString($_POST['empresa_secuencia']);
+			$documento_id = mainModel::cleanString($_POST['documento_secuencia']);
 			$cai = mainModel::cleanString($_POST['cai_secuencia']);			
 			$prefijo = mainModel::cleanString($_POST['prefijo_secuencia']);
 			$relleno = mainModel::cleanString($_POST['relleno_secuencia']);
@@ -27,6 +28,7 @@
 			
 			$datos = [
 				"empresa_id" => $empresa_id,
+				"documento_id" => $documento_id,
 				"cai" => $cai,
 				"prefijo" => $prefijo,
 				"relleno" => $relleno,
@@ -41,7 +43,7 @@
 				"fecha_registro" => $fecha_registro,					
 			];			
 			
-			$resultSecuenciaFacturacion = secuenciaFacturacionModelo::valid_secuencia_facturacion($empresa_id);
+			$resultSecuenciaFacturacion = secuenciaFacturacionModelo::valid_secuencia_facturacion($empresa_id, $documento_id);
 			
 			if($resultSecuenciaFacturacion->num_rows==0){
 				$query = secuenciaFacturacionModelo::agregar_secuencia_facturacion_modelo($datos);
@@ -57,7 +59,7 @@
 						"form" => "formSecuencia",
 						"id" => "proceso_secuencia_facturacion",
 						"valor" => "Registro",	
-						"funcion" => "listar_secuencia_facturacion();",
+						"funcion" => "listar_secuencia_facturacion();getEmpresaSecuencia();getDocumentoSecuencia();",
 						"modal" => "",						
 					];						
 				}else{
@@ -127,7 +129,7 @@
 					"form" => "formSecuencia",	
 					"id" => "proceso_secuencia_facturacion",
 					"valor" => "Editar",
-					"funcion" => "listar_secuencia_facturacion();",
+					"funcion" => "listar_secuencia_facturacion();getEmpresaSecuencia();getDocumentoSecuencia();",
 					"modal" => "",
 				];
 			}else{
@@ -162,7 +164,7 @@
 						"form" => "formSecuencia",	
 						"id" => "proceso_secuencia_facturacion",
 						"valor" => "Eliminar",
-						"funcion" => "listar_secuencia_facturacion();",
+						"funcion" => "listar_secuencia_facturacion();getEmpresaSecuencia();getDocumentoSecuencia();",
 						"modal" => "modal_registrar_secuencias",
 					];
 				}else{
@@ -186,3 +188,4 @@
 			return mainModel::sweetAlert($alert);
 		}
 	}
+?>	

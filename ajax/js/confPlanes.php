@@ -2,7 +2,6 @@
 $(document).ready(function() {
     listar_planes();
 });
-
 //INICIO ACCIONES FROMULARIO PLANES
 var listar_planes = function(){
 	var table_planes  = $("#dataTablePlanes").DataTable({
@@ -38,7 +37,7 @@ var listar_planes = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Planes',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){

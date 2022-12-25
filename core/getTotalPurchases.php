@@ -15,4 +15,4 @@
 	}
 	
 	echo number_format($totalPurchases,2);
-	
+?>	

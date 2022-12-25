@@ -77,7 +77,6 @@
 
 		</tr>
 	</table>
-
 	<table id="factura_detalle">
 			<thead>
 				<tr>
@@ -116,7 +115,7 @@
 				<p class="nota"><center><?php echo $insMainModel->convertir($consulta_registro["total"]).' LEMPIRAS';?></center></p>
 		<p class="nota"></p>
 		<p class="nota"><br/><br/><br/><br/></p>		
-		<<h4 class="label_gracias"><?php  echo nl2br($consulta_registro["eslogan"]); ?></h4>
+		<h4 class="label_gracias"><?php  echo nl2br($consulta_registro["eslogan"]); ?></h4>
 		<p class="nota"><br/><br/><br/><br/></p>
 		<p class="nota"><br/><br/><br/><br/></p>											
 	</div>

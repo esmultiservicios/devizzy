@@ -19,4 +19,4 @@
 		0 => $no_compra,					
 	);
 	echo json_encode($datos);
-	
+?>	

@@ -12,4 +12,5 @@
 			 echo '<option value="'.$consulta2['medida_id'].'">'.$consulta2['nombre'].'</option>';
 		}
 	}
+?>	
 	

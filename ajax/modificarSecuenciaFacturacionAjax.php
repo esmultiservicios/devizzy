@@ -2,7 +2,7 @@
 	$peticionAjax = true;
 	require_once "../core/configGenerales.php";
 	
-	if(isset($_POST['secuencia_facturacion_id']) && isset($_POST['cai_secuencia']) && isset($_POST['prefijo_secuencia']) && isset($_POST['relleno_secuencia']) && isset($_POST['incremento_secuencia']) && isset($_POST['siguiente_secuencia']) && isset($_POST['rango_inicial_secuencia']) && isset($_POST['rango_final_secuencia']) && isset($_POST['fecha_activacion_secuencia']) && isset($_POST['fecha_limite_secuencia']) && isset($_POST['estado_secuencia'])){
+	if(isset($_POST['secuencia_facturacion_id']) && isset($_POST['cai_secuencia']) && isset($_POST['prefijo_secuencia']) && isset($_POST['relleno_secuencia']) && isset($_POST['incremento_secuencia']) && isset($_POST['siguiente_secuencia']) && isset($_POST['rango_inicial_secuencia']) && isset($_POST['rango_final_secuencia']) && isset($_POST['fecha_activacion_secuencia']) && isset($_POST['fecha_limite_secuencia'])){
 		require_once "../controladores/secuenciaFacturacionControlador.php";
 		$insVarios = new secuenciaFacturacionControlador();
 		
@@ -18,3 +18,4 @@
 				});			
 			</script>";
 	}
+?>	

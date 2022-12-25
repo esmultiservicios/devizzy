@@ -17,55 +17,28 @@
 			$movimiento_cantidad = $_POST['movimiento_cantidad'];
 			$movimiento_comentario = $_POST['movimiento_comentario'];
 			$cliente_movimientos = $_POST['cliente_movimientos'];
+			$almacen = $_POST['almacen_modal'];
+
 
 			$empresa_id = $_SESSION['empresa_id_sd'];
 			$fecha_registro = $_POST['movimiento_fecha'];
 			$cantidad = 0;
 			$saldo = 0;
 			
-			//CONSULTAMOS LA CANTIDAD DE PRODUCTOS DISPONIBLES
-			$result_productos = movimientoProductosModelo::cantidad_producto_modelo($movimiento_producto);			  
-
-			$cantidad_productos = "";
-			
-			if($result_productos->num_rows>0){
-				$consulta = $result_productos->fetch_assoc();
-				$cantidad_productos = $consulta['cantidad'];
-			}
-			
 			//SI LA OPERACION ES INGRESO
-			if($movimiento_operacion == 1){
-				$cantidad = $cantidad_productos + $movimiento_cantidad;
-				
-				//ACTUALIZAMOS LA NUEVA CANTIDAD EN LA ENTIDAD PRODUCTOS
-				movimientoProductosModelo::actualizar_cantidad_productos_modelo($movimiento_producto, $cantidad);
-				
-				//CONSULTAMOS EL SALDO DEL PRODUCTO EN LA ENTIDAD MOVIMIENTOS
-				$result_movimientos = movimientoProductosModelo::saldo_productos_movimientos_modelo($movimiento_producto);
-				
-				$saldo_productos = 0;
-				
-				if($result_movimientos->num_rows>0){
-					$consulta = $result_movimientos->fetch_assoc();
-					$saldo_productos = $consulta['saldo'];
-				}
-
-				$saldo = $saldo_productos + $movimiento_cantidad;
-				$salida = 0;	
-
-				//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS				
-
+			if($movimiento_operacion == 1){//INGRESO DE INVENTARIO			
+				//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS
 				$datos = [
 					"productos_id" => $movimiento_producto,
-					"cantidad_entrada" => $movimiento_cantidad,
-					"cantidad_salida" => $salida,
-					"saldo" => $saldo,	
+					"cantidad_entrada" => $movimiento_cantidad,				
+					"cantidad_salida" => 0,
+					"saldo" => 0,
 					"fecha_registro" => $fecha_registro,
 					"empresa" => $empresa_id,
-					"comentario" => $movimiento_comentario,
-					"cliente" => $cliente_movimientos
-
-				];
+					"clientes_id" => $cliente_movimientos,
+					"comentario"  => $movimiento_comentario,
+					"almacen_id" => $almacen
+				];	
 				
 				$query = movimientoProductosModelo::agregar_movimiento_productos_modelo($datos);
 				
@@ -77,12 +50,12 @@
 						"type" => "success",
 						"btn-class" => "btn-primary",
 						"btn-text" => "¡Bien Hecho!",
-						"form" => "formMovimientos",
+						"form" => "formMovimientos",	
 						"id" => "proceso_movimientos",
-						"valor" => "Registro",	
+						"valor" => "Registro",
 						"funcion" => "listar_movimientos();",
-						"modal" => "",
-					];
+						"modal" => "modal_movimientos",
+					];					
 				}else{
 					$alert = [
 						"alert" => "simple",
@@ -93,35 +66,18 @@
 					];				
 				}					
 			}else{
-				$cantidad = $cantidad_productos - $movimiento_cantidad;
-				
-				//ACTUALIZAMOS LA NUEVA CANTIDAD EN LA ENTIDAD PRODUCTOS
-				movimientoProductosModelo::actualizar_cantidad_productos_modelo($movimiento_producto, $cantidad);
-				
-				//CONSULTAMOS EL SALDO DEL PRODUCTO EN LA ENTIDAD MOVIMIENTOS
-				$result_movimientos = movimientoProductosModelo::saldo_productos_movimientos_modelo($movimiento_producto);
-				
-				$saldo_productos = 0;
-				
-				if($result_movimientos->num_rows>0){
-					$consulta = $result_movimientos->fetch_assoc();
-					$saldo_productos = $consulta['saldo'];
-				}
-
-				$saldo = $saldo_productos - $movimiento_cantidad;
-				$entrada = 0;	
-
+				//SALIDA DE PRODUCTO
 				//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS				
-				
 				$datos = [
 					"productos_id" => $movimiento_producto,
-					"cantidad_entrada" => $entrada,
+					"cantidad_entrada" => 0,				
 					"cantidad_salida" => $movimiento_cantidad,
-					"saldo" => $saldo,	
+					"saldo" => 0,
 					"fecha_registro" => $fecha_registro,
 					"empresa" => $empresa_id,
-					"comentario" => $movimiento_comentario,
-					"cliente" => $cliente_movimientos						
+					"clientes_id" => $cliente_movimientos,
+					"comentario"  => $movimiento_comentario,
+					"almacen_id" => $almacen
 				];
 				
 				$query = movimientoProductosModelo::agregar_movimiento_productos_modelo($datos);
@@ -154,3 +110,4 @@
 			return mainModel::sweetAlert($alert);
 		}
 	}
+?>	

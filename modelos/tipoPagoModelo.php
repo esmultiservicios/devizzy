@@ -8,7 +8,7 @@
 	class tipoPagoModelo extends mainModel{
 		protected function agregar_tipo_pago_modelo($datos){
 			$tipo_pago_id = mainModel::correlativo("tipo_pago_id", "tipo_pago");
-			$insert = "INSERT INTO tipo_pago VALUES('$tipo_pago_id','".$datos['nombre']."','".$datos['cuentas_id']."','".$datos['estado']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO tipo_pago VALUES('$tipo_pago_id','".$datos['tipo_cuenta']."','".$datos['nombre']."','".$datos['cuentas_id']."','".$datos['estado']."','".$datos['fecha_registro']."')";
 
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
@@ -51,3 +51,4 @@
 			return $sql;			
 		}
 	}
+?>	

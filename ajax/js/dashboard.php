@@ -1,5 +1,6 @@
 <script>
 //DASHBOARD
+
 function setTotalCustomers(){
     var url = '<?php echo SERVERURL;?>core/getTotalCustomers.php';
 

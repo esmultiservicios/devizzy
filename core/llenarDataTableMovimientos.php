@@ -12,7 +12,6 @@
 		"bodega" => $_POST['bodega'],
 		"producto" => $_POST['producto'],
 		"cliente" =>  $_POST['cliente'],
-
 	];	
 	
 	$result = $insMainModel->getMovimientosProductos($datos);
@@ -47,3 +46,4 @@
 	);
 
 	echo json_encode($arreglo);
+?>	

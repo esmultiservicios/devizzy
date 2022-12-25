@@ -53,7 +53,6 @@
     </div>
 </div>
 <!--FIN MODAL TIPO USAURIO-->
-
 <!--INICIO MODAL PARA EL INGRESO DE PERMISOS-->
 <div class="modal fade" id="modal_permisos">
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">

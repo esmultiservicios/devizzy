@@ -1,38 +1,25 @@
 <script>
-
 $(document).ready(function() {
-
     getBancoPurchase();
     getColaboradorCompras();
 	getMedida(0)
 
 });
 
-
-
 //INICIO PURCHARSE BILL
 
 //INICIO BUSQUEDA PROVEEDORES EN COMPRAS
 
 $('#purchase-form #buscar_proveedores_compras').on('click', function(e){
-
 	e.preventDefault();
 
 	listar_proveedores_compras_buscar();
-
 	 $('#modal_buscar_proveedores_compras').modal({
-
 		show:true,
-
 		keyboard: false,
-
 		backdrop:'static'
-
 	});
-
 });
-
-
 
 var listar_proveedores_compras_buscar = function(){
 
@@ -189,7 +176,6 @@ $('#purchase-form #buscar_colaboradores_compras').on('click', function(e){
 });
 
 
-
 function getColaboradorCompras(){
 
 	var url = '<?php echo SERVERURL;?>core/editarUsarioSistema.php';
@@ -213,13 +199,10 @@ function getColaboradorCompras(){
 			$('#purchase-form #facturaPurchase').focus();
 
 			return false;
-
 		}
-
 	});
 
 }
-
 
 
 var listar_colaboradores_buscar_compras = function(){
@@ -273,21 +256,13 @@ var listar_colaboradores_buscar_compras = function(){
 		],
 
 		"buttons":[
-
 			{
-
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-
 				titleAttr: 'Actualizar Productos',
-
 				className: 'table_actualizar btn btn-secondary ocultar',
-
 				action: 	function(){
-
 					listar_colaboradores_buscar_factura();
-
 				}
-
 			},
 
 			{
@@ -351,93 +326,139 @@ var view_colaboradores_busqueda_compras_dataTable = function(tbody, table){
 //FIN BUSQUEDA COLABORADORES EN COMPRAS
 
 
+$(document).ready(function(){
+	$("#modal_buscar_productos_facturacion").on('shown.bs.modal', function(){
+		$(this).find('#formulario_busqueda_productos_facturacion #buscar').focus();
+	});
+});	
 
 //INICIO BUSQUEDA PRODUCTOS COMPRAS
-
 $(document).ready(function(){
-
     $("#purchase-form #purchaseItem").on('click', '.buscar_productos_purchase', function(e) {
-
 		  e.preventDefault();
-
 		  listar_productos_compras_buscar();
-
 		  var row_index = $(this).closest("tr").index();
-
 		  var col_index = $(this).closest("td").index();
 
 
-
 		  $('#formulario_busqueda_productos_facturacion #row').val(row_index);
-
 		  $('#formulario_busqueda_productos_facturacion #col').val(col_index);
-
 		  $('#modal_buscar_productos_facturacion').modal({
-
 			show:true,
-
 			keyboard: false,
-
 			backdrop:'static'
-
 		  });
-
 	});
 
 });
 
-
+$('#formulario_busqueda_productos_facturacion #almacen').on('change',function(){
+	listar_productos_compras_buscar();
+});
 
 var listar_productos_compras_buscar = function(){
+	var bodega = $("#formulario_busqueda_productos_facturacion #almacen").val();
 
 	var table_productos_compras_buscar = $("#DatatableProductosBusquedaFactura").DataTable({
-
 		"destroy":true,
-
 		"ajax":{
-
 			"method":"POST",
-
-			"url":"<?php echo SERVERURL;?>core/llenarDataTableProductosCompras.php"
-
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableProductosFacturas.php",
+			"data":{
+                "bodega":bodega
+            }			
 		},
-
 		"columns":[
-
 			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus'></span></button>"},
-
-			{"data":"barCode"},
-
+			{"data":"barCode"},			
 			{"data":"nombre"},
+			{"data":"cantidad",
+				render: function (data, type) {
+					if(data == null){
+						data = 0;
+					}
 
-			{"data":"cantidad"},
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, '')
+                        .display(data);
 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },			
+			},
 			{"data":"medida"},
-
-			{"data":"tipo_producto"},
-
-			{"data":"precio_venta"},
-
-			{"data":"almacen"}
-
-		],
-
-		"pageLength": 5,
-
+			{"data":"tipo_producto_nombre"},
+			{"data":"precio_venta",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },			
+			},
+			{"data":"almacen"},
+			{"data":"almacen_id"},
+			{"data":"isv_compra"}
+		],	
         "lengthMenu": lengthMenu,
-
 		"stateSave": true,
-
 		"bDestroy": true,
-
+		"responsive": true,
 		"language": idioma_español,
+		"dom": dom,
+		"columnDefs": [
+		  { width: "2%", targets: 0 },
+		  { width: "17%", targets: 1 },
+		  { width: "17%", targets: 2 },
+		  { width: "10%", targets: 3 },
+		  { width: "10%", targets: 4 },
+		  { width: "10%", targets: 5 },
+		  { width: "12%", targets: 6 },
+		  { width: "12%", targets: 7 },
+		  { width: "0%", targets: 8, visible: false },
+		  { width: "10%", targets: 9 }
+		],
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Productos',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
 
+					listar_productos_compras_buscar();
+				}
+			},
+
+			{
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				titleAttr: 'Agregar Productos',
+				className: 'table_crear btn btn-primary ocultar',
+				action: 	function(){
+					modal_productos();
+				}
+			}
+		],		
 		"drawCallback": function( settings ) {
-
         	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
-
     	}
-
 	});
 
 	table_productos_compras_buscar.search('').draw();
@@ -478,6 +499,8 @@ var view_productos_busqueda_compras_dataTable = function(tbody, table){
 
 			$('#purchase-form #purchaseItem #pricePurchase_'+ row).val(data.precio_compra);
 			$('#purchase-form #purchaseItem #medidaPurchase_'+ row).val(data.medida);
+			$('#purchase-form #purchaseItem #bodegaPurchase_'+ row).val(data.almacen_id);
+
 			$('#purchase-form #purchaseItem #discountPurchase_'+ row).val(0);
 
 			$('#purchase-form #purchaseItem #isvPurchase_'+ row).val(data.isv_compra);
@@ -850,6 +873,8 @@ function limpiarTablaCompras(){
 
 	htmlRows += '<td><input type="number" name="medidaPurchase[]" id="medidaPurchase_'+count+'" placeholder="medida" class="buscar_medida_purchase form-control" autocomplete="off" step="0.01"></td>';
 	
+	htmlRows += '<td><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_'+count+'"  class="buscar_bodega_purchase form-control" ></td>';
+
 	htmlRows += '<td><input type="number" name="pricePurchase[]" id="pricePurchase_'+count+'" placeholder="Precio" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
 
 	htmlRows += '<td><input type="number" name="discountPurchase[]" id="discountPurchase_'+count+'" class="form-control" autocomplete="off" step="0.01"></td>';
@@ -878,10 +903,10 @@ function addRowCompras(){
 
 	htmlRows += '<td><input type="number" name="quantityPurchase[]" id="quantityPurchase_'+count+'" class="buscar_cantidad_purchase form-control" autocomplete="off" step="0.01"></td>';
 
-	htmlRows += '<td><input type="text" name="medidaPurchase[]" id="medidaPurchase_'+count+'" placeholder="medida" class="buscar_medida_purchase form-control" autocomplete="off" step="0.01"></td>';
-	
-	htmlRows +='<td><input type="number" name="pricePurchase[]" id="pricePurchase_'+count+'" placeholder="Precio" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
+	htmlRows += '<td><input type="text" name="medidaPurchase[]" id="medidaPurchase_'+count+'" placeholder="medida" class="buscar_medida_purchase form-control" autocomplete="off" step="0.01"><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_'+count+'"  class="buscar_bodega_purchase form-control" ></td>';
 
+	htmlRows +='<td><input type="number" name="pricePurchase[]" id="pricePurchase_'+count+'" placeholder="Precio" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
+	
 	htmlRows += '<td><input type="number" name="discountPurchase[]" id="discountPurchase_'+count+'" class="form-control" autocomplete="off" step="0.01"></td>';
 
 	htmlRows += '<td><input type="number" name="totalPurchase[]" id="totalPurchase_'+count+'" class="form-control total" readonly autocomplete="off" step="0.01"></td>';

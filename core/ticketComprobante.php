@@ -233,7 +233,6 @@
 		<p class="nota"><center><b>Copia:</b> Emisor</center></p>			
 		<h4 class="label_gracias"><?php  echo nl2br($consulta_registro["eslogan"]); ?></h4>
 	</div>
-
 </div>
 </body>
 </html>

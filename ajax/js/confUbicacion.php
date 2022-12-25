@@ -2,7 +2,6 @@
 $(document).ready(function() {
     listar_ubicacion();
 });
-
 //INICIO UBUCACION
 var listar_ubicacion = function(){
 	var table_ubicacion  = $("#dataTableConfUbicacion").DataTable({
@@ -38,7 +37,7 @@ var listar_ubicacion = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fa-search-location fa-lg"></i> Crear',
+				text:      '<i class="fas fa-search-location fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Ubicación',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){

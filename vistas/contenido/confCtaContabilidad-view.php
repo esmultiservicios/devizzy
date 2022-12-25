@@ -43,7 +43,6 @@
 			</div>
 		</div>
 	</div>	
-
 <?php
-	$insMainModel->guardar_historial_accesos("Ingreso al modulo Configuración Medidas");
+	$insMainModel->guardar_historial_accesos("Ingreso al modulo Configuración de Cuentas");
 ?>

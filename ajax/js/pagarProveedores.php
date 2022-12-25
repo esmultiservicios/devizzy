@@ -1,6 +1,7 @@
 <script>
 $(document).ready(function() {
     listar_cuentas_por_pagar_proveedores();
+	getBancoPurchase();
 });
 
 $('#form_main_pagar_proveedores #search').on("click", function(e){

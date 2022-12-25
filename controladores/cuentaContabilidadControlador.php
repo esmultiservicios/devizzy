@@ -16,7 +16,6 @@
 			
 			$fecha_registro = date("Y-m-d H:i:s");
 	
-
 			$datos = [
 				"codigo" => $codigo,
 				"nombre" => $nombre,

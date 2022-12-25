@@ -2,7 +2,7 @@
 	$peticionAjax = true;
 	require_once "../core/configGenerales.php";
 	
-	if(isset($_POST['tipo_pago_id']) && isset($_POST['confTipoPago']) && isset($_POST['confCuentaTipoPago'])){
+	if(isset($_POST['tipo_pago_id'])){
 		require_once "../controladores/tipoPagoControlador.php";
 		$insVarios = new tipoPagoControlador();
 		
@@ -18,3 +18,4 @@
 				});			
 			</script>";
 	}
+?>	

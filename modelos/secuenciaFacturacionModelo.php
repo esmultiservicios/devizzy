@@ -8,14 +8,14 @@
 	class secuenciaFacturacionModelo extends mainModel{
 		protected function agregar_secuencia_facturacion_modelo($datos){
 			$secuencia_facturacion_id  = mainModel::correlativo("secuencia_facturacion_id ", "secuencia_facturacion");
-			$insert = "INSERT INTO secuencia_facturacion VALUES('$secuencia_facturacion_id','".$datos['empresa_id']."', '".$datos['cai']."','".$datos['prefijo']."','".$datos['relleno']."','".$datos['incremento']."','".$datos['siguiente']."','".$datos['rango_inicial']."','".$datos['rango_final']."','".$datos['fecha_activacion']."','".$datos['fecha_limite']."','".$datos['activo']."','".$datos['usuario']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO secuencia_facturacion VALUES('$secuencia_facturacion_id','".$datos['empresa_id']."', '".$datos['cai']."','".$datos['prefijo']."','".$datos['relleno']."','".$datos['incremento']."','".$datos['siguiente']."','".$datos['rango_inicial']."','".$datos['rango_final']."','".$datos['fecha_activacion']."','".$datos['fecha_limite']."','".$datos['activo']."','".$datos['usuario']."','".$datos['fecha_registro']."','".$datos['documento_id']."')";
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			
 		}
 		
-		protected function valid_secuencia_facturacion($empresa_id){
-			$query = "SELECT secuencia_facturacion_id FROM secuencia_facturacion WHERE activo = 1 AND empresa_id = '$empresa_id'";
+		protected function valid_secuencia_facturacion($empresa_id, $documento_id){
+			$query = "SELECT secuencia_facturacion_id FROM secuencia_facturacion WHERE activo = 1 AND empresa_id = '$empresa_id' AND documento_id = '$documento_id'";
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;			
@@ -57,3 +57,4 @@
 			return $sql;				
 		}
 	}
+?>	

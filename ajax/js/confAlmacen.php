@@ -45,7 +45,7 @@ var listar_almacen = function(){
 				}
 			},
 			{
-				text:      '<i class="fab fas fa-warehouse fa-lg"></i> Crear',
+				text:      '<i class="fab fas fa-warehouse fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Almacén',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -116,8 +116,10 @@ var edit_alamcen_dataTable = function(tbody, table){
 				$('#delete_almacen').hide();
 				$('#formAlmacen #pro_almacen').val("Editar");
 				$('#formAlmacen #ubicacion_almacen').val(valores[0]);
+				$('#formAlmacen #ubicacion_almacen').selectpicker('refresh');	
 				$('#formAlmacen #almacen_almacen').val(valores[1]);
 				$('#formAlmacen #almacen_empresa_id').val(valores[3]);
+				$('#formAlmacen #almacen_empresa_id').selectpicker('refresh');
 
 				if(valores[2] == 1){
 					$('#formAlmacen #almacen_activo').attr('checked', true);
@@ -140,8 +142,7 @@ var edit_alamcen_dataTable = function(tbody, table){
 				//HABILITAR OBJETOS			
 				$('#formAlmacen #ubicacion_almacen').attr('disabled', false);
 				$('#formAlmacen #almacen_activo').attr('disabled', false);
-				$('#formAlmacen #almacen_empresa_id').attr('disabled', true);
-				$('#formAlmacen #buscar_almacen_empresa').hide();				
+				$('#formAlmacen #almacen_empresa_id').attr('disabled', true);			
 
 				//DESHABILITAR OBJETO
 				$('#formAlmacen #ubicacion_almacen').attr('disabled', true);
@@ -178,8 +179,10 @@ var delete_almacen_dataTable = function(tbody, table){
 				$('#delete_almacen').show();
 				$('#formAlmacen #pro_almacen').val("Eliminar");
 				$('#formAlmacen #ubicacion_almacen').val(valores[0]);
+				$('#formAlmacen #ubicacion_almacen').selectpicker('refresh');
 				$('#formAlmacen #almacen_almacen').val(valores[1]);
 				$('#formAlmacen #almacen_empresa_id').val(valores[3]);
+				$('#formAlmacen #almacen_empresa_id').selectpicker('refresh');
 
 				if(valores[2] == 1){
 					$('#formAlmacen #almacen_activo').attr('checked', true);
@@ -192,7 +195,6 @@ var delete_almacen_dataTable = function(tbody, table){
 				$('#formAlmacen #ubicacion_almacen').attr('disabled', true);
 				$('#formAlmacen #almacen_activo').attr('disabled', true);
 				$('#formAlmacen #almacen_empresa_id').attr('disabled', true);
-				$('#formAlmacen #buscar_almacen_empresa').hide();
 
 				$('#modal_almacen').modal({
 					show:true,
@@ -220,7 +222,6 @@ function modalAlmacen(){
 	$('#formAlmacen #ubicacion_almacen').attr('disabled', false);
 	$('#formAlmacen #almacen_activo').attr('disabled', false);
 	$('#formAlmacen #almacen_empresa_id').attr('disabled', false);
-	$('#formAlmacen #buscar_almacen_empresa').show();	
 
 	$('#modal_almacen').modal({
 		show:true,
@@ -240,6 +241,7 @@ function getUbicacionAlmacen(){
         success: function(data){
 		    $('#formAlmacen #ubicacion_almacen').html("");
 			$('#formAlmacen #ubicacion_almacen').html(data);
+			$('#formAlmacen #ubicacion_almacen').selectpicker('refresh');
 		}
      });
 }
@@ -253,7 +255,8 @@ function getEmpresaAlmacen(){
 	    async: true,
         success: function(data){
 		    $('#formAlmacen #almacen_empresa_id').html("");
-			$('#formAlmacen #almacen_empresa_id').html(data);			
+			$('#formAlmacen #almacen_empresa_id').html(data);
+			$('#formAlmacen #almacen_empresa_id').selectpicker('refresh');			
 		}
      });
 }

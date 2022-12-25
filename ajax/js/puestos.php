@@ -38,7 +38,7 @@ var listar_puestos = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Puestos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -216,4 +216,5 @@ $('#formPuestos .switch').change(function(){
         return false;
     }
 });	
+
 </script>

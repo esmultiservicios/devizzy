@@ -4,8 +4,15 @@ $(document).ready(function() {
     listar_reporte_cotizaciones();
 });
 
-$('#form_main_cotizaciones #search').on("click", function(e){
-	e.preventDefault();
+$('#form_main_cotizaciones #tipo_cotizacion_reporte').on("change", function(e){
+	listar_reporte_cotizaciones();
+});
+
+$('#form_main_cotizaciones #fechai').on("change", function(e){
+	listar_reporte_cotizaciones();
+});
+
+$('#form_main_cotizaciones #fechaf').on("change", function(e){
 	listar_reporte_cotizaciones();
 });
 
@@ -37,10 +44,78 @@ var listar_reporte_cotizaciones = function(){
 			{"data":"tipo_documento"},
 			{"data":"cliente"},
 			{"data":"numero"},
-			{"data":"subtotal"},
-			{"data":"isv"},
-			{"data":"descuento"},			
-			{"data":"total"},
+			{"data":"subtotal",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"isv",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"descuento",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},			
+			{"data":"total",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'black';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
 		    {"defaultContent":"<button class='table_reportes print_cotizaciones btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_reportes email_cotizacion btn btn-dark ocultar'><span class='fas fa-paper-plane fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_cancelar cancelar_cotizaciones btn btn-dark ocultar'><span class='fas fa-ban fa-lg'></span></button>"}			
@@ -204,7 +279,8 @@ function getReporteCotizacion(){
 	    async: true,
         success: function(data){
 		    $('#form_main_cotizaciones #tipo_cotizacion_reporte').html("");
-			$('#form_main_cotizaciones #tipo_cotizacion_reporte').html(data);		
+			$('#form_main_cotizaciones #tipo_cotizacion_reporte').html(data);
+			$('#form_main_cotizaciones #tipo_cotizacion_reporte').selectpicker('refresh');	
 		}
      });
 }
@@ -232,4 +308,5 @@ var total_ingreso_footer = function(){
 			console.log( "total ingreso error" );
 	});
 }
+
 </script>

@@ -12,4 +12,4 @@
 			 echo '<option value="'.$consulta2['tipo_producto_id'].'">'.$consulta2['nombre'].'</option>';
 		}
 	}
-	
+?>	

@@ -29,7 +29,7 @@
 		$numeroMaximo = $consultaNumeroMaximo['numero'];
 	}
 
-	$facturasPendientes = $numeroMaximo - $numeroAnterior;
+	$facturasPendientes = intval($numeroMaximo) - intval($numeroAnterior);
 
 	//OBTNENER LA FECHA LIMITE DE FACTURACION
 	$resultNFechaLimite = $insMainModel->getFechaLimiteFactura($empresa_id);
@@ -46,3 +46,4 @@
 		2 => $fecha_limite,		
 	);
 	echo json_encode($datos);
+?>	

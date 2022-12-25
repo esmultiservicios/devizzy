@@ -49,7 +49,7 @@ var listar_proveedores = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Proveedores',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -125,6 +125,7 @@ var editar_proveedores_dataTable = function(tbody, table){
 				$('#formProveedores #fecha_proveedores').attr('disabled', true);
 				$('#formProveedores #fecha_proveedores').val(valores[2]);
 				$('#formProveedores #departamento_proveedores').val(valores[3]);
+				$('#formProveedores #departamento_proveedores').selectpicker('refresh');
 				getMunicipiosProveedores(valores[3], valores[4]);
 				$('#formProveedores #dirección_proveedores').val(valores[5]);
 				$('#formProveedores #telefono_proveedores').val(valores[6]);
@@ -146,6 +147,7 @@ var editar_proveedores_dataTable = function(tbody, table){
 				$('#formProveedores #correo_proveedores').attr("readonly", false);
 				$('#formProveedores #proveedores_activo').attr("disabled", false);
 				$('#formProveedores #estado_proveedores').show();
+				$('#formProveedores #grupo_editar_rtn').show();
 
 				//DESHABILITAR OBJETOS
 				$('#formProveedores #rtn_proveedores').attr("readonly", true);
@@ -185,6 +187,7 @@ var eliminar_proveedores_dataTable = function(tbody, table){
 				$('#formProveedores #fecha_proveedores').attr('disabled', true);
 				$('#formProveedores #fecha_proveedores').val(valores[2]);
 				$('#formProveedores #departamento_proveedores').val(valores[3]);
+				$('#formProveedores #departamento_proveedores').selectpicker('refresh');
 				getMunicipiosProveedores(valores[3], valores[4]);
 				$('#formProveedores #dirección_proveedores').val(valores[5]);
 				$('#formProveedores #telefono_proveedores').val(valores[6]);
@@ -208,6 +211,7 @@ var eliminar_proveedores_dataTable = function(tbody, table){
 				$('#formProveedores #correo_proveedores').attr("readonly", true);
 				$('#formProveedores #proveedores_activo').attr("disabled", true);
 				$('#formProveedores #estado_proveedores').hide();
+				$('#formProveedores #grupo_editar_rtn').hide();
 
 				$('#formProveedores #proceso_proveedores').val("Eliminar");
 				$('#modal_registrar_proveedores').modal({
@@ -322,7 +326,6 @@ function getNombreProveedor(proveedores_id){
 //FIN EDITAR RTN PROVEEDORES
 //FIN ACCIONES FROMULARIO PROVEEDORES
 /*FIN FORMULARIO PROVEEDORES*/
-
 $(document).ready(function(){
     $("#modal_registrar_proveedores").on('shown.bs.modal', function(){
         $(this).find('#formProveedores #nombre_proveedores').focus();

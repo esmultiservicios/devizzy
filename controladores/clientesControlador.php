@@ -51,7 +51,7 @@
 					"form" => "formClientes",	
 					"id" => "proceso_clientes",
 					"valor" => "Registro",
-					"funcion" => "listar_clientes();listar_clientes_factura_buscar();listar_clientes_cotizacion_buscar();listar_colaboradores_buscar_compras();",
+					"funcion" => "listar_clientes();getDepartamentoClientes();getMunicipiosClientes(0);listar_clientes_factura_buscar();listar_clientes_cotizacion_buscar();listar_colaboradores_buscar_compras();",
 					"modal" => "",
 				];
 			}else{
@@ -110,7 +110,7 @@
 					"form" => "formClientes",	
 					"id" => "proceso_clientes",
 					"valor" => "Editar",
-					"funcion" => "listar_clientes();",
+					"funcion" => "listar_clientes();getDepartamentoClientes();getMunicipiosClientes(0);",
 					"modal" => "",
 				];
 			}else{
@@ -145,7 +145,7 @@
 						"form" => "formClientes",	
 						"id" => "proceso_clientes",
 						"valor" => "Eliminar",
-						"funcion" => "listar_clientes();",
+						"funcion" => "listar_clientes();getDepartamentoClientes();getMunicipiosClientes(0);",
 						"modal" => "modal_registrar_clientes",
 					];
 				}else{
@@ -170,3 +170,4 @@
 			return mainModel::sweetAlert($alert);
 		}
 	}
+?>	

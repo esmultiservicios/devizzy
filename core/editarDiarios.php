@@ -17,3 +17,4 @@
 		3 => $valores2['estado'],				
 	);
 	echo json_encode($datos);
+?>	

@@ -7,7 +7,6 @@ $('#formMainChequesContabilidad #search').on("click", function(e){
 	e.preventDefault();
 	listar_cheques_contabilidad();
 });
-
 //INICIO ACCIONES FORMULARIO CHEQUES
 var listar_cheques_contabilidad = function(){	
 	var fechai = $("#formMainChequesContabilidad #fechai").val();
@@ -56,7 +55,7 @@ var listar_cheques_contabilidad = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 				titleAttr: 'Agregar Cheques',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){

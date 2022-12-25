@@ -12,3 +12,4 @@
 		0 => $privilegio_id, 					
 	);
 	echo json_encode($datos);
+?>	

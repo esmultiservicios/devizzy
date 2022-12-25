@@ -50,7 +50,7 @@
 					"form" => "formProveedores",
 					"id" => "proceso_proveedores",
 					"valor" => "Registro",	
-					"funcion" => "listar_proveedores();getProveedorIngresos();getProveedorEgresos();listar_proveedores_ingresos_contabilidad_buscar();listar_proveedores_compras_buscar();listar_proveedores_egresos_contabilidad_buscar();",
+					"funcion" => "listar_proveedores();getDepartamentoProveedores();getMunicipiosProveedores(0);getProveedorIngresos();getProveedorEgresos();listar_proveedores_ingresos_contabilidad_buscar();listar_proveedores_compras_buscar();listar_proveedores_egresos_contabilidad_buscar();",
 					"modal" => "",						
 				];
 			}else{
@@ -107,7 +107,7 @@
 					"form" => "formProveedores",
 					"id" => "proceso_proveedores",
 					"valor" => "Editar",	
-					"funcion" => "listar_proveedores();",
+					"funcion" => "listar_proveedores();getDepartamentoProveedores();getMunicipiosProveedores(0);",
 					"modal" => "",
 				];
 			}else{
@@ -142,7 +142,7 @@
 						"form" => "formProveedores",
 						"id" => "proceso_proveedores",
 						"valor" => "Eliminar",	
-						"funcion" => "listar_proveedores();",
+						"funcion" => "listar_proveedores();getDepartamentoProveedores();getMunicipiosProveedores(0);",
 						"modal" => "modal_registrar_proveedores",
 					];
 				}else{
@@ -167,3 +167,4 @@
 			return mainModel::sweetAlert($alert);
 		}		
 	}
+?>	

@@ -12,6 +12,8 @@
 	$datos = array(
 		0 => $valores2['nombre'],
 		1 => $valores2['cuentas_id'],
-		2 => $valores2['estado']		
+		2 => $valores2['estado'],	
+		3 => $valores2['tipo_pago_id']	
 	);
 	echo json_encode($datos);
+?>	

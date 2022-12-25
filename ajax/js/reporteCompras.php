@@ -4,8 +4,15 @@ $(document).ready(function() {
     listar_reporte_compras();
 });
 
-$('#form_main_compras #search').on("click", function(e){
-	e.preventDefault();
+$('#form_main_compras #tipo_compras_reporte').on("change", function(e){
+	listar_reporte_compras();
+});
+
+$('#form_main_compras #fechai').on("change", function(e){
+	listar_reporte_compras();
+});
+
+$('#form_main_compras #fechaf').on("change", function(e){
 	listar_reporte_compras();
 });
 
@@ -37,10 +44,78 @@ var listar_reporte_compras = function(){
 			{"data":"tipo_documento"},
 			{"data":"proveedor"},
 			{"data":"numero"},
-			{"data":"subtotal"},
-			{"data":"isv"},
-			{"data":"descuento"},			
-			{"data":"total"},
+			{"data":"subtotal",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"isv",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"descuento",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},			
+			{"data":"total",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
 		    {"defaultContent":"<button class='table_reportes print_compras btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_cancelar cancelar_compras btn btn-dark ocultar'><span class='fas fa-ban fa-lg'></span></button>"}			
 		],
@@ -61,6 +136,9 @@ var listar_reporte_compras = function(){
 		  { width: "3%", targets: 8 },
 		  { width: "3%", targets: 9 }		  
 		],
+		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
+        	$('td', nRow).addClass(aData['color']);		
+		},
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
@@ -193,7 +271,8 @@ function getReporteCompras(){
 	    async: true,
         success: function(data){
 		    $('#form_main_compras #tipo_compras_reporte').html("");
-			$('#form_main_compras #tipo_compras_reporte').html(data);		
+			$('#form_main_compras #tipo_compras_reporte').html(data);
+			$('#form_main_compras #tipo_compras_reporte').selectpicker('refresh');	
 		}
      });
 }
@@ -221,4 +300,5 @@ var total_ingreso_footer = function(){
 			console.log( "total ingreso error" );
 	});
 }
+
 </script>

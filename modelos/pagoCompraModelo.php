@@ -6,6 +6,364 @@
     }
 	
 	class pagoCompraModelo extends mainModel{
+		protected function agregar_pago_compras_base($res){
+			$saldo_credito = 0;
+			$nuevo_saldo = 0;
+			$compras_id = $res['compras_id'];
+			$importe = $res['importe'];
+			$abono = $res['abono'];
+			$tipo_pago_id = $res['tipo_pago'];
+			$metodo_pago = $res['metodo_pago'];
+			$banco_id = $res['banco_id'];
+			$referencia_pago1 = $res["referencia_pago1"];
+			$referencia_pago2 = $res["referencia_pago2"];
+			$referencia_pago3 = $res["referencia_pago3"];
+			$empresa = $res['empresa'];
+			$fecha = $res['fecha'];
+			$estado = $res["estado"];
+			$fecha_registro = $res["fecha_registro"];	
+			$cambio = $res['cambio'];
+			$usuario = $res['usuario'];
+			$efectivo = $res['efectivo'];
+			$tarjeta = 	$res['tarjeta'];	
+			
+			isset($res["colaboradores_id"]) ? $colaboradores_id = $res["colaboradores_id"] : $colaboradores_id = '';
+
+			//SI EL PAGO QUE SE ESTA REALIZANDO ES DE UN DOCUMENTO AL CREDITO
+			if($res['tipo_pago'] == 2){//SI ES CREDITO ESTO ES UN ABONO A LA FACTURA
+				//consultamos a la tabla cuenta x pagar
+				$get_cxc_proveedor = pagoCompraModelo::consultar_compra_cuentas_por_pagar($compras_id);
+								
+				if($get_cxc_proveedor->num_rows > 0){
+					$rec = $get_cxc_proveedor->fetch_assoc();
+					$saldo_credito = $rec['saldo'];
+					
+				}else{
+					$alert = [
+						"alert" => "simple",
+						"title" => "Ocurrio un error inesperado",
+						"text" => "No hemos podido procesar su solicitud",
+						"type" => "error",
+						"btn-class" => "btn-danger",					
+					];
+				}
+
+				//validar que no se hagan mas abonos que el importe
+				if($abono <= $saldo_credito ){
+					//update tabla cobrar cliente
+					if($abono == $saldo_credito){
+						//actualizamos el estado a pagado (2)
+						$query = pagoCompraModelo::update_status_compras_cuentas_por_pagar($compras_id);
+
+						//ACTUALIZAMOS EL ESTADO DE LA FACTURA
+						pagoCompraModelo::update_status_compras($compras_id);
+					}else{
+						$nuevo_saldo = $saldo_credito - $abono;
+						$query = pagoCompraModelo::update_status_compras_cuentas_por_pagar($compras_id,1,$nuevo_saldo);
+
+					}
+				}else{
+					$alert = [
+						"alert" => "simple",
+						"title" => "El abono es mayor al importe",
+						"text" => "No hemos podido procesar su solicitud",
+						"type" => "error",
+						"btn-class" => "btn-danger",					
+					];
+
+					return $alert;
+				}
+
+				$datos = [
+					"compras_id" => $compras_id,
+					"fecha" => $fecha,
+					"importe" => $tipo_pago_id == 2 ? $abono : $importe,
+					"cambio" => $cambio,
+					"usuario" => $usuario,
+					"estado" => $estado,
+					"fecha_registro" => $fecha_registro,
+					"empresa" => $empresa,
+					"tipo_pago" => $tipo_pago_id,
+					"efectivo" => $efectivo,
+					"tarjeta" => $tarjeta,
+					"banco_id" => $banco_id,
+					"referencia_pago1" => $referencia_pago1,
+					"referencia_pago2" => $referencia_pago2,
+					"referencia_pago3" => $referencia_pago3,
+				];
+
+				$query = pagoCompraModelo::agregar_pago_compras_modelo($datos);
+				
+				if($query){
+					//ACTUALIZAMOS EL DETALLE DEL PAGO
+					 $consulta_pago = pagoCompraModelo::consultar_codigo_pago_modelo($compras_id)->fetch_assoc();
+					
+					$pagoscompras_id = $consulta_pago['pagoscompras_id'];
+												
+					$datos_pago_detalle = [
+						"pagoscompras_id" => $pagoscompras_id,
+						"tipo_pago_id" => $metodo_pago,
+						"banco_id" => $banco_id,
+						"efectivo" => $abono,
+						"descripcion1" => $referencia_pago1,
+						"descripcion2" => $referencia_pago2,
+						"descripcion3" => $referencia_pago3,			
+					];	
+					
+					pagoCompraModelo::agregar_pago_detalles_compras_modelo($datos_pago_detalle);
+					
+					
+					/**###########################################################################################################*/
+					//CONSULTAMOS EL SUBTOTAL, ISV, DESCUENTO, NC Y TOTAL EN LOS COMPRAS DETALLES
+					$resultDetallesCompras = pagoCompraModelo::consulta_detalle_compras($compras_id);
+
+					$total_despues_isvMontoTipoPago = 0;
+					$isv_neto = 0;
+					$descuentos = 0;
+					$total_antes_isvMontoTipoPago = 0;
+					$nc = 0;
+
+					while($dataDetallesCompra = $resultDetallesCompras->fetch_assoc()){
+						$total_despues_isvMontoTipoPago = $dataDetallesCompra['monto'];
+						$isv_neto = $dataDetallesCompra['isv_valor'];
+						$descuentos = $dataDetallesCompra['descuento'];
+						$total_antes_isvMontoTipoPago = ($total_despues_isvMontoTipoPago - $isv_neto) - $descuentos;
+					}
+					
+					//CONSULTAMOS LA CUENTA_ID SEGUN EL TIPO DE PAGO
+					$consulta_fecha_compra = pagoCompraModelo::consultar_cuenta_contabilidad_tipo_pago($metodo_pago)->fetch_assoc();
+					$cuentas_id = $consulta_fecha_compra['cuentas_id'];
+
+					//CONSULTAMOS EL PROVEEDOR
+					$consulta_fecha_compra = pagoCompraModelo::consultar_proveedor_id_compra($compras_id)->fetch_assoc();
+					$proveedores_id = $consulta_fecha_compra['proveedores_id'];	
+					$factura = $consulta_fecha_compra['factura'];				
+					$tipo_egreso = 1;//COMPRA
+					$observacion = "Egresos por compras";
+					$egresos_id = mainModel::correlativo("egresos_id", "egresos");
+
+					//AGREGAMOS LOS EGRESOS DE LA COMPRA
+					$datosEgresos = [
+						"proveedores_id" => $proveedores_id,
+						"cuentas_id" => $cuentas_id,
+						"empresa_id" => $empresa,
+						"tipo_egreso" => $tipo_egreso,
+						"fecha" => $fecha,
+						"factura" => $factura,
+						"subtotal" => $total_antes_isvMontoTipoPago,
+						"isv" => $isv_neto,
+						"descuento" => $descuentos,
+						"nc" => $nc,
+						"total" => $total_despues_isvMontoTipoPago,
+						"observacion" => $observacion,
+						"estado" => $estado,
+						"fecha_registro" => $fecha_registro,						
+						"colaboradores_id" => $colaboradores_id,
+						"egresos_id" => $egresos_id,
+					];
+
+					//AGREGAMOS LOS EGRESOS
+					$result_valid_egresos = pagoCompraModelo::valid_egresos_cuentas_modelo($datosEgresos);
+			
+					if($result_valid_egresos->num_rows==0 ){
+						pagoCompraModelo::agregar_egresos_contabilidad_modelo($datosEgresos);
+
+						//CONSULTAMOS EL SALDO DISPONIBLE PARA LA CUENTA
+						$consulta_ingresos_contabilidad = pagoCompraModelo::consultar_saldo_movimientos_cuentas_contabilidad($cuentas_id)->fetch_assoc();
+						$saldo_consulta = $consulta_ingresos_contabilidad['saldo'];	
+						$ingreso = 0;
+						$egreso = $total_despues_isvMontoTipoPago;
+						$saldo = $saldo_consulta - $egreso;
+						
+						//AGREGAMOS LOS MOVIMIENTOS DE LA CUENTA
+						$datos_movimientos = [
+							"cuentas_id" => $cuentas_id,
+							"empresa_id" => $empresa,
+							"fecha" => $fecha,
+							"ingreso" => $ingreso,
+							"egreso" => $egreso,
+							"saldo" => $saldo,
+							"colaboradores_id" => $colaboradores_id,
+							"fecha_registro" => $fecha_registro,				
+						];
+						
+						pagoCompraModelo::agregar_movimientos_contabilidad_modelo($datos_movimientos);
+					}					
+					/**###########################################################################################################*/
+
+					$alert = [
+						"alert" => "save_simple",
+						"title" => "Registro almacenado",
+						"text" => "El registro se ha almacenado correctamente",
+						"type" => "success",
+						"btn-class" => "btn-primary",
+						"btn-text" => "¡Bien Hecho!",
+						"form" => "formEfectivoPurchase",
+						"id" => "proceso_pagosPurchase",
+						"valor" => "Registro",	
+						"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();",
+						"modal" => "modal_pagosPurchase",													
+					];					
+				}else{
+					$alert = [
+						"alert" => "simple",
+						"title" => "Ocurrio un error inesperado",
+						"text" => "No hemos podido procesar su solicitud",
+						"type" => "error",
+						"btn-class" => "btn-danger",					
+					];				
+				}									
+			}else{
+					$datos = [
+						"compras_id" => $compras_id,
+						"tipo_pago_id" => $tipo_pago_id,
+						"fecha" => $fecha,
+						"importe" => $importe,
+						"cambio" => $cambio,
+						"usuario" => $usuario,
+						"estado" => $estado,
+						"fecha_registro" => $fecha_registro,
+						"empresa" => $empresa,
+						"tipo_pago" => $tipo_pago_id,
+						"efectivo" => $efectivo,
+						"tarjeta" => $tarjeta,
+						"banco_id" => $banco_id,
+						"referencia_pago1" => $referencia_pago1,
+						"referencia_pago2" => $referencia_pago2,
+						"referencia_pago3" => $referencia_pago3,
+					];
+
+					$result_valid_pagos_compras = pagoCompraModelo::valid_pagos_compras($compras_id);
+			
+				    $query = pagoCompraModelo::agregar_pago_compras_modelo($datos);
+					
+					//ACTUALIZAMOS EL DETALLE DEL PAGO
+					$consulta_pago = pagoCompraModelo::consultar_codigo_pago_modelo($compras_id)->fetch_assoc();
+					$pagoscompras_id = $consulta_pago['pagoscompras_id'];
+												
+					$datos_pago_detalle = [
+						"pagoscompras_id" => $pagoscompras_id,
+						"tipo_pago_id" => $metodo_pago,
+						"banco_id" => $banco_id,
+						"efectivo" => $importe,
+						"descripcion1" => $referencia_pago1,
+						"descripcion2" => $referencia_pago2,
+						"descripcion3" => $referencia_pago3,			
+					];	
+
+					$result_valid_pagos_detalles_compras = pagoCompraModelo::valid_pagos_detalles_compras($pagoscompras_id, $metodo_pago);
+					
+					//VALIDAMOS QUE NO EXISTA EL DETALLE DEL PAGO, DE NO EXISTIR SE ALMACENA EL DETALLE DEL PAGO
+					if($result_valid_pagos_detalles_compras->num_rows==0){
+						pagoCompraModelo::agregar_pago_detalles_compras_modelo($datos_pago_detalle);
+					}					
+					
+					//ACTUALIZAMOS EL ESTADO DE LA FACTURA
+					pagoCompraModelo::update_status_compras($compras_id);
+					
+					// //VERIFICAMOS SI ES UNA CUENTA POR COBRAR, DE SERLO ACTUALIZAMOS EL ESTADO DEL PAGO PARA LA CUENTA POR COBRAR
+					// $result_cxp_clientes = pagoCompraModelo::consultar_compra_cuentas_por_pagar($compras_id);
+					
+					// if($result_cxp_clientes->num_rows>0){
+					// 	pagoCompraModelo::update_status_compras_cuentas_por_pagar($compras_id);
+					// }
+					
+					/**###########################################################################################################*/
+					//CONSULTAMOS EL SUBTOTAL, ISV, DESCUENTO, NC Y TOTAL EN LOS COMPRAS DETALLES
+					$resultDetallesCompras = pagoCompraModelo::consulta_detalle_compras($compras_id);
+
+					$total_despues_isvMontoTipoPago = 0;
+					$isv_neto = 0;
+					$descuentos = 0;
+					$total_antes_isvMontoTipoPago = 0;
+					$nc = 0;
+
+					while($dataDetallesCompra = $resultDetallesCompras->fetch_assoc()){
+						$total_despues_isvMontoTipoPago = $dataDetallesCompra['monto'];
+						$isv_neto = $dataDetallesCompra['isv_valor'];
+						$descuentos = $dataDetallesCompra['descuento'];
+						$total_antes_isvMontoTipoPago = ($total_despues_isvMontoTipoPago - $isv_neto) - $descuentos;
+					}
+					
+					//CONSULTAMOS LA CUENTA_ID SEGUN EL TIPO DE PAGO
+					$consulta_fecha_compra = pagoCompraModelo::consultar_cuenta_contabilidad_tipo_pago($metodo_pago)->fetch_assoc();
+					$cuentas_id = $consulta_fecha_compra['cuentas_id'];
+
+					//CONSULTAMOS EL PROVEEDOR
+					$consulta_fecha_compra = pagoCompraModelo::consultar_proveedor_id_compra($compras_id)->fetch_assoc();
+					$proveedores_id = $consulta_fecha_compra['proveedores_id'];	
+					$factura = $consulta_fecha_compra['factura'];				
+					$tipo_egreso = 1;//COMPRA
+					$observacion = "Egresos por compras";
+					$egresos_id = mainModel::correlativo("egresos_id", "egresos");
+
+					//AGREGAMOS LOS EGRESOS DE LA COMPRA
+					$datosEgresos = [
+						"proveedores_id" => $proveedores_id,
+						"cuentas_id" => $cuentas_id,
+						"empresa_id" => $empresa,
+						"tipo_egreso" => $tipo_egreso,
+						"fecha" => $fecha,
+						"factura" => $factura,
+						"subtotal" => $total_antes_isvMontoTipoPago,
+						"isv" => $isv_neto,
+						"descuento" => $descuentos,
+						"nc" => $nc,
+						"total" => $total_despues_isvMontoTipoPago,
+						"observacion" => $observacion,
+						"estado" => $estado,
+						"fecha_registro" => $fecha_registro,						
+						"colaboradores_id" => $colaboradores_id,
+						"egresos_id" => $egresos_id,
+					];
+
+					//AGREGAMOS LOS EGRESOS
+					$result_valid_egresos = pagoCompraModelo::valid_egresos_cuentas_modelo($datosEgresos);
+			
+					if($result_valid_egresos->num_rows==0 ){
+						pagoCompraModelo::agregar_egresos_contabilidad_modelo($datosEgresos);
+
+						//CONSULTAMOS EL SALDO DISPONIBLE PARA LA CUENTA
+						$consulta_ingresos_contabilidad = pagoCompraModelo::consultar_saldo_movimientos_cuentas_contabilidad($cuentas_id)->fetch_assoc();
+						$saldo_consulta = $consulta_ingresos_contabilidad['saldo'];	
+						$ingreso = 0;
+						$egreso = $total_despues_isvMontoTipoPago;
+						$saldo = $saldo_consulta - $egreso;
+						
+						//AGREGAMOS LOS MOVIMIENTOS DE LA CUENTA
+						$datos_movimientos = [
+							"cuentas_id" => $cuentas_id,
+							"empresa_id" => $empresa,
+							"fecha" => $fecha,
+							"ingreso" => $ingreso,
+							"egreso" => $egreso,
+							"saldo" => $saldo,
+							"colaboradores_id" => $colaboradores_id,
+							"fecha_registro" => $fecha_registro,				
+						];
+						
+						pagoCompraModelo::agregar_movimientos_contabilidad_modelo($datos_movimientos);
+					}					
+					/**###########################################################################################################*/					
+					$alert = [
+						"alert" => "save_simple",
+						"title" => "Registro almacenado",
+						"text" => "El registro se ha almacenado correctamente",
+						"type" => "success",
+						"btn-class" => "btn-primary",
+						"btn-text" => "¡Bien Hecho!",
+						"form" => "formEfectivoPurchase",
+						"id" => "proceso_pagosPurchase",
+						"valor" => "Registro",	
+						"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();printPurchase(".$compras_id.");",
+						"modal" => "modal_pagosPurchase",													
+					];						
+					
+			}
+
+			return $alert;
+		}
+		
 		protected function agregar_pago_compras_modelo($datos){
 			$pagoscompras_id = mainModel::correlativo("pagoscompras_id", " pagoscompras");
 			$insert = "INSERT INTO pagoscompras 
@@ -80,11 +438,15 @@
 			return $result;					
 		}
 		
-		protected function update_status_compras_cuentas_por_pagar($compras_id){
-			$estado = 2;//PAGO REALIZADO
+		protected function update_status_compras_cuentas_por_pagar($compras_id,$estado = 2,$importe = ''){
+			if($importe != ''){
+				$importe = ', saldo = '.$importe;
+			}
+
 			$update = "UPDATE pagar_proveedores
 				SET
 					estado = '$estado'
+					$importe
 				WHERE compras_id = '$compras_id'";
 			
 			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
@@ -93,7 +455,7 @@
 		}		
 		
 		protected function consultar_compra_cuentas_por_pagar($compras_id){
-			$query = "SELECT compras_id
+			$query = "SELECT *
 				FROM pagar_proveedores
 				WHERE compras_id = '$compras_id'";
 

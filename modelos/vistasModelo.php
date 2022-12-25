@@ -14,7 +14,7 @@
 			 "gastosContabilidad", "chequesContabilidad", "confCtaContabilidad", 'confTipoPago', "confBancos", "confImpuestos",
 			 "historialAccesos", "bitacora", "colaboradores", "puestos", "users", "secuencia", "empresa", "privilegio", "tipoUser",
 			 "cobrarClientes", "pagarProveedores", "reporteCompras", "reporteVentas", "reporteCotizacion", "confAlmacen", "confUbicacion",
-			 "confCategoria", "confMedida", "confEmail", "confHost", "confPlanes", "confHostProductos","confImpresora"];
+			 "confCategoria", "confMedida", "confEmail", "confHost", "confPlanes", "confHostProductos","confImpresora","contrato","nomina"];
 
             if(in_array($vistas, $listaBlanca)){
 				if(is_file("./vistas/contenido/".$vistas."-view.php")){
@@ -54,3 +54,4 @@
 			return $contenido;
         }
     }
+?>	

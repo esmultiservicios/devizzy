@@ -78,30 +78,22 @@
 
 				WHERE cotizacion_id = '$cotizacion_id' AND productos_id  = '$productos_id'";
 
-
-
 			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 
-			
-
+		
 			return $result;			
-
 		}
 
-		
 
 		protected function getISV_modelo(){
-
 			$result = mainModel::getISV('Facturas');
 
 			
-
 			return $result;
 
 		}
 
 		
-
 		protected function getISVEstadoProducto_modelo($productos_id){
 
 			$result = mainModel::getISVEstadoProducto($productos_id);

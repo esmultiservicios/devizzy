@@ -2,10 +2,15 @@
 $(document).ready(function() {
     listar_bitacora();
 });
+//BUSQUEDA FECHAS BITACORA
+$(document).ready(function() {
+	$('#formMainBitacora #fechai').on('change',function(){
+		listar_bitacora();
+    });
 
-$('#formMainBitacora #search').on("click", function(e){
-	e.preventDefault();
-	listar_bitacora();
+	$('#formMainBitacora #fechaf').on('change',function(){
+		listar_bitacora();
+    });
 });
 
 //INICIO BITACORA

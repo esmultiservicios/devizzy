@@ -13,7 +13,7 @@
 				<form class="FormularioAjax" id="purchase-form" action="<?php echo SERVERURL;?>ajax/addComprasAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data" >
 				  <div class="form-group row">	
 					<div class="col-sm-6">
-						<button class="btn btn-secondary" type="submit" id="reg_factura" form="purchase-form" data-toggle="tooltip" data-placement="top" title="Registrar Factura"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>					
+						<button class="btn btn-secondary" type="submit" id="reg_factura" form="purchase-form" data-toggle="tooltip" data-placement="top" title="Ingresar Factura de Compra"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Ingresar</button>					
 					</div>				
 					<label for="inputCliente" class="col-sm-1 col-form-label-md">Factura <span class="priority">*<span/></label>
 					<div class="col-sm-3">
@@ -90,6 +90,7 @@
 										<td><input type="number" name="quantityPurchase[]" id="quantityPurchase_0" class="buscar_cantidad_purchase form-control" autocomplete="off" step="0.01"></td>
 										<td>
 											<input type="text" name="medidaPurchase[]" id="medidaPurchase_0" readonly class="form-control buscar_medida_purchase" autocomplete="off">
+											<input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_0" readonly class="form-control buscar_bodega_purchase" autocomplete="off">
 										</td>
 										<td><input type="number" name="pricePurchase[]" id="pricePurchase_0" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>
 										<td><input type="number" name="discountPurchase[]" id="discountPurchase_0" class="form-control" autocomplete="off" step="0.01"></td>
@@ -98,8 +99,7 @@
 								</tbody>
 							</table>
 						</div>				
-				  </div>
-				  
+				  </div>				  
 				  <hr class="line_table" />
 					<div class="form-group row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">	

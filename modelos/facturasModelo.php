@@ -38,10 +38,9 @@
 			$insert = "INSERT INTO movimientos
 				VALUES('$movimientos_id','".$datos['productos_id']."','".$datos['documento']."','".$datos['cantidad_entrada']."',
 				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
-				'".$datos['clientes_id']."','')";
+				'".$datos['clientes_id']."','','".$datos['almacen_id']."')";
 			
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);	
-
 			return $result;				
 
 		}
@@ -91,17 +90,7 @@
 			
 			return $result;				
 		}
-		
-		protected function actualizar_cantidad_productos_modelo($productos_id, $cantidad){
-			$update = "UPDATE productos
-				SET
-					cantidad = '$cantidad'
-				WHERE productos_id = '$productos_id'";		
-			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
-		
-			return $result;				
-		}
-		
+						
 		protected function actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero){
 			$update = "UPDATE secuencia_facturacion
 				SET
@@ -123,10 +112,10 @@
 			return $result;			
 		}
 	
-		protected function secuencia_facturacion_modelo($empresa_id){
+		protected function secuencia_facturacion_modelo($empresa_id, $documento_id){
 			$query = "SELECT secuencia_facturacion_id, prefijo, siguiente AS 'numero', rango_final, fecha_limite, incremento, relleno
 			   FROM secuencia_facturacion
-			   WHERE activo = '1' AND empresa_id = '$empresa_id'";
+			   WHERE activo = '1' AND empresa_id = '$empresa_id' AND documento_id = '$documento_id'";
 			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $result;
@@ -221,11 +210,17 @@
 		protected function getAperturaIDModelo($datos){
 			$query = "SELECT apertura_id
 				FROM apertura
-				WHERE colaboradores_id = '".$datos['colaboradores_id']."' AND fecha = '".$datos['fecha']."' AND estado = '".$datos['estado']."'";
-			
+				WHERE colaboradores_id = '".$datos['colaboradores_id']."' AND fecha = '".$datos['fecha']."' AND estado = '".$datos['estado']."'";			
 			
 			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $result;			
 		}
+
+		protected function total_hijos_segun_padre_modelo($productos_id){
+			$result = mainModel::getTotalHijosporPadre($productos_id);
+			
+			return $result;			
+		}			
 	}
+?>	

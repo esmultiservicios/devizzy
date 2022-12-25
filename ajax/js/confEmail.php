@@ -105,10 +105,12 @@ var edit_correos_configuracion_dataTable = function(tbody, table){
 				$('#edi_confEmails').show();
 				$('#formConfEmails #pro_correos').val("Editar");
 				$('#formConfEmails #tipo_correo_confEmail').val(valores[0]);
+				$('#formConfEmails #tipo_correo_confEmail').selectpicker('refresh');	
 				$('#formConfEmails #serverConfEmail').val(valores[1]);
 				$('#formConfEmails #correoConfEmail').val(valores[2]);
 				$('#formConfEmails #puertoConfEmail').val(valores[3]);
 				$('#formConfEmails #smtpSecureConfEmail').val(valores[4]);
+				$('#formConfEmails #smtpSecureConfEmail').selectpicker('refresh');	
 				$('#formConfEmails #passConfEmail').val(valores[6]);
 
 				//DESHABILITAR OBJETOS
@@ -170,7 +172,8 @@ function getSMTPSecure(){
 	    async: true,
         success: function(data){
 		    $('#formConfEmails #smtpSecureConfEmail').html("");
-			$('#formConfEmails #smtpSecureConfEmail').html(data);		
+			$('#formConfEmails #smtpSecureConfEmail').html(data);	
+			$('#formConfEmails #smtpSecureConfEmail').selectpicker('refresh');	
 		}
      });
 }
@@ -185,7 +188,8 @@ function getTipoCorreo(){
 	    async: true,
         success: function(data){
 		    $('#formConfEmails #tipo_correo_confEmail').html("");
-			$('#formConfEmails #tipo_correo_confEmail').html(data);			
+			$('#formConfEmails #tipo_correo_confEmail').html(data);
+			$('#formConfEmails #tipo_correo_confEmail').selectpicker('refresh');			
 		}
      });
 }

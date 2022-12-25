@@ -11,7 +11,7 @@
 				session_start(['name'=>'SD']); 
 			}
 			
-			$bar_code_product = mainModel::cleanStringStrtoupper($_POST['bar_code_product']);
+			$bar_code_product = mainModel::cleanString($_POST['bar_code_product']);
 			$almacen_id = mainModel::cleanStringConverterCase($_POST['almacen']);
 			$medida_id = mainModel::cleanStringConverterCase($_POST['medida']);
 			$producto_superior = mainModel::cleanString($_POST['producto_superior']);
@@ -19,7 +19,7 @@
 			$tipo_producto = mainModel::cleanStringConverterCase($_POST['tipo_producto']);			
 			$nombre = mainModel::cleanString($_POST['producto']);
 			$descripcion = mainModel::cleanString($_POST['descripcion']);			
-			$cantidad = mainModel::cleanString($_POST['cantidad']);
+			$cantidad = 0;
 			$precio_compra = mainModel::cleanString($_POST['precio_compra']);
 			$porcentaje_venta = mainModel::cleanString($_POST['porcentaje_venta']);
 			$precio_venta = mainModel::cleanString($_POST['precio_venta']);
@@ -28,13 +28,12 @@
 			$cantidad_minima = mainModel::cleanString($_POST['cantidad_minima']);
 			$cantidad_maxima = mainModel::cleanString($_POST['cantidad_maxima']);
 
-			if(empty($bar_code_product)){
+			if(empty($bar_code_product) || $bar_code_product == 0){
 				$flag_barcode = true;
 				while($flag_barcode){
-				   $d=rand(1,99999999);
-					$result_barcode = productosModelo::valid_bar_code_productos_modelo($d);
+					$result_barcode = productosModelo::valid_bar_code_productos_modelo(mainModel::generarCodigoBarra());
 				   if($result_barcode->num_rows==0){
-					  $bar_code_product = $d;
+					  $bar_code_product = mainModel::generarCodigoBarra();
 					  $flag_barcode = false;
 				   }else{
 					  $flag_barcode = true;
@@ -42,7 +41,7 @@
 				}
 			}
 
-			if($cantidad == ""){
+			if($cantidad == "" || $cantidad == null){
 				$cantidad = 0;
 			}
 			
@@ -116,7 +115,6 @@
 				"tipo_producto" => $tipo_producto,				
 				"nombre" => $nombre,
 				"descripcion" => $descripcion,
-				"cantidad" => $cantidad,
 				"precio_compra" => $precio_compra,
 				"porcentaje_venta" => $porcentaje_venta,
 				"precio_venta" => $precio_venta,
@@ -160,21 +158,25 @@
 								$tipo_productos = $valores2['tipo_producto'];			
 							}		
 	
-							$salida = 0;
 							$datos_movimientos_productos = [
+
 								"productos_id" => $productos_id,
+								"documento" => 'Creacion de Producto',
 								"cantidad_entrada" => $cantidad,				
-								"cantidad_salida" => $salida,
-								"saldo" => $cantidad,
+								"cantidad_salida" => 0,
+								"saldo" => 0,
 								"fecha_registro" => $fecha_registro,
-								"empresa" => $empresa,							
-							];		
+								"empresa" => $empresa,
+								"clientes_id" => '',
+								"comentario"  => '',
+								"almacen_id" => $almacen_id
+
+							];
 								
-							if($cantidad > 0){
-								if ($tipo_productos == "Producto" || $tipo_productos == "Insumos"){
-									productosModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
-								}
+							if ($tipo_productos == "Producto" || $tipo_productos == "Insumos"){
+								productosModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
 							}
+							
 							
 							$alert = [
 								"alert" => "save_simple",
@@ -186,7 +188,7 @@
 								"form" => "formProductos",	
 								"id" => "proceso_productos",
 								"valor" => "Registro",
-								"funcion" => "listar_productos();",
+								"funcion" => "listar_productos();getProductos();getCategoriaProductos();getTipoProducto();getAlmacen();getMedida(0);getEmpresaProductos();",
 								"modal" => "",
 							];
 						}else{
@@ -306,7 +308,7 @@
 					"form" => "formProductos",	
 					"id" => "proceso_productos",
 					"valor" => "Editar",
-					"funcion" => "listar_productos();",
+					"funcion" => "listar_productos();getProductos();getCategoriaProductos();getTipoProducto();getAlmacen();getMedida(0);getEmpresaProductos();",
 					"modal" => "",
 				];
 			}else{
@@ -323,65 +325,159 @@
 		}
 		
 		public function edit_bodega_productos_controlador(){
-			$productos_id = mainModel::cleanString($_POST['productos_id']);		
-			$bodega = mainModel::cleanString($_POST['id_bodega']);
-					
-			$datos = [
-				"productos_id" => $productos_id,
-				"bodega" => $bodega						
-			];
-
-			$query = productosModelo::edit_bodega_productos_modelo($datos);
-			
-			$queryS = productosModelo::consultar_productos_superior($productos_id);
-			while($res = mysqli_fetch_assoc($queryS)){
-				if($res['productos_id'] > 0){
-					$datos = [
-						"productos_id" => $res['productos_id'],
-						"bodega" => $bodega						
-					];
-	
-					$query = productosModelo::edit_bodega_productos_modelo($datos);
-				}
-
+			if(!isset($_SESSION['user_sd'])){ 
+				session_start(['name'=>'SD']); 
 			}
 
-
+			$productos_id = mainModel::cleanString($_POST['productos_id']);	
+			$bodega_actual = mainModel::cleanString($_POST['id_bodega_actual']);
+			$bodega = mainModel::cleanString($_POST['id_bodega']);
+			$cantidad = mainModel::cleanString($_POST['cantidad_movimiento']);
+			$saldoProducto = 0;
 			
-			if($query){
+			if(isset($_POST['movimiento_comentario'])){
+				$comentario = mainModel::cleanString($_POST['movimiento_comentario']);
+			}else{
+				$comentario = "";
+			}
+			
+			if(isset($_POST['movimiento_comentario'])){
+				$clientes_id = mainModel::cleanString($_POST['cliente_movimientos']);
+			}else{
+				$clientes_id = "";
+			}
+
+			$datos = [
+				"productos_id" => $productos_id,
+				"bodega" => $bodega,
+				"cantidad" => $cantidad			
+			];
+	
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$fecha_registro = date("Y-m-d H:i:s");
+			$saldo = 0;
+
+			//Verificamos producto hijo
+			$result_productos = mainModel::getProductoHijo($productos_id);			  								
+
+			if($result_productos->num_rows>0){
+				while($consulta = $result_productos->fetch_assoc()){
+					$id_producto_hijo = intval($consulta['productos_id']);
+					if($id_producto_hijo != 0 || $id_producto_hijo != 'null'){
+						//agregos el producto hijo a la bodega de transferencia
+
+						//OBTENER LA MEDIDA DEL PRODUCTO PADRE
+						$medidaName = strtolower(mainModel::getMedidaProductoPadre($productos_id)->fetch_assoc());
+
+						if($medidaName == "ton"){ // Medida en Toneladas DEL HIJO
+							$quantity = $quantity * 2204.623;
+
+							//OTENEMOS EL SALDO DEL PRODCUTO HIJO
+							$consultaSaldoProductoHijo = mainModel::getSaldoProductosMovimientosBodega($productos_id, $bodega_actual)->fetch_assoc();
+							$saldoProductoHijo = doubleval($consultaSaldoProductoHijo['saldo']);
+
+							$saldoNuevoProductoHijo = $saldoProductoHijo + doubleval($quantity);
+
+							$datosHijo = [
+								"productos_id" => $id_producto_hijo,
+								"cantidad_entrada" => $quantity,
+								"cantidad_salida" => 0,
+								"saldo" => $saldoNuevoProductoHijo,	
+								"fecha_registro" => $fecha_registro,
+								"empresa" => $empresa_id,
+								"comentario" => $comentario,
+								"clientes_id" => $clientes_id,
+								"almacen_id" => $bodega
+							];
+							
+							$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datosHijo);							
+						}
+					}
+				}
+			}				
+				
+			//OTENEMOS EL SALDO DEL PRODCUTO
+			$consultaSaldoBodegaActual = mainModel::getSaldoProductosMovimientosBodega($productos_id, $bodega_actual)->fetch_assoc();
+			$saldoProductoBodegaActual = doubleval($consultaSaldoBodegaActual['saldo']);
+
+			$consultaSaldoBodegaNueva = mainModel::getSaldoProductosMovimientosBodega($productos_id, $bodega)->fetch_assoc();
+			$saldoProductoBodegaNueva = doubleval($consultaSaldoBodegaNueva['saldo']);
+
+			$saldoBodegaNueva = $saldoProductoBodegaNueva + doubleval($cantidad);
+
+			//INGRESAMOS EL NUEVO REGISTRO EN LA ENTIDAD MOVIMIENTOS
+			$datos = [
+				"productos_id" => $productos_id,
+				"cantidad_entrada" => $cantidad,
+				"cantidad_salida" => 0,
+				"saldo" => $saldoBodegaNueva,	
+				"fecha_registro" => $fecha_registro,
+				"empresa" => $empresa_id,
+				"comentario" => $comentario,
+				"clientes_id" => $clientes_id,
+				"almacen_id" => $bodega
+			];
+				
+			$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datos);
+
+			$saldoNuevo = $saldoProducto + doubleval($cantidad);
+
+			$saldoBodegaActual = $saldoProductoBodegaActual - doubleval($cantidad);
+
+			//EGRESO DEL PRODUCTO DE LA BODEGA ACTUAL
+			$datosEgreso = [
+				"productos_id" => $productos_id,
+				"cantidad_entrada" => 0,
+				"cantidad_salida" => $cantidad,
+				"saldo" => $saldoBodegaActual,	
+				"fecha_registro" => $fecha_registro,
+				"empresa" => $empresa_id,
+				"comentario" => $comentario,
+				"clientes_id" => $clientes_id,
+				"almacen_id" => $bodega_actual
+
+			];
+
+			$queryEgreso = mainModel::agregar_movimiento_productos_modelo($datosEgreso);
+			
+			if($queryEgreso && $queryIngreso){
 				$alert = [
 					"alert" => "edit",
-					"title" => "Registro modificado",
-					"text" => "El registro se ha modificado correctamente",
+					"title" => "Agregar Movimiento Almacen",
+					"text" => "El registro se ha almacenado correctamente",
 					"type" => "success",
 					"btn-class" => "btn-primary",
 					"btn-text" => "¡Bien Hecho!",
-					"form" => "formTransferencia",	
-					"id" => "proceso_productos",
+					"form" => "formMovimientos",	
+					"id" => "proceso_movimientos",
 					"valor" => "Editar",
-					"funcion" => "inventario_transferencia();",
-					"modal" => "modal_transferencia_producto",
-				];				
+					"funcion" => "inventario_transferencia();getAlmacen();getTipoProductos();getProductoOperacion();getTipoProductosMovimientos();",
+					"modal" => "",
+				];
 			}else{
 				$alert = [
 					"alert" => "simple",
-					"title" => "Ocurrio un error inesperado",
+					"title" => "Ocurrio un error inesperado en almacen",
 					"text" => "No hemos podido procesar su solicitud",
 					"type" => "error",
 					"btn-class" => "btn-danger",					
 				];				
-			}			
+			}		
 			
 			return mainModel::sweetAlert($alert);
 		}
 
 		public function delete_productos_controlador(){
+			if(!isset($_SESSION['user_sd'])){ 
+				session_start(['name'=>'SD']); 
+			}
+
 			$productos_id = $_POST['productos_id'];
 			
-			$result_valid_productos_facturas = productosModelo::valid_productos_factura($productos_id);
-			$result_valid_productos_compras = productosModelo::valid_productos_compras($productos_id);
+			//VALIDAMOS QUE EL PRODCUTO NO TENGA MOVIMIENTOS, PARA PODER ELIMINARSE
+			$result_valid_productos_movimientos = productosModelo::valid_productos_movimientos($productos_id);
 			
-			if($result_valid_productos_facturas->num_rows==0 || $result_valid_productos_compras->num_rows==0 ){
+			if($result_valid_productos_movimientos->num_rows==0 ){
 				$query = productosModelo::delete_productos_modelo($productos_id);
 								
 				if($query){
@@ -395,7 +491,7 @@
 						"form" => "formProductos",	
 						"id" => "proceso_productos",
 						"valor" => "Eliminar",
-						"funcion" => "listar_productos();",
+						"funcion" => "listar_productos();getProductos();getCategoriaProductos();getTipoProducto();getAlmacen();getMedida(0);getEmpresaProductos();",
 						"modal" => "modal_registrar_productos",
 					];
 				}else{
@@ -420,3 +516,4 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
+?>	

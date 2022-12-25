@@ -36,7 +36,7 @@
 						"form" => "formUbicacion",
 						"id" => "pro_ubicacion",
 						"valor" => "Registro",	
-						"funcion" => "listar_ubicacion();",
+						"funcion" => "listar_ubicacion();getEmpresaUbicacion();",
 						"modal" => "",
 					];
 				}else{
@@ -90,7 +90,7 @@
 					"form" => "formUbicacion",	
 					"id" => "pro_ubicacion",
 					"valor" => "Editar",
-					"funcion" => "listar_ubicacion();",
+					"funcion" => "listar_ubicacion();getEmpresaUbicacion();",
 					"modal" => "",
 				];
 			}else{
@@ -125,7 +125,7 @@
 						"form" => "formUbicacion",	
 						"id" => "pro_ubicacion",
 						"valor" => "Eliminar",
-						"funcion" => "listar_ubicacion();",
+						"funcion" => "listar_ubicacion();getEmpresaUbicacion();",
 						"modal" => "modal_ubicacion",
 					];
 				}else{
@@ -150,3 +150,4 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
+?>	

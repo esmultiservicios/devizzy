@@ -79,7 +79,6 @@
 		</div>
 	</div>	
 </div>
-
 <?php
 	require_once "./core/mainModel.php";
 	

@@ -25,3 +25,4 @@
 		1 => $apertura_id, 					
 	);
 	echo json_encode($datos);
+?>	

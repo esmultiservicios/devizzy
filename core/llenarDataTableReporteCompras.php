@@ -35,6 +35,21 @@
 	   $descuento = number_format($descuento,2);
 	   $total = $row['total'];
 
+	   if($row['tipo_documento'] == 'Contado'){
+			$color = 'bg-c-green';
+	   }
+
+	   if($row['tipo_documento'] == 'Crédito'){
+			//CONSULTAMOS LOS PAGOS DEL CLIENTE
+			$result_cxpFacturaCompraPago = $insMainModel->consultaCXPagoFacturaCompras($compras_id);
+
+			if($result_cxpFacturaCompraPago->num_rows>0){
+				$color = 'bg-c-green';
+			}else{
+				$color = 'bg-warning';
+			}			
+	   }	   
+
 	   $data[] = array( 
 		  "compras_id"=>$row['compras_id'],
 		  "fecha"=>$row['fecha'],
@@ -44,7 +59,8 @@
 		  "subtotal"=>'L. '.$subtotal,	
 		  "isv"=>'L. '.$isv,	
 		  "descuento"=>'L. '.$descuento,
-		  "total"=>'L. '.$total	    
+		  "total"=>'L. '.$total	,
+		  "color"=> $color,   
 	  );		
 	}
 	
@@ -56,3 +72,4 @@
 	);
 
 	echo json_encode($arreglo);	
+?>	

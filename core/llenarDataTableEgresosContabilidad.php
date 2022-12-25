@@ -6,6 +6,7 @@
 	$insMainModel = new mainModel();
 	
 	$datos = [
+		"estado" => $_POST['estado'],
 		"fechai" => $_POST['fechai'],
 		"fechaf" => $_POST['fechaf'],		
 	];	
@@ -39,3 +40,4 @@
 	);
 
 	echo json_encode($arreglo);
+?>	

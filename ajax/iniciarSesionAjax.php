@@ -8,8 +8,12 @@
 		
 		$login = new loginControlador();
 		
-		echo $login->iniciar_sesion_controlador();
-	
+		if($login->validar_pago_pendiente_main_server_controlador() == 1){
+			echo $login->iniciar_sesion_controlador();
+		}else{
+			echo $login->validar_pago_pendiente_main_server_controlador();
+		}
+
 		$insMainModel = new mainModel();
 
 		//mainModel::guardar_historial_accesos("Inicio de Sesion");
@@ -24,3 +28,4 @@
 				});			
 			</script>";
 	}
+?>

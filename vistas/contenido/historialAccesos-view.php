@@ -36,10 +36,7 @@
 						</div>
 						<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
 					</div>
-				  </div>
-				  <div class="form-group mx-sm-2 mb-1">
-               		 <button class="consultar btn btn-secondary ml-2" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
-			 	 </div>              
+				  </div>             
 			</form>	           
         </div>
     </div>
@@ -82,7 +79,6 @@
         </div>
     </div>
 </div>
-
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Historial de Accesos");
 ?>

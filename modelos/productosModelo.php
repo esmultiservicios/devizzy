@@ -10,7 +10,7 @@
 			$productos_id = mainModel::correlativo("productos_id", "productos");
 			$insert = "INSERT INTO productos VALUES('$productos_id','".$datos['bar_code_product']."','".$datos['almacen_id']."',
 			'".$datos['medida_id']."','".$datos['categoria_id']."','".$datos['nombre']."','".$datos['descripcion']."',
-			'".$datos['tipo_producto']."','".$datos['cantidad']."','".$datos['precio_compra']."','".$datos['porcentaje_venta']."',
+			'".$datos['tipo_producto']."','".$datos['precio_compra']."','".$datos['porcentaje_venta']."',
 			'".$datos['precio_venta']."','".$datos['cantidad_mayoreo']."','".$datos['precio_mayoreo']."','".$datos['cantidad_minima']."',
 			'".$datos['cantidad_maxima']."','".$datos['estado']."','".$datos['isv_venta']."','".$datos['isv_compra']."',
 			'".$datos['colaborador_id']."','".$datos['file']."','".$datos['empresa']."','".$datos['fecha_registro']."',
@@ -22,10 +22,13 @@
 		
 		protected function agregar_movimientos_productos_modelo($datos){
 			$movimientos_id = mainModel::correlativo("movimientos_id", "movimientos");
-			$documento = "entrada productos ".$movimientos_id;
+			$documento = "Entrada Productos ".$movimientos_id;
 			$insert = "INSERT INTO movimientos 
-				VALUES('$movimientos_id','".$datos['productos_id']."','$documento','".$datos['cantidad_entrada']."','".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."','0','')";
-
+				VALUES(
+					'$movimientos_id','".$datos['productos_id']."','$documento','".$datos['cantidad_entrada']."',
+				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
+				'".$datos['clientes_id']."','".$datos['comentario']."','".$datos['almacen_id']."')";
+					
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 		
 			return $result;			
@@ -81,24 +84,15 @@
 		
 			return $sql;			
 		}
-		
-		protected function valid_productos_factura($productos_id){
-			$query = "SELECT facturas_id 
-				FROM facturas_detalles 
+
+		protected function valid_productos_movimientos($productos_id){
+			$query = "SELECT movimientos_id  
+				FROM movimientos 
 				WHERE productos_id = '$productos_id'";
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;			
-		}
-		
-		protected function valid_productos_compras($productos_id){
-			$query = "SELECT compras_id 
-				FROM compras_detalles 
-				WHERE productos_id = '$productos_id'";
-			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
-			
-			return $sql;			
-		}
+		}		
 		
 		protected function consultar_codigo_producto($producto){
 			$query = "SELECT productos_id
@@ -125,3 +119,4 @@
 			return $result;			
 		}		
 	}
+?>	

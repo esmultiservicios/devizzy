@@ -15,4 +15,4 @@
 	}
 	
 	echo number_format($totalBills,2);
-	
+?>	

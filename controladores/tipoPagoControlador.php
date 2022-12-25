@@ -15,12 +15,19 @@
 				$cuentas_id = 2;
 			}
 
+			if (isset($_POST['confTipoCuenta'])){
+				$tipo_cuenta = $_POST['confTipoCuenta'];
+			}else{
+				$tipo_cuenta = 0;
+			}			
+
 			$estado = 1;
 
 			$fecha_registro = date("Y-m-d H:i:s");	
 			
 			$datos = [
 				"cuentas_id" => $cuentas_id,
+				"tipo_cuenta" => $tipo_cuenta,
 				"nombre" => $nombre,
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,				
@@ -42,7 +49,7 @@
 						"form" => "formConfTipoPago",
 						"id" => "pro_tipoPago",
 						"valor" => "Registro",	
-						"funcion" => "listar_tipo_pago_contabilidad();",
+						"funcion" => "listar_tipo_pago_contabilidad();getCuentaTipoPago();getTipoCuenta();",
 						"modal" => "",
 					];
 				}else{
@@ -106,7 +113,7 @@
 					"form" => "formConfTipoPago",	
 					"id" => "pro_tipoPago",
 					"valor" => "Editar",
-					"funcion" => "listar_tipo_pago_contabilidad();",
+					"funcion" => "listar_tipo_pago_contabilidad();getCuentaTipoPago();getTipoCuenta();",
 					"modal" => "",
 				];
 			}else{
@@ -141,7 +148,7 @@
 						"form" => "formConfTipoPago",	
 						"id" => "pro_tipoPago",
 						"valor" => "Eliminar",
-						"funcion" => "listar_tipo_pago_contabilidad();",
+						"funcion" => "listar_tipo_pago_contabilidad();getCuentaTipoPago();getTipoCuenta();",
 						"modal" => "modalConfTipoPago",
 					];
 				}else{
@@ -166,3 +173,4 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
+?>	

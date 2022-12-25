@@ -25,3 +25,5 @@
 		"data" => $data
 	);	
 	echo json_encode($arreglo);
+	
+?>	

@@ -21,5 +21,7 @@
 		8 => $valores2['fecha_activacion'],
 		9 => $valores2['fecha_limite'],
 		10 => $valores2['activo'],					
+		11 => $valores2['documento_id'],
 	);
 	echo json_encode($datos);
+?>	

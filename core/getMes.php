@@ -6,4 +6,4 @@
 	$insMainModel = new mainModel();
 		
 	echo $insMainModel->nombremes(date("m"));
-	
+?>	

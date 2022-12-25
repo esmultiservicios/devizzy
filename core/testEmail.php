@@ -13,3 +13,5 @@
 	$CharSet = "UTF-8";
 
 	$result = $insMainModel->testingMail($servidor, $correo, $contraseña, $puerto, $SMTPSecure, $CharSet);
+	
+?>	

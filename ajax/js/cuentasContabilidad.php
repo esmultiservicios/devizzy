@@ -26,11 +26,96 @@ var listar_cuentas_contabilidad = function(){
 		"columns":[
 			{"data":"codigo"},
 			{"data":"nombre"},
-			{"data":"saldo_anterior"},			
-			{"data":"ingreso"},
-			{"data":"egreso"},
-			{"data":"saldo_cierre"},
-			{"data":"neto"},
+			{"data":"saldo_anterior",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},			
+			{"data":"ingreso",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"egreso",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"saldo_cierre",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
+			{"data":"neto",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },
+			},
 			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}			
 		],			
@@ -60,7 +145,7 @@ var listar_cuentas_contabilidad = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
+				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Ingresar',
 				titleAttr: 'Agregar Cuentas',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){
@@ -242,5 +327,6 @@ $('#formCuentasContables .switch').change(function(){
         $('#formCuentasContables #label_cuentas_activo').html("Inactivo");
         return false;
     }
-});	
+});
+	
 </script>

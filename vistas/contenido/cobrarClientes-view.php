@@ -7,37 +7,32 @@
         <div class="card-body">		
 			<form class="form-inline" id="form_main_cobrar_clientes">
 				<div class="form-group mx-sm-3 mb-1">
-					<div class="input-group">				
-						<div class="input-group-append">				
+					<div class="input-group">
+						<div class="input-group-append">
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
-						</div>
-						<select id="tipo_busqueda" name="tipo_busqueda" class="custom-select" data-toggle="tooltip" data-placement="top" title="Tipo Busqueda">
-							<option value="1">Pendiente</option>
-							<option value="2">Cancelado</option>
-					  	</select>
+							<select id="cobrar_clientes_estado" name="cobrar_clientes_estado" class="selectpicker" title="Estado" data-live-search="true">
+								<option value="1">Pendientes</option>
+								<option value="2">Pagadas</option>
+							</select>
+						</div>	
+					</div>		
+				</div>	
+				<div class="form-group mx-sm-3 mb-1">
+					<div class="input-group">
+						<div class="input-group-append">
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Clientes</span>
+							<select id="cobrar_clientes" name="cobrar_clientes" class="selectpicker" title="Clientes" data-live-search="true">
+								<option value="">Seleccione</option>
+								</select>
+						</div>	
 					</div>
-				</div>				
+				</div>								
 				<div class="form-group mx-sm-3 mb-1">
 					<div class="input-group">				
 						<div class="input-group-append">				
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
 						</div>
-						<input type="date" required id="fechai" name="fechai" value="<?php 
-						$fecha = date ("Y-m-d");
-						
-						$año = date("Y", strtotime($fecha));
-						$mes = date("m", strtotime($fecha));
-						$dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
-
-						$dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
-						$dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
-
-						$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
-						$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));						
-						
-						
-						echo $fecha_inicial;
-					?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
+						<input type="date" required id="fechai" name="fechai" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
 					</div>
 				  </div>	
 				  <div class="form-group mx-sm-3 mb-1">
@@ -47,10 +42,7 @@
 						</div>
 						<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
 					</div>
-				  </div>
-				  <div class="form-group mx-sm-2 mb-1">
-               		 <button class="consultar btn btn-secondary ml-2" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
-			 	 </div>   				  
+				  </div>				  
 			</form>   			
         </div>
     </div>    
@@ -70,21 +62,22 @@
                             <th>Crédito</th>
                             <th>Abonos</th>
                             <th>Saldo</th>		
+							<th>Vendedor</th>
                             <th>Abonar</th>
-							<th>Detalle</th>		
-							<th>Abonos Realizados</th>			
+							<th>Abonos Realizados</th>							
+							<th>Factura</th>				
                         </tr>
                     </thead>
 					<tfoot class="bg-info text-white font-weight-bold">
-							<tr>
-								<td colspan='1'>Total</td>
-								<td colspan="3"></td>
-								<td id="credito-cxc"></td>
-								<td id="abono-cxc"></td>
-								<td colspan='1' id='total-footer-cxc'></td>
-								<td colspan="2"></td>
-							</tr>
-						</tfoot>
+						<tr>
+							<td colspan='1'>Total</td>
+							<td colspan="2"></td>
+							<td id="credito-cxc"></td>
+							<td id="abono-cxc"></td>
+							<td colspan='1' id='total-footer-cxc'></td>
+							<td colspan="4"></td>
+						</tr>
+					</tfoot>
                 </table>  
             </div>                   
             </div>
@@ -109,7 +102,6 @@
         </div>
     </div>
 </div>
-
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Cuentas por Cobrar Clientes");
 ?>

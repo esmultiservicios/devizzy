@@ -12,7 +12,7 @@
 							<div class="input-group-append">				
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
 							</div>
-							<select id="estado_cajas" name="estado_cajas" class="custom-select" data-toggle="tooltip" data-placement="top" title="Estado">
+							<select id="estado_cajas" name="estado_cajas" class="selectpicker" data-toggle="tooltip" data-placement="top" title="Estado" data-live-search="true">
 								<option value="1">Activas</option>
 								<option value="2">Cerrada</option>
 							</select>
@@ -47,10 +47,7 @@
 						</div>
 						<input type="date" class="form-control" id="fecha_cajas_f" name="fecha_cajas_f" value="<?php echo date('Y-m-d');?>">
 					</div>
-				</div>			  
-				<div class="form-group mx-sm-2">
-					<button class="consultar btn btn-secondary" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
-				</div> 							  
+				</div>						  
 			</form>	           
         </div>
     </div>	
@@ -99,7 +96,6 @@
 			</div>
 		</div>
 	</div>	
-
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Cajas");
 ?>

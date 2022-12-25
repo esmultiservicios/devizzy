@@ -22,3 +22,4 @@
 		$usuario_sistema_nombre = $nombre_usuario." ".$nombre_apellido;
 		echo $usuario_sistema_nombre;
 	}
+?>	

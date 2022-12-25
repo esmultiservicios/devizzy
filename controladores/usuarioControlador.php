@@ -11,7 +11,7 @@
 				session_start(['name'=>'SD']); 
 			}
 
-			$colaborador_id = mainModel::cleanString($_POST['usuarios_colaborador_id']);
+			$colaborador_id = mainModel::cleanString($_POST['colaborador_id_usuario']);
 			$colaborador = mainModel::cleanString($_POST['colaborador_id_usuario']);
 			$privilegio_id = mainModel::cleanString($_POST['privilegio_id']);			
 			$nickname = mainModel::cleanString($_POST['nickname']);	
@@ -167,7 +167,7 @@
 								"form" => "formUsers",
 								"id" => "proceso_usuarios",
 								"valor" => "Registro",
-								"funcion" => "listar_usuarios();",
+								"funcion" => "listar_usuarios();getTipoUsuario();getPrivilegio();getEmpresaUsers();getColaboradoresUsuario();",
 								"modal" => ""
 							];
 						}else{
@@ -243,7 +243,7 @@
 					"form" => "formUsers",	
 					"id" => "proceso_usuarios",
 					"valor" => "Editar",
-					"funcion" => "listar_usuarios();",
+					"funcion" => "listar_usuarios();getTipoUsuario();getPrivilegio();getEmpresaUsers();getColaboradoresUsuario();",
 					"modal" => ""
 				];
 			}else{
@@ -278,7 +278,7 @@
 						"form" => "formUsers",	
 						"id" => "proceso_usuarios",
 						"valor" => "Eliminar",
-						"funcion" => "listar_usuarios();",
+						"funcion" => "listar_usuarios();getTipoUsuario();getPrivilegio();getEmpresaUsers();getColaboradoresUsuario();",
 						"modal" => "modal_registrar_usuarios"
 					];
 				}else{
@@ -303,3 +303,4 @@
 			return mainModel::sweetAlert($alert);
 		}
     }
+?>	

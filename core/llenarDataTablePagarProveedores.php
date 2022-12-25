@@ -6,7 +6,8 @@
 	$insMainModel = new mainModel();
 	
 	$datos = [
-		"tipo_busqueda" => $_POST['tipo_busqueda'],
+		"estado" => $_POST['estado'],
+		"proveedores_id" => $_POST['proveedores_id'],		
 		"fechai" => $_POST['fechai'],
 		"fechaf" => $_POST['fechaf'],		
 	];	
@@ -15,7 +16,7 @@
 	
 	$arreglo = array();
 	$data = array();
-
+	$estadoColor = 'bg-warning';
 	$credito = 0.00;
 	$abono = 0.00;
 	$saldo = 0.00;
@@ -30,18 +31,26 @@
 			$abono = 0.00;
 		}
 
-		$credito = $row['saldo'];
-		$saldo = $row['saldo'] - $abono;
-								
+		$credito = $row['importe'];
+		$saldo = $row['importe'] - $abono;
+					
+		if($row['estado'] == 2){
+			$estadoColor = 'bg-c-green';
+		}
+
 		$data[] = array( 
-			"pagar_proveedores_id"=>$row['pagar_proveedores_id'],
 			"compras_id"=>$row['compras_id'],
 			"fecha"=>$row['fecha'],
 			"proveedores"=>$row['proveedores'],
 			"factura"=>$row['factura'],
 			"credito"=>'L. '.$credito,
 			"abono"=>'L. '.$abono,			
-			"saldo"=>'L. '.$row['saldo']		  
+			"saldo"=>$saldo,
+			"color"=> $estadoColor,
+			"estado"=>$row['estado'],
+			"total_credito"=> number_format($credito,2),
+			"total_abono"=>number_format($abono,2),
+			"total_pendiente"=> number_format($saldo,2)		  
 		);		
 	}
 	
@@ -53,3 +62,4 @@
 	);
 
 	echo json_encode($arreglo);
+?>	

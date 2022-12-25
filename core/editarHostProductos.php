@@ -16,3 +16,4 @@
 		3 => $valores2['cantidad']								
 	);
 	echo json_encode($datos);
+?>

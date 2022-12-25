@@ -25,3 +25,4 @@
 		12 => $valores2['horario'],						
 	);
 	echo json_encode($datos);
+?>	

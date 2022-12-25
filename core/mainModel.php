@@ -23,35 +23,21 @@
 
             return $mysqli;
         }
-
 		
-
 		public function consulta_total_ingreso($query){
 			$result = self::connection()->query($query);
 	
 			return $result;
 		}
 
-
 		//FUNCION CORRELATIVO
 
 		protected function correlativo($campo_id, $tabla){
-
 			$query = "SELECT MAX(".$campo_id.") AS max, COUNT(".$campo_id.") AS count FROM ".$tabla;
-
 			$result = self::connection()->query($query);
-
-
-
 			$correlativo2 = $result->fetch_assoc();
-
-
-
 			$numero = $correlativo2['max'];
-
 			$cantidad = $correlativo2['count'];
-
-
 
 			if ( $cantidad == 0 )
 
@@ -88,10 +74,7 @@
 			$bitacoraYear = $datos['bitacoraYear'];
 
 			$user_id = $datos['user_id'];
-
 			$fecha_registro = date("Y-m-d H:i:s");
-
-
 
 			$insert = "INSERT INTO bitacora
 
@@ -368,14 +351,53 @@
 			pagos_detalles.descripcion1,
 			facturas.importe,
 			clientes.nombre as cliente,
-            tipo_pago.nombre as tipo_pago
-			FROM
-			pagos
+            tipo_pago.nombre as tipo_pago,
+			sf.prefijo AS 'prefijo', 
+			sf.siguiente AS 'numero', 
+			sf.relleno AS 'relleno',
+			sf.prefijo AS 'prefijo',
+			CONCAT(colaboradores.nombre, ' ', colaboradores.apellido) AS 'usuario'
+			FROM pagos
 			LEFT JOIN pagos_detalles ON pagos.pagos_id = pagos_detalles.pagos_id
 			INNER JOIN facturas ON facturas.facturas_id = pagos.facturas_id
 			INNER JOIN clientes ON facturas.clientes_id = clientes.clientes_id
-            INNER JOIN tipo_pago ON pagos.tipo_pago = tipo_pago.tipo_pago_id
+            INNER JOIN tipo_pago ON pagos_detalles.tipo_pago_id = tipo_pago.tipo_pago_id
+			INNER JOIN secuencia_facturacion AS sf ON facturas.secuencia_facturacion_id = sf.secuencia_facturacion_id
+			INNER JOIN colaboradores ON pagos.usuario = colaboradores.colaboradores_id
 			WHERE pagos.facturas_id = '$facturas_id'";
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+
+			return $sql;
+		}
+
+		public function abonos_cxp_proveedor($facturas_id){
+			$query = "SELECT
+			pagoscompras.importe AS total,
+			pagoscompras.pagoscompras_id,
+			pagoscompras.compras_id,
+			pagoscompras.tipo_pago,
+			pagoscompras.fecha,
+			pagoscompras.efectivo,
+			pagoscompras.cambio,
+			pagoscompras.tarjeta,
+			pagoscompras.usuario,
+			pagoscompras.estado,
+			pagoscompras.empresa_id,
+			pagoscompras.fecha_registro,
+			proveedores.nombre,
+			compras.importe,
+			tipo_pago.nombre as tipoPago,
+			pagoscompras_detalles.descripcion1,
+			compras.number AS factura,
+			CONCAT(colaboradores.nombre, ' ', colaboradores.apellido) AS 'usuario'
+			FROM compras
+			INNER JOIN pagoscompras ON compras.compras_id = pagoscompras.compras_id
+			INNER JOIN pagoscompras_detalles ON pagoscompras_detalles.pagoscompras_id = pagoscompras.pagoscompras_id
+			INNER JOIN tipo_pago ON pagoscompras_detalles.tipo_pago_id = tipo_pago.tipo_pago_id
+			INNER JOIN proveedores ON proveedores.proveedores_id = compras.proveedores_id
+			INNER JOIN colaboradores ON pagoscompras.usuario = colaboradores.colaboradores_id
+			WHERE
+				compras.compras_id ='$facturas_id'";
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 
@@ -836,481 +858,219 @@
 
         }
 
-
-
         protected function sweetAlert($datos){
-
             if($datos['alert'] == "simple"){
-
                 $alerta = "
-
                     <script>
-
                         swal({
-
                             title: '".$datos['title']."',
-
                             text: '".$datos['text']."',
-
                             type: '".$datos['type']."',
-
                             confirmButtonClass: '".$datos['btn-class']."',
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
                         });
-
                     </script>
-
                 ";
-
             }elseif($datos['alert'] == "reload"){
-
                 $alerta = "
-
                     <script>
-
                         swal({
-
                             title: '".$datos['title']."',
-
                             text: '".$datos['text']."',
-
                             type: '".$datos['type']."',
-
                             showCancelButton: true,
-
 							timer: 3000,
-
                             confirmButtonClass: '".$datos['btn-class']."',
-
                             confirmButtonText: '".$datos['btn-text']."',
-
                             closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
                         },
-
                         function(){
-
                             location.reload();
-
                         });
-
                     </script>
-
                 ";
-
             }elseif($datos['alert'] == "cerrar"){
-
                 $alerta = "
-
                     <script>
-
                         swal({
-
                             title: '".$datos['title']."',
-
                             text: '".$datos['text']."',
-
                             type: '".$datos['type']."',
-
                             showCancelButton: true,
-
 							timer: 3000,
-
                             confirmButtonClass: '".$datos['btn-class']."',
-
                             confirmButtonText: '".$datos['btn-text']."',
-
                             closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
                         },
-
                         function(dismiss){
-
                             redireccionar();
-
 							if(dismiss == 'cancel'){
-
 								redireccionar();
-
 							}
-
                         });
-
                     </script>
-
                 ";
-
 				self::cerrar_sesion();
-
             }elseif($datos['alert'] == "clear"){
-
                 $alerta = "
-
                     <script>
-
 						swal({
-
 							title: '".$datos['title']."',
-
 							text: '".$datos['text']."',
-
 							type: '".$datos['type']."',
-
 							showCancelButton: false,
-
 							timer: 3000,
-
 							confirmButtonClass: '".$datos['btn-class']."',
-
 							confirmButtonText: '".$datos['btn-text']."',
-
 							closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
 						});
 
-
-
 						$('#".$datos['form']."')[0].reset();
-
 						$('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
 						".$datos['funcion'].";
-
 						$('#".$datos['modal']."').modal('hide');
-
                     </script>
-
                 ";
-
             }elseif($datos['alert'] == "clear_pay"){
-
-				echo $datos['alert'];
                 $alerta = "
-
                     <script>
-
 						swal({
-
 							title: '".$datos['title']."',
-
 							text: '".$datos['text']."',
-
 							type: '".$datos['type']."',
-
 							showCancelButton: false,
-
 							confirmButtonClass: '".$datos['btn-class']."',
-
 							confirmButtonText: '".$datos['btn-text']."',
-
 							closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
-							
-
 						});
-
 						location.reload();
-
 						$('#".$datos['form']."')[0].reset();
-
 						$('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
 						".$datos['funcion'].";
-
 						$('#".$datos['modal']."').modal('hide');
-
-                        
-
-
                     </script>
-
                 ";
-
             }elseif($datos['alert'] == "save_simple"){
-
                 $alerta = "
-
                     <script>
-
 						swal({
-
 							title: '".$datos['title']."',
-
 							text: '".$datos['text']."',
-
 							type: '".$datos['type']."',
-
 							showCancelButton: false,
-
 							timer: 3000,
-
 							confirmButtonClass: '".$datos['btn-class']."',
-
 							confirmButtonText: '".$datos['btn-text']."',
-
 							closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
 						});
-
-
 
 						$('#".$datos['form']."')[0].reset();
-
 						$('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
 						".$datos['funcion'].";
-
 						$('#".$datos['modal']."').modal('hide');
-
                     </script>
-
                 ";
-
             }elseif($datos['alert'] == "save"){
-
                 $alerta = "
-
                     <script>
-
 						swal({
-
 							title: '".$datos['title']."',
-
 							text: '".$datos['text']."',
-
 							type: '".$datos['type']."',
-
 							showCancelButton: false,
-
 							timer: 3000,
-
 							confirmButtonClass: '".$datos['btn-class']."',
-
 							confirmButtonText: '".$datos['btn-text']."',
-
 							closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
 						});
-
-
 
 					    $('#".$datos['form']."')[0].reset();
-
 					    $('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
 					    ".$datos['funcion'].";
-
 					    $('#".$datos['modal']."').modal('hide');
-
                     </script>
 
                 ";
 
             }elseif($datos['alert'] == "delete"){
-
                 $alerta = "
-
                     <script>
-
 						swal({
-
 							title: '".$datos['title']."',
-
 							text: '".$datos['text']."',
-
 							type: '".$datos['type']."',
-
 							showCancelButton: false,
-
 							timer: 3000,
-
 							confirmButtonClass: '".$datos['btn-class']."',
-
 							confirmButtonText: '".$datos['btn-text']."',
-
 							closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
 						});
-
-
 
 					    $('#".$datos['form']."')[0].reset();
-
 					    $('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
 					    ".$datos['funcion'].";
-
 					    $('#".$datos['modal']."').modal('hide');
-
                     </script>
-
                 ";
-
             }elseif($datos['alert'] == "edit"){
-
                 $alerta = "
-
                     <script>
-
 						swal({
-
 							title: '".$datos['title']."',
-
 							text: '".$datos['text']."',
-
 							type: '".$datos['type']."',
-
 							showCancelButton: false,
-
 							timer: 3000,
-
 							confirmButtonClass: '".$datos['btn-class']."',
-
 							confirmButtonText: '".$datos['btn-text']."',
-
 							closeOnConfirm: false,
-
 							allowEscapeKey: false,
-
 							allowOutsideClick: false
-
 						});
 
-
-
 					    $('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
 					    ".$datos['funcion'].";
-
 					    $('#".$datos['modal']."').modal('hide');
-
                     </script>
-
                 ";
-
-            }elseif($datos['alert'] == "edit"){
-
-                $alerta = "
-
-                    <script>
-
-						swal({
-
-							title: '".$datos['title']."',
-
-							text: '".$datos['text']."',
-
-							type: '".$datos['type']."',
-
-							showCancelButton: false,
-
-							timer: 3000,
-
-							confirmButtonClass: '".$datos['btn-class']."',
-
-							confirmButtonText: '".$datos['btn-text']."',
-
-							closeOnConfirm: false,
-
-							allowEscapeKey: false,
-
-							allowOutsideClick: false
-
-						});
-
-
-
-					    $('#".$datos['form']." #".$datos['id']."').val('".$datos['valor']."');
-
-					    ".$datos['funcion'].";
-
-					    $('#".$datos['modal']."').modal('hide');
-
-                    </script>
-
-                ";
-
             }
 
-
-
 			return $alerta;
-
         }
 
-
-
 		function cerrar_sesion(){
-
 			if(!isset($_SESSION['user_sd'])){
-
 				session_start(['name'=>'SD']);
 
 			}
 
-
-
 			$token = self::decryption($_SESSION['token_sd']);
-
 			$hora = date("H:m:s");
-
-
-
 			$usuario = $_SESSION['user_sd'];
-
 			$token_s = $_SESSION['token_sd'];
-
 			$token = $token;
-
 			$codigo = $_SESSION['codigo_bitacora_sd'];
-
-
-
 			self::guardar_historial_accesos("Cierre de Sesion");
-
 			session_unset();//VACIAR LA SESION
-
 			session_destroy();//DESTRUIR LA SESION
 
-
-
-			//window.location(SERVERURL."login/");
-
+			window.location(SERVERURL."login/");
 		}
-
-
 
 		public function getProductoBarCodeBill($barCode){
 
@@ -1522,119 +1282,127 @@
 
 		/*FIN CONVERTIR COTIZACION A FACTURA*/
 
-
-
 		public function getEmpresa(){
-
 			$query = "SELECT *
-
 				FROM empresa
-
 				WHERE estado = 1
-
 				ORDER BY nombre";
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
+		public function getDocumento(){
+			$query = "SELECT *
+				FROM documento
+				WHERE estado = 1
+				ORDER BY nombre";
 
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
 
 		public function getCuenta(){
-
 			$query = "SELECT *
-
 				FROM cuentas
-
 				WHERE estado = 1
-
 				ORDER BY nombre";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
+		public function getTipoCuenta(){
+			$query = "SELECT *
+				FROM tipo_cuenta
+				WHERE estado = 1
+				ORDER BY nombre";
+			echo $query."***";
+			$result = self::connection()->query($query);
 
+			return $result;
+		}
 
 		public function getProveedoresConsulta(){
-
 			$query = "SELECT *
-
 				FROM proveedores
-
 				WHERE estado = 1
-
 				ORDER BY nombre";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getClientesConsulta(){
-
 			$query = "SELECT *
-
 				FROM clientes
-
 				WHERE estado = 1
-
 				ORDER BY nombre";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
+		public function getColaboradoresConsulta(){
+			$query = "SELECT colaboradores_id, CONCAT(nombre, ' ', apellido) AS 'nombre'
+				FROM colaboradores
+				WHERE estado = 1
+				ORDER BY nombre";
+			$result = self::connection()->query($query);
 
+			return $result;
+		}		
 
 		public function getDepartamentos(){
-
 			$query = "SELECT *
-
 				FROM departamentos";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getMunicipios($departamentos_id){
-
 			$query = "SELECT *
-
 				FROM municipios WHERE departamentos_id  = '$departamentos_id'";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
+		public function getFacturador(){
+			$query = "SELECT c.colaboradores_id AS 'colaboradores_id', CONCAT(c.nombre, ' ', c.apellido) AS 'nombre', c.identidad AS 'identidad'
+			FROM facturas AS f
+			INNER JOIN colaboradores AS c
+			ON f.usuario = c.colaboradores_id
+			GROUP BY f.usuario";
+			$result = self::connection()->query($query);
 
+			return $result;
+		}
+
+		public function getClientesCXC(){
+			$query = "SELECT c.clientes_id AS 'clientes_id', c.nombre AS 'nombre'
+			FROM cobrar_clientes AS cc
+			INNER JOIN clientes AS c
+			ON cc.clientes_id = c.clientes_id
+			GROUP BY c.nombre";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getProveedoresCXP(){
+			$query = "SELECT p.proveedores_id AS 'proveedores_id', p.nombre AS 'nombre'
+			FROM pagar_proveedores AS pp
+			INNER JOIN proveedores AS p
+			ON pp.proveedores_id = p.proveedores_id
+			GROUP BY p.nombre;";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
 
 		public function getTipoUsuario($datos){
 
@@ -1683,10 +1451,16 @@
 
 
 		public function getCajas($datos){
-			if($datos['privilegio_id'] == 1 || $datos['privilegio_id'] == 2){
-				$where = "WHERE a.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND a.estado = '".$datos['estado']."'";
+			$fecha = date("Y-m-d");
+
+			if($datos['fechai'] == $fecha){
+				$where = "WHERE a.estado = '".$datos['estado']."'";
 			}else{
-				$where = "WHERE a.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND a.colaboradores_id = '".$datos['colaborador_id']."' AND a.estado = '".$datos['estado']."'";
+				if($datos['privilegio_id'] == 1 || $datos['privilegio_id'] == 2){
+					$where = "WHERE a.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND a.estado = '".$datos['estado']."'";
+				}else{
+					$where = "WHERE a.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND a.colaboradores_id = '".$datos['colaborador_id']."' AND a.estado = '".$datos['estado']."'";
+				}
 			}
 
 			$query = "SELECT a.fecha AS 'fecha', a.factura_inicial AS 'factura_inicial', a.factura_final AS 'factura_final', a.apertura AS 'monto_apertura', (CASE WHEN a.estado = '1' THEN 'Activa' ELSE 'Inactiva' END) AS 'caja', CONCAT(c.nombre, ' ', c.apellido) AS 'usuario', a.colaboradores_id AS 'colaboradores_id', a.apertura_id AS 'apertura_id'
@@ -1696,7 +1470,6 @@
 				".$where;
 
 			$result = self::connection()->query($query);
-
 
 			return $result;
 		}
@@ -1721,7 +1494,6 @@
 			return $result;
 
 		}
-
 
 		public function getSaldoMovimientosCuentasSaldoAnterior($cuentas_id, $año, $mes){
 			$query = "SELECT saldo
@@ -1947,57 +1719,334 @@
 
 				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
 		}
-
-
 
 		public function getPuestos(){
-
 			$query = "SELECT *
-
 				FROM puestos
-
 				WHERE estado = 1
-
 				ORDER BY nombre";
 
+			$result = self::connection()->query($query);
 
+			return $result;
+		}
+
+		public function getTipoContrato(){
+			$query = "SELECT *
+				FROM tipo_contrato
+				ORDER BY nombre";
 
 			$result = self::connection()->query($query);
 
+			return $result;
+		}	
 
+		public function getTipoNomina(){
+			$query = "SELECT *
+				FROM tipo_nomina
+				ORDER BY nombre";
+
+			$result = self::connection()->query($query);
 
 			return $result;
+		}			
+		
+		public function getPagoPlanificado(){
+			$query = "SELECT *
+				FROM pago_planificado
+				ORDER BY nombre";
 
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+		
+		public function getTipoEmpleado(){
+			$query = "SELECT *
+				FROM tipo_empleado
+				ORDER BY nombre DESC";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
+		public function getEmpleadoContrato(){
+			$query = "SELECT c.colaborador_id AS colaborador_id, CONCAT(co.nombre, ' ', co.apellido) AS 'nombre', co.identidad AS 'identidad'
+				FROM contrato AS c
+				INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
+				ORDER BY co.nombre";
+				
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
+
+		public function getEmpleadoContratoEdit($colaboradores_id){
+			$query = "SELECT c.colaborador_id AS colaborador_id, CONCAT(co.nombre, ' ', co.apellido) AS 'nombre', co.identidad AS 'identidad', p.nombre AS 'puesto', c.contrato_id AS 'contrato_id', c.salario AS 'salario', co.fecha_ingreso AS 'fecha_ingreso', c.tipo_empleado_id AS 'tipo_empleado_id', c.pago_planificado_id AS 'pago_planificado_id'
+				FROM contrato AS c
+				INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
+				INNER JOIN puestos AS p ON co.puestos_id = p.puestos_id
+				WHERE c.colaborador_id = '".$colaboradores_id."'
+				ORDER BY co.nombre";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+		
+		public function getTotalesNominaDetalle($nomina_id){
+			$query = "SELECT SUM(nd.neto_ingresos) AS 'neto_ingresos', SUM(nd.neto_egresos) AS 'neto_egresos', SUM(nd.neto) AS 'neto'
+				FROM nomina_detalles AS nd
+				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
+				WHERE nd.nomina_id = ".$nomina_id;
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
+		public function actualizarNomina($nomina_id, $importe){
+			$update = "UPDATE nomina
+				SET
+					estado = 1,
+					importe = ".$importe."
+				WHERE nomina_id = '".$nomina_id."'";
+
+			$result = self::connection()->query($update);
+
+			return $result;					
 		}
 
+		public function actualizarNominaDetalles($nomina_id){
+			$update = "UPDATE nomina_detalles
+			SET
+				estado = 1
+			WHERE nomina_id = '".$nomina_id."'";
 
+			$result = self::connection()->query($update);
+
+			return $result;	
+		}		
+		
+		public function getEmpleado(){
+			$query = "SELECT colaboradores_id, CONCAT(nombre, ' ', apellido) AS 'nombre'
+			FROM colaboradores
+			ORDER BY nombre";
+				
+			$result = self::connection()->query($query);
+		
+			return $result;
+		}
+		
+		public function getCuentaNomina($nombre){
+			$query = "SELECT cuentas_id
+			FROM diarios
+			WHERE nombre = '".$nombre."'";
+
+			$result = self::connection()->query($query);
+		
+			return $result;
+		}		
+
+		public function agregarEgresosMainModel($datos){
+			$egresos_id = mainModel::correlativo("egresos_id", "egresos");
+			$insert = "INSERT INTO egresos VALUES('".$egresos_id."','".$datos['cuentas_id']."','".$datos['proveedores_id']."','".$datos['empresa_id']."','".$datos['tipo_egreso']."','".$datos['fecha']."','".$datos['factura']."','".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."','".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
+
+			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}
+		
+		public function agregarMovimientosMainModel($datos){
+			$movimientos_cuentas_id = mainModel::correlativo("movimientos_cuentas_id", "movimientos_cuentas");
+			$insert = "INSERT INTO movimientos_cuentas VALUES('$movimientos_cuentas_id','".$datos['cuentas_id']."','".$datos['empresa_id']."','".$datos['fecha']."','".$datos['ingreso']."','".$datos['egreso']."','".$datos['saldo']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
+			
+			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}	
+		
+		public function consultaSaldoMovimientosMainModel($cuentas_id){
+			$query = "SELECT ingreso, egreso, saldo
+				FROM movimientos_cuentas
+				WHERE cuentas_id = '$cuentas_id'
+				ORDER BY movimientos_cuentas_id DESC LIMIT 1";
+			
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;				
+		}		
+
+		public function validEgresosCuentasMainModel($datos){
+			$query = "SELECT egresos_id FROM egresos WHERE factura = '".$datos['factura']."' AND proveedores_id = '".$datos['proveedores_id']."'";
+
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}
+
+		public function getContratoEdit($datos){
+			$query = "SELECT *
+			FROM contrato";
+				
+			$result = self::connection()->query($query);
+		
+			return $result;
+		}
+
+		public function getContrato($datos){
+			$estado = '';			
+			$tipo_contrato = '';
+			$pago_planificado_id = '';
+			$tipo_empleado = '';
+
+
+			if($datos['tipo_contrato'] != "" || $datos['tipo_contrato'] != 0){
+				$tipo_contrato = "AND c.tipo_contrato_id = '".$datos['tipo_contrato']."'";
+			}	
+			
+			if($datos['pago_planificado'] != "" || $datos['pago_planificado'] != 0){
+				$pago_planificado_id = "AND c.pago_planificado_id = '".$datos['pago_planificado']."'";
+			}
+
+			if($datos['tipo_empleado'] != "" || $datos['tipo_empleado'] != 0){
+				$tipo_empleado = "AND c.tipo_empleado_id = '".$datos['tipo_empleado']."'";
+			}			
+
+			$query = "SELECT c.contrato_id AS contrato_id, CONCAT(co.nombre, ' ', co.apellido) AS 'empleado', tc.nombre AS 'tipo_contrato', pp.nombre AS 'pago_planificado', te.nombre AS 'tipo_empleado', c.fecha_inicio AS 'fecha_inicio', c.estado AS 'estado', (CASE WHEN c.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', c.salario AS 'salario', c.tipo_contrato_id AS 'tipo_contrato_id', c.pago_planificado_id AS 'pago_planificado_id', c.tipo_empleado_id AS 'tipo_empleado_id', (CASE WHEN c.fecha_fin = '' THEN 'Sin Registro' ELSE c.fecha_fin END) AS 'fecha_fin', c.notas AS 'notas'
+				FROM contrato AS c
+				INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
+				INNER JOIN tipo_contrato AS tc ON c.tipo_contrato_id = tc.tipo_contrato_id
+				INNER JOIN pago_planificado AS pp ON c.pago_planificado_id = pp.pago_planificado_id
+				INNER JOIN tipo_empleado AS te ON c.tipo_empleado_id = te.tipo_empleado_id
+				WHERE c.estado = '".$datos['estado']."'
+				$tipo_contrato
+				$pago_planificado_id
+				$tipo_empleado
+				ORDER BY co.nombre ASC";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
+		public function getNomina($datos){
+			$estado = '';			
+			$pago_planificado_id = '';
+			
+			if($datos['pago_planificado'] != "" || $datos['pago_planificado'] != 0){
+				$pago_planificado_id = "AND c.pago_planificado_id = '".$datos['pago_planificado']."'";
+			}
+
+			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id'
+			FROM nomina AS n
+			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
+			WHERE n.estado = '".$datos['estado']."'	
+			$pago_planificado_id	
+			ORDER BY n.fecha_registro DESC";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
+
+		public function getNominaEdit($nomina_id){
+			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', e.empresa_id AS 'empresa_id', n.estado AS 'estado', tipo_nomina_id AS 'tipo_nomina_id'
+			FROM nomina AS n
+			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
+			WHERE n.nomina_id = '".$nomina_id."'	
+			ORDER BY n.fecha_registro DESC";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}			
+		
+		public function getNominaDetalles($datos){
+			$estado = '';			
+			$empleado = '';
+
+			if($datos['empleado'] != "" || $datos['empleado'] != 0){
+				$empleado = "AND c.colaboradores_id = '".$datos['empleado']."'";
+			}	
+			
+			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa'
+				FROM nomina_detalles AS nd
+				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
+				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id
+				INNER JOIN contrato AS co ON nd.colaboradores_id = co.colaborador_id
+				INNER JOIN tipo_contrato AS tp ON co.tipo_contrato_id = tp.tipo_contrato_id
+				INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
+				WHERE nd.estado = '".$datos['estado']."'
+				$empleado
+				ORDER BY nd.fecha_registro DESC";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getNominaComprobante($nomina_id){
+			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id', e.rtn AS 'rtn_empresa', DATE_FORMAT(n.fecha_registro, '%d/%m/%Y') AS fecha_registro, YEAR(n.fecha_registro) AS 'ano_registro'
+			FROM nomina AS n
+			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
+			WHERE n.nomina_id = '".$nomina_id."' AND n.estado = 1
+			ORDER BY n.fecha_registro DESC";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
+		public function getNominaComprobanteDetalles($nomina_id){					
+			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', c.identidad AS 'identidad', c.fecha_ingreso AS 'fecha_ingreso', c.colaboradores_id AS 'colaboradores_id', pc.nombre AS 'puesto', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.isr AS 'isr'
+				FROM nomina_detalles AS nd
+				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
+				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id
+				INNER JOIN puestos AS pc ON c.puestos_id = pc.puestos_id
+				INNER JOIN contrato AS co ON nd.colaboradores_id = co.colaborador_id
+				INNER JOIN tipo_contrato AS tp ON co.tipo_contrato_id = tp.tipo_contrato_id
+				INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
+				WHERE n.nomina_id = '".$nomina_id."'
+				ORDER BY nd.fecha_registro DESC";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+		
+		public function getNominaDetallesEdit($nomina_detalles_id){			
+			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_detalles_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.pago_planificado_id AS 'pago_planificado_id', n.notas AS 'notas', c.identidad AS 'identidad', p.nombre AS 'puesto', co.contrato_id AS 'contrato_id', c.fecha_ingreso AS 'fecha_ingreso', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.isr AS 'isr', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.notas AS 'nota_detalles'
+				FROM nomina_detalles AS nd 
+				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id 
+				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id 
+				INNER JOIN contrato AS co ON nd.colaboradores_id = co.colaborador_id 
+				INNER JOIN tipo_contrato AS tp ON co.tipo_contrato_id = tp.tipo_contrato_id 
+				INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id 
+				INNER JOIN puestos AS p ON c.puestos_id = p.puestos_id 
+				WHERE nd.nomina_detalles_id = '".$nomina_detalles_id."'
+				ORDER BY nd.fecha_registro DESC";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}			
 
 		public function getCantidadUsuariosPlan(){
-
 			$query = "SELECT *
-
 				FROM plan";
-
-
 
 			$result = self::connection()->query($query);
 
 
-
 			return $result;
-
 		}
-
-
 
 		public function getUsuarios($datos){
 
@@ -2010,8 +2059,6 @@
 				$where = "WHERE u.estado = 1 AND u.privilegio_id NOT IN(1)";
 
 			}
-
-
 
 			$query = "SELECT u.users_id AS 'users_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', u.username AS 'username', u.email AS 'correo', tp.nombre AS 'tipo_usuario',
 
@@ -2026,54 +2073,32 @@
 				ON u.colaboradores_id = c.colaboradores_id
 
 				INNER JOIN tipo_user AS tp
-
 				ON u.tipo_user_id = tp.tipo_user_id
-
 				INNER JOIN empresa AS e
-
 				ON u.empresa_id = e.empresa_id
-
 				".$where."
-
 				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getSecuenciaFacturacion(){
-
-			$query = "SELECT sf.secuencia_facturacion_id AS 'secuencia_facturacion_id', sf.cai AS 'cai', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno', sf.incremento AS 'incremento', sf.siguiente AS 'siguiente', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', DATE_FORMAT(sf.fecha_activacion, '%d/%m/%Y') AS 'fecha_activacion', DATE_FORMAT(sf.fecha_registro, '%d/%m/%Y') AS 'fecha_registro', e.nombre AS 'empresa', DATE_FORMAT(sf.fecha_limite, '%d/%m/%Y') AS 'fecha_limite'
-
+			$query = "SELECT sf.secuencia_facturacion_id AS 'secuencia_facturacion_id', sf.cai AS 'cai', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno', sf.incremento AS 'incremento', sf.siguiente AS 'siguiente', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', DATE_FORMAT(sf.fecha_activacion, '%d/%m/%Y') AS 'fecha_activacion', DATE_FORMAT(sf.fecha_registro, '%d/%m/%Y') AS 'fecha_registro', e.nombre AS 'empresa', DATE_FORMAT(sf.fecha_limite, '%d/%m/%Y') AS 'fecha_limite', d.nombre AS 'documento'
 				FROM secuencia_facturacion AS sf
-
 				INNER JOIN empresa AS e
-
 				ON sf.empresa_id = e.empresa_id
-
+				INNER JOIN documento as d
+				ON sf.documento_id = d.documento_id
 				WHERE sf.activo = 1
-
 				ORDER BY sf.fecha_registro";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getISV($documento){
 
@@ -2094,60 +2119,79 @@
 
 
 			return $result;
-
 		}
 
-
-
 		public function getISVEstadoProducto($productos_id){
-
 			$query = "SELECT isv_venta
-
 				FROM productos
-
 				WHERE productos_id = '$productos_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getTipoProducto($productos_id){
-
 			$query = "SELECT tp.nombre AS 'tipo_producto'
-
 				FROM productos AS p
-
 				INNER JOIN tipo_producto AS tp
-
 				ON p.tipo_producto_id = tp.tipo_producto_id
-
 				WHERE p.productos_id = '$productos_id'
-
 				GROUP BY p.productos_id";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 		public function getCantidadProductos($productos_id){
-			$query = "SELECT cantidad,id_producto_superior
+			$query = "SELECT id_producto_superior
 				FROM productos
 				WHERE productos_id = '$productos_id'";
+			
+			$result = self::connection()->query($query);
 
+			return $result;
+		}
+
+		public function getTotalHijosporPadre($productos_id){
+			$query = "SELECT productos_id
+				FROM productos
+				WHERE id_producto_superior = '$productos_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function generarCodigoBarra(){
+			return date("Ymdhhmmss")."K";
+		}
+
+		public function getProductoHijo($producto_id){
+			$query = "SELECT
+			productos.productos_id,
+			productos.id_producto_superior,
+			productos.nombre,
+			medida.nombre as medida
+			FROM
+			productos
+			INNER JOIN medida ON productos.medida_id = medida.medida_id
+			WHERE productos.id_producto_superior = '$producto_id'";
+			
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getMedidaProductoPadre($productos_id){
+			$query = "SELECT m.nombre AS 'medida'
+				FROM productos AS p
+				INNER JOIN medida AS m
+				ON p.medida_id = m.medida_id
+				WHERE p.productos_id = '$productos_id'";
+				
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -2164,10 +2208,36 @@
 			return $result;
 		}
 
+		public function getSaldoProductosMovimientosBodega($productos_id, $almacen_id){
+			$query = "SELECT saldo
+				FROM movimientos
+				WHERE productos_id = '$productos_id' AND almacen_id = '$almacen_id'
+				ORDER BY movimientos_id DESC LIMIT 1";
+				
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
+		protected function agregar_movimiento_productos_modelo($datos){
+			$movimientos_id = mainModel::correlativo("movimientos_id", "movimientos");
+			$documento = "Entrada Movimientos ".$movimientos_id;
+			isset($datos['almacen_id']) ? $bodega = $datos['almacen_id'] : $bodega = '';
+			$insert = "INSERT INTO movimientos 
+				VALUES('$movimientos_id','".$datos['productos_id']."','$documento','".$datos['cantidad_entrada']."',
+				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
+				'".$datos['clientes_id']."','".$datos['comentario']."', '$bodega'
+				)";
+
+			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}
+
 		public function getProductos(){
-			$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', FORMAT(p.cantidad,0) AS 'cantidad', FORMAT(p.precio_compra,2) AS 'precio_compra', FORMAT(p.precio_venta,2) AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
+			$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', p.precio_compra AS 'precio_compra', p.precio_venta AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
 			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
-			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'categoria', p.isv_venta AS 'impuesto_venta', p.isv_compra AS 'isv_compra', p.file_name AS 'image'
+			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'categoria', (CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END) AS 'isv_venta', (CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END) AS 'isv_compra', p.file_name AS 'image'
 				FROM productos AS p
 				INNER JOIN medida AS m
 				ON p.medida_id = m.medida_id
@@ -2186,8 +2256,87 @@
 			return $result;
 		}
 
-		public function getProductosFacturas($datos){
+		public function getProductosCantidad($datos){
+			$bodega = '';
+			$barCode = '';
 
+			if($datos['bodega'] != ''){
+				$bodega = "AND m.almacen_id = '".$datos['bodega']."'";
+			}
+			if($datos['bodega'] == '0'){$bodega = '';}
+
+			if($datos['barcode'] != ''){
+				$barCode = "AND p.barCode  = '".$datos['barcode']."'";
+			}
+
+			$query = "SELECT
+			m.almacen_id,
+			m.movimientos_id AS 'movimientos_id',
+			p.barCode AS 'barCode',
+			p.nombre AS 'nombre',
+			me.nombre AS 'medida',
+			SUM(m.cantidad_entrada) AS 'entrada',
+			SUM(m.cantidad_salida) AS 'salida',
+			(
+				SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
+			) AS 'cantidad',
+			bo.nombre AS 'almacen',
+			DATE_FORMAT(
+				m.fecha_registro,
+				'%d/%m/%Y %H:%i:%s'
+			) AS 'fecha_registro',
+			p.productos_id AS 'productos_id',
+			p.id_producto_superior,
+			p.precio_compra AS 'precio_compra',
+			p.precio_venta,
+			p.precio_mayoreo,
+			p.cantidad_mayoreo,
+			p.isv_venta AS 'impuesto_venta',
+			p.isv_compra AS 'isv_compra',
+			p.file_name AS 'image',
+			tp.tipo_producto_id AS 'tipo_producto_id',
+			tp.nombre AS 'tipo_producto',
+			(
+				CASE
+				WHEN p.estado = '1' THEN
+					'Activo'
+				ELSE
+					'Inactivo'
+				END
+			) AS 'estado',
+			(
+				CASE
+				WHEN p.isv_venta = '1' THEN
+					'Sí'
+				ELSE
+					'No'
+				END
+			) AS 'isv', tp.nombre AS 'tipo_producto_nombre',
+			(CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END) AS 'isv_venta',
+			(CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END) AS 'isv_compra'
+		
+		FROM
+			movimientos AS m
+		RIGHT JOIN productos AS p ON m.productos_id = p.productos_id
+		LEFT JOIN medida AS me ON p.medida_id = me.medida_id
+		LEFT JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
+		INNER JOIN tipo_producto AS tp ON p.tipo_producto_id = tp.tipo_producto_id
+		WHERE
+			p.estado = 1
+		AND tp.nombre NOT IN ('Insumos')
+		$bodega
+		$barCode
+		GROUP BY
+			p.productos_id, m.almacen_id
+		ORDER BY
+			p.fecha_registro ASC";
+			
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getProductosFacturas($datos){
 			$bodega = '';
 			$barCode = '';
 
@@ -2199,9 +2348,7 @@
 			if($datos['barcode'] != ''){
 				$barCode = "AND p.barCode  = '".$datos['barcode']."'";
 			}
-			
-
-
+		
 
 			$query = "
 			SELECT
@@ -2261,95 +2408,28 @@
 
 		}
 
-
-
 		public function getProductosMovimientos($tipo_producto_id){
-
 			$query = "SELECT p.productos_id AS 'productos_id', p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', p.cantidad AS 'cantidad', p.precio_compra AS 'precio_compra', p.precio_venta AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
-
 			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
-
 			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'tipo_producto', p.isv_venta AS 'impuesto_venta', p.isv_compra AS 'isv_compra', p.colaborador_id AS 'colaborador_id'
-
 				FROM productos AS p
-
 				INNER JOIN medida AS m
-
 				ON p.medida_id = m.medida_id
-
 				INNER JOIN almacen AS a
-
 				ON p.almacen_id = a.almacen_id
-
 				INNER JOIN ubicacion AS u
-
 				ON a.ubicacion_id = u.ubicacion_id
-
 				INNER JOIN empresa AS e
-
 				ON u.empresa_id = e.empresa_id
-
 				INNER JOIN tipo_producto AS tp
-
 				ON p.tipo_producto_id = tp.tipo_producto_id
-
 				WHERE p.estado = 1 AND p.tipo_producto_id = '$tipo_producto_id'";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
 		}
-
-
-
-		public function getProductosCompras(){
-
-			$query = "SELECT  p.productos_id AS 'productos_id', p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', p.cantidad AS 'cantidad', p.precio_compra AS 'precio_compra', p.precio_venta AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
-
-			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
-
-			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'tipo_producto', p.isv_venta AS 'impuesto_venta', p.isv_compra AS 'isv_compra'
-
-				FROM productos AS p
-
-				INNER JOIN medida AS m
-
-				ON p.medida_id = m.medida_id
-
-				INNER JOIN almacen AS a
-
-				ON p.almacen_id = a.almacen_id
-
-				INNER JOIN ubicacion AS u
-
-				ON a.ubicacion_id = u.ubicacion_id
-
-				INNER JOIN empresa AS e
-
-				ON u.empresa_id = e.empresa_id
-
-				INNER JOIN tipo_producto AS tp
-
-				ON p.tipo_producto_id = tp.tipo_producto_id
-
-				WHERE p.estado = 1 AND tp.nombre NOT IN('Servicio')";
-
-
-
-			$result = self::connection()->query($query);
-
-
-
-			return $result;
-
-		}
-
-
 
 		function getProductoTipoProducto($tipo_producto_id){
 
@@ -2463,80 +2543,42 @@
 				a.facturar_cero
 
 				FROM almacen AS a
-
 				INNER JOIN ubicacion AS u
-
 				ON a.ubicacion_id = u.ubicacion_id
-
 				INNER JOIN empresa AS e
-
 				ON a.empresa_id = e.empresa_id
-
 				WHERE a.estado = 1
-
 				ORDER BY a.nombre ASC";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getTipoPagoContabilidad(){
-
 			$query = "SELECT tp.nombre AS 'nombre', c.codigo AS 'codigo', c.nombre AS 'cuenta', tp.tipo_pago_id AS 'tipo_pago_id'
-
 				FROM tipo_pago AS tp
-
 				INNER JOIN cuentas As c
-
 				ON tp.cuentas_id = c.cuentas_id
-
 				WHERE tp.estado = 1";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getUbicacion(){
-
 			$query = "SELECT u.ubicacion_id AS 'ubicacion_id', u.nombre AS 'ubicacion', e.nombre AS 'empresa'
-
 				FROM ubicacion AS u
-
 				INNER JOIN empresa AS e
-
 				ON u.empresa_id = e.empresa_id
-
 				WHERE u.estado = 1
-
 				ORDER BY u.nombre ASC";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getTipoProductos(){
 
@@ -2633,30 +2675,17 @@
 		}
 
 
-
 		public function getIngresosContables($datos){
-
 			$query = "SELECT i.ingresos_id AS 'ingresos_id', i.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', cli.nombre AS 'cliente', i.factura AS 'factura', i.subtotal as 'subtotal', i.impuesto AS 'impuesto', i.descuento AS 'descuento', i.nc AS 'nc', i.total AS 'total', i.fecha_registro As 'fecha_registro'
-
 				FROM ingresos AS i
-
 				INNER JOIN cuentas AS c
-
 				ON i.cuentas_id = c.cuentas_id
-
 				INNER JOIN clientes AS cli
-
 				ON i.clientes_id = cli.clientes_id
-
-				WHERE CAST(i.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
-
+				WHERE CAST(i.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND i.estado = '".$datos['estado']."'
 				ORDER BY i.fecha_registro DESC";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
@@ -2677,110 +2706,61 @@
 
 
 		public function getEgresosContables($datos){
-
 			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', e.factura AS 'factura', e.subtotal as 'subtotal', e.impuesto AS 'impuesto', e.descuento AS 'descuento', e.nc AS 'nc', e.total AS 'total', e.fecha_registro As 'fecha_registro'
-
 				FROM egresos AS e
-
 				INNER JOIN cuentas AS c
-
 				ON e.cuentas_id = c.cuentas_id
-
 				INNER JOIN proveedores AS p
-
 				ON e.proveedores_id = p.proveedores_id
-
-				WHERE CAST(e.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND e.tipo_egreso = 2
-
+				WHERE CAST(e.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND e.tipo_egreso = 2 AND e.estado = '".$datos['estado']."'
 				ORDER BY e.fecha_registro DESC";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
 		}
-
-
 
 		public function getEgresosContablesReporte($egresos_id){
-
 			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', p.rtn AS 'rtn_proveedor', p.localidad AS 'localidad', p.telefono AS 'telefono', e.factura AS 'factura', e.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(e.fecha, '%d/%m/%Y') AS 'fecha', time(e.fecha_registro) AS 'hora', e.observacion AS 'observacion', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido', e.estado AS 'estado', emp.rtn AS 'rtn_empresa', e.subtotal AS 'subtotal', e.descuento AS 'descuento', e.nc AS 'nc', e.impuesto AS 'impuesto', e.total AS 'total', DATE_FORMAT(e.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta'
-
 				FROM egresos AS e
-
 				INNER JOIN cuentas AS c
-
 				ON e.cuentas_id = c.cuentas_id
-
 				INNER JOIN proveedores AS p
-
 				ON e.proveedores_id = p.proveedores_id
-
 				INNER JOIN empresa AS emp
-
 				ON e.empresa_id = emp.empresa_id
-
 				INNER JOIN colaboradores AS co
-
 				ON e.colaboradores_id = co.colaboradores_id
-
 				WHERE e.egresos_id = '$egresos_id'
-
 				ORDER BY e.fecha_registro DESC";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
 		}
-
 
 
 		public function getIngresosContablesReporte($ingresos_id){
-
 			$query = "SELECT i.ingresos_id AS 'ingresos_id', i.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', cl.nombre AS 'cliente', cl.rtn AS 'rtn_cliente', cl.localidad AS 'localidad', cl.telefono AS 'telefono', i.factura AS 'factura', i.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(i.fecha, '%d/%m/%Y') AS 'fecha', time(i.fecha_registro) AS 'hora', i.observacion AS 'observacion', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', i.estado AS 'estado', emp.rtn AS 'rtn_empresa', i.subtotal AS 'subtotal', i.descuento AS 'descuento', i.nc AS 'nc', i.impuesto AS 'impuesto', i.total AS 'total', DATE_FORMAT(i.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta'
-
 				FROM ingresos AS i
-
 				INNER JOIN cuentas AS c
-
 				ON i.cuentas_id = c.cuentas_id
-
 				INNER JOIN clientes AS cl
-
 				ON i.clientes_id = cl.clientes_id
-
 				INNER JOIN empresa AS emp
-
 				ON i.empresa_id = emp.empresa_id
-
 				INNER JOIN colaboradores AS co
-
 				ON i.colaboradores_id = co.colaboradores_id
-
 				WHERE i.ingresos_id = '$ingresos_id'
-
 				ORDER BY i.fecha_registro DESC";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
 		}
-
-
 
 		public function getChequesContables($datos){
 
@@ -2950,7 +2930,7 @@
 
 
 		public function getFactura($noFactura){
-			$query = "SELECT c.nombre AS 'cliente', c.rtn AS 'rtn_cliente', c.telefono AS 'telefono', c.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn_empresa', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn', f.fecha_dolar AS 'fecha_dolar'
+			$query = "SELECT c.clientes_id As 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn_cliente', c.telefono AS 'telefono', c.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn_empresa', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn', f.fecha_dolar AS 'fecha_dolar'
 				FROM facturas AS f
 				INNER JOIN clientes AS c
 				ON f.clientes_id = c.clientes_id
@@ -3035,7 +3015,7 @@
 				INNER JOIN productos AS p ON fd.productos_id = p.productos_id
 				INNER JOIN medida as med ON p.medida_id = med.medida_id
 				WHERE fd.facturas_id = '$noFactura'
-				GROUP BY fd.productos_id";
+				";
 
 			$result = self::connection()->query($query);
 
@@ -3191,6 +3171,50 @@
 
 			return $result;
 		}
+
+		public function getNombreClienteFactura($factura_id){
+			$query = "SELECT c.nombre 'nombre'
+			FROM facturas AS f
+			INNER JOIN clientes AS c
+			ON f.clientes_id = c.clientes_id
+			WHERE f.facturas_id = '$factura_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
+		
+		public function getNombreClienteFacturaCompras($compras_id){
+			$query = "SELECT p.nombre AS 'nombre'
+			FROM compras AS c
+			INNER JOIN proveedores AS p
+			ON c.proveedores_id = p.proveedores_id
+			WHERE c.compras_id = '$compras_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
+		
+		public function getImporteCompras($compras_id){
+			$query = "SELECT importe
+			FROM compras 
+			WHERE compras_id = '$compras_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}			
+		
+		public function getImporteFacturas($facturas_id){
+			$query = "SELECT importe
+			FROM facturas 
+			WHERE facturas_id = '$facturas_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}			
 
 		public function getRTNCliente($clientes_id, $rtn){
 			$query = "SELECT rtn
@@ -3357,7 +3381,7 @@
 				ON cd.productos_id = p.productos_id
 				INNER JOIN medida as med ON p.medida_id = med.medida_id
 				WHERE cd.cotizacion_id = '$noCotizacion'
-				GROUP BY cd.productos_id";
+				";
 
 			$result = self::connection()->query($query);
 
@@ -3378,42 +3402,23 @@
 				compras_detalles AS cd
 			INNER JOIN productos AS p ON cd.productos_id = p.productos_id
 			INNER JOIN medida as med ON p.medida_id = med.medida_id
-
-				WHERE cd.compras_id = '$compras_id'
-
-				GROUP BY cd.productos_id";
-
-
+			WHERE cd.compras_id = '$compras_id'";
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getEmpresasEdit($empresa_id){
-
 			$query = "SELECT *
-
 				FROM empresa
-
 				WHERE empresa_id = '$empresa_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getPrivilegiosEdit($privilegio_id){
 
@@ -3695,13 +3700,13 @@
 
 		public function getTotalFacturasDisponiblesDB($empresa_id){
 
-			$query = "SELECT number AS 'numero'
+			$query = "SELECT siguiente AS 'numero'
 
-				FROM facturas
+				FROM secuencia_facturacion
 
-				WHERE empresa_id = '$empresa_id'
+				WHERE activo = 1 AND empresa_id = '$empresa_id'
 
-				ORDER BY number DESC LIMIT 1";
+				ORDER BY siguiente DESC LIMIT 1";
 
 
 
@@ -3787,34 +3792,20 @@
 
 				WHERE tipo_pago_id = '$tipo_pago_id'";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 
-
 		public function getBancosEdit($banco_id){
-
 			$query = "SELECT *
-
 				FROM banco
-
 				WHERE banco_id = '$banco_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 
@@ -3831,54 +3822,42 @@
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getIngresosEdit($ingresos_id){
-
 			$query = "SELECT *
-
 				FROM ingresos
-
 				WHERE ingresos_id = '$ingresos_id'";
-
-
 
 			$result = self::connection()->query($query);
 
 
-
 			return $result;
-
 		}
 
 
-
 		public function getVigenciaCotizacion(){
-
 			$query = "SELECT *
-
 				FROM vigencia_cotizacion";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 		public function getMovimientosProductos($datos){
 			$producto = '';
 			$cliente = '';
 			$tipo = '';
+			$fecha = '';
+
+			$fecha_actual = date("Y-m-d");
+
+			if($datos['fechai'] != $fecha_actual){
+				$fecha = "AND CAST(m.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
+			}
 
 			if($datos['bodega'] != ''){
 				$bodega = "AND bo.almacen_id = '".$datos['bodega']."'";
@@ -3899,7 +3878,6 @@
 			if($datos['tipo_producto_id'] != ''){
 				$tipo = "AND p.tipo_producto_id = '".$datos['tipo_producto_id']."'";
 			}
-
 
 			$query = "
 					SELECT
@@ -3931,7 +3909,8 @@
 				INNER JOIN almacen AS bo
 				on p.almacen_id = bo.almacen_id
 				LEFT JOIN clientes AS cl ON cl.clientes_id = m.clientes_id
-				WHERE CAST(m.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
+				WHERE p.estado = 1
+				$fecha
 				$bodega
 				$producto
 				$cliente
@@ -3939,7 +3918,6 @@
 				ORDER BY m.fecha_registro DESC";
 
 			$result = self::connection()->query($query);
-
 		
 			return $result;
 		}
@@ -3947,7 +3925,8 @@
 		public function getTranferenciaProductos($datos){
 			$bodega = '';
 			$tipo_product = '';
-			//$fecha = "AND CAST(p.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
+			$id_producto = '';
+
 			if($datos['bodega'] != ''){
 				$bodega = "AND bo.almacen_id = '".$datos['bodega']."'";
 			}
@@ -3960,82 +3939,124 @@
 				$tipo_product = "AND p.tipo_producto_id = '".$datos['tipo_producto_id']."'";
 			}
 
+			if($datos['productos_id'] != '' || is_null($datos['productos_id'])){
+				$id_producto = "AND p.productos_id = '".$datos['productos_id']."'";
+			}
+
 			$query = "
-						SELECT
-						m.movimientos_id AS 'movimientos_id',
-						p.barCode AS 'barCode',
-						p.nombre AS 'producto',
-						me.nombre AS 'medida',
-						SUM(m.cantidad_entrada) as 'entrada',
-						SUM(m.cantidad_salida) as 'salida',
-						(SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)) as 'saldo',
-						bo.nombre AS 'bodega',
-						bo.almacen_id,
-						DATE_FORMAT(
-							p.fecha_registro,
-							'%d/%m/%Y %H:%i:%s'
-						) AS 'fecha_registro',
-						p.productos_id AS 'productos_id',
-						p.id_producto_superior
-					FROM
-						movimientos AS m
-						RIGHT JOIN productos AS p
-					ON
-						m.productos_id = p.productos_id
-					INNER JOIN medida AS me
-					ON
-						p.medida_id = me.medida_id
-					LEFT JOIN almacen AS bo
-					ON		
-					p.almacen_id = bo.almacen_id
+			SELECT
+			m.almacen_id AS 'almacen_id',
+			m.movimientos_id AS 'movimientos_id',
+			p.barCode AS 'barCode',
+			p.nombre AS 'producto',
+			me.nombre AS 'medida',
+			SUM(m.cantidad_entrada) AS 'entrada',
+			SUM(m.cantidad_salida) AS 'salida',
+			(
+				SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
+			) AS 'saldo',
+			bo.nombre AS 'bodega',
+			DATE_FORMAT(
+				p.fecha_registro,
+				'%d/%m/%Y %H:%i:%s'
+			) AS 'fecha_registro',
+			p.productos_id AS 'productos_id',
+			p.id_producto_superior
+		FROM
+			movimientos AS m
+		RIGHT JOIN productos AS p ON m.productos_id = p.productos_id
+		LEFT JOIN medida AS me ON p.medida_id = me.medida_id
+		LEFT JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
 					WHERE p.estado = 1
 					$tipo_product
 				    $bodega
-					GROUP BY p.productos_id
+					$id_producto
+					GROUP BY p.productos_id, m.almacen_id
 				    ORDER BY p.fecha_registro ASC";
 	
 			$result = self::connection()->query($query);
+			//echo 'quersdfasd  '.$query;
 			return $result;
 		}
 
 		public function consultaVentas($datos){
+			$tipo_factura_reporte = '';
+			$facturador = '';
+			$fecha = '';
+			$vendedor = '';
+
 			if($datos['tipo_factura_reporte'] == 1){
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado IN(1,2,3)";
-			}else{
-				$where = "WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 4";
+				$tipo_factura_reporte = "AND f.estado IN(2,3)";
+			}
+
+			if($datos['tipo_factura_reporte'] == 2){
+				$tipo_factura_reporte = "AND f.estado = 4";
+			}	
+			
+			if($datos['facturador'] != ""){
+				$facturador = "AND f.usuario = '".$datos['facturador']."'";
+			}				
+
+			if($datos['vendedor'] != ""){
+				$vendedor = "AND f.colaboradores_id = '".$datos['vendedor']."'";
 			}
 
 			$query = "SELECT 
 				f.facturas_id AS 'facturas_id', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.nombre AS 'cliente', 
 				CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', FORMAT(f.importe,2) As 'total', 
-				(CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento'
+				(CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', CONCAT(co.nombre, ' ', co.apellido) AS 'vendedor', CONCAT(co1.nombre, ' ', co1.apellido) AS 'facturador'
 				FROM facturas AS f
 				INNER JOIN clientes AS c
 				ON f.clientes_id = c.clientes_id
+				INNER JOIN colaboradores AS co
+				ON f.colaboradores_id = co.colaboradores_id
+				INNER JOIN colaboradores AS co1
+				ON f.usuario = co1.colaboradores_id
 				INNER JOIN secuencia_facturacion AS sf
 				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-				".$where;
+				WHERE f.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
+				$tipo_factura_reporte
+				$facturador
+				$vendedor
+				ORDER BY f.number ASC";
 
 			$result = self::connection()->query($query);
 			return $result;
 		}
 
-		public function consultaImpresora(){
-			
+		public function consultaCXPagoFactura($facturas_id){
+			$query = "SELECT cobrar_clientes_id  FROM cobrar_clientes WHERE facturas_id = '".$facturas_id."' AND estado = 2";
+	
+			$result = self::connection()->query($query);
+			return $result;
+		}		
+
+		public function consultaCXPagoFacturaCompras($compras_id){
+			$query = "SELECT pagar_proveedores_id  FROM pagar_proveedores WHERE compras_id = '".$compras_id."' AND estado = 2";
+	
+			$result = self::connection()->query($query);
+			return $result;
+		}		
+
+
+		public function consultaImpresora(){		
 			$query = "
-			SELECT
-			*
-			FROM `impresora`
-			";
+				SELECT
+				*
+				FROM `impresora`
+				";
 
 			$result = self::connection()->query($query);
 			return $result;
 		}
 
 		public function updateImpresora($id,$estado){
-			
+			$fecha_registro = date("Y-m-d H:i:s");	
+
 			$update = " UPDATE impresora
-				SET estado = '$estado'
+				SET 
+					estado = '$estado',
+					fecha_registro = '$fecha_registro'
 				WHERE impresora_id = '$id'";
 
 			$result = self::connection()->query($update);
@@ -4073,7 +4094,6 @@
 
 			return $result;
 		}
-
 
 		public function consultaCotizaciones($datos){
 			if($datos['tipo_cotizacion_reporte'] == 1){
@@ -4206,20 +4226,15 @@
 
 
 		public function getDatosCompras($compras_id){
-
-			$query = "SELECT c.compras_id AS compras_id, DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', c.proveedores_id AS 'proveedores_id', p.nombre AS 'proveedor', p.rtn AS 'rtn', c.estado AS 'estado', c.fecha AS 'fecha_compra', c.notas AS 'notas'
-
+			$query = "SELECT c.compras_id AS compras_id, DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha',
+			 c.proveedores_id AS 'proveedores_id', p.nombre AS 'proveedor', p.rtn AS 'rtn',
+			  c.estado AS 'estado', c.fecha AS 'fecha_compra', c.notas AS 'notas',tipo_compra
 				FROM compras AS c
-
 				INNER JOIN proveedores AS p
-
 				ON c.proveedores_id = p.proveedores_id
-
 				WHERE c.compras_id = '$compras_id'";
 
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 		}
@@ -4238,15 +4253,21 @@
 		}
 
 		public function getCuentasporCobrarClientes($datos){
-			if($datos['tipo_busqueda'] == 1){
-				$where = "WHERE cc.estado = 1";
-			}else{
-				$where = "WHERE cc.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND cc.estado = '".$datos['tipo_busqueda']."'";
+			$clientes_id = "";
+			$fecha_actual = date("Y-m-d");
+			$fecha = "";
+
+			if($datos['fechai'] != $fecha_actual){
+				$fecha = "AND cc.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
+			}
+
+			if($datos['clientes_id'] != 0){
+				$clientes_id = "AND cc.clientes_id = '".$datos['clientes_id']."'";
 			}
 
 			$query = "SELECT cc.cobrar_clientes_id AS 'cobrar_clientes_id', f.facturas_id AS 'facturas_id', c.nombre AS 'cliente',
 				 f.fecha AS 'fecha', cc.saldo AS 'saldo', CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', cc.estado,
-				 f.importe
+				 f.importe, CONCAT(co.nombre, ' ', co.apellido) AS 'vendedor'
 				FROM cobrar_clientes AS cc
 				INNER JOIN clientes AS c
 				ON cc.clientes_id = c.clientes_id
@@ -4254,7 +4275,12 @@
 				ON cc.facturas_id = f.facturas_id
 				INNER JOIN secuencia_facturacion AS sf
 				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-				".$where;
+				INNER JOIN colaboradores AS co
+				ON f.colaboradores_id = co.colaboradores_id				
+				WHERE cc.estado = '".$datos['estado']."'
+				$fecha
+				$clientes_id
+				ORDER BY cc.fecha ASC";				
 
 			$result = self::connection()->query($query);
 
@@ -4269,21 +4295,34 @@
 
 			return $result;
 		}
-
+		
 		public function getCuentasporPagarProveedores($datos){
-			if($datos['tipo_busqueda'] == 1){
-				$where = "WHERE cp.estado = 1";
-			}else{
-				$where = "WHERE cp.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND cp.estado = 1";
+			$proveedores_id = "";
+			$fecha_actual = date("Y-m-d");
+			$fecha = "";
+
+			if($datos['fechai'] != $fecha_actual){
+				$fecha = "AND proveedores.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
 			}
 
-			$query = "SELECT cp.pagar_proveedores_id As 'pagar_proveedores_id', c.compras_id AS 'compras_id', p.nombre AS 'proveedores', cp.fecha AS 'fecha', cp.saldo AS 'saldo', c.number AS 'factura'
-				FROM pagar_proveedores AS cp
-				INNER JOIN proveedores AS p
-				ON cp.proveedores_id = p.proveedores_id
-				INNER JOIN compras AS c
-				ON cp.proveedores_id = c.proveedores_id
-				".$where;
+			if($datos['proveedores_id'] != 0){
+				$proveedores_id = "AND proveedores.proveedores_id = '".$datos['proveedores_id']."'";
+			}
+
+			$query = "SELECT
+			proveedores.nombre AS 'proveedores',
+			compras.compras_id,
+			compras.number AS 'factura',
+			compras.importe,
+			compras.estado,
+			compras.fecha
+			FROM
+			proveedores
+			INNER JOIN compras ON proveedores.proveedores_id = compras.proveedores_id
+			WHERE proveedores.estado = '".$datos['estado']."'
+			$fecha
+			$proveedores_id
+			ORDER BY proveedores.fecha ASC";	
 
 			$result = self::connection()->query($query);
 
@@ -5064,8 +5103,6 @@
 
 		}
 
-
-
 		function testingMail($servidor, $correo, $contraseña, $puerto, $SMTPSecure, $CharSet){
 
 			$cabeceras = "MIME-Version: 1.0\r\n";
@@ -5730,16 +5767,25 @@
 
 			$num = (int)$num;
 
-
-
 			$numf = self::milmillon($num);
 
 
-
 			return $numf." CON ".$cents."/100";
-
 		}
 
 		/*FIN CONVERTIR NUMEROS A LETRAS*/
 
+		//CONSULTA EN EL SERVIDOR DE KIREDS PARA VALIDAR QUE EL CLIENTE EXISTA
+		function connect_mysqli_main_server(){
+			$mysqli_main =mysqli_connect(SERVER_MAIN,USER_MAIN,PASS_MAIN,DB_MAIN);
+		
+			$mysqli_main->set_charset("utf8");
+		
+			if ($mysqli_main->connect_errno) {
+			   echo "Fallo al conectar a MySQL: " . $mysqli->connect_error;
+			   exit;
+			}
+		
+			return $mysqli_main;
+		}		
     }

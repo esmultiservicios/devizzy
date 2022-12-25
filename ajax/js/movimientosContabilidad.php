@@ -26,9 +26,60 @@ var listar_movimientos_contabilidad = function(){
 			{"data":"fecha"},
 			{"data":"codigo"},
 			{"data":"nombre"},			
-			{"data":"ingreso"},
-			{"data":"egreso"},
-			{"data":"saldo"},		
+			{"data":"ingreso",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },			
+			},
+			{"data":"egreso",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },			
+			},
+			{"data":"saldo",
+				render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+ 
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        } 
+ 
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+ 
+                    return number;
+                },			
+			},		
 		],	
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -89,4 +140,5 @@ var listar_movimientos_contabilidad = function(){
 	$('#buscar').focus();
 }
 //FIN ACCIONES FORMULARIO MOVIMIENTOS CONTABLES	
+
 </script>

@@ -28,7 +28,6 @@
       </div>
     </div>
 </div>
-
 <!--INICIO MODAL BUSQUEDA DE CUENTAS CONTABLES-->
 <div class="modal fade" id="modal_buscar_cuentas_contables">
 	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
@@ -123,16 +122,16 @@
 
 <!--INICIO MODAL USUARIOS-->
 <div class="modal fade" id="modal_registrar_usuarios">
-	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Usuarios</h4>    
+          <h4 class="modal-title">Registro de Usuarios</h4>    
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			  <span aria-hidden="true">&times;</span>
 			</button>
         </div><div class="container"></div>
         <div class="modal-body">
-			<form class="FormularioAjax" id="formUsers" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">	
+			<form class="FormularioAjax" id="formUsers" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
 						<div class="input-group mb-3">
@@ -146,52 +145,61 @@
 					</div>							
 				</div>					
 				<div class="form-row">
-					<div class="input-group mb-3">
-					  <input type="text" class="form-control" placeholder="Colaborador" id="colaborador_id_usuario" name="colaborador_id_usuario" aria-label="Colaborador" aria-describedby="basic-addon2" readonly required>
-					 <div class="input-group-append" id="buscar_colaboradores">				
-						<span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control buscar_productos"><div class="sb-nav-link-icon"></div><i class="fas fa-search-plus fa-lg"></i></a></span>
-					 </div>
-					</div>	 			
-				</div>
-				<div class="form-row">
-					<div class="col-md-6 mb-3">
+					<div class="col-md-3 mb-3">
+					  <label for="colaborador_id_usuario">Colaboradores <span class="priority">*<span/></label>
+					  <div class="input-group mb-3">
+						  <select id="colaborador_id_usuario" name="colaborador_id_usuario" class="selectpicker" data-live-search="true" title="Colaboradores">
+							<option value="">Seleccione</option>
+						  </select>
+					   </div>
+					</div>	
+					<div class="col-md-3 mb-3">
 						<label for="nickname">Nick Name <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
 						  <input type="text" class="form-control" placeholder="Usuario" id="nickname" name="nickname" aria-label="Correo" aria-describedby="basic-addon2" required>
 						  <div class="input-group-append">				
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-user"></i></span>
 						  </div>
-						</div>	 
-					</div>
+						</div>
+					</div>	
 					<div class="col-md-6 mb-3">
-						<label for="correo_usuario">Correo <span class="priority">*<span/></label>
+					  <label for="correo_usuario">Correo <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
 						  <input type="email" class="form-control" placeholder="Correo" id="correo_usuario" name="correo_usuario" aria-label="Correo" aria-describedby="basic-addon2" required>
 						  <div class="input-group-append">				
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-envelope-square"></i></span>
 						  </div>
-						</div>	 
-					</div>										
-				</div>
-				<div class="form-row">
-					<div class="col-md-6 mb-3">
-						<label for="empresa">Empresa <span class="priority">*<span/></label>
-						<select class="form-control" id="empresa_usuario" name="empresa_usuario" required>			  
-						</select>
-					</div>						
-					<div class="col-md-6 mb-3">
-					  <label for="tipo_user">Tipo Usuario <span class="priority">*<span/></label>
-					  <select class="form-control" id="tipo_user" name="tipo_user" required>						  
-					  </select>
+						</div>
 					</div>															
 				</div>
+
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
-					  <label for="tipo_user">Privilegio <span class="priority">*<span/></label>
-					  <select class="form-control" id="privilegio_id" name="privilegio_id" required>						  
-					  </select>
-					</div>																
-				</div>				
+					<div class="col-md-3 mb-3">
+					  <label for="empresa_usuario">Empresa <span class="priority">*<span/></label>
+					  <div class="input-group mb-3">
+						  <select id="empresa_usuario" name="empresa_usuario" class="selectpicker" data-live-search="true" title="Empresa">
+							<option value="">Seleccione</option>
+						  </select>
+					   </div>
+					</div>						
+					<div class="col-md-3 mb-3">
+					  <label for="tipo_user">Tipo Usuario <span class="priority">*<span/></label>
+					  <div class="input-group mb-3">
+						  <select id="tipo_user" name="tipo_user" class="selectpicker" data-live-search="true" title="Tipo Usuario">
+							<option value="">Seleccione</option>
+						  </select>
+					   </div>					 
+					</div>
+					<div class="col-md-3 mb-3">
+					  <label for="privilegio_id">Privilegio <span class="priority">*<span/></label>
+					  <div class="input-group mb-3">
+						  <select id="privilegio_id" name="privilegio_id" class="selectpicker" data-live-search="true" title="Tipo Usuario">
+							<option value="">Seleccione</option>
+						  </select>
+					   </div>						  
+					</div>											
+				</div>													
+
 				<div class="form-group" id="estado_usuarios">				  
 				  <div class="col-md-12">			
 						<label class="switch">
@@ -200,15 +208,15 @@
 						</label>
 						<span class="question mb-2" id="label_usuarios_activo"></span>				
 				  </div>				  
-				</div>			   
-				<div class="RespuestaAjax"></div>					 
+				</div>				
+				<div class="RespuestaAjax"></div>  
 			</form>
         </div>
 		<div class="modal-footer">
 			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_usuario" form="formUsers"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>
 			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="edi_usuario" form="formUsers"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>
 			<button class="eliminar btn btn-danger ml-2" type="submit" style="display: none;" id="delete_usuario" form="formUsers"><div class="sb-nav-link-icon"></div><i class="fa fa-trash fa-lg"></i> Eliminar</button>					
-		</div>	 		
+		</div>			
       </div>
     </div>
 </div>
@@ -426,10 +434,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="row justify-content-center">
-									<div class="text-center" id="test"></div>
-								</div>
-								<div class="tab-content">
+								<div class="tab-content" style="height: auto; overflow-y:auto;">
 									<div id="menu1Purchase" class="tab-pane in active">
 										<div class="row justify-content-center">
 											<div class="col-11">
@@ -437,15 +442,23 @@
 													<h3 class="mt-0 mb-4 text-center">Ingrese detalles del Pago</h3>
 													<form class="FormularioAjax" id="formEfectivoPurchase" action="<?php echo SERVERURL;?>ajax/addPagoComprasEfectivoAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
-															<div class="col-11">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_compras_efectivo">Fecha</label>
+																	<input type="date" name="fecha_compras_efectivo" id="fecha_compras_efectivo" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																
+															<div class="col-12">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
 																	<input type="hidden" name="compras_id_efectivo" id="compras_id_efectivo" placeholder="Compra Codigo"> 
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00"> 
-																	<input type="text" name="efectivo_Purchase" id="efectivo_Purchase" class="inputfield" placeholder="0.00" step="0.01">																						
+																	<input type="text" name="efectivo_Purchase" id="efectivo_Purchase" class="inputfield" placeholder="0.00" step="0.01">
+																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
+
 																</div>
 															</div>
-															<div class="col-11">
+															<div class="col-12" id="grupo_cambio_compras">
 																<div class="input-group">
 																	<label for="cambio_efectivo">Cambio</label>
 																	<input type="number" readonly name="cambio_efectivoPurchase" id="cambio_efectivoPurchase" class="inputfield" step="0.01" placeholder="0.00">																
@@ -453,8 +466,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-12">
+															    <label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_efectivo_compras" id="usuario_efectivo_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>	
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_efectivo" class="pay btn btn-info placeicon" form="formEfectivoPurchase">
+																<input type="submit" value="Efectuar Pago" id="pago_efectivo" class="mt-3 pay btn btn-info placeicon" form="formEfectivoPurchase">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -471,13 +493,20 @@
 													<form class="FormularioAjax" id="formTarjetaPurchase" method="POST" data-form="save" action="<?php echo SERVERURL;?>ajax/addPagoComprasTarjetaAjax.php" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
 															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_compras_tarjeta">Fecha</label>
+																	<input type="date" name="fecha_compras_tarjeta" id="fecha_compras_tarjeta" class="inputfield"  value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																
+															<div class="col-12">
 																<div class="input-group"> 
 																<label>Número de Tarjeta</label> 
 																<input type="hidden" name="compras_id_tarjeta" id="compras_id_tarjeta" placeholder="Compra Codigo">
 																<input type="text" id="cr_Purchase" name="cr_Purchase" class="inputfield"  placeholder="XXXX">
 																<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">
-																																
-																</div>
+																<input type="hidden" name="monto_efectivo" id="monto_efectivo_tarjeta" class="inputfield" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">														
+																<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
+															</div>
 															</div>
 														</div>
 														<div class="row">
@@ -495,8 +524,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-12">
+															    <label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_tarjeta_compras" id="usuario_tarjeta_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>	
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_tarjeta" class="pay btn btn-info placeicon" form="formTarjetaPurchase">
+																<input type="submit" value="Efectuar Pago" id="pago_tarjeta" class="mt-3 pay btn btn-info placeicon" form="formTarjetaPurchase">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -512,6 +550,12 @@
 													<h6 class="mt-0 mb-4 text-center">Ingrese Pago Mixto</h6>
 													<form class="FormularioAjax" id="formMixtoPurchaseBill" action="<?php echo SERVERURL;?>ajax/addPagoCompraMixtoAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_compras_mixto">Fecha</label>
+																	<input type="date" name="fecha_compras_mixto" id="fecha_compras_mixto" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>	
 															<div class="col-12 col-md-6">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
@@ -553,8 +597,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-12">
+															    <label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_mixto_compras" id="usuario_mixto_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>	
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_mixto_Purchase" class="pay btn btn-info placeicon" form="formMixtoPurchaseBill">
+																<input type="submit" value="Efectuar Pago" id="pago_mixto_Purchase" class="mt-3 pay btn btn-info placeicon" form="formMixtoPurchaseBill">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -571,13 +624,22 @@
 													<form class="FormularioAjax" id="formTransferenciaPurchase" method="POST" data-form="save" action="<?php echo SERVERURL;?>ajax/addPagoComprasTransferenciaAjax.php" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
 															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_compras_transferencia">Fecha</label>
+																	<input type="date" name="fecha_compras_transferencia" id="fecha_compras_transferencia" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																
+															<div class="col-12">
 															    <label>Banco</label> 
 																<div class="input-group"> 																	
 																	<input type="hidden" name="compras_id_transferencia" id="compras_id_transferencia" placeholder="Compra Codigo">
 																	<select required name="bk_nm" id="bk_nm" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
 																		<option value="">Seleccione un Banco</option>
 																	</select> 																	
-																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">								
+																	<input type="hidden" name="importe" id="importe_transferencia" class="inputfield mt-5" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">	
+																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
+
 																</div>
 															</div>
 														</div>
@@ -596,8 +658,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-12">
+															    <label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_transferencia_compras" id="usuario_transferencia_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>	
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="pay btn btn-info placeicon" form="formTransferenciaPurchase"> 
+																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="mt-3 pay btn btn-info placeicon" form="formTransferenciaPurchase"> 
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -615,12 +686,20 @@
 													<form class="FormularioAjax" id="formChequePurchase" method="POST" data-form="save" action="<?php echo SERVERURL;?>ajax/addPagoComprasChequeAjax.php" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
 															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_compras_cheque">Fecha</label>
+																	<input type="date" name="fecha_compras_cheque" id="fecha_compras_cheque" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																														
+															<div class="col-12">
 															    <label>Banco</label> 
 																<div class="input-group"> 																	
 																	<input type="hidden" name="compras_id_cheque" id="compras_id_cheque">
 																	<select required name="bk_nm_chk" id="bk_nm_chk" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
 																		<option value="">Seleccione un Banco</option>
 																	</select> 																	
+																	<input type="number" name="importe" id="importe_cheque" class="inputfield mt-5"step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">								
 																</div>
 															</div>
@@ -629,13 +708,22 @@
 															<div class="col-12">
 																<div class="input-group"> 	
 																	<label>Número de Cheque</label> 
-																	<input type="text" name="check_num" id="check_num" class="inputfield" placeholder="Número de Cheque">							
+																	<input type="text" name="check_num" id="check_num" class="inputfield" placeholder="Número de Cheque">	
 																</div>
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-12">
+															    <label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_cheque_compras" id="usuario_cheque_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>	
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="pay btn btn-info placeicon" form="formChequePurchase"> 
+																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="mt-3 pay btn btn-info placeicon" form="formChequePurchase"> 
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -726,10 +814,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="row justify-content-center">
-									<div class="text-center" id="test"></div>
-								</div>
-								<div class="tab-content">
+								<div class="tab-content" style="height: auto; overflow-y:auto;">
 									<div id="menu1" class="tab-pane in active">
 										<div class="row justify-content-center">
 											<div class="col-11">
@@ -737,26 +822,41 @@
 													<h3 class="mt-0 mb-4 text-center">Ingrese detalles del Pago</h3>
 													<form class="FormularioAjax" id="formEfectivoBill" action="<?php echo SERVERURL;?>ajax/addPagoFacturasEfectivoAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
-															<div class="col-11">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_efectivo">Fecha</label>
+																	<input type="date" name="fecha_efectivo" id="fecha_efectivo" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>															
+															<div class="col-12">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
 																	<input type="hidden" name="factura_id_efectivo" id="factura_id_efectivo"> 
-																	<input type="hidden" name="tipo_factura" id="tipo_factura_efectivo" value="1"> 
+																	<input type="hidden" name="tipo_factura" id="tipo_factura_efectivo" value="1">
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" step="0.01" placeholder="0.00"> 
 																	<input type="number" name="efectivo_bill" id="efectivo_bill" class="inputfield" step="0.01" placeholder="0.00" step="0.01">																						
 																</div>
 															</div>
-															<div class="col-11">
-																<div class="input-group">
+															<div class="col-12">
+																<div class="input-group" id="grupo_cambio_efectivo">
 																	<label for="cambio_efectivo">Cambio</label>
 																	<input type="number" readonly name="cambio_efectivo" id="cambio_efectivo" class="inputfield" step="0.01" placeholder="0.00">																
 																</div>
-															</div>
+															</div>													
+														</div>
+														<div class="row">
+															<div class="col-12">
+															    <label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_efectivo" id="usuario_efectivo" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>	
 														</div>
 														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_efectivo" class="pay btn btn-info placeicon" form="formEfectivoBill">
+																<input type="submit" value="Efectuar Pago" id="pago_efectivo" class="mt-3 pay btn btn-info placeicon" form="formEfectivoBill">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -773,12 +873,18 @@
 													<form class="FormularioAjax" id="formTarjetaBill" method="POST" data-form="save" action="<?php echo SERVERURL;?>ajax/addPagoFacturasTarjetaAjax.php" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
 															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_tarjeta">Fecha</label>
+																	<input type="date" name="fecha_tarjeta" id="fecha_tarjeta" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																
+															<div class="col-12">
 																<div class="input-group"> 
 																<label>Número de Tarjeta</label> 
 																<input type="hidden" name="factura_id_tarjeta" id="factura_id_tarjeta">
 																<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
 																<input type="text" id="cr_bill" name="cr_bill" class="inputfield" placeholder="XXXX">
-																<input type="hidden" name="monto_efectivo" id="monto_efectivo_tarjeta" class="inputfield" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																<input type="number" style="display:none;" name="monto_efectivo" id="monto_efectivo_tarjeta" class="inputfield" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																<input type="hidden" name="importe" id="importe_tarjeta" class="inputfield" step="0.01" placeholder="0.00" >		
 																<input type="hidden" name="tipo_factura" id="tipo_factura" value="1">																	
 																</div>
@@ -798,9 +904,20 @@
 																</div>
 															</div>
 														</div>
+
+														<div class="row">
+															<div class="col-md-12">
+																<label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_tarjeta" id="usuario_tarjeta" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>
+														</div>
+
 														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_tarjeta" class="pay btn btn-info placeicon" form="formTarjetaBill">
+																<input type="submit" value="Efectuar Pago" id="pago_tarjeta" class="mt-3 pay btn btn-info placeicon" form="formTarjetaBill">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -816,6 +933,12 @@
 													<h6 class="mt-0 mb-4 text-center">Ingrese Pago Mixto</h6>
 													<form class="FormularioAjax" id="formMixtoBill" action="<?php echo SERVERURL;?>ajax/addPagoMixtoAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
+															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_efectivo_mixto">Fecha</label>
+																	<input type="date" name="fecha_efectivo_mixto" id="fecha_efectivo_mixto" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																															
 															<div class="col-12 col-md-6">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
@@ -838,8 +961,7 @@
 															<div class="col-12">
 																<div class="input-group"> 
 																<label>Número de Tarjeta</label> 
-																<input type="text" id="cr_bill_mixto" name="cr_bill" class="inputfield"  placeholder="XXXX">
-																																																
+																<input type="text" id="cr_bill_mixto" name="cr_bill" class="inputfield"  placeholder="XXXX">																															
 																</div>
 															</div>
 														</div>
@@ -858,8 +980,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-md-12">
+																<label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_pago_mixto" id="usuario_pago_mixto" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_efectivo_mixto" class="pay btn btn-info placeicon" form="formMixtoBill">
+																<input type="submit" value="Efectuar Pago" id="pago_efectivo_mixto" class="mt-3 pay btn btn-info placeicon" form="formMixtoBill">
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -876,15 +1007,21 @@
 													<form class="FormularioAjax" id="formTransferenciaBill" method="POST" data-form="save" action="<?php echo SERVERURL;?>ajax/addPagoFacturasTransferenciaAjax.php" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
 															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_transferencia">Fecha</label>
+																	<input type="date" name="fecha_transferencia" id="fecha_transferencia" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>															
+															<div class="col-12">
 															    <label>Banco</label> 
 																<div class="input-group"> 																	
 																	<input type="hidden" name="factura_id_transferencia" id="factura_id_transferencia">
-																	<select required name="bk_nm" id="bk_nm" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
+																	<select required name="bk_nm" id="bk_nm" class="selectpicker inputfield" data-live-search="true" title="Banco">
 																		<option value="">Seleccione un Banco</option>
 																	</select> 	
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">																
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">		
-																	<input type="hidden" name="importe" id="importe_transferencia" class="inputfield mt-5" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																	<input type="number" name="importe" id="importe_transferencia" class="inputfield mt-5" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																	<input type="hidden" name="tipo_factura" id="tipo_factura_transferencia" value="1" step="0.01" placeholder="0.00"> 								
 																</div>
 															</div>
@@ -904,8 +1041,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-md-12">
+																<label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_transferencia" id="usuario_transferencia" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>
+														</div>															
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="pay btn btn-info placeicon" form="formTransferenciaBill"> 
+																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="mt-3 pay btn btn-info placeicon" form="formTransferenciaBill"> 
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -923,6 +1069,12 @@
 													<form class="FormularioAjax" id="formChequeBill" method="POST" data-form="save" action="<?php echo SERVERURL;?>ajax/addPagoFacturasChequeAjax.php" autocomplete="off" enctype="multipart/form-data">
 														<div class="row">
 															<div class="col-12">
+																<div class="input-group">
+																	<label for="fecha_cheque">Fecha</label>
+																	<input type="date" name="fecha_cheque" id="fecha_cheque" class="inputfield" value="<?php echo date("Y-m-d");?>">																
+																</div>
+															</div>																															
+															<div class="col-12">
 															    <label>Banco</label> 
 																<div class="input-group"> 	
 																    <input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">																
@@ -931,7 +1083,7 @@
 																		<option value="">Seleccione un Banco</option>
 																	</select> 																	
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">		
-																	<input type="hidden" name="importe" id="importe_cheque" class="inputfield mt-5"step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																	<input type="number" name="importe" id="importe_cheque" class="inputfield mt-5"step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																	<input type="hidden" name="tipo_factura" id="tipo_factura_cheque" value="1" step="0.01" placeholder="0.00"> 								
 																</div>
 															</div>
@@ -945,8 +1097,17 @@
 															</div>
 														</div>
 														<div class="row">
+															<div class="col-md-12">
+																<label>Quien Recibe</label> 
+																<div class="input-group"> 																	
+																	<select required name="usuario_cheque" id="usuario_cheque" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
+																	</select> 								
+																</div>
+															</div>
+														</div>														
+														<div class="row">
 															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="pay btn btn-info placeicon" form="formChequeBill"> 
+																<input type="submit" value="Efectuar Pago" id="pago_transferencia" class="mt-3 pay btn btn-info placeicon" form="formChequeBill"> 
 															</div>
 														</div>
 														<div class="RespuestaAjax"></div>
@@ -1005,23 +1166,30 @@
 				</div>					
 			  </div>
 			  <div class="form-row">
-				<div class="col-md-4 mb-3">
+				<div class="col-md-3 mb-3">
 					<label for="fecha_clientes">Fecha <span class="priority">*<span/></label>
 					<div class="input-group mb-3">
 						<input type="date" required id="fecha_clientes" name="fecha_clientes" value="<?php echo date ("Y-m-d");?>" class="form-control"/>
 					</div>	 
 				</div>				  
-				<div class="col-md-4 mb-3">
-				  <label for="departamento_cliente">Departamento <span class="priority">*<span/></label>
-				  <select class="form-control" id="departamento_cliente" name="departamento_cliente" required>			  
-				  </select>
+				<div class="col-md-3 mb-3">
+					<label for="departamento_cliente">Departamento <span class="priority">*<span/></label>			
+				  	<div class="input-group mb-3">
+					  <select class="selectpicker" id="departamento_cliente" name="departamento_cliente" required data-live-search="true" title="Departamentos">			  
+				 	 </select>
+					</div>
 				</div>
-				<div class="col-md-4 mb-3">
-				  <label for="municipio_cliente">Municipio <span class="priority">*<span/></label>
-				  <select class="form-control" id="municipio_cliente" name="municipio_cliente" required>
-					<option value="">Seleccione</option>
-				  </select>
-				</div>				
+				<div class="col-md-3 mb-3">
+					<label for="municipio_cliente">Municipio <span class="priority">*<span/></label>			
+				  	<div class="input-group mb-3">
+					  <select class="selectpicker" id="municipio_cliente" name="municipio_cliente" required data-live-search="true" title="Municipio">
+				  	 </select>
+					</div>
+				</div>	
+				<div class="col-md-3 mb-3">
+				  <label for="telefono_clientes">Teléfono</label>
+				  <input type="number" class="form-control" id="telefono_clientes" name="telefono_clientes" placeholder="Teléfono" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+				</div>						
 			  </div>
 			  <div class="form-row">
 				<div class="col-md-12 mb-3">
@@ -1030,11 +1198,7 @@
 				</div>				  				
 			  </div>
 			  <div class="form-row">			  
-				<div class="col-md-4 mb-3">
-				  <label for="telefono_clientes">Teléfono</label>
-				  <input type="number" class="form-control" id="telefono_clientes" name="telefono_clientes" placeholder="Teléfono" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-				</div>
-				<div class="col-md-8 mb-3">
+				<div class="col-md-12 mb-3">
 					<label for="correo_clientes">Correo</label>
 					<div class="input-group mb-3">
 					  <input type="email" class="form-control" placeholder="Correo" id="correo_clientes" name="correo_clientes" aria-label="Correo" aria-describedby="basic-addon2" maxlength="70">
@@ -1091,51 +1255,54 @@
 					</div>							
 				</div>				  
 				<div class="form-row">
-				<div class="col-md-8 mb-3">
-				  <label for="nombre_proveedores">Proveedor <span class="priority">*<span/></label>
-				  <input type="text" class="form-control" id="nombre_proveedores" name="nombre_proveedores" placeholder="Proveedor" required maxlength="150" placeholder="RTN" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+					<div class="col-md-8 mb-3">
+					  <label for="nombre_proveedores">Proveedor <span class="priority">*<span/></label>
+					  <input type="text" class="form-control" id="nombre_proveedores" name="nombre_proveedores" placeholder="Proveedor" required maxlength="150" placeholder="RTN" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+					</div>
+					<div class="col-md-4 mb-3">
+					  <label for="rtn_proveedores">Identidad o RTN</label>
+						<div class="input-group mb-3">
+							<input type="number" class="form-control" id="rtn_proveedores" name= "rtn_proveedores" maxlength="14" placeholder="RTN" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+							<div class="input-group-append" id="grupo_editar_rtn">				
+								<span data-toggle="tooltip" data-placement="top" title="Editar RTN"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control editar_rtn"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i></a></span>
+							</div>
+						</div>				  
+					</div>					
 				</div>
-				<div class="col-md-4 mb-3">
-				  <label for="rtn_proveedores">Identidad o RTN</label>
-				  	<div class="input-group mb-3">
-				  		<input type="number" class="form-control" id="rtn_proveedores" name= "rtn_proveedores" maxlength="14" placeholder="RTN" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-						<div class="input-group-append" id="grupo_editar_rtn">				
-							<span data-toggle="tooltip" data-placement="top" title="Editar RTN"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control editar_rtn"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i></a></span>
+				<div class="form-row">
+					<div class="col-md-3 mb-3">
+						<label for="fecha_proveedores">Fecha <span class="priority">*<span/></label>
+						<div class="input-group mb-3">
+							<input type="date" required id="fecha_proveedores" name="fecha_proveedores" value="<?php echo date ("Y-m-d");?>" class="form-control"/>
+						</div>	 
+					</div>		
+					<div class="col-md-3 mb-3">
+						<label for="departamento_proveedores">Departamento <span class="priority">*<span/></label>			
+						<div class="input-group mb-3">
+						  <select class="selectpicker" id="departamento_proveedores" name="departamento_proveedores" required data-live-search="true" title="Departamentos">			  
+						 </select>
 						</div>
-					</div>				  
-				</div>					
+					</div>
+					<div class="col-md-3 mb-3">
+						<label for="municipio_proveedores">Municipio <span class="priority">*<span/></label>			
+						<div class="input-group mb-3">
+						  <select class="selectpicker" id="municipio_proveedores" name="municipio_proveedores" required data-live-search="true" title="Municipios">			  
+						 </select>
+						</div>
+					</div>	
+					<div class="col-md-3 mb-3">
+					  <label for="dirección_proveedores">Dirección</label>
+					  <input type="text" class="form-control" id="telefono_proveedores" name="telefono_proveedores" placeholder="Teléfono">
+					</div>							
 				</div>
 				<div class="form-row">
-				<div class="col-md-4 mb-3">
-					<label for="fecha_proveedores">Fecha <span class="priority">*<span/></label>
-					<div class="input-group mb-3">
-						<input type="date" required id="fecha_proveedores" name="fecha_proveedores" value="<?php echo date ("Y-m-d");?>" class="form-control"/>
-					</div>	 
-				</div>				  
-				<div class="col-md-4 mb-3">
-				  <label for="departamento_proveedores">Departamento <span class="priority">*<span/></label>
-				  <select class="form-control" id="departamento_proveedores" name="departamento_proveedores" required>		  
-				  </select>
-				</div>
-				<div class="col-md-4 mb-3">
-				  <label for="municipio_proveedores">Municipio <span class="priority">*<span/></label>
-				  <select class="form-control" id="municipio_proveedores" name="municipio_proveedores" required>
-					<option value="">Seleccione</option>				  
-				  </select>
-				</div>				
-				</div>
-				<div class="form-row">
-				<div class="col-md-12 mb-3">
-				  <label for="dirección_proveedores">Dirección</label>
-				  <input type="text" class="form-control" id="dirección_proveedores" name="dirección_proveedores" placeholder="Dirección" maxlength="150">
-				</div>				  				
+					<div class="col-md-12 mb-3">
+					  <label for="dirección_proveedores">Dirección</label>
+					  <input type="text" class="form-control" id="dirección_proveedores" name="dirección_proveedores" placeholder="Dirección" maxlength="150">
+					</div>				  				
 				</div>
 				<div class="form-row">			  
-					<div class="col-md-4 mb-3">
-					  <label for="telefono_proveedores">Teléfono</label>
-					  <input type="number" class="form-control" id="telefono_proveedores" name="telefono_proveedores" placeholder="Teléfono" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-					</div>
-					<div class="col-md-8 mb-3">
+					<div class="col-md-12 mb-3">
 						<label for="correo_proveedores">Correo</label>
 						<div class="input-group mb-3">
 						  <input type="email" class="form-control" placeholder="Correo" id="correo_proveedores" name="correo_proveedores" aria-label="Correo" aria-describedby="basic-addon2" maxlength="70">
@@ -1210,6 +1377,8 @@
 										<th>Categoria</th>
 										<th>Precio Venta</th>							
 										<th>Almacén</th>
+										<th></th>
+										<th>ISV</th>										
 									</tr>
 								</thead>
 							</table>
@@ -1331,40 +1500,50 @@
 					</div>							
 				</div>				
 				<div class="form-row">
-				<div class="col-md-6 mb-3">
-				  <label for="nombre">Nombre <span class="priority">*<span/></label>
-				  <input type="text" class="form-control" id="nombre_colaborador" name="nombre_colaborador" placeholder="Nombre" required>
-				</div>
-				<div class="col-md-6 mb-3">
-				  <label for="apellido">Apellido <span class="priority">*<span/></label>
-				  <input type="text" class="form-control" id="apellido_colaborador" name="apellido_colaborador" placeholder="Apellido" required>
-				</div>
-				</div>
-				<div class="form-row">
-				<div class="col-md-6 mb-3">
-				  <label for="identidad">Identidad <span class="priority">*<span/></label>
-				  <input type="number" class="form-control" id="identidad_colaborador" name= "identidad_colaborador" placeholder="Identidad" maxlength="13" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
-				</div>			  
-				<div class="col-md-6 mb-3">
-				  <label for="telefono">Teléfono <span class="priority">*<span/></label>
-				  <input type="number" class="form-control" id="telefono_colaborador" name="telefono_colaborador" placeholder="Teléfono" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
-				</div>
+					<div class="col-md-6 mb-3">
+						<label for="nombre">Nombre <span class="priority">*<span/></label>
+						<input type="text" class="form-control" id="nombre_colaborador" name="nombre_colaborador" placeholder="Nombre" required>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label for="apellido">Apellido <span class="priority">*<span/></label>
+						<input type="text" class="form-control" id="apellido_colaborador" name="apellido_colaborador" placeholder="Apellido" required>
+					</div>
 				</div>
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
-					  <label for="estado">Puesto <span class="priority">*<span/></label>
-					  <select class="form-control" id="puesto_colaborador" name="puesto_colaborador" required>			  
-					  </select>
-					</div>				
+						<label for="identidad_colaborador">Identidad <span class="priority">*<span/></label>
+						<input type="number" class="form-control" id="identidad_colaborador" name= "identidad_colaborador" placeholder="Identidad" maxlength="13" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+					</div>			  
+					<div class="col-md-6 mb-3">
+						<label for="telefono">Teléfono <span class="priority">*<span/></label>
+						<input type="number" class="form-control" id="telefono_colaborador" name="telefono_colaborador" placeholder="Teléfono" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-md-6 mb-3">
+						<label for="fecha_ingreso_colaborador">Fecha Ingreso <span class="priority">*<span/></label>
+						<input type="date" class="form-control" id="fecha_ingreso_colaborador" name="fecha_ingreso_colaborador" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Ingreso" required>
+					</div>			  
+					<div class="col-md-6 mb-3">
+						<label for="fecha_egreso_colaborador">Fecha Egreso</label>
+						<input type="number" class="form-control" id="fecha_egreso_colaborador" name="fecha_egreso_colaborador" placeholder="Fecha Egreso">
+					</div>
+				</div>				
+				<div class="form-row">				
+					<div class="col-md-6 mb-3">
+					  <label>Puesto <span class="priority">*<span/></label>
+					  <div class="input-group mb-3">
+						  <select id="puesto_colaborador" name="puesto_colaborador" class="selectpicker" title="Puesto" data-live-search="true" required>
+							<option value="">Seleccione</option>
+						  </select>
+					   </div>
+					</div>	
 					<div class="col-md-6 mb-3">
 					  <label>Empresa <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
-						  <select id="colaborador_empresa_id" name="colaborador_empresa_id" class="custom-select" data-toggle="tooltip" data-placement="top" title="Modalidad">
+						  <select id="colaborador_empresa_id" name="colaborador_empresa_id" class="selectpicker" title="Empresa" data-live-search="true" required>
 							<option value="">Seleccione</option>
 						  </select>
-						  <div class="input-group-append" id="buscar_colaborador_empresa">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
 					   </div>
 					</div>						
 				</div>
@@ -1782,91 +1961,79 @@
 				
 				<div class="form-row">
 					<div class="col-md-3 mb-3">
-					  <label>Empresa <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <select id="producto_empresa_id" name="producto_empresa_id" class="custom-select" data-toggle="tooltip" data-placement="top" required>
+						<label for="producto_empresa_id">Empresa <span class="priority">*<span/></label>			
+						<div class="input-group mb-3">
+						<select id="producto_empresa_id" name="producto_empresa_id" required class="selectpicker" data-live-search="true" title="Empresa">
 							<option value="">Seleccione</option>
-						  </select>
-						  <div class="input-group-append" id="buscar_producto_empresa">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
-					   </div>
+						</select>
+						</div>
 					</div>	
 					<div class="col-md-3 mb-3">
-					  <label>Superior</label>
-					  <div class="input-group mb-3">
-						  <select id="producto_superior" name="producto_superior" class="custom-select" data-toggle="tooltip" data-placement="top">
+						<label for="producto_superior">Superior</label>			
+						<div class="input-group mb-3">
+						<select class="selectpicker" id="producto_superior" name="producto_superior" data-live-search="true" title="Superior">
 							<option value="">Seleccione</option>
-						  </select>
-						  <div class="input-group-append" id="buscar_producto_superior">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
-					   </div>
+						</select>
+						</div>
+					</div>
+					<div class="col-md-3 mb-3">
+						<label for="producto_categoria">Categoria</label>			
+						<div class="input-group mb-3">
+						<select class="selectpicker" id="producto_categoria" name="producto_categoria" required data-live-search="true" title="Categoria">
+							<option value="">Seleccione</option>
+						</select>
+						</div>
 					</div>	
 					<div class="col-md-3 mb-3">
-					  <label>Categoria <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <select id="producto_categoria" name="producto_categoria" class="custom-select" data-toggle="tooltip" data-placement="top">
+						<label for="almacen">Almacén</label>			
+						<div class="input-group mb-3">
+						<select id="almacen" name="almacen" required class="selectpicker" data-live-search="true" title="Almacén">
 							<option value="">Seleccione</option>
-						  </select>
-						  <div class="input-group-append" id="buscar_producto_categorias">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
-					   </div>
-					</div>						
-					<div class="col-md-3 mb-3">
-					  <label for="almacen">Almacén <span class="priority">*<span/></label>
-					  <select class="form-control" id="almacen" name="almacen" required>			  
-					  </select>
-					</div>						
+						</select>
+						</div>
+					</div>					
 				</div>
 				
 				<div class="form-row">
 					<div class="col-md-3 mb-3">
 					  <label for="tipo_producto">Tipo Producto <span class="priority">*<span/></label>
-					  <select class="form-control" id="tipo_producto" name="tipo_producto" required data-toggle="tooltip" data-placement="top">			  
+					  <select id="tipo_producto" name="tipo_producto" required class="selectpicker" data-live-search="true" title="Tipo Producto">			  
 					  </select>
 					</div>					
 					<div class="col-md-3 mb-3">
 					  <label for="medida">Medida <span class="priority">*<span/></label>
-					  <select class="form-control" id="medida" name="medida" required data-toggle="tooltip" data-placement="top">			  
+					  <select id="medida" name="medida" required class="selectpicker" data-live-search="true" title="Medida">			  
 					  </select>
-					</div>	
-					<div class="col-md-3 mb-3">
-						<label for="cantidad">Cantidad <span class="priority">*<span/></label>
-						<div class="input-group mb-3">
-							<input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="Cantidad" step="0.01" required>
-						</div>	 
 					</div>				  				
 					<div class="col-md-3 mb-3">
 					  <label for="departamento_cliente">Precio Compra <span class="priority">*<span/></label>
 					  <input type="number" class="form-control" id="precio_compra" name="precio_compra" placeholder="Precio Compra" step="0.01" required>
-					</div>						
+					</div>	
+					<div class="col-md-3 mb-3">
+					  <label for="precio_venta">Precio Venta</label>
+					  <input type="number" class="form-control" id="precio_venta" name="precio_venta" placeholder="Precio Venta" step="0.01">
+					</div>										
 				</div>
 				
 				<div class="form-row">				  
 					<div class="col-md-3 mb-3">
-					  <label for="municipio_cliente">% Ganancia</label>
+					  <label for="porcentaje_venta">% Ganancia</label>
 					  <input type="number" class="form-control" id="porcentaje_venta" name="porcentaje_venta" placeholder="Precio Venta" step="0.01">
 					</div>	
 					<div class="col-md-3 mb-3">
-					  <label for="municipio_cliente">Precio Venta</label>
-					  <input type="number" class="form-control" id="precio_venta" name="precio_venta" placeholder="Precio Venta" step="0.01">
-					</div>	
-					<div class="col-md-3 mb-3">
-					  <label for="municipio_cliente">Cantidad Mayoreo </label>
+					  <label for="cantidad_mayoreo">Cantidad Mayoreo </label>
 					  <input type="number" class="form-control" id="cantidad_mayoreo" name="cantidad_mayoreo" placeholder="Precio Mayoreo" step="0.01" value="3">
 					</div>	
 					<div class="col-md-3 mb-3">
-					  <label for="municipio_cliente">Precio Mayoreo </label>
+					  <label for="precio_mayoreo">Precio Mayoreo </label>
 					  <input type="number" class="form-control" id="precio_mayoreo" name="precio_mayoreo" placeholder="Precio Mayoreo" step="0.01">
-					</div>						
-				</div>
-				<div class="form-row">					
+					</div>		
 					<div class="col-md-3 mb-3">
 					  <label>Cantidad Mínima</label>
 					  <input type="number" id="cantidad_minima" name="cantidad_minima" placeholder="Cantidad Mínima" class="form-control" step="0.01">
-					</div>	
+					</div>									
+				</div>
+				<div class="form-row">					
 					<div class="col-md-3 mb-3">
 					  <label>Cantidad Máxima</label>
 					  <input type="number" id="cantidad_maxima" name="cantidad_maxima" placeholder="Cantidad Máxima" class="form-control" step="0.01">
@@ -1926,7 +2093,7 @@
 <!--Modal Transferencia de Producto / Bodega-->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="modal_transferencia_producto">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Transferir Producto</h5>
@@ -1938,22 +2105,36 @@
 		<form class="" id="formTransferencia" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
 			<div class="form-group text-center">
 				<input type="hidden" value="" id="productos_id" name="productos_id">
+				<input type="hidden" value="" id="id_bodega_actual" name="id_bodega_actual">
 				<label class="modal-title" id="nameProduct" class="col-form-label"></label>
           	</div>
-			 <div class="form-group mx-sm-3 mb-1">
-				<div class="input-group">				
-					<div class="input-group-append">				
-						<span class="input-group-text"><div class="sb-nav-link-icon"></div>Bodega</span>
-					</div>
-						<select id="id_bodega" name="id_bodega" class="custom-select" data-toggle="tooltip" data-placement="top" >
-			 			</select>
-				</div>
-			  </div>				
-			  <div class="RespuestaAjax"></div>	  
+
+			<div class="form-row">				
+				<div class="col-md-5 mb-3">
+					<label for="prefijo">Bodega</label>
+					<div class="input-group mb-3">
+						<select id="id_bodega" name="id_bodega" class="selectpicker" data-live-search="true" title="Bodega">
+						</select>
+						<div class="input-group-append">				
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-warehouse"></i></span>
+						</div>
+					</div>	 
+				</div>	
+				<div class="col-md-7 mb-9">
+					<label for="prefijo">Cantidad</label>
+					<div class="input-group mb-3">
+						<input type="number" id="cantidad_movimiento" name="cantidad_movimiento" placeholder="Cantidad" class="form-control" step="0.01">
+						<div class="input-group-append">				
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-sort-amount-up-alt"></i></span>
+						</div>
+					</div>	 
+				</div>										
+			</div>								
+			<div class="RespuestaAjax"></div>	  
 		</form>
       </div>
       <div class="modal-footer">
-			<button class="btn btn-primary ml-2" type="submit" id="putEditarBodega" ><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>
+			<button class="btn btn-primary ml-2" type="submit" id="putEditarBodega" ><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Mover</button>
 			<button class="btn btn-secondary ml-2" type="button" data-dismiss="modal"><div class="sb-nav-link-icon"></div><i class="fas fa-window-close"></i> Cerrar</button>
       </div>
     </div>
@@ -1963,49 +2144,102 @@
 <!--FN Modal Transferencia de Producto / Bodega-->
 
 <!-- modal de abonos cxc -->
-<div class="modal fade" id="ver_abono_cxc" tabindex="-1" role="dialog" aria-labelledby="ver_abono_cxcTitle" aria-hidden="true">
-	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="importe-cxc">Abonos</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-	  <form class="FormularioAjax" id="formulario_ver_abono_cxc">
-			<h5 id="ver_abono_cxcTitle"></h5>
-			<table class="table-modal-abonos w-100" id="table-modal-abonos" >
-				<thead>
-					<tr>
-						<th scope="col">Fecha</th>
-						<th scope="col">Tipo Pago</th>
-						<th scope="col">Descripcion</th>
-						<th scope="col">Abono</th>
-					</tr>
-				</thead>
-				<tbody class="">
-					
-				</tbody>
-				<tfoot class="bg-info text-white font-weight-bold">
-					<tr>
-						<td colspan='2' class="text-left">Total</td>
-						<td colspan="1"></td>
-						<td colspan='1' id='total-footer-modal-cxc' class="text-right"></td>
-						
-					</tr>
-				</tfoot>
-			</table>
-		</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        
+<div class="modal fade" id="ver_abono_cxc">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Abonos Clientes</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div><div class="container"></div>
+        <div class="modal-body">
+			<form class="FormularioAjax" id="formulario_ver_abono_cxc">				
+				<div class="form-group">
+					<input type="hidden" name="abono_facturas_id" id="abono_facturas_id" class="form-control">				  
+					<div class="col-md-12">			
+						<div class="overflow-auto">											
+							<table id="table-modal-abonos" class="table table-striped table-condensed table-hover" style="width:100%">
+								<h5 id="ver_abono_cxcTitle"></h5>
+								<thead>
+									<tr>
+										<th>Fecha</th>
+										<th>Tipo Pago</th>
+										<th>Descripcion</th>
+										<th>Abono</th>
+										<th>Usuario que recibe</th>
+									</tr>
+								</thead>
+								<tfoot class="bg-info text-white font-weight-bold">
+									<tr>
+										<td colspan='2' class="text-left">Total</td>
+										<td colspan="1"></td>
+										<td colspan='1' id='total-footer-modal-cxc' class="text-right"></td>
+										<td colspan="1"></td>										
+									</tr>
+								</tfoot>								
+							</table>
+						</div>				
+					</div>				  
+				</div>
+			</form>
+        </div>
+		<div class="modal-footer">
+
+		</div>			
       </div>
     </div>
-  </div>
 </div>
 <!-- FIN modal de abonos cxc -->
+
+<!-- modal de abonos cxp -->
+<div class="modal fade" id="ver_abono_cxp">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Abono Proveedores</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div><div class="container"></div>
+        <div class="modal-body">
+			<form class="FormularioAjax" id="formulario_ver_abono_cxp">				
+				<div class="form-group">
+					<input type="hidden" name="abono_compras_id" id="abono_compras_id" class="form-control">				  
+					<div class="col-md-12">			
+						<div class="overflow-auto">											
+							<table id="table-modal-abonosCXP" class="table table-striped table-condensed table-hover" style="width:100%">
+								<h5 id="ver_abono_cxPTitle"></h5>
+								<thead>
+									<tr>
+										<th>Fecha</th>
+										<th>Tipo Pago</th>
+										<th>Descripcion</th>
+										<th>Abono</th>
+										<th>Usuario que Entrega</th>
+									</tr>
+								</thead>
+								<tfoot class="bg-info text-white font-weight-bold">
+									<tr>
+										<td colspan='2' class="text-left">Total</td>
+										<td colspan="1"></td>
+										<td colspan='1' id='total-footer-modal-cxp' class="text-right"></td>
+										<td colspan="1"></td>
+									</tr>
+								</tfoot>								
+							</table>
+						</div>				
+					</div>				  
+				</div>
+			</form>
+        </div>
+		<div class="modal-footer">
+
+		</div>			
+      </div>
+    </div>
+</div>
+<!-- FIN modal de abonos cxp -->
 
 <!--INICIO MODAL EDITAR RTN CLIENTES-->
 <div class="modal fade" id="modalEditarRTNClientes">
@@ -2144,3 +2378,40 @@
     </div>
 </div>
 <!--FIN MODAL EDITAR BARCODE-->
+
+<!--INICIO CONSULTAR FACTURADORES-->
+<div class="modal fade" id="modal_consultar_facturadores">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Buscar Facturadores</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div><div class="container"></div>
+        <div class="modal-body">
+			<form class="FormularioAjax" id="formulario_consultar_facturadores">				
+				<div class="form-group">				  
+					<div class="col-md-12">			
+						<div class="overflow-auto">											
+							<table id="DatatableBusquedaConsultaFacturadores" class="table table-striped table-condensed table-hover" style="width:100%">
+								<thead>
+									<tr>
+										<th>Seleccione</th>
+										<th>Nombre</th>
+										<th>Identidad</th>
+									</tr>
+								</thead>
+							</table>
+						</div>				
+					</div>				  
+				</div>
+			</form>
+        </div>
+		<div class="modal-footer">
+
+		</div>			
+      </div>
+    </div>
+</div>
+<!--FIN CONSULTAR FACTURADORES-->

@@ -23,11 +23,12 @@
 			"image"=>$row['image'],
 			"barCode"=>$row['barCode'],
 			"nombre"=>$row['nombre'],
-			"cantidad"=>$saldo_productos,
 			"medida"=>$row['medida'],
 			"categoria"=>$row['categoria'],
-			"precio_compra"=>'L. '.$row['precio_compra'],
-			"precio_venta"=>'L. '.$row['precio_venta']		 			
+			"precio_compra"=> $row['precio_compra'],
+			"precio_venta"=> $row['precio_venta'],
+			"isv_venta"=> $row['isv_venta'],
+			"isv_compra"=> $row['isv_compra']					 			
 		);			
 	}
 	
@@ -39,3 +40,4 @@
 	);
 
 	echo json_encode($arreglo);
+?>	

@@ -6,9 +6,18 @@
 	$insMainModel = new mainModel();
 
 	$datos = [
+		"tipo_factura_reporte" => $_POST['tipo_factura_reporte'],
 		"fechai" => $_POST['fechai'],
 		"fechaf" => $_POST['fechaf'],		
 	];		
+
+	if($datos['tipo_factura_reporte'] == 1){//contado
+		$where = "WHERE CAST(f.fecha AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 2";
+	}elseif($datos['tipo_factura_reporte'] == 2){//credito
+		$where = "WHERE CAST(f.fecha AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 3";
+	}elseif($datos['tipo_factura_reporte'] == 3){//Anulado
+		$where = "WHERE CAST(f.fecha AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND f.estado = 4";
+	}
 
 		$query = "SELECT 
 		IFNULL(SUM(fd.cantidad*fd.precio),0.00) AS 'subtotal', 
@@ -20,14 +29,10 @@
 		INNER JOIN facturas_detalles AS fd
 		INNER JOIN productos AS p ON fd.productos_id = p.productos_id
 		ON f.facturas_id = fd.facturas_id
-		WHERE CAST(f.fecha AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
-		AND f.estado IN (1,2,3) 
-		ORDER BY f.fecha DESC";
-
+		$where";
     $result = $insMainModel->consulta_total_gastos($query);
 
     $row = $result->fetch_assoc();
 
     echo json_encode($row);
-
 	?>

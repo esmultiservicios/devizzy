@@ -32,7 +32,7 @@
 			$insert = "INSERT INTO movimientos
 				VALUES('$movimientos_id','".$datos['productos_id']."','".$datos['documento']."','".$datos['cantidad_entrada']."',
 				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
-				'".$datos['clientes_id']."','".$datos['comentario']."'
+				'".$datos['clientes_id']."','".$datos['comentario']."','".$datos['almacen_id']."'
 				)";
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 		
@@ -161,7 +161,7 @@
 		}
 		
 		protected function getISV_modelo(){
-			$result = mainModel::getISV();
+			$result = mainModel::getISV('Compras');
 			
 			return $result;
 		}
@@ -182,5 +182,12 @@
 			$result = mainModel::getCantidadProductos($productos_id);
 			
 			return $result;			
+		}	
+		
+		protected function total_hijos_segun_padre_modelo($productos_id){
+			$result = mainModel::getTotalHijosporPadre($productos_id);
+			
+			return $result;			
 		}			
 	}
+?>	

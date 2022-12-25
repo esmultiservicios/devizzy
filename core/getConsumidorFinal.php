@@ -18,3 +18,4 @@
 		2 => $valores2['rtn'], 		
 	);
 	echo json_encode($datos);
+?>	

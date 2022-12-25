@@ -84,7 +84,7 @@
 						"form" => "formEgresosContables",
 						"id" => "pro_egresos_contabilidad",
 						"valor" => "Registro",	
-						"funcion" => "listar_gastos_contabilidad();printGastos(".$egresos_id.");total_gastos_footer();",
+						"funcion" => "listar_gastos_contabilidad();getEmpresaEgresos(); getCuentaEgresos(); getProveedorEgresos();printGastos(".$egresos_id.");total_gastos_footer();",
 						"modal" => "",
 					];
 				}else{
@@ -137,7 +137,7 @@
 					"form" => "formEgresosContables",
 					"id" => "pro_egresos_contabilidad",
 					"valor" => "Registro",	
-					"funcion" => "listar_gastos_contabilidad();printGastos(".$egresos_id.")",
+					"funcion" => "listar_gastos_contabilidad();getEmpresaEgresos(); getCuentaEgresos(); getProveedorEgresos();printGastos(".$egresos_id.")",
 					"modal" => "modalEgresosContables",
 				];
 			}else{
@@ -230,7 +230,7 @@
 						"form" => "formEgresosContables",
 						"id" => "pro_egresos_contabilidad",
 						"valor" => "Eliminar",
-						"funcion" => "listar_gastos_contabilidad();",
+						"funcion" => "listar_gastos_contabilidad();getEmpresaEgresos(); getCuentaEgresos(); getProveedorEgresos();",
 						"modal" => "modalEgresosContables",
 					];
 				}else{
@@ -255,3 +255,4 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
+?>	

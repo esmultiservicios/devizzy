@@ -2,7 +2,6 @@
 $(document).ready(function() {
     listar_banco_contabilidad();
 });
-
 //INICIO BANCOS
 var listar_banco_contabilidad = function(){
 	var table_banco_contabilidad = $("#dataTableConfBancos").DataTable({
@@ -36,7 +35,7 @@ var listar_banco_contabilidad = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fa-university fa-lg"></i> Crear',
+				text:      '<i class="fas fa-university fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Bancos',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){

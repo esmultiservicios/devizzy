@@ -44,7 +44,7 @@
 						"form" => "formAlmacen",
 						"id" => "pro_almacen",
 						"valor" => "Registro",	
-						"funcion" => "listar_almacen();",
+						"funcion" => "listar_almacen();getEmpresaAlmacen();getUbicacionAlmacen();",
 						"modal" => "",
 					];
 				}else{
@@ -95,7 +95,7 @@
 					"form" => "formAlmacen",	
 					"id" => "pro_almacen",
 					"valor" => "Editar",
-					"funcion" => "listar_almacen();",
+					"funcion" => "listar_almacen();getEmpresaAlmacen();getUbicacionAlmacen();",
 					"modal" => "",
 				];
 			}else{
@@ -130,7 +130,7 @@
 						"form" => "formAlmacen",	
 						"id" => "pro_almacen",
 						"valor" => "Eliminar",
-						"funcion" => "listar_almacen();",
+						"funcion" => "listar_almacen();getEmpresaAlmacen();getUbicacionAlmacen();",
 						"modal" => "modal_almacen",
 					];
 				}else{
@@ -155,3 +155,4 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
+?>	

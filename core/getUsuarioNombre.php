@@ -18,3 +18,4 @@
 		1 => $valores2['identidad'],						
 	);
 	echo json_encode($datos);
+?>	

@@ -2,7 +2,6 @@
 $(document).ready(function() {
     listar_impuestos_contabilidad();
 });
-
 //INICIO IMPUESTOS
 var listar_impuestos_contabilidad = function(){
 	var table_impuestos_contabilidad = $("#dataTableConfImpuestos").DataTable({

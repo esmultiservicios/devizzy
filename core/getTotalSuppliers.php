@@ -15,4 +15,4 @@
 	}
 	
 	echo $totalSuppliers;
-	
+?>	

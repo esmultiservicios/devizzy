@@ -2,9 +2,8 @@ $('.FormularioAjax').submit(function(e){
     e.preventDefault();
 	
     var form=$(this);
-
     var tipo=form.attr('data-form');
-	
+
     var action=form.attr('action');
     var method=form.attr('method');
     var respuesta=form.children('.RespuestaAjax');

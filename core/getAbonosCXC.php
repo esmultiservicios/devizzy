@@ -12,9 +12,10 @@
 	$arreglo = array();
 	$data = array();
 		
-	while($row = $result->fetch_assoc()){
-		
+	while($row = $result->fetch_assoc()){		
         $total_abono += $row['abono'];
+
+		$no_factura = $row['prefijo'].str_pad( $row['numero'], $row['relleno'], "0", STR_PAD_LEFT);		
 
 		$data[] = array( 
 			"facturas_id"=>$row['facturas_id'],
@@ -24,7 +25,9 @@
 			"descripcion"=>$row['descripcion1'],
 			"tipo_pago"=>$row['tipo_pago'],
 			"importe"=>number_format($row['importe'],2),
-            "total"=> number_format($total_abono ,2)
+            "total"=> number_format($total_abono ,2),
+			"no_factura"=>$no_factura,
+			"usuario"=>$row['usuario'],
 		);		
 	}
 	
@@ -36,3 +39,4 @@
 	);
 
 	echo json_encode($arreglo);
+?>	

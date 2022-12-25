@@ -6,6 +6,7 @@ function sf(ID) {
 function redireccionar() {
     window.location = "../vistas/index.php";
 }
+
 $(document).ready(function() {
     $("#loginform").submit(function() {
         var url = '<?php echo SERVERURL;?>ajax/iniciarSesionAjax.php';
@@ -29,14 +30,22 @@ $(document).ready(function() {
                 var datos = eval(resp);
                 if (datos[0] != "") {
                     setTimeout(window.location = datos[0], 1200);
-                } else if (datos[1] == "ErrorS") {
+                }else if (datos[1] == "ErrorS") {
                     swal({
                         title: "Error",
                         text: "Usuario o contraseña son incorrectos por favor corregir",
                         type: "error",
                         confirmButtonClass: 'btn-danger'
                     });
-                } else {
+                }else if (datos[1] == "ErrorP") {
+                    swal({
+                        title: "Error",
+                        text: "No es posible acceder al sistema en este momento, Por favor pongase en contacto con nuestra area de recaudacion para el procesamiento y renovacion de su servicio, puede llamarnos o escribirnos al +504 3310-9738, donde gustosamente se le atendera.",
+                        type: "error",
+                        confirmButtonClass: 'btn-danger'
+                    });
+                }                    
+                else {
                     swal({
                         title: "Error",
                         text: "No se enviaron los datos, favor corregir",

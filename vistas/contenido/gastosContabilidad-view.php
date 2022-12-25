@@ -9,6 +9,17 @@
 				<div class="form-group mx-sm-3 mb-1">
 					<div class="input-group">				
 						<div class="input-group-append">				
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
+						</div>
+						<select id="estado_egresos" name="estado_egresos" class="custom-select" data-toggle="tooltip" data-placement="top" title="Tipo de Factura">
+							<option value="1">Activas</option>
+							<option value="2">Anuladas</option>
+					  </select>
+					</div>
+				</div>					
+				<div class="form-group mx-sm-3 mb-1">
+					<div class="input-group">				
+						<div class="input-group-append">				
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
 						</div>
 						<input type="date" class="form-control" id="fechai" name="fechai" value="<?php 
@@ -105,13 +116,11 @@
 						}			
 					?>
 
-				</div>
-				
+				</div>				
 			</div>
         </div>
     </div>
 </div>
-
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Gastos Contabilidad");
 ?>

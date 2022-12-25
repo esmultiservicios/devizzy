@@ -200,7 +200,6 @@
 		<p class="nota"><b>__________________________</p>	
 		<p class="nota"><b>Autorizado por:</p>									
 	</div>
-
 </div>
 </body>
 </html>

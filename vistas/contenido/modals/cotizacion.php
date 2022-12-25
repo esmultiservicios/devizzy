@@ -48,7 +48,6 @@
     </div>
 </div>
 <!--FIN MODAL PARA AYUDA-->
-
 <!--INICIO MODAL PARA MODIFICAR PRECIO COTIZACIONES-->
 <div class="modal fade" id="modalModificarPrecioCotizaciones">
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
@@ -104,7 +103,6 @@
     </div>
 </div>
 <!--FIN MODAL PARA MODIFICAR PRECIO COTIZACIONES-->
-
 <!--INICIO MODAL PARA FORMULARIO DESCENTOS EN COTIZACIONES-->
 <div class="modal fade" id="modalDescuentoCotizaciones">
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">

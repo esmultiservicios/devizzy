@@ -6,24 +6,11 @@
 	$insMainModel = new mainModel();
 	
 	$fecha = date("Y-m-d");
-	$result = $insMainModel->getCambioDolar($fecha);
-
-	$compra = 0;
-	$venta = 0;
-
-	if($result->num_rows>0){
-		$consulta2 = $result->fetch_assoc();
-		$compra = $consulta2['compra'];
-		$venta = $consulta2['venta'];
+	$data = htmlentities(file_get_contents("https://www.bancopromerica.com/banca-de-empresas/banca-internacional/mesa-de-cambio/"));
+	echo $data;
+	if (preg_match('|<h2 style="margin: 12px 0 0 0;">(.*?)</h2>|is' , $data , $cap )){
+		echo "UF ".$cap[1];
 	}else{
-		$compra = 1;
-		$venta = 1;		
+		echo 'nada';
 	}
-
-	$datos = array(
-		0 => $compra,
-		1 => $venta											
-	);	
-
-	echo json_encode($datos);	
-?>
+	

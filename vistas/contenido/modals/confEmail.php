@@ -1,6 +1,6 @@
 <!--INICIO MODAL PARA EL INGRESO DE CORREOS-->
 <div class="modal fade" id="modalConfEmails">
-	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Correo</h4>
@@ -22,18 +22,17 @@
 					</div>							
 				</div>
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
-					  <label>Tipo correo <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <select id="tipo_correo_confEmail" name="tipo_correo_confEmail" class="custom-select" data-toggle="tooltip" data-placement="top" title="Modalidad">
-							<option value="">Seleccione</option>
+					<div class="col-md-3 mb-3">
+					   <label>Tipo correo <span class="priority">*<span/></label>
+					   <div class="input-group mb-3">
+					 	  <select id="tipo_correo_confEmail" name="tipo_correo_confEmail" class="selectpicker" data-live-search="true" title="Tipo Correo">
 						  </select>
-						  <div class="input-group-append" id="buscar_tipo_correo_ubicacion" style="display: none;">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
+						  <div class="input-group-append" id="buscar_empresa_ubicacion">				
+						  	<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-inbox fa-lg"></i></span>
 						  </div>
-					   </div>
+					   </div>					
 					</div>
-					<div class="col-md-6 mb-3">
+					<div class="col-md-3 mb-3">
 					  <label>Servidor <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
 							<input type="text" required id="serverConfEmail" name="serverConfEmail" class="form-control" placeholder="Banco" class="form-control"  maxlength="30" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
@@ -41,10 +40,8 @@
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-server fa-lg"></i></span>
 							</div>
 						</div>
-					</div>										
-				</div>				
-				<div class="form-row">
-					<div class="col-md-6 mb-3">
+					</div>
+					<div class="col-md-3 mb-3">
 					  <label>Correo <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
 							<input type="text" required id="correoConfEmail" name="correoConfEmail" class="form-control" placeholder="Correo" class="form-control"  maxlength="30" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
@@ -53,7 +50,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6 mb-3">
+					<div class="col-md-3 mb-3">
 					  <label>Contraseña <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
 							<input type="password" required id="passConfEmail" name="passConfEmail" class="form-control" placeholder="Contraseña" class="form-control"  maxlength="30" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
@@ -61,10 +58,10 @@
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-key fa-lg"></i></span>
 							</div>
 						</div>
-					</div>										
-				</div>
+					</div>						
+				</div>				
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
+					<div class="col-md-3 mb-3">
 					  <label>Puerto <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
 							<input type="text" required id="puertoConfEmail" name="puertoConfEmail" class="form-control" placeholder="Puerto" class="form-control"  maxlength="30" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
@@ -73,11 +70,10 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6 mb-3">
-					  <label>SMTP Secure <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <select id="smtpSecureConfEmail" name="smtpSecureConfEmail" class="custom-select" data-toggle="tooltip" data-placement="top" title="Modalidad">
-							<option value="">Seleccione</option>
+					<div class="col-md-3 mb-3">
+					   <label>SMTP Secure <span class="priority">*<span/></label>
+					   <div class="input-group mb-3">
+					 	  <select id="smtpSecureConfEmail" name="smtpSecureConfEmail" class="selectpicker" data-live-search="true" title="SMTP">
 						  </select>
 						  <div class="input-group-append" id="buscar_empresa_ubicacion">				
 						  	<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-shield-alt fa-lg"></i></span>
