@@ -22,7 +22,7 @@ p, label, span, table{
 	font-family: verdana;
 	font-size: 11pt;
 	display: block;
-	background: #3cae4e;
+	background: #649bcc;
 	color: #FFF;
 	text-align: center;
 	padding: 3px;
@@ -90,7 +90,7 @@ p, label, span, table{
 	border-collapse: collapse;
 }
 #factura_detalle thead th{
-	background: #154b35;
+	background: #254e73;
 	color: #FFF;
 	padding: 5px;
 }
