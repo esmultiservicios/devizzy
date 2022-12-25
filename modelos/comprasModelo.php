@@ -10,7 +10,7 @@
 			$compras_id = mainModel::correlativo("compras_id", "compras");
 			$insert = "INSERT INTO compras 
 				VALUES('$compras_id','".$datos['proveedores_id']."','".$datos['number']."','".$datos['tipoPurchase']."','".$datos['colaboradores_id']."','".$datos['importe']."','".$datos['notas']."','".$datos['fecha']."','".$datos['estado']."','".$datos['usuario']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
-
+			
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $result;			

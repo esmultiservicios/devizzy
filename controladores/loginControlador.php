@@ -152,7 +152,7 @@
 			$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-10"));
 	
 			//SI NOS ESTAMOS CONECTANDO AL SISTEMA PRINCIPAL, SIMPLEMENTE ENTRAMOS SIN PROBLEMA
-			if(DB == "kireds_clientes_dipronor"){
+			if(DB == "clinicarehn_clientes_clinicare"){
 				$datos = 1;
 			}else{			
 				$result_pagoVencido = loginModel::validar_cliente_pagos_vencidos_main_server_modelo();//METODO QUE VALIDA LOS PAGOS VENCIDOS DE LOS CLIENTES

@@ -1993,7 +1993,7 @@
 		}
 
 		public function getNominaComprobante($nomina_id){
-			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id', e.rtn AS 'rtn_empresa', DATE_FORMAT(n.fecha_registro, '%d/%m/%Y') AS fecha_registro, YEAR(n.fecha_registro) AS 'ano_registro'
+			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id', e.rtn AS 'rtn_empresa', DATE_FORMAT(n.fecha_registro, '%d/%m/%Y') AS fecha_registro, YEAR(n.fecha_registro) AS 'ano_registro', MONTHNAME(n.fecha_registro) AS 'mes_registro'
 			FROM nomina AS n
 			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
 			WHERE n.nomina_id = '".$nomina_id."' AND n.estado = 1
@@ -2959,14 +2959,9 @@
 				ON c.colaboradores_id = co.colaboradores_id
 				INNER JOIN empresa AS e
 				ON co.empresa_id = e.empresa_id
-
 				INNER JOIN vigencia_cotizacion AS vg
-
 				ON c.vigencia_cotizacion_id = vg.vigencia_cotizacion_id
-
 				WHERE c.cotizacion_id = '$noCotizacion'";
-
-
 
 			$result = self::connection()->query($query);
 

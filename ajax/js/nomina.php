@@ -78,7 +78,7 @@ var listar_nominas = function(){
                 },
 			},
 			{"data":"notas"},									
-			{"defaultContent":"<div class='btn-group'><button type='button' class='btn btn-dark table_editar ocultar dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><i class='fas fa-users-cog'></i> Aciones</button><div class='dropdown-menu'><a class='dropdown-item nomina_generar' href='#'>Generar Nomina</a><div class='dropdown-divider'></div><a class='dropdown-item voucher_pago' href='#'>Voucher de Pago</a><a class='dropdown-item libro_salarios' href='#'>Libro de Salarios</a></div></div>"},
+			{"defaultContent":"<div class='btn-group'><button type='button' class='btn btn-dark table_editar ocultar dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><i class='fas fa-users-cog'></i> Aciones</button><div class='dropdown-menu'><a class='dropdown-item nomina_generar' href='#'>Generar Nomina</a><div class='dropdown-divider'></div><a class='dropdown-item voucher_pago' href='#'>Voucher de Pago</a><a class='dropdown-item consolidado' href='#'>Consolidado</a></div></div>"},
 			{"defaultContent":"<button class='table_editar nomina_agregar btn btn-dark ocultar'><span class='fas fa-folder-plus fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_editar nomina_editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar nomina_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}
@@ -275,8 +275,8 @@ var voucher_nominas_dataTable = function(tbody, table){
 }
 
 var libro_saslarios_nominas_dataTable = function(tbody, table){
-	$(tbody).off("click", "a.libro_salarios");
-	$(tbody).on("click", "a.libro_salarios", function(){
+	$(tbody).off("click", "a.consolidado");
+	$(tbody).on("click", "a.consolidado", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 
 		if(data.estado == 0){
@@ -289,7 +289,7 @@ var libro_saslarios_nominas_dataTable = function(tbody, table){
 				allowOutsideClick: false					
 			});				
 		}else{
-			var url_comprobante = '<?php echo SERVERURL; ?>core/generarLibroSalarios.php?nomina_id='+data.nomina_id;
+			var url_comprobante = '<?php echo SERVERURL; ?>core/generarConsolidadoNomina.php?nomina_id='+data.nomina_id;
 			window.open(url_comprobante);
 		}
 	});
