@@ -3959,9 +3959,9 @@
 			p.id_producto_superior
 		FROM
 			movimientos AS m
-		RIGHT JOIN productos AS p ON m.productos_id = p.productos_id
-		LEFT JOIN medida AS me ON p.medida_id = me.medida_id
-		LEFT JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
+		INNER JOIN productos AS p ON m.productos_id = p.productos_id
+		INNER JOIN medida AS me ON p.medida_id = me.medida_id
+		INNER JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
 					WHERE p.estado = 1
 					$tipo_product
 				    $bodega
