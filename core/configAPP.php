@@ -15,6 +15,9 @@
     const USER_MAIN = "clinicarehn_clinicare";
     const PASS_MAIN = "Clin1c@r32022#";  
 
+    //BASE DE DATOS EXCEPTION LOGIN CONTROLADOR
+    const DB_MAIN_LOGIN_CONTROLADOR = "clinicarehn_clientes_clinicare";//LA BASE DE DATOS QUE ESTE AQUÍ SE EXCEPTÚA EN EL LOGIN CONTROLADOR
+
     /*
         Para encrptar y Desencriptar
         Nota: Estos valores no se deben cambiar, si hay datos en la DB    

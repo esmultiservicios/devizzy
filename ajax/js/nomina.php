@@ -482,52 +482,62 @@ function modal_nominas(){
 }
 
 function modalNominasDetalles(){
-	$('#formNominaDetalles').attr({ 'data-form': 'save' });
-	$('#formNominaDetalles').attr({ 'action': '<?php echo SERVERURL;?>ajax/addNominaDetallesAjax.php' });
-	
-	var nomina_id = $('#formNominaDetalles #nomina_id').val();
-	var numero_nomima = $('#formNominaDetalles #nominad_numero').val();
-	var detalle = $('#formNominaDetalles #nominad_detalle').val();
+	if($('#form_main_nominas #estado_nomina').val() == 0){
+		$('#formNominaDetalles').attr({ 'data-form': 'save' });
+		$('#formNominaDetalles').attr({ 'action': '<?php echo SERVERURL;?>ajax/addNominaDetallesAjax.php' });
+		
+		var nomina_id = $('#formNominaDetalles #nomina_id').val();
+		var numero_nomima = $('#formNominaDetalles #nominad_numero').val();
+		var detalle = $('#formNominaDetalles #nominad_detalle').val();
 
-	$('#formNominaDetalles')[0].reset();
-	getEmpleado();
-	$('#formNominaDetalles #nomina_id').val(nomina_id);
-	$('#formNominaDetalles #nominad_numero').val(numero_nomima);
-	$('#formNominaDetalles #nominad_detalle').val(detalle);
+		$('#formNominaDetalles')[0].reset();
+		getEmpleado();
+		$('#formNominaDetalles #nomina_id').val(nomina_id);
+		$('#formNominaDetalles #nominad_numero').val(numero_nomima);
+		$('#formNominaDetalles #nominad_detalle').val(detalle);
 
-	$('#reg_nominaD').show();
-	$('#edi_nominaD').hide();
-	$('#delete_nominaD').hide();
+		$('#reg_nominaD').show();
+		$('#edi_nominaD').hide();
+		$('#delete_nominaD').hide();
 
-	//HABILITAR OBJETOS
-	$('#formNominaDetalles #nominad_diast').attr('readonly', false);
-	$('#formNominaDetalles #nominad_retroactivo').attr('readonly', false);
-	$('#formNominaDetalles #nominad_bono').attr('readonly', false);
-	$('#formNominaDetalles #nominad_otros_ingresos').attr('readonly', false);
-	$('#formNominaDetalles #nominad_horas25').attr('readonly', false);
-	$('#formNominaDetalles #nominad_horas50').attr('readonly', false);
-	$('#formNominaDetalles #nominad_horas75').attr('readonly', false);
-	$('#formNominaDetalles #nominad_horas100').attr('readonly', false);
-	$('#formNominaDetalles #nominad_deducciones').attr('readonly', false);
-	$('#formNominaDetalles #nominad_prestamo').attr('readonly', false);
-	$('#formNominaDetalles #nominad_ihss').attr('readonly', false);
-	$('#formNominaDetalles #nominad_rap').attr('readonly', false);
-	$('#formNominaDetalles #nominad_isr').attr('readonly', false);
-	$('#formNominaDetalles #nominad_incapacidad_ihss').attr('readonly', false);
-	$('#formNominaDetalles #nomina_detalles_notas').attr('readonly', false);
-	$('#formNominaDetalles #nominad_neto_ingreso').attr('readonly', true);
-	$('#formNominaDetalles #nominad_neto_egreso').attr('readonly', true);
-	$('#formNominaDetalles #nominad_neto').attr('readonly', true);	
-	$('#formNominaDetalles #nomina_detalles_activo').attr('disabled', false);
-	$('#formNominaDetalles #estado_nomina_detalles').hide();	
+		//HABILITAR OBJETOS
+		$('#formNominaDetalles #nominad_diast').attr('readonly', false);
+		$('#formNominaDetalles #nominad_retroactivo').attr('readonly', false);
+		$('#formNominaDetalles #nominad_bono').attr('readonly', false);
+		$('#formNominaDetalles #nominad_otros_ingresos').attr('readonly', false);
+		$('#formNominaDetalles #nominad_horas25').attr('readonly', false);
+		$('#formNominaDetalles #nominad_horas50').attr('readonly', false);
+		$('#formNominaDetalles #nominad_horas75').attr('readonly', false);
+		$('#formNominaDetalles #nominad_horas100').attr('readonly', false);
+		$('#formNominaDetalles #nominad_deducciones').attr('readonly', false);
+		$('#formNominaDetalles #nominad_prestamo').attr('readonly', false);
+		$('#formNominaDetalles #nominad_ihss').attr('readonly', false);
+		$('#formNominaDetalles #nominad_rap').attr('readonly', false);
+		$('#formNominaDetalles #nominad_isr').attr('readonly', false);
+		$('#formNominaDetalles #nominad_incapacidad_ihss').attr('readonly', false);
+		$('#formNominaDetalles #nomina_detalles_notas').attr('readonly', false);
+		$('#formNominaDetalles #nominad_neto_ingreso').attr('readonly', true);
+		$('#formNominaDetalles #nominad_neto_egreso').attr('readonly', true);
+		$('#formNominaDetalles #nominad_neto').attr('readonly', true);	
+		$('#formNominaDetalles #nomina_detalles_activo').attr('disabled', false);
+		$('#formNominaDetalles #estado_nomina_detalles').hide();	
 
-	$('#formNominaDetalles #proceso_nomina_detalles').val("Registro");
-
-	$('#modal_registrar_nomina_detalles').modal({
-		show:true,
-		keyboard: false,
-		backdrop:'static'
-	});
+		$('#formNominaDetalles #proceso_nomina_detalles').val("Registro");
+		$('#modal_registrar_nomina_detalles').modal({
+			show:true,
+			keyboard: false,
+			backdrop:'static'
+		});
+	}else{
+		swal({
+			title: "Error",
+			text: "Lo sentimos, esta nomina ya ha sido generada, no puede agregar más empleados",
+			type: "error",
+			confirmButtonClass: 'btn-danger',
+			allowEscapeKey: false,
+			allowOutsideClick: false					
+		});
+	}
 }
 /*FIN FORMULARIO NOMINAS*/
 
@@ -647,7 +657,7 @@ function getEmpresa(){
 
 //INICIO FORMULARIO CONRATO
 function getEmpleado(){
-    var url = '<?php echo SERVERURL;?>core/getEmpleadoContrato.php';
+    var url = '<?php echo SERVERURL;?>core/getEmpleado.php';
 		
 	$.ajax({
         type: "POST",
@@ -902,9 +912,9 @@ var listar_nominas_detalles = function(){
 						.number(',', '.', 2, 'L ')
 						.display(aData['total_neto']);						
 
-			$('#neto_ingreso').html('L. '+ neto_ingreso);
-			$('#neto_egreso').html('L. '+ neto_egreso);
-			$('#neto').html('L. '+ neto_neto);
+			$('#neto_ingreso').html(neto_ingreso);
+			$('#neto_egreso').html(neto_egreso);
+			$('#neto').html(neto_neto);
 		},	
 		"buttons":[
 			{
@@ -1064,7 +1074,7 @@ var editar_nominas_detalles_dataTable = function(tbody, table){
 				$('#formNominaDetalles #nominad_neto').attr('readonly', true);				
 				$('#formNominaDetalles #nomina_detalles_activo').attr('disabled', true);
 
-				$('#formNominaDetalles #proceso_nomina_detalles').val("Editar");
+				$('#formNominaDetalles #proceso_nomina_detalles').val("Editar");				
 
 				$('#modal_registrar_nomina_detalles').modal({
 					show:true,

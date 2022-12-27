@@ -384,7 +384,7 @@ function getTipoEmpleado(){
 
 //INICIO FORMULARIO CONRATO
 function getEmpleado(){
-    var url = '<?php echo SERVERURL;?>core/getEmpleado.php';
+    var url = '<?php echo SERVERURL;?>core/getEmpleadoContrato.php';
 
 	$.ajax({
         type: "POST",

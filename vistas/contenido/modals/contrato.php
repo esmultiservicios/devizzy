@@ -67,7 +67,7 @@
 					  <input type="date" required id="contrato_fecha_inicio" name="contrato_fecha_inicio" value="<?php echo date("Y-m-d"); ?>" class="form-control" />
 					</div>
 					<div class="col-md-3 mb-3">
-					  <label for="contrato_fecha_fin">Fecha Inicio <span class="priority">*<span/></label>
+					  <label for="contrato_fecha_fin">Fecha Fin</label>
 					  <input type="date" id="contrato_fecha_fin" name="contrato_fecha_fin" value="" class="form-control" />
 					</div>											
 				</div>

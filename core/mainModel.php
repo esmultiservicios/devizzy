@@ -1348,7 +1348,7 @@
 		public function getColaboradoresConsulta(){
 			$query = "SELECT colaboradores_id, CONCAT(nombre, ' ', apellido) AS 'nombre'
 				FROM colaboradores
-				WHERE estado = 1
+				WHERE estado = 1 AND colaboradores_id NOT IN(1)
 				ORDER BY nombre";
 			$result = self::connection()->query($query);
 
@@ -1704,25 +1704,15 @@
 
 
 		public function getColaboradores(){
-
 			$query = "SELECT c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', c.identidad AS 'identidad',
-
 				CASE WHEN c.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado', c.telefono AS 'telefono', e.nombre AS 'empresa'
-
 				FROM colaboradores AS c
-
 				INNER JOIN empresa AS e
-
 				ON c.empresa_id = e.empresa_id
-
 				WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1)
-
 				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
-
 			$result = self::connection()->query($query);
-
 			return $result;
-
 		}
 
 		public function getPuestos(){
@@ -1777,10 +1767,10 @@
 		}		
 
 		public function getEmpleadoContrato(){
-			$query = "SELECT c.colaborador_id AS colaborador_id, CONCAT(co.nombre, ' ', co.apellido) AS 'nombre', co.identidad AS 'identidad'
-				FROM contrato AS c
-				INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
-				ORDER BY co.nombre";
+			$query = "SELECT colaboradores_id aS 'colaborador_id', CONCAT(nombre, ' ', apellido) AS 'nombre', c.identidad AS 'identidad'
+				FROM colaboradores AS c 
+				WHERE estado = 1 AND colaboradores_id NOT IN(1)
+				ORDER BY Nombre";
 				
 			$result = self::connection()->query($query);
 
@@ -1835,9 +1825,10 @@
 		}		
 		
 		public function getEmpleado(){
-			$query = "SELECT colaboradores_id, CONCAT(nombre, ' ', apellido) AS 'nombre'
-			FROM colaboradores
-			ORDER BY nombre";
+			$query = "SELECT co.colaborador_id AS 'colaboradores_id', CONCAT(nombre, ' ', apellido) AS 'nombre'
+			FROM contrato AS co
+			INNER JOIN colaboradores AS c ON co.colaborador_id = c.colaboradores_id
+			WHERE c.estado = 1";
 				
 			$result = self::connection()->query($query);
 		
@@ -2049,29 +2040,18 @@
 		}
 
 		public function getUsuarios($datos){
-
 			if($datos['privilegio_id'] == 1){
-
 				$where = "WHERE u.estado = 1";
-
 			}else{
-
 				$where = "WHERE u.estado = 1 AND u.privilegio_id NOT IN(1)";
-
 			}
 
 			$query = "SELECT u.users_id AS 'users_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', u.username AS 'username', u.email AS 'correo', tp.nombre AS 'tipo_usuario',
-
 				CASE WHEN u.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado',
-
 				e.nombre AS 'empresa'
-
 				FROM users AS u
-
 				INNER JOIN colaboradores AS c
-
 				ON u.colaboradores_id = c.colaboradores_id
-
 				INNER JOIN tipo_user AS tp
 				ON u.tipo_user_id = tp.tipo_user_id
 				INNER JOIN empresa AS e
@@ -2951,7 +2931,7 @@
 			 e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular',
 			  e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido',
 			   DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', c.fecha_dolar,
-			    time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito'END) AS 'tipo_documento', vg.valor AS 'vigencia_cotizacion', e.rtn AS 'rtn_empresa'
+			    time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito'END) AS 'tipo_documento', vg.valor AS 'vigencia_cotizacion', e.rtn AS 'rtn_empresa'getColaboradores
 				FROM cotizacion AS c
 				INNER JOIN clientes AS cl
 				ON c.clientes_id = cl.clientes_id
