@@ -126,7 +126,9 @@ var editar_proveedores_dataTable = function(tbody, table){
 				$('#formProveedores #fecha_proveedores').val(valores[2]);
 				$('#formProveedores #departamento_proveedores').val(valores[3]);
 				$('#formProveedores #departamento_proveedores').selectpicker('refresh');
-				getMunicipiosProveedores(valores[3], valores[4]);
+				getMunicipiosProveedores(valores[4]);
+				$('#formProveedores #municipio_proveedores').val(valores[4]);
+		  		$('#formProveedores #municipio_proveedores').selectpicker('refresh');				
 				$('#formProveedores #dirección_proveedores').val(valores[5]);
 				$('#formProveedores #telefono_proveedores').val(valores[6]);
 				$('#formProveedores #correo_proveedores').val(valores[7]);
@@ -188,7 +190,9 @@ var eliminar_proveedores_dataTable = function(tbody, table){
 				$('#formProveedores #fecha_proveedores').val(valores[2]);
 				$('#formProveedores #departamento_proveedores').val(valores[3]);
 				$('#formProveedores #departamento_proveedores').selectpicker('refresh');
-				getMunicipiosProveedores(valores[3], valores[4]);
+				getMunicipiosProveedores(valores[4]);
+				$('#formProveedores #municipio_proveedores').val(valores[4]);
+		  		$('#formProveedores #municipio_proveedores').selectpicker('refresh');					
 				$('#formProveedores #dirección_proveedores').val(valores[5]);
 				$('#formProveedores #telefono_proveedores').val(valores[6]);
 				$('#formProveedores #correo_proveedores').val(valores[7]);

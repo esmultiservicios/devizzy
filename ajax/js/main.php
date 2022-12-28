@@ -783,6 +783,7 @@ function getMunicipiosProveedores(municipios_id){
 	   success:function(data){
 		  $('#formProveedores #municipio_proveedores').html("");
 		  $('#formProveedores #municipio_proveedores').html(data);
+		  $('#formProveedores #municipio_proveedores').selectpicker('refresh');
 		  $('#formProveedores #municipio_proveedores').val(municipios_id);
 		  $('#formProveedores #municipio_proveedores').selectpicker('refresh');
 	  }
@@ -1962,7 +1963,8 @@ function getMunicipiosClientes(municipios_id){
 	   data:'departamentos_id='+departamentos_id,
 	   success:function(data){
 		  $('#formClientes #municipio_cliente').html("");
-		  $('#formClientes #municipio_cliente').html(data);
+		  $('#formClientes #municipio_cliente').html(data);		  
+		  $('#formClientes #municipio_cliente').selectpicker('refresh');
 		  $('#formClientes #municipio_cliente').val(municipios_id);
 		  $('#formClientes #municipio_cliente').selectpicker('refresh');
 	  }
@@ -2183,6 +2185,8 @@ var eliminar_clientes_dataTable = function(tbody, table){
 				$('#formClientes #departamento_cliente').val(valores[3]);
 				$('#formClientes #departamento_cliente').selectpicker('refresh');
 				getMunicipiosClientes(valores[4]);
+				$('#formClientes #municipio_cliente').val(valores[4]);
+				$('#formClientes #municipio_cliente').selectpicker('refresh');				
 				$('#formClientes #dirección_clientes').val(valores[5]);
 				$('#formClientes #telefono_clientes').val(valores[6]);
 				$('#formClientes #correo_clientes').val(valores[7]);
