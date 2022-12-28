@@ -1304,7 +1304,7 @@
 						</div>
 					</div>	
 					<div class="col-md-3 mb-3">
-					  <label for="dirección_proveedores">Dirección</label>
+					  <label for="telefono_proveedores">Teléfono</label>
 					  <input type="text" class="form-control" id="telefono_proveedores" name="telefono_proveedores" placeholder="Teléfono">
 					</div>							
 				</div>

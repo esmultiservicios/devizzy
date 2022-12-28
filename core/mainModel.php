@@ -1929,7 +1929,7 @@
 				$pago_planificado_id
 				$tipo_empleado
 				ORDER BY co.nombre ASC";
-
+				
 			$result = self::connection()->query($query);
 
 			return $result;

@@ -157,6 +157,7 @@ var editar_contratos_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.table_editar", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		var url = '<?php echo SERVERURL;?>core/editarContratos.php';
+		$('#formContrato')[0].reset();
 		$('#formContrato #contrato_id').val(data.contrato_id);
 
 		$.ajax({
@@ -167,15 +168,18 @@ var editar_contratos_dataTable = function(tbody, table){
 				var valores = eval(registro);
 				$('#formContrato').attr({ 'data-form': 'update' });
 				$('#formContrato').attr({ 'action': '<?php echo SERVERURL;?>ajax/modificarContratosAjax.php' });
-				$('#formContrato')[0].reset();
 				$('#reg_contrato').hide();
 				$('#edi_contrato').show();
 				$('#delete_contrato').hide();
 				$('#formContrato #contrato_colaborador_id').val(valores[0]);
+				$('#formContrato #contrato_colaborador_id').selectpicker('refresh');
 				$('#formContrato #colaborador_id').val(valores[0]);
 				$('#formContrato #contrato_tipo_contrato_id').val(valores[1]);
+				$('#formContrato #contrato_tipo_contrato_id').selectpicker('refresh');
 				$('#formContrato #contrato_pago_planificado_id').val(valores[2]);
+				$('#formContrato #contrato_pago_planificado_id').selectpicker('refresh');
 				$('#formContrato #contrato_tipo_empleado_id').val(valores[3]);
+				$('#formContrato #contrato_tipo_empleado_id').selectpicker('refresh');
 				$('#formContrato #contrato_salario').val(valores[4]);
 				$('#formContrato #contrato_fecha_inicio').val(valores[5]);
 				$('#formContrato #contrato_fecha_fin').val(valores[6]);
@@ -218,6 +222,7 @@ var eliminar_contratos_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.table_eliminar", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		var url = '<?php echo SERVERURL;?>core/editarContratos.php';
+		$('#formContrato')[0].reset();
 		$('#formContrato #contrato_id').val(data.contrato_id);
 
 		$.ajax({
@@ -228,15 +233,18 @@ var eliminar_contratos_dataTable = function(tbody, table){
 				var valores = eval(registro);
 				$('#formContrato').attr({ 'data-form': 'delete' });
 				$('#formContrato').attr({ 'action': '<?php echo SERVERURL;?>ajax/eliminarContratosAjax.php' });
-				$('#formContrato')[0].reset();
 				$('#reg_contrato').hide();
 				$('#edi_contrato').hide();
 				$('#delete_contrato').show();
 				$('#formContrato #contrato_colaborador_id').val(valores[0]);
+				$('#formContrato #contrato_colaborador_id').selectpicker('refresh');
 				$('#formContrato #colaborador_id').val(valores[0]);
 				$('#formContrato #contrato_tipo_contrato_id').val(valores[1]);
+				$('#formContrato #contrato_tipo_contrato_id').selectpicker('refresh');
 				$('#formContrato #contrato_pago_planificado_id').val(valores[2]);
+				$('#formContrato #contrato_pago_planificado_id').selectpicker('refresh');
 				$('#formContrato #contrato_tipo_empleado_id').val(valores[3]);
+				$('#formContrato #contrato_tipo_empleado_id').selectpicker('refresh');
 				$('#formContrato #contrato_salario').val(valores[4]);
 				$('#formContrato #contrato_fecha_inicio').val(valores[5]);
 				$('#formContrato #contrato_fecha_fin').val(valores[6]);
