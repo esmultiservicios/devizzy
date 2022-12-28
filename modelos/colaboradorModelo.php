@@ -34,7 +34,7 @@
 				fecha_ingreso = '".$datos['fecha_ingreso']."',
 				telefono = '".$datos['telefono']."'
 			WHERE colaboradores_id  = '".$datos['colaborador_id']."'";
-
+			
 			$sql = mainModel::connection()->query($udapte) or die(mainModel::connection()->error);
 			
 			return $sql;			

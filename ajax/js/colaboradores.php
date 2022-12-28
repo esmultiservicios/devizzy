@@ -99,6 +99,7 @@ var editar_colaboradores_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.table_editar", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		var url = '<?php echo SERVERURL;?>core/editarColaboradores.php';
+		$('#formColaboradores')[0].reset();
 		$('#formColaboradores #colaborador_id').val(data.colaborador_id);
 
 		$.ajax({
@@ -108,8 +109,7 @@ var editar_colaboradores_dataTable = function(tbody, table){
 			success: function(registro){
 				var valores = eval(registro);
 				$('#formColaboradores').attr({ 'data-form': 'update' });
-				$('#formColaboradores').attr({ 'action': '<?php echo SERVERURL;?>ajax/modificarColaboradorAjax.php' });
-				$('#formColaboradores')[0].reset();
+				$('#formColaboradores').attr({ 'action': '<?php echo SERVERURL;?>ajax/modificarColaboradorAjax.php' });				
 				$('#reg_colaborador').hide();
 				$('#edi_colaborador').show();
 				$('#delete_colaborador').hide();
@@ -160,6 +160,7 @@ var eliminar_colaboradores_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.table_eliminar", function(){
 		var data = table.row( $(this).parents("tr") ).data();
 		var url = '<?php echo SERVERURL;?>core/editarColaboradores.php';
+		$('#formColaboradores')[0].reset();
 		$('#formColaboradores #colaborador_id').val(data.colaborador_id);
 
 		$.ajax({
@@ -169,8 +170,7 @@ var eliminar_colaboradores_dataTable = function(tbody, table){
 			success: function(registro){
 				var valores = eval(registro);
 				$('#formColaboradores').attr({ 'data-form': 'delete' });
-				$('#formColaboradores').attr({ 'action': '<?php echo SERVERURL;?>ajax/eliminarColaboradorAjax.php' });
-				$('#formColaboradores')[0].reset();
+				$('#formColaboradores').attr({ 'action': '<?php echo SERVERURL;?>ajax/eliminarColaboradorAjax.php' });				
 				$('#reg_colaborador').hide();
 				$('#edi_colaborador').hide();
 				$('#delete_colaborador').show();

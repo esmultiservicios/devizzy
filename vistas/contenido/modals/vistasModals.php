@@ -1491,7 +1491,7 @@
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
 						<div class="input-group mb-3">
-						    <input type="hidden" id="colaborador_id" name="colaborador_id" class="form-control" placeholder="Colaborador">
+						    <input type="text" id="colaborador_id" name="colaborador_id" class="form-control" placeholder="Colaborador">
 							<input type="text" id="proceso_colaboradores" class="form-control" readonly>
 							<div class="input-group-append">				
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fa fa-plus-square fa-lg"></i></span>
@@ -1526,7 +1526,7 @@
 					</div>			  
 					<div class="col-md-6 mb-3">
 						<label for="fecha_egreso_colaborador">Fecha Egreso</label>
-						<input type="number" class="form-control" id="fecha_egreso_colaborador" name="fecha_egreso_colaborador" placeholder="Fecha Egreso">
+						<input type="text" class="form-control" id="fecha_egreso_colaborador" name="fecha_egreso_colaborador" placeholder="Fecha Egreso">
 					</div>
 				</div>				
 				<div class="form-row">				
