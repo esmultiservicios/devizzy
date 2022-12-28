@@ -1680,7 +1680,7 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.table_abono", function(e){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
-		if(data.estado == 2){//no tiene acceso a la accion si la factura ya fue cancelada							
+		if(data.estado == 2 || data.saldo <= 0){//no tiene acceso a la accion si la factura ya fue cancelada							
 				swal({
 					title: 'Error', 
 					text: 'No puede realizar esta accion a las facturas canceladas!',
@@ -1688,7 +1688,7 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
 					confirmButtonClass: 'btn-danger'
 				});	
 		}else{
-			pago(data.facturas_id,data.saldo);
+			pago(data.facturas_id,2);
 		}
 	});
 }
@@ -2329,12 +2329,31 @@ function getNombreCliente(clientes_id){
 	return nombreCliente;
 }
 //FIN EDITAR RTN CLIENTE
+
+//funcion aplicar nuevo saldo
+function saldoFactura(facturas_id){
+	//IMPORTE NUEVO EFECTIVO
+	console.log('SALDO',facturas_id)
+	var url = '<?php echo SERVERURL;?>core/getSaldoFactura.php';
+
+	$.ajax({
+		type:'POST',
+		url:url,
+		data:'facturas_id='+facturas_id,
+		success: function(saldoFactura){
+			console.log('res',saldoFactura);
+			$('#formEfectivoBill #monto_efectivo').val(saldoFactura);
+			$('#bill-pay').html(saldoFactura);	
+		}
+	});	
+}
+
 //FIN ACCIONES FROMULARIO CLIENTES
 
 //INICIO MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES
-function pago(facturas_id,saldo){
+function pago(facturas_id,tipoPago){
 	var url = '<?php echo SERVERURL;?>core/editarPagoFacturas.php';
-	
+
 	$.ajax({
 		type:'POST',
 		url:url,
@@ -2343,53 +2362,59 @@ function pago(facturas_id,saldo){
 			var datos = eval(valores);
 			$('#formEfectivoBill .border-right a:eq(0) a').tab('show');			
 			$("#customer-name-bill").html("<b>Cliente:</b> " + datos[0]);
-		    $("#customer_bill_pay").val(datos[3]);
-			$('#bill-pay').html("L. " + parseFloat(datos[3]).toFixed(2));
+		    $("#customer_bill_pay").val(datos[6]);
+			$('#bill-pay').html("L. " + parseFloat(datos[6]).toFixed(2));
 			
 			//EFECTIVO
 			$('#formEfectivoBill')[0].reset();			
-			$('#formEfectivoBill #monto_efectivo').val(datos[3]);
+			$('#formEfectivoBill #monto_efectivo').val(datos[6]);
 			$('#formEfectivoBill #factura_id_efectivo').val(facturas_id);
-			$('#formEfectivoBill #tipo_factura_efectivo').val(datos[5]);
+			$('#formEfectivoBill #tipo_factura_efectivo').val(tipoPago);
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
 
-			if(datos[5] == '2'){
-				$('#bill-pay').html("L. " + parseFloat(saldo).toFixed(2));
+			//if(datos[5] == '2'){
+			//tipo = parseInt(tipo);
+			console.log(tipoPago,'tipoPago', typeof tipoPago )
+			 if(tipoPago == 2){
+			
+				$('#bill-pay').html("L. " + parseFloat(datos[6]).toFixed(2));
 				$('#tab5').hide();
+				$("#formEfectivoBill #tipo_factura_efectivo").val(tipoPago);
 
 				$('#formTarjetaBill #monto_efectivo_tarjeta').show();
 				$('#formTransferenciaBill #importe_transferencia').show()
 				$('#formChequeBill #importe_cheque').show()
 				$("#formEfectivoBill #grupo_cambio_efectivo").hide();
+
 			}
 
 			//TARJETA
 			$('#formTarjetaBill')[0].reset();
-			$('#formTarjetaBill #monto_efectivo').val(datos[3]);
-			$('#formTarjetaBill #importe_tarjeta').val(datos[3]);
+			$('#formTarjetaBill #monto_efectivo').val(datos[6]);
+			$('#formTarjetaBill #importe_tarjeta').val(datos[6]);
 			$('#formTarjetaBill #factura_id_tarjeta').val(facturas_id);
-			$('#formTarjetaBill #tipo_factura').val(datos[5]);
+			$('#formTarjetaBill #tipo_factura').val(tipoPago);
 			$('#formTarjetaBill #pago_efectivo').attr('disabled', true);	
 
 			//MIXTO
 			$('#formMixtoBill')[0].reset();
-			$('#formMixtoBill #monto_efectivo_mixto').val(datos[3]);
+			$('#formMixtoBill #monto_efectivo_mixto').val(datos[6]);
 			$('#formMixtoBill #factura_id_mixto').val(facturas_id);
 			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', true);
 
 			//TRANSFERENCIA
 			$('#formTransferenciaBill')[0].reset();
-			$('#formTransferenciaBill #monto_efectivo').val(datos[3]);
+			$('#formTransferenciaBill #monto_efectivo').val(datos[6]);
 			$('#formTransferenciaBill #factura_id_transferencia').val(facturas_id);
-			$('#formTransferenciaBill #tipo_factura_transferencia').val(datos[5]);
+			$('#formTransferenciaBill #tipo_factura_transferencia').val(tipoPago);
 			$('#formTransferenciaBill #pago_efectivo').attr('disabled', true);
 			
 			//CHEQUES
 			$('#formChequeBill')[0].reset();
-			$('#formChequeBill #monto_efectivo').val(datos[3]);
+			$('#formChequeBill #monto_efectivo').val(datos[6]);
 			$('#formChequeBill #factura_id_cheque').val(facturas_id);
 			$('#formChequeBill #pago_efectivo').attr('disabled', true);	
-			$('#formChequeBill #tipo_factura_cheque').val(datos[5]);		
+			$('#formChequeBill #tipo_factura_cheque').val(tipoPago);		
 			
 			$('#modal_pagos').modal({
 				show:true,

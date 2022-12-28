@@ -788,6 +788,14 @@
 											<div class="slider round"></div>
 										</label>
 										<span class="question mb-2" id="label_print_comprobant"></span>
+									</div>
+									<div class="container mt-md-0">
+										<p class="mb-0 mt-3">Pagos Multiples:</p>
+										<label class="switch mb-2" data-toggle="tooltip" data-placement="top">
+											<input type="checkbox" id="pagos_multiples_switch" name="pagos_multiples_switch" value="0">
+											<div class="slider round"></div>
+										</label>
+										<span class="question mb-2" id="label_pagos_multiples"></span>
 									</div>								
 								</div>
 							</div> <!-- Page Content -->
@@ -832,6 +840,7 @@
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="hidden" name="factura_id_efectivo" id="factura_id_efectivo"> 
 																	<input type="hidden" name="tipo_factura" id="tipo_factura_efectivo" value="1">
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" step="0.01" placeholder="0.00"> 
@@ -883,6 +892,7 @@
 																<label>Número de Tarjeta</label> 
 																<input type="hidden" name="factura_id_tarjeta" id="factura_id_tarjeta">
 																<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
+																<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																<input type="text" id="cr_bill" name="cr_bill" class="inputfield" placeholder="XXXX">
 																<input type="number" style="display:none;" name="monto_efectivo" id="monto_efectivo_tarjeta" class="inputfield" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																<input type="hidden" name="importe" id="importe_tarjeta" class="inputfield" step="0.01" placeholder="0.00" >		
@@ -943,6 +953,7 @@
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="hidden" name="factura_id_mixto" id="factura_id_mixto"> 
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo_mixto" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto"> 
 																	<input type="number" name="efectivo_bill" id="efectivo_bill_mixto" class="inputfield" step="0.01" placeholder="0.00" step="0.01">																						
@@ -1016,9 +1027,10 @@
 															    <label>Banco</label> 
 																<div class="input-group"> 																	
 																	<input type="hidden" name="factura_id_transferencia" id="factura_id_transferencia">
-																	<select required name="bk_nm" id="bk_nm" class="selectpicker inputfield" data-live-search="true" title="Banco">
+																	<select required name="bk_nm" id="bk_nm" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
 																		<option value="">Seleccione un Banco</option>
 																	</select> 	
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">																
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">		
 																	<input type="number" name="importe" id="importe_transferencia" class="inputfield mt-5" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
@@ -1077,7 +1089,8 @@
 															<div class="col-12">
 															    <label>Banco</label> 
 																<div class="input-group"> 	
-																    <input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">																
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
+																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">																
 																	<input type="hidden" name="factura_id_cheque" id="factura_id_cheque">
 																	<select required name="bk_nm_chk" id="bk_nm_chk" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
 																		<option value="">Seleccione un Banco</option>

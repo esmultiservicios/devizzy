@@ -1892,7 +1892,7 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.table_abono", function(e){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
-		if(data.estado == 2){//no tiene acceso a la accion si la factura ya fue cancelada							
+		if(data.estado == 2 || data.saldo <= 0){//no tiene acceso a la accion si la factura ya fue cancelada							
 				swal({
 					title: 'Error', 
 					text: 'No puede realizar esta accion a las facturas canceladas!',
@@ -1900,7 +1900,7 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
 					confirmButtonClass: 'btn-danger'
 				});	
 		}else{
-			pago(data.facturas_id,data.saldo);
+			pago(data.facturas_id,2);
 		}
 	});
 }

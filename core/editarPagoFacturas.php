@@ -15,6 +15,7 @@
 	$fecha_factura = "";
 	$facturas_id = "";
 	$importe = 0;
+	$saldo = 0;
 
 	//OBTENEMOS LOS VALORES DEL REGISTRO
 	if($result->num_rows>0){
@@ -24,6 +25,7 @@
 		$fecha_factura = $consulta_registro['fecha_factura'];
 		$facturas_id = $consulta_registro['facturas_id'];
 		$estado = $consulta_registro['credito'];		
+		$saldo = floatval($consulta_registro['saldo']);	
 				
 	}
 
@@ -43,6 +45,8 @@
 		 2 => $fecha_factura, 
 		 3 => $importe,
 		 4 => $facturas_id,	
-		 5 => $estado	 
+		 5 => $estado,
+		 6 => $saldo
 	);	
 	echo json_encode($datos);
+?>
