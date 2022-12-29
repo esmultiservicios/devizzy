@@ -2939,7 +2939,7 @@
 			 e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular',
 			  e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido',
 			   DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', c.fecha_dolar,
-			    time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito'END) AS 'tipo_documento', vg.valor AS 'vigencia_cotizacion', e.rtn AS 'rtn_empresa'getColaboradores
+			    time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito'END) AS 'tipo_documento', vg.valor AS 'vigencia_cotizacion', e.rtn AS 'rtn_empresa'
 				FROM cotizacion AS c
 				INNER JOIN clientes AS cl
 				ON c.clientes_id = cl.clientes_id
