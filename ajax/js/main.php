@@ -2493,6 +2493,8 @@ $(document).ready(function(){
 		var efectivo = parseFloat($("#formEfectivoBill #efectivo_bill").val()).toFixed(2);
 		var monto = parseFloat($("#formEfectivoBill #monto_efectivo").val()).toFixed(2);
 		var credito = $("#formEfectivoBill #tipo_factura_efectivo").val();
+		var pagos_multiples = $('#pagos_multiples_switch').val();
+
 		if(credito == 2 ){
 			$("#formEfectivoBill #cambio_efectivo").val(0)
 			$("#formEfectivoBill #grupo_cambio_efectivo").hide();
@@ -2500,7 +2502,7 @@ $(document).ready(function(){
 		
 		var total = efectivo - monto;				
 		
-		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2){			
+		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2 || pagos_multiples == 1){			
 			$('#formEfectivoBill #cambio_efectivo').val(parseFloat(total).toFixed(2));
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', false);
 			

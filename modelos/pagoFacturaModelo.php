@@ -233,6 +233,7 @@
 		protected function agregar_pago_factura_base($res){	
 			//SI EL PAGO QUE SE ESTA REALIZANDO ES DE UN DOCUMENTO AL CREDITO
 			if($res['estado_factura'] == 2 || $res['multiple_pago'] == 1){//SI ES CREDITO ESTO ES UN ABONO A LA FACTURA
+				
 				$saldo_credito = 0;
 				$nuevo_saldo = 0;
 
@@ -354,6 +355,7 @@
 						//ALMACENAMOS EL MOVIMIENTO DE CUENTA DEL PAGO
 						self::agregar_movimientos_contabilidad_pagos_modelo($datos_movimientos);
 						
+
 						$get_cobrar_cliente = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
 						$saldo_nuevo = 0;
 							if($get_cobrar_cliente->num_rows > 0){
@@ -415,6 +417,7 @@
 					return $alert;
 				}
 			}else{//CUANDO LA FACTURA ES AL CONTADO
+				
 				//VERIFICAMOS QUE NO SE HA INGRESADO EL PAGO, SI NO SE HA REALIZADO EL INGRESO, PROCEDEMOS A ALMACENAR EL PAGO
 				$result_valid_pagos_facturas = pagoFacturaModelo::valid_pagos_factura($res['facturas_id']);
 				if($result_valid_pagos_facturas->num_rows==0){	
@@ -437,6 +440,8 @@
 							"descripcion2" => $res['referencia_pago2'],
 							"descripcion3" => $res['referencia_pago3'],
 						];
+
+						
 						
 						$result_valid_pagos_detalles_facturas = pagoFacturaModelo::valid_pagos_detalles_facturas($pagos_id, $res['tipo_pago_id']);
 						
@@ -447,11 +452,13 @@
 						
 						//ACTUALIZAMOS EL ESTADO DE LA FACTURA
 						pagoFacturaModelo::update_status_factura($res['facturas_id']);
-						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($res['facturas_id']);
+
+						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($res['facturas_id'],2,0);
+
 						
 						//VALIDAMOS EL TIPO DE FACTURA, SI ES AL CONTADO, VERIFICAMOS EL NUMERO DE FACTURA QUE SIGUE, SI ES AL CREDITO, SOLO CONSULTAMOS EL ULTIMO NUMERO ALMACENADO PARA QUE NO PASE AL SIGUIENTE
 						$tipo_factura = pagoFacturaModelo::consultar_tipo_factura($res['facturas_id'])->fetch_assoc();
-	
+
 						if($tipo_factura['tipo_factura'] == 1){
 							$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($res['empresa'])->fetch_assoc();
 							$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
@@ -470,6 +477,8 @@
 							"estado" => 2,//pagado
 							"number" => $numero,
 						];	
+
+						echo 'entro';
 	
 						pagoFacturaModelo::actualizar_factura($datos_update_factura);
 	
@@ -478,7 +487,7 @@
 							$numero += $incremento;
 							pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);		
 						}	
-
+							echo 'final';
 
 							$alert = [
 								"alert" => "save_simple",
@@ -512,7 +521,7 @@
 					$alert = [
 						"alert" => "simple",
 						"title" => "Error al ingresar el pago",
-						"text" => "Lo sentimos este pago ya ha sido ingresado, por favor valide el registro de pagos.",
+						"text" => "Habilite nuevamente la seccion de Pagos Multiples",
 						"type" => "error",
 						"btn-class" => "btn-danger",					
 					];					
