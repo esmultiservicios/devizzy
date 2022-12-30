@@ -1,4 +1,6 @@
 <script>
+var sueldo_diario = 0;
+
 $(document).ready(function() {
 	getTipoContrato();
 	getPagoPlanificado();
@@ -1206,16 +1208,17 @@ $("#formNominaDetalles #nominad_empleados").on("change", function(){
         success: function(data){
 			var valores = eval(data);
 
-			var salario = parseFloat(valores[3]).toFixed(2);
-			var salario_diario = (valores[3]/30).toFixed(2);
+			var salario = parseFloat(valores[3]);
+			salario_diario = valores[3]/30;
+			var _salario_diario = (valores[3]/30).toFixed(2);
 			var salario_hora = 0;
 
 			//VER EL TIPO DE EMPLEADO
 			//EMPLEADO NORMAL
 			if(valores[5] == 1){
-				salario_hora = parseFloat(salario_diario).toFixed(2) / 8;
+				salario_hora = parseFloat(salario_diario / 8).toFixed(2);
 			}else{//EMPLEADO MEDICO
-				salario_hora = parseFloat(salario_diario).toFixed(2) / 6;
+				salario_hora = parseFloat(salario_diario / 6).toFixed(2);
 			}
 			
 			/*
@@ -1239,7 +1242,7 @@ $("#formNominaDetalles #nominad_empleados").on("change", function(){
 			$('#formNominaDetalles #nominad_contrato_id').val(valores[2]);		
 			$('#formNominaDetalles #nominad_salario').val(salario);
 			$('#formNominaDetalles #nominad_fecha_ingreso').val(valores[4]);
-			$('#formNominaDetalles #nominad_sueldo_diario').val(salario_diario);
+			$('#formNominaDetalles #nominad_sueldo_diario').val(_salario_diario);
 			$('#formNominaDetalles #nominad_sueldo_hora').val(salario_hora);
 
 			calculoNomina();
@@ -1291,7 +1294,7 @@ function calculoNomina(){
 	}
 
 	if($('#formNominaDetalles #nominad_sueldo_diario').val() != "" || $('#formNominaDetalles #nominad_sueldo_diario').val() != null){
-		salario_dia = parseFloat($('#formNominaDetalles #nominad_sueldo_diario').val());
+		salario_dia = salario_diario;
 	}	
 
 	if($('#formNominaDetalles #nominad_sueldo_hora').val() != "" || $('#formNominaDetalles #nominad_sueldo_hora').val() != null){

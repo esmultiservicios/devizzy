@@ -1457,7 +1457,6 @@
 			return $result;
 		}
 
-
 		public function getCajas($datos){
 			$fecha = date("Y-m-d");
 
@@ -3534,7 +3533,6 @@
 
 
 		public function getCajasEdit($apertura_id){
-
 				$query = "SELECT a.fecha AS 'fecha', a.factura_inicial AS 'factura_inicial', a.factura_final AS 'factura_final', a.apertura AS 'monto_apertura', (CASE WHEN a.estado = '1' THEN 'Activa' ELSE 'Inactiva' END) AS 'caja', CONCAT(c.nombre, ' ', c.apellido) AS 'usuario', a.colaboradores_id AS 'colaboradores_id', a.apertura_id AS 'apertura_id'
 
 				FROM apertura AS a
