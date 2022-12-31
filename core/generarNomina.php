@@ -30,14 +30,12 @@
 		$fecha_registro = date("Y-m-d H:i:s");
 		$factura = "Nomina ".$nomina_id;
 
-		//CONSULTAMOS LOS DATOS DE LA NOMINA
-		$result_datos_nomina = $insMainModel->getTotalesNominaDetalle($nomina_id);
-		$row_datos_nomina = $result_datos_nomina->fetch_assoc();		
-		$subtotal = $row_datos_nomina['neto'];
+		//CONSULTAMOS LOS DATOS DE LA NOMINA	
+		$subtotal = $row_saldos['neto'];
 		$isv = 0;	
 		$descuento = 0;
 		$nc = 0;
-		$total = $row_datos_nomina['neto'];
+		$total = $row_saldos['neto'];
 		$estado = 1;
 		$observacion = "Pago de Nomina ".$nomina_id;
 		$colaboradores_id = $_SESSION['colaborador_id_sd'];
@@ -62,7 +60,7 @@
 			"fecha_registro" => $fecha_registro,
 			"colaboradores_id" => $colaboradores_id								
 		];
-		
+
 		$resultEgresos = $insMainModel->validEgresosCuentasMainModel($datos);
 			
 		if($resultEgresos->num_rows==0){

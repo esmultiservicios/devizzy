@@ -1883,7 +1883,7 @@
 
 		public function validEgresosCuentasMainModel($datos){
 			$query = "SELECT egresos_id FROM egresos WHERE factura = '".$datos['factura']."' AND proveedores_id = '".$datos['proveedores_id']."'";
-
+			
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;			
