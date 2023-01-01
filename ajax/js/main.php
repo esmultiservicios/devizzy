@@ -1052,6 +1052,16 @@ function today(){
     var hoy = new Date();
     return convertDate(hoy);	
 }
+
+function getMonth(){
+	const hoy = new Date()
+	return hoy.toLocaleString('default', { month: 'long' });
+}
+
+function getDay(){
+	const hoy = new Date().getDate();
+	return hoy;
+}
 //FIN FUNCIONES ADICIONALES
 
 //INICIO IMPRIMIR FACTURACION
