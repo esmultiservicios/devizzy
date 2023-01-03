@@ -16,7 +16,7 @@
 		"barcode" => '',	
 	];
 	
-	$result = $insMainModel->getProductosCantidad($datos);
+	$result = $insMainModel->getProductosCantidadCompras($datos);
 	
 	$arreglo = array();
 	$data = array();
