@@ -27,15 +27,14 @@
 					  <input type="text" required class="form-control" name="ubicacion_ubicacion" id="ubicacion_ubicacion" placeholder="Ubicación	" maxlength="30" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
 					</div>
 					<div class="col-md-6 mb-3">
-					  <label>Empresa <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <select id="empresa_ubicacion" name="empresa_ubicacion" class="custom-select" data-toggle="tooltip" data-placement="top" title="Modalidad">
-							<option value="">Seleccione</option>
-						  </select>
-						  <div class="input-group-append" id="buscar_empresa_ubicacion">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
-					   </div>
+					  <label for="empresa_ubicacion">Empresa <span class="priority">*<span/></label>
+					  <div class="input-group">
+							<div class="input-group-append">
+								<select id="empresa_ubicacion" name="empresa_ubicacion" class="selectpicker" title="Empresa" data-live-search="true">
+									<option value="">Seleccione</option>
+								</select>
+							</div>	
+						 </div>
 					</div>				
 				</div>
 				<div class="form-group" id="estado_ubicacion">				  

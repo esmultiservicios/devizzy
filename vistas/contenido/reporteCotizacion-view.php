@@ -11,7 +11,6 @@
 						<div class="input-group-append">
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Tipo Factura</span>
 							<select id="tipo_cotizacion_reporte" name="tipo_cotizacion_reporte" class="selectpicker" title="Tipo de Factura" data-live-search="true">
-								<option value="">Seleccione</option>
 								</select>
 						</div>	
 					</div>

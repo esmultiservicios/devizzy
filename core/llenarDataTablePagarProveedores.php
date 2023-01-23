@@ -20,6 +20,9 @@
 	$credito = 0.00;
 	$abono = 0.00;
 	$saldo = 0.00;
+	$totalCredito = 0;
+	$totalAbono = 0;
+	$totalPendiente = 0;
 	
 	while($row = $result->fetch_assoc()){
 		$resultAbonos = $insMainModel->getAbonosPagarProveedores($row['compras_id']);
@@ -33,6 +36,10 @@
 
 		$credito = $row['importe'];
 		$saldo = $row['importe'] - $abono;
+
+		$totalCredito += $credito;
+		$totalAbono += $abono;
+		$totalPendiente += $saldo;
 					
 		if($row['estado'] == 2){
 			$estadoColor = 'bg-c-green';
@@ -48,9 +55,9 @@
 			"saldo"=>$saldo,
 			"color"=> $estadoColor,
 			"estado"=>$row['estado'],
-			"total_credito"=> number_format($credito,2),
-			"total_abono"=>number_format($abono,2),
-			"total_pendiente"=> number_format($saldo,2)		  
+			"total_credito"=> number_format($totalCredito,2),
+			"total_abono"=>number_format($totalAbono,2),
+			"total_pendiente"=> number_format($totalPendiente,2)		  
 		);		
 	}
 	
@@ -62,4 +69,3 @@
 	);
 
 	echo json_encode($arreglo);
-?>	

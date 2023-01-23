@@ -12,7 +12,7 @@
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Tipo Factura</span>
 							<select id="tipo_compras_reporte" name="tipo_compras_reporte" class="selectpicker" title="Tipo de Factura" data-live-search="true">
 								<option value="">Seleccione</option>
-								</select>
+							</select>
 						</div>	
 					</div>
 				</div>				

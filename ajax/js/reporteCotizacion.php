@@ -2,6 +2,8 @@
 $(document).ready(function() {
 	getReporteCotizacion();
     listar_reporte_cotizaciones();
+	$('#form_main_cotizaciones #tipo_cotizacion_reporte').val(1);	
+	$('#form_main_cotizaciones #tipo_cotizacion_reporte').selectpicker('refresh');	
 });
 
 $('#form_main_cotizaciones #tipo_cotizacion_reporte').on("change", function(e){

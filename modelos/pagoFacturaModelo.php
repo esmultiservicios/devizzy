@@ -233,23 +233,18 @@
 		protected function agregar_pago_factura_base($res){	
 			//SI EL PAGO QUE SE ESTA REALIZANDO ES DE UN DOCUMENTO AL CREDITO
 			if($res['estado_factura'] == 2 || $res['multiple_pago'] == 1){//SI ES CREDITO ESTO ES UN ABONO A LA FACTURA
-				
 				$saldo_credito = 0;
 				$nuevo_saldo = 0;
-
 				
 				//consultamos a la tabla cobrar cliente
-
-					$get_cobrar_cliente = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
-			
-					if($get_cobrar_cliente->num_rows == 0){
-						echo 'error';
-					}else{
-						$rec = $get_cobrar_cliente->fetch_assoc();
-						$saldo_credito = $rec['saldo'];
-						
-					}
-
+				$get_cobrar_cliente = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
+		
+				if($get_cobrar_cliente->num_rows == 0){
+					echo 'error';
+				}else{
+					$rec = $get_cobrar_cliente->fetch_assoc();
+					$saldo_credito = $rec['saldo'];
+				}
 	
 				//validar que no se hagan mas abonos que el importe
 				if($res['abono'] <= $saldo_credito ){
@@ -257,7 +252,7 @@
 					if($res['abono'] == $saldo_credito){
 						//actualizamos el estado a pagado (2)
 						$nuevo_saldo = 0;
-						$put_cobrar_cliente = pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($res['facturas_id'],2,$nuevo_saldo);
+						$put_cobrar_cliente = pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($res['facturas_id'],2,0);
 												
 						//ACTUALIZAMOS EL ESTADO DE LA FACTURA
 						pagoFacturaModelo::update_status_factura($res['facturas_id']);
@@ -416,8 +411,7 @@
 
 					return $alert;
 				}
-			}else{//CUANDO LA FACTURA ES AL CONTADO
-				
+			}else{//CUANDO LA FACTURA ES AL CONTADO				
 				//VERIFICAMOS QUE NO SE HA INGRESADO EL PAGO, SI NO SE HA REALIZADO EL INGRESO, PROCEDEMOS A ALMACENAR EL PAGO
 				$result_valid_pagos_facturas = pagoFacturaModelo::valid_pagos_factura($res['facturas_id']);
 				if($result_valid_pagos_facturas->num_rows==0){	
@@ -440,9 +434,7 @@
 							"descripcion2" => $res['referencia_pago2'],
 							"descripcion3" => $res['referencia_pago3'],
 						];
-
-						
-						
+											
 						$result_valid_pagos_detalles_facturas = pagoFacturaModelo::valid_pagos_detalles_facturas($pagos_id, $res['tipo_pago_id']);
 						
 						//VALIDAMOS QUE NO EXISTA EL DETALLE DEL PAGO, DE NO EXISTIR SE ALMACENA EL DETALLE DEL PAGO
@@ -487,24 +479,22 @@
 							$numero += $incremento;
 							pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);		
 						}	
-							echo 'final';
+						echo 'final';
 
-							$alert = [
-								"alert" => "save_simple",
-								"title" => "Registro almacenado",
-								"text" => "El registro se ha almacenado correctamente",
-								"type" => "success",
-								"btn-class" => "btn-primary",
-								"btn-text" => "¡Bien Hecho!",
-								"form" => "formEfectivoBill",
-								"id" => "proceso_pagos",
-								"valor" => "Registro",	
-								"funcion" => "printBill(".$res['facturas_id'].",".$res['print_comprobante'].");listar_cuentas_por_cobrar_clientes();mailBill(".$res['facturas_id'].");getCollaboradoresModalPagoFacturas();",
-								"modal" => "modal_pagos",
-														
-							];
-
-						
+						$alert = [
+							"alert" => "save_simple",
+							"title" => "Registro almacenado",
+							"text" => "El registro se ha almacenado correctamente",
+							"type" => "success",
+							"btn-class" => "btn-primary",
+							"btn-text" => "¡Bien Hecho!",
+							"form" => "formEfectivoBill",
+							"id" => "proceso_pagos",
+							"valor" => "Registro",	
+							"funcion" => "printBill(".$res['facturas_id'].",".$res['print_comprobante'].");listar_cuentas_por_cobrar_clientes();mailBill(".$res['facturas_id'].");getCollaboradoresModalPagoFacturas();",
+							"modal" => "modal_pagos",
+													
+						];
 	
 					}else{
 						$alert = [

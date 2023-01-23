@@ -27,6 +27,12 @@ $(document).ready(function() {
 	getClientesCXC();
 	getProveedoresCXP();
 	$('.selectpicker').selectpicker();
+
+	$('#form_main_pagar_proveedores #pagar_proveedores_estado').val(1);	
+	$('#form_main_pagar_proveedores #pagar_proveedores_estado').selectpicker('refresh');	
+	
+	$('#form_main_cobrar_clientes #cobrar_clientes_estado').val(1);	
+	$('#form_main_cobrar_clientes #cobrar_clientes_estado').selectpicker('refresh');	
 });
 
 //INICIO MENUS
@@ -410,6 +416,8 @@ function toDataURL(src, callback, outputFormat) {
 //FIN CONVERTIR IMAGEN BASE 64
 
 var lengthMenu = [[5, 10, 20, 30, 50, 100, -1], [5, 10, 20, 30, 50, 100, "Todo"]];
+var lengthMenu10 = [[10, 20, 30, 50, 100, -1], [10, 20, 30, 50, 100, "Todo"]];
+var lengthMenu20 = [[20, 30, 50, 100, -1], [20, 30, 50, 100, "Todo"]];
 
 var dom = "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
 			"<'row'<'col-sm-12'tr>>" +
@@ -575,7 +583,7 @@ function getEmpresaProductos(){
         success: function(data){
 		    $('#formProductos #producto_empresa_id').html("");
 			$('#formProductos #producto_empresa_id').html(data);
-			$('#formProductos #producto_empresa_id').selectpicker('refresh');			
+			$('#formProductos #producto_empresa_id').selectpicker('refresh');		
 		}
      });
 }
@@ -592,7 +600,9 @@ function getMedida(count){
 			$('#formProductos #medida').html(data);
 			$('#formProductos #medida').selectpicker('refresh');
 			$('#medidaPurchase_'+count).html(data);
+			$('#medidaPurchase_'+count).selectpicker('refresh');
 			$('#medida_'+count).html(data);
+			$('#medida_'+count).selectpicker('refresh');
 		}
      });
 }
@@ -609,8 +619,12 @@ function getAlmacen(){
 			$('#formProductos #almacen').html(data);
 			$('#formProductos #almacen').selectpicker('refresh');
 
+			$('#formProductos #almacen').val(1);	
+			$('#formProductos #almacen').selectpicker('refresh');				
+
 			$('#form_main_movimientos #almacen').append("");
 			$('#form_main_movimientos #almacen').append("<option value='0'>Todos</option>"+data);
+
 
 			$('#formulario_busqueda_productos_facturacion #almacen').append("");
 			$('#formulario_busqueda_productos_facturacion #almacen').append("<option value='0'>Todos</option>"+data);
@@ -618,10 +632,14 @@ function getAlmacen(){
 			$('#formTransferencia #id_bodega').html("");
 			$('#formTransferencia #id_bodega').html(data);
 			$('#formTransferencia #id_bodega').selectpicker('refresh');
+			$('#formTransferencia #id_bodega').val(1);	
+			$('#formTransferencia #id_bodega').selectpicker('refresh');				
 
 			$('#almacen_modal').html("");
 			$('#almacen_modal').html(data);
 			$('#almacen_modal').selectpicker('refresh');
+			$('#almacen_modal').val(1);	
+			$('#almacen_modal').selectpicker('refresh');				
 		}
      });
 }
@@ -664,9 +682,13 @@ function getProductos(){
 	    async: true,
         success: function(data){
 			$('#formMovimientos #movimiento_producto').html(data);
+			$('#formMovimientos #movimiento_producto').selectpicker('refresh');
+
 			$('#formProductos #producto_superior').html(data);
+			$('#formProductos #producto_superior').selectpicker('refresh');
+
 			$('#producto_movimiento_filtro').html(data);
-			$('#formProductos #producto_superior').selectpicker('refresh');	
+			$('#producto_movimiento_filtro').selectpicker('refresh');	
 		}
      });
 }
@@ -1514,7 +1536,14 @@ $('#form_main_cobrar_clientes #fechaf').on("change", function(e){
 });
 
 var listar_cuentas_por_cobrar_clientes = function(){
-	var estado = $("#form_main_cobrar_clientes #cobrar_clientes_estado").val();
+	var estado = "";
+	
+	if($("#form_main_cobrar_clientes #cobrar_clientes_estado").val() == "" || $("#form_main_cobrar_clientes #cobrar_clientes_estado").val() == null){
+		estado = 1;
+	}else{
+		estado = $("#form_main_cobrar_clientes #cobrar_clientes_estado").val();
+	}   
+
 	var clientes_id = $("#form_main_cobrar_clientes #cobrar_clientes").val();
 	var fechai = $("#form_main_cobrar_clientes #fechai").val();
 	var fechaf = $("#form_main_cobrar_clientes #fechaf").val();	
@@ -1699,6 +1728,7 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
 					confirmButtonClass: 'btn-danger'
 				});	
 		}else{
+			$("#GrupoPagosMultiplesFacturas").hide();
 			pago(data.facturas_id,2);
 		}
 	});
@@ -1774,7 +1804,14 @@ $('#form_main_pagar_proveedores #fechaf').on("change", function(e){
 });
 
 var listar_cuentas_por_pagar_proveedores = function(){
-	var estado = $("#form_main_pagar_proveedores #pagar_proveedores_estado").val();
+	var estado = "";
+
+	if($("#form_main_pagar_proveedores #pagar_proveedores_estado").val() == "" || $("#form_main_pagar_proveedores #pagar_proveedores_estado").val() == null){
+		estado = 1;
+	}else{
+		estado = $("#form_main_pagar_proveedores #pagar_proveedores_estado").val();
+	}
+
 	var proveedores_id = $("#form_main_pagar_proveedores #pagar_proveedores").val();
 	var fechai = $("#form_main_pagar_proveedores #fechai").val();
 	var fechaf = $("#form_main_pagar_proveedores #fechaf").val();
@@ -1955,7 +1992,8 @@ var registrar_pago_proveedores_dataTable = function(tbody, table){
 				confirmButtonClass: "btn-primary"
 			});
 		}else{
-			pagoCompras(data.compras_id,data.saldo);
+			$("#GrupoPagosMultiples").hide();
+			pagoCompras(data.compras_id,data.saldo,2);			
 		}
 	});
 }
@@ -1975,6 +2013,7 @@ function getMunicipiosClientes(municipios_id){
 		  $('#formClientes #municipio_cliente').html("");
 		  $('#formClientes #municipio_cliente').html(data);		  
 		  $('#formClientes #municipio_cliente').selectpicker('refresh');
+		  
 		  $('#formClientes #municipio_cliente').val(municipios_id);
 		  $('#formClientes #municipio_cliente').selectpicker('refresh');
 	  }
@@ -2362,6 +2401,25 @@ function saldoFactura(facturas_id){
 	});	
 }
 
+//funcion aplicar nuevo saldo compras CXP
+function saldoCompras(compras_id){
+	//IMPORTE NUEVO EFECTIVO
+	console.log('SALDO',compras_id)
+	var url = '<?php echo SERVERURL;?>core/getSaldoCompras.php';
+
+	$.ajax({
+		type:'POST',
+		url:url,
+		data:'compras_id='+compras_id,
+		success: function(saldoFactura){
+			console.log('res',saldoFactura);
+			//$('#formEfectivoBill #monto_efectivo').val(saldoFactura);
+			$('#Purchase-pay').html(saldoFactura);
+
+			
+		}
+	});	
+}
 //FIN ACCIONES FROMULARIO CLIENTES
 
 //INICIO MODAL REGSITRAR PAGO FACTURACIÓN CLIENTES
@@ -2386,11 +2444,8 @@ function pago(facturas_id,tipoPago){
 			$('#formEfectivoBill #tipo_factura_efectivo').val(tipoPago);
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
 
-			//if(datos[5] == '2'){
-			//tipo = parseInt(tipo);
 			console.log(tipoPago,'tipoPago', typeof tipoPago )
-			 if(tipoPago == 2){
-			
+			 if(tipoPago == 2){			
 				$('#bill-pay').html("L. " + parseFloat(datos[6]).toFixed(2));
 				$('#tab5').hide();
 				$("#formEfectivoBill #tipo_factura_efectivo").val(tipoPago);
@@ -2399,7 +2454,6 @@ function pago(facturas_id,tipoPago){
 				$('#formTransferenciaBill #importe_transferencia').show()
 				$('#formChequeBill #importe_cheque').show()
 				$("#formEfectivoBill #grupo_cambio_efectivo").hide();
-
 			}
 
 			//TARJETA
@@ -2558,8 +2612,7 @@ function getBanco(){
 		    $('#formChequeBill #bk_nm_chk').html("");
 			$('#formChequeBill #bk_nm_chk').html(data);
 			$('#formChequeBill #bk_nm_chk').selectpicker('refresh');
-			
-        },
+        }
 		
      });
 }
@@ -2812,9 +2865,87 @@ function getImporteCompras(compras_id){
 //FIN ABONO CXP PROVEEDOR
 
 //INICIO MODAL REGSITRAR PAGO COMPRAS PROVEEDORES
-function pagoCompras(compras_id,saldo){
+$(document).ready(function(){
+		//INICIO PAGOS MULTIPLES COMPRAS
+		$('#modal_pagosPurchase .label_pagos_multiples').html("No");
+	
+    $('#modal_pagosPurchase .switch').change(function(){    
+        if($('input[name=pagos_multiples_switch]').is(':checked')){
+            $('#modal_pagosPurchase .label_pagos_multiples').html("Si");
+			$('#pagos_multiples_switch').val(1);
+			$('#modal_pagosPurchase .multiple_pago').val(1);
+				//HABILITAR TEXTFIELD COMPRAS
+				$('#formEfectivoPurchase #pago_efectivo').prop('disabled', false);
+				///TARJETA
+				$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', false);
+				$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "text")
+				///TRANSFERENCIA
+				$('#formTransferenciaPurchase #importe_transferencia').prop("type", "text")
+				//INPUTS CAMBIO
+				$('#grupo_cambio_compras').hide()
+
+            return true;
+        }else{
+            $('#modal_pagosPurchase .label_pagos_multiples').html("No");
+			$('#pagos_multiples_switch').val(0);
+			$('#modal_pagosPurchase .multiple_pago').val(0);
+				//HABILITAR TEXTFIELD COMPRAS
+				$('#formEfectivoPurchase #pago_efectivo').prop('disabled', true)
+				///TARJETA
+				//--$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', true);
+				$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "hidden")
+				///TRANSFERENCIA
+				$('#formTransferenciaPurchase #importe_transferencia').prop("type", "hidden")
+				//INPUTS CAMBIO
+				$('#grupo_cambio_compras').show()
+            return false;
+        }
+    });		
+	//FIN PAGOS MULTIPLES COMPRAS
+
+	//INCIO PAGOS MULTIPLES FACTURAS
+	$('#modal_pagos .label_pagos_multiples').html("No");
+	
+    $('#modal_pagos .switch').change(function(){    
+        if($('input[name=pagos_multiples_switch]').is(':checked')){
+            $('#modal_pagos .label_pagos_multiples').html("Si");
+			$('#pagos_multiples_switch').val(1);
+			$('#modal_pagos .multiple_pago').val(1);
+				//HABILITAR TEXTFIELD COMPRAS
+				$('#formTarjetaBill #pago_efectivo').prop('disabled', false);
+				///TARJETA
+				$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', false);
+				$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "text")
+				///TRANSFERENCIA
+				$('#formTransferenciaBill #importe_transferencia').prop("type", "text")
+				//INPUTS CAMBIO
+				$('#grupo_cambio_efectivo').hide()
+
+            return true;
+        }else{
+            $('#modal_pagos .label_pagos_multiples').html("No");
+			$('#pagos_multiples_switch').val(0);
+			$('#modal_pagos .multiple_pago').val(0);
+				//HABILITAR TEXTFIELD COMPRAS
+				$('#formTarjetaBill #pago_efectivo').prop('disabled', true)
+				///TARJETA
+				//--$('#formTarjetaPurchase #pago_tarjeta').prop('disabled', true);
+				$('#formTarjetaPurchase #monto_efectivo_tarjeta').prop("type", "hidden")
+				///TRANSFERENCIA
+				$('#formTransferenciaBill #importe_transferencia').prop("type", "hidden")
+				//INPUTS CAMBIO
+				$('#grupo_cambio_efectivo').show()
+            return false;
+        }
+    });	
+	//FIN PAGOS MULTIPLES FACTURAS
+});
+
+//INICIO MODAL REGSITRAR PAGO COMPRAS PROVEEDORES
+function pagoCompras(compras_id,saldo,tipo){
 	var url = '<?php echo SERVERURL;?>core/editarPagoCompras.php';
 
+	console.log('tipo dato',tipo);
 	$.ajax({
 		type:'POST',
 		url:url,
@@ -2824,24 +2955,23 @@ function pagoCompras(compras_id,saldo){
 			$('#formEfectivoPurchase .border-right a:eq(0) a').tab('show');
 			$("#customer-name-Purchase").html("<b>Proveedor:</b> " + datos[0]);
 		    $("#customer_Purchase_pay").val(datos[3]);
-			$('#Purchase-pay').html("L. " + parseFloat(datos[3]).toFixed(2));
+			$('#Purchase-pay').html("L. " + parseFloat(datos[6]).toFixed(2));
 			
 			//EFECTIVO
 			$('#formEfectivoPurchase')[0].reset();
 			$('#formEfectivoPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formEfectivoPurchase #compras_id_efectivo').val(compras_id);
 			$('#formEfectivoPurchase #pago_efectivo').attr('disabled', true);
-			$('#formEfectivoPurchase #tipo_purchase_efectivo').val(datos[5]);
+			$('#formEfectivoPurchase #tipo_purchase_efectivo').val(tipo);
 
-			if(datos[5] == '2'){
-				//$('#bill-pay').html(saldo);
+			if(tipo == '2'){
 				$('#monto_efectivo_tarjeta').attr('type','number');
 				$('#tab5Purchase').hide();
 				$('#importe_transferencia').attr('type','number');
 				$('#importe_cheque').attr('type','number');
 				//
 				$("#formEfectivoBill #cambio_efectivo").val(0)
-				$("#formEfectivoPurchase #grupo_cambio_compras").hide();
+				$("#grupo_cambio_compras").hide();
 			}
 			
 			//TARJETA
@@ -2849,7 +2979,7 @@ function pagoCompras(compras_id,saldo){
 			$('#formTarjetaPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formTarjetaPurchase #compras_id_tarjeta').val(compras_id);
 			$('#formTarjetaPurchase #pago_efectivo').attr('disabled', true);
-			$('#formTarjetaPurchase #tipo_purchase_efectivo').val(datos[5]);
+			$('#formTarjetaPurchase #tipo_purchase_efectivo').val(tipo);
 			
 			//mixto
 			$('#formMixtoPurchaseBill')[0].reset();
@@ -2862,11 +2992,11 @@ function pagoCompras(compras_id,saldo){
 			$('#formTransferenciaPurchase #monto_efectivoPurchase').val(datos[3]);
 			$('#formTransferenciaPurchase #compras_id_transferencia').val(compras_id);
 			$('#formTransferenciaPurchase #pago_efectivo').attr('disabled', true);	
-			$('#formTransferenciaPurchase #tipo_purchase_efectivo').val(datos[5]);
+			$('#formTransferenciaPurchase #tipo_purchase_efectivo').val(tipo);
 
 			//CHEQUE
 			$('#formChequePurchase #compras_id_cheque').val(compras_id);
-			$('#formChequePurchase #tipo_purchase_efectivo').val(datos[5]);
+			$('#formChequePurchase #tipo_purchase_efectivo').val(tipo);
 			$('#formChequePurchase #monto_efectivoPurchase').val(datos[3]);
 		
 			$('#modal_pagosPurchase').modal({
@@ -2930,17 +3060,18 @@ $(document).ready(function(){
 		var efectivo = parseFloat($("#formEfectivoPurchase #efectivo_Purchase").val()).toFixed(2);
 		var monto = parseFloat($("#formEfectivoPurchase #monto_efectivoPurchase").val()).toFixed(2);
 		var credito = $("#formEfectivoPurchase #tipo_purchase_efectivo").val();
+		var pagos_multiples = $('#pagos_multiples_switch').val();
 		
-		console.log('credotp',credito)
 		if(credito == 2 ){
 			$("#formEfectivoPurchase #cambio_efectivoPurchase").val(0)
 			$("#formEfectivoPurchase #cambio_efectivoPurchase").hide();
 		}
 
-		var total = efectivo - monto;				
+		var total = efectivo - monto;
+		console.log('keyup',pagos_multiples);				
 		//Math.floor NOS PERMITE COMPARAR UN FLOAT CONVIRTIENDOLO A ENTERO CUANDO SE MULTIPLICA POR 100
 		
-		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2){	
+		if(Math.floor(efectivo*100) >= Math.floor(monto*100) || credito == 2 || pagos_multiples == 1){	
 			$('#formEfectivoPurchase #cambio_efectivoPurchase').val(parseFloat(total).toFixed(2));
 			$('#formEfectivoPurchase #pago_efectivo').attr('disabled', false);				
 		}else{				
@@ -2981,10 +3112,12 @@ function getBancoPurchase(){
 	    async: true,
         success: function(data){
 		    $('#formTransferenciaPurchase #bk_nm').html("");
-			$('#formTransferenciaPurchase #bk_nm').html(data);	
+			$('#formTransferenciaPurchase #bk_nm').html(data);
+			$('#formTransferenciaPurchase #bk_nm').selectpicker('refresh');
 			
 		    $('#formChequePurchase #bk_nm_chk').html("");
-			$('#formChequePurchase #bk_nm_chk').html(data);				
+			$('#formChequePurchase #bk_nm_chk').html(data);
+			$('#formChequePurchase #bk_nm_chk').selectpicker('refresh');			
         }
      });
 }
@@ -2999,19 +3132,24 @@ function getCollaboradoresModalPagoFacturas(){
 	    async: true,
         success: function(data){
 		    $('#formEfectivoBill #usuario_efectivo').html("");
-			$('#formEfectivoBill #usuario_efectivo').html(data);			
+			$('#formEfectivoBill #usuario_efectivo').html(data);
+			$('#formEfectivoBill #usuario_efectivo').selectpicker('refresh');			
 
 		    $('#formTarjetaBill #usuario_tarjeta').html("");
 			$('#formTarjetaBill #usuario_tarjeta').html(data);
+			$('#formTarjetaBill #usuario_tarjeta').selectpicker('refresh');
 			
 		    $('#formMixtoBill #usuario_pago_mixto').html("");
 			$('#formMixtoBill #usuario_pago_mixto').html(data);
+			$('#formMixtoBill #usuario_pago_mixto').selectpicker('refresh');
 			
 		    $('#formTransferenciaBill #usuario_transferencia').html("");
 			$('#formTransferenciaBill #usuario_transferencia').html(data);
+			$('#formTransferenciaBill #usuario_transferencia').selectpicker('refresh');
 			
 			$('#formChequeBill #usuario_cheque').html("");
-			$('#formChequeBill #usuario_cheque').html(data);			
+			$('#formChequeBill #usuario_cheque').html(data);
+			$('#formChequeBill #usuario_cheque').selectpicker('refresh');			
 		}
      });
 }
@@ -3025,19 +3163,24 @@ function getCollaboradoresModalPagoFacturasCompras(){
 	    async: true,
         success: function(data){
 		    $('#formEfectivoPurchase #usuario_efectivo_compras').html("");
-			$('#formEfectivoPurchase #usuario_efectivo_compras').html(data);			
+			$('#formEfectivoPurchase #usuario_efectivo_compras').html(data);
+			$('#formEfectivoPurchase #usuario_efectivo_compras').selectpicker('refresh');			
 
 		    $('#formTarjetaPurchase #usuario_tarjeta_compras').html("");
 			$('#formTarjetaPurchase #usuario_tarjeta_compras').html(data);
+			$('#formTarjetaPurchase #usuario_tarjeta_compras').selectpicker('refresh');
 			
 		    $('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').html("");
 			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').html(data);
+			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').selectpicker('refresh');
 			
 		    $('#formTransferenciaPurchase #usuario_transferencia_compras').html("");
 			$('#formTransferenciaPurchase #usuario_transferencia_compras').html(data);
+			$('#formTransferenciaPurchase #usuario_transferencia_compras').selectpicker('refresh');
 			
 			$('#formChequePurchase #usuario_cheque_compras').html("");
-			$('#formChequePurchase #usuario_cheque_compras').html(data);			
+			$('#formChequePurchase #usuario_cheque_compras').html(data);
+			$('#formChequePurchase #usuario_cheque_compras').selectpicker('refresh');			
 		}
      });
 }

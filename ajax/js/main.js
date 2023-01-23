@@ -268,7 +268,7 @@ $(document).ready(function(){
 	//FIN PRINT COMPROBANTE
 });
 
-//INICIO PAGOS MULTIPLES
+//INICIO PAGOS MULTIPLES FACTURA
 $('#modal_pagos #label_pagos_multiples').html("No");
 	
 $('#modal_pagos .switch').change(function(){    
@@ -288,7 +288,7 @@ $('#modal_pagos .switch').change(function(){
 		return false;
 	}
 });		
-//FIN PAGOS MULTIPLES
+//FIN PAGOS MULTIPLES FACTURA
 
 //FIN MENU FACTURAS
 

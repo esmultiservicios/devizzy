@@ -183,12 +183,12 @@
 							<div class="col-md-3 mb-3">
 							  <label for="nominad_empleados">Empleado <span class="priority">*<span/></label>
 							  <div class="input-group">
-								<div class="input-group-append">
-									<select id="nominad_empleados" name="nominad_empleados" class="selectpicker" title="Empleado" data-live-search="true">
-										<option value="">Seleccione</option>
-									</select>
-								</div>	
-								</div>
+									<div class="input-group-append">
+										<select id="nominad_empleados" name="nominad_empleados" class="selectpicker" title="Empleado" data-live-search="true">
+											<option value="">Seleccione</option>
+										</select>
+									</div>	
+							   </div>
 							</div>
 							<div class="col-md-3 mb-3">
 							  <label for="nominad_puesto">Puesto <span class="priority">*<span/></label>

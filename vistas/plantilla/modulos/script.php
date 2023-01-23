@@ -1,7 +1,6 @@
 <script src="<?php echo SERVERURL; ?>ajax/query/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/popper/popper.min.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/bootstrap-select.min.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/js/jquery.inputmask.bundle.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/js/main.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>vistas/plantilla/js/scripts.js" crossorigin="anonymous"></script>
@@ -19,4 +18,5 @@
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/vfs_fonts.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/buttons.html5.min.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/buttons.print.min.js" crossorigin="anonymous"></script>
+<script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/bootstrap-select.min.js" crossorigin="anonymous"></script>
 <script defer src="<?php echo SERVERURL; ?>ajax/js/snow.js" crossorigin="anonymous"></script>

@@ -15,6 +15,8 @@
 	$fecha_compra = "";
 	$compras_id = "";
 	$importe = 0;
+	$saldo = 0;
+	$estado = 0;
 
 	//OBTENEMOS LOS VALORES DEL REGISTRO
 	if($result->num_rows>0){
@@ -23,7 +25,8 @@
 		$proveedores_id = $consulta_registro['proveedores_id'];
 		$fecha_compra = $consulta_registro['fecha_compra'];
 		$compras_id = $consulta_registro['compras_id'];	
-		$estado = $consulta_registro['tipo_compra'];		
+		$estado = $consulta_registro['tipo_compra'];
+		$saldo = floatval($consulta_registro['saldo']);	
 	}
 
 	$result_compra = $insMainModel->getDetalleProductosCompras($compras_id);
@@ -42,6 +45,9 @@
 		 2 => $fecha_compra, 
 		 3 => $importe,
 		 4 => $compras_id,	
-		 5 => $estado	 
+		 5 => $estado,
+		 6 => $saldo
+
 	);	
 	echo json_encode($datos);
+?>

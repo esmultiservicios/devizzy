@@ -1,7 +1,7 @@
 <script>
 $(document).ready(function() {
     listar_productos();
-	getEmpresaProductos();
+	getEmpresaProductos();	
 });
 
 //INICIO ACCIONES FROMULARIO PRODUCTOS

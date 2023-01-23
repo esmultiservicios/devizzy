@@ -149,7 +149,6 @@
 					  <label for="colaborador_id_usuario">Colaboradores <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
 						  <select id="colaborador_id_usuario" name="colaborador_id_usuario" class="selectpicker" data-live-search="true" title="Colaboradores">
-							<option value="">Seleccione</option>
 						  </select>
 					   </div>
 					</div>	
@@ -408,6 +407,14 @@
 											<div class="fas fa-money-check fa-lg"></div> &nbsp;&nbsp; Cheque
 										</div>
 									</a>
+									<div class="container mt-md-0" id="GrupoPagosMultiples">
+										<p class="mb-0 mt-3">Pagos Multiples:</p>
+										<label class="switch mb-2" data-toggle="tooltip" data-placement="top">
+											<input type="checkbox" id="pagos_multiples_switch" name="pagos_multiples_switch" value="0">
+											<div class="slider round"></div>
+										</label>
+										<span class="question mb-2 label_pagos_multiples" id="label_pagos_multiples"></span>
+									</div>
 																		
 								</div>
 							</div> <!-- Page Content -->
@@ -451,6 +458,7 @@
 															<div class="col-12">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="hidden" name="compras_id_efectivo" id="compras_id_efectivo" placeholder="Compra Codigo"> 
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00"> 
 																	<input type="text" name="efectivo_Purchase" id="efectivo_Purchase" class="inputfield" placeholder="0.00" step="0.01">
@@ -467,10 +475,10 @@
 														</div>
 														<div class="row">
 															<div class="col-12">
-															    <label>Quien Recibe</label> 
-																<div class="input-group"> 																	
-																	<select required name="usuario_efectivo_compras" id="usuario_efectivo_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
-																	</select> 								
+															    <label>Quien Paga</label> 
+																<div class="input-group">
+																	<select id="usuario_efectivo_compras" name="usuario_efectivo_compras" required class="selectpicker col-12" data-size="5" data-live-search="true" title="Usuario que Paga">
+																    </select>								
 																</div>
 															</div>	
 														</div>														
@@ -500,13 +508,14 @@
 															</div>																
 															<div class="col-12">
 																<div class="input-group"> 
-																<label>Número de Tarjeta</label> 
-																<input type="hidden" name="compras_id_tarjeta" id="compras_id_tarjeta" placeholder="Compra Codigo">
-																<input type="text" id="cr_Purchase" name="cr_Purchase" class="inputfield"  placeholder="XXXX">
-																<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">
-																<input type="hidden" name="monto_efectivo" id="monto_efectivo_tarjeta" class="inputfield" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">														
-																<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
-															</div>
+																	<label>Número de Tarjeta</label> 
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
+																	<input type="hidden" name="compras_id_tarjeta" id="compras_id_tarjeta" placeholder="Compra Codigo">
+																	<input type="text" id="cr_Purchase" name="cr_Purchase" class="inputfield"  placeholder="XXXX">
+																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">
+																	<input type="hidden" name="monto_efectivo" id="monto_efectivo_tarjeta" class="inputfield" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">														
+																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
+																</div>
 															</div>
 														</div>
 														<div class="row">
@@ -525,10 +534,10 @@
 														</div>
 														<div class="row">
 															<div class="col-12">
-															    <label>Quien Recibe</label> 
-																<div class="input-group"> 																	
-																	<select required name="usuario_tarjeta_compras" id="usuario_tarjeta_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
-																	</select> 								
+															    <label>Quien Paga</label> 
+																<div class="input-group">
+																	<select id="usuario_tarjeta_compras" name="usuario_tarjeta_compras" required class="selectpicker col-12" data-size="5" data-live-search="true" title="Usuario que Paga">
+																    </select>								
 																</div>
 															</div>	
 														</div>														
@@ -559,6 +568,7 @@
 															<div class="col-12 col-md-6">
 																<div class="input-group"> 	
 																	<label for="monto_efectivo">Efectivo</label>
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="hidden" name="compras_id_mixto" id="compras_id_mixto"> 
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivo_mixtoPurchase" placeholder="0.00"> 
 																	<input type="number" name="efectivo_bill" id="efectivo_bill_mixtoPurchase" class="inputfield" placeholder="0.00" step="0.01">																						
@@ -598,10 +608,10 @@
 														</div>
 														<div class="row">
 															<div class="col-12">
-															    <label>Quien Recibe</label> 
-																<div class="input-group"> 																	
-																	<select required name="usuario_mixto_compras" id="usuario_mixto_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
-																	</select> 								
+															    <label>Quien Paga</label> 
+																<div class="input-group"> 	
+																	<select id="usuario_mixto_compras" name="usuario_mixto_compras" required class="selectpicker col-12" data-size="5" data-live-search="true" title="Usuario que Paga">
+																    </select>								
 																</div>
 															</div>	
 														</div>														
@@ -633,9 +643,9 @@
 															    <label>Banco</label> 
 																<div class="input-group"> 																	
 																	<input type="hidden" name="compras_id_transferencia" id="compras_id_transferencia" placeholder="Compra Codigo">
-																	<select required name="bk_nm" id="bk_nm" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
-																		<option value="">Seleccione un Banco</option>
-																	</select> 																	
+																	<select id="bk_nm" name="bk_nm" required class="selectpicker col-12" data-size="5" data-live-search="true" title="banco">
+																    </select>																
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="hidden" name="importe" id="importe_transferencia" class="inputfield mt-5" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">	
 																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
@@ -659,10 +669,10 @@
 														</div>
 														<div class="row">
 															<div class="col-12">
-															    <label>Quien Recibe</label> 
-																<div class="input-group"> 																	
-																	<select required name="usuario_transferencia_compras" id="usuario_transferencia_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
-																	</select> 								
+															    <label>Quien Paga</label> 
+																<div class="input-group"> 	
+																	<select id="usuario_transferencia_compras" name="usuario_transferencia_compras" required class="selectpicker col-12" data-size="5" data-live-search="true" title="Usuario que Paga">
+																    </select>							
 																</div>
 															</div>	
 														</div>														
@@ -695,9 +705,9 @@
 															    <label>Banco</label> 
 																<div class="input-group"> 																	
 																	<input type="hidden" name="compras_id_cheque" id="compras_id_cheque">
-																	<select required name="bk_nm_chk" id="bk_nm_chk" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
-																		<option value="">Seleccione un Banco</option>
-																	</select> 																	
+																	<select id="bk_nm_chk" name="bk_nm_chk" required class="selectpicker col-12" data-size="5" data-live-search="true" title="banco">
+																    </select>		
+																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="number" name="importe" id="importe_cheque" class="inputfield mt-5"step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">								
@@ -714,10 +724,10 @@
 														</div>
 														<div class="row">
 															<div class="col-12">
-															    <label>Quien Recibe</label> 
-																<div class="input-group"> 																	
-																	<select required name="usuario_cheque_compras" id="usuario_cheque_compras" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
-																	</select> 								
+															    <label>Quien Paga</label> 
+																<div class="input-group"> 
+																	<select id="usuario_cheque_compras" name="usuario_cheque_compras" required class="selectpicker col-12" data-size="5" data-live-search="true" title="Usuario que Paga">
+																    </select>								
 																</div>
 															</div>	
 														</div>														
@@ -789,7 +799,7 @@
 										</label>
 										<span class="question mb-2" id="label_print_comprobant"></span>
 									</div>
-									<div class="container mt-md-0">
+									<div class="container mt-md-0" id="GrupoPagosMultiplesFacturas">
 										<p class="mb-0 mt-3">Pagos Multiples:</p>
 										<label class="switch mb-2" data-toggle="tooltip" data-placement="top">
 											<input type="checkbox" id="pagos_multiples_switch" name="pagos_multiples_switch" value="0">
@@ -857,9 +867,9 @@
 														<div class="row">
 															<div class="col-12">
 															    <label>Quien Recibe</label> 
-																<div class="input-group"> 																	
-																	<select required name="usuario_efectivo" id="usuario_efectivo" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
-																	</select> 								
+																<div class="input-group"> 
+																	<select id="usuario_efectivo" name="usuario_efectivo" required class="selectpicker col-12" data-live-search="true" title="Usuario que Recibe">
+																    </select>							
 																</div>
 															</div>	
 														</div>
@@ -918,9 +928,9 @@
 														<div class="row">
 															<div class="col-md-12">
 																<label>Quien Recibe</label> 
-																<div class="input-group"> 																	
-																	<select required name="usuario_tarjeta" id="usuario_tarjeta" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
-																	</select> 								
+																<div class="input-group"> 
+																	<select id="usuario_tarjeta" name="usuario_tarjeta" required class="selectpicker col-12" data-size="5" data-live-search="true" title="Usuario que Recibe">
+																    </select>							
 																</div>
 															</div>
 														</div>
@@ -993,9 +1003,9 @@
 														<div class="row">
 															<div class="col-md-12">
 																<label>Quien Recibe</label> 
-																<div class="input-group"> 																	
-																	<select required name="usuario_pago_mixto" id="usuario_pago_mixto" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
-																	</select> 								
+																<div class="input-group"> 
+																	<select id="usuario_pago_mixto" name="usuario_pago_mixto" required class="selectpicker col-12" data-size="5" data-live-search="true" title="Usuario que Recibe">
+																    </select>								
 																</div>
 															</div>
 														</div>														
@@ -1023,13 +1033,12 @@
 																	<input type="date" name="fecha_transferencia" id="fecha_transferencia" class="inputfield" value="<?php echo date("Y-m-d");?>">																
 																</div>
 															</div>															
-															<div class="col-12">
+															<div class="col-md-12 mb-3">
 															    <label>Banco</label> 
 																<div class="input-group"> 																	
 																	<input type="hidden" name="factura_id_transferencia" id="factura_id_transferencia">
-																	<select required name="bk_nm" id="bk_nm" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
-																		<option value="">Seleccione un Banco</option>
-																	</select> 	
+																    <select id="bk_nm" name="bk_nm" required class="selectpicker col-12" data-size="5" data-live-search="true" title="Banco">
+																    </select>		
 																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">																
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">		
@@ -1055,9 +1064,9 @@
 														<div class="row">
 															<div class="col-md-12">
 																<label>Quien Recibe</label> 
-																<div class="input-group"> 																	
-																	<select required name="usuario_transferencia" id="usuario_transferencia" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
-																	</select> 								
+																<div class="input-group"> 	
+																	<select id="usuario_transferencia" name="usuario_transferencia" required class="selectpicker col-12" data-size="5" data-live-search="true" title="Usuario que Recibe">
+																    </select>	 								
 																</div>
 															</div>
 														</div>															
@@ -1092,9 +1101,8 @@
 																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
 																	<input type="hidden" class="comprobante_print_value" name="comprobante_print" value="0">																
 																	<input type="hidden" name="factura_id_cheque" id="factura_id_cheque">
-																	<select required name="bk_nm_chk" id="bk_nm_chk" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Banco">
-																		<option value="">Seleccione un Banco</option>
-																	</select> 																	
+																	<select id="bk_nm_chk" name="bk_nm_chk" required data-size="5" class="selectpicker col-12" data-live-search="true" title="Banco">
+																    </select>																	
 																	<input type="hidden" name="monto_efectivo" id="monto_efectivo" placeholder="0.00">		
 																	<input type="number" name="importe" id="importe_cheque" class="inputfield mt-5"step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																	<input type="hidden" name="tipo_factura" id="tipo_factura_cheque" value="1" step="0.01" placeholder="0.00"> 								
@@ -1112,9 +1120,9 @@
 														<div class="row">
 															<div class="col-md-12">
 																<label>Quien Recibe</label> 
-																<div class="input-group"> 																	
-																	<select required name="usuario_cheque" id="usuario_cheque" class="custom-select inputfield" data-toggle="tooltip" data-placement="top" title="Usuario que Recibe">
-																	</select> 								
+																<div class="input-group">
+																	<select id="usuario_cheque" name="usuario_cheque" required class="selectpicker col-12" data-size="5" data-live-search="true" title="Usuario que Recibe">
+																    </select>							
 																</div>
 															</div>
 														</div>														
@@ -1188,14 +1196,14 @@
 				<div class="col-md-3 mb-3">
 					<label for="departamento_cliente">Departamento <span class="priority">*<span/></label>			
 				  	<div class="input-group mb-3">
-					  <select class="selectpicker" id="departamento_cliente" name="departamento_cliente" required data-live-search="true" title="Departamentos">			  
+					 <select class="selectpicker" id="departamento_cliente" name="departamento_cliente" required data-size="7" data-live-search="true" title="Departamentos">			  
 				 	 </select>
 					</div>
 				</div>
 				<div class="col-md-3 mb-3">
 					<label for="municipio_cliente">Municipio <span class="priority">*<span/></label>			
 				  	<div class="input-group mb-3">
-					  <select class="selectpicker" id="municipio_cliente" name="municipio_cliente" required data-live-search="true" title="Municipio">
+					  <select class="selectpicker" id="municipio_cliente" name="municipio_cliente" required data-size="7" data-live-search="true" title="Municipio">
 				  	 </select>
 					</div>
 				</div>	
@@ -1292,14 +1300,14 @@
 					<div class="col-md-3 mb-3">
 						<label for="departamento_proveedores">Departamento <span class="priority">*<span/></label>			
 						<div class="input-group mb-3">
-						  <select class="selectpicker" id="departamento_proveedores" name="departamento_proveedores" required data-live-search="true" title="Departamentos">			  
+						  <select class="selectpicker" id="departamento_proveedores" name="departamento_proveedores" required data-size="7" data-live-search="true" title="Departamentos">			  
 						 </select>
 						</div>
 					</div>
 					<div class="col-md-3 mb-3">
 						<label for="municipio_proveedores">Municipio <span class="priority">*<span/></label>			
 						<div class="input-group mb-3">
-						  <select class="selectpicker" id="municipio_proveedores" name="municipio_proveedores" required data-live-search="true" title="Municipios">			  
+						  <select class="selectpicker" id="municipio_proveedores" name="municipio_proveedores" required data-size="7" data-live-search="true" title="Municipios">			  
 						 </select>
 						</div>
 					</div>	
@@ -1976,7 +1984,7 @@
 					<div class="col-md-3 mb-3">
 						<label for="producto_empresa_id">Empresa <span class="priority">*<span/></label>			
 						<div class="input-group mb-3">
-						<select id="producto_empresa_id" name="producto_empresa_id" required class="selectpicker" data-live-search="true" title="Empresa">
+						<select id="producto_empresa_id" name="producto_empresa_id" required class="selectpicker" data-size="7" data-live-search="true" title="Empresa">
 							<option value="">Seleccione</option>
 						</select>
 						</div>
@@ -1984,7 +1992,7 @@
 					<div class="col-md-3 mb-3">
 						<label for="producto_superior">Superior</label>			
 						<div class="input-group mb-3">
-						<select class="selectpicker" id="producto_superior" name="producto_superior" data-live-search="true" title="Superior">
+						<select class="selectpicker" id="producto_superior" name="producto_superior" data-size="7" data-live-search="true" title="Superior">
 							<option value="">Seleccione</option>
 						</select>
 						</div>
@@ -1992,7 +2000,7 @@
 					<div class="col-md-3 mb-3">
 						<label for="producto_categoria">Categoria</label>			
 						<div class="input-group mb-3">
-						<select class="selectpicker" id="producto_categoria" name="producto_categoria" required data-live-search="true" title="Categoria">
+						<select class="selectpicker" id="producto_categoria" name="producto_categoria" required data-size="7" data-live-search="true" title="Categoria">
 							<option value="">Seleccione</option>
 						</select>
 						</div>
@@ -2010,12 +2018,12 @@
 				<div class="form-row">
 					<div class="col-md-3 mb-3">
 					  <label for="tipo_producto">Tipo Producto <span class="priority">*<span/></label>
-					  <select id="tipo_producto" name="tipo_producto" required class="selectpicker" data-live-search="true" title="Tipo Producto">			  
+					  <select id="tipo_producto" name="tipo_producto" required class="selectpicker" data-size="7" data-live-search="true" title="Tipo Producto">			  
 					  </select>
 					</div>					
 					<div class="col-md-3 mb-3">
 					  <label for="medida">Medida <span class="priority">*<span/></label>
-					  <select id="medida" name="medida" required class="selectpicker" data-live-search="true" title="Medida">			  
+					  <select id="medida" name="medida" required class="selectpicker" data-size="7" data-live-search="true" title="Medida">			  
 					  </select>
 					</div>				  				
 					<div class="col-md-3 mb-3">

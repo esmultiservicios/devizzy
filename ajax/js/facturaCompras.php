@@ -2,330 +2,28 @@
 $(document).ready(function() {
     getBancoPurchase();
     getColaboradorCompras();
-	getMedida(0)
-
+	getMedida(0);
+	getProveedores();
+	getColaboradores();
 });
-
-//INICIO PURCHARSE BILL
-
-//INICIO BUSQUEDA PROVEEDORES EN COMPRAS
-
-$('#purchase-form #buscar_proveedores_compras').on('click', function(e){
-	e.preventDefault();
-
-	listar_proveedores_compras_buscar();
-	 $('#modal_buscar_proveedores_compras').modal({
-		show:true,
-		keyboard: false,
-		backdrop:'static'
-	});
-});
-
-var listar_proveedores_compras_buscar = function(){
-
-	var table_proveedores_compras_buscar = $("#DatatableProveedoresBusquedaProveedores").DataTable({
-
-		"destroy":true,
-
-		"ajax":{
-
-			"method":"POST",
-
-			"url":"<?php echo SERVERURL;?>core/llenarDataTableProveedores.php"
-
-		},
-
-		"columns":[
-
-			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-copy'></span></button>"},
-
-			{"data":"proveedor"},
-
-			{"data":"rtn"},
-
-			{"data":"telefono"},
-
-			{"data":"correo"}
-
-		],
-
-		"pageLength": 5,
-
-        "lengthMenu": lengthMenu,
-
-		"stateSave": true,
-
-		"bDestroy": true,
-
-		"language": idioma_español,
-
-		"dom": dom,
-
-		"columnDefs": [
-
-		  { width: "5%", targets: 0 },
-
-		  { width: "25%", targets: 1 },
-
-		  { width: "25%", targets: 2 },
-
-		  { width: "20%", targets: 3 },
-
-		  { width: "25%", targets: 4 }
-
-		],
-
-		"buttons":[
-
-			{
-
-				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-
-				titleAttr: 'Actualizar Proveedores',
-
-				className: 'table_actualizar btn btn-secondary ocultar',
-
-				action: 	function(){
-
-					listar_proveedores_ingresos_contabilidad_buscar();
-
-				}
-
-			},
-
-			{
-
-				text:      '<i class="fas fas fa-plus fa-lg"></i> Crear',
-
-				titleAttr: 'Agregar Proveedores',
-
-				className: 'table_crear btn btn-primary ocultar',
-
-				action: 	function(){
-
-					modal_proveedores();
-
-				}
-
-			}
-
-		],		
-
-		"drawCallback": function( settings ) {
-
-        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
-
-    	}
-
-	});
-
-	table_proveedores_compras_buscar.search('').draw();
-
-	$('#buscar').focus();
-
-
-
-	view_proveedores_busqueda_compras_dataTable("#DatatableProveedoresBusquedaProveedores tbody", table_proveedores_compras_buscar);
-
-}
-
-
-
-var view_proveedores_busqueda_compras_dataTable = function(tbody, table){
-
-	$(tbody).off("click", "button.table_view");
-
-	$(tbody).on("click", "button.table_view", function(e){
-
-		e.preventDefault();
-
-		var data = table.row( $(this).parents("tr") ).data();
-
-		$('#purchase-form #proveedores_id').val(data.proveedores_id);
-
-		$('#purchase-form #proveedor').val(data.proveedor);
-
-		$('#modal_buscar_proveedores_compras').modal('hide');
-
-	});
-
-}
-
-//FIN BUSQUEDA PROVEEDORES EN COMPRAS
-
-
-
-//INICIO BUSQUEDA COLABORADORES EN COMPRAS
-
-$('#purchase-form #buscar_colaboradores_compras').on('click', function(e){
-
-	e.preventDefault();
-
-	listar_colaboradores_buscar_compras();
-
-	 $('#modal_buscar_colaboradores_facturacion').modal({
-
-		show:true,
-
-		keyboard: false,
-
-		backdrop:'static'
-
-	});
-
-});
-
 
 function getColaboradorCompras(){
-
 	var url = '<?php echo SERVERURL;?>core/editarUsarioSistema.php';
 
-
-
 	$.ajax({
-
 		type:'POST',
-
 		url:url,
-
 		success: function(valores){
-
 			var datos = eval(valores);
-
 			$('#purchase-form #colaborador_id').val(datos[0]);
-
 			$('#purchase-form #colaborador').val(datos[1]);
-
 			$('#purchase-form #facturaPurchase').focus();
-
 			return false;
 		}
 	});
-
 }
 
-
-var listar_colaboradores_buscar_compras = function(){
-
-	var table_colaboradores_buscar_compras = $("#DatatableColaboradoresBusquedaFactura").DataTable({
-
-		"destroy":true,
-
-		"ajax":{
-
-			"method":"POST",
-
-			"url":"<?php echo SERVERURL;?>core/llenarDataTableColaboradores.php"
-
-		},
-
-		"columns":[
-
-			{"defaultContent":"<button class='table_view btn btn-primary ocultar'><span class='fas fa-copy'></span></button>"},
-
-			{"data":"colaborador"},
-
-			{"data":"identidad"},
-
-			{"data":"telefono"}
-
-		],
-
-		"pageLength": 5,
-
-        "lengthMenu": lengthMenu,
-
-		"stateSave": true,
-
-		"bDestroy": true,
-
-		"language": idioma_español,
-
-		"dom": dom,
-
-		"columnDefs": [
-
-		  { width: "25%", targets: 0 },
-
-		  { width: "25%", targets: 1 },
-
-		  { width: "25%", targets: 2 },
-
-		  { width: "25%", targets: 3 }		  
-
-		],
-
-		"buttons":[
-			{
-				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-				titleAttr: 'Actualizar Productos',
-				className: 'table_actualizar btn btn-secondary ocultar',
-				action: 	function(){
-					listar_colaboradores_buscar_factura();
-				}
-			},
-
-			{
-
-				text:      '<i class="fas fas fa-plus fa-lg crear"></i> Crear',
-
-				titleAttr: 'Agregar Productos',
-
-				className: 'table_crear btn btn-primary ocultar',
-
-				action: 	function(){
-
-					modal_colaboradores();
-
-				}
-
-			}
-
-		],		
-
-		"drawCallback": function( settings ) {
-
-        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
-
-    	}
-
-	});
-
-	table_colaboradores_buscar_compras.search('').draw();
-
-	$('#buscar').focus();
-
-
-
-	view_colaboradores_busqueda_compras_dataTable("#DatatableColaboradoresBusquedaFactura tbody", table_colaboradores_buscar_compras);
-
-}
-
-
-
-var view_colaboradores_busqueda_compras_dataTable = function(tbody, table){
-
-	$(tbody).off("click", "button.table_view");
-
-	$(tbody).on("click", "button.table_view", function(e){
-
-		e.preventDefault();
-
-		var data = table.row( $(this).parents("tr") ).data();
-
-		$('#purchase-form #colaborador_id').val(data.colaborador_id);
-
-		$('#purchase-form #colaborador').val(data.colaborador);
-
-		$('#modal_buscar_colaboradores_facturacion').modal('hide');
-
-	});
-
-}
-
-//FIN BUSQUEDA COLABORADORES EN COMPRAS
-
-
+//INICIO PURCHARSE BILL
 $(document).ready(function(){
 	$("#modal_buscar_productos_facturacion").on('shown.bs.modal', function(){
 		$(this).find('#formulario_busqueda_productos_facturacion #buscar').focus();
@@ -465,10 +163,7 @@ var listar_productos_compras_buscar = function(){
 
 	$('#buscar').focus();
 
-
-
 	view_productos_busqueda_compras_dataTable("#DatatableProductosBusquedaFactura tbody", table_productos_compras_buscar);
-
 }
 
 
@@ -487,111 +182,58 @@ var view_productos_busqueda_compras_dataTable = function(tbody, table){
 
 			//var row = $('#formulario_busqueda_productos_facturacion #row').val();
 
-
-
 			$('#purchase-form #purchaseItem #productos_idPurchase_'+ row).val(data.productos_id);
-
 			$('#purchase-form #purchaseItem #productNamePurchase_'+ row).val(data.nombre);
-
 			$('#purchase-form #purchaseItem #quantityPurchase_'+ row).val(1);
-
 			$('#purchase-form #purchaseItem #quantityPurchase_'+ row).focus();
-
 			$('#purchase-form #purchaseItem #pricePurchase_'+ row).val(data.precio_compra);
 			$('#purchase-form #purchaseItem #medidaPurchase_'+ row).val(data.medida);
 			$('#purchase-form #purchaseItem #bodegaPurchase_'+ row).val(data.almacen_id);
-
 			$('#purchase-form #purchaseItem #discountPurchase_'+ row).val(0);
-
 			$('#purchase-form #purchaseItem #isvPurchase_'+ row).val(data.isv_compra);
 
-
-
 			var isv = 0;
-
 			var isv_total = 0;
-
 			var porcentaje_isv = 0;
-
 			var porcentaje_calculo = 0;
-
 			var isv_neto = 0;
 
-
-
 			if(data.isv_compra == 1){
-
 				porcentaje_isv = parseFloat(getPorcentajeISV("Compras") / 100);
-
 				if($('#purchase-form #taxAmountPurchase').val() == "" || $('#purchase-form #taxAmountPurchase').val() == 0){
-
 					porcentaje_calculo = (parseFloat(data.precio_compra) * porcentaje_isv).toFixed(2);
-
 					isv_neto = porcentaje_calculo;
-
 					$('#purchase-form #taxAmountPurchase').val(porcentaje_calculo);
-
 					$('#purchase-form #purchaseItem #valor_isvPurchase_'+ row).val(porcentaje_calculo);
-
 				}else{
-
 					isv_total = parseFloat($('#purchase-form #taxAmountPurchase').val());
-
 					porcentaje_calculo = (parseFloat(data.precio_compra) * porcentaje_isv).toFixed(2);
-
 					isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
-
 					$('#purchase-form #taxAmountPurchase').val(isv_neto);
-
 					$('#purchase-form #purchaseItem #valor_isvPurchase_'+ row).val(porcentaje_calculo);
-
 				}
-
 			}
 
-
-
 			calculateTotalCompras();
-
 			addRowCompras();
-
 			$('#modal_buscar_productos_facturacion').modal('hide');
-
 			row++;
-
 		}else{
-
 			swal({
-
 				title: "Error",
-
 				text: "Lo sentimos no se puede seleccionar un producto, por favor antes de continuar, verifique que los siguientes campos: proveedores, usuario y número de factura no se encuentren vacíos",
-
 				type: "error",
-
 				confirmButtonClass: "btn-danger"
-
 			});
-
 		}
-
 	});
-
 }
-
 //FIN BUSQUEDA PRODUCTOS COMPRAS
 
-
-
 $(document).ready(function(){
-
     $("#purchase-form #purchaseItem").on('blur', '.buscar_cantidad_purchase', function() {
-
 		var row_index = $(this).closest("tr").index();
-
 		var col_index = $(this).closest("td").index();
-
-
 
 		var impuesto_compra = parseFloat($('#purchase-form #purchaseItem #isvPurchase_'+ row_index).val());
 
@@ -1253,63 +895,81 @@ $('#purchase-form #notesPurchase').keyup(function() {
 
 
 function caracteresNotasCompras(){
-
 	var max_chars = 2000;
-
 	var chars = $('#purchase-form #notesPurchase').val().length;
-
 	var diff = max_chars - chars;
-
-	
-
 	$('#purchase-form #charNum_notasPurchase').html(diff + ' Caracteres'); 
-
-	
-
 	if(diff == 0){
-
 		return false;
-
 	}
-
 }
-
-
 
 $('#purchase-form #label_tipoPurchase').html("Contado");
 
-	
-
 $('#purchase-form .switch').change(function(){    
-
     if($('input[name=tipoPurchase]').is(':checked')){
-
         $('#purchase-form #label_tipoPurchase').html("Contado");
-
         return true;
-
     }
-
     else{
-
         $('#purchase-form #label_tipoPurchase').html("Crédito");
-
         return false;
-
     }
-
 });	
 
+function getProveedores(){
+    var url = '<?php echo SERVERURL;?>core/getProveedores.php';
 
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#purchase-form #proveedor').html("");
+			$('#purchase-form #proveedor').html(data);
+			$('#purchase-form #proveedor').selectpicker('refresh');	
+		}
+     });
+}
 
-$(document).ready(function(){
-
-    $("#modal_buscar_proveedores_compras").on('shown.bs.modal', function(){
-
-        $(this).find('#formulario_busqueda_proveedores_compras #buscar').focus();
-
-    });
-
+$("#purchase-form #proveedor").on('change', function(){
+	$('#purchase-form #proveedores_id').val($('#purchase-form #proveedor').val());
 });
 
+function getColaboradores(){
+    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){			
+		    $('#purchase-form #colaborador').html("");
+			$('#purchase-form #colaborador').html(data);
+			$('#purchase-form #colaborador').selectpicker('refresh');
+			
+			$('#purchase-form #colaborador').val(getuUuarioSistema());
+			$('#purchase-form #colaborador').selectpicker('refresh');			
+		}
+     });
+}
+
+function getuUuarioSistema(){
+	var url = '<?php echo SERVERURL;?>core/editarUsarioSistema.php';
+	var UsuarioSistema = '';
+	
+	$.ajax({
+		type:'POST',
+		url:url,
+		async: false,
+		success: function(valores){
+			var datos = eval(valores);
+			UsuarioSistema = datos[0];
+		}
+	});
+	return UsuarioSistema;
+}
+
+$("#purchase-form #colaborador").on('change', function(){
+	$('#purchase-form #colaborador_id').val($('#purchase-form #colaborador').val());
+});
 </script>

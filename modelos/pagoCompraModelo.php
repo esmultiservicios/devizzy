@@ -25,12 +25,13 @@
 			$cambio = $res['cambio'];
 			$usuario = $res['usuario'];
 			$efectivo = $res['efectivo'];
-			$tarjeta = 	$res['tarjeta'];	
-			
+			$tarjeta = 	$res['tarjeta'];
+			$multiple_pago = $res['multiple_pago'];	
+
 			isset($res["colaboradores_id"]) ? $colaboradores_id = $res["colaboradores_id"] : $colaboradores_id = '';
 
 			//SI EL PAGO QUE SE ESTA REALIZANDO ES DE UN DOCUMENTO AL CREDITO
-			if($res['tipo_pago'] == 2){//SI ES CREDITO ESTO ES UN ABONO A LA FACTURA
+			if($res['tipo_pago'] == 2 || $multiple_pago == 1){//SI ES CREDITO ESTO ES UN ABONO A LA FACTURA
 				//consultamos a la tabla cuenta x pagar
 				$get_cxc_proveedor = pagoCompraModelo::consultar_compra_cuentas_por_pagar($compras_id);
 								
@@ -53,7 +54,7 @@
 					//update tabla cobrar cliente
 					if($abono == $saldo_credito){
 						//actualizamos el estado a pagado (2)
-						$query = pagoCompraModelo::update_status_compras_cuentas_por_pagar($compras_id);
+						$query = pagoCompraModelo::update_status_compras_cuentas_por_pagar($compras_id,2,0);
 
 						//ACTUALIZAMOS EL ESTADO DE LA FACTURA
 						pagoCompraModelo::update_status_compras($compras_id);
@@ -77,13 +78,15 @@
 				$datos = [
 					"compras_id" => $compras_id,
 					"fecha" => $fecha,
-					"importe" => $tipo_pago_id == 2 ? $abono : $importe,
+					//"importe" => $tipo_pago_id == 2 ? $abono : $importe,
+					"importe" => $importe,
+					"abono" => $abono,
 					"cambio" => $cambio,
 					"usuario" => $usuario,
 					"estado" => $estado,
 					"fecha_registro" => $fecha_registro,
 					"empresa" => $empresa,
-					"tipo_pago" => $tipo_pago_id,
+					"tipo_pago" => $metodo_pago,
 					"efectivo" => $efectivo,
 					"tarjeta" => $tarjeta,
 					"banco_id" => $banco_id,
@@ -190,20 +193,49 @@
 						pagoCompraModelo::agregar_movimientos_contabilidad_modelo($datos_movimientos);
 					}					
 					/**###########################################################################################################*/
+					
+					$get_cxc_proveedor = pagoCompraModelo::consultar_compra_cuentas_por_pagar($compras_id);
+								
+					if($get_cxc_proveedor->num_rows > 0){
+						$rec = $get_cxc_proveedor->fetch_assoc();
+						$saldo_nuevo = $rec['saldo'];
+						
+					}
 
-					$alert = [
-						"alert" => "save_simple",
-						"title" => "Registro almacenado",
-						"text" => "El registro se ha almacenado correctamente",
-						"type" => "success",
-						"btn-class" => "btn-primary",
-						"btn-text" => "¡Bien Hecho!",
-						"form" => "formEfectivoPurchase",
-						"id" => "proceso_pagosPurchase",
-						"valor" => "Registro",	
-						"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();",
-						"modal" => "modal_pagosPurchase",													
-					];					
+					if($res['multiple_pago'] == 1 && $saldo_nuevo > 0){
+
+						$alert = [
+							"alert" => "save",
+							"title" => "Registro pago multiples almacenado",
+							"text" => "El registro se ha almacenado correctamente",
+							"type" => "success",
+							"btn-class" => "btn-primary",
+							"btn-text" => "¡Bien Hecho!",
+							"form" => "formEfectivoPurchase",
+							"id" => "proceso_pagosPurchase",
+							"valor" => "Registro",	
+							"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();saldoCompras(".$compras_id.")",
+							"modal" => "modal_pagosPurchase",	
+													
+						];
+					}else{
+
+						$alert = [
+							"alert" => "save_simple",
+							"title" => "Registro almacenado",
+							"text" => "El registro se ha almacenado correctamente",
+							"type" => "success",
+							"btn-class" => "btn-primary",
+							"btn-text" => "¡Bien Hecho!",
+							"form" => "formEfectivoPurchase",
+							"id" => "proceso_pagosPurchase",
+							"valor" => "Registro",	
+							"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();",
+							"modal" => "modal_pagosPurchase",													
+						];			
+					
+					}
+
 				}else{
 					$alert = [
 						"alert" => "simple",
@@ -362,13 +394,20 @@
 			}
 
 			return $alert;
+
 		}
-		
 		protected function agregar_pago_compras_modelo($datos){
+
+			$importe = $datos['importe'];
+
+			if($datos['abono']>0){
+				$importe = $datos['abono'];
+			}
+
 			$pagoscompras_id = mainModel::correlativo("pagoscompras_id", " pagoscompras");
 			$insert = "INSERT INTO pagoscompras 
 				VALUES('$pagoscompras_id','".$datos['compras_id']."','".$datos['tipo_pago']."','".$datos['fecha']."',
-				'".$datos['importe']."','".$datos['efectivo']."','".$datos['cambio']."','".$datos['tarjeta']."',
+				'".$importe."','".$datos['efectivo']."','".$datos['cambio']."','".$datos['tarjeta']."',
 				'".$datos['usuario']."','".$datos['estado']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
 				
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
@@ -439,7 +478,7 @@
 		}
 		
 		protected function update_status_compras_cuentas_por_pagar($compras_id,$estado = 2,$importe = ''){
-			if($importe != ''){
+			if($importe != '' || $importe == 0){
 				$importe = ', saldo = '.$importe;
 			}
 

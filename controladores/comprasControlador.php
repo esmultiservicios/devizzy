@@ -84,6 +84,7 @@
 								$total_despues_isv = 0;
 								$discount = 0;
 								$isv_valor = 0;
+								$valor = 0;
 								
 								for ($i = 0; $i < count( $_POST['productNamePurchase']); $i++){//INICIO CICLO FOR
 									$productos_id = $_POST['productos_idPurchase'][$i];
@@ -212,7 +213,7 @@
 													$resultTotalPadre = comprasModelo::cantidad_producto_modelo($productos_id);
 
 													if($resultTotalPadre->num_rows>0){
-														$valor = 0;
+														
 														while($consultaTotalPadre = $resultTotalPadre->fetch_assoc()){
 															$producto_id_padre = intval($consultaTotalPadre['id_producto_superior']);
 															
@@ -224,7 +225,7 @@
 																$quantity = $quantity / 2204.623;
 															}														
 															
-															$documento = "Factura ".$facturas_id."_".$valor;	
+															$documento = "Compra ".$compras_id."_".$valor;	
 		
 															//OTENEMOS EL SALDO DEL PRODCUTO
 															$consultaSaldoPadre = comprasModelo::saldo_productos_movimientos_modelo($producto_id_padre)->fetch_assoc();
@@ -275,6 +276,22 @@
 								];
 								
 								comprasModelo::actualizar_compra_importe($datos_factura);
+
+								//AGREGAMOS LA CUENTA POR COBRAR CLIENTES
+								$estado_cuenta_cobrar = 3;///1. Pendiente de Cobrar 2. Pago Realizado 3. Efectivo con abonos
+								
+								$datos_cobrar_clientes = [
+									"proveedores_id" => $proveedores_id,
+									"compras_id" => $compras_id,
+									"fecha" => $fecha,				
+									"saldo" => $total_despues_isv,
+									"estado" => $estado_cuenta_cobrar,
+									"usuario" => $usuario,
+									"fecha_registro" => $fecha_registro,
+									"empresa" => $empresa_id
+								];		
+								
+								comprasModelo::agregar_cuenta_por_pagar_proveedores($datos_cobrar_clientes);
 							
 								$alert = [
 									"alert" => "save_simple",
@@ -461,7 +478,7 @@
 																$quantity = $quantity / 2204.623;
 															}														
 															
-															$documento = "Factura ".$facturas_id."_".$valor;	
+															$documento = "Compra ".$compras_id."_".$valor;	
 		
 															//OTENEMOS EL SALDO DEL PRODCUTO
 															$consultaSaldoPadre = comprasModelo::saldo_productos_movimientos_modelo($producto_id_padre)->fetch_assoc();
@@ -620,4 +637,3 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
-?>	

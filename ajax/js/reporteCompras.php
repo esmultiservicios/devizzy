@@ -2,6 +2,8 @@
 $(document).ready(function() {
 	getReporteCompras();
     listar_reporte_compras();
+	$('#form_main_compras #tipo_compras_reporte').val(1);	
+	$('#form_main_compras #tipo_compras_reporte').selectpicker('refresh');		
 });
 
 $('#form_main_compras #tipo_compras_reporte').on("change", function(e){

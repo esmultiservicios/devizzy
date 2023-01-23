@@ -1,6 +1,7 @@
 <script>
 $(document).ready(function() {
     listar_ubicacion();
+	getEmpresaUbicacion();
 });
 //INICIO UBUCACION
 var listar_ubicacion = function(){
@@ -108,6 +109,7 @@ var edit_ubicacion_dataTable = function(tbody, table){
 				$('#delete_ubicacion').hide();
 				$('#formUbicacion #pro_ubicacion').val("Editar");
 				$('#formUbicacion #empresa_ubicacion').val(valores[0]);
+				$('#formUbicacion #empresa_ubicacion').selectpicker('refresh');
 				$('#formUbicacion #ubicacion_ubicacion').val(valores[1]);
 
 				if(valores[2] == 1){
@@ -157,6 +159,7 @@ var delete_ubicacion_dataTable = function(tbody, table){
 				$('#delete_ubicacion').show();
 				$('#formUbicacion #pro_ubicacion').val("Eliminar");
 				$('#formUbicacion #empresa_ubicacion').val(valores[0]);
+				$('#formUbicacion #empresa_ubicacion').selectpicker('refresh');
 				$('#formUbicacion #ubicacion_ubicacion').val(valores[1]);
 
 				if(valores[2] == 1){
@@ -186,8 +189,7 @@ var delete_ubicacion_dataTable = function(tbody, table){
 function modalUbicacion(){
 	$('#formUbicacion').attr({ 'data-form': 'save' });
 	$('#formUbicacion').attr({ 'action': '<?php echo SERVERURL; ?>ajax/agregarUbicacionAjax.php' });
-	$('#formUbicacion')[0].reset();
-	getEmpresaUbicacion();
+	$('#formUbicacion')[0].reset();	
 	$('#formUbicacion #pro_ubicacion').val("Registro");
 	$('#reg_ubicacion').show();
 	$('#edi_ubicacion').hide();
@@ -219,6 +221,7 @@ function getEmpresaUbicacion(){
         success: function(data){
 		    $('#formUbicacion #empresa_ubicacion').html("");
 			$('#formUbicacion #empresa_ubicacion').html(data);
+			$('#formUbicacion #empresa_ubicacion').selectpicker('refresh');
 		}
      });
 }

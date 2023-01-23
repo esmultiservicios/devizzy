@@ -3676,18 +3676,11 @@
 
 
 		public function getUbicacionEdit($ubicacion_id){
-
 			$query = "SELECT *
-
 				FROM ubicacion
-
 				WHERE ubicacion_id = '$ubicacion_id'";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
@@ -4255,41 +4248,43 @@
 		}
 
 		public function getDetalleProductosFactura($facturas_id){
-
 			$query = "SELECT fd.productos_id AS 'productos_id', p.nombre AS 'producto', fd.cantidad AS 'cantidad', fd.precio AS 'precio', fd.isv_valor AS 'isv_valor', fd.descuento AS 'descuento'
-
 				FROM facturas_detalles AS fd
-
 				INNER JOIN facturas As f
-
 				ON fd.facturas_id = f.facturas_id
-
 				INNER JOIN productos AS p
-
 				ON fd.productos_id = p.productos_id
-
 				WHERE fd.facturas_id = '$facturas_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
-
-
+		public function saldo_cuentas_por_pagar($compras_id){
+			$query = "SELECT saldo  FROM pagar_proveedores WHERE compras_id = '".$compras_id."' ";
+	
+			$result = self::connection()->query($query);
+			return $result;
+		}	
+		
 		public function getDatosCompras($compras_id){
-			$query = "SELECT c.compras_id AS compras_id, DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha',
-			 c.proveedores_id AS 'proveedores_id', p.nombre AS 'proveedor', p.rtn AS 'rtn',
-			  c.estado AS 'estado', c.fecha AS 'fecha_compra', c.notas AS 'notas',tipo_compra
-				FROM compras AS c
-				INNER JOIN proveedores AS p
-				ON c.proveedores_id = p.proveedores_id
-				WHERE c.compras_id = '$compras_id'";
+			$query = "SELECT
+			c.compras_id AS compras_id,
+			DATE_FORMAT(c.fecha, '%d/%m/%Y') AS fecha,
+			c.proveedores_id AS proveedores_id,
+			p.nombre AS proveedor,
+			p.rtn AS rtn,
+			c.estado AS estado,
+			c.fecha AS fecha_compra,
+			c.notas AS notas,
+			c.tipo_compra,
+			pagar_proveedores.saldo
+			FROM
+			compras AS c
+			INNER JOIN proveedores AS p ON c.proveedores_id = p.proveedores_id
+			INNER JOIN pagar_proveedores ON pagar_proveedores.compras_id = c.compras_id			
+			WHERE c.compras_id = '$compras_id'";
 
 			$result = self::connection()->query($query);
 
@@ -4398,20 +4393,12 @@
 		}
 
 		public function getCuentasporPagarClientes(){
-
 			$query = "";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getlastUpdate($entidad){
 
@@ -4674,40 +4661,23 @@
 						break;
 
 					case 1:
-
 						return "Ayer ".$hora;
-
 						break;
-
 					default:
-
 						return " Hace ".$diff." Días";
-
 				}
-
 			}else{
-
 				return "No se encontraron actualizaciones";
-
 			}
-
 		}
 
 
-
 		function getUserSistema($colaboradores_id){
-
 			$query = "SELECT colaboradores_id, CONCAT(nombre, ' ', apellido) AS 'colaborador'
-
 				FROM colaboradores
-
 				WHERE colaboradores_id = '$colaboradores_id'";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 

@@ -20,8 +20,10 @@
 			$empresa_id = $_SESSION['empresa_id_sd'];	
 			$banco_id = 0;//SIN BANCO	
 			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO
+			$metodo_pago = 1; //EFECTIVO
 			$efectivo = 0;
 			$tarjeta = 	0;			
+			$multiple_pago = $_POST['multiple_pago'];
 					
 			$referencia_pago1 = "";
 			$referencia_pago2 = "";
@@ -38,6 +40,7 @@
 			$estado = 1;
 			
 			$datos = [
+				"multiple_pago" => isset($_POST['multiple_pago']) ? $_POST['multiple_pago'] : 0,
 				"compras_id" => $compras_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
@@ -74,6 +77,7 @@
 			}
 
 			$datos = [
+				"multiple_pago" => $_POST['multiple_pago'],
 				"compras_id" =>$_POST['compras_id_tarjeta'],
 				"fecha" => $_POST['fecha_compras_tarjeta'],
 				"importe" => $_POST['monto_efectivoPurchase'],
@@ -131,6 +135,7 @@
 			$estado = 1;
 			
 			$datos = [
+				"multiple_pago" => $_POST['multiple_pago'],
 				"compras_id" => $compras_id,
 				"fecha" => $fecha,
 				"importe" => $importe,
@@ -306,6 +311,7 @@
 			}
 
 			$datos = [
+				"multiple_pago" => $_POST['multiple_pago'],
 				"compras_id" =>$_POST['compras_id_transferencia'],
 				"fecha" => $_POST['fecha_compras_transferencia'],
 				"importe" => $_POST['monto_efectivoPurchase'],
@@ -342,6 +348,7 @@
 			}
 
 			$datos = [
+				"multiple_pago" => $_POST['multiple_pago'],
 				"compras_id" =>$_POST['compras_id_cheque'],
 				"fecha" => $_POST['fecha_compras_cheque'],
 				"importe" => $_POST['importe'],
@@ -399,4 +406,3 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
-?>	

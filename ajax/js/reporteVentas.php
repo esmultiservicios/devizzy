@@ -5,6 +5,8 @@ $(document).ready(function() {
 	getVendedores();
     listar_reporte_ventas();
 	total_ingreso_footer();
+	$('#form_main_ventas #tipo_factura_reporte').val(1);	
+	$('#form_main_ventas #tipo_factura_reporte').selectpicker('refresh');		
 });
 
 $('#form_main_ventas #tipo_factura_reporte').on("change", function(e){
