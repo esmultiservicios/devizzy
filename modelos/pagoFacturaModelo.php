@@ -229,6 +229,14 @@
 			return $sql;				
 		}
 
+		protected function consultar_numero_factura_modelo($facturas_id){
+			$query = "SELECT number FROM facturas WHERE facturas_id = '$facturas_id'";
+			
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;				
+		}
+
 		//funcion para realizar todos lo pagos de factura
 		protected function agregar_pago_factura_base($res){	
 			//SI EL PAGO QUE SE ESTA REALIZANDO ES DE UN DOCUMENTO AL CREDITO
@@ -350,7 +358,6 @@
 						//ALMACENAMOS EL MOVIMIENTO DE CUENTA DEL PAGO
 						self::agregar_movimientos_contabilidad_pagos_modelo($datos_movimientos);
 						
-
 						$get_cobrar_cliente = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
 						$saldo_nuevo = 0;
 							if($get_cobrar_cliente->num_rows > 0){
@@ -360,7 +367,6 @@
 							}
 						
 						if($res['multiple_pago'] == 1 && $saldo_nuevo > 0){
-
 							$alert = [
 								"alert" => "save",
 								"title" => "Registro pago multiples almacenado",
@@ -375,6 +381,33 @@
 								"modal" => "modal_pagos",
 														
 							];
+
+							//VALIDAMOS SI LA FACTURA YA TIENE ASIGNADO UN NUMERO CORRELATIVO, DE NO TENERLO NO HACEMOS NADA
+							$result_consuta_factura = pagoFacturaModelo::consultar_numero_factura_modelo($res['facturas_id'])->fetch_assoc();
+							$numero_factura_consultado = $result_consuta_factura['number'];
+
+							if($numero_factura_consultado == "" || $numero_factura_consultado == 0){
+								if($res['tipo_pago'] == 1){
+									$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($res['empresa'])->fetch_assoc();
+									$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+									$numero = $secuenciaFacturacion['numero'];
+									$incremento = $secuenciaFacturacion['incremento'];
+									$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);
+								}else{
+									$secuenciaFacturacion = pagoFacturaModelo::consultar_numero_factura($res['facturas_id'])->fetch_assoc();
+									$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+									$numero = $secuenciaFacturacion['number'];				
+								}
+								
+								//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
+								$datos_update_factura = [
+									"facturas_id" => $res['facturas_id'],
+									"estado" => 2,//PAGADA
+									"number" => $numero,
+								];	
+
+								pagoFacturaModelo::actualizar_factura($datos_update_factura);
+							}
 						}else{
 
 							$alert = [
@@ -422,8 +455,7 @@
 						
 						$consulta_pago = pagoFacturaModelo::getLastInserted()->fetch_assoc();
 
-						$pagos_id = $consulta_pago['id'];
-						
+						$pagos_id = $consulta_pago['id'];						
 													
 						$datos_pago_detalle = [
 							"pagos_id" => $pagos_id,
@@ -446,7 +478,6 @@
 						pagoFacturaModelo::update_status_factura($res['facturas_id']);
 
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($res['facturas_id'],2,0);
-
 						
 						//VALIDAMOS EL TIPO DE FACTURA, SI ES AL CONTADO, VERIFICAMOS EL NUMERO DE FACTURA QUE SIGUE, SI ES AL CREDITO, SOLO CONSULTAMOS EL ULTIMO NUMERO ALMACENADO PARA QUE NO PASE AL SIGUIENTE
 						$tipo_factura = pagoFacturaModelo::consultar_tipo_factura($res['facturas_id'])->fetch_assoc();
@@ -466,7 +497,7 @@
 						//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
 						$datos_update_factura = [
 							"facturas_id" => $res['facturas_id'],
-							"estado" => 2,//pagado
+							"estado" => 2,//PAGADA
 							"number" => $numero,
 						];	
 

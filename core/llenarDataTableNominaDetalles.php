@@ -8,6 +8,7 @@
 	$datos = [
 		"estado" => $_POST['estado'],
 		"empleado" => $_POST['empleado'],
+		"nomina_id" => $_POST['nomina_id'],
 	];	
 
 	$result = $insMainModel->getNominaDetalles($datos);

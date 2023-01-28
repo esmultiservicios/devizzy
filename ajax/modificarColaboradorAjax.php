@@ -2,7 +2,7 @@
 	$peticionAjax = true;
 	require_once "../core/configGenerales.php";
 	
-	if(isset($_POST['colaborador_id']) && isset($_POST['puesto_colaborador']) && isset($_POST['nombre_colaborador']) && isset($_POST['apellido_colaborador']) && isset($_POST['colaboradores_activo']) && isset($_POST['telefono_colaborador'])){
+	if(isset($_POST['colaborador_id']) && isset($_POST['puesto_colaborador']) && isset($_POST['nombre_colaborador']) && isset($_POST['apellido_colaborador']) && isset($_POST['telefono_colaborador'])){
 		require_once "../controladores/colaboradorControlador.php";
 		$insVarios = new colaboradorControlador();
 		

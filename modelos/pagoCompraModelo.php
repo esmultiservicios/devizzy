@@ -198,12 +198,10 @@
 								
 					if($get_cxc_proveedor->num_rows > 0){
 						$rec = $get_cxc_proveedor->fetch_assoc();
-						$saldo_nuevo = $rec['saldo'];
-						
+						$saldo_nuevo = $rec['saldo'];						
 					}
 
 					if($res['multiple_pago'] == 1 && $saldo_nuevo > 0){
-
 						$alert = [
 							"alert" => "save",
 							"title" => "Registro pago multiples almacenado",
@@ -215,8 +213,7 @@
 							"id" => "proceso_pagosPurchase",
 							"valor" => "Registro",	
 							"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();saldoCompras(".$compras_id.")",
-							"modal" => "modal_pagosPurchase",	
-													
+							"modal" => "modal_pagosPurchase",														
 						];
 					}else{
 
@@ -232,8 +229,7 @@
 							"valor" => "Registro",	
 							"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();",
 							"modal" => "modal_pagosPurchase",													
-						];			
-					
+						];					
 					}
 
 				}else{

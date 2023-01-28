@@ -245,6 +245,7 @@ var crear_nominas_dataTable = function(tbody, table){
 		var data = table.row( $(this).parents("tr") ).data();
 		$('#formNominaDetalles #nomina_id').val(data.nomina_id);
 		$('#formNominaDetalles #nominad_numero').val(data.nomina_id);
+		$("#form_main_nominas_detalles #nomina_id").val(data.nomina_id)
 		$('#formNominaDetalles #nominad_detalle').val(data.detalle);
 		$('#formNominaDetalles #pago_planificado_id').val(data.pago_planificado_id);
 		$('#form_main_nominas_detalles #estado_nomina_detalles').val(data.estado);
@@ -810,6 +811,7 @@ $("#volver_nomina").on("click", function(e){
 var listar_nominas_detalles = function(){
 	var estado = $("#form_main_nominas_detalles #estado_nomina_detalles").val();	
 	var empleado = $("#form_main_nominas_detalles #detalle_nomina_empleado").val();
+	var nomina_id = $("#form_main_nominas_detalles #nomina_id").val();
 
 	var table_nominas_detalles  = $("#dataTableNominaDetalles").DataTable({
 		"destroy":true,
@@ -818,7 +820,8 @@ var listar_nominas_detalles = function(){
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableNominaDetalles.php",
 			"data":{
 				"estado":estado,
-				"empleado":empleado
+				"empleado":empleado,
+				"nomina_id":nomina_id
 			}			
 		},
 		"columns":[

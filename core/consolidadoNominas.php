@@ -60,7 +60,7 @@
 						<th align="center" rowspan="2" width="5%">Fecha Ingreso</th>
 						<th align="center" rowspan="2" width="5%">Salario Base</th>
 						<th align="center" rowspan="2" width="5%">Días Trabajados</th>
-						<th align="center" colspan="6" width="30%">Ingresos</th>
+						<th align="center" colspan="7" width="30%">Ingresos</th>
 						<th align="center" rowspan="2" width="5%">Total Ingresos</th>
 						<th align="center" colspan="6" width="30%">Egresos</th>
 						<th align="center" rowspan="2" width="5%">Total Egresos</th>
@@ -71,6 +71,7 @@
 						<th align="center" width="5%">Hrs 50%</th>
 						<th align="center" width="5%">Hrs 75%</th>
 						<th align="center" width="5%">Hrs 100%</th>
+						<th align="center" width="5%">Retroacivo</th>
 						<th align="center" width="5%">Bono</th>
 						<th align="center" width="5%">Otros Ingresos</th>
 						<th align="center" width="5%">Deducciones</th>
@@ -95,6 +96,7 @@
 									<th align="center" width="5%">'.$registro_detalles["horas_50"].'</th>	
 									<th align="center" width="5%">'.$registro_detalles["horas_75"].'</th>
 									<th align="center" width="5%">'.$registro_detalles["horas_100"].'</th>
+									<th align="center" width="5%">'.$registro_detalles["retroactivo"].'</th>
 									<th align="center" width="5%">'.$registro_detalles["bono"].'</th>
 									<th align="center" width="5%">'.$registro_detalles["otros_ingresos"].'</th>
 									<th align="center" width="5%">'.$registro_detalles["neto_ingresos"].'</th>

@@ -1981,7 +1981,7 @@
 				INNER JOIN contrato AS co ON nd.colaboradores_id = co.colaborador_id
 				INNER JOIN tipo_contrato AS tp ON co.tipo_contrato_id = tp.tipo_contrato_id
 				INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
-				WHERE nd.estado = '".$datos['estado']."'
+				WHERE nd.estado = '".$datos['estado']."' AND nd.nomina_id = '".$datos['nomina_id']."'
 				$empleado
 				ORDER BY nd.fecha_registro DESC";
 
@@ -4362,15 +4362,17 @@
 			}
 
 			$query = "SELECT
-			proveedores.nombre AS 'proveedores',
+			proveedores.nombre AS proveedores,
 			compras.compras_id,
-			compras.number AS 'factura',
+			compras.number AS factura,
 			compras.importe,
-			compras.estado,
-			compras.fecha
+			compras.fecha,
+			pagar_proveedores.saldo,
+			pagar_proveedores.estado
 			FROM
 			proveedores
 			INNER JOIN compras ON proveedores.proveedores_id = compras.proveedores_id
+			INNER JOIN pagar_proveedores ON pagar_proveedores.compras_id = compras.compras_id
 			WHERE proveedores.estado = '".$datos['estado']."'
 			$fecha
 			$proveedores_id
@@ -4380,7 +4382,6 @@
 
 			return $result;
 		}
-
 
 		public function getAbonosPagarProveedores($compras_id){
 			$query = "SELECT SUM(importe) As 'total'

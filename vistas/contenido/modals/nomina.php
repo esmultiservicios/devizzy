@@ -146,7 +146,7 @@
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
 						<div class="input-group mb-3">
-							<input type="hidden" id="nomina_id" name="nomina_id" class="form-control">					
+							<input type="hidden" id="nomina_id" name="nomina_id" class="form-control">			
 							<input type="hidden" id="nomina_detalles_id" name="nomina_detalles_id" class="form-control">
 							<input type="hidden" id="pago_planificado_id" name="pago_planificado_id" class="form-control">
 							<input type="hidden" id="colaboradores_id" name="colaboradores_id" class="form-control">

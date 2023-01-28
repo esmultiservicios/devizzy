@@ -2426,6 +2426,9 @@ function saldoCompras(compras_id){
 function pago(facturas_id,tipoPago){
 	var url = '<?php echo SERVERURL;?>core/editarPagoFacturas.php';
 
+	$('#pagos_multiples_switch').attr('checked', false);
+	getCollaboradoresModalPagoFacturas();
+
 	$.ajax({
 		type:'POST',
 		url:url,
@@ -2944,6 +2947,9 @@ $(document).ready(function(){
 //INICIO MODAL REGSITRAR PAGO COMPRAS PROVEEDORES
 function pagoCompras(compras_id,saldo,tipo){
 	var url = '<?php echo SERVERURL;?>core/editarPagoCompras.php';
+
+	$('#pagos_multiples_switch').attr('checked', false);
+	getCollaboradoresModalPagoFacturasCompras();
 
 	console.log('tipo dato',tipo);
 	$.ajax({
