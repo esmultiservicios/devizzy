@@ -32,6 +32,7 @@
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,	
 				"empresa" => $empresa_id,
+				"fecha_registro" => $fecha_registro,
 				"fecha_ingreso" => $fecha_ingreso,	
 				"fecha_egreso" => $fecha_egreso				
 			];

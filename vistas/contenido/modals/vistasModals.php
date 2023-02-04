@@ -1512,7 +1512,7 @@
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
 						<div class="input-group mb-3">
-						    <input type="text" id="colaborador_id" name="colaborador_id" class="form-control" placeholder="Colaborador">
+						    <input type="hidden" id="colaborador_id" name="colaborador_id" class="form-control" placeholder="Colaborador">
 							<input type="text" id="proceso_colaboradores" class="form-control" readonly>
 							<div class="input-group-append">				
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fa fa-plus-square fa-lg"></i></span>
