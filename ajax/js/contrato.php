@@ -5,6 +5,8 @@ $(document).ready(function() {
 	getTipoEmpleado();
 	getEmpleado();
 	listar_contratos();
+	$('#form_main_contrato #estado').val(1);
+	$('#form_main_contrato #estado').selectpicker('refresh');
 });
 $('#form_main_contrato #estado').on("change", function(e){
 	listar_contratos();

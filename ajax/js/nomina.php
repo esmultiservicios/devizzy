@@ -9,6 +9,8 @@ $(document).ready(function() {
 	getEmpleado();
 	listar_nominas();
 	getTipoNomina();
+	$('#form_main_nominas #estado_nomina').val(0);
+	$('#form_main_nominas #estado_nomina').selectpicker('refresh');	
 });
 
 $('#form_main_nominas #estado_nomina').on("change", function(e){
@@ -1211,34 +1213,38 @@ $("#formNominaDetalles #nominad_empleados").on("change", function(){
         success: function(data){
 			var valores = eval(data);
 
-			var salario = parseFloat(valores[3]);
-			salario_diario = valores[3]/30;
-			var _salario_diario = (valores[3]/30).toFixed(2);
-			var salario_hora = 0;
-
 			//VER EL TIPO DE EMPLEADO
+			/*
+			Pago Planificado
+			1. Semanal 2 Quincenal 3 Mensual
+			*/
+			var valor_dividir = 0; //ESTE ES EL VALOR QUE TRAE SEGUN EL TIPO DE PAGO PARA DIVIDIRSE CON EL SALARIO
+			if(valores[6] == 1){
+				$('#formNominaDetalles #nominad_diast').val(7);
+				valor_dividir = 7;
+			}
+
+			if(valores[6] == 2){
+				$('#formNominaDetalles #nominad_diast').val(15);
+				valor_dividir = 15;
+			}
+			
+			if(valores[6] == 3){
+				$('#formNominaDetalles #nominad_diast').val(30);
+				valor_dividir = 30;
+			}	
+
+			var salario = parseFloat(valores[3]);
+			salario_diario = parseFloat(valores[3])/parseFloat(valor_dividir);
+			var _salario_diario = (parseFloat(valores[3])/parseFloat(valor_dividir)).toFixed(2);
+			var salario_hora = 0;			
+
 			//EMPLEADO NORMAL
 			if(valores[5] == 1){
 				salario_hora = parseFloat(salario_diario / 8).toFixed(2);
 			}else{//EMPLEADO MEDICO
 				salario_hora = parseFloat(salario_diario / 6).toFixed(2);
-			}
-			
-			/*
-			Pago Planificado
-			1. Semanal 2 Quincenal 3 Mensual
-			*/
-			if(valores[6] == 1){
-				$('#formNominaDetalles #nominad_diast').val(7);
-			}
-
-			if(valores[6] == 2){
-				$('#formNominaDetalles #nominad_diast').val(15);
-			}
-			
-			if(valores[6] == 3){
-				$('#formNominaDetalles #nominad_diast').val(30);
-			}			
+			}		
 
 		    $('#formNominaDetalles #nominad_puesto').val(valores[0]);
 			$('#formNominaDetalles #nominad_identidad').val(valores[1]);	

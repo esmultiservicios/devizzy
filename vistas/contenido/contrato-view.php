@@ -12,7 +12,7 @@
 							<div class="input-group-append">				
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
 							</div>
-							<select id="estado" name="estado" class="selectpicker " data-toggle="tooltip" title="Tipo de Factura" data-live-search="true">
+							<select id="estado" name="estado" class="selectpicker " data-toggle="tooltip" title="Tipo Contrato" data-live-search="true">
 								<option value="1">Activo</option>
 								<option value="2">Inactivo</option>
 							</select>
