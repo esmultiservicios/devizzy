@@ -15,6 +15,7 @@
 			$tipo_contrato_id = mainModel::cleanString($_POST['contrato_tipo_contrato_id']);
 			$pago_planificado_id = mainModel::cleanString($_POST['contrato_pago_planificado_id']);
 			$tipo_empleado_id = mainModel::cleanString($_POST['contrato_tipo_empleado_id']);
+			$salario_mensual = mainModel::cleanString($_POST['contrato_salario_mensual']);
 			$salario = mainModel::cleanString($_POST['contrato_salario']);
 			$fecha_inicio = mainModel::cleanString($_POST['contrato_fecha_inicio']);
 			$fecha_fin = mainModel::cleanString($_POST['contrato_fecha_fin']);
@@ -28,6 +29,7 @@
 				"tipo_contrato_id" => $tipo_contrato_id,
 				"pago_planificado_id" => $pago_planificado_id,
 				"tipo_empleado_id" => $tipo_empleado_id,
+				"salario_mensual" => $salario_mensual,
 				"salario" => $salario,
 				"fecha_inicio" => $fecha_inicio,
 				"fecha_fin" => $fecha_fin,

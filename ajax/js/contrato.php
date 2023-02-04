@@ -8,6 +8,7 @@ $(document).ready(function() {
 	$('#form_main_contrato #estado').val(1);
 	$('#form_main_contrato #estado').selectpicker('refresh');
 });
+
 $('#form_main_contrato #estado').on("change", function(e){
 	listar_contratos();
 });
@@ -476,4 +477,42 @@ $(document).ready(function() {
 
 	/*###############################################################################################################################*/
 });	
+
+$('#formContrato #contrato_salario_mensual').on("keyup", function(e){
+	ValidarTipoPago();
+});
+
+$('#formContrato #contrato_pago_planificado_id').on("change", function(e){
+	ValidarTipoPago();
+});
+
+function ValidarTipoPago(){
+	if($('#formContrato #contrato_pago_planificado_id').val() != ""){
+		var valor = 0;
+
+		if($('#formContrato #contrato_pago_planificado_id').val() == 1){//SEMANAL
+			valor = 4;
+		}
+
+		if($('#formContrato #contrato_pago_planificado_id').val() == 2){//QUINCENAL
+			valor = 2;
+		}
+
+		if($('#formContrato #contrato_pago_planificado_id').val() == 3){//MENSUAL
+			valor = 1;
+		}
+
+		var salario = parseFloat($('#formContrato #contrato_salario_mensual').val())/parseFloat(valor);
+
+		$('#formContrato #contrato_salario').val(parseFloat(salario).toFixed(2));
+	}else{
+		swal({
+			title: "Error",
+			text: "Lo sentimos debe seleccionar un pago planificado antes de llenar este valor",
+			type: "error",
+			confirmButtonClass: "btn-danger"
+		});			
+	}	
+}
+
 </script>

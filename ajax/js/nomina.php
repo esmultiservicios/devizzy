@@ -1016,7 +1016,7 @@ var editar_nominas_detalles_dataTable = function(tbody, table){
 				$('#formNominaDetalles #nominad_identidad').val(valores[6]);
 				$('#formNominaDetalles #nominad_contrato_id').val(valores[7]);
 				$('#formNominaDetalles #nominad_fecha_ingreso').val(valores[8]);
-				$('#formNominaDetalles #nominad_salario').val(valores[9]);
+				$('#formNominaDetalles #nominad_salario').val(parseFloat(valores[9]).toFixed(2));
 
 				let salario = parseFloat(valores[9]).toFixed(2);
 				let salario_diario = (valores[9]/30).toFixed(2);
@@ -1123,7 +1123,7 @@ var eliminar_nominas_detalles_dataTable = function(tbody, table){
 				$('#formNominaDetalles #nominad_identidad').val(valores[6]);
 				$('#formNominaDetalles #nominad_contrato_id').val(valores[7]);
 				$('#formNominaDetalles #nominad_fecha_ingreso').val(valores[8]);
-				$('#formNominaDetalles #nominad_salario').val(valores[9]);
+				$('#formNominaDetalles #nominad_salario').val(parseFloat(valores[9]).toFixed(2));
 
 				let salario = parseFloat(valores[9]).toFixed(2);
 				let salario_diario = (valores[9]/30).toFixed(2);
@@ -1219,6 +1219,7 @@ $("#formNominaDetalles #nominad_empleados").on("change", function(){
 			1. Semanal 2 Quincenal 3 Mensual
 			*/
 			var valor_dividir = 0; //ESTE ES EL VALOR QUE TRAE SEGUN EL TIPO DE PAGO PARA DIVIDIRSE CON EL SALARIO
+			
 			if(valores[6] == 1){
 				$('#formNominaDetalles #nominad_diast').val(7);
 				valor_dividir = 7;
@@ -1236,7 +1237,7 @@ $("#formNominaDetalles #nominad_empleados").on("change", function(){
 
 			var salario = parseFloat(valores[3]);
 			salario_diario = parseFloat(valores[3])/parseFloat(valor_dividir);
-			var _salario_diario = (parseFloat(valores[3])/parseFloat(valor_dividir)).toFixed(2);
+			var _salario_diario = (parseFloat(valores[3])/parseFloat(30)).toFixed(2);
 			var salario_hora = 0;			
 
 			//EMPLEADO NORMAL
@@ -1249,7 +1250,7 @@ $("#formNominaDetalles #nominad_empleados").on("change", function(){
 		    $('#formNominaDetalles #nominad_puesto').val(valores[0]);
 			$('#formNominaDetalles #nominad_identidad').val(valores[1]);	
 			$('#formNominaDetalles #nominad_contrato_id').val(valores[2]);		
-			$('#formNominaDetalles #nominad_salario').val(salario);
+			$('#formNominaDetalles #nominad_salario').val(parseFloat(salario).toFixed(2));
 			$('#formNominaDetalles #nominad_fecha_ingreso').val(valores[4]);
 			$('#formNominaDetalles #nominad_sueldo_diario').val(_salario_diario);
 			$('#formNominaDetalles #nominad_sueldo_hora').val(salario_hora);

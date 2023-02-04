@@ -59,8 +59,12 @@
 
 				<div class="form-row">
 					<div class="col-md-3 mb-3">
+					  <label for="contrato_salario">Salario Mensual <span class="priority">*<span/></label>
+					  <input type="number" required id="contrato_salario_mensual" name="contrato_salario_mensual" placeholder="Salario" class="form-control" step="0.01"/>
+					</div>
+					<div class="col-md-3 mb-3">
 					  <label for="contrato_salario">Salario <span class="priority">*<span/></label>
-					  <input type="number" required id="contrato_salario" name="contrato_salario" placeholder="Salario" class="form-control" step="0.01"/>
+					  <input type="number" required id="contrato_salario" name="contrato_salario" readonly placeholder="Salario" class="form-control" step="0.01"/>
 					</div>
 					<div class="col-md-3 mb-3">
 					  <label for="contrato_fecha_inicio">Fecha Inicio <span class="priority">*<span/></label>

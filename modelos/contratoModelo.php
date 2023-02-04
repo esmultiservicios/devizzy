@@ -8,7 +8,7 @@
 	class contratoModelo extends mainModel{
 		protected function agregar_contrato_modelo($datos){
 			$contrato_id = mainModel::correlativo("contrato_id", "contrato");
-			$insert = "INSERT INTO contrato VALUES('$contrato_id','".$datos['colaborador_id']."','".$datos['tipo_contrato_id']."','".$datos['pago_planificado_id']."','".$datos['tipo_empleado_id']."','".$datos['salario']."','".$datos['fecha_inicio']."','".$datos['fecha_fin']."','".$datos['notas']."','".$datos['usuario']."','".$datos['estado']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO contrato VALUES('$contrato_id','".$datos['colaborador_id']."','".$datos['tipo_contrato_id']."','".$datos['pago_planificado_id']."','".$datos['tipo_empleado_id']."','".$datos['salario_mensual']."','".$datos['salario']."','".$datos['fecha_inicio']."','".$datos['fecha_fin']."','".$datos['notas']."','".$datos['usuario']."','".$datos['estado']."','".$datos['fecha_registro']."')";
 			
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
