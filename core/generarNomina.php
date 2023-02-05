@@ -17,6 +17,14 @@
 		echo 1;//REGISTRO ACTUALIZADO CORRECTAMENTE
 		$insMainModel->actualizarNominaDetalles($nomina_id);
 
+		//CONSULTAMOS LOS COLABORADORE QUE ESTAN EN LA NOMINA
+		$result_colaboradores = $insMainModel->GetColaboradoresNomina($nomina_id);
+
+		while($consulta2 = $result_colaboradores->fetch_assoc()){
+			//ACTUALIZAMOS EL ESTADO DE LA ASISTENCIA DE LOS EMPLEADOS
+			$insMainModel->ActualizarEstadoAsistencia($consulta2['colaboradores_id']);
+		}
+
 		//CONSULTAMOS LA CUENTA QUE TIENE CONFIGURADA LA NOMINA
 		if(!isset($_SESSION['user_sd'])){ 
 			session_start(['name'=>'SD']); 

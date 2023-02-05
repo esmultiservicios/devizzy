@@ -121,7 +121,8 @@
                 <nav class="sb-sidenav-menu-nested nav">
                     <a class="nav-link link" href="<?php echo SERVERURL; ?>colaboradores/" id="colaboradores" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>Colaboradores</a>
                     <a class="nav-link link" href="<?php echo SERVERURL; ?>contrato/" id="contrato" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-file-signature"></i></div>Contrato</a>
-                    <a class="nav-link link" href="<?php echo SERVERURL; ?>nomina/" id="nomina" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-hand-holding-usd"></i></div>Nomina</a>				
+                    <a class="nav-link link" href="<?php echo SERVERURL; ?>nomina/" id="nomina" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-hand-holding-usd"></i></div>Nomina</a>			
+                    <a class="nav-link link" href="<?php echo SERVERURL; ?>asistencia/" id="asistencia" style="display:none"><div class="sb-nav-link-icon"><i class="fas fa-calendar-check"></i></div>Asistencia</a>
                 </nav>
             </div>	
 

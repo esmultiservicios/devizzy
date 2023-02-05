@@ -143,22 +143,21 @@ var editar_secuencia_facturacion_dataTable = function(tbody, table){
 				}
 
 				//DESHABILITAR OBJETOS
+				$('#formSecuencia #empresa_secuencia').attr('disabled', true);
 				$('#formSecuencia #documento_secuencia').attr('disabled', true);
+				$('#formSecuencia #cai_secuencia').attr('readonly', true);			
+				$('#formSecuencia #prefijo_secuencia').attr('readonly', true);
+				$('#formSecuencia #relleno_secuencia').attr('readonly', true);
+				$('#formSecuencia #incremento_secuencia').attr('readonly', true);
+				$('#formSecuencia #rango_inicial_secuencia').attr('readonly', true);
+				$('#formSecuencia #rango_final_secuencia').attr('readonly', true);
+				$('#formSecuencia #fecha_activacion_secuencia').attr('readonly', true);
+				$('#formSecuencia #fecha_limite_secuencia').attr('readonly', true);				
 
 				//HABILITAR OBJETOS
-				$('#formSecuencia #empresa_secuencia').attr('disabled', false);
-				$('#formSecuencia #cai_secuencia').attr('readonly', false);
-				$('#formSecuencia #prefijo_secuencia').attr('readonly', false);
-				$('#formSecuencia #relleno_secuencia').attr('readonly', false);
-				$('#formSecuencia #incremento_secuencia').attr('readonly', false);
 				$('#formSecuencia #siguiente_secuencia').attr('readonly', false);
-				$('#formSecuencia #rango_inicial_secuencia').attr('readonly', false);
-				$('#formSecuencia #rango_final_secuencia').attr('readonly', false);
-				$('#formSecuencia #fecha_activacion_secuencia').attr('readonly', false);
-				$('#formSecuencia #fecha_limite_secuencia').attr('readonly', false);
 				$('#formSecuencia #estado_secuencia').attr('disabled', false);
 
-				$('#formSecuencia #empresa_secuencia').attr('disabled', true);
 				$('#formSecuencia #proceso_secuencia_facturacion').val("Editar");
 				$('#modal_registrar_secuencias').modal({
 					show:true,
@@ -222,8 +221,7 @@ var eliminar_secuencia_facturacion_dataTable = function(tbody, table){
 				$('#formSecuencia #fecha_activacion_secuencia').attr('readonly', true);
 				$('#formSecuencia #fecha_limite_secuencia').attr('readonly', true);
 				$('#formSecuencia #estado_secuencia').attr('disabled', true);
-
-				$('#formSecuencia #empresa_secuencia').attr('disabled', true);
+				
 				$('#formSecuencia #proceso_secuencia_facturacion').val("Eliminar");
 				$('#modal_registrar_secuencias').modal({
 					show:true,
@@ -239,6 +237,7 @@ var eliminar_secuencia_facturacion_dataTable = function(tbody, table){
 /*INICIO FORMULARIO SECUENCIA DE FACTURACION*/
 function modal_secuencia_facturacion(){
 	getEmpresaSecuencia();
+	getDocumentoSecuencia();
 	$('#formSecuencia').attr({ 'data-form': 'save' });
 	$('#formSecuencia').attr({ 'action': '<?php echo SERVERURL;?>ajax/agregarSecuenciaFacturacionAjax.php' });
 	$('#formSecuencia')[0].reset();
@@ -247,6 +246,7 @@ function modal_secuencia_facturacion(){
 	$('#delete_secuencia').hide();
 
 	//HABILITAR OBJETOS
+	$('#formSecuencia #documento_secuencia').attr('disabled', false);
 	$('#formSecuencia #empresa_secuencia').attr('disabled', false);
 	$('#formSecuencia #documento_secuencia').attr('disabled', false);
 	$('#formSecuencia #cai_secuencia').attr('readonly', false);
@@ -258,7 +258,7 @@ function modal_secuencia_facturacion(){
 	$('#formSecuencia #rango_final_secuencia').attr('readonly', false);
 	$('#formSecuencia #fecha_activacion_secuencia').attr('readonly', false);
 	$('#formSecuencia #fecha_limite_secuencia').attr('readonly', false);
-	$('#formSecuencia #estado_secuencia').attr('disabled', false);
+	$('#formSecuencia #estado_secuencia').attr('disabled', false);	
 
 	$('#formSecuencia #proceso_secuencia_facturacion').val("Registro");
 	$('#formSecuencia #empresa_secuencia').attr('disabled', false);
@@ -281,6 +281,9 @@ function getEmpresaSecuencia(){
 		    $('#formSecuencia #empresa_secuencia').html("");
 			$('#formSecuencia #empresa_secuencia').html(data);
 			$('#formSecuencia #empresa_secuencia').selectpicker('refresh');	
+
+			$('#formSecuencia #empresa_secuencia').val(1);
+			$('#formSecuencia #empresa_secuencia').selectpicker('refresh');				
 		}
      });
 }

@@ -230,7 +230,7 @@ function genearNomina(nomina_id, empresa_id){
 			}else{
 				swal({
 					title: "Error",
-					text: "Lo sentimos, no se pudo generar la nomina",
+					text: "Lo sentimos, no se pudo generar la nomina, por favor valide si existen empleados cargados antes de continuar, presione sobre el boton de más en la sección de crear",
 					type: "error",
 					confirmButtonClass: 'btn-danger',
 					allowEscapeKey: false,
@@ -1255,6 +1255,7 @@ $("#formNominaDetalles #nominad_empleados").on("change", function(){
 			$('#formNominaDetalles #nominad_sueldo_diario').val(_salario_diario);
 			$('#formNominaDetalles #nominad_sueldo_hora').val(salario_hora);
 
+			$('#formNominaDetalles #nominad_diast').val(ObtenerDiasTrabajados(colaboradores_id));
 			calculoNomina();
 		}
      });
@@ -1471,4 +1472,22 @@ $("#formNominaDetalles #nominad_incapacidad_ihss").on("keyup", function(){
 	calculoNomina();
 });
 
+function ObtenerDiasTrabajados(colaboradores_id){
+    var url = '<?php echo SERVERURL;?>core/getDiasTrabajados.php';
+
+	var dt;
+	
+	$.ajax({
+	    type:'POST',
+		url:url,
+		async: false,
+		data:'colaboradores_id='+colaboradores_id,
+		success:function(registro){
+		   var valores = eval(registro);
+		   dt = valores[0];
+		}
+	});
+
+	return dt;		
+}
 </script>

@@ -1,0 +1,32 @@
+<?php	
+	$peticionAjax = true;
+	require_once "configGenerales.php";
+	require_once "mainModel.php";
+	
+	$insMainModel = new mainModel();
+	
+	$privilegio_id = $_POST['privilegio_id_accesos'];
+
+	$result = $insMainModel->getSubMenu1Accesos($privilegio_id);
+	
+	$arreglo = array();
+	$data = array();
+	
+	while($row = $result->fetch_assoc()){				
+		$data[] = array( 
+			"submenu"=>$row['submenu'],
+			"submenu1"=>$row['submenu1'],
+			"privilegio"=>$row['privilegio'],
+			"acceso_submenu_id"=>$row['acceso_submenu_id'],				
+		);		
+	}
+	
+	$arreglo = array(
+		"echo" => 1,
+		"totalrecords" => count($data),
+		"totaldisplayrecords" => count($data),
+		"data" => $data
+	);
+
+	echo json_encode($arreglo);
+?>	

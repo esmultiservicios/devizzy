@@ -1344,6 +1344,28 @@
 			return $result;
 		}
 
+		public function ActualizarEstadoAsistencia($colaboradores_id){
+
+			$update = "UPDATE asistencia 
+				SET 
+					estado = 1
+				WHERE colaboradores_id = '".$colaboradores_id."'";
+
+			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}
+
+		public function GetColaboradoresNomina($nomina_id){
+			$query = "SELECT colaboradores_id
+				FROM nomina_detalles
+				WHERE nomina_id = '$nomina_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
 		public function getColaboradoresConsulta(){
 			$query = "SELECT colaboradores_id, CONCAT(nombre, ' ', apellido) AS 'nombre'
 				FROM colaboradores
@@ -1354,6 +1376,114 @@
 			return $result;
 		}		
 
+		public function getDiasTrabajados($colaboradores_id){
+			$query = "SELECT COUNT(asistencia_id) AS 'total'
+				FROM asistencia
+				WHERE colaboradores_id = '$colaboradores_id' AND estado = 0";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
+		public function getAsistencia($datos){
+			$fecha = '';
+			$colaboradores_id = '';
+
+			if($datos['fechai'] != $fecha){
+				$fecha = "AND a.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
+			}
+			
+			if($datos['colaboradores_id'] != "" || $datos['colaboradores_id'] != 0){
+				$colaboradores_id = "AND a.colaboradores_id = '".$datos['colaboradores_id']."'";
+			}		
+
+			$query = "SELECT a.asistencia_id AS 'asistencia_id', a.fecha AS 'fecha', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', a.colaboradores_id AS 'colaborador_id', CASE WHEN a.estado = 0 THEN 'Pendiente' ELSE 'Pagado' END AS 'estado'
+			FROM asistencia AS a
+			INNER JOIN colaboradores AS c ON a.colaboradores_id = c.colaboradores_id
+			WHERE a.estado = '".$datos['estado']."'
+			$fecha
+			$colaboradores_id";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+		
+		/*INICIO PRIVILEGIOS*/ 
+		public function getMenus(){
+			$query = "SELECT *
+				FROM menu";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getSubMenus($data){
+			$query = "SELECT *
+				FROM submenu
+				WHERE menu_id = '".$data['menu_id']."'";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
+		
+		public function getSubMenus1(){
+			$query = "SELECT sm1.submenu1_id AS 'submenu_id', sm1.name AS 'submenu'
+				FROM submenu1 AS sm1
+				INNER JOIN submenu AS sm ON sm1.submenu_id = sm.submenu_id";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+		
+		public function getSubMenusConsulta($data){
+			$query = "SELECT sm1.submenu1_id AS 'submenu_id', sm1.name AS 'submenu'
+				FROM submenu1 AS sm1
+				WHERE sm1.submenu_id = ".$data['menu_id']."'";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
+		
+		public function getMenuAccesos($privilegio_id){
+			$query = "SELECT am.acceso_menu_id AS 'acceso_menu_id', m.name AS 'menu', p.nombre AS 'privilegio'
+				FROM acceso_menu AS am
+				INNER JOIN menu AS m ON am.menu_id = m.menu_id
+				INNER JOIN privilegio AS p ON am.privilegio_id = p.privilegio_id
+				WHERE am.privilegio_id = '$privilegio_id'";
+				
+			$result = self::connection()->query($query);
+		
+			return $result;
+		}
+
+		public function getSubMenuAccesos($privilegio_id){
+			$query = "SELECT asm.acceso_submenu_id AS 'acceso_submenu_id', m.name AS 'menu', sm.name AS 'submenu', p.nombre AS 'privilegio'
+				FROM acceso_submenu AS asm
+				INNER JOIN submenu AS sm ON asm.submenu_id = sm.submenu_id
+				INNER JOIN menu AS m ON sm.menu_id = m.menu_id
+				INNER JOIN privilegio AS p ON asm.privilegio_id = p.privilegio_id
+				WHERE asm.privilegio_id = '$privilegio_id'";
+
+			$result = self::connection()->query($query);
+		
+			return $result;
+		}
+		
+		public function getSubMenu1Accesos($privilegio_id){
+			$query = "SELECT asm1.acceso_submenu1_id AS 'acceso_submenu_id', sm.name AS 'submenu' ,sm1.name AS 'submenu1', p.nombre AS 'privilegio'
+				FROM acceso_submenu1 AS asm1
+				INNER JOIN submenu1 AS sm1 ON asm1.submenu1_id = sm1.submenu_id
+				INNER JOIN submenu AS sm ON sm1.submenu_id = sm.submenu_id
+				INNER JOIN privilegio AS p ON asm1.privilegio_id = p.privilegio_id 
+				WHERE asm1.privilegio_id = '$privilegio_id'";
+
+			$result = self::connection()->query($query);
+		
+			return $result;
+		}		
+		/*FIN PRIVILEGIOS*/ 
+		
 		public function getDepartamentos(){
 			$query = "SELECT *
 				FROM departamentos";
