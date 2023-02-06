@@ -1,4 +1,4 @@
-<!--INICIO MODAL PUESTO-->
+<!--INICIO MODAL ASISTENCIA-->
 <div class="modal fade" id="modal_registrar_asistencia">
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
@@ -54,4 +54,4 @@
       </div>
     </div>
 </div>
-<!--FIN MODAL PUESTO-->
+<!--FIN MODAL ASISTENCIA-->

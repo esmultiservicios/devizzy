@@ -57,10 +57,15 @@
 					<table id="dataTableAsistencia" class="table table-striped table-condensed table-hover" style="width:100%">
 						<thead>
 							<tr>
-								<th>Fecha</th>
-								<th>Colaborador</th>
-								<th>Estado</th>
-								<th>Eliminar</th>								
+								<th>Empleado</th>
+								<th>Lunes</th>
+								<th>Martes</th>
+								<th>Miercoles</th>
+								<th>Jueves</th>
+								<th>Viernes</th>
+								<th>Sabado</th>
+								<th>Domingo</th>
+								<th>Total</th>
 							</tr>
 						</thead>
 					</table>  

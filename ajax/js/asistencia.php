@@ -26,10 +26,15 @@ var listar_asistencia = function(){
 			}			
 		},
 		"columns":[
-			{"data":"fecha"},
-			{"data":"colaborador"},
-			{"data":"estado"},
-			{"defaultContent":"<button class='table_eliminar1 btn btn-dark'><span class='fa fa-trash fa-lg'></span></button>"}
+			{"data":"empleado"},
+			{"data":"lunes"},
+			{"data":"martes"},
+			{"data":"miercoles"},
+			{"data":"jueves"},
+			{"data":"viernes"},
+			{"data":"sabado"},
+			{"data":"domingo"},
+			{"data":"total"}			
 		],
         "lengthMenu": lengthMenu,
 		"stateSave": true,
@@ -37,10 +42,15 @@ var listar_asistencia = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "36%", targets: 0 },
-		  { width: "37%", targets: 1 },
-		  { width: "25%", targets: 2 },
-		  { width: "2%", targets: 3 }
+		  { width: "32.11%", targets: 0 },
+		  { width: "8.11%", targets: 1 },
+		  { width: "8.11%", targets: 2 },
+		  { width: "8.11%", targets: 3 },
+		  { width: "8.11%", targets: 4 },
+		  { width: "8.11%", targets: 5 },
+		  { width: "8.11%", targets: 6 },
+		  { width: "8.11%", targets: 7},
+		  { width: "11.11%", targets: 8 }
 		],		
 		"buttons":[
 			{
@@ -64,21 +74,25 @@ var listar_asistencia = function(){
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
 				titleAttr: 'Excel',
 				title: 'Reporte Asistencia',
+				messageTop: 'Semana del: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'btn btn-success',
 				exportOptions: {
-						columns: [0]
+					columns: [0,1,2,3,4,5,6,7,8]
 				},
 			},
 			{
 				extend:    'pdf',
 				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 				titleAttr: 'PDF',
+				orientation: 'landscape',
+				pageSize: 'LETTER',	
 				title: 'Reporte Asistencia',
+				messageTop: 'Semana del: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'btn btn-danger',
 				exportOptions: {
-						columns: [0]
+						columns: [0,1,2,3,4,5,6,7,8]
 				},
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {

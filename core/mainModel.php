@@ -1390,19 +1390,29 @@
 			$colaboradores_id = '';
 
 			if($datos['fechai'] != $fecha){
-				$fecha = "AND a.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
+				$fecha = "AND s.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
 			}
 			
 			if($datos['colaboradores_id'] != "" || $datos['colaboradores_id'] != 0){
-				$colaboradores_id = "AND a.colaboradores_id = '".$datos['colaboradores_id']."'";
+				$colaboradores_id = "AND s.colaboradores_id = '".$datos['colaboradores_id']."'";
 			}		
 
-			$query = "SELECT a.asistencia_id AS 'asistencia_id', a.fecha AS 'fecha', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', a.colaboradores_id AS 'colaborador_id', CASE WHEN a.estado = 0 THEN 'Pendiente' ELSE 'Pagado' END AS 'estado'
-			FROM asistencia AS a
-			INNER JOIN colaboradores AS c ON a.colaboradores_id = c.colaboradores_id
-			WHERE a.estado = '".$datos['estado']."'
-			$fecha
-			$colaboradores_id";
+			$query = "SELECT e.nombre AS 'empresa', CONCAT(c.nombre, ' ', c.apellido) AS 'empleado', 
+				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Monday' THEN s.asistencia_id END) AS 'lunes',
+				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Tuesday' THEN s.asistencia_id END) AS 'martes',
+				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Wendsday' THEN s.asistencia_id END) AS 'miercoles',
+				COUNT(CASE WHEN DAYNAME(s.fecha) = 'thursday' THEN s.asistencia_id END) AS 'jueves',
+				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Friday' THEN s.asistencia_id END) AS 'viernes',
+				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Saturday' THEN s.asistencia_id END) AS 'sabado',
+				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Sunday' THEN s.asistencia_id END) AS 'domingo',
+				COUNT(s.asistencia_id) AS 'total'
+				FROM asistencia AS s
+				INNER JOIN colaboradores AS c ON s.colaboradores_id = c.colaboradores_id
+				INNER JOIN empresa AS e ON c.empresa_id = e.empresa_id
+				$fecha
+				$colaboradores_id
+				GROUP BY CONCAT(c.nombre, ' ', c.apellido), s.fecha
+				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
 
 			$result = self::connection()->query($query);
 
