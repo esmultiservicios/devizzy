@@ -31,6 +31,7 @@
 		18 => $valores2['cantidad_mayoreo'],
 		19 => $valores2['barCode'],	
 		20 => $valores2['id_producto_superior'],
+		21 => SERVERURL."vistas/plantilla/img/products/".$valores2['file_name']
 	);
 	echo json_encode($datos);
 ?>	

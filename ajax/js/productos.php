@@ -174,7 +174,7 @@ var editar_producto_dataTable = function(tbody, table){
 				$('#formProductos #precio_mayoreo').val(datos[17]);
 				$('#formProductos #cantidad_mayoreo').val(datos[18]);
 				$('#formProductos #bar_code_product').val(datos[19]);
-				$('#formProductos #producto_superior').val(datos[20]);
+				$('#formProductos #producto_superior').val(datos[20]);			
 
 				if(datos[7] == 1){
 					$('#formProductos #producto_isv_factura').attr('checked', true);
@@ -194,7 +194,11 @@ var editar_producto_dataTable = function(tbody, table){
 					$('#formProductos #producto_activo').attr('checked', false);
 				}
 				
-				$("#formProductos #preview").attr("src", "<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png");
+				if(datos[11] != "image_preview.png"){
+					$('#formProductos #preview').attr('src',datos[21]);
+				}else{
+					$("#formProductos #preview").attr("src", "<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png");				
+				}
 
 				//HABILITAR OBJETOS
 				$('#formProductos #producto').attr("readonly", false);
@@ -278,7 +282,11 @@ var eliminar_producto_dataTable = function(tbody, table){
 				$('#formProductos #cantidad_mayoreo').val(datos[18]);
 				$('#formProductos #bar_code_product').val(datos[19]);
 				
-				$("#formProductos #preview").attr("src", "<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png");
+				if(datos[11] != "image_preview.png"){
+					$('#formProductos #preview').attr('src',datos[21]);
+				}else{
+					$("#formProductos #preview").attr("src", "<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png");				
+				}
 
 				if(datos[7] == 1){
 					$('#formProductos #producto_isv_factura').attr('checked', true);
@@ -498,42 +506,6 @@ function evaluarCategoriaDetalle(TipoProducto){
 		$('#formProductos #precio_compra').val('');
 	}
 }
-
-//IMAGE FILE TYPE VALIDATION
-$(document).on("click", ".browse", function() {
-  var file = $(this)
-    .parent()
-    .parent()
-    .parent()
-    .find(".file");
-  file.trigger("click");
-});
-$('input[type="file"]').change(function(e) {
-	var file = this.files[0];
-	var imagefile = file.type;
-	var match= ["image/jpeg","image/png","image/jpg"];
-	if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
-		swal({
-			title: "Error",
-			text: "Por favor seleccione una archivo valido con el formato (JPEG/JPG/PNG)",
-			type: "error",
-			confirmButtonClass: 'btn-danger'
-		});
-		$("#file").val('');
-		return false;
-	}else{
-	  var fileName = e.target.files[0].name;
-	  $("#formProductos #file_product").val(fileName);
-	 
-	  var reader = new FileReader();
-	  reader.onload = function(e) {
-		// get loaded data and render thumbnail.
-		document.getElementById("preview").src = e.target.result;
-	  };
-	  // read the image file as a data URL.
-	  reader.readAsDataURL(this.files[0]);		
-	}	
-});
 
 $(document).ready(function(){
 	$("#formProductos #porcentaje_venta").on("keyup", function(){	

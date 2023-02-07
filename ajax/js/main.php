@@ -508,7 +508,24 @@ function showTime(){
 	$('#quoteForm #hora-customers-quote').html("<b>Hora:</b> " + hours+ ":" + minutes+ ":" + seconds);
 }
 
-setTimeout("showTime(); showDate()", 1000);
+document.addEventListener("DOMContentLoaded", function(){
+    // Invocamos cada 1 segundos ;)
+    const milisegundos = 1 *1000;
+    setInterval(function(){
+        // No esperamos la respuesta de la petición porque no nos importa
+        showTime();
+    },milisegundos);
+});
+
+document.addEventListener("DOMContentLoaded", function(){
+    // Invocamos cada 1 segundos ;)
+    const milisegundos = 1 *1000;
+    setInterval(function(){
+        // No esperamos la respuesta de la petición porque no nos importa
+        showDate();
+    },milisegundos);
+});
+
 //FIN CONSUMIDOR FINAL PARA COTIZACION Y FACTURACION
 
 //INICIO PRODUCTOS
@@ -3190,4 +3207,40 @@ function getCollaboradoresModalPagoFacturasCompras(){
 		}
      });
 }
+
+//IMAGE FILE TYPE VALIDATION
+$(document).on("click", ".browse", function() {
+  var file = $(this)
+    .parent()
+    .parent()
+    .parent()
+    .find(".file");
+  file.trigger("click");
+});
+$('input[type="file"]').change(function(e) {
+	var file = this.files[0];
+	var imagefile = file.type;
+	var match= ["image/jpeg","image/png","image/jpg"];
+	if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
+		swal({
+			title: "Error",
+			text: "Por favor seleccione una archivo valido con el formato (JPEG/JPG/PNG)",
+			type: "error",
+			confirmButtonClass: 'btn-danger'
+		});
+		$("#file").val('');
+		return false;
+	}else{
+	  var fileName = e.target.files[0].name;
+	  $("#formProductos #file_product").val(fileName);
+	 
+	  var reader = new FileReader();
+	  reader.onload = function(e) {
+		// get loaded data and render thumbnail.
+		document.getElementById("preview").src = e.target.result;
+	  };
+	  // read the image file as a data URL.
+	  reader.readAsDataURL(this.files[0]);		
+	}	
+});
 </script>

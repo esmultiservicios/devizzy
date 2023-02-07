@@ -1547,7 +1547,7 @@
 					</div>			  
 					<div class="col-md-6 mb-3">
 						<label for="fecha_egreso_colaborador">Fecha Egreso</label>
-						<input type="text" class="form-control" id="fecha_egreso_colaborador" name="fecha_egreso_colaborador" placeholder="Fecha Egreso">
+						<input type="date" class="form-control" id="fecha_egreso_colaborador" name="fecha_egreso_colaborador" placeholder="Fecha Egreso">
 					</div>
 				</div>				
 				<div class="form-row">				
@@ -1985,7 +1985,6 @@
 						<label for="producto_empresa_id">Empresa <span class="priority">*<span/></label>			
 						<div class="input-group mb-3">
 						<select id="producto_empresa_id" name="producto_empresa_id" required class="selectpicker" data-size="7" data-live-search="true" title="Empresa">
-							<option value="">Seleccione</option>
 						</select>
 						</div>
 					</div>	
@@ -1993,7 +1992,6 @@
 						<label for="producto_superior">Superior</label>			
 						<div class="input-group mb-3">
 						<select class="selectpicker" id="producto_superior" name="producto_superior" data-size="7" data-live-search="true" title="Superior">
-							<option value="">Seleccione</option>
 						</select>
 						</div>
 					</div>
@@ -2001,7 +1999,6 @@
 						<label for="producto_categoria">Categoria</label>			
 						<div class="input-group mb-3">
 						<select class="selectpicker" id="producto_categoria" name="producto_categoria" required data-size="7" data-live-search="true" title="Categoria">
-							<option value="">Seleccione</option>
 						</select>
 						</div>
 					</div>	
@@ -2009,7 +2006,6 @@
 						<label for="almacen">Almacén</label>			
 						<div class="input-group mb-3">
 						<select id="almacen" name="almacen" required class="selectpicker" data-live-search="true" title="Almacén">
-							<option value="">Seleccione</option>
 						</select>
 						</div>
 					</div>					
@@ -2028,36 +2024,36 @@
 					</div>				  				
 					<div class="col-md-3 mb-3">
 					  <label for="departamento_cliente">Precio Compra <span class="priority">*<span/></label>
-					  <input type="number" class="form-control" id="precio_compra" name="precio_compra" placeholder="Precio Compra" step="0.01" required>
+					  <input type="number" class="form-control" id="precio_compra" name="precio_compra" placeholder="Precio Compra" step="0.00001" required>
 					</div>	
 					<div class="col-md-3 mb-3">
 					  <label for="precio_venta">Precio Venta</label>
-					  <input type="number" class="form-control" id="precio_venta" name="precio_venta" placeholder="Precio Venta" step="0.01">
+					  <input type="number" class="form-control" id="precio_venta" name="precio_venta" placeholder="Precio Venta" step="0.00001">
 					</div>										
 				</div>
 				
 				<div class="form-row">				  
 					<div class="col-md-3 mb-3">
 					  <label for="porcentaje_venta">% Ganancia</label>
-					  <input type="number" class="form-control" id="porcentaje_venta" name="porcentaje_venta" placeholder="Precio Venta" step="0.01">
+					  <input type="number" class="form-control" id="porcentaje_venta" name="porcentaje_venta" placeholder="Precio Venta" step="0.00001">
 					</div>	
 					<div class="col-md-3 mb-3">
 					  <label for="cantidad_mayoreo">Cantidad Mayoreo </label>
-					  <input type="number" class="form-control" id="cantidad_mayoreo" name="cantidad_mayoreo" placeholder="Precio Mayoreo" step="0.01" value="3">
+					  <input type="number" class="form-control" id="cantidad_mayoreo" name="cantidad_mayoreo" placeholder="Precio Mayoreo" step="0.00001" value="3">
 					</div>	
 					<div class="col-md-3 mb-3">
 					  <label for="precio_mayoreo">Precio Mayoreo </label>
-					  <input type="number" class="form-control" id="precio_mayoreo" name="precio_mayoreo" placeholder="Precio Mayoreo" step="0.01">
+					  <input type="number" class="form-control" id="precio_mayoreo" name="precio_mayoreo" placeholder="Precio Mayoreo" step="0.00001">
 					</div>		
 					<div class="col-md-3 mb-3">
 					  <label>Cantidad Mínima</label>
-					  <input type="number" id="cantidad_minima" name="cantidad_minima" placeholder="Cantidad Mínima" class="form-control" step="0.01">
+					  <input type="number" id="cantidad_minima" name="cantidad_minima" placeholder="Cantidad Mínima" class="form-control" step="0.00001">
 					</div>									
 				</div>
 				<div class="form-row">					
 					<div class="col-md-3 mb-3">
 					  <label>Cantidad Máxima</label>
-					  <input type="number" id="cantidad_maxima" name="cantidad_maxima" placeholder="Cantidad Máxima" class="form-control" step="0.01">
+					  <input type="number" id="cantidad_maxima" name="cantidad_maxima" placeholder="Cantidad Máxima" class="form-control" step="0.00001">
 					</div>					
 				</div>
 				

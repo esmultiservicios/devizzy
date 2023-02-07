@@ -146,20 +146,28 @@ function modal_asistencia(){
 	  });
 }
 
-setTimeout("showTime();", 1000);
+document.addEventListener("DOMContentLoaded", function(){
+    // Invocamos cada 1 segundos ;)
+    const milisegundos = 1 *500;
+    setInterval(function(){
+        // No esperamos la respuesta de la petición porque no nos importa
+        showTime();
+    },milisegundos);
+});
 
 $(document).ready(function(){	
 	showTime();
 });
 
 function showTime(){
-	myDate = new Date();
-	hours = myDate.getHours();
-	minutes = myDate.getMinutes();
-	seconds = myDate.getSeconds();
-	if (hours < 10) hours = 0 + hours;
-	if (minutes < 10) minutes = "0" + minutes;
-	if (seconds < 10) seconds = "0" + seconds;
-	$('#formAsistencia #hora').val(hours+ ":" + minutes+ ":" + seconds);
+	const current = new Date();
+
+	const time = current.toLocaleTimeString("en-US", {
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: false
+	});
+
+	$('#formAsistencia #hora').val(time);	
 }
 </script>
