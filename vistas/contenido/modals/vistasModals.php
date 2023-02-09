@@ -368,10 +368,18 @@
 </div>
  <!--FIN MODAL CAMBIAR CONTRASEÑA --> 
  
-<!--INICIO MODAL PAGOS COMPRAS---->
+<!--INICIO MODAL PAGOS COMPRAS----> 
 <div class="modal fade" id="modal_pagosPurchase">
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">	
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Método de pago</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div>
+        <div class="modal-body">		
+			
 			<div class="row justify-content-center">
 				<div class="col-lg-12 col-12">
 					<div class="card card0">
@@ -747,22 +755,33 @@
 						</div>
 					</div>
 				</div>
-			</div>				
+			</div>
+					
+
+        </div>			
       </div>
     </div>
 </div>
-<!--FIN MODAL PAGOS COMPRAS--
+<!--FIN MODAL PAGOS COMPRAS-->
 
 <!--INICIO MODAL PAGOS FACTURACION---->
-<div class="modal fade" id="modal_pagos">
+ <div class="modal fade" id="modal_pagos">
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">	
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Método de pago</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div>
+        <div class="modal-body">		
+			
 			<div class="row justify-content-center">
 				<div class="col-lg-12 col-12">
 					<div class="card card0">
 						<div class="d-flex" id="wrapper">
 							<!-- Sidebar -->
-							<div class="bg-light border-right" id="sidebar-wrapper">
+							<div class="bg-light border-right" id="sidebar-wrapper" style="scroll-behavior: smooth;">
 								<div class="sidebar-heading pt-5 pb-4"><strong>Método de pago</strong></div>
 								<div class="list-group list-group-flush"> 
 
@@ -808,8 +827,9 @@
 										<span class="question mb-2" id="label_pagos_multiples"></span>
 									</div>								
 								</div>
-							</div> <!-- Page Content -->
-							<div id="page-content-wrapper">
+							</div> 
+							<!-- Page Content -->
+							<div id="page-content-wrapper" style="scroll-behavior: smooth;">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -832,7 +852,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="tab-content" style="height: auto; overflow-y:auto;">
+								<div class="tab-content">
 									<div id="menu1" class="tab-pane in active">
 										<div class="row justify-content-center">
 											<div class="col-11">
@@ -1142,7 +1162,10 @@
 						</div>
 					</div>
 				</div>
-			</div>				
+			</div>			
+	
+
+        </div>				
       </div>
     </div>
 </div>

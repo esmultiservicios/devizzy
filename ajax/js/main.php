@@ -737,6 +737,7 @@ function modal_clientes(){
 	$('#formClientes #grupo_editar_rtn').hide();
 
 	$('#formClientes #proceso_clientes').val("Registro");
+	getMunicipiosClientes(0);
 	$('#modal_registrar_clientes').modal({
 		show:true,
 		keyboard: false,
