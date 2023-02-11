@@ -33,7 +33,7 @@
 			<td class="info_factura">
 				<div class="round">
 					<span class="h3">Registro de Ingresos</span>
-					<p><b>N° Gasto:</b> <?php echo $consulta_registro['ingresos_id']; ?></p>
+					<p><b>N° Ingreso:</b> <?php echo $consulta_registro['ingresos_id']; ?></p>
 					<p><b>Fecha Factura:</b> <?php echo $consulta_registro['fecha']; ?></p>
 					<p><b>RTN:</b> <?php echo $consulta_registro['rtn_empresa']; ?></p>
 					<p><b>Fecha Registro:</b> <?php echo $consulta_registro['fecha_registro_consulta'].' '.date('g:i a',strtotime($consulta_registro['fecha_registro'])); ?></p>

@@ -16,10 +16,10 @@
 		3 => $valores2['tipo_empleado_id'],	
 		4 => $valores2['salario'],
 		5 => $valores2['fecha_inicio'],
-		6 => $valores2['fecha_fin'],	
+		6 => $valores2['fecha_fin'],
 		7 => $valores2['notas'],
-		8 => $valores2['estado']
+		8 => $valores2['estado'],
+		9 => $valores2['salario_mensual']
 	);
 	echo json_encode($datos);
-	
 ?>	

@@ -138,69 +138,6 @@
 			return mainModel::sweetAlert($alert);
 			
 		}
-
-		//PAGO MIXTO EFECTIVO Y TARJETA
-		public function agregar_pago_factura_controlador_mixto(){
-			if(!isset($_SESSION['user_sd'])){ 
-				session_start(['name'=>'SD']); 
-			}
-
-			$facturas_id = $_POST['factura_id_mixto'];
-			$print_comprobante = $_POST['comprobante_print'];
-			$consulta_fecha_factura = pagoFacturaModelo::consultar_factura_fecha($facturas_id)->fetch_assoc();
-			$fecha = date("Y-m-d");
-			$importe = $_POST['monto_efectivo'];
-			$efectivo = $_POST['efectivo_bill'];
-			$tarjeta = 	$_POST['monto_tarjeta'];	
-			$cambio = ($_POST['cambio_efectivo'])*-1;
-			$empresa_id = $_SESSION['empresa_id_sd'];
-			$colaboradores_id = $_SESSION['colaborador_id_sd'];			
-			$tipo_pago_id = 5;//PAGO MIXTO		
-			$banco_id = 0;//SIN BANCO	
-			$tipo_pago = 3;//1. CONTADO 2. CRÉDITO 3.MIXTO		
-			$estado_factura = 2;//PAGADA
-
-			$referencia_pago1 = mainModel::cleanStringConverterCase($_POST['cr_bill']);//TARJETA DE CREDITO
-			$referencia_pago2 = mainModel::cleanStringConverterCase($_POST['exp']);//FECHA DE EXPIRACION
-			$referencia_pago3 = mainModel::cleanStringConverterCase($_POST['cvcpwd']);//NUMERO DE APROBACIÓN
-			
-			if($_POST['usuario_pago_mixto'] == 0){
-				$usuario = $_SESSION['colaborador_id_sd'];
-			}else{
-				$usuario = $_POST['usuario_pago_mixto'];
-			}
-
-			$fecha_registro = date("Y-m-d H:i:s");
-			$estado = 2;
-
-			$datos = [
-				"multiple_pago" => isset($_POST['multiple_pago']) ? $_POST['multiple_pago'] : 0,
-				"facturas_id" => $facturas_id,
-				"fecha" => $fecha,
-				"importe" => $importe,
-				"cambio" => $cambio,
-				"usuario" => $usuario,
-				"estado" => $estado,
-				"estado_factura" => $estado_factura,
-				"fecha_registro" => $fecha_registro,
-				"empresa" => $empresa_id,
-				"abono" => $_POST['efectivo_bill'],
-				"tipo_pago_id" => $tipo_pago_id,
-				"banco_id" => $banco_id,
-				"referencia_pago1" => $referencia_pago1,
-				"referencia_pago2" => $referencia_pago2,
-				"referencia_pago3" => $referencia_pago3,
-				"print_comprobante" => $_POST['comprobante_print'],
-				"tipo_pago" => $tipo_pago,
-				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta,
-				"colaboradores_id" => $colaboradores_id								
-			];
-
-			$alert = pagoFacturaModelo::agregar_pago_factura_base($datos);
-			return mainModel::sweetAlert($alert);
-			
-		}
 		
 		//PAGO CON TRANSFERENCIA
 		public function agregar_pago_factura_controlador_transferencia(){

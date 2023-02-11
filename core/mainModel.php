@@ -2029,9 +2029,10 @@
 			return $sql;			
 		}
 
-		public function getContratoEdit($datos){
+		public function getContratoEdit($contrato_id){
 			$query = "SELECT *
-			FROM contrato";
+			FROM contrato
+			WHERE contrato_id = '".$contrato_id."'";
 				
 			$result = self::connection()->query($query);
 		

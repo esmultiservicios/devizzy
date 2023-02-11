@@ -187,6 +187,7 @@ var editar_contratos_dataTable = function(tbody, table){
 				$('#formContrato #contrato_fecha_inicio').val(valores[5]);
 				$('#formContrato #contrato_fecha_fin').val(valores[6]);
 				$('#formContrato #contrato_notas').val(valores[7]);
+				$('#formContrato #contrato_salario_mensual').val(valores[9]);		
 
 				if(valores[8] == 1){
 					$('#formContrato #contrato_activo').attr('checked', true);
@@ -198,7 +199,6 @@ var editar_contratos_dataTable = function(tbody, table){
 				$('#formContrato #contrato_tipo_contrato_id').attr('disabled', false);
 				$('#formContrato #contrato_pago_planificado_id').attr('disabled', false);
 				$('#formContrato #contrato_tipo_empleado_id').attr('disabled', false);
-				$('#formContrato #contrato_salario').attr('readonly', false);
 				$('#formContrato #contrato_fecha_inicio').attr('readonly', false);
 				$('#formContrato #contrato_fecha_fin').attr('readonly', false);
 				$('#formContrato #contrato_notas').attr('readonly', false);
@@ -206,6 +206,8 @@ var editar_contratos_dataTable = function(tbody, table){
 
 				//DESHABILITATR OBJETOS
 				$('#formContrato #contrato_colaborador_id').attr('disabled', true);
+				$('#formContrato #contrato_salario_mensual').attr('readonly', true);
+				$('#formContrato #contrato_salario').attr('readonly', true);
 				$('#formContrato #buscar_contrato_empleado').hide();
 
 				$('#formContrato #proceso_contrato').val("Editar");
@@ -252,6 +254,7 @@ var eliminar_contratos_dataTable = function(tbody, table){
 				$('#formContrato #contrato_fecha_inicio').val(valores[5]);
 				$('#formContrato #contrato_fecha_fin').val(valores[6]);
 				$('#formContrato #contrato_notas').val(valores[7]);
+				$('#formContrato #contrato_salario_mensual').val(valores[9]);
 
 				if(valores[8] == 1){
 					$('#formContrato #contrato_activo').attr('checked', true);
@@ -269,6 +272,7 @@ var eliminar_contratos_dataTable = function(tbody, table){
 				$('#formContrato #contrato_fecha_fin').attr('readonly', true);
 				$('#formContrato #contrato_activo').attr('disabled', true);
 				$('#formContrato #contrato_notas').attr('readonly', true);
+				$('#formContrato #contrato_salario_mensual').attr('readonly', true);
 				$('#formContrato #buscar_contrato_empleado').hide();
 
 				$('#formContrato #proceso_contrato').val("Eliminar");
@@ -304,6 +308,11 @@ function modal_contratos(){
 	  $('#formContrato #contrato_notas').attr('readonly', false);
 	  $('#formContrato #contrato_activo').attr('disabled', false);
 	  $('#formContrato #buscar_contrato_empleado').show();
+
+	  getTipoContrato();
+	  getPagoPlanificado();
+	  getTipoEmpleado();
+	  getEmpleado();	  
 
 	  $('#formContrato #proceso_contrato').val("Registro");
 

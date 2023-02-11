@@ -398,13 +398,7 @@
 										<div class="list-div my-2">
 											<div class="far fa-credit-card fa-lg"></div> &nbsp;&nbsp; Tarjeta
 										</div>
-									</a> 	
-											
-									<a data-toggle="tab" href="#menu5Purchase" id="tab5Purchase" class="tabs list-group-item">
-										<div class="list-div my-2">
-											<div class="fa fa-pause fa-lg"></div> &nbsp;&nbsp; Mixto
-										</div>
-									</a> 							
+									</a>							
 									<a data-toggle="tab" href="#menu3Purchase" id="tab3Purchase" class="tabs list-group-item bg-light">
 										<div class="list-div my-2">
 											<div class="fas fa-exchange-alt fa-lg"></div> &nbsp;&nbsp; Transferencia
@@ -521,7 +515,7 @@
 																	<input type="hidden" name="compras_id_tarjeta" id="compras_id_tarjeta" placeholder="Compra Codigo">
 																	<input type="text" id="cr_Purchase" name="cr_Purchase" class="inputfield"  placeholder="XXXX">
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">
-																	<input type="hidden" name="monto_efectivo" id="monto_efectivo_tarjeta" class="inputfield" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">														
+																	<input type="hidden" name="monto_efectivo_tarjeta" id="monto_efectivo_tarjeta" class="inputfield" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">														
 																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
 																</div>
 															</div>
@@ -559,81 +553,7 @@
 												</div>
 											</div>
 										</div>
-									</div>
-									<div id="menu5Purchase" class="tab-pane">
-										<div class="row justify-content-center">
-											<div class="col-11">
-												<div class="form-card">
-													<h6 class="mt-0 mb-4 text-center">Ingrese Pago Mixto</h6>
-													<form class="FormularioAjax" id="formMixtoPurchaseBill" action="<?php echo SERVERURL;?>ajax/addPagoCompraMixtoAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
-														<div class="row">
-															<div class="col-12">
-																<div class="input-group">
-																	<label for="fecha_compras_mixto">Fecha</label>
-																	<input type="date" name="fecha_compras_mixto" id="fecha_compras_mixto" class="inputfield" value="<?php echo date("Y-m-d");?>">																
-																</div>
-															</div>	
-															<div class="col-12 col-md-6">
-																<div class="input-group"> 	
-																	<label for="monto_efectivo">Efectivo</label>
-																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
-																	<input type="hidden" name="compras_id_mixto" id="compras_id_mixto"> 
-																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivo_mixtoPurchase" placeholder="0.00"> 
-																	<input type="number" name="efectivo_bill" id="efectivo_bill_mixtoPurchase" class="inputfield" placeholder="0.00" step="0.01">																						
-																	<input type="hidden" readonly name="cambio_efectivo" id="cambio_efectivo_mixtoPurchase" class="inputfield" step="0.01" placeholder="0.00">																
-																</div>
-															</div>
-														
-															<div class="col-12 col-md-6">
-																<div class="input-group">
-																	<label for="monto_tarjeta">Tarjeta</label>
-																	<input type="number" readonly name="monto_tarjeta" id="monto_tarjeta_mixtoPurchase" class="inputfield" step="0.01" placeholder="0.00">																
-																</div>
-															</div>
-														</div>
-														<div class="row">
-															<div class="col-12">
-																<div class="input-group"> 
-																<label>Número de Tarjeta</label> 
-																<input type="text" id="cr_bill_mixtoPurchase" name="cr_bill" class="inputfield"  placeholder="XXXX">
-																																																
-																</div>
-															</div>
-														</div>
-														<div class="row">
-															<div class="col-6">
-																<div class="input-group"> 
-																	<label> Fecha de Expiración</label>
-																	<input type="text" name="exp" id="exp_mixtoPurchase" class="mask inputfield" placeholder="MM/YY">
-																</div>
-															</div>
-															<div class="col-6">
-																<div class="input-group"> 
-																	<label>Número Aprobación</label>
-																	<input type="text" name="cvcpwd" id="cvcpwd_mixtoPurchase" class="placeicon inputfield"> 																	 
-																</div>
-															</div>
-														</div>
-														<div class="row">
-															<div class="col-12">
-															    <label>Quien Paga</label> 
-																<div class="input-group"> 	
-																	<select id="usuario_mixto_compras" name="usuario_mixto_compras" required class="selectpicker col-12" data-size="5" data-live-search="true" title="Usuario que Paga">
-																    </select>								
-																</div>
-															</div>	
-														</div>														
-														<div class="row">
-															<div class="col-md-12"> 
-																<input type="submit" value="Efectuar Pago" id="pago_mixto_Purchase" class="mt-3 pay btn btn-info placeicon" form="formMixtoPurchaseBill">
-															</div>
-														</div>
-														<div class="RespuestaAjax"></div>
-													</form>
-												</div>
-											</div>
-										</div>
-									</div>
+									</div>									
 									<div id="menu3Purchase" class="tab-pane">
 										<div class="row justify-content-center">
 											<div class="col-11">
@@ -654,7 +574,7 @@
 																	<select id="bk_nm" name="bk_nm" required class="selectpicker col-12" data-size="5" data-live-search="true" title="banco">
 																    </select>																
 																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
-																	<input type="hidden" name="importe" id="importe_transferencia" class="inputfield mt-5" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																	<input type="hidden" name="importe_transferencia" id="importe_transferencia" class="inputfield mt-5" step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">	
 																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
 
@@ -716,7 +636,7 @@
 																	<select id="bk_nm_chk" name="bk_nm_chk" required class="selectpicker col-12" data-size="5" data-live-search="true" title="banco">
 																    </select>		
 																	<input type="hidden" class="multiple_pago" name="multiple_pago" value="0">
-																	<input type="number" name="importe" id="importe_cheque" class="inputfield mt-5"step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
+																	<input type="number" name="importe_cheque" id="importe_cheque" class="inputfield mt-5"step="0.01" placeholder="0.00" data-toggle="tooltip" data-placement="top" title="Ingrese el monto">
 																	<input type="hidden" name="tipo_factura" id="tipo_purchase_efectivo" value="1">
 																	<input type="hidden" name="monto_efectivoPurchase" id="monto_efectivoPurchase" placeholder="0.00">								
 																</div>
@@ -793,11 +713,6 @@
 									<a data-toggle="tab" href="#menu2" id="tab2" class="tabs list-group-item">
 										<div class="list-div my-2">
 											<div class="far fa-credit-card fa-lg"></div> &nbsp;&nbsp; Tarjeta
-										</div>
-									</a> 	
-									<a data-toggle="tab" href="#menu5" id="tab5" class="tabs list-group-item">
-										<div class="list-div my-2">
-											<div class="fa fa-pause fa-lg"></div> &nbsp;&nbsp; Mixto
 										</div>
 									</a> 								
 									<a data-toggle="tab" href="#menu3" id="tab3" class="tabs list-group-item bg-light">

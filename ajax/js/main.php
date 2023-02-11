@@ -2485,12 +2485,6 @@ function pago(facturas_id,tipoPago){
 			$('#formTarjetaBill #tipo_factura').val(tipoPago);
 			$('#formTarjetaBill #pago_efectivo').attr('disabled', true);	
 
-			//MIXTO
-			$('#formMixtoBill')[0].reset();
-			$('#formMixtoBill #monto_efectivo_mixto').val(datos[6]);
-			$('#formMixtoBill #factura_id_mixto').val(facturas_id);
-			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', true);
-
 			//TRANSFERENCIA
 			$('#formTransferenciaBill')[0].reset();
 			$('#formTransferenciaBill #monto_efectivo').val(datos[6]);
@@ -2539,13 +2533,7 @@ $(document).ready(function(){
 		$("#modal_pagos").on('shown.bs.modal', function(){
            $(this).find('#formChequeBill #bk_nm_chk').focus();
 		});	
-	});	
-	
-	$("#tab5").on("click", function(){	
-		$("#modal_pagos").on('shown.bs.modal', function(){
-           $(this).find('#formMixtoBill #efectivo_bill_mixto').focus();
-		});	
-	});	
+	});		
 });
 
 $(document).ready(function(){
@@ -2558,19 +2546,6 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 	$('#formTarjetaBill #cvcpwd').inputmask("999999");
-});
-
-// MIXTO
-$(document).ready(function(){
-	$('#formMixtoBill #cr_bill_mixto').inputmask("9999");
-});
-
-$(document).ready(function(){
-	$('#formMixtoBill #exp_mixto').inputmask("99/99");
-});
-
-$(document).ready(function(){
-	$('#formMixtoBill #cvcpwd_mixto').inputmask("999999");
 });
 
 $(document).ready(function(){
@@ -2595,25 +2570,6 @@ $(document).ready(function(){
 		}else{
 			$('#formEfectivoBill #cambio_efectivo').val(parseFloat(0).toFixed(2));
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
-		}				
-	});
-
-	//MIXTO
-	$("#formMixtoBill #efectivo_bill_mixto").on("keyup", function(){	
-		var efectivo = parseFloat($("#formMixtoBill #efectivo_bill_mixto").val()).toFixed(2);
-		var monto = parseFloat($("#formMixtoBill #monto_efectivo_mixto").val()).toFixed(2);
-		
-		var total = efectivo - monto;				
-		
-		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){			
-			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', true);	
-			$('#formMixtoBill #monto_tarjeta').val(parseFloat(0).toFixed(2));
-			$('#formMixtoBill #monto_tarjeta').attr('disabled', true);			
-		}else{
-			var tarjeta = monto - efectivo;
-			$('#formMixtoBill #monto_tarjeta').val(parseFloat(tarjeta).toFixed(2))
-			$('#formMixtoBill #cambio_efectivo_mixto').val(parseFloat(0).toFixed(2));
-			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', false);
 		}				
 	});
 });
@@ -3004,12 +2960,6 @@ function pagoCompras(compras_id,saldo,tipo){
 			$('#formTarjetaPurchase #compras_id_tarjeta').val(compras_id);
 			$('#formTarjetaPurchase #pago_efectivo').attr('disabled', true);
 			$('#formTarjetaPurchase #tipo_purchase_efectivo').val(tipo);
-			
-			//mixto
-			$('#formMixtoPurchaseBill')[0].reset();
-			$('#formMixtoPurchaseBill #monto_efectivo_mixtoPurchase').val(datos[3]);
-			$('#formMixtoPurchaseBill #compras_id_mixto').val(compras_id);
-			$('#formMixtoPurchaseBill #pago_mixto_Purchase').attr('disabled', true);
 
 			//TRANSFERENCIA
 			$('#formTransferenciaPurchase')[0].reset();
@@ -3066,19 +3016,6 @@ $(document).ready(function(){
 	$('#formTarjetaPurchase #cvcpwd').inputmask("999999");
 });
 
-//mixto
-$(document).ready(function(){
-	$('#formMixtoPurchaseBill #cr_bill_mixtoPurchase').inputmask("9999");
-});
-
-$(document).ready(function(){
-	$('#formMixtoPurchaseBill #exp_mixtoPurchase').inputmask("99/99");
-});
-
-$(document).ready(function(){
-	$('#formMixtoPurchaseBill #cvcpwd_mixtoPurchase').inputmask("999999");
-});
-
 $(document).ready(function(){
 	$("#formEfectivoPurchase #efectivo_Purchase").on("keyup", function(){				
 		var efectivo = parseFloat($("#formEfectivoPurchase #efectivo_Purchase").val()).toFixed(2);
@@ -3101,28 +3038,6 @@ $(document).ready(function(){
 		}else{				
 			$('#formEfectivoPurchase #cambio_efectivoPurchase').val(parseFloat(0).toFixed(2));
 			$('#formEfectivoPurchase #pago_efectivo').attr('disabled', true);
-		}				
-	});
-});	
-
-//mixto
-$(document).ready(function(){
-	$("#formMixtoPurchaseBill #efectivo_bill_mixtoPurchase").on("keyup", function(){				
-		var efectivo = parseFloat($("#formMixtoPurchaseBill #efectivo_bill_mixtoPurchase").val()).toFixed(2);
-		var monto = parseFloat($("#formMixtoPurchaseBill #monto_efectivo_mixtoPurchase").val()).toFixed(2);
-		
-		var total = efectivo - monto;				
-		//Math.floor NOS PERMITE COMPARAR UN FLOAT CONVIRTIENDOLO A ENTERO CUANDO SE MULTIPLICA POR 100
-		
-		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){	
-			$('#formMixtoPurchaseBill #pago_mixto_Purchase').attr('disabled', true);
-			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').val(parseFloat(0).toFixed(2));
-			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').attr('disabled', true);			
-		}else{				
-			var tarjeta = monto - efectivo;
-			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').val(parseFloat(tarjeta).toFixed(2))
-			$('#formMixtoPurchaseBill #cambio_efectivo_mixtoPurchase').val(parseFloat(0).toFixed(2));
-			$('#formMixtoPurchaseBill #pago_mixto_Purchase').attr('disabled', false);
 		}				
 	});
 });	
@@ -3163,10 +3078,6 @@ function getCollaboradoresModalPagoFacturas(){
 			$('#formTarjetaBill #usuario_tarjeta').html(data);
 			$('#formTarjetaBill #usuario_tarjeta').selectpicker('refresh');
 			
-		    $('#formMixtoBill #usuario_pago_mixto').html("");
-			$('#formMixtoBill #usuario_pago_mixto').html(data);
-			$('#formMixtoBill #usuario_pago_mixto').selectpicker('refresh');
-			
 		    $('#formTransferenciaBill #usuario_transferencia').html("");
 			$('#formTransferenciaBill #usuario_transferencia').html(data);
 			$('#formTransferenciaBill #usuario_transferencia').selectpicker('refresh');
@@ -3193,10 +3104,6 @@ function getCollaboradoresModalPagoFacturasCompras(){
 		    $('#formTarjetaPurchase #usuario_tarjeta_compras').html("");
 			$('#formTarjetaPurchase #usuario_tarjeta_compras').html(data);
 			$('#formTarjetaPurchase #usuario_tarjeta_compras').selectpicker('refresh');
-			
-		    $('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').html("");
-			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').html(data);
-			$('#formMixtoPurchaseBill #monto_tarjeta_mixtoPurchase').selectpicker('refresh');
 			
 		    $('#formTransferenciaPurchase #usuario_transferencia_compras').html("");
 			$('#formTransferenciaPurchase #usuario_transferencia_compras').html(data);
