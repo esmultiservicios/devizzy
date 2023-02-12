@@ -9,7 +9,7 @@
 		"menu_id" => $_POST['menu_id']	
 	];
 
-	$result = $insMainModel->getSubMenusConsulta($data);
+	$result = $insMainModel->getSubMenusConsultaAccesos($data);
 	
 	if($result->num_rows>0){
 		while($consulta2 = $result->fetch_assoc()){

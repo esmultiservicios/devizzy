@@ -5,7 +5,7 @@
 	
 	$insMainModel = new mainModel();
 	
-	$result = $insMainModel->getMenus();
+	$result = $insMainModel->getMenusAcceso();
 	
 	if($result->num_rows>0){
 		while($consulta2 = $result->fetch_assoc()){

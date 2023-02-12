@@ -29,7 +29,6 @@
 	
 			return $result;
 		}
-
 		//FUNCION CORRELATIVO
 
 		protected function correlativo($campo_id, $tabla){
@@ -40,205 +39,106 @@
 			$cantidad = $correlativo2['count'];
 
 			if ( $cantidad == 0 )
-
 			   $numero = 1;
-
 			else
-
 			   $numero = $numero + 1;
 
-
-
 			return $numero;
-
 		}
-
-
 
 		protected function guardar_bitacora($datos){
-
 			$bitacora_id = self::correlativo("bitacora_id", "bitacora");
-
-
-
 			$bitacoraCodigo = $datos['bitacoraCodigo'];
-
 			$bitacoraFecha = $datos['bitacoraFecha'];
-
 			$bitacoraHoraInicio = $datos['bitacoraHoraInicio'];
-
 			$bitacoraHoraFinal = $datos['bitacoraHoraFinal'];
-
 			$bitacoraTipo = $datos['bitacoraTipo'];
-
 			$bitacoraYear = $datos['bitacoraYear'];
-
 			$user_id = $datos['user_id'];
 			$fecha_registro = date("Y-m-d H:i:s");
-
 			$insert = "INSERT INTO bitacora
-
 				VALUES('$bitacora_id','$bitacoraCodigo','$bitacoraFecha','$bitacoraHoraInicio','$bitacoraHoraFinal','$bitacoraTipo','$bitacoraYear','$user_id','$fecha_registro')";
-
 			$result = self::connection()->query($insert) or die(self::connection()->error);
 
-
-
 			return $result;
 
 		}
 
-
-
-		protected function actualizar_bitacora($bitacoraCodigo, $hora){
-
+		public function actualizar_bitacora($bitacoraCodigo, $hora){
 			$update = "UPDATE bitacora
-
 				SET
-
 					bitacoraHoraFinal = '$hora'
-
 				WHERE bitacoraCodigo = '$bitacoraCodigo'";
-
 			$result = self::connection()->query($update);
 
-
-
 			return $result;
-
 		}
 
-
-
-		protected function eliminar_bitacora($user_id){
-
+		public function eliminar_bitacora($user_id){
 			$delte = "DELETE FROM bitacora WHERE user_id = '$user_id'";
-
 			$result = self::connection()->query($update);
-
-
 
 			return $result;
 
 		}
 
-
-
-		protected function getRealIP(){
-
+		public function getRealIP(){
 			if (isset($_SERVER["HTTP_CLIENT_IP"])){
-
 				return $_SERVER["HTTP_CLIENT_IP"];
-
 			}elseif (isset($_SERVER["HTTP_X_FORWARDED_FOR"])){
-
 				return $_SERVER["HTTP_X_FORWARDED_FOR"];
-
 			}elseif (isset($_SERVER["HTTP_X_FORWARDED"])){
-
 				return $_SERVER["HTTP_X_FORWARDED"];
-
 			}elseif (isset($_SERVER["HTTP_FORWARDED_FOR"])){
-
 				return $_SERVER["HTTP_FORWARDED_FOR"];
-
 			}elseif (isset($_SERVER["HTTP_FORWARDED"])){
-
 				return $_SERVER["HTTP_FORWARDED"];
-
 			}else{
-
 				return $_SERVER["REMOTE_ADDR"];
-
 			}
-
 		}
-
-
 
 		function eliminar_acentos($cadena){
-
 			//Reemplazamos la A y a
-
 			$cadena = str_replace(
-
 			array('Á', 'À', 'Â', 'Ä', 'á', 'à', 'ä', 'â', 'ª'),
-
 			array('A', 'A', 'A', 'A', 'a', 'a', 'a', 'a', 'a'),
-
 			$cadena
-
 			);
-
-
 
 			//Reemplazamos la E y e
-
 			$cadena = str_replace(
-
 			array('É', 'È', 'Ê', 'Ë', 'é', 'è', 'ë', 'ê'),
-
 			array('E', 'E', 'E', 'E', 'e', 'e', 'e', 'e'),
-
 			$cadena );
-
-
 
 			//Reemplazamos la I y i
-
 			$cadena = str_replace(
-
 			array('Í', 'Ì', 'Ï', 'Î', 'í', 'ì', 'ï', 'î'),
-
 			array('I', 'I', 'I', 'I', 'i', 'i', 'i', 'i'),
-
 			$cadena );
-
-
 
 			//Reemplazamos la O y o
-
 			$cadena = str_replace(
-
 			array('Ó', 'Ò', 'Ö', 'Ô', 'ó', 'ò', 'ö', 'ô'),
-
 			array('O', 'O', 'O', 'O', 'o', 'o', 'o', 'o'),
-
 			$cadena );
-
-
 
 			//Reemplazamos la U y u
-
 			$cadena = str_replace(
-
 			array('Ú', 'Ù', 'Û', 'Ü', 'ú', 'ù', 'ü', 'û'),
-
 			array('U', 'U', 'U', 'U', 'u', 'u', 'u', 'u'),
-
 			$cadena );
 
-
-
 			//Reemplazamos la N, n, C y c
-
 			$cadena = str_replace(
-
 			array('Ñ', 'ñ', 'Ç', 'ç'),
-
 			array('N', 'n', 'C', 'c'),
-
 			$cadena
-
 			);
 
-
-
 			return $cadena;
-
 		}
-
-
 
 		public function guardar_historial_accesos($comentario_){
 
@@ -1420,7 +1320,7 @@
 		}
 		
 		/*INICIO PRIVILEGIOS*/ 
-		public function getMenus(){
+		public function getMenusAcceso(){
 			$query = "SELECT *
 				FROM menu";
 			$result = self::connection()->query($query);
@@ -1428,47 +1328,89 @@
 			return $result;
 		}
 
-		public function getSubMenus($data){
-			$query = "SELECT *
-				FROM submenu
-				WHERE menu_id = '".$data['menu_id']."'";
-			$result = self::connection()->query($query);
-
-			return $result;
-		}	
-		
-		public function getSubMenus1(){
-			$query = "SELECT sm1.submenu1_id AS 'submenu_id', sm1.name AS 'submenu'
-				FROM submenu1 AS sm1
-				INNER JOIN submenu AS sm ON sm1.submenu_id = sm.submenu_id";
+		public function getMenusparaSubmenuAccesos($privilegio_id){
+			$query = "SELECT m.menu_id AS 'menu_id', m.name AS 'name'
+			FROM acceso_menu AS am
+			INNER JOIN menu AS m ON am.menu_id = m.menu_id
+			INNER JOIN submenu AS s ON m.menu_id = s.menu_id
+			WHERE am.privilegio_id = '$privilegio_id'
+			GROUP BY m.menu_id";
 			$result = self::connection()->query($query);
 
 			return $result;
 		}		
-		
-		public function getSubMenusConsulta($data){
-			$query = "SELECT sm1.submenu1_id AS 'submenu_id', sm1.name AS 'submenu'
-				FROM submenu1 AS sm1
-				WHERE sm1.submenu_id = ".$data['menu_id']."'";
+
+		public function getSubMenusAcceso($data){
+			$query = "SELECT *
+				FROM submenu
+				WHERE menu_id = '".$data['menu_id']."'";
+
 			$result = self::connection()->query($query);
 
 			return $result;
 		}	
 		
-		public function getMenuAccesos($privilegio_id){
-			$query = "SELECT am.acceso_menu_id AS 'acceso_menu_id', m.name AS 'menu', p.nombre AS 'privilegio'
+		public function getSubMenus1Acceso($privilegio_id){
+			$query = "SELECT sm.submenu_id AS 'submenu_id', sm.name AS 'submenu'
+				FROM acceso_submenu AS asm
+				INNER JOIN submenu AS sm ON asm.submenu_id = sm.submenu_id
+				INNER JOIN submenu1 AS sm1 ON sm.submenu_id = sm1.submenu_id
+				WHERE asm.privilegio_id = '$privilegio_id'
+				GROUP BY sm.submenu_id";
+			echo $query."**";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
+		
+		public function delete_menuAccessos($datos){
+			$query = "DELETE FROM acceso_menu WHERE acceso_menu_id = '".$datos['menu_id']."' AND privilegio_id = '".$datos['privilegio_id']."'";
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+		
+			return $sql;
+		}
+		
+		public function delete_subMenuAccessos($datos){
+			$query = "DELETE FROM acceso_submenu WHERE acceso_submenu_id = '".$datos['submenu_id']."' AND privilegio_id = '".$datos['privilegio_id']."'";
+
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+		
+			return $sql;
+		}
+		
+		public function delete_subMenu1Accessos($datos){
+			$query = "DELETE FROM acceso_submenu1 WHERE acceso_submenu1_id = '".$datos['submenu_id']."' AND privilegio_id = '".$datos['privilegio_id']."'";
+
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+		
+			return $sql;
+		}			
+		
+		public function getSubMenusConsultaAccesos($data){
+			$query = "SELECT sm1.submenu1_id AS 'submenu_id', sm1.name AS 'submenu'
+				FROM submenu1 AS sm1
+				INNER JOIN submenu AS sm ON sm1.submenu_id = sm.submenu_id
+				WHERE sm.submenu_id = '".$data['menu_id']."'";
+				
+			$result = self::connection()->query($query);
+
+			return $result;
+		}	
+		
+		public function getMenuAccesosDataTable($privilegio_id){
+			$query = "SELECT am.acceso_menu_id AS 'acceso_menu_id', m.name AS 'menu', p.nombre AS 'privilegio', p.privilegio_id AS 'privilegio_id', m.menu_id AS 'menu_id'
 				FROM acceso_menu AS am
 				INNER JOIN menu AS m ON am.menu_id = m.menu_id
 				INNER JOIN privilegio AS p ON am.privilegio_id = p.privilegio_id
 				WHERE am.privilegio_id = '$privilegio_id'";
-				
+			
 			$result = self::connection()->query($query);
 		
 			return $result;
 		}
 
-		public function getSubMenuAccesos($privilegio_id){
-			$query = "SELECT asm.acceso_submenu_id AS 'acceso_submenu_id', m.name AS 'menu', sm.name AS 'submenu', p.nombre AS 'privilegio'
+		public function getSubMenuAccesosDataTable($privilegio_id){
+			$query = "SELECT asm.acceso_submenu_id AS 'acceso_submenu_id', m.name AS 'menu', sm.name AS 'submenu', p.nombre AS 'privilegio', p.privilegio_id AS 'privilegio_id', sm.submenu_id AS 'submenu_id'
 				FROM acceso_submenu AS asm
 				INNER JOIN submenu AS sm ON asm.submenu_id = sm.submenu_id
 				INNER JOIN menu AS m ON sm.menu_id = m.menu_id
@@ -1480,13 +1422,37 @@
 			return $result;
 		}
 		
-		public function getSubMenu1Accesos($privilegio_id){
-			$query = "SELECT asm1.acceso_submenu1_id AS 'acceso_submenu_id', sm.name AS 'submenu' ,sm1.name AS 'submenu1', p.nombre AS 'privilegio'
+		public function getSubMenu1AccesosDataTable($privilegio_id){
+			$query = "SELECT asm1.acceso_submenu1_id AS 'acceso_submenu_id', sm1.submenu_id AS 'submenu_id', sm.name AS 'submenu', sm1.name AS 'submenu1', p.nombre AS 'privilegio', p.privilegio_id AS 'privilegio_id'
 				FROM acceso_submenu1 AS asm1
-				INNER JOIN submenu1 AS sm1 ON asm1.submenu1_id = sm1.submenu_id
+				INNER JOIN submenu1 AS sm1 ON asm1.submenu1_id = sm1.submenu1_id
 				INNER JOIN submenu AS sm ON sm1.submenu_id = sm.submenu_id
-				INNER JOIN privilegio AS p ON asm1.privilegio_id = p.privilegio_id 
+				INNER JOIN privilegio AS p ON asm1.privilegio_id = p.privilegio_id
 				WHERE asm1.privilegio_id = '$privilegio_id'";
+
+			$result = self::connection()->query($query);
+		
+			return $result;
+		}			
+		
+		public function valid_menu_on_submenu_acceso($datos){
+			$query = "SELECT asm.acceso_submenu_id AS 'acceso_submenu_id'
+				FROM acceso_submenu AS asm
+				INNER JOIN submenu AS sm ON asm.submenu_id = sm.submenu_id
+				INNER JOIN menu AS m ON sm.menu_id = m.menu_id
+				WHERE m.menu_id = '".$datos['menu_id']."' AND asm.privilegio_id = '".$datos['privilegio_id']."'";
+
+			$result = self::connection()->query($query);
+		
+			return $result;
+		}
+
+		public function valid_submenu_on_submenu1_acceso($datos){
+			$query = "SELECT asm.acceso_submenu_id AS 'acceso_submenu_id', m.name AS 'menu', sm.name AS 'submenu'
+				FROM acceso_submenu AS asm
+				INNER JOIN submenu AS sm ON asm.submenu_id = sm.submenu_id
+				INNER JOIN menu AS m ON sm.menu_id = m.menu_id
+				WHERE asm.submenu_id = '".$datos['submenu_id']."' AND asm.privilegio_id = '".$datos['privilegio_id']."'";
 
 			$result = self::connection()->query($query);
 		

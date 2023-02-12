@@ -134,6 +134,7 @@
 					<div class="col-md-12 mb-3">
 						<div class="input-group mb-3">						
 							<input type="hidden" id="privilegio_id_accesos" name="privilegio_id_accesos" class="form-control">
+							<input type="hidden" id="menu_id_accesos" name="menu_id_accesos" class="form-control">
 							<input type="text" id="proceso_privilegios" class="form-control" readonly>
 							<div class="input-group-append">				
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fa fa-plus-square fa-lg"></i></span>
@@ -183,7 +184,7 @@
 			</form>
         </div>
 		<div class="modal-footer">
-			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_menuAccesos" form="formMenuAccesos"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>					
+			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_SubmenuAccesos" form="formSubMenuAccesos"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>					
 		</div>			
       </div>
     </div>
@@ -255,7 +256,7 @@
 			</form>
         </div>
 		<div class="modal-footer">
-			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_menuAccesos" form="formMenuAccesos"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>					
+			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_Submenu1Accesos" form="formSubMenu1Accesos"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>					
 		</div>			
       </div>
     </div>

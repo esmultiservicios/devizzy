@@ -1,9 +1,8 @@
 <script>
 $(document).ready(function() {
     listar_privilegio(); 
-	getMenus();
-	getSubMenus();
-	getSubMenu1();
+	getMenusPrivilegios();
+	getSubMenusPrivilegios();
 });
 
 //INICIO ACCIONES FROMULARIO PRIVILEGIOS
@@ -101,6 +100,10 @@ var accesos_privilegio_menu_dataTable = function(tbody, table){
 		var data = table.row( $(this).parents("tr") ).data();		
 		getAccesoControlMenus(data.privilegio_id, data.nombre);
 		listar_menuaccesos();
+
+		$('#formMenuAccesos').attr({ 'data-form': 'save' });
+		$('#formMenuAccesos').attr({ 'action': '<?php echo SERVERURL;?>ajax/addMenuAccesosAjax.php' });
+
 		$('#modal_registrar_menuaccesos').modal({
 			show:true,
 			keyboard: false,
@@ -114,7 +117,12 @@ var accesos_privilegio_submenu_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.submenu", function(){
 		var data = table.row( $(this).parents("tr") ).data();		
 		getAccesoControlSubMenus(data.privilegio_id, data.nombre);	
+		getMenusparaSubmenuPrivilegios(data.privilegio_id);
 		listar_submenuaccesos();
+
+		$('#formSubMenuAccesos').attr({ 'data-form': 'save' });
+		$('#formSubMenuAccesos').attr({ 'action': '<?php echo SERVERURL;?>ajax/addSubMenuAccesosAjax.php' });
+
 		$('#modal_registrar_submenuaccesos').modal({
 			show:true,
 			keyboard: false,
@@ -128,7 +136,12 @@ var accesos_privilegio_submenu1_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.submenu1", function(){
 		var data = table.row( $(this).parents("tr") ).data();		
 		getAccesoControlSubMenus1(data.privilegio_id, data.nombre);
-		listar_submen1uaccesos();
+		getSubMenu1Privilegios(data.privilegio_id);
+		listar_submenu1accesos();
+
+		$('#formSubMenu1Accesos').attr({ 'data-form': 'save' });
+		$('#formSubMenu1Accesos').attr({ 'action': '<?php echo SERVERURL;?>ajax/addSubMenu1AccesosAjax.php' });
+
 		$('#modal_registrar_submenu1accesos').modal({
 			show:true,
 			keyboard: false,
@@ -138,6 +151,58 @@ var accesos_privilegio_submenu1_dataTable = function(tbody, table){
 }
 
 /*INCIO MENU ACCESOS*/
+function deleteMenuAcceso(menu_id, privilegio_id, menu){
+	swal({
+	  title: "¿Estas seguro?",
+	  text: "¿Desea eliminar el menu: " + menu + "?",
+	  type: "info",
+	  showCancelButton: true,
+	  confirmButtonClass: "btn-primary",
+	  confirmButtonText: "!Sí, Eliminar el menu!",
+	  cancelButtonText: "Cancelar",
+	  closeOnConfirm: false
+	},
+	function(){
+		deleteMenu(menu_id, privilegio_id);
+	});
+}
+
+function deleteMenu(menu_id, privilegio_id){
+	var url = '<?php echo SERVERURL; ?>core/deleteMenuAcceso.php';
+
+	$.ajax({
+	   type:'POST',
+	   url:url,
+	   async: false,
+	   data:'menu_id='+menu_id+'&privilegio_id='+privilegio_id,
+	   success:function(data){
+	      if(data == 1){
+			swal({
+				title: "Success",
+				text: "El acceso al menu ha sido eliminado correctamente",
+				type: "success",
+			});
+			listar_menuaccesos();
+			
+		  }else if(data == 2){
+            swal({
+                title: "Error",
+                text: "Error el acceso al menu no se puede eliminar",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });			
+		  }else{
+            swal({
+                title: "Error",
+                text: "Error no se puede eliminar este menu, ya que tiene registros en accesos del submenu",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });
+		  }
+	  }
+	});
+}
+
 var listar_menuaccesos = function(){
 	var privilegio_id_accesos = $("#formMenuAccesos #privilegio_id_accesos").val();
 
@@ -153,7 +218,7 @@ var listar_menuaccesos = function(){
 		"columns":[
 			{"data":"privilegio"},
 			{"data":"menu"},
-			{"defaultContent":"<button class='table_accesos eliminar btn btn-dark'><span class='fa fa-trash fa-lg'></span></button>"}
+			{"defaultContent":"<button class='table_eliminar eliminar_menu btn btn-dark'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
         "lengthMenu": lengthMenu20,
 		"stateSave": true,
@@ -212,6 +277,17 @@ var listar_menuaccesos = function(){
 	});
 	table_menuaccesos.search('').draw();
 	$('#buscar').focus();
+
+	eliminar_menuAcceso_dataTable("#dataTableMenuAccesos tbody", table_menuaccesos);
+}
+
+var eliminar_menuAcceso_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.eliminar_menu");
+	$(tbody).on("click", "button.eliminar_menu", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		deleteMenuAcceso(data.acceso_menu_id, data.privilegio_id, data.menu);
+	});
 }
 
 $(document).ready(function(){
@@ -227,8 +303,8 @@ function getAccesoControlMenus(privilegio_id, nombre){
 	$('#formMenuAccesos #privilegio').val(nombre);
 }
 
-function getMenus(){
-    var url = '<?php echo SERVERURL;?>core/getMenus.php';
+function getMenusPrivilegios(){
+    var url = '<?php echo SERVERURL;?>core/getMenusAcceso.php';
 
 	$.ajax({
         type: "POST",
@@ -237,17 +313,64 @@ function getMenus(){
         success: function(data){
 		    $('#formMenuAccesos #menus').html("");
 			$('#formMenuAccesos #menus').html(data);
-			$('#formMenuAccesos #menus').selectpicker('refresh');
-			
-		    $('#formSubMenuAccesos #menus').html("");
-			$('#formSubMenuAccesos #menus').html(data);
-			$('#formSubMenuAccesos #menus').selectpicker('refresh');				
+			$('#formMenuAccesos #menus').selectpicker('refresh');			
 		}
      });
 }
 /*FIN MENU ACCESOS*/
 
 /*INCIO SUBMENU ACCESOS*/
+function deleteSubMenuAcceso(submenu_id, privilegio_id, submenu){
+	swal({
+	  title: "¿Estas seguro?",
+	  text: "¿Desea eliminar el submenu: " + submenu + "?",
+	  type: "info",
+	  showCancelButton: true,
+	  confirmButtonClass: "btn-primary",
+	  confirmButtonText: "¡Sí, Eliminar el submenu!",
+	  cancelButtonText: "Cancelar",
+	  closeOnConfirm: false
+	},
+	function(){
+		deleteSubMenu(submenu_id, privilegio_id);
+	});
+}
+
+function deleteSubMenu(submenu_id, privilegio_id){
+	var url = '<?php echo SERVERURL; ?>core/deleteSubMenuAcceso.php';
+
+	$.ajax({
+	   type:'POST',
+	   url:url,
+	   async: false,
+	   data:'submenu_id='+submenu_id+'&privilegio_id='+privilegio_id,
+	   success:function(data){
+	      if(data == 1){
+			swal({
+				title: "Success",
+				text: "El acceso al menu ha sido eliminado correctamente",
+				type: "success",
+			});
+			listar_submenuaccesos();
+		  }else if(data == 2){
+            swal({
+                title: "Error",
+                text: "Error el acceso al menu no se puede eliminar",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });			
+		  }else{
+            swal({
+                title: "Error",
+                text: "Error no se puede eliminar este submenu, ya que tiene registros en accesos del submenu1",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });
+		  }
+	  }
+	});
+}
+
 var listar_submenuaccesos = function(){
 	var privilegio_id_accesos = $("#formSubMenuAccesos #privilegio_id_accesos").val();
 
@@ -264,7 +387,7 @@ var listar_submenuaccesos = function(){
 			{"data":"privilegio"},
 			{"data":"menu"},
 			{"data":"submenu"},
-			{"defaultContent":"<button class='table_accesos eliminar btn btn-dark'><span class='fa fa-trash fa-lg'></span></button>"}
+			{"defaultContent":"<button class='table_eliminar eliminar_submenu btn btn-dark'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
         "lengthMenu": lengthMenu20,
 		"stateSave": true,
@@ -283,7 +406,7 @@ var listar_submenuaccesos = function(){
 				titleAttr: 'Actualizar Sub Acceso Menus',
 				className: 'btn btn-secondary',
 				action: 	function(){
-					listar_menuaccesos();
+					listar_submenuaccesos();
 				}
 			},
 			{
@@ -324,6 +447,17 @@ var listar_submenuaccesos = function(){
 	});
 	table_submenuaccesos.search('').draw();
 	$('#buscar').focus();
+
+	eliminar_submenuAcceso_dataTable("#dataTableSubMenuAccesos tbody", table_submenuaccesos);
+}
+
+var eliminar_submenuAcceso_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.eliminar_submenu");
+	$(tbody).on("click", "button.eliminar_submenu", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		deleteSubMenuAcceso(data.acceso_submenu_id, data.privilegio_id, data.submenu);
+	});
 }
 
 $(document).ready(function(){
@@ -339,8 +473,24 @@ function getAccesoControlSubMenus(privilegio_id, nombre){
 	$('#formSubMenuAccesos #privilegio').val(nombre);
 }
 
-function getSubMenus(){
-    var url = '<?php echo SERVERURL;?>core/getSubMenus.php';
+function getMenusparaSubmenuPrivilegios(privilegio_id){
+    var url = '<?php echo SERVERURL;?>core/getMenusparaSubmenuAccesos.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+		data:'privilegio_id='+privilegio_id,
+        success: function(data){	
+		    $('#formSubMenuAccesos #menus').html("");
+			$('#formSubMenuAccesos #menus').html(data);
+			$('#formSubMenuAccesos #menus').selectpicker('refresh');				
+		}
+     });
+}
+
+function getSubMenusPrivilegios(){
+    var url = '<?php echo SERVERURL;?>core/getSubMenusAcceso.php';
 	var menu_id = $('#formSubMenuAccesos #menus').val();
 
 	$.ajax({
@@ -357,12 +507,56 @@ function getSubMenus(){
 }
 
 $("#formSubMenuAccesos #menus").on("change", function(){
-	getSubMenus();
+	getSubMenusPrivilegios();
 });
 /*FIN SUBMENU ACCESOS*/
 
 /*INCIO SUBMENU1 ACCESOS*/
-var listar_submen1uaccesos = function(){
+function deleteSubMenu1Acceso(submenu_id, privilegio_id, submenu){
+	swal({
+	  title: "¿Estas seguro?",
+	  text: "¿Desea eliminar el menu: " + submenu + "?",
+	  type: "info",
+	  showCancelButton: true,
+	  confirmButtonClass: "btn-primary",
+	  confirmButtonText: "¡Sí, Eliminar el submenu!",
+	  cancelButtonText: "Cancelar",
+	  closeOnConfirm: false
+	},
+	function(){
+		deleteSubMenu1(submenu_id, privilegio_id);
+	});
+}
+
+function deleteSubMenu1(submenu_id, privilegio_id){
+	var url = '<?php echo SERVERURL; ?>core/deleteSubMenu1Acceso.php';
+
+	$.ajax({
+	   type:'POST',
+	   url:url,
+	   async: false,
+	   data:'submenu_id='+submenu_id+'&privilegio_id='+privilegio_id,
+	   success:function(data){
+	      if(data == 1){
+			swal({
+				title: "Success",
+				text: "El acceso al submenu ha sido eliminado correctamente",
+				type: "success",
+			});
+			listar_submenu1accesos();
+		  }else{
+            swal({
+                title: "Error",
+                text: "Error el acceso al submenu no se puede eliminar",
+                type: "error",
+				confirmButtonClass: "btn-danger"
+            });			
+		  }
+	  }
+	});
+}
+
+var listar_submenu1accesos = function(){
 	var privilegio_id_accesos = $("#formSubMenu1Accesos #privilegio_id_accesos").val();
 
 	var table_submenu1accesos  = $("#dataTableSubMenu1Accesos").DataTable({
@@ -378,7 +572,7 @@ var listar_submen1uaccesos = function(){
 			{"data":"privilegio"},
 			{"data":"submenu"},
 			{"data":"submenu1"},
-			{"defaultContent":"<button class='table_accesos eliminar btn btn-dark'><span class='fa fa-trash fa-lg'></span></button>"}
+			{"defaultContent":"<button class='table_eliminar eliminar_submenu1 btn btn-dark'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
         "lengthMenu": lengthMenu20,
 		"stateSave": true,
@@ -397,7 +591,7 @@ var listar_submen1uaccesos = function(){
 				titleAttr: 'Actualizar Acceso Sub Menus',
 				className: 'btn btn-secondary',
 				action: 	function(){
-					listar_menuaccesos();
+					listar_submenu1accesos();
 				}
 			},
 			{
@@ -438,6 +632,17 @@ var listar_submen1uaccesos = function(){
 	});
 	table_submenu1accesos.search('').draw();
 	$('#buscar').focus();
+
+	eliminar_submenu1Acceso_dataTable("#dataTableSubMenu1Accesos tbody", table_submenu1accesos);
+}
+
+var eliminar_submenu1Acceso_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.eliminar_submenu1");
+	$(tbody).on("click", "button.eliminar_submenu1", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		deleteSubMenu1Acceso(data.acceso_submenu_id, data.privilegio_id, data.submenu1);
+	});
 }
 
 $(document).ready(function(){
@@ -453,13 +658,14 @@ function getAccesoControlSubMenus1(privilegio_id, nombre){
 	$('#formSubMenu1Accesos #privilegio').val(nombre);
 }
 
-function getSubMenu1(){
-    var url = '<?php echo SERVERURL;?>core/getSubMenus1.php';
+function getSubMenu1Privilegios(privilegio_id){
+    var url = '<?php echo SERVERURL;?>core/getSubMenus1Acceso.php';
 
 	$.ajax({
         type: "POST",
         url: url,
 	    async: true,
+		data:'privilegio_id='+privilegio_id,
         success: function(data){
 		    $('#formSubMenu1Accesos #menus').html("");
 			$('#formSubMenu1Accesos #menus').html(data);
@@ -469,7 +675,7 @@ function getSubMenu1(){
 }
 
 function getSubMenusConsulta(){
-    var url = '<?php echo SERVERURL;?>core/getSubMenusConsulta.php';
+    var url = '<?php echo SERVERURL;?>core/getSubMenusConsultaAccesos.php';
 	var menu_id = $('#formSubMenu1Accesos #menus').val();
 
 	$.ajax({

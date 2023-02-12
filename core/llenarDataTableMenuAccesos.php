@@ -7,7 +7,7 @@
 	
 	$privilegio_id = $_POST['privilegio_id_accesos'];
 
-	$result = $insMainModel->getMenuAccesos($privilegio_id);
+	$result = $insMainModel->getMenuAccesosDataTable($privilegio_id);
 	
 	$arreglo = array();
 	$data = array();
@@ -16,7 +16,9 @@
 		$data[] = array( 
 			"menu"=>$row['menu'],
 			"privilegio"=>$row['privilegio'],
-			"acceso_menu_id"=>$row['acceso_menu_id'],				
+			"acceso_menu_id"=>$row['acceso_menu_id'],
+			"privilegio_id"=>$row['privilegio_id'],
+			"menu_id"=>$row['menu_id'],			
 		);		
 	}
 	
