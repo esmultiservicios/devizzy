@@ -137,6 +137,7 @@ var accesos_privilegio_submenu1_dataTable = function(tbody, table){
 		var data = table.row( $(this).parents("tr") ).data();		
 		getAccesoControlSubMenus1(data.privilegio_id, data.nombre);
 		getSubMenu1Privilegios(data.privilegio_id);
+		getSubMenusConsulta();
 		listar_submenu1accesos();
 
 		$('#formSubMenu1Accesos').attr({ 'data-form': 'save' });
