@@ -19,7 +19,7 @@
 			"privilegio"=>$row['privilegio'],
 			"acceso_submenu_id"=>$row['acceso_submenu_id'],	
 			"privilegio_id"=>$row['privilegio_id'],
-			"submenu_id"=>$row['submenu_id'],						
+			"submenu_id"=>$row['submenu_id'],
 		);		
 	}
 	

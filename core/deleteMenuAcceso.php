@@ -14,6 +14,7 @@
 	date_default_timezone_set('America/Tegucigalpa');
 
 	$datos = [
+		"acceso_menu_id" => $_POST['acceso_menu_id'],
 		"menu_id" => $_POST['menu_id'],
 		"privilegio_id" => $_POST['privilegio_id'],		
 	];	

@@ -1357,21 +1357,21 @@
 				INNER JOIN submenu1 AS sm1 ON sm.submenu_id = sm1.submenu_id
 				WHERE asm.privilegio_id = '$privilegio_id'
 				GROUP BY sm.submenu_id";
-			echo $query."**";
+				
 			$result = self::connection()->query($query);
 
 			return $result;
 		}	
 		
 		public function delete_menuAccessos($datos){
-			$query = "DELETE FROM acceso_menu WHERE acceso_menu_id = '".$datos['menu_id']."' AND privilegio_id = '".$datos['privilegio_id']."'";
+			$query = "DELETE FROM acceso_menu WHERE acceso_menu_id = '".$datos['acceso_menu_id']."' AND privilegio_id = '".$datos['privilegio_id']."'";
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 		
 			return $sql;
 		}
 		
 		public function delete_subMenuAccessos($datos){
-			$query = "DELETE FROM acceso_submenu WHERE acceso_submenu_id = '".$datos['submenu_id']."' AND privilegio_id = '".$datos['privilegio_id']."'";
+			$query = "DELETE FROM acceso_submenu WHERE acceso_submenu_id = '".$datos['acceso_submenu_id']."' AND privilegio_id = '".$datos['privilegio_id']."'";
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 		
@@ -1441,18 +1441,17 @@
 				INNER JOIN submenu AS sm ON asm.submenu_id = sm.submenu_id
 				INNER JOIN menu AS m ON sm.menu_id = m.menu_id
 				WHERE m.menu_id = '".$datos['menu_id']."' AND asm.privilegio_id = '".$datos['privilegio_id']."'";
-
+			
 			$result = self::connection()->query($query);
 		
 			return $result;
 		}
 
 		public function valid_submenu_on_submenu1_acceso($datos){
-			$query = "SELECT asm.acceso_submenu_id AS 'acceso_submenu_id', m.name AS 'menu', sm.name AS 'submenu'
-				FROM acceso_submenu AS asm
-				INNER JOIN submenu AS sm ON asm.submenu_id = sm.submenu_id
-				INNER JOIN menu AS m ON sm.menu_id = m.menu_id
-				WHERE asm.submenu_id = '".$datos['submenu_id']."' AND asm.privilegio_id = '".$datos['privilegio_id']."'";
+			$query = "SELECT asm1.acceso_submenu1_id
+				FROM acceso_submenu1 AS asm1
+				INNER JOIN submenu1 AS sm1 ON asm1.submenu1_id = sm1.submenu1_id
+				WHERE sm1.submenu_id = '".$datos['submenu_id']."' AND asm1.privilegio_id = '".$datos['privilegio_id']."'";
 
 			$result = self::connection()->query($query);
 		

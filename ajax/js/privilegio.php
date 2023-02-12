@@ -151,7 +151,7 @@ var accesos_privilegio_submenu1_dataTable = function(tbody, table){
 }
 
 /*INCIO MENU ACCESOS*/
-function deleteMenuAcceso(menu_id, privilegio_id, menu){
+function deleteMenuAcceso(menu_id, privilegio_id, menu, acceso_menu_id){
 	swal({
 	  title: "¿Estas seguro?",
 	  text: "¿Desea eliminar el menu: " + menu + "?",
@@ -163,18 +163,18 @@ function deleteMenuAcceso(menu_id, privilegio_id, menu){
 	  closeOnConfirm: false
 	},
 	function(){
-		deleteMenu(menu_id, privilegio_id);
+		deleteMenu(menu_id, privilegio_id, acceso_menu_id);
 	});
 }
 
-function deleteMenu(menu_id, privilegio_id){
+function deleteMenu(menu_id, privilegio_id, acceso_menu_id){
 	var url = '<?php echo SERVERURL; ?>core/deleteMenuAcceso.php';
 
 	$.ajax({
 	   type:'POST',
 	   url:url,
 	   async: false,
-	   data:'menu_id='+menu_id+'&privilegio_id='+privilegio_id,
+	   data:'menu_id='+menu_id+'&privilegio_id='+privilegio_id+'&acceso_menu_id='+acceso_menu_id,
 	   success:function(data){
 	      if(data == 1){
 			swal({
@@ -286,7 +286,7 @@ var eliminar_menuAcceso_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.eliminar_menu", function(e){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
-		deleteMenuAcceso(data.acceso_menu_id, data.privilegio_id, data.menu);
+		deleteMenuAcceso(data.menu_id, data.privilegio_id, data.menu, data.acceso_menu_id);
 	});
 }
 
@@ -320,7 +320,7 @@ function getMenusPrivilegios(){
 /*FIN MENU ACCESOS*/
 
 /*INCIO SUBMENU ACCESOS*/
-function deleteSubMenuAcceso(submenu_id, privilegio_id, submenu){
+function deleteSubMenuAcceso(submenu_id, privilegio_id, submenu, acceso_submenu_id){
 	swal({
 	  title: "¿Estas seguro?",
 	  text: "¿Desea eliminar el submenu: " + submenu + "?",
@@ -332,18 +332,18 @@ function deleteSubMenuAcceso(submenu_id, privilegio_id, submenu){
 	  closeOnConfirm: false
 	},
 	function(){
-		deleteSubMenu(submenu_id, privilegio_id);
+		deleteSubMenu(submenu_id, privilegio_id, acceso_submenu_id);
 	});
 }
 
-function deleteSubMenu(submenu_id, privilegio_id){
+function deleteSubMenu(submenu_id, privilegio_id, acceso_submenu_id){
 	var url = '<?php echo SERVERURL; ?>core/deleteSubMenuAcceso.php';
 
 	$.ajax({
 	   type:'POST',
 	   url:url,
 	   async: false,
-	   data:'submenu_id='+submenu_id+'&privilegio_id='+privilegio_id,
+	   data:'submenu_id='+submenu_id+'&privilegio_id='+privilegio_id+'&acceso_submenu_id='+acceso_submenu_id,
 	   success:function(data){
 	      if(data == 1){
 			swal({
@@ -456,7 +456,7 @@ var eliminar_submenuAcceso_dataTable = function(tbody, table){
 	$(tbody).on("click", "button.eliminar_submenu", function(e){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
-		deleteSubMenuAcceso(data.acceso_submenu_id, data.privilegio_id, data.submenu);
+		deleteSubMenuAcceso(data.submenu_id, data.privilegio_id, data.submenu, data.acceso_submenu_id);
 	});
 }
 

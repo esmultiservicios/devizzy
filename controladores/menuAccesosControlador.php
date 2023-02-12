@@ -146,7 +146,7 @@
 						"form" => "formMenuAccesos",
 						"id" => "proceso_privilegios",
 						"valor" => "",
-						"funcion" => "listar_submenu1accesos();getAccesoControlSubMenus1(".$privilegio_id.",'".$privilegio_nombre."');getSubMenu1Privilegios(".$privilegio_id.");",
+						"funcion" => "listar_submenu1accesos();getAccesoControlSubMenus1(".$privilegio_id.",'".$privilegio_nombre."');getSubMenu1Privilegios(".$privilegio_id.");getSubMenusConsulta();",
 						"modal" => "",	
 					];
 				}else{
