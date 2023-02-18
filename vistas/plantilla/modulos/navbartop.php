@@ -10,7 +10,7 @@
         <a class="nav-link link d-none d-sm-none d-md-block inventario" href="<?php echo SERVERURL; ?>inventario/" style="display:none"><div class="sb-nav-link-icon"></div>Movimientos</a>
         <a class="nav-link link d-none d-sm-none d-md-block transferencia" href="<?php echo SERVERURL; ?>transferencia/" style="display:none"><div class="sb-nav-link-icon"></div>Inventario</a>
         <a class="nav-link link d-none d-sm-none d-md-block nomina" href="<?php echo SERVERURL; ?>nomina/" style="display:none"><div class="sb-nav-link-icon"></div>Nomina</a>
-        <a class="nav-link link d-none d-sm-none d-md-block asistencia" href="<?php echo SERVERURL; ?>asistencia/" style="display:none"><div class="sb-nav-link-icon"></div>Asistencia</a>
+        <a class="nav-link link d-none d-sm-none d-md-block asistencia" href="#" id="marcarAsistencia"><div class="sb-nav-link-icon"></div>Asistencia</a>
   
         <div class="dropdown d-block d-sm-block d-md-none">
             <button class="btn btn-secondary bg-color-navarlateral dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -26,7 +26,7 @@
                 <a class="dropdown-item inventario" href="<?php echo SERVERURL; ?>inventario/" style="display:none"><div class="sb-nav-link-icon"></div>Movimientos</a>
                 <a class="dropdown-item transferencia" href="<?php echo SERVERURL; ?>transferencia/" style="display:none"><div class="sb-nav-link-icon"></div>Inventario</a>
                 <a class="dropdown-item nomina" href="<?php echo SERVERURL; ?>nomina/" style="display:none"><div class="sb-nav-link-icon"></div>Nomina</a>
-                <a class="dropdown-item asistencia" href="<?php echo SERVERURL; ?>asistencia/" style="display:none"><div class="sb-nav-link-icon"></div>Aistencia</a>
+                <a class="dropdown-item asistencia" href="#" id="marcarAsistencia"><div class="sb-nav-link-icon"></div>Aistencia</a>
             </div>
         </div>  
         
