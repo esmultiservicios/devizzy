@@ -1894,7 +1894,7 @@
 				FROM contrato AS c
 				INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
 				INNER JOIN puestos AS p ON co.puestos_id = p.puestos_id
-				WHERE c.colaborador_id = '".$colaboradores_id."'
+				WHERE c.colaborador_id = '".$colaboradores_id."' AND c.estado = 1
 				ORDER BY co.nombre";
 
 			$result = self::connection()->query($query);
@@ -1940,7 +1940,7 @@
 			$query = "SELECT co.colaborador_id AS 'colaboradores_id', CONCAT(nombre, ' ', apellido) AS 'nombre'
 			FROM contrato AS co
 			INNER JOIN colaboradores AS c ON co.colaborador_id = c.colaboradores_id
-			WHERE c.estado = 1";
+			WHERE co.estado = 1";
 				
 			$result = self::connection()->query($query);
 		
