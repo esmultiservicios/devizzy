@@ -2417,11 +2417,11 @@
 					</div>	
 					<div class="col-md-3 mb-3" id="grupoHorai">
 					  <label for="fecha">Hora Entrada <span class="priority">*<span/></label>
-					  <input type="time" class="form-control" id="horagi" name="horagi">		  
+					  <input type="time" class="form-control" id="horagi" name="horagi" value="<?php echo date("H:i:s");?>">		  
 					</div>	
 					<div class="col-md-3 mb-3" id="grupoHoraf">
 					  <label for="fecha">Hora Salida <span class="priority">*<span/></label>
-					  <input type="time" class="form-control" id="horagf" name="horagf">		  
+					  <input type="time" class="form-control" id="horagf" name="horagf" >		  
 					</div>												
 				</div>
 				<div class="form-row">

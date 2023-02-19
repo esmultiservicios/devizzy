@@ -3478,8 +3478,8 @@ function modal_asistencia(){
 	  $('#formAsistencia #fechaAsistencia').show();
 	  getColaboradores();
 
-	  $('#formAsistencia #grupoHora').show();
-	  $('#formAsistencia #grupoHorai').hide();
+	  $('#formAsistencia #grupoHora').hide();
+	  $('#formAsistencia #grupoHorai').show();
 	  $('#formAsistencia #grupoHoraf').hide();
 	  $('#formAsistencia #grupoHoraComentario').show();
 

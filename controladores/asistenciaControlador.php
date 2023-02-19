@@ -8,6 +8,7 @@
 	class asistenciaControlador extends asistenciaModelo {
 		public function agregar_asistencia_controlador(){
 			$colaborador = $_POST['asistencia_empleado'];
+			$marcarAsistencia_id = $_POST['marcarAsistencia_id'];
 
 			if(isset($_POST['fecha'])){ 
 				$fecha = $_POST['fecha'];
@@ -31,8 +32,11 @@
 				$comentario = $_comentario.' - '.mainModel::cleanString($_POST['comentario']);
 			}
 
-			$hora = $_POST['hora'];
-			$marcarAsistencia_id = $_POST['marcarAsistencia_id'];
+			if($marcarAsistencia_id == 0){
+				$hora = $_POST['hora'];
+			}else{
+				$hora = $_POST['horagi'];
+			}				
 			
 			$estado = 0;
 			$fecha_registro = date("Y-m-d H:i:s");	
