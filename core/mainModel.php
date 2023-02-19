@@ -74,12 +74,37 @@
 			return $result;
 		}
 
+		public function validSalidaAsistenciaColaborador($asistencia_id){
+			$delete = "SELECT horaf FROM asistencia WHERE asistencia_id = '$asistencia_id'";
+
+			$sql = mainModel::connection()->query($delete) or die(mainModel::connection()->error);
+
+			return $sql;			
+		}
+
+		public function updateSalidaAsistenciaColaborador($asistencia_id){
+			$update = "UPDATE asistencia
+							SET horaf = ''
+						WHERE asistencia_id = '$asistencia_id'";
+
+			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
+
+			return $sql;			
+		}
+		
+		public function deleteAsistenciaColaborador($asistencia_id){
+			$delete = "DELETE FROM asistencia WHERE asistencia_id = '$asistencia_id'";
+
+			$sql = mainModel::connection()->query($delete) or die(mainModel::connection()->error);
+
+			return $sql;			
+		}
+
 		public function eliminar_bitacora($user_id){
 			$delte = "DELETE FROM bitacora WHERE user_id = '$user_id'";
 			$result = self::connection()->query($update);
 
 			return $result;
-
 		}
 
 		public function getRealIP(){
@@ -1297,22 +1322,10 @@
 				$colaboradores_id = "AND s.colaboradores_id = '".$datos['colaboradores_id']."'";
 			}		
 
-			$query = "SELECT e.nombre AS 'empresa', CONCAT(c.nombre, ' ', c.apellido) AS 'empleado', 
-				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Monday' THEN s.asistencia_id END) AS 'lunes',
-				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Tuesday' THEN s.asistencia_id END) AS 'martes',
-				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Wendsday' THEN s.asistencia_id END) AS 'miercoles',
-				COUNT(CASE WHEN DAYNAME(s.fecha) = 'thursday' THEN s.asistencia_id END) AS 'jueves',
-				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Friday' THEN s.asistencia_id END) AS 'viernes',
-				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Saturday' THEN s.asistencia_id END) AS 'sabado',
-				COUNT(CASE WHEN DAYNAME(s.fecha) = 'Sunday' THEN s.asistencia_id END) AS 'domingo',
-				COUNT(s.asistencia_id) AS 'total'
-				FROM asistencia AS s
-				INNER JOIN colaboradores AS c ON s.colaboradores_id = c.colaboradores_id
-				INNER JOIN empresa AS e ON c.empresa_id = e.empresa_id
-				$fecha
-				$colaboradores_id
-				GROUP BY CONCAT(c.nombre, ' ', c.apellido), s.fecha
-				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
+			$query = "SELECT a.asistencia_id AS 'asistencia_id', a.colaboradores_id AS 'colaboradores_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', a.fecha AS 'fecha', a.horai AS 'hora_entrada', CONVERT(a.horaf, TIME) AS 'hora_salida', DATE_FORMAT(a.horai,'%h:%i:%s %p') AS 'horai',  DATE_FORMAT(CONVERT(a.horaf, TIME),'%h:%i:%s %p') AS 'horaf', a.comentario AS 'comentario'
+				FROM asistencia AS a
+				INNER JOIN colaboradores AS c ON a.colaboradores_id = c.colaboradores_id
+				WHERE a.estado = 0";
 
 			$result = self::connection()->query($query);
 
@@ -2097,7 +2110,7 @@
 		}
 
 		public function getNominaComprobante($nomina_id){
-			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id', e.rtn AS 'rtn_empresa', DATE_FORMAT(n.fecha_registro, '%d/%m/%Y') AS fecha_registro, YEAR(n.fecha_registro) AS 'ano_registro', MONTHNAME(n.fecha_registro) AS 'mes_registro'
+			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id', e.rtn AS 'rtn_empresa', DATE_FORMAT(n.fecha_registro, '%d/%m/%Y') AS fecha_registro, YEAR(n.fecha_registro) AS 'ano_registro', MONTHNAME(n.fecha_registro) AS 'mes_registro', n.fecha_registro AS 'fecha_registro_1'
 			FROM nomina AS n
 			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
 			WHERE n.nomina_id = '".$nomina_id."' AND n.estado = 1
@@ -3932,13 +3945,8 @@
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getTipoPagoEdit($tipo_pago_id){
 
@@ -3953,6 +3961,15 @@
 			return $result;
 		}
 
+		public function getAsistenciaId($asistencia_id){
+			$query = "SELECT asistencia_id, colaboradores_id, fecha, horai, CONVERT(horaf, TIME) AS 'horaf', estado, comentario
+				FROM asistencia
+				WHERE asistencia_id = '$asistencia_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
 
 		public function getBancosEdit($banco_id){
 			$query = "SELECT *
@@ -3963,8 +3980,6 @@
 
 			return $result;
 		}
-
-
 
 		public function getEgresosEdit($egresos_id){
 
@@ -4654,13 +4669,9 @@
 
 
 		public function nombremes($mes){
-
-			setlocale(LC_TIME, 'spanish');
-
-			$nombre=strftime("%B",mktime(0, 0, 0, $mes, 1, 2000));
-
+			setlocale(LC_TIME, 'spanish');  
+			$nombre=strftime("%B",mktime(0, 0, 0, $mes, 1, 2000)); 
 			return $nombre;
-
 		}
 
 

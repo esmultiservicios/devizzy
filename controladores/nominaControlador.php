@@ -24,7 +24,7 @@
 			$fecha_registro = date("Y-m-d H:i:s");			
 
 			$datos = [
-				"pago_planificado_id" => $empresa_id,
+				"pago_planificado_id" => $pago_planificado_id,
 				"empresa_id" => $empresa_id,
 				"fecha_inicio" => $fecha_inicio,
 				"fecha_fin" => $fecha_fin,
@@ -144,7 +144,7 @@
 				"fecha_registro" => $fecha_registro,				
 			];
 			
-			$resultNominaEmpleados = nominaModelo::valid_nomina_detalles_modelo($datos);
+			$resultNominaEmpleados = nominaModelo::valid_nomina_detalles_modelo($nomina_id);
 			
 			if($resultNominaEmpleados->num_rows==0){
 				$query = nominaModelo::agregar_nomina_detalles_modelo($datos);
@@ -374,7 +374,7 @@
 					"id" => "proceso_nomina",
 					"valor" => "Eliminar",
 					"funcion" => "listar_nominas_detalles();getEmpleado();",
-					"modal" => "modal_registrar_nomina",
+					"modal" => "modal_registrar_nomina_detalles",
 				];
 			}else{
 				$alert = [

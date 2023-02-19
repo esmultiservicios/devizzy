@@ -2382,7 +2382,7 @@
 			</button>
         </div><div class="container"></div>
         <div class="modal-body">
-			<form class="FormularioAjax FormularioAjax" id="formAsistencia" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
+			<form class="FormularioAjax" id="formAsistencia" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
 						<div class="input-group mb-3">
@@ -2407,13 +2407,29 @@
 					</div>					
 					<div class="col-md-3 mb-3" id="fechaAsistencia">
 					  <label for="fecha">Fecha <span class="priority">*<span/></label>
-					  <input type="date" class="form-control" id="fecha" name="fecha" value="<?php echo date ("Y-m-d");?>" placeholder="Fecha" required>		  
-					</div>	
-					<div class="col-md-3 mb-3">
+					  <input type="date" class="form-control" id="fecha" name="fecha" value="<?php echo date ("Y-m-d");?>" placeholder="Fecha">		  
+					</div>												
+				</div>	
+				<div class="form-row">
+					<div class="col-md-3 mb-3" id="grupoHora">
 					  <label for="fecha">Hora <span class="priority">*<span/></label>
 					  <input type="time" class="form-control" id="hora" name="hora">		  
-					</div>							
-				</div>	
+					</div>	
+					<div class="col-md-3 mb-3" id="grupoHorai">
+					  <label for="fecha">Hora Entrada <span class="priority">*<span/></label>
+					  <input type="time" class="form-control" id="horagi" name="horagi">		  
+					</div>	
+					<div class="col-md-3 mb-3" id="grupoHoraf">
+					  <label for="fecha">Hora Salida <span class="priority">*<span/></label>
+					  <input type="time" class="form-control" id="horagf" name="horagf">		  
+					</div>												
+				</div>
+				<div class="form-row">
+					<div class="col-md-12 mb-3" id="grupoHoraComentario">
+					  <label for="comentario">Comentario</label>
+					  <input type="text" class="form-control" id="comentario" name="comentario">		  
+					</div>												
+				</div>									
 				<div class="form-row">
 					<br/>
 					<br/>
@@ -2423,7 +2439,8 @@
 			</form>
         </div>
 		<div class="modal-footer">
-			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_asistencia" form="formAsistencia"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>	
+			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_asistencia" form="formAsistencia"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>
+			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="edi_asistencia" form="formAsistencia"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>	
 		</div>			
       </div>
     </div>
