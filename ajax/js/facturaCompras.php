@@ -166,6 +166,9 @@ var listar_productos_compras_buscar = function(){
 	view_productos_busqueda_compras_dataTable("#DatatableProductosBusquedaFactura tbody", table_productos_compras_buscar);
 }
 
+function resetRowPurchase(){
+	row = 0;
+}
 
 var row = 0;
 var view_productos_busqueda_compras_dataTable = function(tbody, table){
@@ -513,9 +516,8 @@ function limpiarTablaCompras(){
 
 	htmlRows += '<td><input type="number" name="quantityPurchase[]" id="quantityPurchase_'+count+'" class="buscar_cantidad_purchase form-control" autocomplete="off" step="0.01"></td>';
 
-	htmlRows += '<td><input type="number" name="medidaPurchase[]" id="medidaPurchase_'+count+'" placeholder="medida" class="buscar_medida_purchase form-control" autocomplete="off" step="0.01"></td>';
-	
-	htmlRows += '<td><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_'+count+'"  class="buscar_bodega_purchase form-control" ></td>';
+	htmlRows += '<td><input type="text" name="medidaPurchase[]" id="medidaPurchase_'+count+'" readonly class="form-control buscar_medida_purchase" autocomplete="off"><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_'+count+'"  class="buscar_bodega_purchase form-control" ></td>';
+
 
 	htmlRows += '<td><input type="number" name="pricePurchase[]" id="pricePurchase_'+count+'" placeholder="Precio" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
 
@@ -529,12 +531,8 @@ function limpiarTablaCompras(){
 
 }
 
-
-
 function addRowCompras(){
-
 	var count = row +1;
-
 	var htmlRows = '';
 
 	htmlRows += '<tr>';
@@ -545,13 +543,16 @@ function addRowCompras(){
 
 	htmlRows += '<td><input type="number" name="quantityPurchase[]" id="quantityPurchase_'+count+'" class="buscar_cantidad_purchase form-control" autocomplete="off" step="0.01"></td>';
 
-	htmlRows += '<td><input type="text" name="medidaPurchase[]" id="medidaPurchase_'+count+'" placeholder="medida" class="buscar_medida_purchase form-control" autocomplete="off" step="0.01"><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_'+count+'"  class="buscar_bodega_purchase form-control" ></td>';
+	htmlRows += '<td><input type="text" name="medidaPurchase[]" id="medidaPurchase_'+count+'" readonly class="form-control buscar_medida_purchase" autocomplete="off"><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_'+count+'"  class="buscar_bodega_purchase form-control" ></td>';
 
-	htmlRows +='<td><input type="number" name="pricePurchase[]" id="pricePurchase_'+count+'" placeholder="Precio" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
-	
+
+	htmlRows += '<td><input type="number" name="pricePurchase[]" id="pricePurchase_'+count+'" placeholder="Precio" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
+
 	htmlRows += '<td><input type="number" name="discountPurchase[]" id="discountPurchase_'+count+'" class="form-control" autocomplete="off" step="0.01"></td>';
 
 	htmlRows += '<td><input type="number" name="totalPurchase[]" id="totalPurchase_'+count+'" class="form-control total" readonly autocomplete="off" step="0.01"></td>';
+
+	htmlRows += '</tr>';
 
 	htmlRows += '</tr>';
 
