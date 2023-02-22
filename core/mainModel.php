@@ -1620,20 +1620,10 @@
 
 		}
 
-		public function getSaldoMovimientosCuentasSaldoAnterior($cuentas_id, $año, $mes){
+		public function getSaldoMovimientosCuentasSaldoAnterior($datos){
 			$query = "SELECT saldo
 				FROM movimientos_cuentas
-				WHERE YEAR(fecha_registro) = '$año' AND MONTH(fecha_registro) = '$mes' AND cuentas_id = '$cuentas_id'
-				ORDER BY movimientos_cuentas_id DESC LIMIT 1";
-			$result = self::connection()->query($query);
-
-			return $result;
-		}
-
-		public function getSaldoMovimientosCuentasUltimoSaldo($cuentas_id){
-			$query = "SELECT saldo, fecha_registro
-				FROM movimientos_cuentas
-				WHERE cuentas_id = '$cuentas_id'
+				WHERE MONTH(CAST(fecha AS DATE)) = MONTH(DATE_ADD('".$datos['fechai']."',INTERVAL -1 MONTH)) AND cuentas_id = '".$datos['cuentas_id']."'
 				ORDER BY movimientos_cuentas_id DESC LIMIT 1";
 
 			$result = self::connection()->query($query);
@@ -1641,10 +1631,21 @@
 			return $result;
 		}
 
-		public function getSaldoMovimientosCuentasUltimaFecha($cuentas_id, $fecha_registro){
-			$query = "SELECT saldo, fecha_registro
+		public function getSaldoMovimientosCuentasUltimoSaldo($datos){
+			$query = "SELECT saldo, fecha
 				FROM movimientos_cuentas
-				WHERE cuentas_id = '$cuentas_id' AND MONTH(fecha_registro) = MONTH('$fecha_registro')
+				WHERE cuentas_id = '".$datos['cuentas_id']."' AND MONTH(fecha) = MONTH(DATE_ADD('".$datos['fechai']."',INTERVAL -1 MONTH))
+				ORDER BY movimientos_cuentas_id DESC LIMIT 1";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getSaldoMovimientosCuentasUltimaFecha($cuentas_id, $fecha){
+			$query = "SELECT saldo, fecha
+				FROM movimientos_cuentas
+				WHERE cuentas_id = '$cuentas_id' AND MONTH(fecha) = MONTH('$fecha')
 				ORDER BY movimientos_cuentas_id DESC LIMIT 1";
 
 			$result = self::connection()->query($query);

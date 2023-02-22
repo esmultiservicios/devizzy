@@ -35,6 +35,7 @@ $(document).ready(function() {
 	$('#form_main_cobrar_clientes #cobrar_clientes_estado').selectpicker('refresh');	
 });
 
+
 //INICIO MENUS
 function getPermisosTipoUsuarioAccesosTable(privilegio_id){
 	var url = '<?php echo SERVERURL;?>core/getTipoUsuarioAccesos.php';	
@@ -542,12 +543,6 @@ function modal_productos(){
 	$('#formProductos #cantidad').show();
 	$('#div_cantidad_editar_producto').show();
 
-	$('#formProductos #producto_empresa_id').val(1);
-	$('#formProductos #producto_empresa_id').selectpicker('refresh');
-
-	$('#formProductos #tipo_producto').val(1);
-	$('#formProductos #tipo_producto').selectpicker('refresh');
-
 	//HABILITAR OBJETOS
 	$('#formProductos #producto').attr("readonly", false);
 	$('#formProductos #categoria').attr("disabled", false);
@@ -571,6 +566,15 @@ function modal_productos(){
 	$('#formProductos #producto_isv_compra').attr('checked', false);
 	$('#formProductos #cantidad').attr("disabled", false);
 	$('#formProductos #producto_superior').attr("disabled", false);
+
+	$('#formProductos #almacen').val(1);
+	$('#formProductos #almacen').selectpicker('refresh');
+	
+	$('#formProductos #producto_empresa_id').val(1);
+	$('#formProductos #producto_empresa_id').selectpicker('refresh');
+	
+	$('#formProductos #tipo_producto').val(1);
+	$('#formProductos #tipo_producto').selectpicker('refresh');	
 
 	$('#formProductos #buscar_producto_empresa').show();
 	$('#formProductos #buscar_producto_categorias').show();
@@ -635,9 +639,6 @@ function getAlmacen(){
 		    $('#formProductos #almacen').html("");
 			$('#formProductos #almacen').html(data);
 			$('#formProductos #almacen').selectpicker('refresh');
-
-			$('#formProductos #almacen').val(1);	
-			$('#formProductos #almacen').selectpicker('refresh');				
 
 			$('#form_main_movimientos #almacen').append("");
 			$('#form_main_movimientos #almacen').append("<option value='0'>Todos</option>"+data);
