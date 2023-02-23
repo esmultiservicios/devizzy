@@ -1057,8 +1057,7 @@ var editar_nominas_detalles_dataTable = function(tbody, table){
 					$('#edi_nominaD').attr('disabled', false);
 				}
 
-				//HABILITAR OBJETOS			
-				$('#formNominaDetalles #nominad_diast').attr('readonly', false);
+				//HABILITAR OBJETOS							
 				$('#formNominaDetalles #nominad_retroactivo').attr('readonly', false);
 				$('#formNominaDetalles #nominad_bono').attr('readonly', false);
 				$('#formNominaDetalles #nominad_otros_ingresos').attr('readonly', false);
@@ -1076,6 +1075,7 @@ var editar_nominas_detalles_dataTable = function(tbody, table){
 				$('#formNominaDetalles #estado_nomina_detalles').show();
 
 				//DESHABILITAR OBJETOS
+				$('#formNominaDetalles #nominad_diast').attr('readonly', true);
 				$('#formNominaDetalles #nominad_neto_ingreso').attr('readonly', true);
 				$('#formNominaDetalles #nominad_neto_egreso').attr('readonly', true);
 				$('#formNominaDetalles #nominad_neto').attr('readonly', true);				
