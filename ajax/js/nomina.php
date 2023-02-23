@@ -501,8 +501,7 @@ function modalNominasDetalles(){
 		$('#edi_nominaD').hide();
 		$('#delete_nominaD').hide();
 
-		//HABILITAR OBJETOS
-		$('#formNominaDetalles #nominad_diast').attr('readonly', false);
+		//HABILITAR OBJETOS		
 		$('#formNominaDetalles #nominad_retroactivo').attr('readonly', false);
 		$('#formNominaDetalles #nominad_bono').attr('readonly', false);
 		$('#formNominaDetalles #nominad_otros_ingresos').attr('readonly', false);
@@ -521,7 +520,10 @@ function modalNominasDetalles(){
 		$('#formNominaDetalles #nominad_neto_egreso').attr('readonly', true);
 		$('#formNominaDetalles #nominad_neto').attr('readonly', true);	
 		$('#formNominaDetalles #nomina_detalles_activo').attr('disabled', false);
-		$('#formNominaDetalles #estado_nomina_detalles').hide();			
+		$('#formNominaDetalles #estado_nomina_detalles').hide();
+		
+		//DESHABILITAR OBJETOS
+		$('#formNominaDetalles #nominad_diast').attr('readonly', true);
 
 		$('#formNominaDetalles #proceso_nomina_detalles').val("Registro");
 		$('#modal_registrar_nomina_detalles').modal({
