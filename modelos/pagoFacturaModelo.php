@@ -291,6 +291,7 @@
 						
 						pagoFacturaModelo::agregar_pago_detalles_factura_modelo($datos_pago_detalle);
 
+						/**###########################################################################################################*/
 						//INGRESAMOS LOS DATOS DEL PAGO EN LA TABLA ingresos
 
 						//CONSULTAMOS LA CUENTA DONDE SE ENLZARA CON EL PAGO
@@ -298,10 +299,9 @@
 						$cuentas_id = $consulta_cuenta_ingreso['cuentas_id'];					
 						$empresa_id = $res['empresa'];
 
-						//CONSULTMOS EL NUMERO DE FACTURA QUE ESTAMOS PAGANDO O ABONANDO
+						//CONSULTAMOS EL NUMERO DE FACTURA QUE ESTAMOS PAGANDO O ABONANDO
 						$consulta_factura = mainModel::getFactura($res['facturas_id'])->fetch_assoc();
 						$no_factura = str_pad($consulta_factura['numero_factura'], $consulta_factura['relleno'], "0", STR_PAD_LEFT);
-						$clientes_id = $consulta_factura['clientes_id'];	
 						$clientes_id = $consulta_factura['clientes_id'];
 
 						$subtotal = $res['abono'];
@@ -451,8 +451,7 @@
 					$query = pagoFacturaModelo::agregar_pago_factura_modelo($res);
 	
 					if($query){
-						//ACTUALIZAMOS EL DETALLE DEL PAGO
-						
+						//ACTUALIZAMOS EL DETALLE DEL PAGO						
 						$consulta_pago = pagoFacturaModelo::getLastInserted()->fetch_assoc();
 
 						$pagos_id = $consulta_pago['id'];						

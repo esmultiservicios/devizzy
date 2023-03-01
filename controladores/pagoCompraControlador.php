@@ -173,10 +173,7 @@
 			];
 
 			$alert = pagoCompraModelo::agregar_pago_compras_base($datos);
-			return mainModel::sweetAlert($alert);
-
-			
-			
+			return mainModel::sweetAlert($alert);			
 		}				
 		
 		public function cancelar_pago_controlador(){

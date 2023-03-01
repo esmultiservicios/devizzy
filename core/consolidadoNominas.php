@@ -22,7 +22,7 @@
 			</td>			
 			<td class="info_empresa" colspan="3">
 				<div>
-					<span class="h3">Consolidado de Nomina <?php echo $insMainModel->nombremes(date("m", strtotime($consulta_registro['fecha_registro']))).", ".$consulta_registro['ano_registro']; ?></span>								
+					<span class="h3">Consolidado de Nomina <?php echo $insMainModel->nombremes(date("m", strtotime($consulta_registro['fecha_registro_1']))).", ".$consulta_registro['ano_registro']; ?></span>								
 				</div>												
 			</td>		
 		</tr>
@@ -46,10 +46,6 @@
 				</div>				
 			</td>						
 		</tr>
-	</table>
-	<table id="factura_detalle">
-		<tr>
-		</tr>		
 	</table>
 
 	<table id="factura_detalle">
@@ -81,31 +77,31 @@
 						<th align="center" width="5%">Incapcidad IHSS</th>
 					</tr>											
 				</thead>
-				<tbody id="detalle_productos">
+				<tbody id="info_empresa">
 					<?php
 						while($registro_detalles = $result_voucher_detalle->fetch_assoc()){
 							echo '
 								<tr>
-									<th align="center" width="5%">'.$registro_detalles["puesto"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["empleado"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["salario"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["dias_trabajados"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["horas_25"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["horas_50"].'</th>	
-									<th align="center" width="5%">'.$registro_detalles["horas_75"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["horas_100"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["retroactivo"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["bono"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["otros_ingresos"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["neto_ingresos"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["deducciones"].'</th
-									<th align="center" width="5%">'.$registro_detalles["prestamo"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["ihss"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["isr"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["rap"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["incapacidad_ihss"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["neto_egresos"].'</th>
-									<th align="center" width="5%">'.$registro_detalles["neto"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["puesto"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["empleado"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["salario"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["dias_trabajados"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["horas_25"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["horas_50"].'</th>	
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["horas_75"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["horas_100"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["retroactivo"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["bono"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["otros_ingresos"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["neto_ingresos"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["deducciones"].'</th
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["prestamo"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["ihss"].'</th>									
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["rap"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["isr"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["incapacidad_ihss"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["neto_egresos"].'</th>
+									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["neto"].'</th>
 								</tr>							
 							';
 						}

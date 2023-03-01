@@ -173,11 +173,12 @@
 
 							];
 								
-							if ($tipo_productos == "Producto" || $tipo_productos == "Insumos"){
-								productosModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
-							}
-							
-							
+							if($cantidad>0){
+								if ($tipo_productos == "Producto" || $tipo_productos == "Insumos"){
+									productosModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
+								}								
+							}							
+														
 							$alert = [
 								"alert" => "save_simple",
 								"title" => "Registro almacenado",

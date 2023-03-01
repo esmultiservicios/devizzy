@@ -35,6 +35,7 @@ $(document).ready(function() {
 	$('#form_main_cobrar_clientes #cobrar_clientes_estado').selectpicker('refresh');	
 });
 
+
 //INICIO MENUS
 function getPermisosTipoUsuarioAccesosTable(privilegio_id){
 	var url = '<?php echo SERVERURL;?>core/getTipoUsuarioAccesos.php';	
@@ -542,12 +543,6 @@ function modal_productos(){
 	$('#formProductos #cantidad').show();
 	$('#div_cantidad_editar_producto').show();
 
-	$('#formProductos #producto_empresa_id').val(1);
-	$('#formProductos #producto_empresa_id').selectpicker('refresh');
-
-	$('#formProductos #tipo_producto').val(1);
-	$('#formProductos #tipo_producto').selectpicker('refresh');
-
 	//HABILITAR OBJETOS
 	$('#formProductos #producto').attr("readonly", false);
 	$('#formProductos #categoria').attr("disabled", false);
@@ -571,6 +566,15 @@ function modal_productos(){
 	$('#formProductos #producto_isv_compra').attr('checked', false);
 	$('#formProductos #cantidad').attr("disabled", false);
 	$('#formProductos #producto_superior').attr("disabled", false);
+
+	$('#formProductos #almacen').val(1);
+	$('#formProductos #almacen').selectpicker('refresh');
+	
+	$('#formProductos #producto_empresa_id').val(1);
+	$('#formProductos #producto_empresa_id').selectpicker('refresh');
+	
+	$('#formProductos #tipo_producto').val(1);
+	$('#formProductos #tipo_producto').selectpicker('refresh');	
 
 	$('#formProductos #buscar_producto_empresa').show();
 	$('#formProductos #buscar_producto_categorias').show();
@@ -635,9 +639,6 @@ function getAlmacen(){
 		    $('#formProductos #almacen').html("");
 			$('#formProductos #almacen').html(data);
 			$('#formProductos #almacen').selectpicker('refresh');
-
-			$('#formProductos #almacen').val(1);	
-			$('#formProductos #almacen').selectpicker('refresh');				
 
 			$('#form_main_movimientos #almacen').append("");
 			$('#form_main_movimientos #almacen').append("<option value='0'>Todos</option>"+data);
@@ -1428,6 +1429,34 @@ $('#cambiar_contraseña_usuarios_sistema').on('click',function(e){
 	});	
 });
 //FIN CAMBIAR CONTRASEÑA
+
+
+//FIN MARCAR ASISTENCIA
+$('#marcarAsistencia').on('click',function(e){
+	e.preventDefault();
+	$('#formAsistencia').attr({ 'data-form': 'save' });
+	  $('#formAsistencia').attr({ 'action': '<?php echo SERVERURL;?>ajax/addAsistenciaMarcajeAjax.php' });
+	  $('#formAsistencia')[0].reset();
+	  $('#reg_asistencia').show();	
+	  $('#edi_asistencia').hide();
+	  $('#formAsistencia #proceso_asistencia').val("Registro");
+	  $('#formAsistencia #asistencia_empleado').val(getColaboradorAsistencia());
+	  $('#formAsistencia #fechaAsistencia').hide();
+	  $('#formAsistencia #marcarAsistencia_id').val(1); 
+	  
+	  $('#formAsistencia #asistencia_empleado').selectpicker('refresh');		  
+	  $('#formAsistencia #grupoHora').show();
+	  $('#formAsistencia #grupoHorai').hide();
+	  $('#formAsistencia #grupoHoraf').hide();
+	  $('#formAsistencia #grupoHoraComentario').hide();
+
+	  $('#modal_registrar_asistencia').modal({
+		show:true,
+		keyboard: false,
+		backdrop:'static'
+	  });	
+});
+//FIN MARCAR ASISTENCIA
 
 //INICIO MODIFICAR PERFIL USUARIO SISTEMA
 $('#modificar_perfil_usuario_sistema').on('click',function(e){
@@ -3151,4 +3180,360 @@ $('input[type="file"]').change(function(e) {
 	  reader.readAsDataURL(this.files[0]);		
 	}	
 });
+
+
+//INICIO ASISTENCIA
+$(document).ready(function() {
+	listar_asistencia();
+	getColaboradores();
+	$('#form_main_asistencia #estado').val(0);
+	$('#form_main_asistencia #estado').selectpicker('refresh');	
+});
+
+//INICIO ACCIONES FROMULARIO PRIVILEGIOS
+var listar_asistencia = function(){
+	var estado = $('#form_main_asistencia #estado').val();
+	var colaboradores_id = $('#form_main_asistencia #colaborador').val();
+	var fechai = $('#form_main_asistencia #fechai').val();
+	var fechaf = $('#form_main_asistencia #fechaf').val();
+
+	var table_asistencia  = $("#dataTableAsistencia").DataTable({
+		"destroy":true,
+		"ajax":{
+			"method":"POST",
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableAsistencia.php",
+			"data":{
+				"fechai":fechai,
+				"fechaf":fechaf,
+				"colaborador":colaboradores_id,
+				"estado":estado
+			}			
+		},
+		"columns":[
+			{"data":"colaborador"},
+			{"data":"fecha"},
+			{"data":"horai"},
+			{"data":"horaf"},
+			{"data":"horat"},
+			{"data":"comentario"},
+			{"defaultContent":"<button class='table_editar editar_asistencia btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_eliminar eliminar_salida btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"},		
+			{"defaultContent":"<button class='table_eliminar eliminar_marcaje btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}		
+		],
+        "lengthMenu": lengthMenu,
+		"stateSave": true,
+		"bDestroy": true,
+		"language": idioma_español,
+		"dom": dom,
+		"columnDefs": [
+		  { width: "15.11%", targets: 0 },
+		  { width: "8.11%", targets: 1 },
+		  { width: "9.11%", targets: 2 },
+		  { width: "9.11%", targets: 3 },
+		  { width: "11.11%", targets: 4 },
+		  { width: "19.11%", targets: 5 },
+		  { width: "6.11%", targets: 6 },
+		  { width: "10.11%", targets: 7 },
+		  { width: "11.11%", targets: 8 }
+		],		
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Asistencia',
+				className: 'btn btn-secondary',
+				action: 	function(){
+					listar_asistencia();
+				}
+			},		
+			{
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar Asistencia',
+				titleAttr: 'Agregar Asistencia',
+				className: 'btn btn-primary',
+				action: 	function(){
+					modal_asistencia();
+				}
+			},
+			{
+				extend:    'excelHtml5',
+				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
+				titleAttr: 'Excel',
+				title: 'Reporte Asistencia',
+				messageTop: 'Semana del: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'btn btn-success',
+				exportOptions: {
+					columns: [0,1,2,3,4,5,6,7,8]
+				},
+			},
+			{
+				extend:    'pdf',
+				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+				titleAttr: 'PDF',
+				orientation: 'landscape',
+				pageSize: 'LETTER',	
+				title: 'Reporte Asistencia',
+				messageTop: 'Semana del: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'btn btn-danger',
+				exportOptions: {
+						columns: [0,1,2,3,4,5,6,7,8]
+				},
+				customize: function ( doc ) {
+					doc.content.splice( 1, 0, {
+						margin: [ 0, 0, 0, 12 ],
+						alignment: 'left',
+						image: imagen,
+						width:100,
+                        height:45
+					} );
+				}
+			}
+		],
+		"drawCallback": function( settings ) {
+        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+    	}
+	});
+	table_asistencia.search('').draw();
+	$('#buscar').focus();
+
+	edit_asistencia_colaboradores_dataTable("#dataTableAsistencia tbody", table_asistencia);
+	delete_marcaje_asistencia_colaboradores_dataTable("#dataTableAsistencia tbody", table_asistencia);
+	delete_salida_asistencia_colaboradores_dataTable("#dataTableAsistencia tbody", table_asistencia);
+}
+
+var delete_salida_asistencia_colaboradores_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.eliminar_marcaje");
+	$(tbody).on("click", "button.eliminar_marcaje", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+
+		swal({
+			title: "¿Estas seguro?",
+			text: "¿Desea eliminar la asistencia para el colaborador: # " + data.colaborador + ", para la fecha " + data.fecha + "?",
+			type: "info",
+			showCancelButton: true,
+			confirmButtonClass: "btn-primary",
+			confirmButtonText: "¡Sí, eliminar la asistencia!",
+			cancelButtonText: "Cancelar",
+			closeOnConfirm: false
+		},
+		function(){
+			deleteAsistenciaMarcajeSalidaColaborador(data.asistencia_id);
+		});
+	});
+}
+
+function deleteAsistenciaMarcajeSalidaColaborador(asistencia_id){
+    var url = '<?php echo SERVERURL;?>core/deleteAsistenciaColaborador.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+		data:'asistencia_id='+asistencia_id,
+        success: function(data){
+		    if(data == 1){
+				swal({
+					title: "Success",
+					text: "La asitencia ha sido eliminada correctamente",
+					type: "success",
+				});
+				listar_asistencia();
+			}else{
+				swal({
+					title: 'Error', 
+					text: 'Lo sentimos no se puede eliminar la asistencia',
+					type: 'error', 
+					confirmButtonClass: 'btn-danger'
+				});	
+			}
+		}
+     });
+}
+
+var delete_marcaje_asistencia_colaboradores_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.eliminar_salida");
+	$(tbody).on("click", "button.eliminar_salida", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+
+		swal({
+			title: "¿Estas seguro?",
+			text: "¿Desea eliminar el marcaje de salida para el colaborador: # " + data.colaborador + ", para la fecha " + data.fecha + "?",
+			type: "info",
+			showCancelButton: true,
+			confirmButtonClass: "btn-primary",
+			confirmButtonText: "¡Sí, eliminar el marcaje de salida!",
+			cancelButtonText: "Cancelar",
+			closeOnConfirm: false
+		},
+		function(){
+			deleteMarcajeSalida(data.asistencia_id);
+		});
+	});
+}
+
+function deleteMarcajeSalida(asistencia_id){
+    var url = '<?php echo SERVERURL;?>core/deleteMarcajeSalidaColaborador.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+		data:'asistencia_id='+asistencia_id,
+        success: function(data){
+		    if(data == 1){
+				swal({
+					title: "Success",
+					text: "El marcaje de salida ha sido eliminado correctamente",
+					type: "success",
+				});
+				listar_asistencia();
+			}else if(data == 3){
+				swal({
+					title: 'Error', 
+					text: 'No hay marcaje de salida',
+					type: 'error', 
+					confirmButtonClass: 'btn-danger'
+				});	
+			}else{
+				swal({
+					title: 'Error', 
+					text: 'Lo sentimos no se puede eliminar el marcaje de salida',
+					type: 'error', 
+					confirmButtonClass: 'btn-danger'
+				});	
+			}
+		}
+     });
+}
+
+var edit_asistencia_colaboradores_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.editar_asistencia");
+	$(tbody).on("click", "button.editar_asistencia", function(){
+		var data = table.row( $(this).parents("tr") ).data();
+		var url = '<?php echo SERVERURL;?>core/editarAsistencia.php';
+		$('#formAsistencia')[0].reset();
+		$('#formAsistencia #asistencia_id').val(data.asistencia_id);
+
+		$.ajax({
+			type:'POST',
+			url:url,
+			data:$('#formAsistencia').serialize(),
+			success: function(registro){
+				var valores = eval(registro);
+				$('#formAsistencia').attr({ 'data-form': 'update' });
+				$('#formAsistencia').attr({ 'action': '<?php echo SERVERURL;?>ajax/updateAsistenciaAjax.php' });				
+				$('#reg_asistencia').hide();
+				$('#edi_asistencia').show();
+
+				$('#formAsistencia #asistencia_empleado').val(valores[0]);
+				$('#formAsistencia #asistencia_empleado').selectpicker('refresh');
+				$('#formAsistencia #fecha').val(valores[1]);
+				$('#formAsistencia #horagi').val(valores[2]);
+				$('#formAsistencia #horagf').val(valores[3]);
+				$('#formAsistencia #comentario').val(valores[5]);
+				
+				$('#formAsistencia #grupoHora').hide();				
+				$('#formAsistencia #grupoHorai').show();
+	  			$('#formAsistencia #grupoHoraf').show();
+				$('#formAsistencia #grupoHoraComentario').show();
+
+				$('#formAsistencia #proceso_asistencia').val("Editar");
+				$('#modal_registrar_asistencia').modal({
+					show:true,
+					keyboard: false,
+					backdrop:'static'
+				});
+			}
+		});
+	});
+}
+
+function getColaboradores(){
+    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#form_main_asistencia #colaborador').html("");
+			$('#form_main_asistencia #colaborador').html(data);
+			$('#form_main_asistencia #colaborador').selectpicker('refresh');	
+			
+		    $('#formAsistencia #asistencia_empleado').html("");
+			$('#formAsistencia #asistencia_empleado').html(data);
+			$('#formAsistencia #asistencia_empleado').selectpicker('refresh');				
+		}
+     });
+}
+
+function modal_asistencia(){
+	  $('#formAsistencia').attr({ 'data-form': 'save' });
+	  $('#formAsistencia').attr({ 'action': '<?php echo SERVERURL;?>ajax/addAsistenciaAjax.php' });
+	  $('#formAsistencia')[0].reset();
+	  $('#reg_asistencia').show();	
+	  $('#edi_asistencia').hide();
+	  $('#formAsistencia #proceso_asistencia').val("Registro");
+	  $('#formAsistencia #fechaAsistencia').show();
+	  getColaboradores();
+
+	  $('#formAsistencia #grupoHora').hide();
+	  $('#formAsistencia #grupoHorai').show();
+	  $('#formAsistencia #grupoHoraf').hide();
+	  $('#formAsistencia #grupoHoraComentario').show();
+
+	  $('#formAsistencia #marcarAsistencia_id').val(0); 
+
+	  $('#modal_registrar_asistencia').modal({
+		show:true,
+		keyboard: false,
+		backdrop:'static'
+	  });
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+    // Invocamos cada 1 segundos ;)
+    const milisegundos = 1 *500;
+    setInterval(function(){
+        // No esperamos la respuesta de la petición porque no nos importa
+        showTime();
+    },milisegundos);
+});
+
+$(document).ready(function(){	
+	showTime();
+});
+
+function showTime(){
+	const current = new Date();
+
+	const time = current.toLocaleTimeString("en-US", {
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: false
+	});
+
+	$('#formAsistencia #hora').val(time);	
+}
+
+function getColaboradorAsistencia(){
+	var url = '<?php echo SERVERURL;?>core/editarUsarioSistema.php';
+
+	var colaboradores_id;
+
+	$.ajax({
+		type:'POST',
+		url:url,
+		async: false,
+		success: function(valores){
+			var datos = eval(valores);
+			colaboradores_id = datos[0];
+		}
+	});
+
+	return colaboradores_id;
+}
+//FIN ASISTENCIA
 </script>

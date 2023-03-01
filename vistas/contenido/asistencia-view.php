@@ -56,16 +56,16 @@
 				<div class="table-responsive">
 					<table id="dataTableAsistencia" class="table table-striped table-condensed table-hover" style="width:100%">
 						<thead>
-							<tr>
-								<th>Empleado</th>
-								<th>Lunes</th>
-								<th>Martes</th>
-								<th>Miercoles</th>
-								<th>Jueves</th>
-								<th>Viernes</th>
-								<th>Sabado</th>
-								<th>Domingo</th>
-								<th>Total</th>
+							<tr>								
+								<th>Colaborador</th>								
+								<th>Fecha</th>
+								<th>Hora Entrada</th>
+								<th>Hora Salida</th>
+								<th>Horas Trabajadas</th>
+								<th>Comentario</th>
+								<th>Editar</th>
+								<th>Eliminar Salida</th>
+								<th>Eliminar Marcaje</th>
 							</tr>
 						</thead>
 					</table>  

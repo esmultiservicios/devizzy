@@ -19,15 +19,16 @@
 	
 	while($row = $result->fetch_assoc()){				
 		$data[] = array( 
-			"empleado"=>$row['empleado'],
-			"lunes"=>$row['lunes'] == 0 ? 'No' : 'Sí',
-			"martes"=>$row['martes'] == 0 ? 'No' : 'Sí',
-			"miercoles"=>$row['miercoles'] == 0 ? 'No' : 'Sí',
-			"jueves"=>$row['jueves'] == 0 ? 'No' : 'Sí',
-			"viernes"=>$row['viernes'] == 0 ? 'No' : 'Sí',	
-			"sabado"=>$row['sabado'] == 0 ? 'No' : 'Sí',
-			"domingo"=>$row['domingo'] == 0 ? 'No' : 'Sí',
-			"total"=>$row['total']					
+			"asistencia_id"=>$row['asistencia_id'],
+			"colaboradores_id"=>$row['colaboradores_id'],
+			"colaborador"=>$row['colaborador'],
+			"fecha"=>$row['fecha'],
+			"hora_entrada"=>$row['hora_entrada'],
+			"hora_salida"=>$row['hora_salida'],
+			"horai"=>$row['horai'],
+			"horaf"=>$row['horaf'],
+			"horat"=>"",
+			"comentario"=>$row['comentario']									
 		);		
 	}
 	

@@ -7,7 +7,7 @@
 	
 	class bancoControlador extends bancoModelo{
 		public function agregar_banco_controlador(){
-			$nombre = mainModel::cleanStringConverterCase($_POST['confbanco']);
+			$nombre = mainModel::cleanString($_POST['confbanco']);
 			$estado = 1;
 
 			$fecha_registro = date("Y-m-d H:i:s");	

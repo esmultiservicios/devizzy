@@ -363,7 +363,7 @@ function getEmpresaIngresos(){
         success: function(data){
 		    $('#formIngresosContables #empresa_ingresos').html("");
 			$('#formIngresosContables #empresa_ingresos').html(data);
-			$('#formIngresosContables #empresa_ingresos').selectpicker('refresh');		
+			$('#formIngresosContables #empresa_ingresos').selectpicker('refresh');				
 		}
      });
 }

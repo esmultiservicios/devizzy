@@ -307,6 +307,7 @@ function modal_contratos(){
 	  $('#formContrato #contrato_fecha_fin').attr('disabled', false);
 	  $('#formContrato #contrato_notas').attr('readonly', false);
 	  $('#formContrato #contrato_activo').attr('disabled', false);
+	  $('#formContrato #contrato_salario_mensual').attr('readonly', false);
 	  $('#formContrato #buscar_contrato_empleado').show();
 
 	  getTipoContrato();

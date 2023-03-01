@@ -303,7 +303,7 @@
 									"form" => "purchase-form",	
 									"id" => "proceso_Purchase",
 									"valor" => "Registro",
-									"funcion" => "limpiarTablaCompras();pagoCompras(".$compras_id.");getColaboradorCompras();cleanFooterValuePurchase();",
+									"funcion" => "limpiarTablaCompras();pagoCompras(".$compras_id.");getColaboradorCompras();cleanFooterValuePurchase();resetRowPurchase();",
 									"modal" => "",
 								];
 
@@ -557,7 +557,7 @@
 									"form" => "purchase-form",	
 									"id" => "proceso_Purchase",
 									"valor" => "Registro",
-									"funcion" => "limpiarTablaCompras();getColaboradorCompras();printPurchase(".$compras_id.");cleanFooterValuePurchase();",
+									"funcion" => "limpiarTablaCompras();getColaboradorCompras();printPurchase(".$compras_id.");cleanFooterValuePurchase();resetRowPurchase();",
 									"modal" => "",
 								];
 

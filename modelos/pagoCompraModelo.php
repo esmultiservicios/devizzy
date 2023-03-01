@@ -115,7 +115,6 @@
 					
 					pagoCompraModelo::agregar_pago_detalles_compras_modelo($datos_pago_detalle);
 					
-					
 					/**###########################################################################################################*/
 					//CONSULTAMOS EL SUBTOTAL, ISV, DESCUENTO, NC Y TOTAL EN LOS COMPRAS DETALLES
 					$resultDetallesCompras = pagoCompraModelo::consulta_detalle_compras($compras_id);
@@ -133,8 +132,9 @@
 						$total_antes_isvMontoTipoPago = ($total_despues_isvMontoTipoPago - $isv_neto) - $descuentos;
 					}
 					
+					/**###########################################################################################################*/
 					//CONSULTAMOS LA CUENTA_ID SEGUN EL TIPO DE PAGO
-					$consulta_fecha_compra = pagoCompraModelo::consultar_cuenta_contabilidad_tipo_pago($metodo_pago)->fetch_assoc();
+					$consulta_fecha_compra = self::consultar_cuenta_contabilidad_tipo_pago($metodo_pago)->fetch_assoc();
 					$cuentas_id = $consulta_fecha_compra['cuentas_id'];
 
 					//CONSULTAMOS EL PROVEEDOR
@@ -212,7 +212,7 @@
 							"form" => "formEfectivoPurchase",
 							"id" => "proceso_pagosPurchase",
 							"valor" => "Registro",	
-							"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();saldoCompras(".$compras_id.")",
+							"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();saldoCompras(".$compras_id.");getProveedores();getColaboradores();getColaboradorCompras();",
 							"modal" => "modal_pagosPurchase",														
 						];
 					}else{
@@ -227,7 +227,7 @@
 							"form" => "formEfectivoPurchase",
 							"id" => "proceso_pagosPurchase",
 							"valor" => "Registro",	
-							"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();",
+							"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();getProveedores();getColaboradores();getColaboradorCompras();",
 							"modal" => "modal_pagosPurchase",													
 						];					
 					}
@@ -288,14 +288,7 @@
 					
 					//ACTUALIZAMOS EL ESTADO DE LA FACTURA
 					pagoCompraModelo::update_status_compras($compras_id);
-					
-					// //VERIFICAMOS SI ES UNA CUENTA POR COBRAR, DE SERLO ACTUALIZAMOS EL ESTADO DEL PAGO PARA LA CUENTA POR COBRAR
-					// $result_cxp_clientes = pagoCompraModelo::consultar_compra_cuentas_por_pagar($compras_id);
-					
-					// if($result_cxp_clientes->num_rows>0){
-					// 	pagoCompraModelo::update_status_compras_cuentas_por_pagar($compras_id);
-					// }
-					
+									
 					/**###########################################################################################################*/
 					//CONSULTAMOS EL SUBTOTAL, ISV, DESCUENTO, NC Y TOTAL EN LOS COMPRAS DETALLES
 					$resultDetallesCompras = pagoCompraModelo::consulta_detalle_compras($compras_id);
@@ -314,11 +307,11 @@
 					}
 					
 					//CONSULTAMOS LA CUENTA_ID SEGUN EL TIPO DE PAGO
-					$consulta_fecha_compra = pagoCompraModelo::consultar_cuenta_contabilidad_tipo_pago($metodo_pago)->fetch_assoc();
+					$consulta_fecha_compra = self::consultar_cuenta_contabilidad_tipo_pago($metodo_pago)->fetch_assoc();
 					$cuentas_id = $consulta_fecha_compra['cuentas_id'];
 
 					//CONSULTAMOS EL PROVEEDOR
-					$consulta_fecha_compra = pagoCompraModelo::consultar_proveedor_id_compra($compras_id)->fetch_assoc();
+					$consulta_fecha_compra = self::consultar_proveedor_id_compra($compras_id)->fetch_assoc();
 					$proveedores_id = $consulta_fecha_compra['proveedores_id'];	
 					$factura = $consulta_fecha_compra['factura'];				
 					$tipo_egreso = 1;//COMPRA
@@ -346,13 +339,13 @@
 					];
 
 					//AGREGAMOS LOS EGRESOS
-					$result_valid_egresos = pagoCompraModelo::valid_egresos_cuentas_modelo($datosEgresos);
+					$result_valid_egresos = self::valid_egresos_cuentas_modelo($datosEgresos);
 			
 					if($result_valid_egresos->num_rows==0 ){
-						pagoCompraModelo::agregar_egresos_contabilidad_modelo($datosEgresos);
+						self::agregar_egresos_contabilidad_modelo($datosEgresos);
 
 						//CONSULTAMOS EL SALDO DISPONIBLE PARA LA CUENTA
-						$consulta_ingresos_contabilidad = pagoCompraModelo::consultar_saldo_movimientos_cuentas_contabilidad($cuentas_id)->fetch_assoc();
+						$consulta_ingresos_contabilidad = self::consultar_saldo_movimientos_cuentas_contabilidad($cuentas_id)->fetch_assoc();
 						$saldo_consulta = $consulta_ingresos_contabilidad['saldo'];	
 						$ingreso = 0;
 						$egreso = $total_despues_isvMontoTipoPago;
@@ -370,7 +363,7 @@
 							"fecha_registro" => $fecha_registro,				
 						];
 						
-						pagoCompraModelo::agregar_movimientos_contabilidad_modelo($datos_movimientos);
+						self::agregar_movimientos_contabilidad_modelo($datos_movimientos);
 					}					
 					/**###########################################################################################################*/					
 					$alert = [
@@ -383,7 +376,7 @@
 						"form" => "formEfectivoPurchase",
 						"id" => "proceso_pagosPurchase",
 						"valor" => "Registro",	
-						"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();printPurchase(".$compras_id.");",
+						"funcion" => "getBancoPurchase();listar_cuentas_por_pagar_proveedores();printPurchase(".$compras_id.");getProveedores();getColaboradores();getColaboradorCompras();",
 						"modal" => "modal_pagosPurchase",													
 					];						
 					
