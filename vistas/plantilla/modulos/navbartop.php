@@ -1,6 +1,7 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-color-navarlateral">
 	<a class="navbar-brand" href="<?php echo SERVERURL; ?>dashboard/"><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo1.png" width="90%" alt="We share" loading="lazy"></center></a>
     <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars fa-lg"></i></button>
+    <!---ejemplo-->
     <!-- Navbar Search-->
         <a class="nav-link link d-none d-sm-none d-md-block reporteVentas" href="<?php echo SERVERURL; ?>reporteVentas/" style="display:none"><div class="sb-nav-link-icon"></i></div>Reporte Ventas</a>
         <a class="nav-link link d-none d-sm-none d-md-block reporteCotizacion" href="<?php echo SERVERURL; ?>reporteCotizacion/" style="display:none"><div class="sb-nav-link-icon"></div>Reporte Cotización</a>
