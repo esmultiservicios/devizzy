@@ -1642,6 +1642,16 @@
 			return $result;
 		}
 
+		public function getDocumentoSecuenciaFacturacion($documento){
+			$query = "SELECT documento_id
+				FROM documento
+				WHERE nombre = '".$documento."'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
 		public function getSaldoMovimientosCuentasUltimaFecha($cuentas_id, $fecha){
 			$query = "SELECT saldo, fecha
 				FROM movimientos_cuentas

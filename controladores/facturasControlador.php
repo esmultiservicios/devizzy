@@ -584,9 +584,13 @@
 							}//FIN CICLO FOR
 
 							$total_despues_isv = ($total_valor + $isv_neto) - $descuentos;
+
+							//OBTENEMOS EL DOCUMENTO ID DE LA FACTURACION
+							$consultaDocumento = mainModel::getDocumentoSecuenciaFacturacion("Factura Electronica")->fetch_assoc();
+							$documento_id = $consultaDocumento['documento_id'];							
 							
 							//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
-							$secuenciaFacturacion = facturasModelo::secuencia_facturacion_modelo($empresa_id, $numero)->fetch_assoc();
+							$secuenciaFacturacion = facturasModelo::secuencia_facturacion_modelo($empresa_id, $documento_id)->fetch_assoc();
 							$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
 							$numero = $secuenciaFacturacion['numero'];
 							$incremento = $secuenciaFacturacion['incremento'];

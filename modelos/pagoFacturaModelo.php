@@ -159,10 +159,10 @@
 			return $result;				
 		}
 
-		protected function secuencia_facturacion_modelo($empresa_id){
+		protected function secuencia_facturacion_modelo($empresa_id, $documento_id){
 			$query = "SELECT secuencia_facturacion_id, prefijo, siguiente AS 'numero', rango_final, fecha_limite, incremento, relleno
 			   FROM secuencia_facturacion
-			   WHERE activo = '1' AND empresa_id = '$empresa_id'";
+			   WHERE activo = '1' AND empresa_id = '$empresa_id' AND documento_id = '$documento_id'";
 			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $result;
@@ -382,13 +382,17 @@
 														
 							];
 
+							//OBTENEMOS EL DOCUMENTO ID DE LA FACTURACION
+							$consultaDocumento = mainModel::getDocumentoSecuenciaFacturacion("Factura Electronica")->fetch_assoc();
+							$documento_id = $consultaDocumento['documento_id'];	
+
 							//VALIDAMOS SI LA FACTURA YA TIENE ASIGNADO UN NUMERO CORRELATIVO, DE NO TENERLO NO HACEMOS NADA
 							$result_consuta_factura = pagoFacturaModelo::consultar_numero_factura_modelo($res['facturas_id'])->fetch_assoc();
 							$numero_factura_consultado = $result_consuta_factura['number'];
 
 							if($numero_factura_consultado == "" || $numero_factura_consultado == 0){
 								if($res['tipo_pago'] == 1){
-									$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($res['empresa'])->fetch_assoc();
+									$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($res['empresa'], $documento_id)->fetch_assoc();
 									$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
 									$numero = $secuenciaFacturacion['numero'];
 									$incremento = $secuenciaFacturacion['incremento'];
@@ -478,11 +482,15 @@
 
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($res['facturas_id'],2,0);
 						
+						//OBTENEMOS EL DOCUMENTO ID DE LA FACTURACION
+						$consultaDocumento = mainModel::getDocumentoSecuenciaFacturacion("Factura Electronica")->fetch_assoc();
+						$documento_id = $consultaDocumento['documento_id'];	
+
 						//VALIDAMOS EL TIPO DE FACTURA, SI ES AL CONTADO, VERIFICAMOS EL NUMERO DE FACTURA QUE SIGUE, SI ES AL CREDITO, SOLO CONSULTAMOS EL ULTIMO NUMERO ALMACENADO PARA QUE NO PASE AL SIGUIENTE
 						$tipo_factura = pagoFacturaModelo::consultar_tipo_factura($res['facturas_id'])->fetch_assoc();
 
 						if($tipo_factura['tipo_factura'] == 1){
-							$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($res['empresa'])->fetch_assoc();
+							$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($res['empresa'], $documento_id)->fetch_assoc();
 							$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
 							$numero = $secuenciaFacturacion['numero'];
 							$incremento = $secuenciaFacturacion['incremento'];
