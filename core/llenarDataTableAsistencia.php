@@ -27,7 +27,7 @@
 			"hora_salida"=>$row['hora_salida'],
 			"horai"=>$row['horai'],
 			"horaf"=>$row['horaf'],
-			"horat"=>"",
+			"horat"=>$row['total_horas'],
 			"comentario"=>$row['comentario']									
 		);		
 	}

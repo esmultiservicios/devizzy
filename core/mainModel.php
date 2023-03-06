@@ -1322,7 +1322,7 @@
 				$colaboradores_id = "AND s.colaboradores_id = '".$datos['colaboradores_id']."'";
 			}		
 
-			$query = "SELECT a.asistencia_id AS 'asistencia_id', a.colaboradores_id AS 'colaboradores_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', a.fecha AS 'fecha', a.horai AS 'hora_entrada', CONVERT(a.horaf, TIME) AS 'hora_salida', DATE_FORMAT(a.horai,'%h:%i:%s %p') AS 'horai',  DATE_FORMAT(CONVERT(a.horaf, TIME),'%h:%i:%s %p') AS 'horaf', a.comentario AS 'comentario'
+			$query = "SELECT a.asistencia_id AS 'asistencia_id', a.colaboradores_id AS 'colaboradores_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', a.fecha AS 'fecha', a.horai AS 'hora_entrada', CONVERT(a.horaf, TIME) AS 'hora_salida', DATE_FORMAT(a.horai,'%h:%i:%s %p') AS 'horai',  DATE_FORMAT(CONVERT(a.horaf, TIME),'%h:%i:%s %p') AS 'horaf', a.comentario AS 'comentario', DATE_FORMAT(CONVERT(TIMEDIFF(horaf,horai), TIME),'%h:%i') AS 'total_horas'
 				FROM asistencia AS a
 				INNER JOIN colaboradores AS c ON a.colaboradores_id = c.colaboradores_id
 				WHERE a.estado = 0";
