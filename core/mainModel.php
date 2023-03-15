@@ -1914,7 +1914,7 @@
 		}	
 
 		public function getEmpleadoContratoEdit($colaboradores_id){
-			$query = "SELECT c.colaborador_id AS colaborador_id, CONCAT(co.nombre, ' ', co.apellido) AS 'nombre', co.identidad AS 'identidad', p.nombre AS 'puesto', c.contrato_id AS 'contrato_id', c.salario AS 'salario', co.fecha_ingreso AS 'fecha_ingreso', c.tipo_empleado_id AS 'tipo_empleado_id', c.pago_planificado_id AS 'pago_planificado_id'
+			$query = "SELECT c.colaborador_id AS colaborador_id, CONCAT(co.nombre, ' ', co.apellido) AS 'nombre', co.identidad AS 'identidad', p.nombre AS 'puesto', c.contrato_id AS 'contrato_id', c.salario_mensual AS 'salario', co.fecha_ingreso AS 'fecha_ingreso', c.tipo_empleado_id AS 'tipo_empleado_id', c.pago_planificado_id AS 'pago_planificado_id'
 				FROM contrato AS c
 				INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
 				INNER JOIN puestos AS p ON co.puestos_id = p.puestos_id

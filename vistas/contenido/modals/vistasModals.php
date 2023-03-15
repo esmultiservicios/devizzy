@@ -1716,7 +1716,7 @@
 
 				<div class="form-row">					
 					<div class="col-md-12 mb-3">
-						<label for="incremento">Dirección <span class="priority">*<span/></label>
+						<label for="direccion_empresa">Dirección <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
 							<textarea id="direccion_empresa" name="direccion_empresa" placeholder="Dirección " class="form-control" maxlength="100" rows="4" required></textarea>
 							<div class="input-group-append">				
@@ -2037,8 +2037,8 @@
         </div>
 		<div class="modal-footer">
 			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_producto" form="formProductos"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>
-			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="edi_producto" form="formProductos"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>
-			<button class="eliminar btn btn-danger ml-2" type="submit" style="display: none;" id="delete_producto" form="formProductos"><div class="sb-nav-link-icon"></div><i class="fa fa-trash fa-lg"></i> Eliminar</button>				
+			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="edit_producto" form="formProductos"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>
+			<button class="eliminar btn btn-danger ml-2" type="submit" style="display: none;" id="del_producto" form="formProductos"><div class="sb-nav-link-icon"></div><i class="fa fa-trash fa-lg"></i> Eliminar</button>				
 		</div>		
       </div>
     </div>
