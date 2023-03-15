@@ -2905,7 +2905,8 @@
 				ON e.cuentas_id = c.cuentas_id
 				INNER JOIN proveedores AS p
 				ON e.proveedores_id = p.proveedores_id
-				WHERE CAST(e.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND e.tipo_egreso = 2 AND e.estado = '".$datos['estado']."'
+				WHERE CAST(e.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' 
+				AND e.estado = '".$datos['estado']."'
 				ORDER BY e.fecha_registro DESC";
 
 			$result = self::connection()->query($query);

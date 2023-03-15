@@ -145,30 +145,51 @@
 					$observacion = "Egresos por compras";
 					$egresos_id = mainModel::correlativo("egresos_id", "egresos");
 
-					//AGREGAMOS LOS EGRESOS DE LA COMPRA
-					$datosEgresos = [
-						"proveedores_id" => $proveedores_id,
-						"cuentas_id" => $cuentas_id,
-						"empresa_id" => $empresa,
-						"tipo_egreso" => $tipo_egreso,
-						"fecha" => $fecha,
-						"factura" => $factura,
-						"subtotal" => $total_antes_isvMontoTipoPago,
-						"isv" => $isv_neto,
-						"descuento" => $descuentos,
-						"nc" => $nc,
-						"total" => $total_despues_isvMontoTipoPago,
-						"observacion" => $observacion,
-						"estado" => $estado,
-						"fecha_registro" => $fecha_registro,						
-						"colaboradores_id" => $colaboradores_id,
-						"egresos_id" => $egresos_id,
-					];
+					//AGREGAMOS LOS EGRESOS DE LA COMPRA/x
+					//SI ES ABONO LOS DATOS CAMBIAN
+					if($res['tipo_pago'] == 2 || $multiple_pago == 1){
+							$datosEgresos = [
+								"proveedores_id" => $proveedores_id,
+								"cuentas_id" => $cuentas_id,
+								"empresa_id" => $empresa,
+								"tipo_egreso" => $tipo_egreso,
+								"fecha" => $fecha,
+								"factura" => $factura,
+								"subtotal" => $abono,
+								"isv" => 0,
+								"descuento" => 0,
+								"nc" => 0,
+								"total" => $abono,
+								"observacion" => $observacion,
+								"estado" => $estado,
+								"fecha_registro" => $fecha_registro,						
+								"colaboradores_id" => $colaboradores_id,
+								"egresos_id" => $egresos_id,
+							];
+					}else{
+							$datosEgresos = [
+								"proveedores_id" => $proveedores_id,
+								"cuentas_id" => $cuentas_id,
+								"empresa_id" => $empresa,
+								"tipo_egreso" => $tipo_egreso,
+								"fecha" => $fecha,
+								"factura" => $factura,
+								"subtotal" => $total_antes_isvMontoTipoPago,
+								"isv" => $isv_neto,
+								"descuento" => $descuentos,
+								"nc" => $nc,
+								"total" => $total_despues_isvMontoTipoPago,
+								"observacion" => $observacion,
+								"estado" => $estado,
+								"fecha_registro" => $fecha_registro,						
+								"colaboradores_id" => $colaboradores_id,
+								"egresos_id" => $egresos_id,
+							];
 
+					}
 					//AGREGAMOS LOS EGRESOS
-					$result_valid_egresos = pagoCompraModelo::valid_egresos_cuentas_modelo($datosEgresos);
-			
-					if($result_valid_egresos->num_rows==0 ){
+
+					
 						pagoCompraModelo::agregar_egresos_contabilidad_modelo($datosEgresos);
 
 						//CONSULTAMOS EL SALDO DISPONIBLE PARA LA CUENTA
@@ -191,7 +212,7 @@
 						];
 						
 						pagoCompraModelo::agregar_movimientos_contabilidad_modelo($datos_movimientos);
-					}					
+										
 					/**###########################################################################################################*/
 					
 					$get_cxc_proveedor = pagoCompraModelo::consultar_compra_cuentas_por_pagar($compras_id);
@@ -425,8 +446,13 @@
 
 		protected function agregar_egresos_contabilidad_modelo($datos){
 			$egresos_id = mainModel::correlativo("egresos_id", "egresos");
-			$insert = "INSERT INTO egresos VALUES('".$egresos_id ."','".$datos['cuentas_id']."','".$datos['proveedores_id']."','".$datos['empresa_id']."','".$datos['tipo_egreso']."','".$datos['fecha']."','".$datos['factura']."','".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."','".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
-	
+			$insert = "
+			INSERT INTO egresos 
+			VALUES('".$egresos_id ."','".$datos['cuentas_id']."','".$datos['proveedores_id']."',
+			'".$datos['empresa_id']."','".$datos['tipo_egreso']."','".$datos['fecha']."','".$datos['factura']."',
+			'".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."',
+			'".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
+		
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			
@@ -523,7 +549,7 @@
 		
 		protected function valid_egresos_cuentas_modelo($datos){
 			$query = "SELECT egresos_id FROM egresos WHERE factura = '".$datos['factura']."' AND proveedores_id = '".$datos['proveedores_id']."'";
-
+	
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;			

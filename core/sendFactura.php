@@ -457,24 +457,12 @@
 						</td>
 					  </tr>
 					  <tr>
-						<td>
-						  <b>Creación de Usuario</b>
-						</td>
+						<td colspan="2"><center><b><h4>Factura</h4></b></center></td>
 					  </tr>
-					  <tr>
-						 <td style="direction:ltr;font-size:0px;padding:9px 0px 9px 0px;text-align:center;">
-							<div class="mj-column-per-100 outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-							   <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-							   <tr>
-							   		<td colspan="2"><center><b><h4>Factura</h4></b></center></td>
-								</tr>
-								<tr>
-									<td colspan="2"><b>Estimado(a) '.$nombre.', se le notifica que se le esta haciendo llegar su factura # '.$prefijo.''.$no_factura.'.</b></td>
-								</tr>
-							   </table>
-							</div>
-						 </td>
-					  </tr>
+					<tr>
+						<td colspan="2"><b>Estimado(a) '.$nombre.', se le notifica que se le esta haciendo llegar su factura # '.$prefijo.''.$no_factura.'.</b></td>
+					</tr>
+
 				   </tbody>
 				</table>
 			 </div>
