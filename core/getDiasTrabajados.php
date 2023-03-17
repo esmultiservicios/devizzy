@@ -16,6 +16,9 @@
 	if($result->num_rows>0){
 		$valores2 = $result->fetch_assoc();
 		$dt = $valores2['total'] + 5;		
+		if($dt > 15){
+			$dt = 15;
+		}
 	}		
 	$datos = array(
 		0 => $dt 					

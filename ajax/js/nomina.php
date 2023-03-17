@@ -1146,9 +1146,9 @@ var eliminar_nominas_detalles_dataTable = function(tbody, table){
 				$('#formNominaDetalles #nominad_rap').val(valores[21]);
 				$('#formNominaDetalles #nominad_isr').val(valores[22]);
 				$('#formNominaDetalles #nominad_incapacidad_ihss').val(valores[23]);
-				$('#formNominaDetalles #nominad_neto_ingreso').val(valores[24]);
-				$('#formNominaDetalles #nominad_neto_egreso').val(valores[25]);				
-				$('#formNominaDetalles #nominad_neto').val(valores[26]);
+				$('#formNominaDetalles #nominad_neto_ingreso').val(Math.round(valores[24]));
+				$('#formNominaDetalles #nominad_neto_egreso').val(Math.round(valores[25]));				
+				$('#formNominaDetalles #nominad_neto').val(Math.round(valores[26]));
 				$('#formNominaDetalles #nominad_detalle').val(valores[27]);	
 				$('#formNominaDetalles #nomina_detalles_notas').val(valores[28]);
 
@@ -1404,13 +1404,13 @@ function calculoNomina(){
 
 	neto = parseFloat(neto_ingresos) - parseFloat(neto_egresos);
 
-	$('#formNominaDetalles #nominad_neto_ingreso').val(parseFloat(neto_ingresos).toFixed(2));
-	$('#formNominaDetalles #nominad_neto_egreso').val(parseFloat(neto_egresos).toFixed(2));
-	$('#formNominaDetalles #nominad_neto').val(parseFloat(neto).toFixed(2));
+	$('#formNominaDetalles #nominad_neto_ingreso').val(parseFloat(Math.round(neto_ingresos)).toFixed(2));
+	$('#formNominaDetalles #nominad_neto_egreso').val(parseFloat(Math.round(neto_egresos)).toFixed(2));
+	$('#formNominaDetalles #nominad_neto').val(parseFloat(Math.round(neto)).toFixed(2));
 
-	$('#nominad_neto_ingreso1').val(parseFloat(neto_ingresos).toFixed(2));
-	$('#nominad_neto_egreso1').val(parseFloat(neto_egresos).toFixed(2));
-	$('#nominad_neto1').val(parseFloat(neto).toFixed(2));	
+	$('#nominad_neto_ingreso1').val(parseFloat(Math.round(neto_ingresos)).toFixed(2));
+	$('#nominad_neto_egreso1').val(parseFloat(Math.round(neto_egresos)).toFixed(2));
+	$('#nominad_neto1').val(parseFloat(Math.round(neto)).toFixed(2));	
 }
 
 $("#formNominaDetalles #nominad_diast").on("keyup", function(){
