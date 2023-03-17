@@ -4177,7 +4177,7 @@
 
 			$query = "SELECT 
 				f.facturas_id AS 'facturas_id', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.nombre AS 'cliente', 
-				CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', FORMAT(f.importe,2) As 'total', 
+				CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', f.importe As 'total', 
 				(CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', CONCAT(co.nombre, ' ', co.apellido) AS 'vendedor', CONCAT(co1.nombre, ' ', co1.apellido) AS 'facturador'
 				FROM facturas AS f
 				INNER JOIN clientes AS c
