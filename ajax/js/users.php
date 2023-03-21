@@ -147,7 +147,6 @@ var editar_usuarios_dataTable = function(tbody, table){
 				$('#delete_usuario').hide();
 				$('#formUsers #usuarios_colaborador_id').val(valores[0]);
 				$('#formUsers #colaborador_id_usuario').val(valores[1]);
-				alert(valores[1]);
 				$('#formUsers #colaborador_id_usuario').selectpicker('refresh');
 				$('#formUsers #nickname').val(valores[2]);
 				$('#formUsers #pass').attr('disabled', true);

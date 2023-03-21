@@ -460,7 +460,7 @@
 						<td colspan="2"><center><b><h4>Factura</h4></b></center></td>
 					  </tr>
 					<tr>
-						<td colspan="2"><b>Estimado(a) '.$nombre.', se le notifica que se le esta haciendo llegar su factura # '.$prefijo.''.$no_factura.'.</b></td>
+						<td colspan="2">Estimado(a) <b>'.$nombre.'</b>, se le notifica que se le esta haciendo llegar su <b>factura # '.$prefijo.''.$no_factura.'.</b></td>
 					</tr>
 
 				   </tbody>
