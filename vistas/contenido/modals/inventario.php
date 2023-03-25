@@ -25,21 +25,21 @@
 					<div class="col-md-3 mb-3">
 					  <label>Tipo Producto <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
-						  <select id="movimientos_tipo_producto_id" name="movimientos_tipo_producto_id" class="selectpicker" data-live-search="true" title="Tipo Producto">
+						  <select id="movimientos_tipo_producto_id" name="movimientos_tipo_producto_id" class="selectpicker" data-live-search="true" title="Tipo Producto" required>
 						  </select>
 						</div>										 
 					</div>
 					<div class="col-md-3 mb-3">
 						<label>Productos <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
-						  <select id="movimiento_producto" name="movimiento_producto" class="selectpicker" data-live-search="true" title="Producto">
+						  <select id="movimiento_producto" name="movimiento_producto" class="selectpicker" data-live-search="true" title="Producto" required>
 						  </select>
 						</div>							 
 					</div>								
 					<div class="col-md-3 mb-3">
 					    <label>Tipo de Operación <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
-						  <select id="movimiento_operacion" name="movimiento_operacion" class="selectpicker" data-live-search="true" title="Tipo Operacion">
+						  <select id="movimiento_operacion" name="movimiento_operacion" class="selectpicker" data-live-search="true" title="Tipo Operacion" required>
 						  </select>
 						</div>					  
 					</div>					
@@ -59,7 +59,7 @@
 					<div class="col-md-3 col-md-3">
 						<label>Bodega <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
-						  <select id="almacen_modal" name="almacen_modal" class="selectpicker" data-live-search="true" title="Bodega">
+						  <select id="almacen_modal" name="almacen_modal" class="selectpicker" data-live-search="true" title="Bodega" required>
 						  </select>
 						</div>
 					</div>
