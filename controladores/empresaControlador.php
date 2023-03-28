@@ -10,6 +10,20 @@
 			if(!isset($_SESSION['user_sd'])){ 
 				session_start(['name'=>'SD']); 
 			}
+
+			
+				// Definimos la ruta de destino para guardar la imagen
+				$directorio_destino = "../img/logos/";
+				$archivo_destino = $directorio_destino . basename($_FILES["logotipo"]["name"]);
+
+				// Movemos el archivo cargado al directorio de destino
+				if(move_uploaded_file($_FILES["logotipo"]["tmp_name"], $archivo_destino)) {
+					// éxito
+					$logotipo = "img/logos/". basename($_FILES["logotipo"]["name"]);
+				} else {
+					$logotipo = '';
+				}
+			
 			
 			$razon_social = mainModel::cleanString($_POST['empresa_razon_social']);
 			$empresa = mainModel::cleanString($_POST['empresa_empresa']);
@@ -29,6 +43,7 @@
 			$estado = 1;	
 
 			$datos = [
+				"logotipo" => $logotipo,
 				"razon_social" => $razon_social,
 				"empresa" => $empresa,
 				"rtn" => $rtn,				

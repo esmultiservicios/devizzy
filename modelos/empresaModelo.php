@@ -9,7 +9,10 @@
 		protected function agregar_empresa_modelo($datos){
 			$empresa_id = mainModel::correlativo("empresa_id", "empresa");
 			$insert = "INSERT INTO empresa 
-				VALUES ('$empresa_id','".$datos['razon_social']."','".$datos['empresa']."','".$datos['otra_informacion']."','".$datos['eslogan']."','".$datos['celular']."','".$datos['telefono']."','".$datos['correo']."','".$datos['rtn']."','".$datos['ubicacion']."','".$datos['facebook']."','".$datos['sitioweb']."','".$datos['horario']."','".$datos['estado']."','".$datos['usuario']."','".$datos['fecha_registro']."')";
+				VALUES (
+					'$empresa_id','".$datos['razon_social']."','".$datos['empresa']."','".$datos['otra_informacion']."',
+					'".$datos['eslogan']."','".$datos['celular']."','".$datos['telefono']."','".$datos['correo']."','".$datos['logotipo']."',
+					'".$datos['rtn']."','".$datos['ubicacion']."','".$datos['facebook']."','".$datos['sitioweb']."','".$datos['horario']."','".$datos['estado']."','".$datos['usuario']."','".$datos['fecha_registro']."')";
 			
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
