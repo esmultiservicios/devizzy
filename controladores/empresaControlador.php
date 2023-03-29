@@ -10,20 +10,18 @@
 			if(!isset($_SESSION['user_sd'])){ 
 				session_start(['name'=>'SD']); 
 			}
+		
+			// Definimos la ruta de destino para guardar la imagen
+			$directorio_destino = "../img/logos/";
+			$archivo_destino = $directorio_destino . basename($_FILES["logotipo"]["name"]);
 
-			
-				// Definimos la ruta de destino para guardar la imagen
-				$directorio_destino = "../img/logos/";
-				$archivo_destino = $directorio_destino . basename($_FILES["logotipo"]["name"]);
-
-				// Movemos el archivo cargado al directorio de destino
-				if(move_uploaded_file($_FILES["logotipo"]["tmp_name"], $archivo_destino)) {
-					// éxito
-					$logotipo = "img/logos/". basename($_FILES["logotipo"]["name"]);
-				} else {
-					$logotipo = '';
-				}
-			
+			// Movemos el archivo cargado al directorio de destino
+			if(move_uploaded_file($_FILES["logotipo"]["tmp_name"], $archivo_destino)) {
+				// éxito
+				$logotipo = "img/logos/". basename($_FILES["logotipo"]["name"]);
+			} else {
+				$logotipo = '';
+			}			
 			
 			$razon_social = mainModel::cleanString($_POST['empresa_razon_social']);
 			$empresa = mainModel::cleanString($_POST['empresa_empresa']);
@@ -103,6 +101,22 @@
 		}
 		
 		public function edit_empresa_controlador(){
+			if(!isset($_SESSION['user_sd'])){ 
+				session_start(['name'=>'SD']); 
+			}
+						
+			// Definimos la ruta de destino para guardar la imagen
+			$directorio_destino = "../img/logos/";
+			$archivo_destino = $directorio_destino . basename($_FILES["logotipo"]["name"]);
+
+			// Movemos el archivo cargado al directorio de destino
+			if(move_uploaded_file($_FILES["logotipo"]["tmp_name"], $archivo_destino)) {
+				// éxito
+				$logotipo = "img/logos/". basename($_FILES["logotipo"]["name"]);
+			} else {
+				$logotipo = '';
+			}
+
 			$empresa_id = $_POST['empresa_id'];
 			$razon_social = mainModel::cleanString($_POST['empresa_razon_social']);
 			$empresa = mainModel::cleanString($_POST['empresa_empresa']);
@@ -125,6 +139,7 @@
 			}	
 			
 			$datos = [
+				"logotipo" => $logotipo,
 				"empresa_id" => $empresa_id,
 				"razon_social" => $razon_social,
 				"empresa" => $empresa,

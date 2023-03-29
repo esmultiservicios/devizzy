@@ -69,6 +69,7 @@ $(document).ready(function () {
 	setTotalPurchases();
     getMesFacturaCompra();
 	listar_secuencia_fiscales_dashboard();
+	$(window).scrollTop(0);
 
 	setInterval('setTotalCustomers()',120000);
 	setInterval('setTotalSuppliers()',120000);
@@ -234,7 +235,6 @@ function showComprasAnuales(){
 	});
 }	
 
-
 var listar_secuencia_fiscales_dashboard = function(){
 	var table_categoria_productos  = $("#dataTableSecuenciaDashboard").DataTable({
 		"destroy":true,
@@ -256,17 +256,17 @@ var listar_secuencia_fiscales_dashboard = function(){
 		"language": idioma_español,//esta se encuenta en el archivo main.js
 		"dom": dom,
 		"columnDefs": [
-		  { width: "16.66%", targets: 0 },
-		  { width: "16.66%", targets: 1 },
-		  { width: "16.66%", targets: 2 },
-		  { width: "16.66%", targets: 3 },
-		  { width: "16.66%", targets: 4 },
-		  { width: "16.66%", targets: 5 }
+			{ width: "40.66%", targets: 0 },
+			{ width: "12.66%", targets: 1 },
+			{ width: "12.66%", targets: 2 },
+			{ width: "12.66%", targets: 3 },
+			{ width: "8.66%", targets: 4 },
+			{ width: "12.66%", targets: 5 }
 		],		
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-				titleAttr: 'Actualizar Categoria Productos',
+				titleAttr: 'Actualizar Documentos Fiscales',
 				className: 'table_actualizar btn btn-secondary ocultar',
 				action: 	function(){
 					listar_secuencia_fiscales_dashboard();
@@ -276,22 +276,26 @@ var listar_secuencia_fiscales_dashboard = function(){
 				extend:    'excelHtml5',
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
 				titleAttr: 'Excel',
-				title: 'Reporte Categoria Productos',
+				orientation: 'landscape',
+				pageSize: 'LETTER',				
+				title: 'Reporte Documentos Fiscales',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-success ocultar',
 				exportOptions: {
-						columns: [0]
+					columns: [0,1,2,3,4,5]
 				},				
 			},
 			{
 				extend:    'pdf',
 				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 				titleAttr: 'PDF',
-				title: 'Reporte Categoria Productos',
+				orientation: 'landscape',
+				pageSize: 'LETTER',				
+				title: 'Reporte Documentos Fiscales',
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
 				className: 'table_reportes btn btn-danger ocultar',
 				exportOptions: {
-						columns: [0]
+					columns: [0,1,2,3,4,5]
 				},				
 				customize: function ( doc ) {
 					doc.content.splice( 1, 0, {

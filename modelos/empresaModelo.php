@@ -41,7 +41,8 @@
 				estado = '".$datos['estado']."',
 				facebook = '".$datos['facebook']."',
 				sitioweb = '".$datos['sitioweb']."',
-				horario = '".$datos['horario']."'					
+				horario = '".$datos['horario']."',
+				logotipo = '".$datos['logotipo']."'					
 			WHERE empresa_id = '".$datos['empresa_id']."'";
 			
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
