@@ -67,7 +67,8 @@ $(document).ready(function () {
 	setTotalSuppliers()
 	setTotalBills();
 	setTotalPurchases();
-    getMesFacturaCompra(); 
+    getMesFacturaCompra();
+	listar_secuencia_fiscales_dashboard();
 
 	setInterval('setTotalCustomers()',120000);
 	setInterval('setTotalSuppliers()',120000);
@@ -232,6 +233,85 @@ function showComprasAnuales(){
 		}
 	});
 }	
+
+
+var listar_secuencia_fiscales_dashboard = function(){
+	var table_categoria_productos  = $("#dataTableSecuenciaDashboard").DataTable({
+		"destroy":true,
+		"ajax":{
+			"method":"POST",
+			"url":"<?php echo SERVERURL; ?>core/llenarDataTableDocumentosFiscalesDashboard.php"
+		},
+		"columns":[
+			{"data":"empresa"},
+			{"data":"documento"},
+			{"data":"inicio"},
+			{"data":"fin"},
+			{"data":"siguiente"},
+			{"data":"fecha"}
+		],
+        "lengthMenu": lengthMenu,
+		"stateSave": true,
+		"bDestroy": true,
+		"language": idioma_español,//esta se encuenta en el archivo main.js
+		"dom": dom,
+		"columnDefs": [
+		  { width: "16.66%", targets: 0 },
+		  { width: "16.66%", targets: 1 },
+		  { width: "16.66%", targets: 2 },
+		  { width: "16.66%", targets: 3 },
+		  { width: "16.66%", targets: 4 },
+		  { width: "16.66%", targets: 5 }
+		],		
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Categoria Productos',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
+					listar_secuencia_fiscales_dashboard();
+				}
+			},
+			{
+				extend:    'excelHtml5',
+				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
+				titleAttr: 'Excel',
+				title: 'Reporte Categoria Productos',
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'table_reportes btn btn-success ocultar',
+				exportOptions: {
+						columns: [0]
+				},				
+			},
+			{
+				extend:    'pdf',
+				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+				titleAttr: 'PDF',
+				title: 'Reporte Categoria Productos',
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [0]
+				},				
+				customize: function ( doc ) {
+					doc.content.splice( 1, 0, {
+						margin: [ 0, 0, 0, 12 ],
+						alignment: 'left',
+						image: imagen,//esta se encuenta en el archivo main.js
+						width:100,
+                        height:45
+					} );
+				}
+			}
+		],
+		"drawCallback": function( settings ) {
+        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+    	}
+	});
+	table_categoria_productos.search('').draw();
+	$('#buscar').focus();
+
+}
 //DASHBOARD
 
 function getMesFacturaCompra(){
@@ -247,4 +327,6 @@ function getMesFacturaCompra(){
 		}
      });
 }
+
+
 </script>

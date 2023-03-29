@@ -77,6 +77,53 @@
 				</div>
 			</a>
 		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-xl-12">
+			<a href="<?php echo SERVERURL; ?>secuencia/" style="color: #3366BB;">
+				<div class="card-header">
+					<i class="fas fa-sliders-h mr-1"></i>
+					Documentos Fiscales
+				</div>
+				<div class="card-body"> 
+					<div class="table-responsive">
+						<table id="dataTableSecuenciaDashboard" class="table table-striped table-condensed table-hover" style="width:100%">
+							<thead>
+								<tr>
+									<th>Empresa</th>
+									<th>Documento</th>
+									<th>Rango Inicio</th>
+									<th>Rango Fin</th>	
+									<th>Actual</th>										
+									<th>Fecha Expiración</th>					
+								</tr>
+							</thead>
+						</table>  
+					</div>                   
+				</div>
+				<div class="card-footer small text-muted">
+				<?php
+					require_once "./core/mainModel.php";
+					
+					$insMainModel = new mainModel();
+					$entidad = "secuencia_facturacion";
+					
+					if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
+						$consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();
+						
+						$fecha_registro = $consulta_last_update['fecha_registro'];
+						$hora = date('g:i:s a',strtotime($fecha_registro));
+										
+						echo "Última Actualización ".$insMainModel->getTheDay($fecha_registro, $hora);						
+					}else{
+						echo "No se encontraron registros ";
+					}			
+				?>
+				</div>				
+			</a>
+		</div>
+			
 	</div>	
 </div>
 <?php
