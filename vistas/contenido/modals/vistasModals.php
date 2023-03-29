@@ -1655,12 +1655,21 @@
 				</div>
 
 				<div class="form-row">
-					<div class="col-md-12 mb-3">
+					<div class="col-md-6 col-12 mb-3">
+						<label for="logotipo">Logotipo</label>
+						<div class="input-group mb-3">
+						  <input type="file" class="form-control" name="logotipo" id="logotipo" accept="image/*">	
+						  <div class="input-group-append">				
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fa fa-image"></i></span>
+						  </div>
+						</div>	 
+					</div>	
+					<div class="col-md-6 col-12 mb-3">
 						<label for="correo_empresa">Correo</label>
 						<div class="input-group mb-3">
 						  <input type="email" class="form-control" placeholder="Correo" id="correo_empresa" name="correo_empresa" aria-label="Correo" aria-describedby="basic-addon2">
 						  <div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>@algo.com</span>
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div>@correo.com</span>
 						  </div>
 						</div>	 
 					</div>						
