@@ -8,9 +8,9 @@
 	class ubicacionModelo extends mainModel{
 		protected function agregar_ubicacion_modelo($datos){
 			$ubicacion_id = mainModel::correlativo("ubicacion_id", "ubicacion");
-			$insert = "INSERT INTO ubicacion VALUES('$ubicacion_id','".$datos['empresa']."','".$datos['ubicacion']."','".$datos['estado']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO ubicacion (ubicacion_id, empresa_id, nombre, estado, fecha_registro)
+			VALUES ($ubicacion_id, '".$datos['empresa']."','".$datos['ubicacion']."','".$datos['estado']."','".$datos['fecha_registro']."')";
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-			
 			return $sql;			
 		}
 		
