@@ -1900,6 +1900,7 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table){
 					confirmButtonClass: 'btn-danger'
 				});	
 		}else{
+			console.log('cxc',data.facturas_id,2)
 			pago(data.facturas_id,2);
 		}
 	});

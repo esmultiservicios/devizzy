@@ -2491,10 +2491,11 @@ function pago(facturas_id,tipoPago){
 			$('#formEfectivoBill')[0].reset();			
 			$('#formEfectivoBill #monto_efectivo').val(datos[6]);
 			$('#formEfectivoBill #factura_id_efectivo').val(facturas_id);
-			$('#formEfectivoBill #tipo_factura_efectivo').val(tipoPago);
+			$('#formEfectivoBill #tipo_factura').val(tipoPago);
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
 
-			console.log(tipoPago,'tipoPago', typeof tipoPago )
+			console.log(tipoPago,'tipoPagoAbono', typeof tipoPago )
+
 			 if(tipoPago == 2){			
 				$('#bill-pay').html("L. " + parseFloat(datos[6]).toFixed(2));
 				$('#tab5').hide();
@@ -2581,12 +2582,14 @@ $(document).ready(function(){
 	$("#formEfectivoBill #efectivo_bill").on("keyup", function(){	
 		var efectivo = parseFloat($("#formEfectivoBill #efectivo_bill").val()).toFixed(2);
 		var monto = parseFloat($("#formEfectivoBill #monto_efectivo").val()).toFixed(2);
-		var credito = $("#formEfectivoBill #tipo_factura_efectivo").val();
+		var credito = $("#formEfectivoBill #tipo_factura").val();
 		var pagos_multiples = $('#pagos_multiples_switch').val();
+
+		console.log('credito',credito)
 
 		if(credito == 2 ){
 			$("#formEfectivoBill #cambio_efectivo").val(0)
-			$("#formEfectivoBill #grupo_cambio_efectivo").hide();
+			$("#formEfectivoBill #grupo_cambio_efectivo").hide();			
 		}
 		
 		var total = efectivo - monto;				
@@ -2599,6 +2602,8 @@ $(document).ready(function(){
 		}else{
 			$('#formEfectivoBill #cambio_efectivo').val(parseFloat(0).toFixed(2));
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
+			
+			
 		}				
 	});
 });
