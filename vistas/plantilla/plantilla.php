@@ -68,7 +68,6 @@
                 <!-- Fin Contenido -->
 				
 				<?php 
-                    echo $ruta[0];
 					if(is_file("./vistas/plantilla/modulos/".$ruta[0].".php")){
 						require_once "./vistas/plantilla/modulos/".$ruta[0].".php"; 
 					}else{
