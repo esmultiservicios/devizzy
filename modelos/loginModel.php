@@ -126,7 +126,7 @@
 				ON sc.clientes_id = c.clientes_id
 				LEFT JOIN cobrar_clientes AS cc
 				on cc.clientes_id = sc.clientes_id
-				WHERE cc.estado = 1 AND sc.db = '".DB."' AND MONTH(cc.fecha) <= MONTH(CURDATE())";			
+				WHERE cc.estado = 1 AND sc.db = '".DB."' AND MONTH(cc.fecha) < MONTH(CURDATE())";			
 
 			$sql = $mysqli_main->query($query) or die($mysqli_main->error);
 					

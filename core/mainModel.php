@@ -3654,8 +3654,6 @@
 
 		}
 
-
-
 		public function getPrivilegiosAccesoMenu($privilegio_id){
 
 			$query = "SELECT am.acceso_menu_id AS 'acceso_menu_id ', m.name AS 'menu', am.estado AS 'estado'
@@ -3669,8 +3667,6 @@
 				WHERE am.privilegio_id = '$privilegio_id'";
 
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
@@ -4926,8 +4922,6 @@
 				GROUP BY MONTH(fecha)
 
 				ORDER BY MONTH(fecha) ASC";
-
-
 
 			$result = self::connection()->query($query);
 

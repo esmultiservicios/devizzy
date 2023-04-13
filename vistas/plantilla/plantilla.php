@@ -45,7 +45,7 @@
 				$lc->forzar_cierre_sesion_controlador();
 		   }	
         
-           $ruta = explode("/", $_GET['views']);//DIVIDIMOS EN PARTES LA VARIABLE
+           $ruta = explode("/", $_GET['views']);//DIVIDIMOS EN PARTES LA VARIABLE           
     ?>
 
     <!-- Navbar Top -->
@@ -62,12 +62,13 @@
         <div id="layoutSidenav_content">
             <main>
                 <!-- Contenido -->
-                <?php 					
+                <?php 			
                     require_once $vistasR;
                 ?>
                 <!-- Fin Contenido -->
 				
 				<?php 
+                    echo $ruta[0];
 					if(is_file("./vistas/plantilla/modulos/".$ruta[0].".php")){
 						require_once "./vistas/plantilla/modulos/".$ruta[0].".php"; 
 					}else{
@@ -97,7 +98,7 @@
 
         //LLAMAMOS EL AJAX SEGUN LA VISTA 
         
-        if(is_file("./ajax/js/".$rutrda[0].".php")){
+        if(is_file("./ajax/js/".$ruta[0].".php")){
             require_once "./ajax/js/".$ruta[0].".php"; 
         }                    
 
@@ -105,6 +106,6 @@
 	?>  
 
 <a href="https://api.whatsapp.com/send?phone=50432273380&text=Hola%21%20Quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Varela%202." class="float-ws" target="_blank" data-toggle="tooltip" data-placement="top" title="Soporte CLINICARE">
-    <i class="fab fa-whatsapp my-float-ws"></i>     
+    <i class="fab fa-whatsapp my-float-ws"></i>  
 </body>
 </html>

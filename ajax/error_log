@@ -1,0 +1,42 @@
+[02-Apr-2023 19:47:50 America/Tegucigalpa] PHP Fatal error:  Uncaught Error: Call to undefined function mysqli_connect() in /home/clinicarehn/public_html/clinicare-fayad/core/mainModel.php:5944
+Stack trace:
+#0 /home/clinicarehn/public_html/clinicare-fayad/modelos/loginModel.php(88): mainModel->connect_mysqli_main_server()
+#1 /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php(144): loginModel->validar_pago_pendiente_main_server_modelo()
+#2 /home/clinicarehn/public_html/clinicare-fayad/ajax/iniciarSesionAjax.php(11): loginControlador->validar_pago_pendiente_main_server_controlador()
+#3 {main}
+  thrown in /home/clinicarehn/public_html/clinicare-fayad/core/mainModel.php on line 5944
+[02-Apr-2023 19:48:10 America/Tegucigalpa] PHP Fatal error:  Uncaught Error: Call to undefined function mysqli_connect() in /home/clinicarehn/public_html/clinicare-fayad/core/mainModel.php:5944
+Stack trace:
+#0 /home/clinicarehn/public_html/clinicare-fayad/modelos/loginModel.php(88): mainModel->connect_mysqli_main_server()
+#1 /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php(144): loginModel->validar_pago_pendiente_main_server_modelo()
+#2 /home/clinicarehn/public_html/clinicare-fayad/ajax/iniciarSesionAjax.php(11): loginControlador->validar_pago_pendiente_main_server_controlador()
+#3 {main}
+  thrown in /home/clinicarehn/public_html/clinicare-fayad/core/mainModel.php on line 5944
+[02-Apr-2023 19:48:22 America/Tegucigalpa] PHP Fatal error:  Uncaught Error: Call to undefined function mysqli_connect() in /home/clinicarehn/public_html/clinicare-fayad/core/mainModel.php:5944
+Stack trace:
+#0 /home/clinicarehn/public_html/clinicare-fayad/modelos/loginModel.php(88): mainModel->connect_mysqli_main_server()
+#1 /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php(144): loginModel->validar_pago_pendiente_main_server_modelo()
+#2 /home/clinicarehn/public_html/clinicare-fayad/ajax/iniciarSesionAjax.php(11): loginControlador->validar_pago_pendiente_main_server_controlador()
+#3 {main}
+  thrown in /home/clinicarehn/public_html/clinicare-fayad/core/mainModel.php on line 5944
+[02-Apr-2023 19:49:34 America/Tegucigalpa] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/alt-php74/sess_b0304da028695e9f35f2e1062ec47b83, O_RDWR) failed: No such file or directory (2) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 19:49:34 America/Tegucigalpa] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/alt-php74) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 19:57:48 America/Tegucigalpa] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/alt-php74/sess_b0304da028695e9f35f2e1062ec47b83, O_RDWR) failed: No such file or directory (2) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 19:57:48 America/Tegucigalpa] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/alt-php74) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 19:58:51 America/Tegucigalpa] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/alt-php74/sess_b0304da028695e9f35f2e1062ec47b83, O_RDWR) failed: No such file or directory (2) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 19:58:51 America/Tegucigalpa] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/alt-php74) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 19:59:03 America/Tegucigalpa] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/alt-php74/sess_b0304da028695e9f35f2e1062ec47b83, O_RDWR) failed: No such file or directory (2) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 19:59:03 America/Tegucigalpa] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/alt-php74) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 19:59:37 America/Tegucigalpa] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/alt-php74/sess_b0304da028695e9f35f2e1062ec47b83, O_RDWR) failed: No such file or directory (2) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 19:59:37 America/Tegucigalpa] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/alt-php74) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 20:01:28 America/Tegucigalpa] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/alt-php74/sess_b0304da028695e9f35f2e1062ec47b83, O_RDWR) failed: No such file or directory (2) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 20:01:28 America/Tegucigalpa] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/alt-php74) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 20:03:48 America/Tegucigalpa] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/alt-php74/sess_b0304da028695e9f35f2e1062ec47b83, O_RDWR) failed: No such file or directory (2) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 20:03:48 America/Tegucigalpa] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/alt-php74) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 20:04:34 America/Tegucigalpa] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/alt-php74/sess_b0304da028695e9f35f2e1062ec47b83, O_RDWR) failed: No such file or directory (2) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 20:04:34 America/Tegucigalpa] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/alt-php74) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 20:04:54 America/Tegucigalpa] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/alt-php74/sess_b0304da028695e9f35f2e1062ec47b83, O_RDWR) failed: No such file or directory (2) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 20:04:54 America/Tegucigalpa] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/alt-php74) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 20:05:56 America/Tegucigalpa] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/alt-php74/sess_b0304da028695e9f35f2e1062ec47b83, O_RDWR) failed: No such file or directory (2) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[02-Apr-2023 20:05:56 America/Tegucigalpa] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/alt-php74) in /home/clinicarehn/public_html/clinicare-fayad/controladores/loginControlador.php on line 48
+[03-Apr-2023 08:41:00 America/Tegucigalpa] PHP Notice:  Trying to access array offset on value of type null in /home/clinicarehn/public_html/clinicare-fayad/controladores/asistenciaControlador.php on line 26
