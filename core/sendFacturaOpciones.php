@@ -82,7 +82,7 @@
 	$asunto = "Factura N° ".$prefijo." ".$no_factura;
 	$CharSet = "UTF-8";
 	$factura_documento = "factura_".$no_factura;
-	$URL = dirname('__FILE__').'/Facturas/'.$factura_documento.'.pdf';
+	$URL = dirname('__FILE__').'/facturas/'.$factura_documento.'.pdf';
 	$url_logo = SERVERURL."vistas/plantilla/img/logo.png";
 	$url_sistema = SERVERURL;
 	$url_footer = SERVERURL."vistas/plantilla/img/logo.png";
