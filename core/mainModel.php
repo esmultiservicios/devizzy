@@ -3242,12 +3242,7 @@
 
 			WHERE u.users_id = '$users_id'";
 
-
-
 			$result = self::connection()->query($query);
-
-
-
 			return $result;
 
 		}

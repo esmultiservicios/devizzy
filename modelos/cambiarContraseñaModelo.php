@@ -21,7 +21,7 @@
 			$update = "UPDATE users
 			SET 
 				password = '".$datos['contraseña']."'
-			WHERE email = '".$datos['users_id']."'";
+			WHERE email = '".$datos['correo']."'";
 			
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 			
