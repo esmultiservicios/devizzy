@@ -2046,8 +2046,8 @@
         </div>
 		<div class="modal-footer">
 			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_producto" form="formProductos"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>
-			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="edit_producto" form="formProductos"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>
-			<button class="eliminar btn btn-danger ml-2" type="submit" style="display: none;" id="del_producto" form="formProductos"><div class="sb-nav-link-icon"></div><i class="fa fa-trash fa-lg"></i> Eliminar</button>				
+			<button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="edi_producto" form="formProductos"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</button>
+			<button class="eliminar btn btn-danger ml-2" type="submit" style="display: none;" id="delete_producto" form="formProductos"><div class="sb-nav-link-icon"></div><i class="fa fa-trash fa-lg"></i> Eliminar</button>				
 		</div>		
       </div>
     </div>
@@ -2421,11 +2421,11 @@
 				</div>	
 				<div class="form-row">
 					<div class="col-md-3 mb-3" id="grupoHora">
-					  <label for="fecha">Hora <span class="priority">*<span/></label>
+					  <label for="fecha" id="registro_hora">Hora Entrada <span class="priority">*<span/></label>
 					  <input type="time" class="form-control" id="hora" name="hora" step="any">		  
 					</div>	
 					<div class="col-md-3 mb-3" id="grupoHorai">
-					  <label for="fecha">Hora Entrada <span class="priority">*<span/></label>
+					  <label for="fecha" id="registro_horai">Hora Entrada <span class="priority">*<span/></label>
 					  <input type="time" class="form-control" id="horagi" name="horagi" value="<?php echo date("H:i");?>" step="any">		  
 					</div>	
 					<div class="col-md-3 mb-3" id="grupoHoraf">

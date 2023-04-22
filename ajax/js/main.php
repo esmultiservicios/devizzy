@@ -1449,6 +1449,7 @@ $('#marcarAsistencia').on('click',function(e){
 	  $('#formAsistencia #grupoHorai').hide();
 	  $('#formAsistencia #grupoHoraf').hide();
 	  $('#formAsistencia #grupoHoraComentario').hide();
+	  $('#formAsistencia #registro_hora').html(getHoraInicio(getColaboradorAsistencia()));
 
 	  $('#modal_registrar_asistencia').modal({
 		show:true,
@@ -3539,6 +3540,25 @@ function getColaboradorAsistencia(){
 	});
 
 	return colaboradores_id;
+}
+
+function getHoraInicio(colaborador_id){
+	var url = '<?php echo SERVERURL;?>core/getHoraInicio.php';
+	
+	var tipo;
+
+	$.ajax({
+		type:'POST',
+		url:url,
+		async: false,
+		data:'colaborador_id='+colaborador_id,
+		success: function(valores){
+			var datos = eval(valores);
+			tipo = datos[0];
+		}
+	});
+
+	return tipo;
 }
 //FIN ASISTENCIA
 </script>

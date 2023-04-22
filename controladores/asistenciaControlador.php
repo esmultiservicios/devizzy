@@ -99,7 +99,7 @@
 				$consultaHoraf = asistenciaModelo::valid_asistencia_horaf_modelo($datos)->fetch_assoc();
 				$consultaHoraf['horaf'];
 
-				$hora = $_POST['horagf'];
+				$hora = $_POST['hora'];
 
 				if($consultaHoraf['horaf']=="")//NO SE HA REGISTRADO LA FECHA DE SALIDA
 				{

@@ -69,7 +69,7 @@
 						?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
 					</div>
 					<div class="col-md-3 mb-3">						
-					  <label for="nomina_fecha_fin">Fecha Inicio <span class="priority">*<span/></label>
+					  <label for="nomina_fecha_fin">Fecha Fin <span class="priority">*<span/></label>
 
 					  <input type="date" required id="nomina_fecha_fin" name="nomina_fecha_fin" value="<?php 
 							$fecha = date ("Y-m-d");

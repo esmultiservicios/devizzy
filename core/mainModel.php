@@ -1322,7 +1322,7 @@
 				$colaboradores_id = "AND s.colaboradores_id = '".$datos['colaboradores_id']."'";
 			}		
 
-			$query = "SELECT a.asistencia_id AS 'asistencia_id', a.colaboradores_id AS 'colaboradores_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', a.fecha AS 'fecha', a.horai AS 'hora_entrada', CONVERT(a.horaf, TIME) AS 'hora_salida', DATE_FORMAT(a.horai,'%h:%i:%s %p') AS 'horai',  DATE_FORMAT(CONVERT(a.horaf, TIME),'%h:%i:%s %p') AS 'horaf', a.comentario AS 'comentario', DATE_FORMAT(CONVERT(TIMEDIFF(horaf,horai), TIME),'%h:%i') AS 'total_horas'
+			$query = "SELECT a.asistencia_id AS 'asistencia_id', a.colaboradores_id AS 'colaboradores_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', a.fecha AS 'fecha', a.horai AS 'hora_entrada', CONVERT(a.horaf, TIME) AS 'hora_salida', DATE_FORMAT(a.horai,'%h:%i:%s %p') AS 'horai',  DATE_FORMAT(CONVERT(a.horaf, TIME),'%h:%i:%s %p') AS 'horaf', a.comentario AS 'comentario', TIME_TO_SEC(TIMEDIFF(horaf, horai))/3600 AS 'total_horas'
 				FROM asistencia AS a
 				INNER JOIN colaboradores AS c ON a.colaboradores_id = c.colaboradores_id
 				WHERE a.estado = 0";
@@ -2234,25 +2234,27 @@
 		}		
 
 		public function getISV($documento){
-
 			$query = "SELECT i.isv_id AS 'isv_id', i.isv_tipo_id AS 'isv_tipo_id', i.valor AS 'valor', it.nombre AS 'tipo_isv'
-
 				FROM isv AS i
-
 				INNER JOIN isv_tipo As it
-
 				ON i.isv_tipo_id = it.isv_tipo_id
-
 				WHERE it.nombre = '$documento'";
-
-
 
 			$result = self::connection()->query($query);
 
 
+			return $result;
+		}	
+
+		public function getHoraInicio($colaborador_id){
+			$query = "SELECT horai
+			FROM asistencia
+			WHERE colaboradores_id = '$colaborador_id' AND CAST(fecha_registro AS DATE) = CAST(NOW() AS DATE)";
+
+			$result = self::connection()->query($query);
 
 			return $result;
-		}
+		}			
 
 		public function getISVEstadoProducto($productos_id){
 			$query = "SELECT isv_venta
@@ -2263,7 +2265,6 @@
 
 			return $result;
 		}
-
 
 		public function getTipoProducto($productos_id){
 			$query = "SELECT tp.nombre AS 'tipo_producto'
