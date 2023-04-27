@@ -1457,6 +1457,13 @@ $('#marcarAsistencia').on('click',function(e){
 		backdrop:'static'
 	  });	
 });
+
+$('#formAsistencia #asistencia_empleado').on('change',function(){
+	if($('#formAsistencia #marcarAsistencia_id').val() == 1){
+		$('#formAsistencia #registro_hora').html(getHoraInicio($('#formAsistencia #asistencia_empleado').val()));
+	}
+});
+
 //FIN MARCAR ASISTENCIA
 
 //INICIO MODIFICAR PERFIL USUARIO SISTEMA
