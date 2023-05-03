@@ -1033,7 +1033,9 @@
 
 			$query = cambiarContraseñaModelo::edit_contraseña_modelo($datos);
 			
-			cambiarContraseñaControlador::enviarCorreo($query,$datos);
+			$respuesta = cambiarContraseñaControlador::enviarCorreo($query,$datos);
+			
+			return $respuesta;
 		}
 
 		public function resetear_contraseña_login_controlador(){
