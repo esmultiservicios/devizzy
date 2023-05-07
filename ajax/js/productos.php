@@ -549,6 +549,7 @@ $(document).ready(function(){
 	});
 });
 
+/*
 $(document).ready(function(){
 	$("#formProductos #cantidad_mayoreo").on("keyup", function(){	
 		if($("#formProductos #cantidad_mayoreo").val() < 3 ){
@@ -561,7 +562,7 @@ $(document).ready(function(){
 			$("#edi_producto").attr("disabled", false);
 		}				
 	});
-});
+});*/
 
 $('#formProductos #label_producto_activo').html("Activo");
 	

@@ -1449,7 +1449,7 @@ $('#marcarAsistencia').on('click',function(e){
 	  $('#formAsistencia #grupoHorai').hide();
 	  $('#formAsistencia #grupoHoraf').hide();
 	  $('#formAsistencia #grupoHoraComentario').hide();
-	  $('#formAsistencia #registro_hora').html(getHoraInicio(getColaboradorAsistencia()));
+      $('#formAsistencia #registro_hora').html(getHoraInicio($('#formAsistencia #asistencia_empleado').val()));
 
 	  $('#modal_registrar_asistencia').modal({
 		show:true,
