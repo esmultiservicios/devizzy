@@ -188,7 +188,8 @@
 	<div>
 	    <p class="nota"><?php 
 			if($consulta_registro["notas"] != ""){
-				echo "<p class='h2'><b>Nota:</b> ".nl2br($consulta_registro["notas"])."</p>";
+				echo "<p class='h2'>Nota:</b></p>";
+				echo "<p class='h2'>".nl2br($consulta_registro["observacion"])."</p>";
 			}		
 		?></p>
 		<p class="nota"><br/><br/></p>		
