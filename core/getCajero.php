@@ -17,5 +17,6 @@
 		0 => $valores2['colaboradores_id'], 
 		1 => $valores2['colaborador'], 					
 	);
+	
 	echo json_encode($datos);
 ?>	

@@ -21,6 +21,6 @@
 			 echo '<option value="'.$consulta2['tipo_user_id'].'">'.$consulta2['nombre'].'</option>';
 		}
 	}else{
-		echo '<option value="">Seleccione</option>';
+		echo '<option value="">No hay datos que mostrar</option>';
 	}
 ?>	

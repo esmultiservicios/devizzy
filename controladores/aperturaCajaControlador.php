@@ -27,12 +27,35 @@
 				"fecha_registro" => $fecha_registro,				
 			];
 						
+			//VAIDAR CONFIG APERTURA
+			$configApertura = aperturaCajaModelo::valid_config_apertura_modelo()->fetch_assoc();
+			$config_apertura_id = $configApertura['validar'];
+			$query = "";
+			$validar = false;
+
 			//VERIFICAR QUE LA CAJA NO ESTE ABIERTA
-			$resultVarios = aperturaCajaModelo::valid_apertura_caja_modelo($datos);
-			
-			if($resultVarios->num_rows==0){
+			$resultVarios = aperturaCajaModelo::valid_apertura_caja_modelo($datos);		
+
+			if($config_apertura_id == 0){
 				$query = aperturaCajaModelo::agregar_apertura_caja_modelo($datos);
+				$validar = true;
+			}else{
+				if($resultVarios->num_rows==0){
+					$query = aperturaCajaModelo::agregar_apertura_caja_modelo($datos);
+					$validar = true;
+				}else{
+					$validar = false;
+					$alert = [
+						"alert" => "simple",
+						"title" => "Caja abierta",
+						"text" => "Lo sentimos la caja se encuentra abierta, por favor cierre las cajas abiertas antes de continuar con la apertura de una nueva.",
+						"type" => "error",	
+						"btn-class" => "btn-danger",						
+					];	
+				}
+			}	
 				
+			if($validar){
 				if($query){
 					//SE ACTUALIZA EL USO DE LA CAJA
 					$alert = [
@@ -56,15 +79,7 @@
 						"type" => "error",
 						"btn-class" => "btn-danger",					
 					];				
-				}				
-			}else{
-				$alert = [
-					"alert" => "simple",
-					"title" => "Registro ya existe",
-					"text" => "Lo sentimos este registro ya existe",
-					"type" => "error",	
-					"btn-class" => "btn-danger",						
-				];				
+				}	
 			}
 			
 			return mainModel::sweetAlert($alert);			

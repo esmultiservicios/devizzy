@@ -13,6 +13,6 @@
 			 echo '<option value="'.$consulta2['productos_id'].'">'.$consulta2['nombre'].'</option>';
 		}
 	}else{
-		echo '<option value="">No hay registros</option>';
+		echo '<option value="">No hay datos que mostrar</option>';
 	}
 ?>	

@@ -11,7 +11,6 @@
 				session_start(['name'=>'SD']); 
 			}
 			
-			$bar_code_product = mainModel::cleanString($_POST['bar_code_product']);
 			$almacen_id = mainModel::cleanStringConverterCase($_POST['almacen']);
 			$medida_id = mainModel::cleanStringConverterCase($_POST['medida']);
 			$producto_superior = mainModel::cleanString($_POST['producto_superior']);
@@ -28,7 +27,7 @@
 			$cantidad_minima = mainModel::cleanString($_POST['cantidad_minima']);
 			$cantidad_maxima = mainModel::cleanString($_POST['cantidad_maxima']);
 
-			if(empty($bar_code_product) || $bar_code_product == 0){
+			if($_POST['bar_code_product'] == ""){
 				$flag_barcode = true;
 				while($flag_barcode){
 					$result_barcode = productosModelo::valid_bar_code_productos_modelo(mainModel::generarCodigoBarra());
@@ -39,6 +38,8 @@
 					  $flag_barcode = true;
 				   }		
 				}
+			}else{
+				$bar_code_product = mainModel::cleanString($_POST['bar_code_product']);
 			}
 
 			if($cantidad == "" || $cantidad == null){

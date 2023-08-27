@@ -7,7 +7,6 @@
 
 	$privilegio_id = $_SESSION['privilegio_sd'];
 
-	
 	$datos = array(
 		0 => $privilegio_id, 					
 	);

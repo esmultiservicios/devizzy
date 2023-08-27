@@ -18,7 +18,8 @@
 			"telefono"=>$row['telefono'],
 			"correo"=>$row['correo'],
 			"rtn"=>$row['rtn'],
-			"ubicacion"=>$row['ubicacion']			
+			"ubicacion"=>$row['ubicacion'],		
+			"image"=>$row['logotipo']
 		);		
 	}
 	

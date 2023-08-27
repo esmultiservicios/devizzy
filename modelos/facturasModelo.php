@@ -137,7 +137,7 @@
 			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $result;				
-		}
+		}	
 
 		protected function valid_cambio_dolar_tipo2_modelo($fecha){
 			$query = "SELECT cambio_dolar_id

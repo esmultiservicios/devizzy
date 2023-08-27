@@ -1,3 +1,13 @@
+####07/04/2023####
+tabla => asistencia
+se agrego al final los siguientes campos
+historial_id		int
+modulo			char(30)
+colaboradores_id	int
+status			char(10)
+observacion		char(254)
+fecha_registro		datetime
+
 ####05/02/2023####
 tabla => asistencia
 se agrego al final los siguientes campos

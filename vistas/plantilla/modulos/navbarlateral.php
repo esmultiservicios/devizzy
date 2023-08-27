@@ -1,8 +1,10 @@
 <nav class="sb-sidenav accordion bg-color-navarlateral" id="sidenavAccordion">
 	<!--sb-sidenav-menu-heading-->
-    <!--<div class="sb-sidenav-footer link"> 
-        <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="100%" alt="We share" loading="lazy"></center>
-    </div>-->
+    <div class="custom-header">
+        <a class="navbar-brand" href="<?php echo SERVERURL; ?>dashboard/">
+            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/logo.png" width="90%" alt="CLINICARE" loading="CLINICARE" class="logo"></center>
+        </a>
+    </div>    
 	<br/>
     <div class="sb-sidenav-menu">
         <div class="nav">

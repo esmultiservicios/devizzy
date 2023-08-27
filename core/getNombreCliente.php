@@ -19,5 +19,6 @@
 	$datos = array(
 		0 => $cliente,							
 	);
+	
 	echo json_encode($datos);
 ?>	

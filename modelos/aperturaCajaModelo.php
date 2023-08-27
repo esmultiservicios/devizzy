@@ -136,6 +136,15 @@
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;			
-		}		
+		}	
+		
+		protected function valid_config_apertura_modelo(){
+			$query = "SELECT validar
+				FROM config_apertura";
+
+			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $result;
+		}			
 	}
 ?>	

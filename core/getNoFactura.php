@@ -18,5 +18,6 @@
 	$datos = array(
 		0 => $no_factura,					
 	);
+	
 	echo json_encode($datos);
 ?>	

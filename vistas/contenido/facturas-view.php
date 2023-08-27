@@ -6,7 +6,7 @@
 				Facturas
 			</div>
 			<div class="card-body"> 
-				<form class="FormularioAjax" id="invoice-form" action="<?php echo SERVERURL;?>ajax/addFacturaAjax.php" method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
+				<form class="FormularioAjax" id="invoice-form" method="POST" action="" data-form="" autocomplete="off" enctype="multipart/form-data">
 					<div class="form-group row customer-bill-box-left">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<span id="rtn-customers-bill"></span> <span id="client-customers-bill"></span>
@@ -33,24 +33,27 @@
 						<div class="form-group row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<button class="btn btn-secondary" type="submit" id="help_factura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Ayuda"><div class="sb-nav-link-icon"></div><i class="fas fa-question-circle fa-lg"></i> [F1] Ayuda</button>
-								<button class="btn btn-secondary" type="submit" id="reg_factura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Facturar"><div class="sb-nav-link-icon"></div><i class="fas fa-hand-holding-usd fa-lg"></i> [F6] Facturar</button>
-								<button class="btn btn-secondary" type="submit" id="add_cliente" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Agregar Cliente"><div class="sb-nav-link-icon"></div><i class="fas fa-user-plus fa-lg"></i> [F7] Cliente</button>	
-								<button class="btn btn-secondary" type="submit" id="add_vendedor" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Agregar Vendeor o Empleado"><div class="sb-nav-link-icon"></div><i class="fas fa-plus-circle fa-lg"></i> [F8] Vendedor</button>				
-								<button class="btn btn-secondary" type="submit" id="btn_apertura" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Aperturar Caja"><div class="sb-nav-link-icon"></div><i class="fas fa-cash-register fa-lg"></i> [F9] Aperturar</button>					
-								<button class="btn btn-secondary" type="submit" id="btn_cierre" form="invoice-form" data-toggle="tooltip" data-placement="top" title="Cerrar Caja" style="display:none;"><div class="sb-nav-link-icon"></div><i class="fas fa-cash-register fa-lg"></i> [F10] Cerrar</button>
+								<button class="btn btn-secondary" type="submit" id="guardar_factura" data-toggle="tooltip" data-placement="top" title="Guardar"><div class="sb-nav-link-icon"></div><i class="fas fa-save fa-lg"></i> [F2] Guardar</button>								
+								<button class="btn btn-secondary" type="submit" id="reg_factura" data-toggle="tooltip" data-placement="top" title="Facturar"><div class="sb-nav-link-icon"></div><i class="fas fa-hand-holding-usd fa-lg"></i> [F7] Facturar</button>
+								<button class="btn btn-secondary" type="submit" id="add_cliente" data-toggle="tooltip" data-placement="top" title="Agregar Cliente"><div class="sb-nav-link-icon"></div><i class="fas fa-user-plus fa-lg"></i> [F8] Cliente</button>	
+								<button class="btn btn-secondary" type="submit" id="add_vendedor" data-toggle="tooltip" data-placement="top" title="Agregar Vendeor o Empleado"><div class="sb-nav-link-icon"></div><i class="fas fa-plus-circle fa-lg"></i> [F9] Vendedor</button>				
+								<button class="btn btn-secondary" type="submit" id="btn_apertura" data-toggle="tooltip" data-placement="top" title="Aperturar Caja"><div class="sb-nav-link-icon"></div><i class="fas fa-cash-register fa-lg"></i> [F10] Aperturar</button>					
+								<button class="btn btn-secondary" type="submit" id="btn_cierre" data-toggle="tooltip" data-placement="top" title="Cerrar Caja" style="display:none;"><div class="sb-nav-link-icon"></div><i class="fas fa-cash-register fa-lg"></i> [F11] Cerrar</button>
 									<label class="switch mb-2" data-toggle="tooltip" data-placement="top" title="Tipo de Factura, Contado o Crédito">
 										<input type="checkbox" id="facturas_activo" name="facturas_activo" value="1" checked>
 										<div class="slider round"></div>
 									</label>
 									<span class="question mb-2" id="label_facturas_activo"></span>
 							</div>
-						</div>
+						</div>	
+										
 						<div class="form-group row" style="display:none">
 							<label for="inputCliente" class="col-sm-1 col-form-label-md">Cliente <span class="priority">*<span/></label>
 							<div class="col-sm-5">
 								<div class="input-group mb-3">
 								  <input type="hidden" class="form-control" placeholder="Proceso" id="proceso_factura" name="proceso_factura" readonly>
-								  <input type="hidden" class="form-control" placeholder="Factura" id="facturas_id" name="facturas_id" readonly>
+								  <input type="text" class="form-control" placeholder="Factura" id="facturas_id" name="facturas_id" readonly>
+								  <input type="text" class="form-control" placeholder="row" id="bill_row" name="bill_row" readonly value = "0">
 								  <input type="hidden" class="form-control" placeholder="Cliente" id="cliente_id" name="cliente_id" readonly required>
 								  <input type="text" class="form-control" placeholder="Cliente" id="cliente" name="cliente" required readonly data-toggle="tooltip" data-placement="top" title="Cliente">
 								  <div class="input-group-append" id="grupo_buscar_colaboradores">
@@ -97,6 +100,7 @@
 												<input type="hidden" name="referenciaProducto[]" id="referenciaProducto_0" class="form-control inputfield-details1" placeholder="Referencia Producto Precio" autocomplete="off">
 												<input type="hidden" name="isv[]" id="isv_0" class="form-control inputfield-details1" placeholder="Producto ISV" autocomplete="off">
 												<input type="hidden" name="valor_isv[]" id="valor_isv_0" class="form-control inputfield-details1" placeholder="Valor ISV" autocomplete="off">
+												<input type="hidden" name="facturas_detalle_id[]" id="facturas_detalle_id_0" class="form-control" placeholder="Código Producto" autocomplete="off">
 												<input type="hidden" name="productos_id[]" id="productos_id_0" class="form-control inputfield-details1" placeholder="Código del Producto" autocomplete="off">
 												<div class="input-group mb-3">
 													 <div class="input-group-append">				
@@ -150,7 +154,7 @@
 								<button class="btn btn-secondary delete bill-bottom-remove" id="removeRows" type="button" data-toggle="tooltip" data-placement="top" title="Remover filas en la factura"><div class="sb-nav-link-icon"></div><i class="fas fa-minus"></i> Quitar</button>	
 								<button class="btn btn-secondary bill-bottom-remove" id="addQuotetoBill" type="button" data-toggle="tooltip" data-placement="top" title="Convertir Cotizacion en Factura"><div class="sb-nav-link-icon"></div><i class="fas fa-file-invoice-dollar fa-lg"></i> Convertir</button>	
 								<button class="btn btn-secondary bill-bottom-remove" id="addPayCustomers" type="button" data-toggle="tooltip" data-placement="top" title="Cobrar Cuentas por Pagar Clientes"><div class="sb-nav-link-icon"></div><i class="fas fa-hand-holding-usd fa-lg"></i> CxC</button>					
-								<button class="btn btn-secondary bill-bottom-remove" id="addDraft" type="button" data-toggle="tooltip" data-placement="top" title="Facturas Guardadas en Borrador"><div class="sb-nav-link-icon"></div><i class="fas fa-file-invoice"></i> Borrador</button>	
+								<button class="btn btn-secondary bill-bottom-remove" id="addDraft" type="button" data-toggle="tooltip" data-placement="top" title="Facturas Pendientes"><div class="sb-nav-link-icon"></div><i class="fas fa-file-invoice"></i> Pendientes</button>	
 								<button class="btn btn-secondary bill-bottom-remove" id="BillReports" type="button" data-toggle="tooltip" data-placement="top" title="Facturas Guardadas"><div class="sb-nav-link-icon"></div><i class="fas fa-file-invoice"></i> Facturas</button>																
 							</div>
 						</div>

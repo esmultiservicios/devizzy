@@ -12,6 +12,7 @@ var listar_empresa = function(){
 			"url":"<?php echo SERVERURL;?>core/llenarDataTableEmpresa.php"
 		},
 		"columns":[
+			{"data":"image"},
 			{"data":"razon_social"},
 			{"data":"nombre"},
 			{"data":"telefono"},
@@ -26,16 +27,14 @@ var listar_empresa = function(){
 		"bDestroy": true,
 		"language": idioma_español,
 		"dom": dom,
-		"columnDefs": [
-		  { width: "21.5%", targets: 0 },
-		  { width: "12.5%", targets: 1 },
-		  { width: "12.5%", targets: 2 },
-		  { width: "12.5%", targets: 3 },
-		  { width: "10.5%", targets: 4 },
-		  { width: "21.5%", targets: 5 },
-		  { width: "4.5%", targets: 6 },
-		  { width: "4.5%", targets: 6 }		  
-		],
+        "columnDefs":
+		[{
+			"targets": 0,
+			"data": 'image',
+			"render": function (data, type, row, meta) {
+				return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/logos/' + data + '" alt="' + data + '"height="100px" width="100px"/>';
+			}
+		}],	
 		"buttons":[
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',

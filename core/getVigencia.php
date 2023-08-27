@@ -12,5 +12,5 @@
 			echo '<option value="'.$consulta2['vigencia_cotizacion_id'].'">'.$consulta2['valor'].'</option>';
 		}
 	}else{
-		echo '<option value="">Seleccione una Vigencia</option>';
+		echo '<option value="">No hay datos que mostrar</option>';
 	}

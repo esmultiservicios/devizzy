@@ -25,6 +25,13 @@
 			
 			return $sql;
 		}
+
+		protected function getImage($empresa_id){
+			$query = "SELECT logotipo FROM empresa WHERE empresa_id = '$empresa_id'";
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;
+		}		
 		
 		protected function edit_empresa_modelo($datos){
 			$update = "UPDATE empresa

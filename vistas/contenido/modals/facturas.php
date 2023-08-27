@@ -12,32 +12,38 @@
 			<form class="form-horizontal" id="formAyuda" action="" method="POST" data-form="" enctype="multipart/form-data">
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
-					  <label><center><b>Las teclas de función solo se pueden utilizar posicionándose en el área de la factura</b></center></label>
+					  <label><center><b>Las teclas de función solo se pueden utilizar posicionándose en el área de la factura, especificamente en el campo Código del Producto</b></center></label>
 					</div>	
-					
+
 					<div class="col-md-12 mb-3">
-					  <label data-toggle="tooltip" data-placement="top" title="Permite realizar una búsqueda de productos, e inclusive permite crear nuevos productos en el sistema, siempre hacer uso del botón actualizar para refrescar la lista cuando se realiza un nuevo registro"><b>F2</b> Búsqueda de Productos</label>
+					  <label data-toggle="tooltip" data-placement="top" title="Permite Guardar una factura para dejarla abierta, esto le da la posibilidad de seguir agregando más items"><b>F2</b> Guardar</label>
 					</div>	
 					<div class="col-md-12 mb-3">
-					  <label data-toggle="tooltip" data-placement="top" title="Permite aplicar descuentos a los productos, con previa autorización de un supervisor o un administrador del sistema"><b>F3</b> Agregar Descuentos a los Productos</label>
+					  <label data-toggle="tooltip" data-placement="top" title="Permite realizar una búsqueda de productos, e inclusive permite crear nuevos productos en el sistema, siempre hacer uso del botón actualizar para refrescar la lista cuando se realiza un nuevo registro"><b>F3</b> Búsqueda de Productos</label>
+					</div>	
+					<div class="col-md-12 mb-3">
+					  <label data-toggle="tooltip" data-placement="top" title="Permite aplicar descuentos a los productos, con previa autorización de un supervisor o un administrador del sistema"><b>F4</b> Agregar Descuentos a los Productos</label>
 					</div>
 					<div class="col-md-12 mb-3">
-					  <label data-toggle="tooltip" data-placement="top" title="Esta opción puede ser útil para ingresar un nuevo precio a un producto siempre y cuando el documento original de compra y/o cotización muestre un precio diferente al que se muestra en el sistema"><b>F4</b> Modificar Precio a los Productos</label>
+					  <label data-toggle="tooltip" data-placement="top" title="Permite actualizar la página, si utiliza esta función tenga en cuenta que perderá todo el contenido agregado en esta pantalla"><b>F5</b> Actualizar</label>
+					</div>					
+					<div class="col-md-12 mb-3">
+					  <label data-toggle="tooltip" data-placement="top" title="Esta opción puede ser útil para ingresar un nuevo precio a un producto siempre y cuando el documento original de compra y/o cotización muestre un precio diferente al que se muestra en el sistema"><b>F6</b> Modificar Precio a los Productos</label>
 					</div>		
 					<div class="col-md-12 mb-3">
-					  <label data-toggle="tooltip" data-placement="top" title="Permite realizar el cobro de la factura, si la factura es al contado, la misma ermita registrar el pago, de ser al crédito solo almacena una cuenta por cobrar a clientes"><b>F6</b> Cobrar Factura</label>
+					  <label data-toggle="tooltip" data-placement="top" title="Permite realizar el cobro de la factura, si la factura es al contado, la misma ermita registrar el pago, de ser al crédito solo almacena una cuenta por cobrar a clientes"><b>F7</b> Cobrar Factura</label>
 					</div>
 					<div class="col-md-12 mb-3">
-					  <label data-toggle="tooltip" data-placement="top" title="Permite realizar una búsqueda de clientes, e inclusive permite crear nuevos clientes en el sistema, siempre hacer uso del botón actualizar para refrescar la lista cuando se realiza un nuevo registro"><b>F7</b> Clientes</label>
+					  <label data-toggle="tooltip" data-placement="top" title="Permite realizar una búsqueda de clientes, e inclusive permite crear nuevos clientes en el sistema, siempre hacer uso del botón actualizar para refrescar la lista cuando se realiza un nuevo registro"><b>F8</b> Clientes</label>
 					</div>	
 					<div class="col-md-12 mb-3">
-					  <label data-toggle="tooltip" data-placement="top" title="Permite realizar una búsqueda de vendedores y/o colaboradores, e inclusive permite crear nuevos vendedores y/o colaboradores en el sistema, siempre hacer uso del botón actualizar para refrescar la lista cuando se realiza un nuevo registro"><b>F8</b> Colaboradores</label>
+					  <label data-toggle="tooltip" data-placement="top" title="Permite realizar una búsqueda de vendedores y/o colaboradores, e inclusive permite crear nuevos vendedores y/o colaboradores en el sistema, siempre hacer uso del botón actualizar para refrescar la lista cuando se realiza un nuevo registro"><b>F9</b> Colaboradores</label>
 					</div>	
 					<div class="col-md-12 mb-3">
-					  <label data-toggle="tooltip" data-placement="top" title="Permite poner en disponible la caja para realizar las ventas del día, y poder llevar un registro de los cajeros disponibles y el total facturado"><b>F9</b> Apertura de Caja</label>
+					  <label data-toggle="tooltip" data-placement="top" title="Permite poner en disponible la caja para realizar las ventas del día, y poder llevar un registro de los cajeros disponibles y el total facturado"><b>F10</b> Apertura de Caja</label>
 					</div>	
 					<div class="col-md-12 mb-3">
-					  <label data-toggle="tooltip" data-placement="top" title="Cierra la caja, realizando un conteo de todas las ventas realizadas en el día, desde el comienzo del número de factura hasta la factura final emitida durante el día."><b>F10</b> Cierre de Caja</label>
+					  <label data-toggle="tooltip" data-placement="top" title="Cierra la caja, realizando un conteo de todas las ventas realizadas en el día, desde el comienzo del número de factura hasta la factura final emitida durante el día."><b>F11</b> Cierre de Caja</label>
 					</div>	
 					<div class="col-md-12 mb-3">
 					  <label data-toggle="tooltip" data-placement="top" title="Permite aumentar la cantidad, se debe posicionar en el código del producto y presionar la tecla más (+) para que surja efecto"><b>+</b> Aumentar Cantidad</label>
@@ -179,15 +185,15 @@
         <div class="modal-body">
 			<form class="FormularioAjax" id="formulario_busqueda_cotizaciones">	
 				<div class="form-row">
-					<div class="col-md-3 mb-3">
-						<div class="input-group">				
-							<div class="input-group-append">				
+					<div class="form-group mx-sm-3 mb-1">
+						<div class="input-group">
+							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Tipo Factura</span>
-							</div>
-							<select id="tipo_cotizacion_reporte" name="tipo_cotizacion_reporte" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
-						  </select>
-						</div>						
-					</div>				
+								<select id="tipo_cotizacion_reporte" name="tipo_cotizacion_reporte" class="selectpicker" title="Tipo Factura" data-live-search="true">
+								</select>
+							</div>	
+						</div>
+					</div>			
 					<div class="col-md-4 mb-3">
 						<div class="input-group">				
 							<div class="input-group-append">				
@@ -270,23 +276,21 @@
 			<form class="FormularioAjax" id="formulario_busqueda_cuentas_cobrar_clientes">	
 				<div class="form-row">
 					<div class="form-group mx-sm-3 mb-1">
-						<div class="input-group">				
-							<div class="input-group-append">				
+						<div class="input-group">
+							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
-							</div>
-							<select id="cobrar_clientes_estado" name="cobrar_clientes_estado" class="custom-select" data-toggle="tooltip" data-placement="top" title="Estado" style="width:165px;">
-								<option value="1">Pendientes</option>
-								<option value="2">Pagadas</option>
-						</select>
+								<select id="cobrar_clientes_estado" name="cobrar_clientes_estado" class="selectpicker" title="Estado" data-live-search="true">
+								</select>
+							</div>	
 						</div>
 					</div>	
 					<div class="form-group mx-sm-3 mb-1">
-						<div class="input-group">				
-							<div class="input-group-append">				
+						<div class="input-group">
+							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Clientes</span>
-							</div>
-							<select id="cobrar_clientes" name="cobrar_clientes" class="custom-select" data-toggle="tooltip" data-placement="top" title="Clientes" style="width:165px;">
-						</select>
+								<select id="cobrar_clientes" name="cobrar_clientes" class="selectpicker" title="Clientes" data-live-search="true">
+								</select>
+							</div>	
 						</div>
 					</div>									
 					<div class="form-group mx-sm-3 mb-1">
@@ -343,7 +347,7 @@
 	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Buscar Facturas Borrador</h4>
+          <h4 class="modal-title">Buscar Facturas Pendientes</h4>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			  <span aria-hidden="true">&times;</span>
 			</button>
@@ -393,7 +397,7 @@
 							<table id="DatatableBusquedaBillDraft" class="table table-striped table-condensed table-hover" style="width:100%">
 								<thead>
 									<tr>
-										<th>Cobrar</th>
+										<th>Continuar</th>
 										<th>Eliminar</th>					
 										<th>Fecha</th>
 										<th>Tipo</th>
@@ -430,41 +434,35 @@
 			</button>
         </div><div class="container"></div>
         <div class="modal-body">
-			<form class="FormularioAjax" id="formulario_bill">	
-			<div class="form-row">
-					<div class="col-md-3 mb-3">
-						<div class="input-group">				
-							<div class="input-group-append">				
+			<form class="FormularioAjax" id="formulario_bill">			
+				<div class="form-row">
+					<div class="form-group mx-sm-3 mb-1">
+						<div class="input-group">
+							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Tipo Factura</span>
-							</div>
-							<select id="tipo_factura_reporte" name="tipo_factura_reporte" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
-						  </select>
-						</div>						
+								<select id="tipo_factura_reporte" name="tipo_factura_reporte" class="selectpicker" title="Tipo de Factura" data-live-search="true">
+									</select>
+							</div>	
+						</div>
 					</div>	
 					<div class="form-group mx-sm-3 mb-1">
 						<div class="input-group">
 							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Facturador</span>
-								<select id="facturador" name="facturador" class="custom-select" data-toggle="tooltip" data-placement="top" title="Facturador" style="width:165px;">
-								</select>
-								<div class="input-group-append">				
-									<span data-toggle="tooltip" data-placement="top" title="Consultar por Facturador"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control consultar_facturador"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a></span>
-								</div>
+								<select id="facturador" name="facturador" class="selectpicker" title="Facturador" data-live-search="true">
+									</select>
 							</div>	
 						</div>
-					</div>		
+					</div>
 					<div class="form-group mx-sm-3 mb-1">
 						<div class="input-group">
 							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Vendedor</span>
-								<select id="vendedor" name="vendedor" class="custom-select" data-toggle="tooltip" data-placement="top" title="Vendedor" style="width:165px;">
-								</select>
-								<div class="input-group-append">				
-									<span data-toggle="tooltip" data-placement="top" title="Consultar por Vendedor"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control consultar_facturador"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a></span>
-								</div>
+								<select id="vendedor" name="vendedor" class="selectpicker" title="Vendedor" data-live-search="true">
+									</select>
 							</div>	
 						</div>
-					</div>													
+					</div>												
 					<div class="col-md-4 mb-3">
 						<div class="input-group">				
 							<div class="input-group-append">				

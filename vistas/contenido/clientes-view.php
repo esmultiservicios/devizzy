@@ -21,6 +21,7 @@
 								<th>Correo</th>	
 								<th>Departamento</th>
 								<th>Municipio</th>	
+								<th class="generar">Generar</th>
 								<th>Editar</th>	
 								<th>Eliminar</th>								
 							</tr>

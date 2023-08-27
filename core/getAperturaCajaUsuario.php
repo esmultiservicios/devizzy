@@ -24,5 +24,6 @@
 		0 => $estado, 
 		1 => $apertura_id, 					
 	);
+	
 	echo json_encode($datos);
 ?>	

@@ -64,7 +64,7 @@ var listar_productos = function(){
 			"targets": 0,
 			"data": 'image',
 			"render": function (data, type, row, meta) {
-				return '<img class="image-product-table" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/' + data + '" alt="' + data + '"height="100px" width="100px"/>';
+				return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/' + data + '" alt="' + data + '"height="100px" width="100px"/>';
 			}
 		}],		
         "lengthMenu": lengthMenu,

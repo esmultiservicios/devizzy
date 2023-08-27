@@ -5,8 +5,8 @@ $(document).ready(function() {
 	getVendedores();
     listar_reporte_ventas();
 	total_ingreso_footer();
-	$('#form_main_ventas #tipo_factura_reporte').val(1);	
-	$('#form_main_ventas #tipo_factura_reporte').selectpicker('refresh');		
+	$('#form_main_ventas #tipo_factura_reporte').val(1);
+	$('#form_main_ventas #tipo_factura_reporte').selectpicker('refresh');
 });
 
 $('#form_main_ventas #tipo_factura_reporte').on("change", function(e){
@@ -61,7 +61,7 @@ var listar_reporte_ventas = function(){
 				"fechaf":fechaf
 			}
 		},
-		"columns":[		
+		"columns":[
 			{"data":"fecha"},
 			{"data":"tipo_documento"},
 			{"data":"cliente"},
@@ -71,16 +71,16 @@ var listar_reporte_ventas = function(){
                     var number = $.fn.dataTable.render
                         .number(',', '.', 2, 'L ')
                         .display(data);
- 
+
                     if (type === 'display') {
                         let color = 'green';
                         if (data < 0) {
                             color = 'red';
-                        } 
- 
+                        }
+
                         return '<span style="color:' + color + '">' + number + '</span>';
                     }
- 
+
                     return number;
                 },
 			},
@@ -89,16 +89,16 @@ var listar_reporte_ventas = function(){
                     var number = $.fn.dataTable.render
                         .number(',', '.', 2, 'L ')
                         .display(data);
- 
+
                     if (type === 'display') {
                         let color = 'green';
                         if (data < 0) {
                             color = 'red';
-                        } 
- 
+                        }
+
                         return '<span style="color:' + color + '">' + number + '</span>';
                     }
- 
+
                     return number;
                 },
 			},
@@ -107,34 +107,34 @@ var listar_reporte_ventas = function(){
                     var number = $.fn.dataTable.render
                         .number(',', '.', 2, 'L ')
                         .display(data);
- 
+
                     if (type === 'display') {
                         let color = 'green';
                         if (data < 0) {
                             color = 'red';
-                        } 
- 
+                        }
+
                         return '<span style="color:' + color + '">' + number + '</span>';
                     }
- 
+
                     return number;
                 },
-			},			
+			},
 			{"data":"total",
 				render: function (data, type) {
                     var number = $.fn.dataTable.render
                         .number(',', '.', 2, 'L ')
                         .display(data);
- 
+
                     if (type === 'display') {
                         let color = 'green';
                         if (data < 0) {
                             color = 'red';
-                        } 
- 
+                        }
+
                         return '<span style="color:' + color + '">' + number + '</span>';
                     }
- 
+
                     return number;
                 },
 			},
@@ -143,16 +143,16 @@ var listar_reporte_ventas = function(){
                     var number = $.fn.dataTable.render
                         .number(',', '.', 2, 'L ')
                         .display(data);
- 
+
                     if (type === 'display') {
                         let color = 'green';
                         if (data < 0) {
                             color = 'red';
-                        } 
- 
+                        }
+
                         return '<span style="color:' + color + '">' + number + '</span>';
                     }
- 
+
                     return number;
                 },
 			},
@@ -161,15 +161,15 @@ var listar_reporte_ventas = function(){
 		    {"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_reportes print_comprobante btn btn-dark ocultar'><span class='far fa-file-pdf fa-lg'></span></button>"},
 		    {"defaultContent":"<button class='table_reportes email_factura btn btn-dark ocultar'><span class='fas fa-paper-plane fa-lg'></span></button>"},
-		    {"defaultContent":"<button class='table_cancelar cancelar_factura btn btn-dark ocultar'><span class='fas fa-ban fa-lg'></span></button>"}						
+		    {"defaultContent":"<button class='table_cancelar cancelar_factura btn btn-dark ocultar'><span class='fas fa-ban fa-lg'></span></button>"}
 		],
         "lengthMenu": lengthMenu,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,//esta se encuenta en el archivo main.js
 		"dom": dom,
-		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {         
-        	$('td', nRow).addClass(aData['color']);		
+		"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+        	$('td', nRow).addClass(aData['color']);
 		},
 		"buttons":[
 			{
@@ -192,7 +192,7 @@ var listar_reporte_ventas = function(){
 				exportOptions: {
 						columns: [0,1,2,3,4,5,6,7,8]
 				},
-				className: 'table_reportes btn btn-success ocultar'				
+				className: 'table_reportes btn btn-success ocultar'
 			},
 			{
 				extend:    'pdf',
@@ -201,7 +201,7 @@ var listar_reporte_ventas = function(){
 				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 				titleAttr: 'PDF',
 				orientation: 'landscape',
-				pageSize: 'LETTER',				
+				pageSize: 'LETTER',
 				title: 'Reporte de Ventas',
 				messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' + convertDateFormat(fechaf),
 				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
@@ -230,7 +230,7 @@ var listar_reporte_ventas = function(){
 	view_correo_facturas_dataTable("#dataTablaReporteVentas tbody", table_reporteVentas);
 	view_reporte_facturas_dataTable("#dataTablaReporteVentas tbody", table_reporteVentas);
 	view_reporte_comprobante_dataTable("#dataTablaReporteVentas tbody", table_reporteVentas);
-	view_anular_facturas_dataTable("#dataTablaReporteVentas tbody", table_reporteVentas);	
+	view_anular_facturas_dataTable("#dataTablaReporteVentas tbody", table_reporteVentas);
 
 	total_ingreso_footer();
 }
@@ -273,28 +273,33 @@ var view_reporte_comprobante_dataTable = function(tbody, table){
 
 function anularFacturas(facturas_id){
 	swal({
-	  title: "¿Estas seguro?",
-	  text: "¿Desea anular la factura: # " + getNumeroFactura(facturas_id) + "?",
-	  type: "info",
-	  showCancelButton: true,
-	  confirmButtonClass: "btn-primary",
-	  confirmButtonText: "¡Sí, enviar anularla!",
-	  cancelButtonText: "Cancelar",
-	  closeOnConfirm: false
-	},
-	function(){
-		anular(facturas_id);
+		title: "¿Esta seguro?",
+		text: "¿Desea anular la factura: # " + getNumeroFactura(facturas_id) + "?",
+		type: "input",
+		showCancelButton: true,
+		closeOnConfirm: false,
+		inputPlaceholder: "Comentario",
+		cancelButtonText: "Cancelar",
+		confirmButtonText: "¡Sí, cancelar la factura!",
+		confirmButtonClass: "btn-warning"
+	}, function (inputValue) {
+		if (inputValue === false) return false;
+		if (inputValue === "") {
+		swal.showInputError("¡Necesita escribir algo!");
+		return false
+		}
+		anular(facturas_id, inputValue);
 	});
 }
 
-function anular(facturas_id){
+function anular(facturas_id, comentario){
 	var url = '<?php echo SERVERURL; ?>core/anularFactura.php';
 
 	$.ajax({
 	   type:'POST',
 	   url:url,
 	   async: false,
-	   data:'facturas_id='+facturas_id,
+	   data:'facturas_id='+facturas_id+'&comentario='+comentario,
 	   success:function(data){
 	      if(data == 1){
 			swal({
@@ -310,7 +315,7 @@ function anular(facturas_id){
 				text: "La factura no se puede anular",
 				type: "error",
 				confirmButtonClass: "btn-danger",
-			});			  
+			});
 		  }
 	  }
 	});
@@ -326,7 +331,7 @@ function getReporteFactura(){
         success: function(data){
 		    $('#form_main_ventas #tipo_factura_reporte').html("");
 			$('#form_main_ventas #tipo_factura_reporte').html(data);
-			$('#form_main_ventas #tipo_factura_reporte').selectpicker('refresh');		
+			$('#form_main_ventas #tipo_factura_reporte').selectpicker('refresh');
 		}
      });
 }
@@ -341,7 +346,7 @@ function getFacturador(){
         success: function(data){
 		    $('#form_main_ventas #facturador').html("");
 			$('#form_main_ventas #facturador').html(data);
-			$('#form_main_ventas #facturador').selectpicker('refresh');			
+			$('#form_main_ventas #facturador').selectpicker('refresh');
 		}
      });
 }
@@ -354,16 +359,16 @@ function getVendedores(){
         url: url,
 	    async: true,
         success: function(data){
-			
+
 		    $('#form_main_ventas #vendedor').html("");
 			$('#form_main_ventas #vendedor').html(data);
-			$('#form_main_ventas #vendedor').selectpicker('refresh');			
+			$('#form_main_ventas #vendedor').selectpicker('refresh');
 		}
      });
 }
 //FIN REPORTE DE VENTAS
 
-var total_ingreso_footer = function(){	
+var total_ingreso_footer = function(){
 	var tipo_factura_reporte = 1;
 	if($("#form_main_ventas #tipo_factura_reporte").val() == null || $("#form_main_ventas #tipo_factura_reporte").val() == ""){
 		tipo_factura_reporte = 1;
@@ -388,7 +393,7 @@ var total_ingreso_footer = function(){
 			$("#total-footer-ingreso").html("L. " + data.total);
 			$("#subtotal-i").html("L. " + data.subtotal);
 			$("#impuesto-i").html("L. " + data.impuesto);
-			$("#descuento-i").html("L. " + data.descuento);			
+			$("#descuento-i").html("L. " + data.descuento);
 		})
 		.fail(function(data) {
 			console.log( "total ingreso error" );

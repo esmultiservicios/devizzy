@@ -151,16 +151,7 @@
 						  <select id="colaborador_id_usuario" name="colaborador_id_usuario" class="selectpicker" data-live-search="true" title="Colaboradores">
 						  </select>
 					   </div>
-					</div>	
-					<div class="col-md-3 mb-3">
-						<label for="nickname">Nick Name <span class="priority">*<span/></label>
-						<div class="input-group mb-3">
-						  <input type="text" class="form-control" placeholder="Usuario" id="nickname" name="nickname" aria-label="Correo" aria-describedby="basic-addon2" required>
-						  <div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-user"></i></span>
-						  </div>
-						</div>
-					</div>	
+					</div>		
 					<div class="col-md-6 mb-3">
 					  <label for="correo_usuario">Correo <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
@@ -169,23 +160,21 @@
 							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-envelope-square"></i></span>
 						  </div>
 						</div>
-					</div>															
-				</div>
-
-				<div class="form-row">
+					</div>
 					<div class="col-md-3 mb-3">
 					  <label for="empresa_usuario">Empresa <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
 						  <select id="empresa_usuario" name="empresa_usuario" class="selectpicker" data-live-search="true" title="Empresa">
-							<option value="">Seleccione</option>
 						  </select>
 					   </div>
-					</div>						
+					</div>																					
+				</div>
+
+				<div class="form-row">					
 					<div class="col-md-3 mb-3">
 					  <label for="tipo_user">Tipo Usuario <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
 						  <select id="tipo_user" name="tipo_user" class="selectpicker" data-live-search="true" title="Tipo Usuario">
-							<option value="">Seleccione</option>
 						  </select>
 					   </div>					 
 					</div>
@@ -193,7 +182,6 @@
 					  <label for="privilegio_id">Privilegio <span class="priority">*<span/></label>
 					  <div class="input-group mb-3">
 						  <select id="privilegio_id" name="privilegio_id" class="selectpicker" data-live-search="true" title="Tipo Usuario">
-							<option value="">Seleccione</option>
 						  </select>
 					   </div>						  
 					</div>											
@@ -1111,7 +1099,7 @@
 				</div>				
 			  <div class="form-row">
 				<div class="col-md-8 mb-3">
-				  <label for="nombre_clientes">Empresa o Cliente <span class="priority">*<span/></label>
+				  <label for="nombre_clientes">Cliente <span class="priority">*<span/></label>
 				  <input type="text" class="form-control" id="nombre_clientes" name="nombre_clientes" placeholder="Nombre" maxlength="100" required>
 				</div>
 				<div class="col-md-4 mb-3">
@@ -1310,39 +1298,37 @@
 			<form class="FormularioAjax" id="formulario_busqueda_productos_facturacion">	
 				<input type="hidden" id="row" name="row" class="form-control"/>
 				<input type="hidden" id="col" name="col" class="form-control"/>	
+
 				<div class="form-group">	
-					<div class="col-12 col-md-3">
-						<div class="form-group">
-							<div class="input-group">				
-								<div class="input-group-append">				
+					<div class="form-group mx-sm-3 mb-1">
+						<div class="input-group">
+							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Bodega</span>
-							</div>
-							<select id="almacen" name="almacen" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
-							
-							</select>
+								<select id="almacen" name="almacen" class="selectpicker" title="Bodega" data-live-search="true">
+								</select>
+							</div>	
 						</div>
-					</div>
-					</div>			  
-					<div class="col-md-12">			
-						<div class="overflow-auto">											
-							<table id="DatatableProductosBusquedaFactura" class="table table-striped table-condensed table-hover" style="width:100%">
-								<thead>
-									<tr>
-										<th>Seleccione</th>
-										<th>Bar Code</th>
-										<th>Producto</th>
-										<th>Cantidad</th>
-										<th>Medida</th>
-										<th>Categoria</th>
-										<th>Precio Venta</th>							
-										<th>Almacén</th>
-										<th></th>
-										<th>ISV</th>										
-									</tr>
-								</thead>
-							</table>
-						</div>				
-					</div>				  
+					</div>	
+				</div>			  
+				<div class="col-md-12">			
+					<div class="overflow-auto">											
+						<table id="DatatableProductosBusquedaFactura" class="table table-striped table-condensed table-hover" style="width:100%">
+							<thead>
+								<tr>
+									<th>Seleccione</th>
+									<th>Bar Code</th>
+									<th>Producto</th>
+									<th>Cantidad</th>
+									<th>Medida</th>
+									<th>Categoria</th>
+									<th>Precio Venta</th>							
+									<th>Almacén</th>
+									<th></th>
+									<th>ISV</th>										
+								</tr>
+							</thead>
+						</table>
+					</div>				
 				</div>
 			</form>
         </div>
@@ -1725,9 +1711,9 @@
 
 				<div class="form-row">					
 					<div class="col-md-12 mb-3">
-						<label for="direccion_empresa">Dirección <span class="priority">*<span/></label>
+						<label for="direccion_empresa">Dirección </label>
 						<div class="input-group mb-3">
-							<textarea id="direccion_empresa" name="direccion_empresa" placeholder="Dirección " class="form-control" maxlength="100" rows="4" required></textarea>
+							<textarea id="direccion_empresa" name="direccion_empresa" placeholder="Dirección " class="form-control" maxlength="100" rows="4"></textarea>
 							<div class="input-group-append">				
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-address-card fa-lg"></i></span>
 							</div>

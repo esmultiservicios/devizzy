@@ -13,6 +13,6 @@
 			 echo '<option value="'.$consulta2['menu_id'].'">'.$consulta2['name'].'</option>';
 		}
 	}else{
-		echo '<option value="">Seleccione</option>';
+		echo '<option value="">No hay datos que mostrar</option>';
 	}
 ?>	

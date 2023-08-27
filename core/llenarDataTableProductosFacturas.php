@@ -23,6 +23,7 @@
 	
 	$entradaH = 0;
 	$salidaH = 0;
+	$cantidad = 0;
 	
 	while($row = $result->fetch_assoc()){	
 		$result_productos = $insMainModel->getCantidadProductos($row['productos_id']);	
@@ -34,11 +35,17 @@
 					$bodega = $row['almacen'];
 				}
 
+				if($row['cantidad'] == null || $row['cantidad'] == ""){
+					$cantidad = 0;
+				}else{
+					$cantidad = $row['cantidad'];
+				}
+
 				$data[] = array( 
 					"productos_id"=>$row['productos_id'],
 					"barCode"=>$row['barCode'],
 					"nombre"=>$row['nombre'],
-					"cantidad"=>$row['cantidad'],
+					"cantidad"=>$cantidad,
 					"medida"=>$row['medida'],
 					"tipo_producto_id"=>$row['tipo_producto_id'],
 					"precio_venta"=>$row['precio_venta'],

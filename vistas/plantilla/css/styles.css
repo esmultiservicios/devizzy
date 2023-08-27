@@ -3931,6 +3931,7 @@ input[type=button].btn-block {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+  z-index: 1000; /* Asegura que el header esté encima del contenido */
 }
 
 .nav-link {
@@ -10355,7 +10356,7 @@ body {
   color: #007bff;
 }
 .sb-sidenav-light .sb-sidenav-menu .nav-link.active {
-  color: #007bff;*
+  color: #007bff;
 }
 .sb-sidenav-light .sb-sidenav-menu .nav-link.active .sb-nav-link-icon {
   color: #007bff;
@@ -10451,7 +10452,7 @@ body {
 @media screen and (max-width:500px){
   #logreg-forms{
       width:300px;
-	  margin:1vh auto;
+	    margin:1vh auto;
   }
 
   #logreg-forms  .social-login{
@@ -10668,6 +10669,37 @@ cursor: pointer
     border-color: #fff !important
 }
 
+.sb-topnav .navbar-brand {
+  width: 225px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin: 0;
+}
+
+.custom-header {
+  display: flex;
+  align-items: center; /* Centrar verticalmente */
+  justify-content: center; /* Centrar horizontalmente */
+  max-height: 100px; /* Ajusta esta altura según tus necesidades */
+  overflow: hidden;
+}
+
+.custom-header .navbar-brand {
+  display: flex;
+  align-items: center;
+  max-height: 100%; /* Asegura que el navbar-brand no sea más alto que el custom-header */
+}
+
+
+.custom-header .navbar-brand img {
+  max-height: 100%; /* La imagen se ajustará proporcionalmente en función de la altura máxima del custom-header */
+  max-width: 100%; /* Evita que el logo se ensanche más allá del ancho del custom-header */
+  width: auto;
+  max-height: 100px; /* Limita la altura de la imagen */
+  object-fit: contain; /* Ajusta el contenido para que se ajuste proporcionalmente sin salirse */
+  margin: auto; /* Centra vertical y horizontalmente */
+}
+
 @media (min-width: 768px) {
     #sidebar-wrapper {
         margin-left: 0
@@ -10874,6 +10906,7 @@ input:checked + .slider:before {
   text-align: center;
   align-items: center;
   padding-top:6px;  
+  z-index: 1000; /* Asegura que el footer esté encima del contenido */
 }
 
 .footer1{
@@ -10887,7 +10920,7 @@ input:checked + .slider:before {
   text-align: center;
   align-items: center;
   padding-top:6px; 
-  z-index: 1;
+  z-index: 1000; /* Asegura que el footer esté encima del contenido */
 }
 
 .table-responsive{
@@ -10932,4 +10965,11 @@ input:checked + .slider:before {
 
 .my-float-ws{
 	margin-top:16px;
+}
+
+.version {
+  font-size: 15px;
+  text-align: center;
+  display: inline-block; /* Añade esta propiedad para anular el efecto de .navbar-brand */
+  width: 100%; /* Asegura que el ancho del elemento sea 100% */
 }

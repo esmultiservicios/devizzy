@@ -23,10 +23,10 @@
 
             return $mysqli;
         }
-		
+
 		public function consulta_total_ingreso($query){
 			$result = self::connection()->query($query);
-	
+
 			return $result;
 		}
 		//FUNCION CORRELATIVO
@@ -61,7 +61,20 @@
 			$result = self::connection()->query($insert) or die(self::connection()->error);
 
 			return $result;
+		}
 
+    public function guardarHistorial($datos){
+			$historial_id = self::correlativo("historial_id", "historial");
+			$modulo = $datos['modulo'];
+      $colaboradores_id = $datos['colaboradores_id'];
+			$status = $datos['status'];
+			$observacion = $datos['observacion'];
+			$fecha_registro = date("Y-m-d H:i:s");
+			$insert = "INSERT INTO historial
+				VALUES('$historial_id','$modulo','$colaboradores_id','$status','$observacion','$fecha_registro')";
+			$result = self::connection()->query($insert) or die(self::connection()->error);
+
+			return $result;
 		}
 
 		public function actualizar_bitacora($bitacoraCodigo, $hora){
@@ -79,7 +92,7 @@
 
 			$sql = mainModel::connection()->query($delete) or die(mainModel::connection()->error);
 
-			return $sql;			
+			return $sql;
 		}
 
 		public function updateSalidaAsistenciaColaborador($asistencia_id){
@@ -89,15 +102,15 @@
 
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 
-			return $sql;			
+			return $sql;
 		}
-		
+
 		public function deleteAsistenciaColaborador($asistencia_id){
 			$delete = "DELETE FROM asistencia WHERE asistencia_id = '$asistencia_id'";
 
 			$sql = mainModel::connection()->query($delete) or die(mainModel::connection()->error);
 
-			return $sql;			
+			return $sql;
 		}
 
 		public function eliminar_bitacora($user_id){
@@ -166,32 +179,18 @@
 		}
 
 		public function guardar_historial_accesos($comentario_){
-
 			$nombre_host = self::getRealIP();
-
 			$fecha = date("Y-m-d H:i:s");
-
 			$comentario = mb_convert_case($comentario_, MB_CASE_TITLE, "UTF-8");
-
 			$usuario = $_SESSION['colaborador_id_sd'];
 
-
-
 			$historial_acceso_id  = self::correlativo("historial_acceso_id ", "historial_acceso");
-
 			$insert = "INSERT INTO historial_acceso VALUES('$historial_acceso_id','$fecha','$usuario','$nombre_host','$comentario')";
-
-
 
 			$result = self::connection()->query($insert);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function anular_cotizacion($cotizacion_id){
 			$update = "UPDATE cotizacion
@@ -221,7 +220,7 @@
 
 			$sql = mainModel::connection()->query($delete) or die(mainModel::connection()->error);
 
-			return $sql;			
+			return $sql;
 		}
 
 		public function anular_compra($compras_id){
@@ -277,8 +276,8 @@
 			facturas.importe,
 			clientes.nombre as cliente,
             tipo_pago.nombre as tipo_pago,
-			sf.prefijo AS 'prefijo', 
-			sf.siguiente AS 'numero', 
+			sf.prefijo AS 'prefijo',
+			sf.siguiente AS 'numero',
 			sf.relleno AS 'relleno',
 			sf.prefijo AS 'prefijo',
 			CONCAT(colaboradores.nombre, ' ', colaboradores.apellido) AS 'usuario'
@@ -342,129 +341,70 @@
 
 		//FUNCION PARA ENVIAR CORREO ELECTRONICO
 		protected function sendEmail($server, $port, $SMTPSecure, $password, $from, $para, $asunto, $mensaje){
-
 			$cabeceras = "MIME-Version: 1.0\r\n";
-
 			$cabeceras .= "Content-type: text/html; charset=iso-8859-1\r\n";
-
 			$cabeceras .= "From: $from \r\n";
 
-
-
 			$mail = new PHPMailer(); //creo un objeto de tipo PHPMailer
-
 			$mail->SMTPDebug = 1;
-
 			$mail->IsSMTP(); //protocolo SMTP
-
 			$mail->IsHTML(true);
-
 			$mail->CharSet = $CharSet;
-
 			$mail->SMTPAuth = true;//autenticación en el SMTP
-
 			$mail->SMTPSecure = $SMTPSecure;
-
+			
 			$mail->SMTPOptions = array(
-
 				'ssl' => array(
-
 					'verify_peer' => false,
-
 					'verify_peer_name' => false,
-
 					'allow_self_signed' => true
-
 				)
-
 			);
 
 			$mail->Host = $server;//servidor de SMTP de gmail
-
 			$mail->Port = $port;//puerto seguro del servidor SMTP de gmail
-
 			$mail->From = $de; //Remitente del correo
-
 			$mail->FromName = $from; //Remitente del correo
-
 			$mail->AddAddress($para);// Destinatario
-
 			$mail->AddCC($email_profesional);// Copia Destinatario
-
 			$mail->Username = $de;//Aqui pon tu correo de gmail
-
 			$mail->Password = $password;//Aqui pon tu contraseña de gmail
-
 			$mail->Subject = $asunto; //Asunto del correo
-
 			$mail->Body = $mensaje; //Contenido del correo
-
 			$mail->WordWrap = 50; //No. de columnas
-
 			$mail->MsgHTML($mensaje);//Se indica que el cuerpo del correo tendrá formato html
 
-
-
 			if($para != ""){
-
 			   if($mail->Send()){ //enviamos el correo por PHPMailer
-
 				  $respuesta = "El mensaje ha sido enviado con la clase PHPMailer y tu cuenta de gmail =)";
-
+				  
 				   $alert = [
-
 						"alert" => "simple",
-
 						"title" => "Correo enviado correctamente",
-
 						"text" => "El correo se ha enviado de forma satisfactoria",
-
 						"type" => "error",
-
 						"btn-class" => "btn-primary",
-
 					];
-
 			   }else{
-
 				   $alert = [
-
 						"alert" => "simple",
-
 						"title" => "Ocurrio un error inesperado",
-
 						"text" => "El mensaje no se pudo enviar, verifique su conexión a Internet: Error: ".$mail->ErrorInfo."",
-
 						"type" => "error",
-
 						"btn-class" => "btn-danger",
-
 					];
-
 			   }
-
 			}else{
-
 			   $alert = [
-
 					"alert" => "simple",
-
 					"title" => "Ocurrio un error inesperado",
-
 					"text" => "Lo sentimos no existe un destinatario al cual enviar el correo, por favor corregir: Error: ".$mail->ErrorInfo."",
-
 					"type" => "error",
-
 					"btn-class" => "btn-danger",
-
 				];
-
 			}
 
-
-
 			return self::sweetAlert($alert);
-
 		}
 
 
@@ -1226,7 +1166,7 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
 		public function getCuenta(){
 			$query = "SELECT *
@@ -1243,7 +1183,7 @@
 				FROM tipo_cuenta
 				WHERE estado = 1
 				ORDER BY nombre";
-			echo $query."***";
+				
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -1271,14 +1211,14 @@
 
 		public function ActualizarEstadoAsistencia($colaboradores_id){
 
-			$update = "UPDATE asistencia 
-				SET 
+			$update = "UPDATE asistencia
+				SET
 					estado = 1
 				WHERE colaboradores_id = '".$colaboradores_id."'";
 
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
-			
-			return $sql;			
+
+			return $sql;
 		}
 
 		public function GetColaboradoresNomina($nomina_id){
@@ -1299,7 +1239,7 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
 		public function getDiasTrabajados($colaboradores_id){
 			$query = "SELECT COUNT(asistencia_id) AS 'total'
@@ -1308,7 +1248,7 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
 		public function getAsistencia($datos){
 			$fecha = '';
@@ -1317,10 +1257,10 @@
 			if($datos['fechai'] != $fecha){
 				$fecha = "AND s.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
 			}
-			
+
 			if($datos['colaboradores_id'] != "" || $datos['colaboradores_id'] != 0){
 				$colaboradores_id = "AND s.colaboradores_id = '".$datos['colaboradores_id']."'";
-			}		
+			}
 
 			$query = "SELECT a.asistencia_id AS 'asistencia_id', a.colaboradores_id AS 'colaboradores_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', a.fecha AS 'fecha', a.horai AS 'hora_entrada', CONVERT(a.horaf, TIME) AS 'hora_salida', DATE_FORMAT(a.horai,'%h:%i:%s %p') AS 'horai',  DATE_FORMAT(CONVERT(a.horaf, TIME),'%h:%i:%s %p') AS 'horaf', a.comentario AS 'comentario', TIME_TO_SEC(TIMEDIFF(horaf, horai))/3600 AS 'total_horas'
 				FROM asistencia AS a
@@ -1331,8 +1271,8 @@
 
 			return $result;
 		}
-		
-		/*INICIO PRIVILEGIOS*/ 
+
+		/*INICIO PRIVILEGIOS*/
 		public function getMenusAcceso(){
 			$query = "SELECT *
 				FROM menu";
@@ -1343,15 +1283,15 @@
 
 		public function getMenusparaSubmenuAccesos($privilegio_id){
 			$query = "SELECT m.menu_id AS 'menu_id', m.name AS 'name'
-			FROM acceso_menu AS am
-			INNER JOIN menu AS m ON am.menu_id = m.menu_id
-			INNER JOIN submenu AS s ON m.menu_id = s.menu_id
-			WHERE am.privilegio_id = '$privilegio_id'
-			GROUP BY m.menu_id";
+				FROM acceso_menu AS am
+				INNER JOIN menu AS m ON am.menu_id = m.menu_id
+				INNER JOIN submenu AS s ON m.menu_id = s.menu_id
+				WHERE am.privilegio_id = '$privilegio_id'
+				GROUP BY m.menu_id";
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
 		public function getSubMenusAcceso($data){
 			$query = "SELECT *
@@ -1361,8 +1301,8 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}	
-		
+		}
+
 		public function getSubMenus1Acceso($privilegio_id){
 			$query = "SELECT sm.submenu_id AS 'submenu_id', sm.name AS 'submenu'
 				FROM acceso_submenu AS asm
@@ -1370,55 +1310,55 @@
 				INNER JOIN submenu1 AS sm1 ON sm.submenu_id = sm1.submenu_id
 				WHERE asm.privilegio_id = '$privilegio_id'
 				GROUP BY sm.submenu_id";
-				
+
 			$result = self::connection()->query($query);
 
 			return $result;
-		}	
-		
+		}
+
 		public function delete_menuAccessos($datos){
 			$query = "DELETE FROM acceso_menu WHERE acceso_menu_id = '".$datos['acceso_menu_id']."' AND privilegio_id = '".$datos['privilegio_id']."'";
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
-		
+
 			return $sql;
 		}
-		
+
 		public function delete_subMenuAccessos($datos){
 			$query = "DELETE FROM acceso_submenu WHERE acceso_submenu_id = '".$datos['acceso_submenu_id']."' AND privilegio_id = '".$datos['privilegio_id']."'";
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
-		
+
 			return $sql;
 		}
-		
+
 		public function delete_subMenu1Accessos($datos){
 			$query = "DELETE FROM acceso_submenu1 WHERE acceso_submenu1_id = '".$datos['submenu_id']."' AND privilegio_id = '".$datos['privilegio_id']."'";
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
-		
+
 			return $sql;
-		}			
-		
+		}
+
 		public function getSubMenusConsultaAccesos($data){
 			$query = "SELECT sm1.submenu1_id AS 'submenu_id', sm1.name AS 'submenu'
 				FROM submenu1 AS sm1
 				INNER JOIN submenu AS sm ON sm1.submenu_id = sm.submenu_id
 				WHERE sm.submenu_id = '".$data['menu_id']."'";
-				
+
 			$result = self::connection()->query($query);
 
 			return $result;
-		}	
-		
+		}
+
 		public function getMenuAccesosDataTable($privilegio_id){
 			$query = "SELECT am.acceso_menu_id AS 'acceso_menu_id', m.name AS 'menu', p.nombre AS 'privilegio', p.privilegio_id AS 'privilegio_id', m.menu_id AS 'menu_id'
 				FROM acceso_menu AS am
 				INNER JOIN menu AS m ON am.menu_id = m.menu_id
 				INNER JOIN privilegio AS p ON am.privilegio_id = p.privilegio_id
 				WHERE am.privilegio_id = '$privilegio_id'";
-			
+
 			$result = self::connection()->query($query);
-		
+
 			return $result;
 		}
 
@@ -1431,10 +1371,10 @@
 				WHERE asm.privilegio_id = '$privilegio_id'";
 
 			$result = self::connection()->query($query);
-		
+
 			return $result;
 		}
-		
+
 		public function getSubMenu1AccesosDataTable($privilegio_id){
 			$query = "SELECT asm1.acceso_submenu1_id AS 'acceso_submenu_id', sm1.submenu_id AS 'submenu_id', sm.name AS 'submenu', sm1.name AS 'submenu1', p.nombre AS 'privilegio', p.privilegio_id AS 'privilegio_id'
 				FROM acceso_submenu1 AS asm1
@@ -1444,19 +1384,19 @@
 				WHERE asm1.privilegio_id = '$privilegio_id'";
 
 			$result = self::connection()->query($query);
-		
+
 			return $result;
-		}			
-		
+		}
+
 		public function valid_menu_on_submenu_acceso($datos){
 			$query = "SELECT asm.acceso_submenu_id AS 'acceso_submenu_id'
 				FROM acceso_submenu AS asm
 				INNER JOIN submenu AS sm ON asm.submenu_id = sm.submenu_id
 				INNER JOIN menu AS m ON sm.menu_id = m.menu_id
 				WHERE m.menu_id = '".$datos['menu_id']."' AND asm.privilegio_id = '".$datos['privilegio_id']."'";
-			
+
 			$result = self::connection()->query($query);
-		
+
 			return $result;
 		}
 
@@ -1467,11 +1407,11 @@
 				WHERE sm1.submenu_id = '".$datos['submenu_id']."' AND asm1.privilegio_id = '".$datos['privilegio_id']."'";
 
 			$result = self::connection()->query($query);
-		
+
 			return $result;
-		}		
-		/*FIN PRIVILEGIOS*/ 
-		
+		}
+		/*FIN PRIVILEGIOS*/
+
 		public function getDepartamentos(){
 			$query = "SELECT *
 				FROM departamentos";
@@ -1515,10 +1455,10 @@
 				FROM cobrar_clientes
 				WHERE facturas_id = '$facturas_id'";
 			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
-		
-			return $result;				
-		}	
-		
+
+			return $result;
+		}
+
 		public function getProveedoresCXP(){
 			$query = "SELECT p.proveedores_id AS 'proveedores_id', p.nombre AS 'nombre'
 			FROM pagar_proveedores AS pp
@@ -1528,48 +1468,36 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
 		public function getTipoUsuario($datos){
-
 			if($datos['privilegio_id'] == 1){
-
 				$where = "WHERE estado = 1";
-
 			}else{
-
-				$where = "WHERE estado = 1 AND tipo_user_id NOT IN(1)";
-
+				$where = "WHERE estado = 1 AND tipo_user_id NOT IN(1,2)";
 			}
 
-
-
 			$query = "SELECT *
-
 				FROM tipo_user
-
 				".$where;
-
 			$result = self::connection()->query($query);
 
 
-
 			return $result;
-
 		}
 
-
-
 		public function getPrivilegio($datos){
-			if($datos['privilegio_id'] == 1){
+			if($datos['privilegio_id'] === "1"){//SUPER ADMINISTRADOR
 				$where = "WHERE estado = 1";
 			}else{
-				$where = "WHERE estado = 1 AND privilegio_id NOT IN(1)";
+				$where = "WHERE estado = 1 AND privilegio_id NOT IN(1,2)";
 			}
 
 			$query = "SELECT *
 				FROM privilegio
-				".$where."";
+				".$where."
+				ORDER BY nombre";
+
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -1730,114 +1658,72 @@
 
 
 		public function getBitacora($fechai, $fechaf){
-
 			$query = "SELECT b.bitacoraCodigo AS 'bitacoraCodigo', DATE_FORMAT(b.bitacoraFecha, '%d/%m/%Y') AS 'bitacoraFecha', b.bitacoraHoraInicio As 'bitacoraHoraInicio', b.bitacoraHoraFinal AS 'bitacoraHoraFinal', tu.nombre AS 'bitacoraTipo', b.bitacoraYear AS 'bitacoraYear', CONCAT(c.nombre,' ',c.apellido) AS 'colaborador'
-
 				FROM bitacora AS b
-
 				INNER JOIN tipo_user AS tu
-
 				ON b.bitacoraTipo = tu.tipo_user_id
-
 				INNER JOIN colaboradores AS c
-
 				ON b.colaboradores_id = c.colaboradores_id
-
 				WHERE b.bitacoraFecha BETWEEN '$fechai' AND '$fechaf'";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getHistorialAccesos($fechai, $fechaf){
-
 			$query = "SELECT ha.historial_acceso_id AS 'historial_acceso_id', DATE_FORMAT(ha.fecha, '%d/%m/%Y %H:%i:%s') AS 'fecha', CONCAT(c.nombre, ' ', c.apellido) As 'colaborador', ha.ip AS 'ip', ha.acceso AS 'acceso'
-
 				FROM historial_acceso AS ha
-
 				INNER JOIN colaboradores AS c
-
 				ON ha.colaboradores_id = c.colaboradores_id
-
 				WHERE CAST(ha.fecha AS DATE) BETWEEN '$fechai' AND '$fechaf'
-
 				ORDER BY ha.fecha DESC";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getClientes(){
+			if(!isset($_SESSION['user_sd'])){ 
+				session_start(['name'=>'SD']); 
+			}
+			
+			$privilegio_sd = $_SESSION['privilegio_sd'];
+			$colaborador_id_sd = $_SESSION['colaborador_id_sd'];
+
+			$where = "WHERE c.estado = 1";
+
+			if($privilegio_sd === "2"){
+				$where = "WHERE c.estado = 1 AND c.colaboradores_id = '$colaborador_id_sd'";
+			}
 
 			$query = "SELECT c.clientes_id AS 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn' , c.localidad AS 'localidad', c.telefono AS 'telefono', c.correo AS 'correo', d.nombre AS 'departamento', m.nombre AS 'municipio', c.rtn AS 'rtn'
-
 				FROM clientes AS c
-
 				INNER JOIN departamentos AS d
-
 				ON c.departamentos_id = d.departamentos_id
-
 				INNER JOIN municipios AS m
-
 				ON c.municipios_id = m.municipios_id
-
-				WHERE c.estado = 1";
-
-
+				".$where;
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getProveedores(){
-
 			$query = "SELECT p.proveedores_id AS 'proveedores_id', p.nombre AS 'proveedor', p.rtn AS 'rtn' , p.localidad AS 'localidad', p.telefono AS 'telefono', p.correo AS 'correo', d.nombre AS 'departamento', m.nombre AS 'municipio'
-
 				FROM proveedores AS p
-
 				INNER JOIN departamentos AS d
-
 				ON p.departamentos_id = d.departamentos_id
-
 				INNER JOIN municipios AS m
-
 				ON p.municipios_id = m.municipios_id
-
 				WHERE p.estado = 1
-
 				ORDER BY p.nombre";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getColaboradores(){
 			$query = "SELECT c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', c.identidad AS 'identidad',
@@ -1870,7 +1756,7 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}	
+		}
 
 		public function getTipoNomina(){
 			$query = "SELECT *
@@ -1880,8 +1766,8 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}			
-		
+		}
+
 		public function getPagoPlanificado(){
 			$query = "SELECT *
 				FROM pago_planificado
@@ -1891,7 +1777,7 @@
 
 			return $result;
 		}
-		
+
 		public function getTipoEmpleado(){
 			$query = "SELECT *
 				FROM tipo_empleado
@@ -1900,18 +1786,18 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
 		public function getEmpleadoContrato(){
 			$query = "SELECT colaboradores_id aS 'colaborador_id', CONCAT(nombre, ' ', apellido) AS 'nombre', c.identidad AS 'identidad'
-				FROM colaboradores AS c 
+				FROM colaboradores AS c
 				WHERE estado = 1 AND colaboradores_id NOT IN(1)
 				ORDER BY Nombre";
-				
+
 			$result = self::connection()->query($query);
 
 			return $result;
-		}	
+		}
 
 		public function getEmpleadoContratoEdit($colaboradores_id){
 			$query = "SELECT c.colaborador_id AS colaborador_id, CONCAT(co.nombre, ' ', co.apellido) AS 'nombre', co.identidad AS 'identidad', p.nombre AS 'puesto', c.contrato_id AS 'contrato_id', c.salario_mensual AS 'salario', co.fecha_ingreso AS 'fecha_ingreso', c.tipo_empleado_id AS 'tipo_empleado_id', c.pago_planificado_id AS 'pago_planificado_id'
@@ -1925,7 +1811,7 @@
 
 			return $result;
 		}
-		
+
 		public function getTotalesNominaDetalle($nomina_id){
 			$query = "SELECT SUM(nd.neto_ingresos) AS 'neto_ingresos', SUM(nd.neto_egresos) AS 'neto_egresos', SUM(nd.neto) AS 'neto'
 				FROM nomina_detalles AS nd
@@ -1935,7 +1821,7 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
 		public function actualizarNomina($nomina_id, $importe){
 			$update = "UPDATE nomina
@@ -1946,7 +1832,7 @@
 
 			$result = self::connection()->query($update);
 
-			return $result;					
+			return $result;
 		}
 
 		public function actualizarNominaDetalles($nomina_id){
@@ -1957,79 +1843,79 @@
 
 			$result = self::connection()->query($update);
 
-			return $result;	
-		}		
-		
+			return $result;
+		}
+
 		public function getEmpleado(){
 			$query = "SELECT co.colaborador_id AS 'colaboradores_id', CONCAT(nombre, ' ', apellido) AS 'nombre'
 			FROM contrato AS co
 			INNER JOIN colaboradores AS c ON co.colaborador_id = c.colaboradores_id
 			WHERE co.estado = 1";
-				
+
 			$result = self::connection()->query($query);
-		
+
 			return $result;
 		}
-		
+
 		public function getCuentaNomina($nombre){
 			$query = "SELECT cuentas_id
 			FROM diarios
 			WHERE nombre = '".$nombre."'";
 
 			$result = self::connection()->query($query);
-		
+
 			return $result;
-		}		
+		}
 
 		public function agregarEgresosMainModel($datos){
 			$egresos_id = mainModel::correlativo("egresos_id", "egresos");
 			$insert = "INSERT INTO egresos VALUES('".$egresos_id."','".$datos['cuentas_id']."','".$datos['proveedores_id']."','".$datos['empresa_id']."','".$datos['tipo_egreso']."','".$datos['fecha']."','".$datos['factura']."','".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."','".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
 
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-			
-			return $sql;			
+
+			return $sql;
 		}
-		
+
 		public function agregarMovimientosMainModel($datos){
 			$movimientos_cuentas_id = mainModel::correlativo("movimientos_cuentas_id", "movimientos_cuentas");
 			$insert = "INSERT INTO movimientos_cuentas VALUES('$movimientos_cuentas_id','".$datos['cuentas_id']."','".$datos['empresa_id']."','".$datos['fecha']."','".$datos['ingreso']."','".$datos['egreso']."','".$datos['saldo']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
-			
+
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-			
-			return $sql;			
-		}	
-		
+
+			return $sql;
+		}
+
 		public function consultaSaldoMovimientosMainModel($cuentas_id){
 			$query = "SELECT ingreso, egreso, saldo
 				FROM movimientos_cuentas
 				WHERE cuentas_id = '$cuentas_id'
 				ORDER BY movimientos_cuentas_id DESC LIMIT 1";
-			
+
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
-			
-			return $sql;				
-		}		
+
+			return $sql;
+		}
 
 		public function validEgresosCuentasMainModel($datos){
 			$query = "SELECT egresos_id FROM egresos WHERE factura = '".$datos['factura']."' AND proveedores_id = '".$datos['proveedores_id']."'";
-			
+
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
-			
-			return $sql;			
+
+			return $sql;
 		}
 
 		public function getContratoEdit($contrato_id){
 			$query = "SELECT *
 			FROM contrato
 			WHERE contrato_id = '".$contrato_id."'";
-				
+
 			$result = self::connection()->query($query);
-		
+
 			return $result;
 		}
 
 		public function getContrato($datos){
-			$estado = '';			
+			$estado = '';
 			$tipo_contrato = '';
 			$pago_planificado_id = '';
 			$tipo_empleado = '';
@@ -2037,15 +1923,15 @@
 
 			if($datos['tipo_contrato'] != "" || $datos['tipo_contrato'] != 0){
 				$tipo_contrato = "AND c.tipo_contrato_id = '".$datos['tipo_contrato']."'";
-			}	
-			
+			}
+
 			if($datos['pago_planificado'] != "" || $datos['pago_planificado'] != 0){
 				$pago_planificado_id = "AND c.pago_planificado_id = '".$datos['pago_planificado']."'";
 			}
 
 			if($datos['tipo_empleado'] != "" || $datos['tipo_empleado'] != 0){
 				$tipo_empleado = "AND c.tipo_empleado_id = '".$datos['tipo_empleado']."'";
-			}			
+			}
 
 			$query = "SELECT c.contrato_id AS contrato_id, CONCAT(co.nombre, ' ', co.apellido) AS 'empleado', tc.nombre AS 'tipo_contrato', pp.nombre AS 'pago_planificado', te.nombre AS 'tipo_empleado', c.fecha_inicio AS 'fecha_inicio', c.estado AS 'estado', (CASE WHEN c.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', c.salario AS 'salario', c.tipo_contrato_id AS 'tipo_contrato_id', c.pago_planificado_id AS 'pago_planificado_id', c.tipo_empleado_id AS 'tipo_empleado_id', (CASE WHEN c.fecha_fin = '' THEN 'Sin Registro' ELSE c.fecha_fin END) AS 'fecha_fin', c.notas AS 'notas'
 				FROM contrato AS c
@@ -2058,16 +1944,16 @@
 				$pago_planificado_id
 				$tipo_empleado
 				ORDER BY co.nombre ASC";
-				
+
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
 		public function getNomina($datos){
-			$estado = '';			
+			$estado = '';
 			$pago_planificado_id = '';
-			
+
 			if($datos['pago_planificado'] != "" || $datos['pago_planificado'] != 0){
 				$pago_planificado_id = "AND c.pago_planificado_id = '".$datos['pago_planificado']."'";
 			}
@@ -2075,35 +1961,35 @@
 			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id'
 			FROM nomina AS n
 			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
-			WHERE n.estado = '".$datos['estado']."'	
-			$pago_planificado_id	
+			WHERE n.estado = '".$datos['estado']."'
+			$pago_planificado_id
 			ORDER BY n.fecha_registro DESC";
 
 			$result = self::connection()->query($query);
 
 			return $result;
-		}	
+		}
 
 		public function getNominaEdit($nomina_id){
 			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', e.empresa_id AS 'empresa_id', n.estado AS 'estado', tipo_nomina_id AS 'tipo_nomina_id'
 			FROM nomina AS n
 			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
-			WHERE n.nomina_id = '".$nomina_id."'	
+			WHERE n.nomina_id = '".$nomina_id."'
 			ORDER BY n.fecha_registro DESC";
 
 			$result = self::connection()->query($query);
 
 			return $result;
-		}			
-		
+		}
+
 		public function getNominaDetalles($datos){
-			$estado = '';			
+			$estado = '';
 			$empleado = '';
 
 			if($datos['empleado'] != "" || $datos['empleado'] != 0){
 				$empleado = "AND c.colaboradores_id = '".$datos['empleado']."'";
-			}	
-			
+			}
+
 			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa'
 				FROM nomina_detalles AS nd
 				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
@@ -2130,9 +2016,9 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
-		public function getNominaComprobanteDetalles($nomina_id){					
+		public function getNominaComprobanteDetalles($nomina_id){
 			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', c.identidad AS 'identidad', c.fecha_ingreso AS 'fecha_ingreso', c.colaboradores_id AS 'colaboradores_id', pc.nombre AS 'puesto', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.isr AS 'isr'
 				FROM nomina_detalles AS nd
 				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
@@ -2147,24 +2033,24 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
-		
-		public function getNominaDetallesEdit($nomina_detalles_id){			
+		}
+
+		public function getNominaDetallesEdit($nomina_detalles_id){
 			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_detalles_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.pago_planificado_id AS 'pago_planificado_id', n.notas AS 'notas', c.identidad AS 'identidad', p.nombre AS 'puesto', co.contrato_id AS 'contrato_id', c.fecha_ingreso AS 'fecha_ingreso', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.isr AS 'isr', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.notas AS 'nota_detalles'
-				FROM nomina_detalles AS nd 
-				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id 
-				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id 
-				INNER JOIN contrato AS co ON nd.colaboradores_id = co.colaborador_id 
-				INNER JOIN tipo_contrato AS tp ON co.tipo_contrato_id = tp.tipo_contrato_id 
-				INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id 
-				INNER JOIN puestos AS p ON c.puestos_id = p.puestos_id 
+				FROM nomina_detalles AS nd
+				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
+				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id
+				INNER JOIN contrato AS co ON nd.colaboradores_id = co.colaborador_id
+				INNER JOIN tipo_contrato AS tp ON co.tipo_contrato_id = tp.tipo_contrato_id
+				INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
+				INNER JOIN puestos AS p ON c.puestos_id = p.puestos_id
 				WHERE nd.nomina_detalles_id = '".$nomina_detalles_id."'
 				ORDER BY nd.fecha_registro DESC";
 
 			$result = self::connection()->query($query);
 
 			return $result;
-		}			
+		}
 
 		public function getCantidadUsuariosPlan(){
 			$query = "SELECT *
@@ -2231,7 +2117,7 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
 		public function getISV($documento){
 			$query = "SELECT i.isv_id AS 'isv_id', i.isv_tipo_id AS 'isv_tipo_id', i.valor AS 'valor', it.nombre AS 'tipo_isv'
@@ -2244,7 +2130,7 @@
 
 
 			return $result;
-		}	
+		}
 
 		public function getHoraInicio($colaborador_id){
 			$query = "SELECT horai
@@ -2254,7 +2140,7 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}			
+		}
 
 		public function getISVEstadoProducto($productos_id){
 			$query = "SELECT isv_venta
@@ -2283,7 +2169,7 @@
 			$query = "SELECT id_producto_superior
 				FROM productos
 				WHERE productos_id = '$productos_id'";
-			
+
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -2313,7 +2199,7 @@
 			productos
 			INNER JOIN medida ON productos.medida_id = medida.medida_id
 			WHERE productos.id_producto_superior = '$producto_id'";
-			
+
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -2325,47 +2211,59 @@
 				INNER JOIN medida AS m
 				ON p.medida_id = m.medida_id
 				WHERE p.productos_id = '$productos_id'";
-				
+
 			$result = self::connection()->query($query);
 
 			return $result;
 		}
 
 		public function getSaldoProductosMovimientos($productos_id){
-			$query = "SELECT saldo
-				FROM movimientos
-				WHERE productos_id = '$productos_id'
-				ORDER BY movimientos_id DESC LIMIT 1";
-				
+				$query = "SELECT
+						SUM(m.cantidad_entrada) AS 'entrada',
+						SUM(m.cantidad_salida) AS 'salida',
+						(
+							SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
+						) AS 'saldo'
+					FROM
+						movimientos AS m
+					INNER JOIN productos AS p ON m.productos_id = p.productos_id
+					WHERE p.estado = 1 AND p.productos_id = '$productos_id'";
+
 			$result = self::connection()->query($query);
 
 			return $result;
 		}
 
 		public function getSaldoProductosMovimientosBodega($productos_id, $almacen_id){
-			$query = "SELECT saldo
-				FROM movimientos
-				WHERE productos_id = '$productos_id' AND almacen_id = '$almacen_id'
-				ORDER BY movimientos_id DESC LIMIT 1";
-				
+			$query = "SELECT
+					SUM(m.cantidad_entrada) AS 'entrada',
+					SUM(m.cantidad_salida) AS 'salida',
+					(
+						SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
+					) AS 'saldo'
+				FROM
+					movimientos AS m
+				INNER JOIN productos AS p ON m.productos_id = p.productos_id
+				WHERE p.estado = 1 AND p.productos_id = '$productos_id' AND m.almacen_id = '$almacen_id'";
+
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
 		protected function agregar_movimiento_productos_modelo($datos){
 			$movimientos_id = mainModel::correlativo("movimientos_id", "movimientos");
 			$documento = "Entrada Movimientos ".$movimientos_id;
 			isset($datos['almacen_id']) ? $bodega = $datos['almacen_id'] : $bodega = '';
-			$insert = "INSERT INTO movimientos 
+			$insert = "INSERT INTO movimientos
 				VALUES('$movimientos_id','".$datos['productos_id']."','$documento','".$datos['cantidad_entrada']."',
 				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
 				'".$datos['clientes_id']."','".$datos['comentario']."', '$bodega'
 				)";
 
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-			
-			return $sql;			
+
+			return $sql;
 		}
 
 		public function getProductos(){
@@ -2448,7 +2346,7 @@
 			) AS 'isv', tp.nombre AS 'tipo_producto_nombre',
 			(CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END) AS 'isv_venta',
 			(CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END) AS 'isv_compra'
-		
+
 		FROM
 			movimientos AS m
 		RIGHT JOIN productos AS p ON m.productos_id = p.productos_id
@@ -2464,7 +2362,7 @@
 			p.productos_id, m.almacen_id
 		ORDER BY
 			p.fecha_registro ASC";
-			
+
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -2528,7 +2426,7 @@
 			) AS 'isv', tp.nombre AS 'tipo_producto_nombre',
 			(CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END) AS 'isv_venta',
 			(CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END) AS 'isv_compra'
-		
+
 		FROM
 			movimientos AS m
 		RIGHT JOIN productos AS p ON m.productos_id = p.productos_id
@@ -2543,7 +2441,7 @@
 			p.productos_id, m.almacen_id
 		ORDER BY
 			p.fecha_registro ASC";
-			
+
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -2561,7 +2459,7 @@
 			if($datos['barcode'] != ''){
 				$barCode = "AND p.barCode  = '".$datos['barcode']."'";
 			}
-		
+
 			$query = "
 			SELECT
 				p.productos_id AS 'productos_id',
@@ -2910,7 +2808,7 @@
 
 		public function consulta_total_gastos($query){
 			$result = self::connection()->query($query);
-	
+
 			return $result;
 		}
 
@@ -2922,7 +2820,7 @@
 				ON e.cuentas_id = c.cuentas_id
 				INNER JOIN proveedores AS p
 				ON e.proveedores_id = p.proveedores_id
-				WHERE CAST(e.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' 
+				WHERE CAST(e.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
 				AND e.estado = '".$datos['estado']."'
 				ORDER BY e.fecha_registro DESC";
 
@@ -3201,6 +3099,13 @@
 			p.barCode AS 'barCode',
 			p.nombre AS 'producto',
 			p.precio_compra AS costo,
+			p.precio_venta AS precio_venta,
+			p.cantidad_mayoreo AS cantidad_mayoreo,
+			p.precio_mayoreo AS precio_mayoreo,
+			p.isv_venta AS 'isv_venta',
+			p.almacen_id AS 'almacen_id',
+			p.medida_id AS 'medida_id',
+			fd.facturas_detalle_id,
 			fd.cantidad AS 'cantidad',
 			fd.precio AS 'precio',
 			fd.descuento AS 'descuento',
@@ -3211,8 +3116,7 @@
 			facturas_detalles AS fd
 				INNER JOIN productos AS p ON fd.productos_id = p.productos_id
 				INNER JOIN medida as med ON p.medida_id = med.medida_id
-				WHERE fd.facturas_id = '$noFactura'
-				";
+				WHERE fd.facturas_id = '$noFactura'";
 
 			$result = self::connection()->query($query);
 
@@ -3303,27 +3207,16 @@
 
 
 		public function getCorreoServer($correo_tipo_id){
-
 			$query = "SELECT c.correo_id AS 'correo_id', c.correo_tipo_id AS 'correo_tipo_id', ct.nombre AS 'tipo_correo', c.server AS 'server', c.correo AS 'correo', c.port AS 'port', c.smtp_secure AS 'smtp_secure', c.estado AS 'estado', c.password AS 'password'
-
 			FROM correo AS c
-
 			INNER JOIN correo_tipo AS ct
-
 			ON c.correo_tipo_id = ct.correo_tipo_id
-
 			WHERE ct.nombre = '$correo_tipo_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getNumeroFactura($facturas_id){
@@ -3340,7 +3233,6 @@
 
 			return $result;
 		}
-
 
 		public function getNumeroCompra($compras_id){
 			$query = "SELECT c.number AS 'numero'
@@ -3374,8 +3266,8 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}	
-		
+		}
+
 		public function getNombreClienteFacturaCompras($compras_id){
 			$query = "SELECT p.nombre AS 'nombre'
 			FROM compras AS c
@@ -3386,27 +3278,27 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}	
-		
+		}
+
 		public function getImporteCompras($compras_id){
 			$query = "SELECT importe
-			FROM compras 
+			FROM compras
 			WHERE compras_id = '$compras_id'";
 
 			$result = self::connection()->query($query);
 
 			return $result;
-		}			
-		
+		}
+
 		public function getImporteFacturas($facturas_id){
 			$query = "SELECT importe
-			FROM facturas 
+			FROM facturas
 			WHERE facturas_id = '$facturas_id'";
 
 			$result = self::connection()->query($query);
 
 			return $result;
-		}			
+		}
 
 		public function getRTNCliente($clientes_id, $rtn){
 			$query = "SELECT rtn
@@ -3433,7 +3325,7 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
 		public function actualizarBarCode($productos_id, $barcode){
 			$update = " UPDATE productos
@@ -3452,7 +3344,7 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}		
+		}
 
 		public function getRTNProveedor($proveedores_id, $rtn){
 			$query = "SELECT rtn
@@ -3462,7 +3354,7 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}				
+		}
 
 		public function actualizarRTNProveedor($proveedores_id, $rtn){
 			$update = " UPDATE proveedores
@@ -3504,7 +3396,7 @@
 				GROUP BY tp.cuentas_id";
 
 			$result = self::connection()->query($query);
-			
+
 			return $result;
 
 		}
@@ -4056,7 +3948,7 @@
 			if($datos['cliente'] != ''){
 				$cliente =  "AND m.clientes_id = '".$datos['cliente']."'";
 			}
-			
+
 			if($datos['tipo_producto_id'] != ''){
 				$tipo = "AND p.tipo_producto_id = '".$datos['tipo_producto_id']."'";
 			}
@@ -4100,7 +3992,7 @@
 				ORDER BY m.fecha_registro DESC";
 
 			$result = self::connection()->query($query);
-		
+
 			return $result;
 		}
 
@@ -4155,7 +4047,7 @@
 					$id_producto
 					GROUP BY p.productos_id, m.almacen_id
 				    ORDER BY p.fecha_registro ASC";
-	
+
 			$result = self::connection()->query($query);
 			//echo 'quersdfasd  '.$query;
 			return $result;
@@ -4173,19 +4065,19 @@
 
 			if($datos['tipo_factura_reporte'] == 2){
 				$tipo_factura_reporte = "AND f.estado = 4";
-			}	
-			
+			}
+
 			if($datos['facturador'] != ""){
 				$facturador = "AND f.usuario = '".$datos['facturador']."'";
-			}				
+			}
 
 			if($datos['vendedor'] != ""){
 				$vendedor = "AND f.colaboradores_id = '".$datos['vendedor']."'";
 			}
 
-			$query = "SELECT 
-				f.facturas_id AS 'facturas_id', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.nombre AS 'cliente', 
-				CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', f.importe As 'total', 
+			$query = "SELECT
+				f.facturas_id AS 'facturas_id', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', c.nombre AS 'cliente',
+				CONCAT(sf.prefijo,'',LPAD(f.number, sf.relleno, 0)) AS 'numero', f.importe As 'total',
 				(CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', CONCAT(co.nombre, ' ', co.apellido) AS 'vendedor', CONCAT(co1.nombre, ' ', co1.apellido) AS 'facturador'
 				FROM facturas AS f
 				INNER JOIN clientes AS c
@@ -4208,20 +4100,20 @@
 
 		public function consultaCXPagoFactura($facturas_id){
 			$query = "SELECT cobrar_clientes_id  FROM cobrar_clientes WHERE facturas_id = '".$facturas_id."' AND estado = 2";
-	
+
 			$result = self::connection()->query($query);
 			return $result;
-		}		
+		}
 
 		public function consultaCXPagoFacturaCompras($compras_id){
 			$query = "SELECT pagar_proveedores_id  FROM pagar_proveedores WHERE compras_id = '".$compras_id."' AND estado = 2";
-	
+
 			$result = self::connection()->query($query);
 			return $result;
-		}		
+		}
 
 
-		public function consultaImpresora(){		
+		public function consultaImpresora(){
 			$query = "
 				SELECT
 				*
@@ -4233,10 +4125,10 @@
 		}
 
 		public function updateImpresora($id,$estado){
-			$fecha_registro = date("Y-m-d H:i:s");	
+			$fecha_registro = date("Y-m-d H:i:s");
 
 			$update = " UPDATE impresora
-				SET 
+				SET
 					estado = '$estado',
 					fecha_registro = '$fecha_registro'
 				WHERE impresora_id = '$id'";
@@ -4257,7 +4149,7 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-		}	
+		}
 
 		public function consultaCompras($datos){
 			if($datos['tipo_compra_reporte'] == 1){
@@ -4395,11 +4287,11 @@
 
 		public function saldo_cuentas_por_pagar($compras_id){
 			$query = "SELECT saldo  FROM pagar_proveedores WHERE compras_id = '".$compras_id."' ";
-	
+
 			$result = self::connection()->query($query);
 			return $result;
-		}	
-		
+		}
+
 		public function getDatosCompras($compras_id){
 			$query = "SELECT
 			c.compras_id AS compras_id,
@@ -4415,7 +4307,7 @@
 			FROM
 			compras AS c
 			INNER JOIN proveedores AS p ON c.proveedores_id = p.proveedores_id
-			INNER JOIN pagar_proveedores ON pagar_proveedores.compras_id = c.compras_id			
+			INNER JOIN pagar_proveedores ON pagar_proveedores.compras_id = c.compras_id
 			WHERE c.compras_id = '$compras_id'";
 
 			$result = self::connection()->query($query);
@@ -4460,11 +4352,11 @@
 				INNER JOIN secuencia_facturacion AS sf
 				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
 				INNER JOIN colaboradores AS co
-				ON f.colaboradores_id = co.colaboradores_id				
+				ON f.colaboradores_id = co.colaboradores_id
 				WHERE cc.estado = '".$datos['estado']."'
 				$fecha
 				$clientes_id
-				ORDER BY cc.fecha ASC";				
+				ORDER BY cc.fecha ASC";
 
 			$result = self::connection()->query($query);
 
@@ -4479,7 +4371,7 @@
 
 			return $result;
 		}
-		
+
 		public function getCuentasporPagarProveedores($datos){
 			$proveedores_id = "";
 			$fecha_actual = date("Y-m-d");
@@ -4508,7 +4400,7 @@
 			WHERE proveedores.estado = '".$datos['estado']."'
 			$fecha
 			$proveedores_id
-			ORDER BY proveedores.fecha ASC";	
+			ORDER BY proveedores.fecha ASC";
 
 			$result = self::connection()->query($query);
 
@@ -4552,22 +4444,13 @@
 
 
 		public function getlastUpdateHistorialAccessos(){
-
 			$query = "SELECT * FROM historial_acceso
-
 				ORDER BY historial_acceso_id  DESC LIMIT 1";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		protected function getMenuAccesoLoginConsulta($privilegio_id, $menu){
 
@@ -4680,8 +4563,8 @@
 
 
 		public function nombremes($mes){
-			setlocale(LC_TIME, 'spanish');  
-			$nombre=strftime("%B",mktime(0, 0, 0, $mes, 1, 2000)); 
+			setlocale(LC_TIME, 'spanish');
+			$nombre=strftime("%B",mktime(0, 0, 0, $mes, 1, 2000));
 			return $nombre;
 		}
 
@@ -4727,28 +4610,26 @@
 
 		}
 
-
-
 		public function getTotalCustomers(){
-
 			$query = "SELECT COUNT(clientes_id) AS 'total'
-
 				FROM clientes
-
 				WHERE estado = 1";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
+		public function getPlanesConsulta(){
+			$query = "SELECT planes_id, nombre
+				FROM planes
+				WHERE estado = 1";
 
+			$result = self::connection()->query($query);
 
+			return $result;
+		}
+		
 		public function getTotalSuppliers(){
 
 			$query = "SELECT COUNT(proveedores_id) AS 'total'
@@ -4892,7 +4773,7 @@
 				almacen.fecha_registro
 				FROM
 				almacen
-			
+
 				WHERE almacen_id = '$almacen_id' ";
 
 
@@ -5932,14 +5813,14 @@
 		//CONSULTA EN EL SERVIDOR DE KIREDS PARA VALIDAR QUE EL CLIENTE EXISTA
 		function connect_mysqli_main_server(){
 			$mysqli_main =mysqli_connect(SERVER_MAIN,USER_MAIN,PASS_MAIN,DB_MAIN);
-		
+
 			$mysqli_main->set_charset("utf8");
-		
+
 			if ($mysqli_main->connect_errno) {
 			   echo "Fallo al conectar a MySQL: " . $mysqli_main->connect_error;
 			   exit;
 			}
-		
+
 			return $mysqli_main;
-		}		
+		}
     }

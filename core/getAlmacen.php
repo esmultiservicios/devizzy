@@ -8,8 +8,11 @@
 	$result = $insMainModel->getAlmacen();
 	
 	if($result->num_rows>0){
+		echo '<option value=0>Todos</option>';
 		while($consulta2 = $result->fetch_assoc()){
 			 echo '<option value="'.$consulta2['almacen_id'].'">'.$consulta2['almacen'].'</option>';
 		}
+	}else{
+		echo '<option value="">No hay datos que mostrar</option>';
 	}
 ?>	

@@ -1,4 +1,6 @@
 <script>
+var row = 0;
+
 $(document).ready(function() {
     getCajero();
     getConsumidorFinal();
@@ -9,6 +11,7 @@ $(document).ready(function() {
 	getTotalFacturasDisponibles();
 	getReporteCotizacion();
 	getReporteFactura();
+	getEstadoFacturaCredito();
 	getCollaboradoresModalPagoFacturas();
 	getFacturador();
 	getVendedores();
@@ -25,6 +28,7 @@ function getClientesFacturasCXC(){
         success: function(data){
 		    $('#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes').html("");
 			$('#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes').html(data);				
+			$('#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes').selectpicker('refresh');
 		}
      });
 }
@@ -38,7 +42,8 @@ function getFacturador(){
 	    async: true,
         success: function(data){
 		    $('#formulario_bill #facturador').html("");
-			$('#formulario_bill #facturador').html(data);				
+			$('#formulario_bill #facturador').html(data);	
+			$('#formulario_bill #facturador').selectpicker('refresh');			
 		}
      });
 }
@@ -53,7 +58,8 @@ function getVendedores(){
         success: function(data){
 			
 		    $('#formulario_bill #vendedor').html("");
-			$('#formulario_bill #vendedor').html(data);				
+			$('#formulario_bill #vendedor').html(data);	
+			$('#formulario_bill #vendedor').selectpicker('refresh');			
 		}
      });
 }
@@ -114,7 +120,7 @@ $('#formulario_busqueda_cuentas_cobrar_clientes #fechaf').on("change", function(
 //FIN CUENTAS POR COBRAR CLIENTES
 
 function resetRow(){
-	row = 0;
+	$("#invoice-form #bill_row").val(0);
 }
 
 $('#formulario_busqueda_productos_facturacion #almacen').on('change',function(){
@@ -156,6 +162,19 @@ function formAperturaBill(){
 		backdrop:'static'
 	});	
 }
+
+$('#reg_factura').on('click', function(e){
+	$('#invoice-form').attr({ 'data-form': 'save' });
+	$('#invoice-form').attr({ 'action': '<?php echo SERVERURL; ?>ajax/addFacturaAjax.php' });
+	$("#invoice-form").submit();
+});
+
+$("#guardar_factura").on("click", function(e){
+	$('#invoice-form').attr({ 'data-form': 'save' });
+	$('#invoice-form').attr({ 'action': '<?php echo SERVERURL;?>ajax/addFacturaOpenAjax.php' });
+	$("#invoice-form").submit();
+});
+
 
 $("#invoice-form #btn_cierre").on("click", function(e){
 	e.preventDefault();
@@ -340,6 +359,7 @@ $(document).ready(function(){
 		  listar_productos_factura_buscar();
 		  var row_index = $(this).closest("tr").index();
 		  var col_index = $(this).closest("td").index();
+
 		  $('#formulario_busqueda_productos_facturacion #row').val(row_index);
 		  $('#formulario_busqueda_productos_facturacion #col').val(col_index);
 		  $('#modal_buscar_productos_facturacion').modal({
@@ -458,12 +478,12 @@ var listar_productos_factura_buscar = function(){
 	view_productos_busqueda_factura_dataTable("#DatatableProductosBusquedaFactura tbody", table_productos_factura_buscar);
 }
 
-var row = 0;
-
 var view_productos_busqueda_factura_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.table_view");
 	$(tbody).on("click", "button.table_view", function(e){
         e.preventDefault();
+
+		row = $("#invoice-form #bill_row").val();
 
 		if(getConsultarAperturaCaja() == 2){
 			swal({
@@ -661,7 +681,25 @@ function limpiarTablaFactura(){
 	var htmlRows = '';
 	htmlRows += '<tr>';
 	htmlRows += '<td><input class="itemRow" id="itemRow_'+count+'" type="checkbox"></td>';
-	htmlRows += '<td><input type="hidden" name="referenciaProducto[]" id="referenciaProducto_'+count+'" class="form-control" placeholder="Referencia Producto Precio" autocomplete="off"><input type="hidden" name="isv[]" id="isv_'+count+'" class="form-control" placeholder="Producto ISV" autocomplete="off"><input type="hidden" name="valor_isv[]" id="valor_isv_'+count+'" class="form-control" placeholder="Valor ISV" autocomplete="off"><input type="hidden" name="productos_id[]" id="productos_id_'+count+'" class="form-control inputfield-details1" placeholder="Código del Producto" autocomplete="off">	<div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_'+count+'"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-id[]" id="bar-code-id_'+count+'" class="form-control product-bar-code inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
+	htmlRows += '<td><input type="hidden" name="referenciaProducto[]" id="referenciaProducto_'+count+'" class="form-control" placeholder="Referencia Producto Precio" autocomplete="off"><input type="hidden" name="isv[]" id="isv_'+count+'" class="form-control" placeholder="Producto ISV" autocomplete="off"><input type="hidden" name="valor_isv[]" id="valor_isv_'+count+'" class="form-control" placeholder="Valor ISV" autocomplete="off"><input type="hidden" name="facturas_detalle_id[]" id="facturas_detalle_id_'+count+'" class="form-control" placeholder="Código Producto" autocomplete="off"><input type="hidden" name="productos_id[]" id="productos_id_'+count+'" class="form-control inputfield-details1" placeholder="Código del Producto" autocomplete="off">	<div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_'+count+'"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-id[]" id="bar-code-id_'+count+'" class="form-control product-bar-code inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
+	htmlRows += '<td><input type="text" name="productName[]" id="productName_'+count+'" readonly placeholder="Descripción del Producto" class="form-control inputfield-details1" autocomplete="off"></td>';
+	htmlRows += '<td><input type="number" name="quantity[]" id="quantity_'+count+'" step="0.01" placeholder="Cantidad" class="buscar_cantidad form-control inputfield-details" autocomplete="off"><input type="hidden" name="cantidad_mayoreo[]" id="cantidad_mayoreo_'+count+'" step="0.01" placeholder="Cantidad Mayoreo" class="buscar_cantidad form-control inputfield-details" autocomplete="off"></td>';
+	htmlRows += '<td><input type="text" name="medida[]" id="medida_'+count+'" readonly class="form-control buscar_medida" autocomplete="off" placeholder="Medida"><input type="hidden" name="bodega[]" id="bodega_'+count+'" readonly class="form-control buscar_bodega" autocomplete="off"></td>';
+	htmlRows += '<td><div class="input-group mb-3"><input type="number" name="price[]" id="price_'+count+'" class="form-control" step="0.01" placeholder="Precio" readonly autocomplete="off"><div id="suggestions_producto_0" class="suggestions"></div><div class="input-group-append"><a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_precio fas fa-plus fa-lg"></i></a></div></div><input type="hidden" name="pprecio_mayoreo[]" id="precio_mayoreo_'+count+'" placeholder="Precio Mayoreo" class="form-control inputfield-details" readonly autocomplete="off"><input type="hidden" name="precio_real[]" id="precio_real_'+count+'" placeholder="Precio Real" class="form-control inputfield-details" readonly autocomplete="off"></td>';
+	htmlRows += '<td><div class="input-group mb-3"><input type="number" name="discount[]" id="discount_'+count+'" class="form-control" step="0.01" placeholder="Descuento" readonly autocomplete="off"><div id="suggestions_producto_0" class="suggestions"></div><div class="input-group-append"><a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="aplicar_descuento fas fa-plus fa-lg"></i></a></div></div></td>';
+	htmlRows += '<td><input type="number" name="total[]" id="total_'+count+'" placeholder="Total" class="form-control total inputfield-details" readonly autocomplete="off" step="0.01"></td>';
+	htmlRows += '</tr>';
+	$('#invoiceItem').append(htmlRows);
+	$("#invoice-form .tableFixHead").scrollTop($(document).height());
+	$("#invoice-form #invoiceItem #bar-code-id_"+count).focus();
+}
+
+function limpiarTablaFacturaDetalles(count){
+	$("#invoice-form #invoiceItem > tbody").empty();//limpia solo los registros del body
+	var htmlRows = '';
+	htmlRows += '<tr>';
+	htmlRows += '<td><input class="itemRow" id="itemRow_'+count+'" type="checkbox"></td>';
+	htmlRows += '<td><input type="hidden" name="referenciaProducto[]" id="referenciaProducto_'+count+'" class="form-control" placeholder="Referencia Producto Precio" autocomplete="off"><input type="hidden" name="isv[]" id="isv_'+count+'" class="form-control" placeholder="Producto ISV" autocomplete="off"><input type="hidden" name="valor_isv[]" id="valor_isv_'+count+'" class="form-control" placeholder="Valor ISV" autocomplete="off"><input type="hidden" name="facturas_detalle_id[]" id="facturas_detalle_id_'+count+'" class="form-control" placeholder="Código Producto" autocomplete="off"><input type="hidden" name="productos_id[]" id="productos_id_'+count+'" class="form-control inputfield-details1" placeholder="Código del Producto" autocomplete="off">	<div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_'+count+'"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-id[]" id="bar-code-id_'+count+'" class="form-control product-bar-code inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
 	htmlRows += '<td><input type="text" name="productName[]" id="productName_'+count+'" readonly placeholder="Descripción del Producto" class="form-control inputfield-details1" autocomplete="off"></td>';
 	htmlRows += '<td><input type="number" name="quantity[]" id="quantity_'+count+'" step="0.01" placeholder="Cantidad" class="buscar_cantidad form-control inputfield-details" autocomplete="off"><input type="hidden" name="cantidad_mayoreo[]" id="cantidad_mayoreo_'+count+'" step="0.01" placeholder="Cantidad Mayoreo" class="buscar_cantidad form-control inputfield-details" autocomplete="off"></td>';
 	htmlRows += '<td><input type="text" name="medida[]" id="medida_'+count+'" readonly class="form-control buscar_medida" autocomplete="off" placeholder="Medida"><input type="hidden" name="bodega[]" id="bodega_'+count+'" readonly class="form-control buscar_bodega" autocomplete="off"></td>';
@@ -675,12 +713,12 @@ function limpiarTablaFactura(){
 }
 
 function addRowFacturas(){
-	var count = row + 1;
+	var count = parseInt($("#invoice-form #bill_row").val()) + 1;
 
 	var htmlRows = '';
 	htmlRows += '<tr>';
 	htmlRows += '<td><input class="itemRow" id="itemRow_'+count+'" type="checkbox"></td>';
-	htmlRows += '<td><input type="hidden" name="referenciaProducto[]" id="referenciaProducto_'+count+'" class="form-control" placeholder="Referencia Producto Precio" autocomplete="off"><input type="hidden" name="isv[]" id="isv_'+count+'" class="form-control" placeholder="Producto ISV" autocomplete="off"><input type="hidden" name="valor_isv[]" id="valor_isv_'+count+'" class="form-control" placeholder="Valor ISV" autocomplete="off"><input type="hidden" name="productos_id[]" id="productos_id_'+count+'" class="form-control inputfield-details1" placeholder="Código del Producto" autocomplete="off">	<div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_'+count+'"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-id[]" id="bar-code-id_'+count+'" class="form-control product-bar-code inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
+	htmlRows += '<td><input type="hidden" name="referenciaProducto[]" id="referenciaProducto_'+count+'" class="form-control" placeholder="Referencia Producto Precio" autocomplete="off"><input type="hidden" name="isv[]" id="isv_'+count+'" class="form-control" placeholder="Producto ISV" autocomplete="off"><input type="hidden" name="valor_isv[]" id="valor_isv_'+count+'" class="form-control" placeholder="Valor ISV" autocomplete="off"><input type="hidden" name="facturas_detalle_id[]" id="facturas_detalle_id_'+count+'" class="form-control" placeholder="Código Producto" autocomplete="off"><input type="hidden" name="productos_id[]" id="productos_id_'+count+'" class="form-control inputfield-details1" placeholder="Código del Producto" autocomplete="off">	<div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_'+count+'"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-id[]" id="bar-code-id_'+count+'" class="form-control product-bar-code inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
 	htmlRows += '<td><input type="text" name="productName[]" id="productName_'+count+'" readonly placeholder="Descripción del Producto" class="form-control inputfield-details1" autocomplete="off"></td>';
 	htmlRows += '<td><input type="number" name="quantity[]" id="quantity_'+count+'" step="0.01" placeholder="Cantidad" class="buscar_cantidad form-control inputfield-details" autocomplete="off"><input type="hidden" name="cantidad_mayoreo[]" id="cantidad_mayoreo_'+count+'" step="0.01" placeholder="Cantidad Mayoreo" class="buscar_cantidad form-control inputfield-details" autocomplete="off"></td>';
 	htmlRows += '<td><input type="text" name="medida[]" id="medida_'+count+'" readonly class="form-control buscar_medida" autocomplete="off" placeholder="Medida"><input type="hidden" name="bodega[]" id="bodega_'+count+'" readonly class="form-control buscar_bodega" autocomplete="off"></td>';
@@ -700,6 +738,7 @@ function addRowFacturas(){
 	
 	$("#invoice-form #invoiceItem #icon-search-bar_" + icon_search).hide();
 	$("#invoice-form #invoiceItem #icon-search-bar_" + icon_search).hide();	
+	$("#invoice-form #bill_row").val(count);
 }
 
 $(document).ready(function(){
@@ -867,6 +906,7 @@ $(document).ready(function(){
 			$(".product-bar-code").focus();
 			var row_index = $(this).closest("tr").index();
 			var col_index = $(this).closest("td").index();
+
 			var icon_search = 0;
 	
 			if($("#invoice-form #invoiceItem #bar-code-id_" + row_index).val() != ""){
@@ -1099,29 +1139,47 @@ $(document).ready(function(){
 
 $(document).ready(function(){
   $('#view_bill').on("keydown", function(e) { 
-  		if (e.which === 117) {//TECLA F6 (COBRAR)
+  		if (e.which === 118) {//TECLA F7 (COBRAR)
 			$("#invoice-form").submit();
 			e.preventDefault();
 		}	
   
-		if (e.which === 118) {//TECLA F7 (CLIENTES)
+		if (e.which === 119) {//TECLA F8 (CLIENTES)
 			searchCustomersBill();
 			e.preventDefault();
 		}
 		
-		if (e.which === 119) {//TECLA F8 (Colaboradores)
+		if (e.which === 120) {//TECLA F9 (Colaboradores)
 			serchColaboradoresBill();
 			e.preventDefault();
 		}		
 		
-		if (e.which === 120) {//TECLA F9 (APERTURAR CAJA)
-			formAperturaBill();
+		if (e.which === 121) {//TECLA F10 (APERTURAR CAJA)
 			e.preventDefault();
+			if(getConsultarAperturaCaja() == 2){
+				formAperturaBill();
+			}else{
+				swal({
+					title: "Caja abierta", 
+					text: "La caja se encuentra abierta",
+					type: "warning", 
+					confirmButtonClass: "btn-warning"
+				});				
+			}		
 		}	
 
-		if (e.which === 121) {//TECLA F10 (CERRAR CAJA)
-			formCierreBill();
+		if (e.which === 122) {//TECLA F11 (CERRAR CAJA)			
 			e.preventDefault();
+			if(getConsultarAperturaCaja() != 2){
+				formCierreBill()
+			}else{
+				swal({
+					title: "Caja cerrada", 
+					text: "La caja se encuentra cerrada",
+					type: "warning", 
+					confirmButtonClass: "btn-warning"
+				});					
+			}	
 		}		
 	});
 });
@@ -1280,10 +1338,25 @@ $(document).ready(function(){
 				backdrop:'static'
 			  });		
 			  e.preventDefault();
+		}
+
+		if (e.which === 114) {//TECLA F3
+			  listar_productos_factura_buscar();
+			  var row_index = $(this).closest("tr").index();
+			  var col_index = $(this).closest("td").index();
+
+			  $('#formulario_busqueda_productos_facturacion #row').val(row_index);
+			  $('#formulario_busqueda_productos_facturacion #col').val(col_index);			  
+			  $('#modal_buscar_productos_facturacion').modal({
+				show:true,
+				keyboard: false,
+				backdrop:'static'
+			  });		
+			  e.preventDefault();
 		}	
 		//FIN BUSQUEDA PRODUCTO EN FACTURACION
   
-		if (e.which === 114) {//TECLA F3
+		if (e.which === 115) {//TECLA F4
 			  var row_index = $(this).closest("tr").index();
 			  var col_index = $(this).closest("td").index();
 			  
@@ -1311,7 +1384,7 @@ $(document).ready(function(){
 			  e.preventDefault();
 		}	
 		
-		if (e.which === 115) {//TECLA F4
+		if (e.which === 117) {//TECLA F6
 			var row_index = $(this).closest("tr").index();
 			var col_index = $(this).closest("td").index();
 			$('#formModificarPrecioFacturacion #row_index').val(row_index);
@@ -1390,8 +1463,8 @@ $("#reg_modificar_precio_fact").on("click", function(e){
 
 function validarAperturaCajaUsuario(){
 	if(getConsultarAperturaCaja() == 2){
-		$("#invoice-form #btn_apertura").show();
 		$("#invoice-form #reg_factura").attr("disabled", true);
+		$("#invoice-form #guardar_factura").attr("disabled", true);
 		$("#invoice-form #add_cliente").attr("disabled", true);		
 		$("#invoice-form #add_vendedor").attr("disabled", true);
 		$("#invoice-form #addCambio").attr("disabled", true);		
@@ -1406,6 +1479,7 @@ function validarAperturaCajaUsuario(){
 	}else{
 		$("#invoice-form #btn_apertura").hide();
 		$("#invoice-form #reg_factura").attr("disabled", false);
+		$("#invoice-form #guardar_factura").attr("disabled", false);
 		$("#invoice-form #add_cliente").attr("disabled", false);			
 		$("#invoice-form #add_vendedor").attr("disabled", false);
 		$("#invoice-form #addCambio").attr("disabled", false);		
@@ -1936,69 +2010,69 @@ function getTotalFacturasDisponibles(){
 	   url:url,
 	   async: false,
 	   success:function(registro){
-			var valores = eval(registro);
-			var mensaje = "";
-			if(valores[0] >=10 && valores[0] <= 30){
-				mensaje = "Total Facturas disponibles: " + valores[0];
+			if(getConsultarAperturaCaja() == 1){
+				var valores = eval(registro);
+				var mensaje = "";
+				if(valores[0] >=10 && valores[0] <= 30){
+					mensaje = "Total Facturas disponibles: " + valores[0];
 
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");
 
-				$("#mensajeFacturas").attr("disabled", true);
-				$("#invoice-form #reg_factura").attr("disabled", false);
+					$("#mensajeFacturas").attr("disabled", true);
+					$("#invoice-form #reg_factura").attr("disabled", false);
+				}else if(valores[0] >=0 && valores[0] <= 9){
+					mensaje = "Total Facturas disponibles: " + valores[0];
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+					$("#mensajeFacturas").attr("disabled", true);
+					$("#invoice-form #reg_factura").attr("disabled", false);
+				}
+				else{
+					mensaje = "";
 
+					$("#invoice-form #reg_factura").attr("disabled", false);			
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");				
+				}
 
-			}else if(valores[0] >=0 && valores[0] <= 9){
-				mensaje = "Total Facturas disponibles: " + valores[0];
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
-				$("#mensajeFacturas").attr("disabled", true);
-				$("#invoice-form #reg_factura").attr("disabled", false);
-			}
-			else{
-				mensaje = "";
+				if(valores[0] ==0){
+					mensaje = "Total Facturas disponibles: " + valores[0];
+					mensaje += "<br/>Solo esta factura puede realizar";
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+					$("#mensajeFacturas").attr("disabled", true);
+					$("#invoice-form #reg_factura").attr("disabled", false);
+				}
 
-				$("#invoice-form #reg_factura").attr("disabled", false);			
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");				
-			}
+				if(valores[0] < 0 ){
+					mensaje = "No puede seguir facturando";
 
-			if(valores[0] ==0){
-				mensaje = "Total Facturas disponibles: " + valores[0];
-				mensaje += "<br/>Solo esta factura puede realizar";
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
-				$("#mensajeFacturas").attr("disabled", true);
-				$("#invoice-form #reg_factura").attr("disabled", false);
-			}
+					$("#invoice-form #reg_factura").attr("disabled", true);			
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+				}
+				
+				if(valores[1] == 1){
+					mensaje += "<br/>Su fecha límite es: " + valores[2];
+					mensaje += "<br/>Le queda un día más, para seguir facturando";	
+					$("#invoice-form #reg_factura").attr("disabled", false);					
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");			
+				}
 
-			if(valores[0] < 0 ){
-				mensaje = "No puede seguir facturando";
-
-				$("#invoice-form #reg_factura").attr("disabled", true);			
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
-			}
-			
-			if(valores[1] == 1){
-				mensaje += "<br/>Su fecha límite es: " + valores[2];
-				mensaje += "<br/>Le queda un día más, para seguir facturando";	
-				$("#invoice-form #reg_factura").attr("disabled", false);					
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");			
-			}
-
-			if(valores[1] == 0){
-				mensaje += "<br/>Su fecha limite de facturación es hoy";				
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");		
-			}	
-			
-			if(valores[1] < 0){
-				mensaje += "<br/>Ya alcanzo su fecha límite";
-				$("#invoice-form #reg_factura").attr("disabled", true);					
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+				if(valores[1] == 0){
+					mensaje += "<br/>Su fecha limite de facturación es hoy";				
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");		
+				}	
+				
+				if(valores[1] < 0){
+					mensaje += "<br/>Ya alcanzo su fecha límite";
+					$("#invoice-form #reg_factura").attr("disabled", true);					
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
+					$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+				}
 			}
 	   }
 	});
@@ -2016,6 +2090,7 @@ function getReporteCotizacion(){
         success: function(data){
 		    $('#formulario_busqueda_cotizaciones #tipo_cotizacion_reporte').html("");
 			$('#formulario_busqueda_cotizaciones #tipo_cotizacion_reporte').html(data);		
+			$('#formulario_busqueda_cotizaciones #tipo_cotizacion_reporte').selectpicker('refresh');
 		}
      });
 }
@@ -2077,7 +2152,7 @@ var listar_busqueda_bill_draf = function(){
 			}
 		},
 		"columns":[
-			{"defaultContent":"<button class='table_pay pay btn btn-dark ocultar'><span class='fas fa-hand-holding-usd fa-lg'></span></button>"},
+			{"defaultContent":"<button class='table_pay pay btn btn-dark ocultar'><span class='fas fa-play fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"},
 			{"data":"fecha"},
 			{"data":"tipo_documento"},
@@ -2179,20 +2254,66 @@ var listar_busqueda_bill_draf = function(){
 	table_busqueda_bill_draft.search('').draw();
 	$('#buscar').focus();
 
-	pay_bill_draft_dataTable("#DatatableBusquedaBillDraft tbody", table_busqueda_bill_draft);
+	continue_bill_draft_dataTable("#DatatableBusquedaBillDraft tbody", table_busqueda_bill_draft);
 	delete_bill_draft_dataTable("#DatatableBusquedaBillDraft tbody", table_busqueda_bill_draft);	
 }
 
-var pay_bill_draft_dataTable = function(tbody, table){
+var continue_bill_draft_dataTable = function(tbody, table){
 	$(tbody).off("click", "button.pay");
 	$(tbody).on("click", "button.pay", function(e){
-		e.preventDefault();
-		swal({
-			title: "Mantenimiento",
-			text: "Opción en desarrollo",
-			type: "warning",
-			confirmButtonClass: "btn-warning"
-		});	
+			e.preventDefault();
+			var data = table.row( $(this).parents("tr") ).data();
+
+			$("#invoice-form #facturas_id").val(data.facturas_id);
+
+			var url = '<?php echo SERVERURL; ?>core/getDraftBills.php';
+
+			$.ajax({
+			type:'POST',
+			url:url,
+			async: false,
+			data:'facturas_id='+data.facturas_id,
+			success:function(data){			
+				var datos = eval(data);
+				alert("El tamaño del array es: " + datos.length);						
+				limpiarTablaFacturaDetalles(0);
+				for(var fila=0; fila < datos.length; fila++){
+					var barCode = datos[fila]["barCode"];
+					var facturas_detalle_id = datos[fila]["facturas_detalle_id"];					
+					var productoID = datos[fila]["productos_id"];
+					var productName = datos[fila]["producto"];
+					var quantity = datos[fila]["cantidad"];
+					var precio_venta = datos[fila]["precio_venta"];
+					var price = datos[fila]["precio"];
+					var discount = datos[fila]["descuento"];
+					var isv = datos[fila]["isv_valor"];
+					var producto_isv = datos[fila]["isv_venta"];
+					var cantidad_mayoreo = datos[fila]["cantidad_mayoreo"];
+					var almacen_id = datos[fila]["almacen_id"];
+					var medida = datos[fila]["medida"];					
+
+					$("#invoice-form #invoiceItem #facturas_detalle_id_" + fila).val(facturas_detalle_id);
+					$("#invoice-form #invoiceItem #bar-code-id_" + fila).val(barCode);
+					$("#invoice-form #invoiceItem #productos_id_" + fila).val(productoID);					
+					$("#invoice-form #invoiceItem #productName_" + fila).val(productName);
+					$("#invoice-form #invoiceItem #price_" + fila).val(price);
+					$("#invoice-form #invoiceItem #precio_real_" + fila).val(price);						
+					$("#invoice-form #invoiceItem #isv_" + fila).val(producto_isv);
+					$("#invoice-form #invoiceItem #valor_isv_" + fila).val(isv);
+					$("#invoice-form #invoiceItem #cantidad_mayoreo_" + fila).val(cantidad_mayoreo);
+					$("#invoice-form #invoiceItem #precio_mayoreo_" + fila).val(precio_mayoreo);
+					$("#invoice-form #invoiceItem #quantity_" + fila).val(quantity);
+					$("#invoice-form #invoiceItem #discount_" + fila).val(discount);
+					$('#invoice-form #invoiceItem #bodega_'+ fila).val(almacen_id);							
+					$('#invoice-form #invoiceItem #medida_'+ fila).val(medida);
+					addRowFacturas();
+				}
+
+				calculateTotalFacturas();				
+
+				$('#modal_buscar_bill_draft').modal('hide');
+			}			
+		});
 	});
 }
 
@@ -2504,7 +2625,23 @@ function getReporteFactura(){
 	    async: true,
         success: function(data){
 		    $('#formulario_bill #tipo_factura_reporte').html("");
-			$('#formulario_bill #tipo_factura_reporte').html(data);		
+			$('#formulario_bill #tipo_factura_reporte').html(data);	
+			$('#formulario_bill #tipo_factura_reporte').selectpicker('refresh');	
+		}
+     });
+}
+
+function getEstadoFacturaCredito(){
+    var url = '<?php echo SERVERURL;?>core/getEstadoFacturaCredito.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes_estado').html("");
+			$('#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes_estado').html(data);	
+			$('#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes_estado').selectpicker('refresh');	
 		}
      });
 }

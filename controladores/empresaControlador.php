@@ -11,18 +11,6 @@
 				session_start(['name'=>'SD']); 
 			}
 		
-			// Definimos la ruta de destino para guardar la imagen
-			$directorio_destino = "../img/logos/";
-			$archivo_destino = $directorio_destino . basename($_FILES["logotipo"]["name"]);
-
-			// Movemos el archivo cargado al directorio de destino
-			if(move_uploaded_file($_FILES["logotipo"]["tmp_name"], $archivo_destino)) {
-				// éxito
-				$logotipo = "img/logos/". basename($_FILES["logotipo"]["name"]);
-			} else {
-				$logotipo = '';
-			}			
-			
 			$razon_social = mainModel::cleanString($_POST['empresa_razon_social']);
 			$empresa = mainModel::cleanString($_POST['empresa_empresa']);
 		    $rtn = mainModel::cleanString($_POST['rtn_empresa']);
@@ -36,12 +24,38 @@
 			$facebook = mainModel::cleanString($_POST['facebook_empresa']);
 			$sitioweb = mainModel::cleanString($_POST['sitioweb_empresa']);
 
+			$digits = 3;
+			$valor = rand(pow(10, $digits-1), pow(10, $digits)-1);
+
+			$imageFilename = "image_preview.png";
+
+			if (isset($_FILES["logotipo"]["tmp_name"])) {
+				if(!empty($_FILES["logotipo"]["tmp_name"])) {
+					// Obtener información del archivo subido
+					$imageFilename = basename($_FILES["logotipo"]["name"]);
+
+					// Construir la ruta donde se guardará la imagen
+					$imageFilename = "logo_".$valor.".png";
+					$directorio_destino = "../vistas/plantilla/img/logos/";
+					$imagePath = $directorio_destino.$imageFilename;
+
+					while (file_exists($imagePath)){
+						$valor = rand(pow(10, $digits-1), pow(10, $digits)-1);
+						$imagePath = $directorio_destino.$imageFilename;
+					}
+
+					if (!file_exists($imagePath)) {
+						move_uploaded_file($_FILES["logotipo"]["tmp_name"], $imagePath);
+					} 
+				}   
+			} 					
+			
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$fecha_registro = date("Y-m-d H:i:s");	
 			$estado = 1;	
 
 			$datos = [
-				"logotipo" => $logotipo,
+				"logotipo" => $imageFilename,
 				"razon_social" => $razon_social,
 				"empresa" => $empresa,
 				"rtn" => $rtn,				
@@ -75,7 +89,7 @@
 						"form" => "formEmpresa",
 						"id" => "proceso_empresa",
 						"valor" => "Registro",	
-						"funcion" => "listar_empresa();",
+						"funcion" => "listar_empresa();getImagenHeader();",
 						"modal" => "",
 					];						
 				}else{
@@ -104,18 +118,6 @@
 			if(!isset($_SESSION['user_sd'])){ 
 				session_start(['name'=>'SD']); 
 			}
-						
-			// Definimos la ruta de destino para guardar la imagen
-			$directorio_destino = "../img/logos/";
-			$archivo_destino = $directorio_destino . basename($_FILES["logotipo"]["name"]);
-
-			// Movemos el archivo cargado al directorio de destino
-			if(move_uploaded_file($_FILES["logotipo"]["tmp_name"], $archivo_destino)) {
-				// éxito
-				$logotipo = "img/logos/". basename($_FILES["logotipo"]["name"]);
-			} else {
-				$logotipo = '';
-			}
 
 			$empresa_id = $_POST['empresa_id'];
 			$razon_social = mainModel::cleanString($_POST['empresa_razon_social']);
@@ -131,6 +133,46 @@
 			$facebook = mainModel::cleanString($_POST['facebook_empresa']);
 			$sitioweb = mainModel::cleanString($_POST['sitioweb_empresa']);			
 			$usuario = $_SESSION['colaborador_id_sd'];
+			$directorio_destino = "../vistas/plantilla/img/logos/";
+
+			//OBTENEMOS EL NOMBRE DE LA IMAGEN
+			$getImagenEmpresa = empresaModelo::getImage($empresa_id)->fetch_assoc();
+			$imageFilename = $getImagenEmpresa['logotipo'];
+			$imagePath = $directorio_destino.$imageFilename;			
+
+							
+			$digits = 3;
+			$valor = rand(pow(10, $digits-1), pow(10, $digits)-1);
+
+			if (isset($_FILES["logotipo"]["tmp_name"])) {
+				if( $imageFilename != "image_preview.png"){
+					if (file_exists($imagePath)) {
+						// Eliminar la imagen anterior si existe
+						unlink($imagePath);
+					}
+				}
+
+				if(!empty($_FILES["logotipo"]["tmp_name"])) {
+					// Obtener información del archivo subido
+					$imageFilename = basename($_FILES["logotipo"]["name"]);
+
+					// Construir la ruta donde se guardará la imagen
+					$imageFilename = "logo_".$valor.".png";
+					
+					$imagePath = $directorio_destino.$imageFilename;					
+
+					while (file_exists($imagePath)){
+						$valor = rand(pow(10, $digits-1), pow(10, $digits)-1);
+						$imagePath = $directorio_destino.$imageFilename;
+					}
+
+					if (!file_exists($imagePath)) {
+						move_uploaded_file($_FILES["logotipo"]["tmp_name"], $imagePath);
+					} 					
+				}else{
+					$imageFilename = "image_preview.png";
+				}				   
+			} 
 
 			if (isset($_POST['empresa_activo'])){
 				$estado = $_POST['empresa_activo'];
@@ -139,7 +181,7 @@
 			}	
 			
 			$datos = [
-				"logotipo" => $logotipo,
+				"logotipo" => $imageFilename,
 				"empresa_id" => $empresa_id,
 				"razon_social" => $razon_social,
 				"empresa" => $empresa,
@@ -159,7 +201,7 @@
 
 			$query = empresaModelo::edit_empresa_modelo($datos);
 			
-			if($query){				
+			if($query){	
 				$alert = [
 					"alert" => "edit",
 					"title" => "Registro modificado",
@@ -170,7 +212,7 @@
 					"form" => "formEmpresa",	
 					"id" => "proceso_empresa",
 					"valor" => "Editar",
-					"funcion" => "listar_empresa();",
+					"funcion" => "listar_empresa();getImagenHeader();",
 					"modal" => "",
 				];
 			}else{
@@ -192,6 +234,18 @@
 			$result_valid_empresa = empresaModelo::valid_user_secuencia_user($empresa_id);
 			
 			if($result_valid_empresa->num_rows==0){
+				$getImagenEmpresa = empresaModelo::getImage($empresa_id)->fetch_assoc();
+				$imageFilename = $getImagenEmpresa['logotipo'];
+				$directorio_destino = "../vistas/plantilla/img/logos/";
+				$imagePath = $directorio_destino.$imageFilename;
+
+				if( $imageFilename != "image_preview.png"){
+					if (file_exists($imagePath)) {
+						// Eliminar la imagen anterior si existe
+						unlink($imagePath);
+					}
+				}
+											
 				$query = empresaModelo::delete_empresa_modelo($empresa_id);
 								
 				if($query){

@@ -14,6 +14,7 @@
 					<table id="dataTableEmpresa" class="table table-striped table-condensed table-hover" style="width:100%">
 						<thead>
 							<tr>
+								<th>Imagen</th>
 								<th>Razón Social</th>
 								<th>Empresa</th>
 								<th>Teléfono</th>

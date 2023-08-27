@@ -17,5 +17,6 @@
 		1 => $valores2['cliente'], 
 		2 => $valores2['rtn'], 		
 	);
+	
 	echo json_encode($datos);
 ?>	

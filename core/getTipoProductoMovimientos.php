@@ -11,5 +11,7 @@
 		while($consulta2 = $result->fetch_assoc()){
 			 echo '<option value="'.$consulta2['tipo_producto_id'].'">'.$consulta2['nombre'].'</option>';
 		}
+	}else{
+		echo '<option value="">No hay datos que mostrar</option>';
 	}
 ?>	
