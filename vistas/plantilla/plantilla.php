@@ -24,6 +24,14 @@
 </head>
 <body class="sb-nav-fixed">
     <?php
+        if (SISTEMA_PRUEBA=="SI"){ //CAJA
+        ?>
+            <span class="container-fluid prueba-sistema">SISTEMA DE PRUEBA</span>
+        <?php
+        }
+    ?>
+
+    <?php
         $peticionAjax = false;
         require_once "./controladores/vitasControlador.php";
 		
@@ -76,8 +84,9 @@
 				?>				
             </main>	
 			
-        </div>	
-    </div>
+        </div>        
+    </div> 
+
     <?php 
         if(is_file("./vistas/contenido/modals/".$ruta[0].".php")){
             require_once "./vistas/contenido/modals/".$ruta[0].".php"; 
