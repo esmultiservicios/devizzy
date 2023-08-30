@@ -98,7 +98,7 @@
 	</form>
 	<!-- Copyright -->
         <div class="footer-copyright text-center py-3">
-		   <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/firma_fayad.png" width="25%"></center>© 2021 -  <?php echo date("Y");?> Copyright: 
+		   © 2021 -  <?php echo date("Y");?> Copyright: 
            <center>
 		      <p class="navbar-text"> Todos los derechos reservados 
 			  </p>

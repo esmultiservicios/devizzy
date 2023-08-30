@@ -89,11 +89,18 @@
 
 							if (!empty($resultadoPrivilegio)) {
 								$privilegio_nombre = trim($resultadoPrivilegio[0]['nombre']);
-							}								
+							}	
 
 							$correo_tipo_id = "1";//Notificaciones
 							$urlSistema = "https://izzycloud.app/";
 							$destinatarios = array($correo_usuario => $colaborador_nombre);
+
+							// Destinatarios en copia oculta (Bcc)
+							$bccDestinatarios = [
+								'edwin.velasquez@clinicarehn.com' => 'CLINICARE',
+								'alexandra.ponce@clinicarehn.com' => 'CLINICARE'
+							];
+
 							$asunto = "¡Bienvenido! Registro de Usuario Exitoso";
 							$mensaje = '
 								<div style="padding: 20px;">
@@ -127,6 +134,10 @@
 									<p style="margin-bottom: 10px;">
 										Te invitamos a explorar todas las características y funcionalidades que IZZY ofrece para simplificar la gestión de tu negocio. Tu éxito es nuestro objetivo y estamos comprometidos a ayudarte en cada paso del camino.
 									</p>
+
+									<p style="margin-bottom: 10px;">
+										¡Empieza a explorar y a aprovechar al máximo nuestra plataforma de gestión de facturación e inventario!.
+									</p>									
 									
 									<p style="margin-bottom: 10px;">
 										Gracias por unirte a CLINICARE con IZZY. Esperamos que esta plataforma sea una herramienta valiosa para tu negocio.
@@ -142,8 +153,7 @@
 								</div>
 							';
 
-							$sendEmail->enviarCorreo($destinatarios, $asunto, $mensaje, $correo_tipo_id);
-
+							$sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id);
 	
 							$alert = [
 								"alert" => "clear",

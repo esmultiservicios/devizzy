@@ -28,7 +28,7 @@ class sendEmail {
         return $output;
     }    
 
-    public function enviarCorreo($destinatarios, $asunto, $mensaje, $correo_tipo_id) { 
+    public function enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id) { 
         if(!isset($_SESSION['user_sd'])){ 
             session_start(['name'=>'SD']); 
         }
@@ -91,6 +91,11 @@ class sendEmail {
         
                 foreach ($destinatarios as $email => $nombre) {
                     $mail->addAddress($email, $nombre);
+
+                    // Agregar destinatarios en copia oculta (Bcc)
+                    foreach ($bccDestinatarios as $bccEmail => $bccNombre) {
+                        $mail->addBCC($bccEmail, $bccNombre);
+                    }                       
                 
                     // Asunto y cuerpo del correo con la plantilla HTML
                     $mail->Subject = $asunto;
