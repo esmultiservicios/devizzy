@@ -60,7 +60,7 @@
 				$empresa_id_sesion = $_SESSION['empresa_id_sd'];
 				$tablaEmpresa = "empresa";
 				$camposEmpresa = ["nombre"];
-				$condicionesEmpresa = ["empresa_id" => $empresa_id_sd];
+				$condicionesEmpresa = ["empresa_id" => $empresa_id_sesion];
 				$orderBy = "";
 				$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
 			
@@ -68,7 +68,7 @@
 			
 				if (!empty($resultadoEmpresa)) {
 					$empresa_nombre = strtoupper(trim($resultadoEmpresa[0]['nombre']));
-				}
+				}		
 
 				$correo_tipo_id = "1";//Notificaciones
 				$destinatarios = array($correo_usuario => $colaborador_nombre);
@@ -186,7 +186,7 @@
 			$empresa_id_sesion = $_SESSION['empresa_id_sd'];
 			$tablaEmpresa = "empresa";
 			$camposEmpresa = ["nombre"];
-			$condicionesEmpresa = ["empresa_id" => $empresa_id_sd];
+			$condicionesEmpresa = ["empresa_id" => $empresa_id_sesion];
 			$orderBy = "";
 			$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
 		
@@ -194,7 +194,7 @@
 		
 			if (!empty($resultadoEmpresa)) {
 				$empresa_nombre = strtoupper(trim($resultadoEmpresa[0]['nombre']));
-			}			
+			}				
 
 			$correo_tipo_id = "1";//Notificaciones
 			$destinatarios = array($correo_usuario => $colaborador_nombre);
@@ -238,7 +238,7 @@
 					</p>
 					
 					<p>
-						<b>El Equipo de '.$empresa_nombre.'</b>
+						<b>El Equipo de '.$empresa_nombre.'</b></b>
 					</p>                
 				</div>
 			';
@@ -251,10 +251,6 @@
 		}
 
 		public function resetear_contraseña_login_controlador(){
-			if(!isset($_SESSION['user_sd'])){ 
-				session_start(['name'=>'SD']); 
-			}
-
 			$database = new Database();
 			$sendEmail = new sendEmail();
 
@@ -293,22 +289,23 @@
 
 				//OBTENEMOS EL CORREO DEL USUARUIO
 				$tablaUsuario = "users";
-				$camposUsuario = ["email"];
+				$camposUsuario = ["email", "empresa_id"];
 				$condicionesUsuario = ["users_id" => $users_id];
 				$orderBy = "";
 				$resultadoUsuario = $database->consultarTabla($tablaUsuario, $camposUsuario, $condicionesUsuario, $orderBy);
 
 				$correo_usuario = "";
+				$empresa_id_usuario = "";
 
 				if (!empty($resultadoUsuario)) {
 					$correo_usuario = trim($resultadoUsuario[0]['email']);
+					$empresa_id_usuario = trim($resultadoUsuario[0]['empresa_id']);
 				}
 
 				//OBTENEMOS EL NOMBRE DE LA EMPRESA
-				$empresa_id_sesion = $_SESSION['empresa_id_sd'];
 				$tablaEmpresa = "empresa";
 				$camposEmpresa = ["nombre"];
-				$condicionesEmpresa = ["empresa_id" => $empresa_id_sd];
+				$condicionesEmpresa = ["empresa_id" => $empresa_id_usuario];
 				$orderBy = "";
 				$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
 			
@@ -316,7 +313,7 @@
 			
 				if (!empty($resultadoEmpresa)) {
 					$empresa_nombre = strtoupper(trim($resultadoEmpresa[0]['nombre']));
-				}				
+				}					
 
 				$correo_tipo_id = "1";//Notificaciones
 				$destinatarios = array($correo_usuario => $colaborador_nombre);
