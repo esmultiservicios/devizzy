@@ -214,8 +214,12 @@
 					</p>								
 					
 					<p style="margin-bottom: 10px;">
-						Si no realizaste esta acción personalmente, te sugerimos que inicies sesión primero. Posteriormente, te recomendamos cambiar tu contraseña por una que elijas en la sección de configuración de tu cuenta. Para acceder al Sistema IZZY, simplemente haz clic en el siguiente enlace:
-					</p>					
+						Tu nueva contraseña temporal es: <b>'.$contraseña.'</b>
+					</p>	
+
+					<p style="margin-bottom: 10px;">
+						Te recomendamos que inicies sesión usando esta contraseña temporal y luego cambies tu contraseña por una de tu elección en la sección de configuración de tu cuenta. Puedes acceder al Sistema IZZY haciendo clic en el siguiente enlace:
+					</p>											
 					
 					<p style="margin-bottom: 10px;">
 						<a href='.SERVERURL.'>Clic para Acceder a IZZY<a>
@@ -238,6 +242,7 @@
 					</p>                
 				</div>
 			';
+
 
 			$archivos_adjuntos = [];
 			$respuesta = $sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos);
