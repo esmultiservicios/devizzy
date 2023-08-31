@@ -46,6 +46,16 @@ class sendEmail {
         $pass_empresa = '';
         $de_empresa = '';
         $smtp = '';
+        $nombre = '';
+        $logotipo = '';			
+        $ubicacion = '';
+        $telefono = '';	
+        $sitioweb = '';		
+        $correo = '';
+        $rtn = '';
+        $numero = '';
+        $parte1 = '';
+        $parte2 = '';
 
         if (!empty($resultadoCorreos)) {
             //CONSULTAMOS LOS DATOS DE LA EMPREA PARA ENVIAR EL CORREO
@@ -62,8 +72,28 @@ class sendEmail {
 
             if (!empty($resultadoEmpresa)) {
                 $de_empresa = $resultadoEmpresa[0]['nombre'];
+                $nombre = $resultadoEmpresa[0]['nombre'];
+                $logotipo = $resultadoEmpresa[0]['logotipo'];		
+                $ubicacion = $resultadoEmpresa[0]['ubicacion'];
+
+                $numero = $resultadoEmpresa[0]['telefono'];
+                $parte1 = substr($numero, 0, 4);
+                $parte2 = substr($numero, 4);
+                $numero_formateado = '+504 ' . $parte1 . '-' . $parte2;
+
+                $telefono = $numero_formateado;	
+                $sitioweb = $resultadoEmpresa[0]['sitioweb'];		
+                $correo = $resultadoEmpresa[0]['correo'];
+                $rtn = $resultadoEmpresa[0]['rtn'];        
             }else{
                 $de_empresa = "CLINICARE";
+                $nombre = "CLINICARE";
+                $logotipo = "logo.png";	
+                $ubicacion = "Col. Monte Carlo, 6-7 , 22 AVENIDA B Casa #17 San Pedro Sula, Cortés";
+                $telefono = "+504 25035517";	
+                $sitioweb = "https://clinicarehn.com";	
+                $correo = "clinicare@clinicarehn.com";
+                $rtn = "05019021318813";                
             }
             
 			$datos_empresa = [
@@ -139,7 +169,7 @@ class sendEmail {
         $telefonoEmpresa = $datos_empresa['telefono'];
         $rtnEmpresa = $datos_empresa['rtn'];
         $sitioWebEmpresa = $datos_empresa['sitioweb'];
-        $urlLogoEmpresa = SERVERURL."vistas/plantilla/img/logos/".$datos['logotipo'];
+        $urlLogoEmpresa = SERVERURL."vistas/plantilla/img/logos/".$datos_empresa['logotipo'];
     
         // Encabezado del correo
         $encabezado = '
