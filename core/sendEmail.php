@@ -28,13 +28,7 @@ class sendEmail {
         return $output;
     }    
 
-    public function enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id) { 
-        if(!isset($_SESSION['user_sd'])){ 
-            session_start(['name'=>'SD']); 
-        }
-        
-        $usuario_sistema = $_SESSION['colaborador_id_sd'];	
-
+    public function enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos = []) {
         ini_set('max_execution_time', 300); // Establece el tiempo máximo de ejecución a 300 segundos (5 minutos)
 
         $mail = new PHPMailer(true);
@@ -62,7 +56,7 @@ class sendEmail {
             //Consultamos el nombre de la empresa
             $tablaEmpresa = "empresa";
             $camposEmpresa = ["nombre"];
-            $condicionesEmpresa = ["colaboradores_id" => $usuario_sistema];
+            $condicionesEmpresa = ["colaboradores_id" => $users_id];
             $orderBy = "";
             $resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
 
@@ -105,17 +99,25 @@ class sendEmail {
     
                     $mail->Body = $htmlMensaje;
         
-                    // Envío del correo
-                    if (!$mail->send()) {                                    
-                        echo "El correo no se puede enviar. Error: " . $mail->ErrorInfo;
+                    // Adjuntar archivos
+                    //$archivos_adjuntos = ['ruta/archivo1.pdf', 'ruta/archivo2.jpg'];
+                    foreach ($archivos_adjuntos as $archivo) {
+                        $mail->addAttachment($archivo);
                     }
+
+                    // Envío del correo
+                    if ($mail->send()) {                                    
+                        return 1; // Envío exitoso
+                    } else {
+                        return 0; // Error en el envío
+                    }                    
                 
                     // Limpiar los destinatarios y adjuntos para el siguiente correo
                     $mail->clearAddresses();
                     $mail->ClearAttachments();
                 } 
             } catch (Exception $e) {
-                
+                return 0;
             }            
         }
     }
@@ -126,7 +128,7 @@ class sendEmail {
         $direccionEmpresa = 'Col. Monte Carlo, 6-7 , 22 AVENIDA B Casa #17 San Pedro Sula, Cortés';
         $telefonoEmpresa = '+504 2503-5517';
         $sitioWebEmpresa = 'https://clinicarehn.com';
-        $urlLogoEmpresa = 'https://fayad.clinicarehn.com/vistas/plantilla/img/logo.png'; // Reemplaza con la URL de tu logo
+        $urlLogoEmpresa = 'https://izzycloud.app/vistas/plantilla/img/logo.png';
     
         // Encabezado del correo
         $encabezado = '

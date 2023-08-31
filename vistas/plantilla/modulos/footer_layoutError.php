@@ -4,7 +4,11 @@
 		<div class="col-6" style="border-right: 0.5mm ridge rgb(255, 255, 255);">
 			<div class="row">
 				<div class="col-11 text-right" style="max-width: 100%;max-height: 100%;">
-					<center><small>Copyright &copy; 2020 - <?php echo date("Y");?> </small></center>
+					<center>
+						<small>
+							Copyright &copy; 2020 - <?php echo date("Y");?> 
+						</small>
+					</center>
 				</div>
 				<div class="col-1 text-left">
 					<span></span>
@@ -17,7 +21,11 @@
 					<small></small>
 				</div>
 				<div class="col-11 text-left" style="max-width: 100%;max-height: 100%;">
-					<span><center><?php echo COMPANY;?></center></span>
+					<span>
+						<center>
+							<?php echo COMPANY;?>
+						</center>
+					</span>
 				</div>
 			</div>
 		</div>
@@ -25,7 +33,7 @@
 			<div class="form-row">
 				<div class="col-11 text-right">
 					<small>
-						<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo_firma_white.png" style="max-width: 100%;max-height: 100%;"></center>
+						<center><small>IZZY CLOUD </small></center>
 					</small>
 				</div>
 				<div class="col-1 text-left">

@@ -18,7 +18,6 @@ var listar_usuarios = function(){
 		},
 		"columns":[
 			{"data":"colaborador"},
-			{"data":"username"},
 			{"data":"correo"},
 			{"data":"tipo_usuario"},
 			{"data":"estado"},
@@ -33,15 +32,14 @@ var listar_usuarios = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "32.11%", targets: 0 },
-		  { width: "11.11%", targets: 1 },
-		  { width: "16.11%", targets: 2 },
-		  { width: "18.11%", targets: 3 },
-		  { width: "5.11%", targets: 4 },
-		  { width: "11.11%", targets: 5 },
-		  { width: "5.11%", targets: 6 },
-		  { width: "5.11%", targets: 7 },
-		  { width: "5.11%", targets: 8 }	  
+		  { width: "27.28%", targets: 0 },
+		  { width: "24.28%", targets: 1 },
+		  { width: "14.28%", targets: 2 },
+		  { width: "14.28%", targets: 3 },
+		  { width: "27.28%", targets: 4 },
+		  { width: "2.28%", targets: 5 },
+		  { width: "2.28%", targets: 6 },
+		  { width: "2.28%", targets: 7 }	  
 		],
 		"buttons":[
 			{

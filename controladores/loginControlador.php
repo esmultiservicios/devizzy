@@ -49,11 +49,12 @@
 					}
 
 					$_SESSION['users_id_sd'] = $row['users_id'];
-					$_SESSION['user_sd'] = $row['username'];
+					$_SESSION['user_sd'] = $row['users_id'];
 					$_SESSION['tipo_sd'] = $row['cuentaTipo'];	
 					$_SESSION['privilegio_sd'] = $row['privilegio_id'];
 					$_SESSION['tipo_user_id_sd'] = $row['tipo_user_id'];
-					$_SESSION['token_sd'] = md5(uniqid(mt_rand(),true));	
+					$_SESSION['token_sd'] = uniqid(mt_rand(),true);	
+					$_SESSION['server_token'] = $_SESSION['token_sd'];
 					$_SESSION['colaborador_id_sd'] = $row['colaboradores_id'];
 					$_SESSION['empresa_id_sd'] = $row['empresa_id'];					
 					$_SESSION['codigo_bitacora_sd'] = $codigoB;
@@ -112,23 +113,28 @@
 			if(!isset($_SESSION['user_sd'])){ 
 				session_start(['name'=>'SD']); 
 			}
-
-			$token = mainModel::decryption($_GET['token']);
-			$hora = date("H:m:s");		
-			
+		
+			$token = $_SESSION['server_token'];
+			$hora = date("H:m:s");
+		
 			$datos = [
 				"usuario" => $_SESSION['user_sd'],
 				"token_s" => $_SESSION['token_sd'],
 				"token" => $token,
 				"codigo" => $_SESSION['codigo_bitacora_sd'],
-				"hora" => $hora,				
+				"hora" => $hora,                
 			];
-			
+		
 			mainModel::guardar_historial_accesos("Cierre de Sesion");
+		
+			$resultado_cierre = loginModel::cerrar_sesion_modelo($datos);
 			
-			return loginModel::cerrar_sesion_modelo($datos);
-			
-		}
+			if ($resultado_cierre == 1) {
+				return 1; // Sesion cerrada correctamente
+			} else {
+				return 0; // Error al cerrar la sesión
+			}
+		}		
 		
 		public function forzar_cierre_sesion_controlador(){
 			if(!isset($_SESSION['user_sd'])){ 

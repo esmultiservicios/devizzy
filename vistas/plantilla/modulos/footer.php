@@ -7,7 +7,11 @@
 					
 				</div>
 				<div class="col-11 text-left">
-					<center><small>Copyright &copy; 2020 - <?php echo date("Y");?> </small></center>
+					<center>
+						<small>
+							Copyright &copy; 2020 - <?php echo date("Y");?> 
+						</small>
+					</center>
 				</div>
 			</div>
 		</div>
@@ -17,7 +21,9 @@
 					
 				</div>
 				<div class="col-11 text-left">
-					<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/icono.png" style="max-width: 100%; max-height: 100%;"></center>
+					<center>
+						<img src="<?php echo SERVERURL; ?>vistas/plantilla/img/icono.png" style="max-width: 100%; max-height: 100%;">
+					</center>
 				</div>
 			</div>
 		</div>
@@ -26,7 +32,11 @@
 				<div class="col-1 text-right">
 				</div>
 				<div class="col-11 text-left">
-					<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/fayad_firma.png" style="max-width: 100%; max-height: 100%;"></center>
+					<center>
+						<small>IZZY CLOUD 
+
+						</small>
+					</center>
 				</div>
 			</div>
 		</div>

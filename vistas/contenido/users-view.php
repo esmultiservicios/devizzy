@@ -15,7 +15,6 @@
 						<thead>
 							<tr>
 								<th>Nombre</th>
-								<th>Nick Name</th>
 								<th>Correo</th>
 								<th>Tipo Usuario</th>
 								<th>Estado</th>

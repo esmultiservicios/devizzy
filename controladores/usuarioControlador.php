@@ -18,6 +18,8 @@
 			$database = new Database();
 			$sendEmail = new sendEmail();
 			
+			$users_id = $_SESSION['users_id_sd'];
+
 			$colaborador_id = mainModel::cleanString($_POST['colaborador_id_usuario']);
 			$colaborador = mainModel::cleanString($_POST['colaborador_id_usuario']);
 			$privilegio_id = mainModel::cleanString($_POST['privilegio_id']);			
@@ -64,13 +66,12 @@
 						$query = usuarioModelo::agregar_usuario_modelo($datos);
 						
 						if($query){
-							//ENVIAMOS EL CORREO ELECTRONICO AL USUARIO
 							//OBTENEMOS EL NOMBRE DEL COLABORADOR
-							$tablColaborador = "colaboradores";
+							$tablaColaborador = "colaboradores";
 							$camposColaborador = ["nombre", "apellido"];
 							$condicionesColaborador = ["colaboradores_id" => $usuario_sistema];
 							$orderBy = "";
-							$resultadoColaborador = $database->consultarTabla($tablColaborador, $camposColaborador, $condicionesColaborador, $orderBy);
+							$resultadoColaborador = $database->consultarTabla($tablaColaborador, $camposColaborador, $condicionesColaborador, $orderBy);
 				
 							$colaborador_nombre = "";
 
@@ -89,7 +90,20 @@
 
 							if (!empty($resultadoPrivilegio)) {
 								$privilegio_nombre = trim($resultadoPrivilegio[0]['nombre']);
-							}	
+							}
+
+							//OBTENEMOS EL NOMBRE DE LA EMPRESA
+							$tablaEmpresa = "empresa";
+							$camposEmpresa = ["nombre"];
+							$condicionesEmpresa = ["empresa_id" => $empresa];
+							$orderBy = "";
+							$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
+						
+							$empresa_nombre = "";
+						
+							if (!empty($resultadoEmpresa)) {
+								$empresa_nombre = strtoupper(trim($resultadoEmpresa[0]['nombre']));
+							}							
 
 							$correo_tipo_id = "1";//Notificaciones
 							$urlSistema = "https://izzycloud.app/";
@@ -117,10 +131,11 @@
 									</p>
 									
 									<ul style="margin-bottom: 12px;">
+										<li><b>Empesa</b>: '.$empresa_nombre.'</li>
 										<li><b>Usuario</b>: '.$correo_usuario.'</li>
 										<li><b>Contraseña</b>: '.$pass.'</li>
 										<li><b>Perfil</b>: '.$privilegio_nombre.'</li>
-										<li><b>Acceso al Sistema</b>: '.$urlSistema.'</li>
+										<li><b>Acceso al Sistema</b>:  <a href='.$urlSistema.'>Clic para Acceder a IZZY<a></li>
 									</ul>
 									
 									<p style="margin-bottom: 10px;">
@@ -148,12 +163,14 @@
 									</p>
 									
 									<p>
-										<b>El Equipo de  CLINICARE</b>
+										<b>El Equipo de CLINICARE</b>
 									</p>                
 								</div>
 							';
 
-							$sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id);
+							$archivos_adjuntos = [];
+							
+							$sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos);
 	
 							$alert = [
 								"alert" => "clear",

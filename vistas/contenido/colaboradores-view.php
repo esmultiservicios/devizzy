@@ -19,6 +19,7 @@
 								<th>Identidad</th>
 								<th>Estado</th>
 								<th>Teléfono</th>
+								<th>Puesto</th>
 								<th>Editar</th>	
 								<th>Eliminar</th>
 							</tr>

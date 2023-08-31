@@ -17,6 +17,7 @@ var listar_colaboradores = function(){
 			{"data":"identidad"},
 			{"data":"estado"},
 			{"data":"telefono"},
+			{"data":"puesto"},
 			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
@@ -26,13 +27,14 @@ var listar_colaboradores = function(){
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "26.28%", targets: 0 },
-		  { width: "26.28%", targets: 1 },
-		  { width: "14.28%", targets: 2 },
-		  { width: "14.28%", targets: 3 },
-		  { width: "14.28%", targets: 4 },
-		  { width: "2.28%", targets: 5 },
-		  { width: "2.28%", targets: 6 }
+		  { width: "22.5%", targets: 0 },
+		  { width: "22.5%", targets: 1 },
+		  { width: "12.5%", targets: 2 },
+		  { width: "12.5%", targets: 3 },
+		  { width: "12.5%", targets: 4 },
+		  { width: "12.5%", targets: 5 },
+		  { width: "2.5%", targets: 6 },
+		  { width: "2.5%", targets: 7 }
 		],
 		"buttons":[
 			{

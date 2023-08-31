@@ -13,7 +13,7 @@
 			<div class="input-group-prepend">
 				<span class="input-group-text boton"><i class="fas fa-envelope-square orange-color"></i></span>
 			</div>
-			<input type="text" id="inputEmail" name="inputEmail" class="form-control" placeholder="Usuario o Correo electrónico" required="" autofocus>
+			<input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Correo electrónico" required="" autofocus>
 		</div>
 		
 		<div class="input-group mb-3">
@@ -43,7 +43,7 @@
 			<div class="input-group-prepend">
 				<span class="input-group-text boton"><i class="fas fa-envelope-square orange-color"></i></span>
 			</div>
-			<input type="text" class="form-control" placeholder="Usuario o Correo electrónico" required="" autofocus name="usu_forgot" id="usu_forgot">
+			<input type="email" class="form-control" placeholder="Correo electrónico" required="" autofocus name="usu_forgot" id="usu_forgot">
 		</div>
 		
 		<div class="RespuestaAjax"></div>		

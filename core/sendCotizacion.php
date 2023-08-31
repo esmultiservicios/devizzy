@@ -4,6 +4,8 @@
 	$peticionAjax = true;
 	require_once "configGenerales.php";
 	require_once "mainModel.php";
+	require_once "Database.php";
+	require_once "sendEmail.php";
 	
 	if(!isset($_SESSION['user_sd'])){ 
 		session_start(['name'=>'SD']); 
@@ -11,6 +13,9 @@
 
 	$insMainModel = new mainModel();
 
+	$database = new Database();
+	$sendEmail = new sendEmail();
+		
 	date_default_timezone_set('America/Tegucigalpa');
 	$cotizacion_id = $_POST['cotizacion_id'];
 

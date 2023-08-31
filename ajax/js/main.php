@@ -847,47 +847,118 @@ $('#formProveedores #departamento_proveedores').on('change', function(){
 //FIN PROVEEDORES
 
 //INICIO FORMULARIO CAMBIAR CONTRAEÑA
-$(document).ready(function(e) {
-    $('#form-cambiarcontra #repcontra').on('blur', function(){
-		if($('#form-cambiarcontra #repcontra').val() != ""){
-		  if ($('#form-cambiarcontra #nuevacontra').val() != $('#form-cambiarcontra #repcontra').val()){
-			swal({
-				title: "Error",
-				text: "Contraseñas no coinciden",
-				type: "error",
-				confirmButtonClass: "btn-danger"
-			});
-			$("#form-cambiarcontra #Modalcambiarcontra_Edit").attr('disabled', true);
-			$("#form-cambiarcontra #repcontra").css("border-color", "red");
-			return false;
-		  }else{
-			$("#form-cambiarcontra #repcontra").css("border-color", "none");
-			$("#form-cambiarcontra #Modalcambiarcontra_Edit").attr('disabled', false);
-		  }
-		}else{
-			$("#form-cambiarcontra #repcontra").css("border-color", "none");
-			$("#form-cambiarcontra #Modalcambiarcontra_Edit").attr('disabled', true);
-		  }
-	});
+// Validación de contraseña anterior
+$('#form-cambiarcontra #contranaterior').on('blur', function () {
+	if($('#form-cambiarcontra #contranaterior').val() !== "") {
+		var url = '<?php echo SERVERURL; ?>core/consultar_pass.php';
+		var contranaterior = $('#form-cambiarcontra #contranaterior').val();
+
+		$.ajax({
+			type: 'POST',
+			url: url,
+			data: { contranaterior: contranaterior },
+			success: function(datos) {
+				if (datos == 0) {
+					swal({
+						title: "Error",
+						text: "La contraseña que ingresó no coincide con la anterior",
+						type: "error",
+						confirmButtonClass: "btn-danger"
+					});
+					$("#form-cambiarcontra #contranaterior").css("border-color", "red");
+					$("#form-cambiarcontra #ModalContraseñacontra_Edit").prop('disabled', true);
+				} else {
+					$("#form-cambiarcontra #contranaterior").css("border-color", "green");
+					$("#form-cambiarcontra #Modalcambiarcontra_Edit").prop('disabled', false);
+				}
+			}
+		});
+	}
 });
 
-$(document).ready(function(e) {
-    $('#form-cambiarcontra #repcontra').on('keyup', function(){
-		if($('#form-cambiarcontra #repcontra').val() != ""){
-		  if ($('#form-cambiarcontra #nuevacontra').val() != $('#form-cambiarcontra #repcontra').val()){
-			$("#form-cambiarcontra #Modalcambiarcontra_Edit").attr('disabled', true);
-			$("#form-cambiarcontra #repcontra").css("border-color", "red");
-			return false;
-		  }else{
-			$("#form-cambiarcontra #repcontra").css("border-color", "green");
-			$("#form-cambiarcontra #Modalcambiarcontra_Edit").attr('disabled', false);
-		  }
-		}else{
-			$("#form-cambiarcontra #repcontra").css("border-color", "none");
-			$("#form-cambiarcontra #Modalcambiarcontra_Edit").attr('disabled', true);
-		  }
-	});
+function mostrarRequisitos() {
+	// Mostrar requisitos de contraseña
+	$('#form-cambiarcontra #mayus').show();
+	$('#form-cambiarcontra #special').show();
+	$('#form-cambiarcontra #numbers').show();
+	$('#form-cambiarcontra #lower').show();
+	$('#form-cambiarcontra #len').show();
+}
+
+// Validación de seguridad de contraseña nueva
+var nuevacontraIsEmpty = true; // Variable para controlar si nuevacontra está vacío
+
+$('#form-cambiarcontra #nuevacontra').on('keyup', function () {
+	nuevacontraIsEmpty = $(this).val().trim() === ''; // Actualiza el estado de nuevacontraIsEmpty
+	verificarSeguridad();
 });
+
+// Validación de coincidencia de contraseñas
+$('#form-cambiarcontra #repcontra').on('keyup', function () {
+	validarCoincidencia();
+});
+
+function verificarSeguridad() {
+	var pass = $('#form-cambiarcontra #nuevacontra').val();
+	var check = 0;
+
+	var regExpr = [
+		/^(?=.*[A-Z])/,
+		/^(?=.*[!@#$%&*¡?¿|°/\+-.:,;()~<>])/,
+		/^(?=.*[0-9])/,
+		/^(?=.*[a-z])/,
+		/^(?=.{8,})/
+	];
+
+	var elementos = [
+		$('#form-cambiarcontra #mayus'),
+		$('#form-cambiarcontra #special'),
+		$('#form-cambiarcontra #numbers'),
+		$('#form-cambiarcontra #lower'),
+		$('#form-cambiarcontra #len')
+	];
+
+	if (!nuevacontraIsEmpty) { // Solo valida si nuevacontra no está vacío
+		for (var i = 0; i < regExpr.length; i++) {
+			if (regExpr[i].test(pass)) {
+				elementos[i].hide();
+				check++;
+			} else {
+				elementos[i].show();
+			}
+		}
+
+		if (check >= 0 && check <= 2) {
+			$('#form-cambiarcontra #mensaje_cambiar_contra').html("<strong>Contraseña Insegura</strong>").css("color", "red");
+			$('#form-cambiarcontra #Modalcambiarcontra_Edit').prop('disabled', true);
+		} else if (check >= 3 && check <= 4) {
+			$('#form-cambiarcontra #mensaje_cambiar_contra').html("<strong>Contraseña poco segura</strong>").css("color", "orange");
+			$('#form-cambiarcontra #Modalcambiarcontra_Edit').prop('disabled', true);
+		} else if (check === 5) {
+			$('#form-cambiarcontra #mensaje_cambiar_contra').html("<strong>Contraseña muy segura</strong>").css("color", "green");
+			$('#form-cambiarcontra #Modalcambiarcontra_Edit').prop('disabled', false);
+		} else {
+			$('#form-cambiarcontra #mensaje_cambiar_contra').html("").css("color", "none");
+			$('#form-cambiarcontra #Modalcambiarcontra_Edit').prop('disabled', true);
+		}
+	}
+}
+
+function validarCoincidencia() {
+	var nuevacontra = $('#form-cambiarcontra #nuevacontra').val();
+	var repcontra = $('#form-cambiarcontra #repcontra').val();
+
+	if (nuevacontra !== repcontra) {
+		$("#form-cambiarcontra #repcontra").css("border-color", "red");
+		$("#form-cambiarcontra #Modalcambiarcontra_Edit").prop('disabled', true);
+	} else if (nuevacontra === '' || repcontra === '') {
+		$("#form-cambiarcontra #repcontra").css("border-color", "none");
+		$("#form-cambiarcontra #Modalcambiarcontra_Edit").prop('disabled', true);
+	} else {
+		$("#form-cambiarcontra #repcontra").css("border-color", "green");
+		$("#form-cambiarcontra #Modalcambiarcontra_Edit").prop('disabled', false);
+	}
+}
 
 function limpiarForm(){
 	$('#form-cambiarcontra #contranaterior').val("");
@@ -906,85 +977,6 @@ function limpiarForm(){
     $("#form-cambiarcontra #repcontra").css("border-color", "none");
     $("#form-cambiarcontra #nuevacontra").css("border-color", "none");
 }
-
-$(document).ready(function(e) {
-    $('#form-cambiarcontra #contranaterior').on('blur', function(){
-		if($('#form-cambiarcontra #contranaterior').val() != ""){
-		     var url = '<?php echo SERVERURL; ?>core/consultar_pass.php';
-
-		     $.ajax({
-		       type:'POST',
-		       url:url,
-		       data:$('#form-cambiarcontra').serialize(),
-		       success: function(datos){
-			     if (datos == 0){
-					swal({
-						title: "Error",
-						text: "La contraseña que ingreso no coincide con la anterior",
-						type: "error",
-						confirmButtonClass: "btn-danger"
-					});
-					$("#form-cambiarcontra #contranaterior").css("border-color", "red");
-					$("#form-cambiarcontra #Modalcambiarcontra_Edit").attr('disabled', true);
-					return false;
-			     }else{
-					 $("#form-cambiarcontra #contranaterior").css("border-color", "green");
-					 $("#form-cambiarcontra #Modalcambiarcontra_Edit").attr('disabled', false);
-				 }
-		       }
-	         });
-	        return false;
-		}
-	});
-});
-
-$(function(){
-    var mayus = new RegExp("^(?=.*[A-Z])");
-	var special = new RegExp("^(?=.*[!@#$%&*¡?¿|°/\+-.:,;()~<>])");
-	var numbers = new RegExp("^(?=.*[0-9])");
-	var lower = new RegExp("^(?=.*[a-z])");
-	var len = new RegExp("^(?=.{8,})");
-
-
-    var regExpr = [mayus,special,numbers,lower,len];
-	var elementos = [$('#form-cambiarcontra #mayus'),$('#form-cambiarcontra #special'),$('#form-cambiarcontra #numbers'),$('#form-cambiarcontra #lower'),$('#form-cambiarcontra #len')];
-
-	$('#form-cambiarcontra #nuevacontra').on("keyup", function(){
-		if($('#form-cambiarcontra #nuevacontra').val() != ""){
-		   var pass = $('#form-cambiarcontra #nuevacontra').val();
-		   var check = 0;
-
-		   for(var i = 0; i < 5; i++){
-			  if(regExpr[i].test(pass)){
-			  	  elementos[i].hide();
-				  check++;
-			  }else{
-				  elementos[i].show();
-			  }
-		  }
-
-		  $('#form-cambiarcontra #check').val(check);
-		  if(check >= 0 && check <= 2){
-			  $('#form-cambiarcontra #mensaje_cambiar_contra').html("<strong>Contraseña Insegura</strong>").css("color","red");
-			  $("#form-cambiarcontra #Modalcambiarcontra_Edit").attr('disabled', true);
-		  }else if(check >= 3 && check <= 4){
-			  $('#form-cambiarcontra #mensaje_cambiar_contra').html("<strong>Contraseña poco segura</strong>").css("color","orange");
-			  $("#form-cambiarcontra #Modalcambiarcontra_Edit").attr('disabled', true);
-		  }else if(check == 5){
-              $('#form-cambiarcontra #mensaje_cambiar_contra').html("<strong>Contraseña muy segura</strong>").css("color","green");
-			  $("#form-cambiarcontra #Modalcambiarcontra_Edit").attr('disabled', true);
-		  }
-		}else{
-			$('#form-cambiarcontra #mensaje_cambiar_contra').html("").css("color","none");
-			$('#form-cambiarcontra #mayus').show();
-			$('#form-cambiarcontra #special').show();
-			$('#form-cambiarcontra #numbers').show();
-			$('#form-cambiarcontra #lower').show();
-			$('#form-cambiarcontra #len').show();
-			$("#form-cambiarcontra #Modalcambiarcontra_Edit").attr('disabled', true);
-		}
-	});
-});
 
 //MOSTRAR CONTRASEÑA
 $(document).ready(function () {
@@ -1107,7 +1099,6 @@ function printQuote(cotizacion_id){
 }
 
 function printBill(facturas_id,$print_comprobante){
-
 	var url = "<?php echo SERVERURL;?>core/llenarDataTableImpresora.php";
 
 	$.ajax({
@@ -1146,7 +1137,6 @@ function printBill(facturas_id,$print_comprobante){
 		});
 
 		return false;
-
 }
 
 function printBillReporteVentas(facturas_id,$print_comprobante){
@@ -1412,16 +1402,27 @@ function getEmpresaColaboradores(){
 
 //INICIO CAMBIAR CONTRASEÑA
 $('#cambiar_contraseña_usuarios_sistema').on('click',function(e){
-	e.preventDefault();
-	$('#form-cambiarcontra').attr({ 'data-form': 'update' });
-	$('#form-cambiarcontra').attr({ 'action': '<?php echo SERVERURL;?>ajax/modificarContrasenaAjax.php' });
-	$('#form-cambiarcontra')[0].reset();
+    e.preventDefault();
 
-	$('#ModalContraseña').modal({
-		show:true,
-		keyboard: false,
-		backdrop:'static'
-	});
+    $('#form-cambiarcontra').attr({ 'data-form': 'update' });
+    $('#form-cambiarcontra').attr({ 'action': '<?php echo SERVERURL;?>ajax/modificarContrasenaAjax.php' });
+    $('#form-cambiarcontra')[0].reset();
+
+    // Restaurar estilos y mensajes de error
+	$('#form-cambiarcontra #mensaje_cambiar_contra').html("");
+    $('#form-cambiarcontra input').css("border-color", "");
+    $('#form-cambiarcontra #repcontra').css("border-color", "");
+    $('#form-cambiarcontra #mensaje_cambiar_contra').html("").css("color", "none");
+
+    // Resto del código para abrir el modal
+    $('#ModalContraseña').modal({
+        show:true,
+        keyboard: false,
+        backdrop:'static'
+    });
+
+    // Mostrar condiciones de seguridad después de abrir el modal
+	mostrarRequisitos();
 });
 //FIN CAMBIAR CONTRASEÑA
 

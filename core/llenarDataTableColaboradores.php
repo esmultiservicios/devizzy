@@ -17,7 +17,8 @@
 			"colaborador"=>$row['colaborador'],
 			"identidad"=>$row['identidad'],
 			"estado"=>$row['estado'],
-			"telefono"=>$row['telefono']			
+			"telefono"=>$row['telefono'],
+			"puesto"=>$row['puesto']			
 		);		
 	}
 	

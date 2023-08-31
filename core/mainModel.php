@@ -82,6 +82,7 @@
 				SET
 					bitacoraHoraFinal = '$hora'
 				WHERE bitacoraCodigo = '$bitacoraCodigo'";
+
 			$result = self::connection()->query($update);
 
 			return $result;
@@ -442,42 +443,23 @@
          /*Funcion que permite encriptar string */
 
         public function encryption($string){
-
             $ouput = FALSE;
-
             $key=hash('sha256', SECRET_KEY);
-
             $iv = substr(hash('sha256', SECRET_IV), 0, 16);
-
             $output = openssl_encrypt($string, METHOD, $key, 0, $iv);
-
             $output = base64_encode($output);
 
-
-
             return $output;
-
         }
-
-
 
         /*Funcion que permite desencriptar string*/
-
         public function decryption($string){
-
             $key = hash('sha256', SECRET_KEY);
-
             $iv = substr(hash('sha256', SECRET_IV), 0, 16);
-
             $output = openssl_decrypt(base64_decode($string), METHOD, $key, 0, $iv);
 
-
-
             return $output;
-
         }
-
-
 
         /*Funcion que permite generar codigos aleatorios*/
 
@@ -923,17 +905,17 @@
 
 			}
 
-			$token = self::decryption($_SESSION['token_sd']);
+			$token = $_SESSION['token_sd'];
 			$hora = date("H:m:s");
 			$usuario = $_SESSION['user_sd'];
 			$token_s = $_SESSION['token_sd'];
-			$token = $token;
 			$codigo = $_SESSION['codigo_bitacora_sd'];
 			self::guardar_historial_accesos("Cierre de Sesion");
 			session_unset();//VACIAR LA SESION
 			session_destroy();//DESTRUIR LA SESION
 
-			window.location(SERVERURL."login/");
+			// Redirigir con JavaScript
+			echo "<script>window.location.href = '" . SERVERURL . "login/';</script>";
 		}
 
 		public function getProductoBarCodeBill($barCode){
@@ -1727,12 +1709,14 @@
 
 		public function getColaboradores(){
 			$query = "SELECT c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', c.identidad AS 'identidad',
-				CASE WHEN c.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado', c.telefono AS 'telefono', e.nombre AS 'empresa'
-				FROM colaboradores AS c
-				INNER JOIN empresa AS e
-				ON c.empresa_id = e.empresa_id
-				WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1)
-				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
+			CASE WHEN c.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado', c.telefono AS 'telefono', e.nombre AS 'empresa', p.nombre AS 'puesto'
+			FROM colaboradores AS c
+			INNER JOIN empresa AS e
+			ON c.empresa_id = e.empresa_id
+			INNER JOIN puestos AS p
+			ON c.puestos_id = p.puestos_id
+			WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1)
+			ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
 			$result = self::connection()->query($query);
 			return $result;
 		}
@@ -3149,38 +3133,23 @@
 
 			$result = self::connection()->query($query);
 			return $result;
-
 		}
 
 
 
 		public function geFacturaCorreo($facturas_id){
-
 			$query = "SELECT c.nombre AS 'cliente', c.correo AS 'correo', f.number AS 'numero', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno'
-
 			FROM facturas AS f
-
 			INNER JOIN clientes AS c
-
 			ON f.clientes_id = c.clientes_id
-
 			INNER JOIN secuencia_facturacion AS sf
-
 			ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-
 			WHERE f.facturas_id = '$facturas_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getCotizacionCorreo($cotizacion_id){
 

@@ -70,19 +70,19 @@
 				$abitacora = mainModel::actualizar_bitacora($datos['codigo'], $datos['hora']);
 				
 				if($abitacora){
-					session_unset();//VACIAR LA SESION
-					session_destroy();//DESTRUIR LA SESION
+					session_unset(); // VACIAR LA SESION
+					session_destroy(); // DESTRUIR LA SESION
 					$respuesta = 1;
-				}else{
+				} else {
 					$respuesta = 2;
 				}
 				
-			}else{
+			} else {
 				$respuesta = 2;
 			}
 			
-			return $respuesta;
-		}
+			return $respuesta; // Retorna 1 si se cerró la sesión correctamente, 2 si hubo un error
+		}		
 
 		protected function validar_pago_pendiente_main_server_modelo(){
 			$mysqli_main = mainModel::connect_mysqli_main_server();
