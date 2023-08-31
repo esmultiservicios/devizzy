@@ -93,9 +93,10 @@
 							}
 
 							//OBTENEMOS EL NOMBRE DE LA EMPRESA
+							$empresa_id_sesion = $_SESSION['empresa_id_sd'];
 							$tablaEmpresa = "empresa";
 							$camposEmpresa = ["nombre"];
-							$condicionesEmpresa = ["empresa_id" => $empresa];
+							$condicionesEmpresa = ["empresa_id" => $empresa_id_sesion];
 							$orderBy = "";
 							$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
 						
@@ -106,7 +107,6 @@
 							}							
 
 							$correo_tipo_id = "1";//Notificaciones
-							$urlSistema = "https://izzycloud.app/";
 							$destinatarios = array($correo_usuario => $colaborador_nombre);
 
 							// Destinatarios en copia oculta (Bcc)
@@ -135,7 +135,7 @@
 										<li><b>Usuario</b>: '.$correo_usuario.'</li>
 										<li><b>Contraseña</b>: '.$pass.'</li>
 										<li><b>Perfil</b>: '.$privilegio_nombre.'</li>
-										<li><b>Acceso al Sistema</b>:  <a href='.$urlSistema.'>Clic para Acceder a IZZY<a></li>
+										<li><b>Acceso al Sistema</b>:  <a href='.SERVERURL.'>Clic para Acceder a IZZY<a></li>
 									</ul>
 									
 									<p style="margin-bottom: 10px;">
@@ -163,7 +163,7 @@
 									</p>
 									
 									<p>
-										<b>El Equipo de CLINICARE</b>
+										<b>El Equipo de '.$empresa_nombre.'</b>
 									</p>                
 								</div>
 							';

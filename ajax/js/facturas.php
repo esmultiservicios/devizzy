@@ -2274,8 +2274,7 @@ var continue_bill_draft_dataTable = function(tbody, table){
 			async: false,
 			data:'facturas_id='+data.facturas_id,
 			success:function(data){			
-				var datos = eval(data);
-				alert("El tamaño del array es: " + datos.length);						
+				var datos = eval(data);					
 				limpiarTablaFacturaDetalles(0);
 				for(var fila=0; fila < datos.length; fila++){
 					var barCode = datos[fila]["barCode"];

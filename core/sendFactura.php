@@ -53,7 +53,7 @@
 		$empresa_nombre = strtoupper(trim($resultadoEmpresa[0]['nombre']));
 	}
 
-	$urlFactura = 'https://izzycloud.app/core/generaFactura.php?facturas_id='.$facturas_id;
+	$urlFactura = SERVERURL.'core/generaFactura.php?facturas_id='.$facturas_id;
 	$factura_documento = "factura_".$no_factura;
 	$URL = dirname('__FILE__').'/facturas/'.$factura_documento.'.pdf';	
 
@@ -91,7 +91,7 @@
 			</p>
 			
 			<p>
-				<b>El Equipo de CLINICARE</b>
+				<b>El Equipo de '.$empresa_nombre.'</b>
 			</p>                
 		</div>
 	';

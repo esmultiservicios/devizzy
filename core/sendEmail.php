@@ -55,7 +55,7 @@ class sendEmail {
 
             //Consultamos el nombre de la empresa
             $tablaEmpresa = "empresa";
-            $camposEmpresa = ["nombre"];
+            $camposEmpresa = ["nombre", "logotipo", "ubicacion", "telefono", "sitioweb", "correo", "rtn"];
             $condicionesEmpresa = ["colaboradores_id" => $users_id];
             $orderBy = "";
             $resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
@@ -66,6 +66,16 @@ class sendEmail {
                 $de_empresa = "CLINICARE";
             }
             
+			$datos_empresa = [
+				"empresa" => strtoupper(trim($nombre)),
+				"logotipo" => $logotipo,				
+				"ubicacion" => $ubicacion,
+				"telefono" => $telefono,				
+				"sitioweb" => $sitioweb,				
+				"correo" => $correo,
+                "rtn" => $rtn		
+			];            
+
             try {
                 // Configuración del servidor de correo saliente (SMTP)
                 $mail->isSMTP();
@@ -95,7 +105,7 @@ class sendEmail {
                     $mail->Subject = $asunto;
     
                     // Cuerpo del mensaje utilizando la plantilla
-                    $htmlMensaje = $this->getCorreoPlantilla($asunto, $mensaje);
+                    $htmlMensaje = $this->getCorreoPlantilla($asunto, $mensaje, $datos_empresa);
     
                     $mail->Body = $htmlMensaje;
         
@@ -122,13 +132,14 @@ class sendEmail {
         }
     }
 
-    public function getCorreoPlantilla($asunto, $mensaje) {
+    public function getCorreoPlantilla($asunto, $mensaje, $datos_empresa) {
         // Datos de tu empresa
-        $nombreEmpresa = 'CLINICARE';
-        $direccionEmpresa = 'Col. Monte Carlo, 6-7 , 22 AVENIDA B Casa #17 San Pedro Sula, Cortés';
-        $telefonoEmpresa = '+504 2503-5517';
-        $sitioWebEmpresa = 'https://clinicarehn.com';
-        $urlLogoEmpresa = 'https://izzycloud.app/vistas/plantilla/img/logo.png';
+        $nombreEmpresa = $datos_empresa['empresa'];
+        $direccionEmpresa = $datos_empresa['ubicacion'];
+        $telefonoEmpresa = $datos_empresa['telefono'];
+        $rtnEmpresa = $datos_empresa['rtn'];
+        $sitioWebEmpresa = $datos_empresa['sitioweb'];
+        $urlLogoEmpresa = SERVERURL."vistas/plantilla/img/logos/".$datos['logotipo'];
     
         // Encabezado del correo
         $encabezado = '
@@ -137,6 +148,7 @@ class sendEmail {
                 <h1>'.$nombreEmpresa.'</h1>
                 <p>'.$direccionEmpresa.'</p>
                 <p>Teléfono: '.$telefonoEmpresa.'</p>
+                <p>RTN: '.$rtnEmpresa.'</p>
                 <p>Sitio Web: '.$sitioWebEmpresa.'</p>
             </div>';
     
