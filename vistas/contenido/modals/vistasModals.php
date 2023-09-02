@@ -409,9 +409,6 @@
 								</div>
 							</div> <!-- Page Content -->
 							<div id="page-content-wrapper">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
 								<div class="row pt-3" id="border-btm">
 									<div class="col-2">
 											<i id="menu-toggle1Purchase" class="fas fa-angle-double-left fa-2x menu-toggle1"></i>
@@ -733,9 +730,6 @@
 							</div> 
 							<!-- Page Content -->
 							<div id="page-content-wrapper" style="scroll-behavior: smooth;">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
 								<div class="row pt-3" id="border-btm">
 									<div class="col-2">
 											<i id="menu-toggle1" class="fas fa-angle-double-left fa-2x menu-toggle1"></i>

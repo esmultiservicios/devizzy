@@ -273,25 +273,7 @@
 								$datos_factura = [
 									"compras_id" => $compras_id,
 									"importe" => $total_despues_isv		
-								];
-								
-								comprasModelo::actualizar_compra_importe($datos_factura);
-
-								//AGREGAMOS LA CUENTA POR COBRAR CLIENTES
-								$estado_cuenta_cobrar = 3;///1. Pendiente de Cobrar 2. Pago Realizado 3. Efectivo con abonos
-								
-								$datos_cobrar_clientes = [
-									"proveedores_id" => $proveedores_id,
-									"compras_id" => $compras_id,
-									"fecha" => $fecha,				
-									"saldo" => $total_despues_isv,
-									"estado" => $estado_cuenta_cobrar,
-									"usuario" => $usuario,
-									"fecha_registro" => $fecha_registro,
-									"empresa" => $empresa_id
-								];		
-								
-								comprasModelo::agregar_cuenta_por_pagar_proveedores($datos_cobrar_clientes);
+								];								
 							
 								$alert = [
 									"alert" => "save_simple",
@@ -306,6 +288,22 @@
 									"funcion" => "limpiarTablaCompras();pagoCompras(".$compras_id.");getColaboradorCompras();cleanFooterValuePurchase();resetRowPurchase();",
 									"modal" => "",
 								];
+
+								//AGREGAMOS LA CUENTA POR COBRAR CLIENTES
+								$estado_cuenta_pagar = 3;///1. Pendiente de Cobrar 2. Pago Realizado 3. Efectivo con abonos
+								
+								$datos_cobrar_clientes = [
+									"proveedores_id" => $proveedores_id,
+									"compras_id" => $compras_id,
+									"fecha" => $fecha,				
+									"saldo" => $total_despues_isv,
+									"estado" => $estado_cuenta_pagar,
+									"usuario" => $usuario,
+									"fecha_registro" => $fecha_registro,
+									"empresa" => $empresa_id
+								];		
+								
+								comprasModelo::agregar_cuenta_por_pagar_proveedores($datos_cobrar_clientes);								
 
 							}else{
 								$alert = [

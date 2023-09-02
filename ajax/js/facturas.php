@@ -1822,7 +1822,7 @@ $("#invoice-form #addPayCustomers").on("click", function(e){
 });
 
 var listar_busqueda_cuentas_por_cobrar_clientes = function(){
-	var estado = $("#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes_estado").val();
+	var estado = $("#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes_estado").val() === "" ? 1 : $("#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes_estado").val();
 	var clientes_id = $("#formulario_busqueda_cuentas_cobrar_clientes #cobrar_clientes").val();	
 	var fechai = $("#formulario_busqueda_cuentas_cobrar_clientes #fechai").val();
 	var fechaf = $("#formulario_busqueda_cuentas_cobrar_clientes #fechaf").val();

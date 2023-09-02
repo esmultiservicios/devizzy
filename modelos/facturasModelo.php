@@ -9,6 +9,7 @@
 		protected function agregar_facturas_modelo($datos){
 			$insert = "INSERT INTO facturas 
 				VALUES('".$datos['facturas_id']."','".$datos['clientes_id']."','".$datos['secuencia_facturacion_id']."','".$datos['apertura_id']."','".$datos['numero']."','".$datos['tipo_factura']."','".$datos['colaboradores_id']."','".$datos['importe']."','".$datos['notas']."','".$datos['fecha']."','".$datos['estado']."','".$datos['usuario']."','".$datos['empresa']."','".$datos['fecha_registro']."','".$datos['fecha_dolar']."')";
+
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 
 			return $result;			

@@ -16,6 +16,7 @@
 	$facturas_id = "";
 	$importe = 0;
 	$saldo = 0;
+	$estado = 0;
 
 	//OBTENEMOS LOS VALORES DEL REGISTRO
 	if($result->num_rows>0){

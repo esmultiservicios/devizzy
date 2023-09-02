@@ -340,105 +340,20 @@
 			return $sql;
 		}
 
-		//FUNCION PARA ENVIAR CORREO ELECTRONICO
-		protected function sendEmail($server, $port, $SMTPSecure, $password, $from, $para, $asunto, $mensaje){
-			$cabeceras = "MIME-Version: 1.0\r\n";
-			$cabeceras .= "Content-type: text/html; charset=iso-8859-1\r\n";
-			$cabeceras .= "From: $from \r\n";
-
-			$mail = new PHPMailer(); //creo un objeto de tipo PHPMailer
-			$mail->SMTPDebug = 1;
-			$mail->IsSMTP(); //protocolo SMTP
-			$mail->IsHTML(true);
-			$mail->CharSet = $CharSet;
-			$mail->SMTPAuth = true;//autenticación en el SMTP
-			$mail->SMTPSecure = $SMTPSecure;
-			
-			$mail->SMTPOptions = array(
-				'ssl' => array(
-					'verify_peer' => false,
-					'verify_peer_name' => false,
-					'allow_self_signed' => true
-				)
-			);
-
-			$mail->Host = $server;//servidor de SMTP de gmail
-			$mail->Port = $port;//puerto seguro del servidor SMTP de gmail
-			$mail->From = $de; //Remitente del correo
-			$mail->FromName = $from; //Remitente del correo
-			$mail->AddAddress($para);// Destinatario
-			$mail->AddCC($email_profesional);// Copia Destinatario
-			$mail->Username = $de;//Aqui pon tu correo de gmail
-			$mail->Password = $password;//Aqui pon tu contraseña de gmail
-			$mail->Subject = $asunto; //Asunto del correo
-			$mail->Body = $mensaje; //Contenido del correo
-			$mail->WordWrap = 50; //No. de columnas
-			$mail->MsgHTML($mensaje);//Se indica que el cuerpo del correo tendrá formato html
-
-			if($para != ""){
-			   if($mail->Send()){ //enviamos el correo por PHPMailer
-				  $respuesta = "El mensaje ha sido enviado con la clase PHPMailer y tu cuenta de gmail =)";
-				  
-				   $alert = [
-						"alert" => "simple",
-						"title" => "Correo enviado correctamente",
-						"text" => "El correo se ha enviado de forma satisfactoria",
-						"type" => "error",
-						"btn-class" => "btn-primary",
-					];
-			   }else{
-				   $alert = [
-						"alert" => "simple",
-						"title" => "Ocurrio un error inesperado",
-						"text" => "El mensaje no se pudo enviar, verifique su conexión a Internet: Error: ".$mail->ErrorInfo."",
-						"type" => "error",
-						"btn-class" => "btn-danger",
-					];
-			   }
-			}else{
-			   $alert = [
-					"alert" => "simple",
-					"title" => "Ocurrio un error inesperado",
-					"text" => "Lo sentimos no existe un destinatario al cual enviar el correo, por favor corregir: Error: ".$mail->ErrorInfo."",
-					"type" => "error",
-					"btn-class" => "btn-danger",
-				];
-			}
-
-			return self::sweetAlert($alert);
-		}
-
-
-
 		protected function generar_password_complejo(){
-
 		   $largo = 12;
-
 		   $cadena_base =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
 		   $cadena_base .= '0123456789' ;
-
 		   $cadena_base .= '!@#%^&()_,./<>?;:[]{}\|=+|*-';
-
-
-
 		   $password = '';
 
 		   $limite = strlen($cadena_base) - 1;
 
-
-
 		   for ($i=0; $i < $largo; $i++)
-
 			   $password .= $cadena_base[rand(0, $limite)];
-
-
-
-		   return $password;
-
+		   
+			   return $password;
 		}
-
-
 
          /*Funcion que permite encriptar string */
 
@@ -4209,6 +4124,28 @@
 
 		}
 
+		public function getDatosCompras($compras_id){
+			$query = "SELECT
+				c.compras_id AS compras_id,
+				DATE_FORMAT(c.fecha, '%d/%m/%Y') AS fecha,
+				c.proveedores_id AS proveedores_id,
+				p.nombre AS proveedor,
+				p.rtn AS rtn,
+				c.estado AS estado,
+				c.fecha AS fecha_compra,
+				c.notas AS notas,
+				c.tipo_compra,
+				pagar_proveedores.saldo
+			FROM compras AS c
+			INNER JOIN proveedores AS p ON c.proveedores_id = p.proveedores_id
+			INNER JOIN pagar_proveedores ON pagar_proveedores.compras_id = c.compras_id
+			WHERE c.compras_id = '$compras_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
 		public function getDatosFactura($facturas_id){
 			$query = "SELECT
 			f.facturas_id AS facturas_id,
@@ -4227,8 +4164,7 @@
 			f.notas AS notas,
 			f.tipo_factura AS credito,
 			cobrar_clientes.saldo
-			FROM
-			facturas AS f
+			FROM facturas AS f
 			INNER JOIN clientes AS c ON f.clientes_id = c.clientes_id
 			INNER JOIN colaboradores AS ven ON f.colaboradores_id = ven.colaboradores_id
 			INNER JOIN cobrar_clientes ON f.facturas_id = cobrar_clientes.facturas_id
@@ -4258,29 +4194,6 @@
 			$query = "SELECT saldo  FROM pagar_proveedores WHERE compras_id = '".$compras_id."' ";
 
 			$result = self::connection()->query($query);
-			return $result;
-		}
-
-		public function getDatosCompras($compras_id){
-			$query = "SELECT
-			c.compras_id AS compras_id,
-			DATE_FORMAT(c.fecha, '%d/%m/%Y') AS fecha,
-			c.proveedores_id AS proveedores_id,
-			p.nombre AS proveedor,
-			p.rtn AS rtn,
-			c.estado AS estado,
-			c.fecha AS fecha_compra,
-			c.notas AS notas,
-			c.tipo_compra,
-			pagar_proveedores.saldo
-			FROM
-			compras AS c
-			INNER JOIN proveedores AS p ON c.proveedores_id = p.proveedores_id
-			INNER JOIN pagar_proveedores ON pagar_proveedores.compras_id = c.compras_id
-			WHERE c.compras_id = '$compras_id'";
-
-			$result = self::connection()->query($query);
-
 			return $result;
 		}
 
@@ -4346,11 +4259,11 @@
 			$fecha_actual = date("Y-m-d");
 			$fecha = "";
 
-			if($datos['fechai'] != $fecha_actual){
+			if($datos['fechai'] !== $fecha_actual){
 				$fecha = "AND proveedores.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
 			}
 
-			if($datos['proveedores_id'] != 0){
+			if($datos['proveedores_id'] !== 0){
 				$proveedores_id = "AND proveedores.proveedores_id = '".$datos['proveedores_id']."'";
 			}
 
@@ -4755,357 +4668,29 @@
 
 		}
 
-
-
 		function getFacturasAnual($año){
-
 			$query = "SELECT fecha as 'fecha', SUM(importe) as 'total'
-
 				FROM facturas
-
 				WHERE YEAR(fecha) = '$año'
-
 				GROUP BY MONTH(fecha)
-
 				ORDER BY MONTH(fecha) ASC";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		function getComprasAnual($año){
-
 			$query = "SELECT fecha as 'fecha', SUM(importe) as 'total'
-
 				FROM compras
-
 				WHERE YEAR(fecha) = '$año'
-
 				GROUP BY MONTH(fecha)
-
 				ORDER BY MONTH(fecha) ASC";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
-
-
-		function sendMail($servidor, $puerto, $contraseña, $CharSet, $SMTPSecure, $de, $para, $from, $asunto, $mensaje, $URL){
-
-			$cabeceras = "MIME-Version: 1.0\r\n";
-
-			$cabeceras .= "Content-type: text/html; charset=iso-8859-1\r\n";
-
-			$cabeceras .= "From: $de \r\n";
-
-
-
-			//incluyo la clase phpmailer
-
-			include_once("phpmailer/class.phpmailer.php");
-
-			include_once("phpmailer/class.smtp.php");
-
-
-
-			$mail = new PHPMailer(); //creo un objeto de tipo PHPMailer
-
-			$mail->SMTPDebug = 1;
-
-			$mail->IsSMTP(); //protocolo SMTP
-
-			$mail->IsHTML(true);
-
-			$mail->CharSet = $CharSet;
-
-			$mail->SMTPAuth = true;//autenticación en el SMTP
-
-			$mail->SMTPSecure = $SMTPSecure;
-
-			$mail->SMTPOptions = array(
-
-				'ssl' => array(
-
-					'verify_peer' => false,
-
-					'verify_peer_name' => false,
-
-					'allow_self_signed' => true
-
-				)
-
-			);
-
-			$mail->Host = $servidor;//servidor de SMTP de gmail
-
-			$mail->Port = $puerto;//puerto seguro del servidor SMTP de gmail
-
-			$mail->From = $de; //Remitente del correo
-
-			$mail->FromName = $from; //Remitente del correo
-
-			$mail->AddAddress($para);// Destinatario
-
-			$mail->Username = $de;//Aqui pon tu correo
-
-			$mail->Password = $contraseña;//Aqui pon tu contraseña de gmail
-
-			$mail->Subject = $asunto; //Asunto del correo
-
-			$mail->Body = $mensaje; //Contenido del correo
-
-
-
-			if($URL !=""){
-
-				$mail->AddAttachment($URL, $asunto.'.pdf');
-
-			}
-
-
-
-			$mail->WordWrap = 50; //No. de columnas
-
-			$mail->MsgHTML($mensaje);//Se indica que el cuerpo del correo tendrá formato html
-
-
-
-			if($para != ""){
-
-				if($mail->Send()){ //enviamos el correo por PHPMailer
-
-
-
-				}else{
-
-
-
-				}
-
-			}else{
-
-
-
-			}
-
-		}
-
-
-
-		function sendMailOpciones($servidor, $puerto, $contraseña, $CharSet, $SMTPSecure, $de, $para, $from, $asunto, $mensaje, $URL){
-
-			$cabeceras = "MIME-Version: 1.0\r\n";
-
-			$cabeceras .= "Content-type: text/html; charset=iso-8859-1\r\n";
-
-			$cabeceras .= "From: $de \r\n";
-
-
-
-			//incluyo la clase phpmailer
-
-			include_once("phpmailer/class.phpmailer.php");
-
-			include_once("phpmailer/class.smtp.php");
-
-
-
-			$mail = new PHPMailer(); //creo un objeto de tipo PHPMailer
-
-			$mail->SMTPDebug = 1;
-
-			$mail->IsSMTP(); //protocolo SMTP
-
-			$mail->IsHTML(true);
-
-			$mail->CharSet = $CharSet;
-
-			$mail->SMTPAuth = true;//autenticación en el SMTP
-
-			$mail->SMTPSecure = $SMTPSecure;
-
-			$mail->SMTPOptions = array(
-
-				'ssl' => array(
-
-					'verify_peer' => false,
-
-					'verify_peer_name' => false,
-
-					'allow_self_signed' => true
-
-				)
-
-			);
-
-			$mail->Host = $servidor;//servidor de SMTP de gmail
-
-			$mail->Port = $puerto;//puerto seguro del servidor SMTP de gmail
-
-			$mail->From = $de; //Remitente del correo
-
-			$mail->FromName = $from; //Remitente del correo
-
-			$mail->AddAddress($para);// Destinatario
-
-			$mail->Username = $de;//Aqui pon tu correo
-
-			$mail->Password = $contraseña;//Aqui pon tu contraseña de gmail
-
-			$mail->Subject = $asunto; //Asunto del correo
-
-			$mail->Body = $mensaje; //Contenido del correo
-
-
-
-			if($URL !=""){
-
-				$mail->AddAttachment($URL, $asunto.'.pdf');
-
-			}
-
-
-
-			$mail->WordWrap = 50; //No. de columnas
-
-			$mail->MsgHTML($mensaje);//Se indica que el cuerpo del correo tendrá formato html
-
-
-
-			if($para != ""){
-
-				if($mail->Send()){ //enviamos el correo por PHPMailer
-
-					echo 1;
-
-				}else{
-
-					echo 2;
-
-				}
-
-			}else{
-
-				echo 3;
-
-			}
-
-		}
-
-
-
-		function sendMailAjax($servidor, $puerto, $contraseña, $CharSet, $SMTPSecure, $de, $para, $from, $asunto, $mensaje, $URL){
-
-			$cabeceras = "MIME-Version: 1.0\r\n";
-
-			$cabeceras .= "Content-type: text/html; charset=iso-8859-1\r\n";
-
-			$cabeceras .= "From: $de \r\n";
-
-
-
-			//incluyo la clase phpmailer
-
-			include_once("phpmailer/class.phpmailer.php");
-
-			include_once("phpmailer/class.smtp.php");
-
-
-
-			$mail = new PHPMailer(); //creo un objeto de tipo PHPMailer
-
-			$mail->SMTPDebug = 1;
-
-			$mail->IsSMTP(); //protocolo SMTP
-
-			$mail->IsHTML(true);
-
-			$mail->CharSet = $CharSet;
-
-			$mail->SMTPAuth = true;//autenticación en el SMTP
-
-			$mail->SMTPSecure = $SMTPSecure;
-
-			$mail->SMTPOptions = array(
-
-				'ssl' => array(
-
-					'verify_peer' => false,
-
-					'verify_peer_name' => false,
-
-					'allow_self_signed' => true
-
-				)
-
-			);
-
-			$mail->Host = $servidor;//servidor de SMTP de gmail
-
-			$mail->Port = $puerto;//puerto seguro del servidor SMTP de gmail
-
-			$mail->From = $de; //Remitente del correo
-
-			$mail->FromName = $from; //Remitente del correo
-
-			$mail->AddAddress($para);// Destinatario
-
-			$mail->Username = $de;//Aqui pon tu correo
-
-			$mail->Password = $contraseña;//Aqui pon tu contraseña de gmail
-
-			$mail->Subject = $asunto; //Asunto del correo
-
-			$mail->Body = $mensaje; //Contenido del correo
-
-
-
-			if($URL !=""){
-
-				$mail->AddAttachment($URL, $asunto.'.pdf');
-
-			}
-
-
-
-			$mail->WordWrap = 50; //No. de columnas
-
-			$mail->MsgHTML($mensaje);//Se indica que el cuerpo del correo tendrá formato html
-
-
-
-			if($para != ""){
-
-				if($mail->Send()){ //enviamos el correo por PHPMailer
-
-
-
-				}else{
-
-
-
-				}
-
-			}else{
-
-
-
-			}
-
-		}
 
 		function testingMail($servidor, $correo, $contraseña, $puerto, $SMTPSecure, $CharSet){
 
