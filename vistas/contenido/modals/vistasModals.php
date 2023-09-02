@@ -187,7 +187,7 @@
 					</div>											
 				</div>													
 
-				<div class="form-group" id="estado_usuarios">				  
+				<div class="form-group" id="estado_usuarios">
 				  <div class="col-md-12">			
 						<label class="switch">
 							<input type="checkbox" id="usuarios_activo" name="usuarios_activo" value="1" checked>

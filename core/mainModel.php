@@ -1286,10 +1286,9 @@
 		}
 
 		public function getSubMenus1Acceso($privilegio_id){
-			$query = "SELECT sm.submenu_id AS 'submenu_id', sm.name AS 'submenu'
+			$query = "SELECT sm.submenu_id, sm.name As 'submenu'
 				FROM acceso_submenu AS asm
 				INNER JOIN submenu AS sm ON asm.submenu_id = sm.submenu_id
-				INNER JOIN submenu1 AS sm1 ON sm.submenu_id = sm1.submenu_id
 				WHERE asm.privilegio_id = '$privilegio_id'
 				GROUP BY sm.submenu_id";
 
@@ -1325,7 +1324,7 @@
 			$query = "SELECT sm1.submenu1_id AS 'submenu_id', sm1.name AS 'submenu'
 				FROM submenu1 AS sm1
 				INNER JOIN submenu AS sm ON sm1.submenu_id = sm.submenu_id
-				WHERE sm.submenu_id = '".$data['menu_id']."'";
+				WHERE sm1.submenu_id = '".$data['menu_id']."'";
 
 			$result = self::connection()->query($query);
 

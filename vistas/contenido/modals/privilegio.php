@@ -87,7 +87,7 @@
 					<div class="col-md-4 mb-3">
 					   <label>Menu <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
-						  <select id="menus" name="menus" class="selectpicker" data-live-search="true" title="Menu" required>
+						  <select id="menus" name="menus" class="selectpicker" multiple  data-live-search="true" title="Menu" required>
 						  </select>
 						</div>					 
 					</div>																	
@@ -159,7 +159,7 @@
 					<div class="col-md-4 mb-3">
 					   <label>SubMenu <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
-						  <select id="submenus" name="submenus" class="selectpicker" data-live-search="true" title="SubMenu" required>
+						  <select id="submenus" name="submenus" class="selectpicker" multiple  data-live-search="true" title="SubMenu" required>
 						  </select>
 						</div>					 
 					</div>																					
@@ -224,14 +224,14 @@
 					<div class="col-md-4 mb-3">
 					   <label>Menu <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
-						  <select id="menus" name="menus" class="selectpicker" data-live-search="true" title="Menu" required>
+						  <select id="menus" name="menus" class="selectpicker" multiple  data-live-search="true" title="Menu" required>
 						  </select>
 						</div>					 
 					</div>	
 					<div class="col-md-4 mb-3">
 					   <label>SubMenu <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
-						  <select id="submenus" name="submenus" class="selectpicker" data-live-search="true" title="SubMenu" required>
+						  <select id="submenus" name="submenus" class="selectpicker" multiple  data-live-search="true" title="SubMenu" required>
 						  </select>
 						</div>					 
 					</div>																					
