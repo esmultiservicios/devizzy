@@ -18,6 +18,6 @@
         echo $data['tag_name'];
     } else {
         //echo "No se pudo obtener la versión.";
-        echo "Version 2.0.5";
+        echo "Version 2.0.6";
     }
 ?>

@@ -1289,6 +1289,7 @@
 			$query = "SELECT sm.submenu_id, sm.name As 'submenu'
 				FROM acceso_submenu AS asm
 				INNER JOIN submenu AS sm ON asm.submenu_id = sm.submenu_id
+				INNER JOIN submenu1 AS sm1 ON sm.submenu_id = sm1.submenu_id
 				WHERE asm.privilegio_id = '$privilegio_id'
 				GROUP BY sm.submenu_id";
 
