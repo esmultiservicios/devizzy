@@ -16,7 +16,7 @@ var listar_diarios_configuracion = function(){
 			{"data":"cuenta"},											
 			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit'></span></button>"}
 		],
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,//esta se encuenta en el archivo main.js

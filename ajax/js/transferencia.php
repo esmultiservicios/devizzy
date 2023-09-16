@@ -134,7 +134,7 @@ var inventario_transferencia = function(){
 		{"defaultContent":"<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"},	
 
 	],
-	"lengthMenu": lengthMenu,
+	"lengthMenu": lengthMenu10,
 	"stateSave": true,
 	"bDestroy": true,
 	"language": idioma_español,//esta se encuenta en el archivo main.js

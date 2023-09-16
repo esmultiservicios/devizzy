@@ -16,7 +16,6 @@
 							<tr>
 								<th>Cliente</th>
 								<th>RTN</th>
-								<th>Localidad</th>
 								<th>Teléfono</th>
 								<th>Correo</th>	
 								<th>Departamento</th>

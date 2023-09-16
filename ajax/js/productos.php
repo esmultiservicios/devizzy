@@ -67,7 +67,7 @@ var listar_productos = function(){
 				return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/' + data + '" alt="' + data + '"height="100px" width="100px"/>';
 			}
 		}],		
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"responsive": true,

@@ -159,7 +159,7 @@ var listar_ingresos_contabilidad = function(){
 			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit'></span></button>"},
 			{"defaultContent":"<button class='table_reportes print_gastos btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},			
 		],	
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,

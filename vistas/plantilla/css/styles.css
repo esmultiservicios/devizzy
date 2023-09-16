@@ -10954,7 +10954,7 @@ input:checked + .slider:before {
 	text-align:center;
   font-size:30px;
 	box-shadow: 2px 2px 3px #999;
-  z-index:100;
+  z-index: 1000; /* Asegura que el footer esté encima del contenido */
 }
 
 .float-ws:hover {

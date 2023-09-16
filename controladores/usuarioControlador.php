@@ -71,7 +71,9 @@
 							$camposColaborador = ["nombre", "apellido"];
 							$condicionesColaborador = ["colaboradores_id" => $usuario_sistema];
 							$orderBy = "";
-							$resultadoColaborador = $database->consultarTabla($tablaColaborador, $camposColaborador, $condicionesColaborador, $orderBy);
+							$tablaJoin = "";
+							$condicionesJoin = [];
+							$resultadoColaborador = $database->consultarTabla($tablaColaborador, $camposColaborador, $condicionesColaborador, $orderBy, $tablaJoin, $condicionesJoin);
 				
 							$colaborador_nombre = "";
 
@@ -84,7 +86,9 @@
 							$camposPrivilegio = ["nombre"];
 							$condicionesPrivilegio = ["privilegio_id" => $privilegio_id];
 							$orderBy = "";
-							$resultadoPrivilegio = $database->consultarTabla($tablaPrivilegio, $camposPrivilegio, $condicionesPrivilegio, $orderBy);
+							$tablaJoin = "";
+							$condicionesJoin = [];
+							$resultadoPrivilegio = $database->consultarTabla($tablaPrivilegio, $camposPrivilegio, $condicionesPrivilegio, $orderBy, $tablaJoin, $condicionesJoin);
 				
 							$privilegio_nombre = "";
 
@@ -98,7 +102,9 @@
 							$camposEmpresa = ["nombre"];
 							$condicionesEmpresa = ["empresa_id" => $empresa_id_sesion];
 							$orderBy = "";
-							$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
+							$tablaJoin = "";
+							$condicionesJoin = [];
+							$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy, $tablaJoin, $condicionesJoin);
 						
 							$empresa_nombre = "";
 						
@@ -110,10 +116,62 @@
 							$destinatarios = array($correo_usuario => $colaborador_nombre);
 
 							// Destinatarios en copia oculta (Bcc)
-							$bccDestinatarios = [
-								'edwin.velasquez@clinicarehn.com' => 'CLINICARE',
-								'alexandra.ponce@clinicarehn.com' => 'CLINICARE'
-							];
+							//OBTENEMOS LOS CORREOS DE LOS ADMINISTRADORES
+							$tablaColaboradores = "colaboradores";
+							$camposColaboradores = ["users.email", "CONCAT(colaboradores.nombre, ' ', colaboradores.apellido) AS nombre_completo"];
+							$condicionesColaboradores = ["users.privilegio_id" => ["1", "2"], "users.estado" => 1]; // Usar un array para las condiciones
+							$orderBy = "";
+							$tablaJoin = "users";
+							$condicionesJoin = ["colaboradores_id" => "colaboradores_id"];
+							$resultadoColaboradores = $database->consultarTabla($tablaColaboradores, $camposColaboradores, $condicionesColaboradores, $orderBy, $tablaJoin, $condicionesJoin);
+							
+							//OBTENEMOS EL CORREO DEL REVENDEDOR privilegio_id => 3 ES EL REVENDEDOR
+							$tablaUsers = "users";
+							$camposUsers = ["email", "colaboradores_id"];
+							$condicionesUsers = ["users_id" => $users_id, "privilegio_id" => 3];
+							$orderBy = "";
+							$tablaJoin = "";
+							$condicionesJoin = [];
+							$resultadoUsers = $database->consultarTabla($tablaUsers, $camposUsers, $condicionesUsers, $orderBy, $tablaJoin, $condicionesJoin);
+
+							$correo_revendedor = "";
+							$colaboradores_id_revendedor = "";
+
+							if (!empty($resultadoUsers)) {
+								$correo_revendedor = $resultadoUsers[0]['email'];
+								$colaboradores_id_revendedor = $resultadoUsers[0]['colaboradores_id'];
+							}
+
+							//OBTENEMOS EL NOMBRE DEL REVENDEDOR
+							$tablaColaboradoresRevendedores = "colaboradores";
+							$camposColaboradoresRevendedores = ["nombre", "apellido"];
+							$condicionesColaboradoresRevendedores = ["colaboradores_id" => $colaboradores_id_revendedor];
+							$orderBy = "";
+							$tablaJoin = "";
+							$condicionesJoin = [];
+							$resultadoColaboradoresRevendedores = $database->consultarTabla($tablaColaboradoresRevendedores, $camposColaboradoresRevendedores, $condicionesColaboradoresRevendedores, $orderBy, $tablaJoin, $condicionesJoin);
+
+							$nombre_revendedor = "";
+
+							if (!empty($resultadoColaboradoresRevendedores)) {
+								$nombre_revendedor = trim($resultadoColaboradoresRevendedores[0]['nombre'].' '.$resultadoColaboradoresRevendedores[0]['apellido']);
+							}
+
+							$bccDestinatarios = [];
+
+							// Recorre los resultados de la consulta
+							foreach ($resultadoColaboradores as $row) {
+								// Obtén el correo electrónico y el nombre completo
+								$correo = $row["email"];
+								$nombreCompleto = $row["nombre_completo"];
+								
+								// Agrega el correo y el nombre completo al array $bccDestinatarios
+								$bccDestinatarios[$correo] = $nombreCompleto;
+							}
+
+							if($correo_revendedor !== "") {
+								$bccDestinatarios[$correo_revendedor] = $nombre_revendedor;
+							}
 
 							$asunto = "¡Bienvenido! Registro de Usuario Exitoso";
 							$mensaje = '

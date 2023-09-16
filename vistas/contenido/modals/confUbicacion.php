@@ -24,7 +24,7 @@
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
 					  <label for="nombre_proveedores">Ubicación <span class="priority">*<span/></label>
-					  <input type="text" required class="form-control" name="ubicacion_ubicacion" id="ubicacion_ubicacion" placeholder="Ubicación	" maxlength="30" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
+					  <input type="text" required class="form-control" name="ubicacion_ubicacion" id="ubicacion_ubicacion" placeholder="Ubicación" maxlength="30" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
 					</div>
 					<div class="col-md-6 mb-3">
 					  <label for="empresa_ubicacion">Empresa <span class="priority">*<span/></label>

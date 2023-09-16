@@ -40,7 +40,9 @@ class sendEmail {
         $camposCorreos = ["server", "correo", "password"];
         $condicionesCorreos = ["correo_tipo_id" => $correo_tipo_id];
         $orderBy = "";
-        $resultadoCorreos = $database->consultarTabla($tablaCorreos, $camposCorreos, $condicionesCorreos, $orderBy);
+        $tablaJoin = "";
+		$condicionesJoin = [];
+        $resultadoCorreos = $database->consultarTabla($tablaCorreos, $camposCorreos, $condicionesCorreos, $orderBy, $tablaJoin, $condicionesJoin);
 
         $correo_empresa = '';
         $pass_empresa = '';
@@ -68,7 +70,9 @@ class sendEmail {
             $camposEmpresa = ["nombre", "logotipo", "ubicacion", "telefono", "sitioweb", "correo", "rtn"];
             $condicionesEmpresa = ["colaboradores_id" => $users_id];
             $orderBy = "";
-            $resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
+            $tablaJoin = "";
+		    $condicionesJoin = [];
+            $resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy, $tablaJoin, $condicionesJoin);
 
             if (!empty($resultadoEmpresa)) {
                 $de_empresa = $resultadoEmpresa[0]['nombre'];

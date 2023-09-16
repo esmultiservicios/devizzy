@@ -8,7 +8,7 @@
 	class clientesModelo extends mainModel{
 		protected function agregar_clientes_modelo($datos){
 			$cliente_id = mainModel::correlativo("clientes_id", "clientes");
-			$insert = "INSERT INTO clientes VALUES('$cliente_id','".$datos['nombre']."','".$datos['rtn']."','".$datos['fecha']."','".$datos['departamento_id']."','".$datos['municipio_id']."','".$datos['localidad']."','".$datos['telefono']."','".$datos['correo']."','".$datos['estado_clientes']."','".$datos['colaborador_id']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO clientes VALUES('$cliente_id','".$datos['nombre']."','".$datos['rtn']."','".$datos['fecha']."','".$datos['departamento_id']."','".$datos['municipio_id']."','".$datos['localidad']."','".$datos['telefono']."','".$datos['correo']."','".$datos['estado_clientes']."','".$datos['colaborador_id']."','".$datos['fecha_registro']."','','','','')";
 
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			

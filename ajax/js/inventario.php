@@ -113,7 +113,7 @@ var listar_movimientos = function(){
 			{"data":"bodega"},
 			
 		],
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,//esta se encuenta en el archivo main.js

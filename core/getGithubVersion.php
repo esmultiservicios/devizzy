@@ -1,5 +1,5 @@
 <?php
-    $githubToken = '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';
+    $githubToken = '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';
     $repoOwner = 'clinicarehn';
     $repoName = 'devizzy';
 
@@ -18,6 +18,6 @@
         echo $data['tag_name'];
     } else {
         //echo "No se pudo obtener la versión.";
-        echo "Version 2.0.7";
+        echo "Versión: 2.0.0.9";
     }
 ?>

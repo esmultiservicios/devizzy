@@ -3,6 +3,8 @@ $(document).ready(function() {
 	//LLAMAMOS LOS METODOS CORRESPONDIENTES AL LOS MENUS
 	getGithubVersion();
 	getImagenHeader();
+	getPlanes();
+	getSistemas();
 	getMenu(getPrivilegioUsuario());
 	getSubMenu(getPrivilegioUsuario());
 	getSubMenu1(getPrivilegioUsuario());
@@ -1676,7 +1678,7 @@ var listar_cuentas_por_cobrar_clientes = function(){
 			{"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"}
 		],
 		"pageLength": 10,
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,
@@ -1942,7 +1944,7 @@ var listar_cuentas_por_pagar_proveedores = function(){
 			{"defaultContent":"<button class='table_reportes print_factura btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"}
 		],
 		"pageLength": 10,
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,
@@ -2107,31 +2109,31 @@ var listar_clientes = function(){
 		"columns":[
 			{"data":"cliente"},
 			{"data":"rtn"},
-			{"data":"localidad"},
 			{"data":"telefono"},
 			{"data":"correo"},
 			{"data":"departamento"},
 			{"data":"municipio"},
+			{"data":"sistema"},
 			{"defaultContent":"<button class='table_crear btn btn-dark ocultar generar'><span class='fab fa-centos fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "21.11%", targets: 0 },
-		  { width: "11.11%", targets: 1 },
-		  { width: "19.11%", targets: 2 },
-		  { width: "11.11%", targets: 3 },
-		  { width: "11.11%", targets: 4 },
-		  { width: "11.11%", targets: 5 },
-		  { width: "11.11%", targets: 6 },
-		  { width: "2.11%", targets: 7 },
-		  { width: "2.11%", targets: 8 },
-		  { width: "2.11%", targets: 9 }
+		  { width: "30%", targets: 0 },
+		  { width: "10%", targets: 1 },
+		  { width: "14%", targets: 2 },
+		  { width: "10%", targets: 3 },
+		  { width: "10%", targets: 4 },
+		  { width: "10%", targets: 5 },
+		  { width: "10%", targets: 6 },
+		  { width: "2%", targets: 7 },
+		  { width: "2%", targets: 8 },
+		  { width: "2%", targets: 9 }
 		],
 		"createdRow": function(row, data, dataIndex) {
             var cells = $(row).find("td"); // Obtén todas las celdas en la fila
@@ -2202,8 +2204,419 @@ var listar_clientes = function(){
 	table_clientes.search('').draw();
 	$('#buscar').focus();
 
+	generar_clientes_dataTable("#dataTableClientes tbody", table_clientes);
 	editar_clientes_dataTable("#dataTableClientes tbody", table_clientes);
 	eliminar_clientes_dataTable("#dataTableClientes tbody", table_clientes);
+}
+
+var listar_generar_clientes = function(){
+	var clientes_id = $("#formGenerarSistema #clientes_id").val();
+
+	// Destruir la tabla si ya existe
+	if (table_generar_clientes) {
+		table_generar_clientes.destroy();
+	}
+
+	var table_generar_clientes = $("#DatatableGenerarSistema").DataTable({
+		"destroy":true,
+		"ajax":{
+			"method":"POST",
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableGenerarSistema.php",
+			"data":{
+				"clientes_id":clientes_id,
+			}
+		},
+		"columns":[
+			{"data":"nombre"},
+			{"data":"db"},
+			{"data":"sistema"},
+			{"data":"plan"},
+			{"data":"validar"},
+		],
+        "lengthMenu": lengthMenu20,
+		"stateSave": true,
+		"bDestroy": true,
+		"language": idioma_español,
+		"dom": dom,
+		"columnDefs": [
+		  { width: "60%", targets: 0 },
+		  { width: "10%", targets: 1 },
+		  { width: "5%", targets: 2 },
+		  { width: "5%", targets: 3 },		
+		  { width: "20%", targets: 4 }
+		],		
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Clientes',
+				className: 'btn btn-secondary',
+				action: 	function(){
+					listar_generar_clientes();
+				}
+			},
+			{
+				extend:    'excelHtml5',
+				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
+				titleAttr: 'Excel',
+				title: 'Reporte Clientes',
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'btn btn-success',
+				exportOptions: {
+						columns: [0,1,2,3,4]
+				},
+			},
+			{
+				extend:    'pdf',
+				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+				titleAttr: 'PDF',
+				title: 'Reporte Clientes',
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'btn btn-danger',
+				exportOptions: {
+						columns: [0,1,2,3,4]
+				},
+				customize: function ( doc ) {
+					doc.content.splice( 1, 0, {
+						margin: [ 0, 0, 0, 12 ],
+						alignment: 'left',
+						image: imagen,
+						width:100,
+                        height:45
+					} );
+				}
+			}
+		],
+		"drawCallback": function( settings ) {
+        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+    	}
+	});
+
+	table_generar_clientes.search('').draw();
+
+	$('#buscar').focus();
+}
+
+$(document).ready(function(){
+    $("#modal_generar_sistema").on('shown.bs.modal', function(){
+        $(this).find('#formGenerarSistema #empresa').focus();
+    });
+});
+
+// Definir un mapa que asocie los valores de sistema_id con las URLs
+const sistemaUrls = {
+  1: '<?php echo SERVERURL;?>core/scriptDataBaseIZZY.php',
+  2: '<?php echo SERVERURL;?>core/scriptDataBaseCAMI.php',
+};
+
+$("#reg_generarSitema").click(function(e) {
+	e.preventDefault();		
+
+	var clientes_id = $("#formGenerarSistema #clientes_id").val();
+	var db = $("#formGenerarSistema #db").val();
+	var validar = $("#formGenerarSistema #validar").val();
+	var sistema_id = $("#formGenerarSistema #sistema").val();
+	var planes_id = $("#formGenerarSistema #plan").val();
+	var url = "";
+
+	if (sistemaUrls.hasOwnProperty(sistema_id)) {
+  		url = sistemaUrls[sistema_id];
+	}
+
+	var razon_social = $("#formGenerarSistema #cliente").val();
+	var rtn = $("#formGenerarSistema #rtn").val();
+	var empresa = $("#formGenerarSistema #empresa").val();
+	var correo = $("#formGenerarSistema #clientes_correo").val();
+	var eslogan = $("#formGenerarSistema #eslogan").val();
+	var otra_informacion = $("#formGenerarSistema #otra_informacion").val();
+	var celular = $("#formGenerarSistema #whatsApp").val();	
+	var ubicacion = $("#formGenerarSistema #clientes_ubicacion").val();
+
+	var telefono = $("#formGenerarSistema #clientes_telefono").val();
+
+	var estado = 1;
+
+	$.ajax({
+		url: url,
+		type: "POST",
+		data:{
+			clientes_id: clientes_id,
+			db: db,
+			validar: validar,
+			sistema_id: sistema_id,
+			planes_id: planes_id,
+			estado: estado,
+			razon_social: razon_social,
+			rtn: rtn,
+			empresa: empresa,
+			correo: correo,
+			telefono: telefono,
+			eslogan: eslogan,
+			otra_informacion: otra_informacion,
+			celular: celular,
+			ubicacion: ubicacion
+		},
+        beforeSend: function() {
+			// Mostrar modal de carga antes de la solicitud AJAX
+			$('#loadingMessage').text('Por favor espere, Generando Sistema...');
+			$('#loadingModal').modal('show');
+        },		
+		success: function(response) {
+			// Verificar la respuesta del servidor
+			if (response.startsWith("Éxito: ")) {
+				var Message = response.substring(7);
+				
+				swal({
+					title: "Success",
+					text: Message,
+					type: "success",
+					confirmButtonClass: "btn-primary",
+					timer: 3000,
+            	});
+
+				// Cerrar el modal de carga después de un breve retraso
+				setTimeout(function() {
+                    $('#loadingModal').modal('hide');
+                }, 1000);
+
+				listar_generar_clientes();
+			}else if(response.startsWith("Error DB: ")){
+				var Message = response.substring(10);
+
+				swal({
+					title: "Error",
+					text: Message,
+					type: "error",
+					confirmButtonClass: "btn-danger"
+            	});
+
+				setTimeout(function() {
+                    $('#loadingModal').modal('hide');
+                }, 1000);				
+			}else if(response.startsWith("Error Sistema Existe: ")){
+				var Message = response.substring(22);
+
+				swal({
+					title: "Error",
+					text: Message,
+					type: "error",
+					confirmButtonClass: "btn-danger"
+            	});
+
+				setTimeout(function() {
+                    $('#loadingModal').modal('hide');
+                }, 1000);				
+			}else if(response.startsWith("Error de conexión: ")){
+				var Message = response.substring(19);
+
+				swal({
+					title: "Error",
+					text: Message,
+					type: "error",
+					confirmButtonClass: "btn-danger"
+            	});
+
+				setTimeout(function() {
+                    $('#loadingModal').modal('hide');
+                }, 1000);				
+			}else if(response.startsWith("Error al seleccionar la base de datos: ")){
+				var Message = response.substring(19);
+
+				swal({
+					title: "Error",
+					text: Message,
+					type: "error",
+					confirmButtonClass: "btn-danger"
+            	});
+
+				setTimeout(function() {
+                    $('#loadingModal').modal('hide');
+                }, 1000);				
+			}else {
+				swal({
+					title: "Error",
+					text: "Error al generar el sistema",
+					type: "error",
+					confirmButtonClass: "btn-danger"
+            	});
+
+				setTimeout(function() {
+                    $('#loadingModal').modal('hide');
+                }, 1000);				
+			}
+
+			// Cerrar el modal de carga en caso de error
+			$('#loadingModal').modal('hide');
+		},
+		error: function(xhr, status, error) {
+			// Ocultar modal de carga en caso de error
+			$('#loadingModal').modal('hide');
+			console.error(xhr.responseText);
+
+			swal({
+				title: "Error",
+				text: "Error al ejecutar el sistema",
+				type: "error",
+				confirmButtonClass: "btn-danger"
+			});
+		}
+	});
+});
+
+var generar_clientes_dataTable = function(tbody, table){
+	$(tbody).off("click", "button.table_crear");
+	$(tbody).on("click", "button.table_crear", function(){
+		var data = table.row( $(this).parents("tr") ).data();
+		$('#formGenerarSistema')[0].reset();
+		$('#formGenerarSistema #clientes_id').val(data.clientes_id);
+		
+		listar_generar_clientes();
+
+		$('#formGenerarSistema #cliente').val(data.cliente);
+		$('#formGenerarSistema #rtn').val(data.rtn);
+		$('#formGenerarSistema #clientes_telefono').val(data.telefono);
+		$('#formGenerarSistema #clientes_correo').val(data.correo);
+		$('#formGenerarSistema #clientes_ubicacion').val(data.ubicacion);
+		$('#formGenerarSistema #empresa').val(data.empresa);
+		$('#formGenerarSistema #eslogan').val(data.eslogan);
+		$('#formGenerarSistema #otra_informacion').val(data.otra_informacion);
+		$('#formGenerarSistema #whatsApp').val(data.whatsapp);	
+
+		$('#formGenerarSistema #sistema').val(data.sistema_id);
+		$('#formGenerarSistema #sistema').selectpicker('refresh');
+		$('#formGenerarSistema #plan').val(data.planes_id);
+		$('#formGenerarSistema #plan').selectpicker('refresh');
+		
+		if ($('#formGenerarSistema #db').val() === "") {
+            $('#formGenerarSistema #db').val(data.db);
+        }
+
+		$('#formGenerarSistema #cliente').attr('disabled', true);
+		$('#formGenerarSistema #rtn').attr('disabled', true);
+		$('#formGenerarSistema #db').attr('disabled', true);	
+
+		$('#formGenerarSistema #proceso_GenerarSistema').val("Generar Sistema");
+		
+		getValidarFacturacion();
+
+		if(data.correo === "") {
+			swal({
+				title: "Error",
+				text: "Lo sentimos el cliente no tiene registrado un correo, es recomendable registrar uno, por favor diríjase al perfil del cliente y agregue el correo antes de generarle una cuenta",
+				type: "error",
+				confirmButtonClass: "btn-danger"
+			});
+
+			$('#reg_generarSitema').attr('disabled', true);
+		}else{
+			$('#reg_generarSitema').attr('disabled', false);	
+		}
+
+		$('#modal_generar_sistema').modal({
+			show:true,
+			keyboard: false,
+			backdrop:'static'
+		});
+	});
+}
+
+function empresaDB(){
+	var primeros8Digitos = $('#formGenerarSistema #empresa').val().substring(0, 8);
+        var ultimos5Digitos = $('#formGenerarSistema #rtn').val().substring($('#formGenerarSistema #rtn').val().length - 5);
+        var resultado = primeros8Digitos + ultimos5Digitos;
+
+        $('#formGenerarSistema #db').val(resultado);
+}
+
+$('#formGenerarSistema #empresa').on('input', function(e) {
+    if ($('#formGenerarSistema #empresa').val() !== "") {
+		empresaDB();
+    }
+});
+
+var sistemaSeleccionadoAnterior = ""; // Variable para almacenar el sistema seleccionado anteriormente
+
+$('#formGenerarSistema #sistema').on('change', function(e) {
+    if($('#formGenerarSistema #empresa').val() !== ""){
+		empresaDB();
+		var nombreSistemaSeleccionado = $('#formGenerarSistema #sistema option:selected').text().toLowerCase().substring(0, 10);
+		var valorDb = $('#formGenerarSistema #db').val();
+
+		// Verificar si hay un sistema anterior y eliminarlo
+		if (sistemaSeleccionadoAnterior !== "") {
+			valorDb = valorDb.replace("clinicarehn_" + sistemaSeleccionadoAnterior, "");
+		}
+
+		// Verificar si ya hay "clinicarehn_" al principio, de lo contrario, agregarlo
+		if (valorDb.indexOf("clinicarehn_") !== 0) {
+			valorDb = "clinicarehn_" + valorDb;
+		}
+
+		// Concatenar el nuevo nombre de sistema seleccionado
+		valorDb = valorDb.replace("clinicarehn_" + nombreSistemaSeleccionado + "_", "");
+		valorDb = valorDb.replace(/_+/g, "_"); // Eliminar duplicaciones de guiones bajos
+		valorDb = valorDb.replace("clinicarehn_", ""); // Eliminar cualquier repetición
+
+		// Establecer el valor del campo "db" con el resultado
+		valorDb = "clinicarehn_" + nombreSistemaSeleccionado + "_" + valorDb;
+
+		// Obtener los primeros 10 dígitos de valorDb
+		var primeros10Digitos = valorDb.substring(0, 10);
+
+		// Establecer el valor del campo "db" con el resultado final
+		$('#formGenerarSistema #db').val(primeros10Digitos + valorDb.substring(10));
+
+		// Actualizar el sistema seleccionado anteriormente
+		sistemaSeleccionadoAnterior = nombreSistemaSeleccionado;
+	}
+});
+
+function getPlanes(){
+    var url = '<?php echo SERVERURL;?>core/getPlanes.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formGenerarSistema #plan').html("");
+			$('#formGenerarSistema #plan').html(data);
+			$('#formGenerarSistema #plan').selectpicker('refresh');			
+		}
+     });
+}
+
+function getValidarFacturacion(){
+    var url = '<?php echo SERVERURL;?>core/getValidarFacturacion.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formGenerarSistema #validar').html("");
+			$('#formGenerarSistema #validar').html(data);
+			$('#formGenerarSistema #validar').selectpicker('refresh');	
+			
+			$('#formGenerarSistema #validar').val(1);
+			$('#formGenerarSistema #validar').selectpicker('refresh');			
+		}
+     });
+}
+
+
+function getSistemas(){
+    var url = '<?php echo SERVERURL;?>core/getSistemas.php';
+
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formGenerarSistema #sistema').html("");
+			$('#formGenerarSistema #sistema').html(data);
+			$('#formGenerarSistema #sistema').selectpicker('refresh');			
+		}
+     });
 }
 
 var editar_clientes_dataTable = function(tbody, table){
@@ -2669,7 +3082,7 @@ var listar_AbonosCXC = function(){
 			{"data":"usuario"},
 		],
 		"pageLength": 10,
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,
@@ -2792,7 +3205,7 @@ var listar_AbonosCXP = function(){
 			{"data":"usuario"},
 		],
 		"pageLength": 10,
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,
@@ -3240,7 +3653,7 @@ var listar_asistencia = function(){
 			{"defaultContent":"<button class='table_eliminar eliminar_salida btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar eliminar_marcaje btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,

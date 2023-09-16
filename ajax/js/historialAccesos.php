@@ -37,7 +37,7 @@ var listar_historial_accesos = function(){
 			{"data":"acceso"}
 		],
 		"pageLength": 10,
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,

@@ -1094,7 +1094,7 @@
 			  <div class="form-row">
 				<div class="col-md-8 mb-3">
 				  <label for="nombre_clientes">Cliente <span class="priority">*<span/></label>
-				  <input type="text" class="form-control" id="nombre_clientes" name="nombre_clientes" placeholder="Nombre" maxlength="100" required>
+				  <input type="text" class="form-control" id="nombre_clientes" name="nombre_clientes" placeholder="Nombre" maxlength="100" required data-toggle="tooltip" data-placement="top" title="Razón Social (Como aparece en el RTN)">
 				</div>
 				<div class="col-md-4 mb-3">
 				 	<label for="identidad_clientes">Identidad o RTN</label>			
@@ -2435,3 +2435,138 @@
     </div>
 </div>
 <!--FIN MODAL ASISTENCIA-->
+
+<!--INICIO MODAL GENERAR SISTEMA CLIENTE-->
+<div class="modal fade" id="modal_generar_sistema">
+	<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Generar Sistema</h4>    
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+        </div><div class="container"></div>
+        <div class="modal-body">
+			<form class="FormularioAjax" id="formGenerarSistema" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
+				<div class="form-row">
+					<div class="col-md-12 mb-3">
+						<div class="input-group mb-3">
+							<input type="hidden" id="clientes_id" name="clientes_id" class="form-control">
+							<input type="hidden" id="clientes_telefono" name="clientes_telefono" class="form-control">				
+							<input type="hidden" id="clientes_correo" name="clientes_correo" class="form-control">
+							<input type="hidden" id="clientes_ubicacion" name="clientes_ubicacion" class="form-control">
+							<input type="text" id="proceso_GenerarSistema" class="form-control" readonly>
+							<input type="hidden" id="marcarAsistencia_id" name="marcarAsistencia_id" class="form-control" readonly>
+							<div class="input-group-append">				
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fa fa-plus-square fa-lg"></i></span>
+							</div>
+						</div>	 
+					</div>							
+				</div>					
+				<div class="form-row">
+					<div class="col-md-5 mb-4">
+						<label for="asistencia_empleado">Cliente <span class="priority">*<span/></label>
+						<input type="text" class="form-control" id="cliente" name="cliente" placeholder="Cliente" required>	
+					</div>	
+					<div class="col-md-4 mb-4">
+						<label for="rtn">RTN <span class="priority">*<span/></label>
+						<input type="text" class="form-control" id="rtn" name="rtn" placeholder="RTN" required>	
+					</div>						
+					<div class="col-md-3 mb-4">
+						<label for="empresa">Empresa <span class="priority">*<span/></label>
+						<input type="text" class="form-control" id="empresa" name="empresa" placeholder="Empresa" required maxlength="30" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">	
+					</div>											
+				</div>	
+				<div class="form-row">					
+					<div class="col-md-4 mb-4">
+						<label for="eslogan">Eslogan </label>
+						<input type="text" class="form-control" id="eslogan" name="eslogan" placeholder="Eslogan" maxlength="50" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">	
+					</div>						
+					<div class="col-md-4 mb-4">
+						<label for="otra_informacion">Otra Información</label>
+						<input type="text" class="form-control" id="otra_informacion" name="otra_informacion" placeholder="Otra Información" maxlength="50" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">	
+					</div>
+					<div class="col-md-4 mb-4">
+						<label for="whatsApp">WhatsApp </label>
+						<input type="number" class="form-control" id="whatsApp" name="whatsApp" placeholder="WhatsApp" maxlength="8" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">	
+					</div>																	
+				</div>					
+				<div class="form-row">
+					<div class="col-md-3 mb-3" >
+					  <label for="sistema">Sistema <span class="priority">*<span/></label>
+					  <div class="input-group">
+							<div class="input-group-append">
+								<select id="sistema" name="sistema" class="selectpicker" title="Sistema" data-size="5" data-live-search="true" required>
+								</select>
+							</div>	
+						</div>	  
+					</div>	
+					<div class="col-md-3 mb-3" >
+					  <label for="plan">Plan <span class="priority">*<span/></label>
+					  <div class="input-group">
+							<div class="input-group-append">
+								<select id="plan" name="plan" class="selectpicker" title="Plan" data-size="5" data-live-search="true" required>
+								</select>
+							</div>	
+						</div>	  
+					</div>	
+					<div class="col-md-3 mb-4">
+						<label for="asistencia_empleado">Base de Datos <span class="priority">*<span/></label>
+						<input type="text" class="form-control" id="db" name="db" placeholder="Base de Datos">	
+					</div>						
+					<div class="col-md-3 mb-3" >
+					  <label for="validar">Validar Facturacón <span class="priority">*<span/></label>
+					  <div class="input-group">
+							<div class="input-group-append">
+								<select id="validar" name="validar" class="selectpicker" title="Validar Facturación" data-size="5" data-live-search="true" required>
+								</select>
+							</div>	
+						</div>	  
+					</div>																		
+				</div>	
+
+				<div class="form-row">				  
+					<div class="col-md-12">			
+						<div class="overflow-auto">											
+							<table id="DatatableGenerarSistema" class="table table-striped table-condensed table-hover" style="width:100%">
+								<thead>
+									<tr>
+										<th>Cliente</th>
+										<th>DB</th>
+										<th>Sistema</th>
+										<th>Plan</th>
+										<th>Validar Facturación</th>
+									</tr>
+								</thead>
+							</table>
+						</div>				
+					</div>				  
+				</div>
+						
+				<div class="RespuestaAjax"></div>  
+			</form>
+        </div>
+		<div class="modal-footer">
+			<button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_generarSitema" form="formGenerarSistema"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Generar</button>	
+		</div>			
+      </div>
+    </div>
+</div>
+<!--FIN MODAL GENERAR SISTEMA CLIENTE-->
+
+
+<!-- Modal de carga -->
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Generando Sistema...</span>
+                    </div>
+                    <p id="loadingMessage">Cargando...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

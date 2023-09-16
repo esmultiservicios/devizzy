@@ -1,3 +1,4 @@
+
 <div class="container-fluid">
     <ol class="breadcrumb mt-2 mb-4">
         <li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo SERVERURL; ?>dashboard/">Dashboard</a></li>
@@ -62,9 +63,10 @@
 						</div>					
 					</div>
 				</div>				  
-			</form>          
+			</form>           
         </div>
-    </div>	
+    </div>
+	
     <div class="card mb-4">
 		<div class="card mb-4">
 			<div class="card-header">
@@ -99,9 +101,9 @@
 								<td></td>
 							</tr>
 						</tfoot>
-					</table>  
+					</table> 
 				</div>                   
-			</div>
+				</div>
 			<div class="card-footer small text-muted">
  			<?php
 				require_once "./core/mainModel.php";
@@ -118,11 +120,14 @@
 					echo "Última Actualización ".$insMainModel->getTheDay($fecha_registro, $hora);						
 				}else{
 					echo "No se encontraron registros ";
-				}			
+				}				
 			?>
 			</div>
 		</div>
-	</div>
+	</div>	
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Inventario");
 ?>
+
+<a href="https://api.whatsapp.com/send?phone=50432273380&text=Hola%20CLINICARE,%20nos%20gustar%C3%ADa%20que%20nos%20puedan%20brindar%20asistencia%20t%C3%A9cnica,%20muchas%20gracias." class="float-ws" target="_blank" data-toggle="tooltip" data-placement="top" title="Soporte CLINICARE">
+    <i class="fab fa-whatsapp my-float-ws"></i></a>

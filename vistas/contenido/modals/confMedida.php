@@ -24,7 +24,7 @@
 				<div class="form-row">
 					<div class="col-md-4 mb-3">
 					  <label>Medida <span class="priority">*<span/></label>
-					  <input type="text" required id="medidas_medidas" name="medidas_medidas" placeholder="Medida" class="form-control"  maxlength="3" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
+					  <input type="text" required id="medidas_medidas" name="medidas_medidas" placeholder="Medida" class="form-control"  maxlength="4" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
 					</div>
 					<div class="col-md-8 mb-3">
 					  <label for="apellido_proveedores">Descripción <span class="priority">*<span/></label>

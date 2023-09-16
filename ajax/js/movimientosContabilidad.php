@@ -81,7 +81,7 @@ var listar_movimientos_contabilidad = function(){
                 },			
 			},		
 		],	
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,

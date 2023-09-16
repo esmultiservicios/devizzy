@@ -1,3 +1,33 @@
+####09/15/2023####
+tabla => sistema
+sistema_id		int
+nombre			char(30)
+estado   		int
+
+tabla => planes
+planes_id		int
+nombre			char(40)
+usuarios		int
+estado			int
+fecha_registro		datetime
+
+tabla => server_customers
+Se agregaron los siguientes campos luego de db y antes de validar
+planes_id		int
+sistema_id		int
+estado			int se agrego luego de validar
+
+tabla => plan
+Se cambio el campo tipo_plan por otro
+planes_id		int
+
+tabla => clientes
+Se agrego un campo al final de fecha_registro
+empresa			char(30)
+eslogan			char(50)
+otra_informacion	char(50)
+whatsapp		char(8)
+
 ####07/04/2023####
 tabla => asistencia
 se agrego al final los siguientes campos

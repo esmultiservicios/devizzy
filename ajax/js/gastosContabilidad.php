@@ -163,15 +163,11 @@ var listar_gastos_contabilidad = function(){
 			{"defaultContent":"<button class='table_reportes print_gastos btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},			
 
 		],	
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
-
 		"bDestroy": true,
-
 		"language": idioma_español,
-
 		"dom": dom,
-
 		"columnDefs": [
 		  { width: "8.33%", targets: 0 },
 		  { width: "5.33%", targets: 1 }, 

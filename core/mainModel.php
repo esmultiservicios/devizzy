@@ -341,18 +341,16 @@
 		}
 
 		protected function generar_password_complejo(){
-		   $largo = 12;
-		   $cadena_base =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-		   $cadena_base .= '0123456789' ;
-		   $cadena_base .= '!@#%^&()_,./<>?;:[]{}\|=+|*-';
-		   $password = '';
-
-		   $limite = strlen($cadena_base) - 1;
-
-		   for ($i=0; $i < $largo; $i++)
-			   $password .= $cadena_base[rand(0, $limite)];
-		   
-			   return $password;
+			$largo = 12;
+			$cadena_base =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+			$password = '';
+		  
+			$limite = strlen($cadena_base) - 1;
+		  
+			for ($i=0; $i < $largo; $i++)
+			  $password .= $cadena_base[rand(0, $limite)];
+			
+			return $password;
 		}
 
          /*Funcion que permite encriptar string */
@@ -1376,7 +1374,8 @@
 
 			$query = "SELECT *
 				FROM tipo_user
-				".$where;
+				".$where."
+				ORDER BY nombre";;
 			$result = self::connection()->query($query);
 
 
@@ -1590,16 +1589,15 @@
 
 			$where = "WHERE c.estado = 1";
 
-			if($privilegio_sd === "2"){
+			if($privilegio_sd === "3"){
 				$where = "WHERE c.estado = 1 AND c.colaboradores_id = '$colaborador_id_sd'";
 			}
 
-			$query = "SELECT c.clientes_id AS 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn' , c.localidad AS 'localidad', c.telefono AS 'telefono', c.correo AS 'correo', d.nombre AS 'departamento', m.nombre AS 'municipio', c.rtn AS 'rtn'
-				FROM clientes AS c
-				INNER JOIN departamentos AS d
-				ON c.departamentos_id = d.departamentos_id
-				INNER JOIN municipios AS m
-				ON c.municipios_id = m.municipios_id
+			$query = "SELECT c.clientes_id AS 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn' , c.localidad AS 'localidad', c.telefono AS 'telefono', c.correo AS 'correo', d.nombre AS 'departamento', m.nombre AS 'municipio', c.rtn AS 'rtn', IFNULL(s.sistema_id, '') AS sistema_id, c.eslogan, c.otra_informacion, c.whatsapp, c.empresa, s.db, s.planes_id, s.sistema_id
+				FROM clientes AS c 
+				INNER JOIN departamentos AS d ON c.departamentos_id = d.departamentos_id 
+				INNER JOIN municipios AS m ON c.municipios_id = m.municipios_id 
+				LEFT JOIN server_customers AS s ON c.clientes_id = s.clientes_id
 				".$where;
 
 			$result = self::connection()->query($query);
@@ -3389,53 +3387,30 @@
 		}
 
 		public function getPrivilegiosEdit($privilegio_id){
-
 			$query = "SELECT *
-
 				FROM privilegio
-
 				WHERE privilegio_id = '$privilegio_id'";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
-
-
 		public function getTipoUsuariosAcceso($privilegio_id){
-
 			$query = "SELECT *
-
 				FROM permisos
-
 				WHERE tipo_user_id = '$privilegio_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 		public function getPrivilegiosAccesoMenu($privilegio_id){
-
 			$query = "SELECT am.acceso_menu_id AS 'acceso_menu_id ', m.name AS 'menu', am.estado AS 'estado'
-
 				FROM acceso_menu am
-
 				INNER JOIN menu AS m
-
 				ON am.menu_id = m.menu_id
-
 				WHERE am.privilegio_id = '$privilegio_id'";
 
 			$result = self::connection()->query($query);
@@ -3443,8 +3418,6 @@
 			return $result;
 
 		}
-
-
 
 		public function getPrivilegiosAccesoSubMenu($privilegio_id){
 
@@ -3538,7 +3511,6 @@
 
 
 		public function getTipoUsuarioEdit($tipo_user_id){
-
 			$query = "SELECT *
 
 				FROM tipo_user
@@ -4511,6 +4483,16 @@
 
 			return $result;
 		}
+
+		public function getSistemas(){
+			$query = "SELECT sistema_id, nombre
+				FROM sistema
+				WHERE estado = 1";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
 		
 		public function getTotalSuppliers(){
 

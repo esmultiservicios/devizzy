@@ -15,7 +15,6 @@ var listar_proveedores = function(){
 		"columns":[
 			{"data":"proveedor"},
 			{"data":"rtn"},
-			{"data":"localidad"},
 			{"data":"telefono"},
 			{"data":"correo"},
 			{"data":"departamento"},
@@ -23,21 +22,20 @@ var listar_proveedores = function(){
 			{"defaultContent":"<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"}
 		],
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,
 		"dom": dom,
 		"columnDefs": [
-		  { width: "21.11%", targets: 0 },
-		  { width: "11.11%", targets: 1 },
-		  { width: "19.11%", targets: 2 },
-		  { width: "11.11%", targets: 3 },
-		  { width: "11.11%", targets: 4 },
-		  { width: "11.11%", targets: 5 },
-		  { width: "11.11%", targets: 6 },
-		  { width: "2.11%", targets: 7 },
-		  { width: "2.11%", targets: 8 }
+		  { width: "22.5%", targets: 0 },
+		  { width: "12.5%", targets: 1 },
+		  { width: "12.5%", targets: 2 },
+		  { width: "22.5%", targets: 3 },
+		  { width: "12.5%", targets: 4 },
+		  { width: "12.5%", targets: 5 },
+		  { width: "2.5%", targets: 6 },
+		  { width: "2.5%", targets: 7 }
 		],
 		"buttons":[
 			{

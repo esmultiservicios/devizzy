@@ -44,7 +44,9 @@
 	$camposEmpresa = ["nombre"];
 	$condicionesEmpresa = ["empresa_id" => $empresa_id];
 	$orderBy = "";
-	$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
+	$tablaJoin = "";
+	$condicionesJoin = [];
+	$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy, $tablaJoin, $condicionesJoin);
 
 	$empresa_nombre = "";
 

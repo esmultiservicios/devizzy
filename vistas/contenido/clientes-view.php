@@ -16,11 +16,11 @@
 							<tr>
 								<th>Cliente</th>
 								<th>RTN</th>
-								<th>Localidad</th>
 								<th>Teléfono</th>
 								<th>Correo</th>	
 								<th>Departamento</th>
 								<th>Municipio</th>	
+								<th>Sistema</th>	
 								<th class="generar">Generar</th>
 								<th>Editar</th>	
 								<th>Eliminar</th>								
@@ -53,3 +53,4 @@
 <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Clientes");
 ?>
+</div>

@@ -121,7 +121,7 @@ var listar_reporte_compras = function(){
 		    {"defaultContent":"<button class='table_reportes print_compras btn btn-dark ocultar'><span class='fas fa-file-download fa-lg'></span></button>"},
 			{"defaultContent":"<button class='table_cancelar cancelar_compras btn btn-dark ocultar'><span class='fas fa-ban fa-lg'></span></button>"}			
 		],
-        "lengthMenu": lengthMenu,
+        "lengthMenu": lengthMenu10,
 		"stateSave": true,
 		"bDestroy": true,
 		"language": idioma_español,//esta se encuenta en el archivo main.js

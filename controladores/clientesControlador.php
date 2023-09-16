@@ -20,6 +20,7 @@
 			$telefono = mainModel::cleanString($_POST['telefono_clientes']);
 			$correo = mainModel::cleanStringStrtolower($_POST['correo_clientes']);
 			$estado_clientes = 1;
+			$empresa = "";
 			
 			$colaborador_id = $_SESSION['colaborador_id_sd'];
 			$fecha_registro = date("Y-m-d H:i:s");
@@ -36,6 +37,7 @@
 				"estado_clientes" => $estado_clientes,
 				"colaborador_id" => $colaborador_id,
 				"fecha_registro" => $fecha_registro,			
+				"empresa" => $empresa
 			];
 			
 			$query = clientesModelo::agregar_clientes_modelo($datos);
