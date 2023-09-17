@@ -27,7 +27,7 @@
 
 			$resultServerUser = self::connectionLogin()->query($query_server);
 			$consultaServeruser = $resultServerUser->fetch_assoc();
-			$GLOBALS['db'] = $consultaServeruser['db'] === "" ? "clinicarehn_clientes_clinicare" : $consultaServeruser['db'];
+			$GLOBALS['db'] = $consultaServeruser['db'] === "" ? $GLOBALS['DB_MAIN'] : $consultaServeruser['db'];
 
             $result = loginModel::iniciar_sesion_modelo($datosLogin);
 			
@@ -246,7 +246,7 @@
 			$mysqliLogin->set_charset("utf8");
 		
 			// Intenta seleccionar la base de datos
-			if (!$mysqliLogin->select_db("clinicarehn_clientes_clinicare")) {
+			if (!$mysqliLogin->select_db($GLOBALS['DB_MAIN'])) {
 				echo "Error al seleccionar la base de datos desde LoginControlador.php: " . $mysqliLogin->error;
 				exit;
 			}

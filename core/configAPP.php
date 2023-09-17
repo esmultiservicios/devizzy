@@ -5,7 +5,33 @@
 
     if(!isset($_SESSION['user_sd'])){ 
         session_start(['name'=>'SD']); 
-    }
+    } 
+
+    //DATOS DE CONEXION DEL CLIENTE
+    const SERVER = "localhost";
+    const USER = "root";
+    const PASS = "Edwin82003%";
+
+    //DATOS DE CONEXION SERVIDOR PRINCIPAL
+    const SERVER_MAIN = "localhost";    
+    const DB_MAIN = "clinicarehn_clientes_clinicare";
+    $GLOBALS['DB_MAIN'] = DB_MAIN; 
+    const USER_MAIN = "clinicarehn_clinicare";
+    const PASS_MAIN = "Clin1c@r32022#";  
+
+    //BASE DE DATOS EXCEPTION LOGIN CONTROLADOR
+    const DB_MAIN_LOGIN_CONTROLADOR = DB_MAIN;//LA BASE DE DATOS QUE ESTE AQUÍ SE EXCEPTÚA EN EL LOGIN CONTROLADOR
+
+    /*
+        Para encrptar y Desencriptar
+        Nota: Estos valores no se deben cambiar, si hay datos en la DB    
+    */
+    const METHOD = "AES-256-CBC";
+    const SECRET_KEY = '$DP_@2020';
+    const SECRET_IV = '10172';
+    const SISTEMA_PRUEBA = "SI"; //SI o NO
+
+    initConfig(); // Llamar a la función para inicializar la configuración
 
     function initConfig() {
         // Verificar si la sesión está activa y no ha expirado
@@ -14,7 +40,7 @@
             if (isset($_SESSION['db_cliente']) && $_SESSION['db_cliente'] !== "") {
                 $db_cliente = $_SESSION['db_cliente'];
             } else {
-                $db_cliente = "clinicarehn_clientes_clinicare"; // Valor predeterminado si $_SESSION['db_cliente'] no está definido o está vacío
+                $db_cliente = $GLOBALS['DB_MAIN']; // Valor predeterminado si $_SESSION['db_cliente'] no está definido o está vacío
             }
     
             // DATOS DE CONEXIÓN DEL CLIENTE
@@ -26,29 +52,4 @@
             header("Location: ".SERVERURL);
             exit;
         }
-    }    
-    
-    initConfig(); // Llamar a la función para inicializar la configuración
-
-    //DATOS DE CONEXION DEL CLIENTE
-    const SERVER = "localhost";
-    const USER = "root";
-    const PASS = "Edwin82003%";
-
-    //DATOS DE CONEXION SERVIDOR PRINCIPAL
-    const SERVER_MAIN = "localhost";
-    const DB_MAIN = "clinicarehn_clientes_clinicare";
-    const USER_MAIN = "clinicarehn_clinicare";
-    const PASS_MAIN = "Clin1c@r32022#";  
-
-    //BASE DE DATOS EXCEPTION LOGIN CONTROLADOR
-    const DB_MAIN_LOGIN_CONTROLADOR = "clinicarehn_clientes_clinicare";//LA BASE DE DATOS QUE ESTE AQUÍ SE EXCEPTÚA EN EL LOGIN CONTROLADOR
-
-    /*
-        Para encrptar y Desencriptar
-        Nota: Estos valores no se deben cambiar, si hay datos en la DB    
-    */
-    const METHOD = "AES-256-CBC";
-    const SECRET_KEY = '$DP_@2020';
-    const SECRET_IV = '10172';
-    const SISTEMA_PRUEBA = "SI"; //SI o NO
+    } 
