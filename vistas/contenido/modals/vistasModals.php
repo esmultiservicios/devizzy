@@ -136,6 +136,7 @@
 					<div class="col-md-12 mb-3">
 						<div class="input-group mb-3">
 							<input type="hidden" id="usuarios_id" name="usuarios_id" class="form-control">
+							<input type="hidden" id="server_customers_id" name="server_customers_id" class="form-control">
 							<input type="hidden" id="usuarios_colaborador_id" name="usuarios_colaborador_id" class="form-control" required>
 							<input type="text" id="proceso_usuarios"  class="form-control" readonly>
 							<div class="input-group-append">				

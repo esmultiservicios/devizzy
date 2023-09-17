@@ -31,7 +31,8 @@
 			$tipo_user = mainModel::cleanString($_POST['tipo_user']);			
 			$fecha_registro = date("Y-m-d H:i:s");
 			$usuario_sistema = $_SESSION['colaborador_id_sd'];	
-			$estado = 1;		
+			$estado = 1;	
+			$server_customers_id = $_SESSION['server_customers_id']; 
 			
 			$datos = [
 				"colaborador_id" => $colaborador_id,
@@ -43,6 +44,7 @@
 				"tipo_user" => $tipo_user,				
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,				
+				"server_customers_id" => $server_customers_id
 			];
 			
 			//VALIDAMOS QUE EL CORREO NO SE ESTE DUPLICANDO

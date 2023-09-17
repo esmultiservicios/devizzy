@@ -10,7 +10,11 @@
 	$arreglo = array();
 	$data = array();	
 	
-	while($row = $result->fetch_assoc()){				
+	while($row = $result->fetch_assoc()){		
+		if($row['puesto'] === "Clientes") {
+			continue;
+		}
+		
 		$data[] = array( 
 			"colaborador_id"=>$row['colaborador_id'],
 			"empresa"=>$row['empresa'],

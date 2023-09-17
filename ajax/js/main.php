@@ -224,6 +224,22 @@ function getPrivilegioUsuario(){
 	return privilegio;
 }
 
+function getSessionUser(){
+	var url = '<?php echo SERVERURL;?>core/getSessionUser.php';
+	var db_cliente;
+
+	$.ajax({
+		type:'POST',
+		url:url,
+		async: false,
+		success: function(valores){
+			var datos = eval(valores);
+			db_cliente = datos[0];
+		}
+	});
+	return db_cliente;
+}
+
 function getPrivilegioTipoUsuario(){
 	var url = '<?php echo SERVERURL;?>core/getPrivilegioUsuarioTipo.php';
 	var privilegio;
@@ -2138,6 +2154,7 @@ var listar_clientes = function(){
 		"createdRow": function(row, data, dataIndex) {
             var cells = $(row).find("td"); // Obtén todas las celdas en la fila
             $(cells[7]).addClass("generar");
+			$(cells[6]).addClass("sistema");
         },
 		"buttons":[
 			{
@@ -2193,9 +2210,16 @@ var listar_clientes = function(){
 		"drawCallback": function( settings ) {
         	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
 
-			//Ocultamos el boton generar si el permiso no es super administrator o reseller
-			if (getPrivilegioUsuario() !== 1 || getPrivilegioUsuario() !== 2) {
-                $('.generar').show();
+			//Ocultamos el boton generar si el permiso no es super administrator, administrador o reseller
+			if (getPrivilegioUsuario() !== 1 || getPrivilegioUsuario() !== 2 || getPrivilegioUsuario() !== 3) {
+				var db_consulta = getSessionUser() === "" ? 'clinicarehn_clientes_clinicare': getSessionUser();
+
+                if(  db_consulta === 'clinicarehn_clientes_clinicare') {
+					$('.generar').show();
+				}else{
+					$('.generar').hide();
+					$('.sistema').hide();
+				}
             } else {
                 $('.generar').hide();
             }
@@ -2420,6 +2444,19 @@ $("#reg_generarSitema").click(function(e) {
                 }, 1000);				
 			}else if(response.startsWith("Error al seleccionar la base de datos: ")){
 				var Message = response.substring(19);
+
+				swal({
+					title: "Error",
+					text: Message,
+					type: "error",
+					confirmButtonClass: "btn-danger"
+            	});
+
+				setTimeout(function() {
+                    $('#loadingModal').modal('hide');
+                }, 1000);				
+			}else if(response.startsWith("Error Correo Existe: ")){
+				var Message = response.substring(21);
 
 				swal({
 					title: "Error",

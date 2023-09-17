@@ -9,13 +9,18 @@ class Database {
     private $host = SERVER;
     private $usuario = USER;
     private $contrasena = PASS;
-    private $base_datos = DB;
     private $conexion;  
 
     public function __construct() {
-        $this->conexion = new mysqli($this->host, $this->usuario, $this->contrasena, $this->base_datos);
+        $this->conexion = new mysqli(SERVER, USER, PASS);
+    
         if ($this->conexion->connect_error) {
             die("Error de conexión: " . $this->conexion->connect_error);
+        }
+    
+        // Intenta seleccionar la base de datos
+        if (!$this->conexion->select_db($GLOBALS['db'])) {
+            die("Error al seleccionar la base de datos desde Database.php: " . $this->conexion->error);
         }
     }
 

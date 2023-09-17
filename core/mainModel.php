@@ -9,20 +9,26 @@
 		require_once "./core/phpmailer/class.smtp.php";
     }
 
-    class mainModel{
-         /*FUNCTION QUE PERMITE REALIZAR LA CONEXIÓN A LA DB*/
-        protected function connection(){
-            $mysqli = new mysqli(SERVER, USER, PASS, DB);
-
-            if ($mysqli->connect_errno) {
-                echo "Fallo al conectar a MySQL: " . $mysqli->connect_error;
-                exit;
-            }
-
+    class mainModel{		
+         /*FUNCTION QUE PERMITE REALIZAR LA CONEXIÓN A LA DB*/		
+		 protected function connection(){	
+			$mysqli = new mysqli(SERVER, USER, PASS);
+		
+			if ($mysqli->connect_errno) {
+				echo "Fallo al conectar a MySQL: " . $mysqli->connect_error;
+				exit;
+			}
+		
 			$mysqli->set_charset("utf8");
-
-            return $mysqli;
-        }
+		
+			// Intenta seleccionar la base de datos
+			if (!$mysqli->select_db($GLOBALS['db'])) {
+				echo "Error al seleccionar la base de datos desde mainModel.php: " . $mysqli->error;
+				exit;
+			}
+		
+			return $mysqli;
+		}
 
 		public function consulta_total_ingreso($query){
 			$result = self::connection()->query($query);
@@ -1369,13 +1375,14 @@
 			if($datos['privilegio_id'] == 1){
 				$where = "WHERE estado = 1";
 			}else{
-				$where = "WHERE estado = 1 AND tipo_user_id NOT IN(1,2)";
+				$where = "WHERE estado = 1 AND tipo_user_id NOT IN(1)";
 			}
 
 			$query = "SELECT *
 				FROM tipo_user
 				".$where."
-				ORDER BY nombre";;
+				ORDER BY nombre";
+			
 			$result = self::connection()->query($query);
 
 
@@ -1386,7 +1393,7 @@
 			if($datos['privilegio_id'] === "1"){//SUPER ADMINISTRADOR
 				$where = "WHERE estado = 1";
 			}else{
-				$where = "WHERE estado = 1 AND privilegio_id NOT IN(1,2)";
+				$where = "WHERE estado = 1 AND privilegio_id NOT IN(1)";
 			}
 
 			$query = "SELECT *
@@ -1500,58 +1507,32 @@
 		}
 
 		public function getImporteVentaporUsuario($apertura_id){
-
 			$query = "SELECT SUM(importe) AS 'importe'
-
 				FROM facturas AS f
-
 				WHERE apertura_id = '$apertura_id' AND estado = 2";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getPuestoColaboradores(){
-
 			$query = "SELECT *
-
 				FROM puestos
-
 				WHERE estado = 1";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
-
-
-		public function getUserSession($colaboradores_id){
-
+		public function getUserSession($identidad){
 			$query = "SELECT nombre, apellido
-
 				FROM colaboradores
-
-				WHERE colaboradores_id = '$colaboradores_id'";
+				WHERE identidad = '$identidad'";
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getBitacora($fechai, $fechaf){
 			$query = "SELECT b.bitacoraCodigo AS 'bitacoraCodigo', DATE_FORMAT(b.bitacoraFecha, '%d/%m/%Y') AS 'bitacoraFecha', b.bitacoraHoraInicio As 'bitacoraHoraInicio', b.bitacoraHoraFinal AS 'bitacoraHoraFinal', tu.nombre AS 'bitacoraTipo', b.bitacoraYear AS 'bitacoraYear', CONCAT(c.nombre,' ',c.apellido) AS 'colaborador'
@@ -1968,7 +1949,7 @@
 
 			$query = "SELECT u.users_id AS 'users_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', u.username AS 'username', u.email AS 'correo', tp.nombre AS 'tipo_usuario',
 				CASE WHEN u.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado',
-				e.nombre AS 'empresa'
+				e.nombre AS 'empresa', u.server_customers_id
 				FROM users AS u
 				INNER JOIN colaboradores AS c
 				ON u.colaboradores_id = c.colaboradores_id
@@ -2878,50 +2859,27 @@
 
 		}
 
-
-
 		public function getPuestosEdit($puestos_id){
-
 			$query = "SELECT *
-
 				FROM puestos
-
 				WHERE puestos_id = '$puestos_id'";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
-
-
 		public function getUsersEdit($users_id){
-
-			$query = "SELECT u.users_id AS 'users_id', c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', u.username AS 'username', u.email AS 'correo', u.tipo_user_id AS 'tipo_user_id', u.estado AS 'estado', u.empresa_id AS 'empresa_id', u.privilegio_id AS 'privilegio_id'
-
+			$query = "SELECT u.users_id AS 'users_id', c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', u.username AS 'username', u.email AS 'correo', u.tipo_user_id AS 'tipo_user_id', u.estado AS 'estado', u.empresa_id AS 'empresa_id', u.privilegio_id AS 'privilegio_id', u.server_customers_id
 				FROM users AS u
-
 				INNER JOIN colaboradores AS c
-
 				ON u.colaboradores_id = c.colaboradores_id
-
 				WHERE u.users_id = '$users_id'
-
 				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 		public function getSecuenciaFacturacionEdit($secuencia_facturacion_id){

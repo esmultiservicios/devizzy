@@ -119,7 +119,7 @@ var actualizar_usuarios_dataTable = function(tbody, table){
 			closeOnConfirm: false
 		},
 		function(){					
-			resetearContra(data.users_id);
+			resetearContra(data.users_id, data.server_customers_id);
 		});	
 	});
 }
@@ -154,6 +154,7 @@ var editar_usuarios_dataTable = function(tbody, table){
 				$('#formUsers #tipo_user').val(valores[5]);
 				$('#formUsers #tipo_user').selectpicker('refresh');
 				$('#formUsers #privilegio_id').val(valores[7]);
+				$('#formUsers #server_customers_id').val(valores[8]);
 				$('#formUsers #privilegio_id').selectpicker('refresh');
 
 				if(valores[6] == 1){
@@ -359,13 +360,16 @@ function getColaboradoresUsuario(){
      });
 }
 
-function resetearContra(users_id){
+function resetearContra(users_id, server_customers_id){
 	var url = '<?php echo SERVERURL; ?>ajax/resetearContrasenaAjax.php';
 
 	$.ajax({
 		type:'POST',
 		url:url,
-		data:'users_id='+users_id,
+		data: {
+			users_id: users_id,
+			server_customers_id: server_customers_id,
+		},
 		success: function(registro){		
 			if(registro == 1){
 				swal({

@@ -27,7 +27,8 @@
 			"correo"=>$row['correo'],
 			"tipo_usuario"=>$row['tipo_usuario'],
 			"estado"=>$row['estado'],
-			"empresa"=>$row['empresa']			
+			"empresa"=>$row['empresa'],		
+			"server_customers_id"=>$row['server_customers_id']
 		);			
 	}
 	

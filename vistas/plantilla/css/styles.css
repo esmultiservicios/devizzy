@@ -10997,3 +10997,7 @@ input:checked + .slider:before {
 	/*transform: rotate(-45deg);*/
   color: #ecb4b4
 }
+
+.small-font {
+  font-size: 14px;
+}

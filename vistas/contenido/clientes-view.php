@@ -20,7 +20,7 @@
 								<th>Correo</th>	
 								<th>Departamento</th>
 								<th>Municipio</th>	
-								<th>Sistema</th>	
+								<th class="sistema">Sistema</th>	
 								<th class="generar">Generar</th>
 								<th>Editar</th>	
 								<th>Eliminar</th>								

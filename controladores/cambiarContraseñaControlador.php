@@ -35,7 +35,9 @@
 				$camposColaborador = ["nombre", "apellido"];
 				$condicionesColaborador = ["colaboradores_id" => $users_id];
 				$orderBy = "";
-				$resultadoColaborador = $database->consultarTabla($tablColaborador, $camposColaborador, $condicionesColaborador, $orderBy);
+				$tablaJoin = "";
+				$condicionesJoin = [];
+				$resultadoColaborador = $database->consultarTabla($tablColaborador, $camposColaborador, $condicionesColaborador, $orderBy, $tablaJoin, $condicionesJoin);
 
 				$colaborador_nombre = "";
 
@@ -48,7 +50,9 @@
 				$camposUsuario = ["email"];
 				$condicionesUsuario = ["users_id" => $users_id];
 				$orderBy = "";
-				$resultadoUsuario = $database->consultarTabla($tablaUsuario, $camposUsuario, $condicionesUsuario, $orderBy);
+				$tablaJoin = "";
+				$condicionesJoin = [];
+				$resultadoUsuario = $database->consultarTabla($tablaUsuario, $camposUsuario, $condicionesUsuario, $orderBy, $tablaJoin, $condicionesJoin);
 
 				$correo_usuario = "";
 
@@ -62,7 +66,9 @@
 				$camposEmpresa = ["nombre"];
 				$condicionesEmpresa = ["empresa_id" => $empresa_id_sesion];
 				$orderBy = "";
-				$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
+				$tablaJoin = "";
+				$condicionesJoin = [];
+				$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy, $tablaJoin, $condicionesJoin);
 			
 				$empresa_nombre = "";
 			
@@ -147,6 +153,7 @@
 			
 			$contraseña = cambiarContraseñaModelo::generar_pass_complejo();
 			$users_id = $_POST['users_id'];
+			$server_customers_id = $_POST['server_customers_id'];
 
 			$datos = [
 				"users_id" => $users_id,
@@ -155,13 +162,35 @@
 
 			$query = cambiarContraseñaModelo::edit_contraseña_modelo($datos);
 
+			if ($server_customers_id !== 0){
+				//OBTENEMOS LA BASE DE DATOS DEL CLIENTE
+				$tablServerCustomer = "server_customers";
+				$camposServerCustomer = ["db"];
+				$condicionesServerCustomerr = ["server_customers_id" => $server_customers_id];
+				$orderBy = "";
+				$tablaJoin = "";
+				$condicionesJoin = [];
+				$resultadoServerCustomer = $database->consultarTabla($tablServerCustomer, $camposServerCustomer, $condicionesServerCustomerr, $orderBy, $tablaJoin, $condicionesJoin);
+
+				$db_cliente = "";
+
+				if (!empty($resultadoServerCustomer)) {
+					$db_cliente = trim($resultadoServerCustomer[0]['db']);
+				}
+
+				//ACTUALIZAMOS LA CONTRASEÑA DEL CLIENTE
+			}
+
+
 			//OBTENEMOS EL NOMBRE DEL COLABORADOR
 			$respuesta = 0;
 			$tablColaborador = "colaboradores";
 			$camposColaborador = ["nombre", "apellido"];
 			$condicionesColaborador = ["colaboradores_id" => $users_id];
 			$orderBy = "";
-			$resultadoColaborador = $database->consultarTabla($tablColaborador, $camposColaborador, $condicionesColaborador, $orderBy);
+			$tablaJoin = "";
+			$condicionesJoin = [];
+			$resultadoColaborador = $database->consultarTabla($tablColaborador, $camposColaborador, $condicionesColaborador, $orderBy, $tablaJoin, $condicionesJoin);
 
 			$colaborador_nombre = "";
 
@@ -174,7 +203,9 @@
 			$camposUsuario = ["email"];
 			$condicionesUsuario = ["users_id" => $users_id];
 			$orderBy = "";
-			$resultadoUsuario = $database->consultarTabla($tablaUsuario, $camposUsuario, $condicionesUsuario, $orderBy);
+			$tablaJoin = "";
+			$condicionesJoin = [];
+			$resultadoUsuario = $database->consultarTabla($tablaUsuario, $camposUsuario, $condicionesUsuario, $orderBy, $tablaJoin, $condicionesJoin);
 
 			$correo_usuario = "";
 
@@ -188,7 +219,9 @@
 			$camposEmpresa = ["nombre"];
 			$condicionesEmpresa = ["empresa_id" => $empresa_id_sesion];
 			$orderBy = "";
-			$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
+			$tablaJoin = "";
+			$condicionesJoin = [];
+			$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy, $tablaJoin, $condicionesJoin);
 		
 			$empresa_nombre = "";
 		
@@ -279,6 +312,8 @@
 				$camposColaborador = ["nombre", "apellido"];
 				$condicionesColaborador = ["colaboradores_id" => $users_id];
 				$orderBy = "";
+				$tablaJoin = "";
+				$condicionesJoin = [];
 				$resultadoColaborador = $database->consultarTabla($tablColaborador, $camposColaborador, $condicionesColaborador, $orderBy);
 
 				$colaborador_nombre = "";
@@ -292,7 +327,9 @@
 				$camposUsuario = ["email", "empresa_id"];
 				$condicionesUsuario = ["users_id" => $users_id];
 				$orderBy = "";
-				$resultadoUsuario = $database->consultarTabla($tablaUsuario, $camposUsuario, $condicionesUsuario, $orderBy);
+				$tablaJoin = "";
+				$condicionesJoin = [];
+				$resultadoUsuario = $database->consultarTabla($tablaUsuario, $camposUsuario, $condicionesUsuario, $orderBy, $tablaJoin, $condicionesJoin);
 
 				$correo_usuario = "";
 				$empresa_id_usuario = "";
@@ -307,7 +344,9 @@
 				$camposEmpresa = ["nombre"];
 				$condicionesEmpresa = ["empresa_id" => $empresa_id_usuario];
 				$orderBy = "";
-				$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy);
+				$tablaJoin = "";
+				$condicionesJoin = [];
+				$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy, $tablaJoin, $condicionesJoin);
 			
 				$empresa_nombre = "";
 			

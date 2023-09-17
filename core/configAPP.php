@@ -3,9 +3,35 @@
         Parametros de conexión a la DB
     */
 
+    if(!isset($_SESSION['user_sd'])){ 
+        session_start(['name'=>'SD']); 
+    }
+
+    function initConfig() {
+        // Verificar si la sesión está activa y no ha expirado
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            // Verificar si $_SESSION['db_cliente'] está definido y no está vacío
+            if (isset($_SESSION['db_cliente']) && $_SESSION['db_cliente'] !== "") {
+                $db_cliente = $_SESSION['db_cliente'];
+            } else {
+                $db_cliente = "clinicarehn_clientes_clinicare"; // Valor predeterminado si $_SESSION['db_cliente'] no está definido o está vacío
+            }
+    
+            // DATOS DE CONEXIÓN DEL CLIENTE
+            $GLOBALS['db'] = $db_cliente;
+        } else {
+            // La sesión ha expirado, puedes manejar esto de alguna manera, por ejemplo, redirigiendo al usuario a una página de inicio de sesión.
+            // Aquí puedes decidir qué hacer en caso de sesión expirada.
+            // Por ejemplo, puedes redirigir al usuario a una página de inicio de sesión.
+            header("Location: ".SERVERURL);
+            exit;
+        }
+    }    
+    
+    initConfig(); // Llamar a la función para inicializar la configuración
+
     //DATOS DE CONEXION DEL CLIENTE
     const SERVER = "localhost";
-    const DB = "clinicarehn_clientes_clinicare";
     const USER = "root";
     const PASS = "Edwin82003%";
 

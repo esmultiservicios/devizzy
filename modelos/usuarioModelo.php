@@ -8,7 +8,7 @@
     class usuarioModelo extends mainModel{
 		protected function agregar_usuario_modelo($datos){
 			$users_id = mainModel::correlativo("users_id", "users");
-			$insert = "INSERT INTO users VALUES('$users_id','".$datos['colaborador_id']."','".$datos['privilegio_id']."','".$datos['nickname']."','".$datos['pass']."','".$datos['correo']."','".$datos['tipo_user']."','".$datos['estado']."','".$datos['fecha_registro']."','".$datos['empresa']."')";
+			$insert = "INSERT INTO users VALUES('$users_id','".$datos['colaborador_id']."','".$datos['privilegio_id']."','".$datos['nickname']."','".$datos['pass']."','".$datos['correo']."','".$datos['tipo_user']."','".$datos['estado']."','".$datos['fecha_registro']."','".$datos['empresa']."','".$datos['server_customers_id']."')";
 			
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			

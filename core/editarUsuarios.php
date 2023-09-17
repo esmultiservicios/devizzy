@@ -19,6 +19,7 @@
 		6 => $valores2['estado'],
 		7 => $valores2['privilegio_id'],
 		8 => $valores2['estado'],						
+		9 => $valores2['server_customers_id'],
 	);
 	echo json_encode($datos);
 ?>	

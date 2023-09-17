@@ -1,8 +1,10 @@
 <?php
     if($peticionAjax){
         require_once "../core/mainModel.php";
+		require_once "../core/Database.php";
     }else{
         require_once "./core/mainModel.php";
+		require_once "./core/Database.php";
     }
 
 	class loginModel extends mainModel{
@@ -12,10 +14,11 @@
 			$estatus = 1;//USUARIO ACTIVO
 
 			$mysqli = mainModel::connection();
-			$query = "SELECT u.*, tu.nombre AS 'cuentaTipo' 
+			$query = "SELECT u.*, tu.nombre AS 'cuentaTipo', c.identidad
 				FROM users AS u
 				INNER JOIN tipo_user AS tu
 				ON u.tipo_user_id = tu.tipo_user_id 
+				INNER JOIN colaboradores AS c
 				WHERE BINARY (u.username LIKE '$username%' OR u.email LIKE '$username%') AND u.password = '$password' AND u.estado = '$estatus'
 				GROUP by u.tipo_user_id";
 
@@ -94,7 +97,7 @@
 				ON sc.clientes_id = c.clientes_id
 				LEFT JOIN cobrar_clientes AS cc
 				on cc.clientes_id = sc.clientes_id
-				WHERE cc.estado = 1 AND sc.db = '".DB."'";			
+				WHERE cc.estado = 1 AND sc.db = '".$GLOBALS['db']."'";			
 
 			$sql = $mysqli_main->query($query) or die($mysqli_main->error);
 					
@@ -109,7 +112,7 @@
 				FROM server_customers AS sc
 				INNER JOIN clientes AS c
 				ON sc.clientes_id = c.clientes_id
-				WHERE sc.db = '".DB."'";			
+				WHERE sc.db = '".$GLOBALS['db']."'";			
 
 			$sql = $mysqli_main->query($query) or die($mysqli_main->error);
 					
@@ -126,7 +129,7 @@
 				ON sc.clientes_id = c.clientes_id
 				LEFT JOIN cobrar_clientes AS cc
 				on cc.clientes_id = sc.clientes_id
-				WHERE cc.estado = 1 AND sc.db = '".DB."' AND MONTH(cc.fecha) < MONTH(CURDATE())";			
+				WHERE cc.estado = 1 AND sc.db = '".$GLOBALS['db']."' AND MONTH(cc.fecha) < MONTH(CURDATE())";			
 
 			$sql = $mysqli_main->query($query) or die($mysqli_main->error);
 					

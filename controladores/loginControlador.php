@@ -1,7 +1,7 @@
 <?php
-    if($peticionAjax){
-        require_once "../modelos/loginModel.php";
-    }else{
+    if($peticionAjax){		
+        require_once "../modelos/loginModel.php";		
+    }else{		
         require_once "./modelos/loginModel.php";
     }
     
@@ -11,11 +11,23 @@
             $username = mainModel::cleanString($_POST['inputEmail']);
             $password = $_POST['inputPassword'];
             $password = mainModel::encryption($password);
-			 
+
+			$database = new Database();
+
             $datosLogin = [
                 "username" => $username,
                 "password" => $password
             ];
+
+			//CONSULTAMOS EL CUSTOMR SERVER PARA TENER LA DB DEL CLIENTE Y ASI OBTENER A QUE DB NOS CONECTAREMOS
+			$query_server = "SELECT COALESCE(s.server_customers_id, '0') AS server_customers_id, COALESCE(s.db, 'clinicarehn_clientes_clinicare') AS db
+				FROM users AS u
+				LEFT JOIN server_customers AS s ON u.server_customers_id = s.server_customers_id
+				WHERE u.email = '$username'";
+
+			$resultServerUser = self::connectionLogin()->query($query_server);
+			$consultaServeruser = $resultServerUser->fetch_assoc();
+			$GLOBALS['db'] = $consultaServeruser['db'] === "" ? "clinicarehn_clientes_clinicare" : $consultaServeruser['db'];
 
             $result = loginModel::iniciar_sesion_modelo($datosLogin);
 			
@@ -40,14 +52,10 @@
 					"bitacoraYear"=>$añoActual,
 					"user_id"=> $row['users_id']					
 				];
-				
+					
 				$insertarBitacora = mainModel::guardar_bitacora($datosBitacora);
 
 				if($insertarBitacora){
-					if(!isset($_SESSION['user_sd'])){ 
-						session_start(['name'=>'SD']); 
-					}
-
 					$_SESSION['users_id_sd'] = $row['users_id'];
 					$_SESSION['user_sd'] = $row['users_id'];
 					$_SESSION['tipo_sd'] = $row['cuentaTipo'];	
@@ -57,8 +65,27 @@
 					$_SESSION['server_token'] = $_SESSION['token_sd'];
 					$_SESSION['colaborador_id_sd'] = $row['colaboradores_id'];
 					$_SESSION['empresa_id_sd'] = $row['empresa_id'];					
+					$_SESSION['server_customers_id'] = $row['server_customers_id'];
 					$_SESSION['codigo_bitacora_sd'] = $codigoB;
-					
+					$_SESSION['identidad'] = $row['identidad'];
+
+					//CONSULTAMOS LA DB DEL CLIENTE									
+					$tablServerCustomer = "server_customers";
+					$camposServerCustomer = ["db"];
+					$condicionesServerCustomer = ["server_customers_id" => $row['server_customers_id']];
+					$orderBy = "";
+					$tablaJoin = "";
+					$condicionesJoin = [];
+					$resultadoServerCustomer = $database->consultarTabla($tablServerCustomer, $camposServerCustomer, $condicionesServerCustomer, $orderBy, $tablaJoin, $condicionesJoin);
+
+					$db_cliente = "";
+
+					if (!empty($resultadoServerCustomer)) {
+						$db_cliente = trim($resultadoServerCustomer[0]['db']);
+					}
+
+					$_SESSION['db_cliente'] = $db_cliente;
+
 					//CONSULTAMOS UN MENU AL QUE TENGA ACCESO EL USUARIO Y LO REDIRECCIONAMOS A ESA PAGINA
 					$result_consultaMenu = loginModel::getMenuAccesoLogin($row['privilegio_id']);
 					
@@ -158,7 +185,7 @@
 			$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-10"));
 	
 			//SI NOS ESTAMOS CONECTANDO AL SISTEMA PRINCIPAL, SIMPLEMENTE ENTRAMOS SIN PROBLEMA
-			if(DB == DB_MAIN_LOGIN_CONTROLADOR){
+			if($GLOBALS['db'] == DB_MAIN_LOGIN_CONTROLADOR){
 				$datos = 1;
 			}else{			
 				$result_pagoVencido = loginModel::validar_cliente_pagos_vencidos_main_server_modelo();//METODO QUE VALIDA LOS PAGOS VENCIDOS DE LOS CLIENTES
@@ -206,6 +233,25 @@
 			}
 
 			return json_encode($datos);
+		}
+
+		public function connectionLogin(){	
+			$mysqliLogin = new mysqli(SERVER, USER, PASS);
+		
+			if ($mysqliLogin->connect_errno) {
+				echo "Fallo al conectar a MySQL: " . $mysqliLogin->connect_error;
+				exit;
+			}
+		
+			$mysqliLogin->set_charset("utf8");
+		
+			// Intenta seleccionar la base de datos
+			if (!$mysqliLogin->select_db("clinicarehn_clientes_clinicare")) {
+				echo "Error al seleccionar la base de datos desde LoginControlador.php: " . $mysqliLogin->error;
+				exit;
+			}
+		
+			return $mysqliLogin;
 		}
     }
 ?>	

@@ -1,4 +1,8 @@
 ####09/15/2023####
+tabla => users
+server_customers_id	int se agrego al final de empresa_id
+
+####09/15/2023####
 tabla => sistema
 sistema_id		int
 nombre			char(30)

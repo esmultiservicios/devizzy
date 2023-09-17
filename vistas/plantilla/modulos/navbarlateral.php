@@ -155,7 +155,12 @@
 			
         </div>
     </div>
-    <!--<div class="sb-sidenav-footer link">
-        <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo_firma_white.png" width="98%" alt="We share" loading="lazy"></center>
-    </div>-->
+    <div class="sb-sidenav-footer link">
+        <?php 
+            $prefixes = array("clinicarehn_", "clientes_");
+            $nombre_db_final = str_replace($prefixes, "", $GLOBALS['db']);            
+            
+            echo "<center><span class='small-font'>".$nombre_db_final.'</span></center>'; 
+        ?>
+    </div>
 </nav>
