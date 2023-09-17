@@ -2054,7 +2054,7 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     $archivos_adjuntos = [];
   
     //ENVIAMOS EL CORREO DEL CLIENTE NUEVO AL RESELLER, ADMINISTRADOR, SUPER ADMINISTRADOR Y AL CLIENTE, SOBRE LA CREACIÓN DEL SISTEMA
-    //$sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos);
+    $sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos);
 
     // Cerrar la conexión a la segunda base de datos
     $conn->close();
