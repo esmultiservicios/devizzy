@@ -3,10 +3,12 @@
         require_once "../modelos/usuarioModelo.php";
 		require_once "../core/Database.php";
 		require_once "../core/sendEmail.php";
+		require_once "../core/Database.php";
     }else{
         require_once "./modelos/usuarioModelo.php";
 		require_once "../core/Database.php";
 		require_once "./core/sendEmail.php";
+		require_once "./core/Database.php";
     }
 
     class usuarioControlador extends usuarioModelo{
@@ -25,7 +27,7 @@
 			$privilegio_id = mainModel::cleanString($_POST['privilegio_id']);			
 			$nickname = "";	
 			$pass = mainModel::generar_password_complejo();
-			$contraseña_generada =  mainModel::encryption($pass);	
+			$contraseña_generada = mainModel::encryption($pass);	
 			$correo_usuario = mainModel::cleanStringStrtolower($_POST['correo_usuario']);
 			$empresa = mainModel::cleanString($_POST['empresa_usuario']);
 			$tipo_user = mainModel::cleanString($_POST['tipo_user']);			
@@ -33,7 +35,28 @@
 			$usuario_sistema = $_SESSION['colaborador_id_sd'];	
 			$estado = 1;	
 			$server_customers_id = $_SESSION['server_customers_id']; 
-			
+
+			//OBTENEMOS EL NOMBRE DEL COLABORADOR
+			$tablaColaboradores = "colaboradores";
+			$camposColaboradores = ["nombre", "apellido", "identidad", "telefono"];
+			$condicionesColaboradores = ["colaboradores_id" => $colaborador_id];
+			$orderBy = "";
+			$tablaJoin = "";
+			$condicionesJoin = [];
+			$resultadoColaboradores = $database->consultarTabla($tablaColaboradores, $camposColaboradores, $condicionesColaboradores, $orderBy, $tablaJoin, $condicionesJoin);
+
+			$nombre_colaborador = "";
+			$apellido_colaborador = "";
+			$identidad_colaborador = "";
+			$telefono_colaborador = "";
+
+			if (!empty($resultadoColaboradores)) {
+				$nombre_colaborador = $resultadoColaboradores[0]['nombre'];
+				$apellido_colaborador = $resultadoColaboradores[0]['apellido'];
+				$identidad_colaborador = $resultadoColaboradores[0]['identidad'];
+				$telefono_colaborador = $resultadoColaboradores[0]['telefono'];
+			}
+
 			$datos = [
 				"colaborador_id" => $colaborador_id,
 				"privilegio_id" => $privilegio_id,				
@@ -47,6 +70,21 @@
 				"server_customers_id" => $server_customers_id
 			];
 			
+			if($GLOBALS['db'] !== $GLOBALS['DB_MAIN']) {
+				//GUARDAMOS EL USUARIO EN LA TABLA COLABORADORES DE LA DB PRINCIPAL
+				$colaboradores_id_consulta = mainModel::correlativoLogin("colaboradores_id  ", "colaboradores");
+				$puestos_id_defualt = 5; //CLIENTES
+				$insertDBMainColaboradores = "INSERT INTO `colaboradores`(`colaboradores_id`, `puestos_id`, `nombre`, `apellido`, `identidad`, `estado`, `telefono`, `empresa_id`, `fecha_registro`, `fecha_ingreso`, `fecha_egreso`) VALUES ('$colaboradores_id_consulta','$puestos_id_defualt','$nombre_colaborador','$apellido_colaborador','$identidad_colaborador','1','$telefono_colaborador','1','$fecha_registro','$fecha_registro','')";
+				
+				mainModel::connectionLogin()->query($insertDBMainColaboradores);
+
+				//GUARDAMOS LOS DATOS DEL CLIENTE EN LA DB PRINCIPAL
+				$users_id_consulta = mainModel::correlativoLogin("users_id ", "users");
+				$insertDBMainUsers = "INSERT INTO `users`(`users_id`, `colaboradores_id`, `privilegio_id`, `username`, `password`, `email`, `tipo_user_id`, `estado`, `fecha_registro`, `empresa_id`, `server_customers_id`) VALUES ('$users_id_consulta','$colaboradores_id_consulta','$privilegio_id','','$contraseña_generada','$correo_usuario','$tipo_user','1','$fecha_registro','1','$server_customers_id')";
+
+				mainModel::connectionLogin()->query($insertDBMainUsers);
+			}
+
 			//VALIDAMOS QUE EL CORREO NO SE ESTE DUPLICANDO
 			$result_correo_usuario = usuarioModelo::valid_correo_modelo($correo_usuario);
 
@@ -290,7 +328,8 @@
 		
 			$correo = mainModel::cleanStringStrtolower($_POST['correo_usuario']);
 			$tipo_user = mainModel::cleanString($_POST['tipo_user']);
-			$privilegio_id = mainModel::cleanString($_POST['privilegio_id']);			
+			$privilegio_id = mainModel::cleanString($_POST['privilegio_id']);
+			$server_customers_id = $_POST['server_customers_id'];			
 
 			if (isset($_POST['usuarios_activo'])){
 				$estado = $_POST['usuarios_activo'];
@@ -308,7 +347,17 @@
 			
 			$query = usuarioModelo::edit_user_modelo($datos);
 			
-			if($query){				
+			if($query){	
+				if($GLOBALS['db'] !== $GLOBALS['DB_MAIN']) {
+					//ACTUALIZAMOS LA CONTASEÑA DEL USUARIO EN LA DB PRINCIPAL
+					$updateDBMainUsers = "UPDATE users 
+						SET 
+							estado = '$estado'
+						WHERE email = '$correo' AND server_customers_id = '$server_customers_id'";
+					
+					mainModel::connectionLogin()->query($updateDBMainUsers);
+				}
+
 				$alert = [
 					"alert" => "edit",
 					"title" => "Registro modificado",

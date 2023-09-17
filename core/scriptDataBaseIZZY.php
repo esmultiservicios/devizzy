@@ -1295,7 +1295,7 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
     INSERT INTO `privilegio` (`privilegio_id`, `nombre`, `estado`, `fecha_registro`) VALUES
-    (1, 'Administrador', 1, NOW());
+    (2, 'Administrador', 1, NOW());
   
     DROP TABLE IF EXISTS `productos`;
     CREATE TABLE IF NOT EXISTS `productos` (

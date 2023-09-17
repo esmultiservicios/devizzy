@@ -1,8 +1,10 @@
 <?php
     if($peticionAjax){		
-        require_once "../modelos/loginModel.php";		
+        require_once "../modelos/loginModel.php";	
+		require_once "../core/Database.php";	
     }else{		
         require_once "./modelos/loginModel.php";
+		require_once "./core/Database.php";
     }
     
     class loginControlador extends loginModel{
@@ -25,7 +27,7 @@
 				LEFT JOIN server_customers AS s ON u.server_customers_id = s.server_customers_id
 				WHERE u.email = '$username'";
 
-			$resultServerUser = self::connectionLogin()->query($query_server);
+			$resultServerUser = mainModel::connectionLogin()->query($query_server);
 			$consultaServeruser = $resultServerUser->fetch_assoc();
 			$GLOBALS['db'] = $consultaServeruser['db'] === "" ? $GLOBALS['DB_MAIN'] : $consultaServeruser['db'];
 
@@ -233,25 +235,6 @@
 			}
 
 			return json_encode($datos);
-		}
-
-		public function connectionLogin(){	
-			$mysqliLogin = new mysqli(SERVER, USER, PASS);
-		
-			if ($mysqliLogin->connect_errno) {
-				echo "Fallo al conectar a MySQL: " . $mysqliLogin->connect_error;
-				exit;
-			}
-		
-			$mysqliLogin->set_charset("utf8");
-		
-			// Intenta seleccionar la base de datos
-			if (!$mysqliLogin->select_db($GLOBALS['DB_MAIN'])) {
-				echo "Error al seleccionar la base de datos desde LoginControlador.php: " . $mysqliLogin->error;
-				exit;
-			}
-		
-			return $mysqliLogin;
 		}
     }
 ?>	

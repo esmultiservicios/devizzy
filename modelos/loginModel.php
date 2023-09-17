@@ -1,10 +1,8 @@
 <?php
     if($peticionAjax){
         require_once "../core/mainModel.php";
-		require_once "../core/Database.php";
     }else{
-        require_once "./core/mainModel.php";
-		require_once "./core/Database.php";
+        require_once "./core/mainModel.php";		
     }
 
 	class loginModel extends mainModel{

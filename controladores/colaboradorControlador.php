@@ -85,6 +85,7 @@
 			$telefono = mainModel::cleanString($_POST['telefono_colaborador']);				
 			$fecha_ingreso = mainModel::cleanString($_POST['fecha_ingreso_colaborador']);
 			$fecha_egreso = mainModel::cleanString($_POST['fecha_egreso_colaborador']);
+			$identidad = mainModel::cleanString($_POST['identidad_colaborador']);
 
 			if(isset($_POST['puesto_colaborador'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
 				if($_POST['puesto_colaborador'] == ""){
@@ -117,7 +118,17 @@
 
 			$query = colaboradorModelo::editar_colaborador_modelo($datos);
 			
-			if($query){				
+			if($query){	
+				if($GLOBALS['db'] !== $GLOBALS['DB_MAIN']) {
+					//ACTUALIZAMOS LA CONTASEÑA DEL USUARIO EN LA DB PRINCIPAL
+					$updateDBMainUsers = "UPDATE colaboradores 
+						SET 
+							estado = '$estado'
+						WHERE nombre = '$nombre' AND apellido = '$apellido' AND identidad = '$identidad'";
+					
+					mainModel::connectionLogin()->query($updateDBMainUsers);
+				}
+
 				$alert = [
 					"alert" => "edit",
 					"title" => "Registro modificado",

@@ -154,33 +154,12 @@
 			$contraseña = cambiarContraseñaModelo::generar_pass_complejo();
 			$users_id = $_POST['users_id'];
 			$server_customers_id = $_POST['server_customers_id'];
+			$contraseña_encriptada = mainModel::encryption($contraseña);
 
 			$datos = [
 				"users_id" => $users_id,
-				"contraseña" => mainModel::encryption($contraseña),			
+				"contraseña" => $contraseña_encriptada,			
 			];		
-
-			$query = cambiarContraseñaModelo::edit_contraseña_modelo($datos);
-
-			if ($server_customers_id !== 0){
-				//OBTENEMOS LA BASE DE DATOS DEL CLIENTE
-				$tablServerCustomer = "server_customers";
-				$camposServerCustomer = ["db"];
-				$condicionesServerCustomerr = ["server_customers_id" => $server_customers_id];
-				$orderBy = "";
-				$tablaJoin = "";
-				$condicionesJoin = [];
-				$resultadoServerCustomer = $database->consultarTabla($tablServerCustomer, $camposServerCustomer, $condicionesServerCustomerr, $orderBy, $tablaJoin, $condicionesJoin);
-
-				$db_cliente = "";
-
-				if (!empty($resultadoServerCustomer)) {
-					$db_cliente = trim($resultadoServerCustomer[0]['db']);
-				}
-
-				//ACTUALIZAMOS LA CONTRASEÑA DEL CLIENTE
-			}
-
 
 			//OBTENEMOS EL NOMBRE DEL COLABORADOR
 			$respuesta = 0;
@@ -211,7 +190,16 @@
 
 			if (!empty($resultadoUsuario)) {
 				$correo_usuario = trim($resultadoUsuario[0]['email']);
-			}	
+			}				
+
+			$query = cambiarContraseñaModelo::edit_contraseña_modelo($datos);
+
+			if($GLOBALS['db'] !== $GLOBALS['DB_MAIN']) {
+				//ACTUALIZAMOS LA CONTASEÑA DEL USUARIO EN LA DB PRINCIPAL
+				$updateDBMainUsers = "UPDATE users SET password = '$contraseña_encriptada' WHERE email = '$correo_usuario' AND server_customers_id = '$server_customers_id'";
+				
+				mainModel::connectionLogin()->query($updateDBMainUsers);
+			}
 
 			//OBTENEMOS EL NOMBRE DE LA EMPRESA
 			$empresa_id_sesion = $_SESSION['empresa_id_sd'];
@@ -288,74 +276,58 @@
 			$sendEmail = new sendEmail();
 
 			$respuesta = 0;
-			$contraseña = cambiarContraseñaModelo::generar_pass_complejo();
-			$contraseña_generada = $contraseña; 
+			$contraseña = cambiarContraseñaModelo::generar_pass_complejo();			
 			$usu_forgot = $_POST['usu_forgot'];
-			
-			$result_valid_user = cambiarContraseñaModelo::valid_user($usu_forgot);
-			
-			if($result_valid_user->num_rows>0){
-				$consultaUsuario = $result_valid_user->fetch_assoc();
-				$users_id = $consultaUsuario['users_id'];	
+			$contraseña_encriptada = mainModel::encryption($contraseña); 
 
-				$datos = [
-					"correo" => $usu_forgot,
-					"users_id" => $users_id,
-					"contraseña" => mainModel::encryption($contraseña),			
-				];		
+			//CONSULTAMOS LA DB DEL USUARIO
+			$query = "SELECT u.users_id, u.server_customers_id, CONCAT(c.nombre,' ',c.apellido) AS 'colaborador_nombre', s.db
+				FROM users AS u
+				INNER JOIN colaboradores AS c
+				ON u.colaboradores_id = c.colaboradores_id
+				LEFT JOIN server_customers AS s
+				ON u.server_customers_id = s.server_customers_id
+				WHERE email = '$usu_forgot'";
 
-				$query = cambiarContraseñaModelo::edit_contraseña_login_modelo($datos);
-				
-				//OBTENEMOS EL NOMBRE DEL COLABORADOR
-				$respuesta = 0;
-				$tablColaborador = "colaboradores";
-				$camposColaborador = ["nombre", "apellido"];
-				$condicionesColaborador = ["colaboradores_id" => $users_id];
-				$orderBy = "";
-				$tablaJoin = "";
-				$condicionesJoin = [];
-				$resultadoColaborador = $database->consultarTabla($tablColaborador, $camposColaborador, $condicionesColaborador, $orderBy);
+			$resultUser = mainModel::connectionLogin()->query($query);
 
-				$colaborador_nombre = "";
+			if($resultUser->num_rows>0){
+				$ConsultaDBPrincipal = $resultUser->fetch_assoc();
+				$db_cosulta = $ConsultaDBPrincipal['db'];
+				$colaborador_nombre = $ConsultaDBPrincipal['colaborador_nombre'];
+				$server_customers_id = $ConsultaDBPrincipal['server_customers_id'];
 
-				if (!empty($resultadoColaborador)) {
-					$colaborador_nombre = trim($resultadoColaborador[0]['nombre'].' '.$resultadoColaborador[0]['apellido']);
-				}		
+				//OBTENEMOS EL USUARIO ID
+				$query = "SELECT u.users_id , e.nombre AS 'empresa_nombre'
+					FROM users AS u
+					INNER JOIN empresa AS e
+					ON u.empresa_id = e.empresa_id
+					WHERE email = '$usu_forgot' AND server_customers_id = '$server_customers_id'";
+				$resultQuery = mainModel::connectionDBLocal($db_cosulta)->query($query);
+				$ConsultaQuery = $resultQuery->fetch_assoc();
+				$users_id = $ConsultaQuery['users_id'];	
+				$empresa_nombre = strtoupper(trim($ConsultaQuery['empresa_nombre']));
+					
+				//ACTUALIZAMOS LOS DATOS DEL USUARIO
+				$update = "UPDATE users 
+					SET 
+						password = '$contraseña_encriptada' 
+					WHERE users_id = '$users_id'";
 
-				//OBTENEMOS EL CORREO DEL USUARUIO
-				$tablaUsuario = "users";
-				$camposUsuario = ["email", "empresa_id"];
-				$condicionesUsuario = ["users_id" => $users_id];
-				$orderBy = "";
-				$tablaJoin = "";
-				$condicionesJoin = [];
-				$resultadoUsuario = $database->consultarTabla($tablaUsuario, $camposUsuario, $condicionesUsuario, $orderBy, $tablaJoin, $condicionesJoin);
+				mainModel::connectionDBLocal($db_cosulta)->query($update);
 
-				$correo_usuario = "";
-				$empresa_id_usuario = "";
-
-				if (!empty($resultadoUsuario)) {
-					$correo_usuario = trim($resultadoUsuario[0]['email']);
-					$empresa_id_usuario = trim($resultadoUsuario[0]['empresa_id']);
-				}
-
-				//OBTENEMOS EL NOMBRE DE LA EMPRESA
-				$tablaEmpresa = "empresa";
-				$camposEmpresa = ["nombre"];
-				$condicionesEmpresa = ["empresa_id" => $empresa_id_usuario];
-				$orderBy = "";
-				$tablaJoin = "";
-				$condicionesJoin = [];
-				$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy, $tablaJoin, $condicionesJoin);
-			
-				$empresa_nombre = "";
-			
-				if (!empty($resultadoEmpresa)) {
-					$empresa_nombre = strtoupper(trim($resultadoEmpresa[0]['nombre']));
-				}					
+				if($db_cosulta !== $GLOBALS['DB_MAIN']) {
+					//ACTUALIZAMOS LA CONTASEÑA DEL USUARIO EN LA DB PRINCIPAL
+					$updateDBMainUsers = "UPDATE users 
+						SET 
+							password = '$contraseña_encriptada' 
+						WHERE email = '$usu_forgot' AND server_customers_id = '$server_customers_id'";
+					
+					mainModel::connectionLogin()->query($updateDBMainUsers);
+				}								
 
 				$correo_tipo_id = "1";//Notificaciones
-				$destinatarios = array($correo_usuario => $colaborador_nombre);
+				$destinatarios = array($usu_forgot => $colaborador_nombre);
 
 				// Destinatarios en copia oculta (Bcc)
 				$bccDestinatarios = [];
@@ -402,10 +374,12 @@
 				';
 
 				$archivos_adjuntos = [];
-				$respuesta = $sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos);
+				$respuesta = $sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos);				
 			}else{
 				$respuesta = 3;//USUARIO O CORREO NO EXISTEN	
 			}
+
+			$result_valid_user = cambiarContraseñaModelo::valid_user($usu_forgot);
 			
 			return $respuesta;
 		}			

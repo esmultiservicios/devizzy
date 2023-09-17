@@ -30,6 +30,59 @@
 			return $mysqli;
 		}
 
+		public function connectionLogin(){	
+			$mysqliLogin = new mysqli(SERVER, USER, PASS);
+		
+			if ($mysqliLogin->connect_errno) {
+				echo "Fallo al conectar a MySQL: " . $mysqliLogin->connect_error;
+				exit;
+			}
+		
+			$mysqliLogin->set_charset("utf8");
+		
+			// Intenta seleccionar la base de datos
+			if (!$mysqliLogin->select_db($GLOBALS['DB_MAIN'])) {
+				echo "Error al seleccionar la base de datos desde mainModel.php: " . $mysqliLogin->error;
+				exit;
+			}
+		
+			return $mysqliLogin;
+		}
+
+		public function connectionDBLocal($dblocal){	
+			$mysqliDBLocal = new mysqli(SERVER, USER, PASS);
+		
+			if ($mysqliDBLocal->connect_errno) {
+				echo "Fallo al conectar a MySQL: " . $mysqliDBLocal->connect_error;
+				exit;
+			}
+		
+			$mysqliDBLocal->set_charset("utf8");
+		
+			// Intenta seleccionar la base de datos
+			if (!$mysqliDBLocal->select_db($dblocal)) {
+				echo "Error al seleccionar la base de datos desde mainModel.php: " . $mysqliDBLocal->error;
+				exit;
+			}
+		
+			return $mysqliDBLocal;
+		}		
+
+		protected function correlativoLogin($campo_id, $tabla){
+			$query = "SELECT MAX(".$campo_id.") AS max, COUNT(".$campo_id.") AS count FROM ".$tabla;
+			$result = self::connectionLogin()->query($query);
+			$correlativo2 = $result->fetch_assoc();
+			$numero = $correlativo2['max'];
+			$cantidad = $correlativo2['count'];
+
+			if ( $cantidad == 0 )
+			   $numero = 1;
+			else
+			   $numero = $numero + 1;
+
+			return $numero;
+		}		
+
 		public function consulta_total_ingreso($query){
 			$result = self::connection()->query($query);
 
@@ -1390,7 +1443,7 @@
 		}
 
 		public function getPrivilegio($datos){
-			if($datos['privilegio_id'] === "1"){//SUPER ADMINISTRADOR
+			if($datos['privilegio_colaborador'] !== "Super Administrador"){//SUPER ADMINISTRADOR
 				$where = "WHERE estado = 1";
 			}else{
 				$where = "WHERE estado = 1 AND privilegio_id NOT IN(1)";
@@ -1603,14 +1656,15 @@
 
 		public function getColaboradores(){
 			$query = "SELECT c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', c.identidad AS 'identidad',
-			CASE WHEN c.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado', c.telefono AS 'telefono', e.nombre AS 'empresa', p.nombre AS 'puesto'
-			FROM colaboradores AS c
-			INNER JOIN empresa AS e
-			ON c.empresa_id = e.empresa_id
-			INNER JOIN puestos AS p
-			ON c.puestos_id = p.puestos_id
-			WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1)
-			ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
+				CASE WHEN c.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado', c.telefono AS 'telefono', e.nombre AS 'empresa', p.nombre AS 'puesto'
+				FROM colaboradores AS c
+				INNER JOIN empresa AS e
+				ON c.empresa_id = e.empresa_id
+				INNER JOIN puestos AS p
+				ON c.puestos_id = p.puestos_id
+				WHERE c.estado = 1
+				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
+
 			$result = self::connection()->query($query);
 			return $result;
 		}
@@ -1941,7 +1995,7 @@
 		}
 
 		public function getUsuarios($datos){
-			if($datos['privilegio_id'] == 1){
+			if($datos['privilegio_colaborador'] !== "Super Administrador"){
 				$where = "WHERE u.estado = 1";
 			}else{
 				$where = "WHERE u.estado = 1 AND u.privilegio_id NOT IN(1)";
