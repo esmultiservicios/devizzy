@@ -37,7 +37,7 @@ class cPanelAPI {
 
             // Verificar si el campo "status" es igual a 1 (éxito)
             if (isset($responseData['status']) && $responseData['status'] == 1) {
-                return ''//'La acción se completó con éxito.';
+                return '';//'La acción se completó con éxito.';
             } else {
                 // Si el campo "status" no es igual a 1, verificar si hay mensajes de error
                 if (isset($responseData['errors'])) {
