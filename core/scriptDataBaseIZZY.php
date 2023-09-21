@@ -6,6 +6,7 @@ require_once "configGenerales.php";
 require_once "mainModel.php";
 require_once "Database.php";
 require_once "sendEmail.php";
+require_once 'cPanelAPI.php';
 
 if(!isset($_SESSION['user_sd'])){ 
   session_start(['name'=>'SD']); 
@@ -118,13 +119,13 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     }
   
     // Crear la base de datos
-    //$sqlCreateDatabase = "CREATE DATABASE IF NOT EXISTS $databaseCliente";
-    $sqlCreateDatabase = "CREATE DATABASE $databaseCliente";
-  
-    if (!($conn->query($sqlCreateDatabase) === TRUE)) {
-      echo "Error DB: Lo sentimos ya existe una Base de Datos para el cliente $razon_social, " . $conn->error;
-      exit(); // Esta línea detendrá la ejecución del código
-    }
+    $token = 'cpsessXNEE7XA4JM1LRX3CE0CZZMFE75645ONE';
+    $username = 'clinicarehn';
+    $password = 'Clinicare2022';
+
+    $cpanel = new cPanelAPI($token, $username, $password);
+    $instruction = 'create_database?name='.$databaseCliente; // Instrucción dinámica
+    $result = $cpanel->execute($instruction);
   
     // Seleccionar la base de datos
     if (!$conn->select_db($databaseCliente)) {
