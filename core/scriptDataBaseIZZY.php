@@ -119,11 +119,7 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     }
   
     // Crear la base de datos
-    $token = 'cpsessXNEE7XA4JM1LRX3CE0CZZMFE75645ONE';
-    $username = 'clinicarehn';
-    $password = 'Clinicare2022';
-
-    $cpanel = new cPanelAPI($token, $username, $password);
+    $cpanel = new cPanelAPI(tokencPanel, usernamecPanel, passwordcPanel);
     $instruction = 'create_database?name='.$databaseCliente; // Instrucción dinámica
     $result = $cpanel->execute($instruction);
   

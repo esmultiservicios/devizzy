@@ -19,6 +19,11 @@
     const USER_MAIN = "clinicarehn_clinicare";
     const PASS_MAIN = "Clin1c@r32022#";  
 
+    //cPanel
+    const tokencPanel = 'cpsessXNEE7XA4JM1LRX3CE0CZZMFE75645ONE';
+    const usernamecPanel = 'clinicarehn';
+    const passwordcPanel = 'Clinicare2022';
+
     //BASE DE DATOS EXCEPTION LOGIN CONTROLADOR
     const DB_MAIN_LOGIN_CONTROLADOR = DB_MAIN;//LA BASE DE DATOS QUE ESTE AQUÍ SE EXCEPTÚA EN EL LOGIN CONTROLADOR
 
