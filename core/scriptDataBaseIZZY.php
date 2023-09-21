@@ -1899,6 +1899,10 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     $query_colaboradores = "UPDATE colaboradores SET colaboradores_id = '$server_colaboradores_id' WHERE identidad = '$rtn'";
     actualizarRegistros($query_colaboradores, $conn);
 
+    //ACTUALIZAMOS LA TABLA USUARIOS
+    $query_colaboradores = "UPDATE users SET colaboradores_id = '$server_colaboradores_id' WHERE identidad = '$rtn'";
+    actualizarRegistros($query_colaboradores, $conn);    
+
     //GUARDAMOS LOS DATOS DEL USUARIO
     $tablarRegistroUsers = "users";
     $camposRegistroUsers = ["users_id", "colaboradores_id", "privilegio_id", "password", "email", "tipo_user_id", "estado", "fecha_registro", "empresa_id", "server_customers_id"];

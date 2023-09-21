@@ -2013,7 +2013,7 @@
 				ON u.empresa_id = e.empresa_id
 				".$where."
 				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
-
+				
 			$result = self::connection()->query($query);
 
 			return $result;
