@@ -2557,8 +2557,8 @@ var generar_clientes_dataTable = function(tbody, table){
 }
 
 function empresaDB(){
-	var primeros8Digitos = $('#formGenerarSistema #empresa').val().substring(0, 10);
-        var resultado = trim(primeros8Digitos);
+	var primeros10Digitos = $('#formGenerarSistema #empresa').val().substring(0, 10);
+        var resultado = primeros10Digitos.trim();
 
         $('#formGenerarSistema #db').val(resultado);
 }
