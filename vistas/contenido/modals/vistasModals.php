@@ -1728,30 +1728,12 @@
 					</div>							
 				</div>	
 				<div class="form-group" id="estado_empresa">				  
-					<div class="col-md-12">Estado		
+					<div class="col-md-12">		
 							<label class="switch">
 								<input type="checkbox" id="empresa_activo" name="empresa_activo" value="1" checked>
 								<div class="slider round"></div>
 							</label>
 							<span class="question mb-2" id="label_empresa_activo"></span>				
-					</div>									  				  
-				</div>
-				<div class="form-group" id="estado_empresa">				  
-					<div class="col-md-12">Editar Documento		
-							<label class="switch">
-								<input type="checkbox" id="editar_documento_activo" name="editar_documento_activo" value="1">
-								<div class="slider round"></div>
-							</label>
-							<span class="question mb-2" id="label_editar_documento_activo"></span>				
-					</div>										  				  
-				</div>				
-				<div class="form-group" id="estado_empresa">				  
-					<div class="col-md-12">Editar Logo		
-							<label class="switch">
-								<input type="checkbox" id="editar_logo_activo" name="editar_logo_activo" value="1">
-								<div class="slider round"></div>
-							</label>
-							<span class="question mb-2" id="label_editar_logo_activo"></span>				
 					</div>									  				  
 				</div>									
 				<div class="RespuestaAjax"></div>  
