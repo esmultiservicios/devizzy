@@ -3916,7 +3916,7 @@
 				$tipo_factura_reporte
 				$facturador
 				$vendedor
-				ORDER BY f.number ASC";
+				ORDER BY f.number DESC";
 
 			$result = self::connection()->query($query);
 			return $result;
@@ -4004,7 +4004,8 @@
 				FROM cotizacion AS c
 				INNER JOIN clientes AS cl
 				ON c.clientes_id = cl.clientes_id
-				".$where;
+				".$where."
+				ORDER BY c.cotizacion_id DESC";
 
 			$result = self::connection()->query($query);
 

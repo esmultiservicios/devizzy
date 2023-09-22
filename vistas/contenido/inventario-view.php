@@ -56,7 +56,7 @@
 					<div class="form-group mx-sm-3 mb-1">			
 						<div class="input-group">
 							<div class="input-group-append">
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Producto</span>
+								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Cliente</span>
 								  <select id="cliente_movimiento_filtro" name="cliente_movimiento_filtro" class="selectpicker" data-live-search="true" title="Cliente">
 								 </select>
 							</div>	
