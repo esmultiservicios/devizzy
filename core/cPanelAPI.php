@@ -1,5 +1,4 @@
 <?php
-
 class cPanelAPI {
     private $token;
     private $url;

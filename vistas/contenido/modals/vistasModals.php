@@ -1646,6 +1646,18 @@
 						</div>	 
 					</div>	
 					<div class="col-md-6 col-12 mb-3">
+						<label for="firma_documento">Firma Documento</label>
+						<div class="input-group mb-3">
+						  <input type="file" class="form-control" name="firma_documento" id="firma_documento" accept="image/*">	
+						  <div class="input-group-append">				
+							<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fa fa-image"></i></span>
+						  </div>
+						</div>	 
+					</div>						
+				</div>	
+
+				<div class="form-row">					
+					<div class="col-md-12 col-12 mb-3">
 						<label for="correo_empresa">Correo</label>
 						<div class="input-group mb-3">
 						  <input type="email" class="form-control" placeholder="Correo" id="correo_empresa" name="correo_empresa" aria-label="Correo" aria-describedby="basic-addon2">
@@ -1654,7 +1666,7 @@
 						  </div>
 						</div>	 
 					</div>						
-				</div>	
+				</div>					
 
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
@@ -1716,14 +1728,32 @@
 					</div>							
 				</div>	
 				<div class="form-group" id="estado_empresa">				  
-				  <div class="col-md-12">			
-						<label class="switch">
-							<input type="checkbox" id="empresa_activo" name="empresa_activo" value="1" checked>
-							<div class="slider round"></div>
-						</label>
-						<span class="question mb-2" id="label_empresa_activo"></span>				
-				  </div>				  
-				</div>					
+					<div class="col-md-12">Estado		
+							<label class="switch">
+								<input type="checkbox" id="empresa_activo" name="empresa_activo" value="1" checked>
+								<div class="slider round"></div>
+							</label>
+							<span class="question mb-2" id="label_empresa_activo"></span>				
+					</div>									  				  
+				</div>
+				<div class="form-group" id="estado_empresa">				  
+					<div class="col-md-12">Editar Documento		
+							<label class="switch">
+								<input type="checkbox" id="editar_documento_activo" name="editar_documento_activo" value="1">
+								<div class="slider round"></div>
+							</label>
+							<span class="question mb-2" id="label_editar_documento_activo"></span>				
+					</div>										  				  
+				</div>				
+				<div class="form-group" id="estado_empresa">				  
+					<div class="col-md-12">Editar Logo		
+							<label class="switch">
+								<input type="checkbox" id="editar_logo_activo" name="editar_logo_activo" value="1">
+								<div class="slider round"></div>
+							</label>
+							<span class="question mb-2" id="label_editar_logo_activo"></span>				
+					</div>									  				  
+				</div>									
 				<div class="RespuestaAjax"></div>  
 			</form>
         </div>

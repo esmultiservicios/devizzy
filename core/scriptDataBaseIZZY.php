@@ -578,10 +578,11 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       `estado` int NOT NULL,
       `colaboradores_id` int NOT NULL,
       `fecha_registro` datetime NOT NULL,
+      `firma_documento` char(40) COLLATE utf8mb4_spanish_ci NOT NULL,
       PRIMARY KEY (`empresa_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
-    INSERT INTO `empresa`(`empresa_id`, `razon_social`, `nombre`, `otra_informacion`, `eslogan`, `celular`, `telefono`, `correo`, `logotipo`, `rtn`, `ubicacion`, `facebook`, `sitioweb`, `horario`, `estado`, `colaboradores_id`, `fecha_registro`) VALUES ('$empresa_id','$razon_social','$empresa','$otra_informacion','$eslogan','$celular','$telefono','$correo','$logotipo','$rtn','$ubicacion','$facebook','$sitioweb','$horario','$estado','$colaboradores_id','$fecha_registro');
+    INSERT INTO `empresa`(`empresa_id`, `razon_social`, `nombre`, `otra_informacion`, `eslogan`, `celular`, `telefono`, `correo`, `logotipo`, `rtn`, `ubicacion`, `facebook`, `sitioweb`, `horario`, `estado`, `colaboradores_id`, `fecha_registro`) VALUES ('$empresa_id','$razon_social','$empresa','$otra_informacion','$eslogan','$celular','$telefono','$correo','$logotipo','$rtn','$ubicacion','$facebook','$sitioweb','$horario','$estado','$colaboradores_id','$fecha_registro','');
   
     DROP TABLE IF EXISTS `facturas`;
     CREATE TABLE IF NOT EXISTS `facturas` (

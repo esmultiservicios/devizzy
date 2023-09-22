@@ -17,11 +17,15 @@
 	//OBTENEMOS LOS DATOS DEL ENCABEZADO DE LA FACTURA
 	$result = $insMainModel->getIngresosContablesReporte($noFactura);	
 	
-	$anulada = '';							
+	$anulada = '';
+	$logotipo = '';
+	$firma_documento = '';						
 
 	if($result->num_rows>0){
 		$consulta_registro = $result->fetch_assoc();	
 		
+		$logotipo = $consulta_registro['logotipo'];
+		$firma_documento = $consulta_registro['firma_documento'];
 		$no_factura = $consulta_registro['ingresos_id'];
 
 		if($consulta_registro['estado'] == 2){

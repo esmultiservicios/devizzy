@@ -267,4 +267,31 @@ $('#formEmpresa .switch').change(function(){
     }
 });	
 
+
+$('#formEmpresa #label_editar_logo_activo').html("No");
+	
+$('#formEmpresa .switch').change(function(){    
+    if($('input[name=editar_logo_activo]').is(':checked')){
+        $('#formEmpresa #label_editar_logo_activo').html("Sí");
+        return true;
+    }
+    else{
+        $('#formEmpresa #label_editar_logo_activo').html("No");
+        return false;
+    }
+});	
+
+$('#formEmpresa #label_editar_documento_activo').html("No");
+	
+$('#formEmpresa .switch').change(function(){    
+    if($('input[name=editar_documento_activo]').is(':checked')){
+        $('#formEmpresa #label_editar_documento_activo').html("Sí");
+        return true;
+    }
+    else{
+        $('#formEmpresa #label_editar_documento_activo').html("No");
+        return false;
+    }
+});	
+
 </script>

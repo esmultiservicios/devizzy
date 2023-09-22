@@ -48,7 +48,30 @@
 						move_uploaded_file($_FILES["logotipo"]["tmp_name"], $imagePath);
 					} 
 				}   
-			} 					
+			} 		
+
+			$imageFilenameFirma = "";
+
+			if (isset($_FILES["firma_documento"]["tmp_name"])) {
+				if(!empty($_FILES["firma_documento"]["tmp_name"])) {
+					// Obtener información del archivo subido
+					$imageFilenameFirma = basename($_FILES["firma_documento"]["name"]);
+
+					// Construir la ruta donde se guardará la imagen
+					$imageFilenameFirma = "firma_".$valor.".png";
+					$directorio_destino = "../vistas/plantilla/img/logos/";
+					$imagePath = $directorio_destino.$imageFilenameFirma;
+
+					while (file_exists($imagePath)){
+						$valor = rand(pow(10, $digits-1), pow(10, $digits)-1);
+						$imagePath = $directorio_destino.$imageFilenameFirma;
+					}
+
+					if (!file_exists($imagePath)) {
+						move_uploaded_file($_FILES["firma_documento"]["tmp_name"], $imagePath);
+					} 
+				}   
+			} 							
 			
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$fecha_registro = date("Y-m-d H:i:s");	
@@ -56,6 +79,7 @@
 
 			$datos = [
 				"logotipo" => $imageFilename,
+				"firma_documento" => $imageFilenameFirma,
 				"razon_social" => $razon_social,
 				"empresa" => $empresa,
 				"rtn" => $rtn,				
@@ -135,11 +159,10 @@
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$directorio_destino = "../vistas/plantilla/img/logos/";
 
-			//OBTENEMOS EL NOMBRE DE LA IMAGEN
+			//OBTENEMOS EL NOMBRE DE LA IMAGEN DEL LOGO
 			$getImagenEmpresa = empresaModelo::getImage($empresa_id)->fetch_assoc();
 			$imageFilename = $getImagenEmpresa['logotipo'];
-			$imagePath = $directorio_destino.$imageFilename;			
-
+			$imagePath = $directorio_destino.$imageFilename;
 							
 			$digits = 3;
 			$valor = rand(pow(10, $digits-1), pow(10, $digits)-1);
@@ -174,14 +197,51 @@
 				}				   
 			} 
 
+			//OBTENEMOS EL NOMBRE DE LA IMAGEN DEL DOCUMENTO
+			$getImagenEmpresafirma_documento = empresaModelo::getImage($empresa_id)->fetch_assoc();
+			$imageFilenamefirma_documento = $getImagenEmpresafirma_documento['firma_documento'];
+			$imagePathfirma_documento = $directorio_destino.$imageFilenamefirma_documento;					
+
+			$digits = 3;
+			$valor = rand(pow(10, $digits-1), pow(10, $digits)-1);
+
+			if (isset($_FILES["firma_documento"]["tmp_name"])) {
+				if (file_exists($imagePathfirma_documento)) {
+					// Eliminar la imagen anterior si existe
+					unlink($imagePathfirma_documento);
+				}
+
+				if(!empty($_FILES["firma_documento"]["tmp_name"])) {
+					// Obtener información del archivo subido
+					$imageFilenamefirma_documento = basename($_FILES["firma_documento"]["name"]);
+
+					// Construir la ruta donde se guardará la imagen
+					$imageFilenamefirma_documento = "firma_".$valor.".png";
+					
+					$imagePathfirma_documento = $directorio_destino.$imageFilenamefirma_documento;					
+
+					while (file_exists($imagePathfirma_documento)){
+						$valor = rand(pow(10, $digits-1), pow(10, $digits)-1);
+						$imagePathfirma_documento = $directorio_destino.$imageFilenamefirma_documento;
+					}
+
+					if (!file_exists($imagePathfirma_documento)) {
+						move_uploaded_file($_FILES["firma_documento"]["tmp_name"], $imagePathfirma_documento);
+					} 					
+				}else{
+					$imageFilenamefirma_documento = "";
+				}				   
+			} 
+
 			if (isset($_POST['empresa_activo'])){
 				$estado = $_POST['empresa_activo'];
 			}else{
 				$estado = 2;
-			}	
-			
+			}			
+
 			$datos = [
 				"logotipo" => $imageFilename,
+				"firma_documento" => $imageFilenamefirma_documento,
 				"empresa_id" => $empresa_id,
 				"razon_social" => $razon_social,
 				"empresa" => $empresa,

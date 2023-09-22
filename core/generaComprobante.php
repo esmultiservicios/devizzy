@@ -18,6 +18,8 @@
 	$result = $insMainModel->getFactura($noFactura);	
 	
 	$anulada = '';
+	$logotipo = '';
+	$firma_documento = '';
 
 	//OBTENEMOS LOS DATOS DEL DETALLE DE FACTURA
 	$result_factura_detalle = $insMainModel->getDetalleFactura($noFactura);								
@@ -25,6 +27,8 @@
 	if($result->num_rows>0){
 		$consulta_registro = $result->fetch_assoc();	
 		
+		$logotipo = $consulta_registro['logotipo'];
+		$firma_documento = $consulta_registro['firma_documento'];
 		$no_factura = str_pad($consulta_registro['numero_factura'], $consulta_registro['relleno'], "0", STR_PAD_LEFT);
 
 		if($consulta_registro['estado'] == 4){

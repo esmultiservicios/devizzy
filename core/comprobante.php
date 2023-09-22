@@ -24,7 +24,7 @@
 		<tr>
 			<td class="logo_factura">
 				<div>
-					<img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="150px" height="95px">
+					<img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $logotipo; ?>" width="150px" height="95px">
 				</div>
 			</td>
 			<td class="info_empresa">
@@ -211,11 +211,14 @@
 
 		<?php
 			if($consulta_registro["estado"] == 2){
+				if($firma_documento !== "") {
 		?>
-			<p class="nota"><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/sello.png" width="150px" height="130px"></p>
+					<p class="nota"><center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $firma_documento; ?>" width="150px" height="130px"></p>
 		<?php
+				}
 			}
 		?>
+
 		<p class="nota"><center><b>Original:</b> Cliente</center></p>	
 		<p class="nota"><center><b>Copia:</b> Emisor</center></p>			
 		<h4 class="label_gracias"><?php  echo nl2br($consulta_registro["eslogan"]); ?></h4>

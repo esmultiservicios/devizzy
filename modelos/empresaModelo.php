@@ -12,7 +12,7 @@
 				VALUES (
 					'$empresa_id','".$datos['razon_social']."','".$datos['empresa']."','".$datos['otra_informacion']."',
 					'".$datos['eslogan']."','".$datos['celular']."','".$datos['telefono']."','".$datos['correo']."','".$datos['logotipo']."',
-					'".$datos['rtn']."','".$datos['ubicacion']."','".$datos['facebook']."','".$datos['sitioweb']."','".$datos['horario']."','".$datos['estado']."','".$datos['usuario']."','".$datos['fecha_registro']."')";
+					'".$datos['rtn']."','".$datos['ubicacion']."','".$datos['facebook']."','".$datos['sitioweb']."','".$datos['horario']."','".$datos['estado']."','".$datos['usuario']."','".$datos['fecha_registro']."','".$datos['firma_documento']."')";
 			
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
@@ -27,7 +27,7 @@
 		}
 
 		protected function getImage($empresa_id){
-			$query = "SELECT logotipo FROM empresa WHERE empresa_id = '$empresa_id'";
+			$query = "SELECT logotipo, firma_documento FROM empresa WHERE empresa_id = '$empresa_id'";
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;
@@ -49,7 +49,8 @@
 				facebook = '".$datos['facebook']."',
 				sitioweb = '".$datos['sitioweb']."',
 				horario = '".$datos['horario']."',
-				logotipo = '".$datos['logotipo']."'					
+				logotipo = '".$datos['logotipo']."',
+				firma_documento = '".$datos['firma_documento']."'
 			WHERE empresa_id = '".$datos['empresa_id']."'";
 			
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);

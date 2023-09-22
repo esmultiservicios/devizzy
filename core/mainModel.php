@@ -965,66 +965,36 @@
 
 
 		public function actualizarCotizacionFactura($cotizacion_id){
-
 			$query = "UPDATE cotizacion
-
 				SET
-
 					estado = '3'
-
 				WHERE cotizacion_id = '$cotizacion_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
 
 
 		public function getCotizacionFactura($cotizacion_id){
-
 			$query = "SELECT clientes_id, colaboradores_id, importe, notas
-
 				FROM cotizacion
-
 				WHERE cotizacion_id = '$cotizacion_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getCotizacionDetallesFactura($cotizacion_id){
-
 			$query = "SELECT productos_id, cantidad, precio, isv_valor, descuento
-
 				FROM cotizacion_detalles
-
 				WHERE cotizacion_id = '$cotizacion_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function secuencia_facturacion($empresa_id){
 
@@ -2763,7 +2733,7 @@
 		}
 
 		public function getEgresosContablesReporte($egresos_id){
-			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', p.rtn AS 'rtn_proveedor', p.localidad AS 'localidad', p.telefono AS 'telefono', e.factura AS 'factura', e.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(e.fecha, '%d/%m/%Y') AS 'fecha', time(e.fecha_registro) AS 'hora', e.observacion AS 'observacion', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido', e.estado AS 'estado', emp.rtn AS 'rtn_empresa', e.subtotal AS 'subtotal', e.descuento AS 'descuento', e.nc AS 'nc', e.impuesto AS 'impuesto', e.total AS 'total', DATE_FORMAT(e.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta'
+			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', p.rtn AS 'rtn_proveedor', p.localidad AS 'localidad', p.telefono AS 'telefono', e.factura AS 'factura', e.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(e.fecha, '%d/%m/%Y') AS 'fecha', time(e.fecha_registro) AS 'hora', e.observacion AS 'observacion', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido', e.estado AS 'estado', emp.rtn AS 'rtn_empresa', e.subtotal AS 'subtotal', e.descuento AS 'descuento', e.nc AS 'nc', e.impuesto AS 'impuesto', e.total AS 'total', DATE_FORMAT(e.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta', emp.logotipo AS 'logotipo', emp.firma_documento AS 'firma_documento'
 				FROM egresos AS e
 				INNER JOIN cuentas AS c
 				ON e.cuentas_id = c.cuentas_id
@@ -2784,7 +2754,7 @@
 
 
 		public function getIngresosContablesReporte($ingresos_id){
-			$query = "SELECT i.ingresos_id AS 'ingresos_id', i.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', cl.nombre AS 'cliente', cl.rtn AS 'rtn_cliente', cl.localidad AS 'localidad', cl.telefono AS 'telefono', i.factura AS 'factura', i.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(i.fecha, '%d/%m/%Y') AS 'fecha', time(i.fecha_registro) AS 'hora', i.observacion AS 'observacion', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', i.estado AS 'estado', emp.rtn AS 'rtn_empresa', i.subtotal AS 'subtotal', i.descuento AS 'descuento', i.nc AS 'nc', i.impuesto AS 'impuesto', i.total AS 'total', DATE_FORMAT(i.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta'
+			$query = "SELECT i.ingresos_id AS 'ingresos_id', i.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', cl.nombre AS 'cliente', cl.rtn AS 'rtn_cliente', cl.localidad AS 'localidad', cl.telefono AS 'telefono', i.factura AS 'factura', i.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(i.fecha, '%d/%m/%Y') AS 'fecha', time(i.fecha_registro) AS 'hora', i.observacion AS 'observacion', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', i.estado AS 'estado', emp.rtn AS 'rtn_empresa', i.subtotal AS 'subtotal', i.descuento AS 'descuento', i.nc AS 'nc', i.impuesto AS 'impuesto', i.total AS 'total', DATE_FORMAT(i.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta', emp.logotipo AS 'logotipo', emp.firma_documento AS 'firma_documento'
 				FROM ingresos AS i
 				INNER JOIN cuentas AS c
 				ON i.cuentas_id = c.cuentas_id
@@ -2947,7 +2917,7 @@
 		}
 
 		public function getFactura($noFactura){
-			$query = "SELECT c.clientes_id As 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn_cliente', c.telefono AS 'telefono', c.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn_empresa', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn', f.fecha_dolar AS 'fecha_dolar'
+			$query = "SELECT c.clientes_id As 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn_cliente', c.telefono AS 'telefono', c.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn_empresa', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn', f.fecha_dolar AS 'fecha_dolar', e.logotipo AS 'logotipo', e.firma_documento AS 'firma_documento'
 				FROM facturas AS f
 				INNER JOIN clientes AS c
 				ON f.clientes_id = c.clientes_id
@@ -2968,7 +2938,7 @@
 			 e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular',
 			  e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido',
 			   DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', c.fecha_dolar,
-			    time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito'END) AS 'tipo_documento', vg.valor AS 'vigencia_cotizacion', e.rtn AS 'rtn_empresa'
+			    time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito'END) AS 'tipo_documento', vg.valor AS 'vigencia_cotizacion', e.rtn AS 'rtn_empresa', e.logotipo AS 'logotipo', e.firma_documento AS 'firma_documento'
 				FROM cotizacion AS c
 				INNER JOIN clientes AS cl
 				ON c.clientes_id = cl.clientes_id
@@ -2987,7 +2957,7 @@
 
 		public function getCompra($noCompra){
 
-			$query = "SELECT p.nombre AS 'proveedor', p.rtn AS 'rtn_proveedor', p.telefono AS 'telefono', p.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_compra = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn_empresa', c.proveedores_id AS 'proveedores_id'
+			$query = "SELECT p.nombre AS 'proveedor', p.rtn AS 'rtn_proveedor', p.telefono AS 'telefono', p.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_compra = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn_empresa', c.proveedores_id AS 'proveedores_id', e.logotipo AS 'logotipo', e.firma_documento AS 'firma_documento'
 				FROM compras AS c
 				INNER JOIN proveedores AS p
 				ON c.proveedores_id = p.proveedores_id
@@ -3060,8 +3030,6 @@
 			return $result;
 		}
 
-
-
 		public function geFacturaCorreo($facturas_id){
 			$query = "SELECT c.nombre AS 'cliente', c.correo AS 'correo', f.number AS 'numero', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno'
 			FROM facturas AS f
@@ -3077,28 +3045,16 @@
 		}
 
 		public function getCotizacionCorreo($cotizacion_id){
-
 			$query = "SELECT cl.nombre AS 'cliente', cl.correo AS 'correo', c.number AS 'numero'
-
 			FROM cotizacion AS c
-
 			INNER JOIN clientes AS cl
-
 			ON c.clientes_id = cl.clientes_id
-
 			WHERE c.cotizacion_id = '$cotizacion_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getCorreoServer($correo_tipo_id){
 			$query = "SELECT c.correo_id AS 'correo_id', c.correo_tipo_id AS 'correo_tipo_id', ct.nombre AS 'tipo_correo', c.server AS 'server', c.correo AS 'correo', c.port AS 'port', c.smtp_secure AS 'smtp_secure', c.estado AS 'estado', c.password AS 'password'
