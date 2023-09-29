@@ -24,7 +24,7 @@
 			$fecha_limite = mainModel::cleanString($_POST['fecha_limite_secuencia']);
 			$usuario = mainModel::cleanString($_SESSION['colaborador_id_sd']);
 			$fecha_registro = date("Y-m-d H:i:s");
-			$activo = 1;		
+			$activo = 1;	
 			
 			$datos = [
 				"empresa_id" => $empresa_id,
@@ -188,4 +188,4 @@
 			return mainModel::sweetAlert($alert);
 		}
 	}
-?>	
+?>

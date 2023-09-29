@@ -9,6 +9,7 @@
 		protected function agregar_secuencia_facturacion_modelo($datos){
 			$secuencia_facturacion_id  = mainModel::correlativo("secuencia_facturacion_id ", "secuencia_facturacion");
 			$insert = "INSERT INTO secuencia_facturacion VALUES('$secuencia_facturacion_id','".$datos['empresa_id']."', '".$datos['cai']."','".$datos['prefijo']."','".$datos['relleno']."','".$datos['incremento']."','".$datos['siguiente']."','".$datos['rango_inicial']."','".$datos['rango_final']."','".$datos['fecha_activacion']."','".$datos['fecha_limite']."','".$datos['activo']."','".$datos['usuario']."','".$datos['fecha_registro']."','".$datos['documento_id']."')";
+
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			
@@ -57,4 +58,4 @@
 			return $sql;				
 		}
 	}
-?>	
+?>

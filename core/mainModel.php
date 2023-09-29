@@ -15,7 +15,7 @@
 			$mysqli = new mysqli(SERVER, USER, PASS);
 		
 			if ($mysqli->connect_errno) {
-				echo "Fallo al conectar a MySQL: " . $mysqli->connect_error;
+				echo "Fallo al conectar a MySQL, connection: " . $mysqli->connect_error;
 				exit;
 			}
 		
@@ -23,7 +23,7 @@
 		
 			// Intenta seleccionar la base de datos
 			if (!$mysqli->select_db($GLOBALS['db'])) {
-				echo "Error al seleccionar la base de datos desde mainModel.php: " . $mysqli->error;
+				echo "Error al seleccionar la base de datos desde mainModel.php, connection: " . $mysqli->error;
 				exit;
 			}
 		
@@ -34,7 +34,7 @@
 			$mysqliLogin = new mysqli(SERVER, USER, PASS);
 		
 			if ($mysqliLogin->connect_errno) {
-				echo "Fallo al conectar a MySQL: " . $mysqliLogin->connect_error;
+				echo "Fallo al conectar a MySQL, connectionLogi: " . $mysqliLogin->connect_error;
 				exit;
 			}
 		
@@ -42,7 +42,7 @@
 		
 			// Intenta seleccionar la base de datos
 			if (!$mysqliLogin->select_db($GLOBALS['DB_MAIN'])) {
-				echo "Error al seleccionar la base de datos desde mainModel.php: " . $mysqliLogin->error;
+				echo "Error al seleccionar la base de datos desde mainModel.php, connectionLogin: " . $mysqliLogin->error;
 				exit;
 			}
 		
