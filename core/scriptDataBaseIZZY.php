@@ -1302,7 +1302,7 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       `almacen_id` int NOT NULL,
       `medida_id` int NOT NULL,
       `categoria_id` int NOT NULL,
-      `nombre` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+      `nombre` char(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
       `descripcion` char(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
       `tipo_producto_id` int NOT NULL,
       `precio_compra` float(12,2) NOT NULL,
