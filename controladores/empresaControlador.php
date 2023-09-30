@@ -166,8 +166,10 @@
 							
 			$digits = 3;
 			$valor = rand(pow(10, $digits-1), pow(10, $digits)-1);
+			$cargarLogo = false;
 
-			if (isset($_FILES["logotipo"]["tmp_name"])) {
+			if (isset($_FILES["logotipo"]["tmp_name"]) && $_FILES["logotipo"]["error"] == UPLOAD_ERR_OK) {
+				$cargarLogo = true;
 				if( $imageFilename != "image_preview.png"){
 					if (file_exists($imagePath)) {
 						// Eliminar la imagen anterior si existe
@@ -205,7 +207,10 @@
 			$digits = 3;
 			$valor = rand(pow(10, $digits-1), pow(10, $digits)-1);
 
-			if (isset($_FILES["firma_documento"]["tmp_name"])) {
+			$cargarFirma = false;
+			if (isset($_FILES["firma_documento"]["tmp_name"]) && $_FILES["firma_documento"]["error"] == UPLOAD_ERR_OK) {
+				$cargarFirma = true;
+
 				if (file_exists($imagePathfirma_documento)) {
 					// Eliminar la imagen anterior si existe
 					unlink($imagePathfirma_documento);
@@ -256,7 +261,9 @@
 				"horario" => $horario,
 				"facebook" => $facebook,
 				"sitioweb" => $sitioweb,				
-				"estado" => $estado			
+				"estado" => $estado,
+				"cargarLogo" => $cargarLogo,
+				"cargarFirma" => $cargarFirma			
 			];	
 
 			$query = empresaModelo::edit_empresa_modelo($datos);
@@ -344,4 +351,4 @@
 			return mainModel::sweetAlert($alert);
 		}
 	}
-?>	
+?>

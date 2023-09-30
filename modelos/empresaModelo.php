@@ -34,24 +34,79 @@
 		}		
 		
 		protected function edit_empresa_modelo($datos){
-			$update = "UPDATE empresa
-			SET
-				razon_social = '".$datos['razon_social']."',
-				nombre = '".$datos['empresa']."',
-				otra_informacion = '".$datos['otra_informacion']."',
-				eslogan = '".$datos['eslogan']."',				
-				celular = '".$datos['celular']."',
-				telefono = '".$datos['telefono']."',
-				correo = '".$datos['correo']."',
-				rtn = '".$datos['rtn']."',
-				ubicacion = '".$datos['ubicacion']."',
-				estado = '".$datos['estado']."',
-				facebook = '".$datos['facebook']."',
-				sitioweb = '".$datos['sitioweb']."',
-				horario = '".$datos['horario']."',
-				logotipo = '".$datos['logotipo']."',
-				firma_documento = '".$datos['firma_documento']."'
-			WHERE empresa_id = '".$datos['empresa_id']."'";
+			if($datos['cargarFirma'] === true && $datos['cargarLogo'] === true) {			
+				$update = "UPDATE empresa
+				SET
+					razon_social = '".$datos['razon_social']."',
+					nombre = '".$datos['empresa']."',
+					otra_informacion = '".$datos['otra_informacion']."',
+					eslogan = '".$datos['eslogan']."',				
+					celular = '".$datos['celular']."',
+					telefono = '".$datos['telefono']."',
+					correo = '".$datos['correo']."',
+					rtn = '".$datos['rtn']."',
+					ubicacion = '".$datos['ubicacion']."',
+					estado = '".$datos['estado']."',
+					facebook = '".$datos['facebook']."',
+					sitioweb = '".$datos['sitioweb']."',
+					horario = '".$datos['horario']."',
+					logotipo = '".$datos['logotipo']."',
+					firma_documento = '".$datos['firma_documento']."'
+				WHERE empresa_id = '".$datos['empresa_id']."'";
+			}else if($datos['cargarLogo'] === true) {
+				$update = "UPDATE empresa
+				SET
+					razon_social = '".$datos['razon_social']."',
+					nombre = '".$datos['empresa']."',
+					otra_informacion = '".$datos['otra_informacion']."',
+					eslogan = '".$datos['eslogan']."',				
+					celular = '".$datos['celular']."',
+					telefono = '".$datos['telefono']."',
+					correo = '".$datos['correo']."',
+					rtn = '".$datos['rtn']."',
+					ubicacion = '".$datos['ubicacion']."',
+					estado = '".$datos['estado']."',
+					facebook = '".$datos['facebook']."',
+					sitioweb = '".$datos['sitioweb']."',
+					horario = '".$datos['horario']."',
+					logotipo = '".$datos['logotipo']."'
+				WHERE empresa_id = '".$datos['empresa_id']."'";
+			}else if($datos['cargarFirma'] === true) {			
+				$update = "UPDATE empresa
+				SET
+					razon_social = '".$datos['razon_social']."',
+					nombre = '".$datos['empresa']."',
+					otra_informacion = '".$datos['otra_informacion']."',
+					eslogan = '".$datos['eslogan']."',				
+					celular = '".$datos['celular']."',
+					telefono = '".$datos['telefono']."',
+					correo = '".$datos['correo']."',
+					rtn = '".$datos['rtn']."',
+					ubicacion = '".$datos['ubicacion']."',
+					estado = '".$datos['estado']."',
+					facebook = '".$datos['facebook']."',
+					sitioweb = '".$datos['sitioweb']."',
+					horario = '".$datos['horario']."',
+					firma_documento = '".$datos['firma_documento']."'
+				WHERE empresa_id = '".$datos['empresa_id']."'";
+			}else{
+				$update = "UPDATE empresa
+				SET
+					razon_social = '".$datos['razon_social']."',
+					nombre = '".$datos['empresa']."',
+					otra_informacion = '".$datos['otra_informacion']."',
+					eslogan = '".$datos['eslogan']."',				
+					celular = '".$datos['celular']."',
+					telefono = '".$datos['telefono']."',
+					correo = '".$datos['correo']."',
+					rtn = '".$datos['rtn']."',
+					ubicacion = '".$datos['ubicacion']."',
+					estado = '".$datos['estado']."',
+					facebook = '".$datos['facebook']."',
+					sitioweb = '".$datos['sitioweb']."',
+					horario = '".$datos['horario']."'
+				WHERE empresa_id = '".$datos['empresa_id']."'";				
+			}
 			
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 			
@@ -74,4 +129,4 @@
 			return $sql;			
 		}
 	}
-?>	
+?>
