@@ -22,7 +22,7 @@
             ];
 
 			//CONSULTAMOS EL CUSTOMR SERVER PARA TENER LA DB DEL CLIENTE Y ASI OBTENER A QUE DB NOS CONECTAREMOS
-			$query_server = "SELECT COALESCE(s.server_customers_id, '0') AS server_customers_id, COALESCE(s.db, 'clinicarehn_clientes_clinicare') AS db
+			$query_server = "SELECT COALESCE(s.server_customers_id, '0') AS server_customers_id, COALESCE(s.db, '" . DB_MAIN . "') AS db
 				FROM users AS u
 				LEFT JOIN server_customers AS s ON u.server_customers_id = s.server_customers_id
 				WHERE u.email = '$username'";
@@ -237,4 +237,4 @@
 			return json_encode($datos);
 		}
     }
-?>	
+?>
