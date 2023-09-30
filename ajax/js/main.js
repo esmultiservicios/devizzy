@@ -80,8 +80,8 @@ $('.FormularioAjax').submit(function(e){
 				// Habilitar el botón después de completar la transacción
 				form.find('button[type="submit"]').prop('disabled', false);
 
-				// Habilitar el botón de "Cancelar"
-                $('.sweet-alert button.cancel').prop('disabled', false);
+				// Habilita solo el botón de "Cancelar" del swal
+  				swal.enableCancelButton();
 
 				return false;
 			},
