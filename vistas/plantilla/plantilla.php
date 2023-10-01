@@ -5,29 +5,34 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title><?php echo COMPANY;?></title>
-    <link href="<?php echo SERVERURL; ?>ajax/bootstrap/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
-    <link href="<?php echo SERVERURL; ?>ajax/bootstrap/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous"/>
-    <link href="<?php echo SERVERURL; ?>vistas/plantilla/css/styles.css" rel="stylesheet"/> 
-	<link href="<?php echo SERVERURL; ?>vistas/plantilla/css/main_cards.css" rel="stylesheet"/>
-    <link href="<?php echo SERVERURL; ?>ajax/bootstrap/css/bootstrap-select.min.css" rel="stylesheet" crossorigin="anonymous"/>
+    <link href="<?php echo SERVERURL; ?>ajax/bootstrap/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous" />
+    <link href="<?php echo SERVERURL; ?>ajax/bootstrap/css/dataTables.bootstrap4.min.css" rel="stylesheet"
+        crossorigin="anonymous" />
+    <link href="<?php echo SERVERURL; ?>vistas/plantilla/css/styles.css" rel="stylesheet" />
+    <link href="<?php echo SERVERURL; ?>vistas/plantilla/css/main_cards.css" rel="stylesheet" />
+    <link href="<?php echo SERVERURL; ?>ajax/bootstrap/css/bootstrap-select.min.css" rel="stylesheet"
+        crossorigin="anonymous" />
     <link rel="stylesheet" href="<?php echo SERVERURL; ?>fontawesome/css/all.min.css">
     <link rel="shortcut icon" href="<?php echo SERVERURL; ?>vistas/plantilla/img/icono.png">
-    <link href="<?php echo SERVERURL; ?>ajax/sweetalert/sweetalert.css" rel="stylesheet" crossorigin="anonymous"/>				
+    <link href="<?php echo SERVERURL; ?>ajax/sweetalert/sweetalert.css" rel="stylesheet" crossorigin="anonymous" />
 </head>
+
 <body class="sb-nav-fixed">
     <?php
         if (SISTEMA_PRUEBA=="SI"){ //CAJA
         ?>
-            <span class="container-fluid prueba-sistema">SISTEMA DE PRUEBA</span>
-        <?php
+    <span class="container-fluid prueba-sistema">SISTEMA DE PRUEBA</span>
+    <?php
         }
     ?>
 
@@ -74,18 +79,18 @@
                     require_once $vistasR;
                 ?>
                 <!-- Fin Contenido -->
-				
-				<?php 
+
+                <?php 
 					if(is_file("./vistas/plantilla/modulos/".$ruta[0].".php")){
 						require_once "./vistas/plantilla/modulos/".$ruta[0].".php"; 
 					}else{
 						require_once "./vistas/plantilla/modulos/footer.php";
 					}  			
-				?>				
-            </main>	
-			
-        </div>        
-    </div> 
+				?>
+            </main>
+
+        </div>
+    </div>
 
     <?php 
         if(is_file("./vistas/contenido/modals/".$ruta[0].".php")){
@@ -111,9 +116,11 @@
         }                    
 
 		endif; 		
-	?>  
-    
-<a href="https://api.whatsapp.com/send?phone=50432273380&text=Hola%20CLINICARE,%20nos%20gustar%C3%ADa%20que%20nos%20puedan%20brindar%20asistencia%20t%C3%A9cnica,%20muchas%20gracias." class="float-ws" target="_blank" data-toggle="tooltip" data-placement="top" title="Soporte CLINICARE">
-    <i class="fab fa-whatsapp my-float-ws"></i></a>
+	?>
+
+    <a href="https://api.whatsapp.com/send?phone=50432273380&text=Hola%20CLINICARE,%20nos%20gustar%C3%ADa%20que%20nos%20puedan%20brindar%20asistencia%20t%C3%A9cnica,%20muchas%20gracias."
+        class="float-ws" target="_blank" data-toggle="tooltip" data-placement="top" title="Soporte CLINICARE">
+        <i class="fab fa-whatsapp my-float-ws"></i></a>
 </body>
+
 </html>
