@@ -29,12 +29,14 @@
 
 			$resultServerUser = mainModel::connectionLogin()->query($query_server);
 			$consultaServeruser = $resultServerUser->fetch_assoc();
+			
 			$GLOBALS['db'] = $consultaServeruser['db'] === "" ? $GLOBALS['DB_MAIN'] : $consultaServeruser['db'];
 
-            $result = loginModel::iniciar_sesion_modelo($datosLogin);
-			
+            $result = loginModel::iniciar_sesion_modelo($datosLogin);			
+
             if($result->num_rows != 0){
 				$row = $result->fetch_assoc();
+				
 				$fechaActual = date("Y-m-d");
 				$añoActual = date("Y");
 				$horaActual = date("H:m:s");

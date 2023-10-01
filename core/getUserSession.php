@@ -9,9 +9,9 @@
 	
 	$insMainModel = new mainModel();
 	
-	$identidad = $_SESSION['identidad'];
+	$colaborador_id = $_SESSION['colaborador_id_sd'];
 
-	$result = $insMainModel->getUserSession($identidad);
+	$result = $insMainModel->getUserSession($colaborador_id);
 	
 	if($result->num_rows>0){
 		$consulta2 = $result->fetch_assoc();
@@ -23,4 +23,4 @@
 		$usuario_sistema_nombre = $nombre_usuario." ".$nombre_apellido;
 		echo $usuario_sistema_nombre;
 	}
-?>	
+?>

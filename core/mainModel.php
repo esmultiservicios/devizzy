@@ -20,7 +20,7 @@
 			}
 		
 			$mysqli->set_charset("utf8");
-		
+
 			// Intenta seleccionar la base de datos
 			if (!$mysqli->select_db($GLOBALS['db'])) {
 				echo "Error al seleccionar la base de datos desde mainModel.php, connection: " . $mysqli->error;
@@ -1547,10 +1547,10 @@
 			return $result;
 		}
 
-		public function getUserSession($identidad){
+		public function getUserSession($colaborador_id){
 			$query = "SELECT nombre, apellido
 				FROM colaboradores
-				WHERE identidad = '$identidad'";
+				WHERE colaboradores_id = '$colaborador_id'";
 
 			$result = self::connection()->query($query);
 
