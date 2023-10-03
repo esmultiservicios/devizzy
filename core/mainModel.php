@@ -11,7 +11,7 @@
 
     class mainModel{		
          /*FUNCTION QUE PERMITE REALIZAR LA CONEXIÓN A LA DB*/		
-		 protected function connection(){	
+		 public function connection(){	
 			$mysqli = new mysqli(SERVER, USER, PASS);
 		
 			if ($mysqli->connect_errno) {

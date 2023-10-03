@@ -18,7 +18,7 @@
 				ON u.tipo_user_id = tu.tipo_user_id 
 				INNER JOIN colaboradores AS c
 				ON u.colaboradores_id = c.colaboradores_id
-				WHERE BINARY u.email LIKE '$username%' AND u.password = '$password' AND u.estado = '$estatus'
+				WHERE BINARY u.email = '$username' AND u.password = '$password' AND u.estado = '$estatus'
 				GROUP by u.tipo_user_id";
 
 			$result = $mysqli->query($query) or die($mysqli->error);
