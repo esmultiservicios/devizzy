@@ -112,15 +112,16 @@
     <ul class="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <li class="nav-item dropdown active">
             <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-lg"></i> <span
-                    id="user_session"></span></a>
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user fa-lg"></i> <span id="user_session"></span>
+            </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#" id="cambiar_contraseña_usuarios_sistema">Modificar Contraseña</a>
-                <a class="dropdown-item" href="#" id="modificar_perfil_usuario_sistema">Modificar Perfil</a>
+                <a class="dropdown-item" href="#" id="modificar_perfil_usuario_sistema">Mi Perfil</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item btn-exit-system"
-                    href="<?php echo $lc->encryption($_SESSION['token_sd']);?>">Salir</a>
+                <a class="dropdown-item btn-exit-system" href="<?php echo $lc->encryption($_SESSION['token_sd']);?>">Salir</a>
             </div>
         </li>
     </ul>
+
 </nav>

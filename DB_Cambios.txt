@@ -1,3 +1,15 @@
+####10/03/2023####
+tabla => server_customers
+codigo_cliente		int se agrego despues de clientes_id
+
+tabla => pin
+pin_id 			int
+server_customers_id	int
+codigo_cliente		int
+pin			int
+fecha_hora_inicio	datetime
+fecha_hora_fin		datetime
+
 ####09/15/2023####
 tabla => users
 server_customers_id	int se agrego al final de empresa_id

@@ -130,6 +130,16 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
   
     // Define el contenido del archivo SQL
     $sql = "
+    DROP TABLE IF EXISTS `pin`;
+    CREATE TABLE IF NOT EXISTS `pin` (
+      `pin_id` int NOT NULL,
+      `server_customers_id` int NOT NULL,
+      `codigo_cliente` int NOT NULL,
+      `pin` int NOT NULL,
+      `fecha_hora_inicio` datetime NOT NULL,
+      `fecha_hora_fin` datetime NOT NULL
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
     DROP TABLE IF EXISTS `acceso_menu`;
     CREATE TABLE IF NOT EXISTS `acceso_menu` (
       `acceso_menu_id` int NOT NULL,
@@ -297,6 +307,7 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     CREATE TABLE IF NOT EXISTS `server_customers` (
       `server_customers_id` int NOT NULL,
       `clientes_id` int NOT NULL,
+      `codigo_cliente` int NOT NULL,
       `db` char(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
       `planes_id` int NOT NULL,
       `sistema_id` int NOT NULL,
@@ -1879,12 +1890,44 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
   
     //GUARDAMOS LOS DATOS EN EL server_customers
     $tabla = "server_customers";
-    $campos = ["server_customers_id", "clientes_id", "db", "validar", "sistema_id", "planes_id", "estado"];
+
+    //CONSULTAMOS EL CODIGO DEL CLIENTE ANTES DE GUARDARLO
+    $generadoCodCliente = false;
+    $codigo_cliente = "";
+
+    while($generadoCodCliente) {
+        // Generar un PIN aleatorio de 8 dígitos
+        $codigo_cliente = mt_rand(10000000, 999999);
+
+        $camposServer_customers = ["server_customers_id"];
+        $condicionesServer_customers = ["codigo_cliente" => $codigo_cliente];
+        $orderBy = "";
+        $tablaJoin = "";
+        $condicionesJoin = [];
+        $resultadoServer_customers = $database->consultarTabla($tabla, $camposServer_customers, $condicionesServer_customers, $orderBy, $tablaJoin, $condicionesJoin);
+    
+        if (empty($resultadoServer_customers)) {
+          $generadoCodCliente = true;
+          
+          break;//SALIMOS DEL CICLO
+        }else{
+          $generadoCodCliente = false;
+        }
+    }
+
+    $campos = ["server_customers_id", "clientes_id", "db", "validar", "sistema_id", "planes_id", "estado", "codigo_cliente"];
     $campoCorrelativo = "server_customers_id";  
     $server_customers_id = $database->obtenerCorrelativo($tabla, $campoCorrelativo);
   
-    $valores = [$server_customers_id, $clientes_id, $databaseCliente, $validar, $sistema_id, $planes_id, "1"];
+    $valores = [$server_customers_id, $clientes_id, $databaseCliente, $validar, $sistema_id, $planes_id, "1", $codigo_cliente];
     $database->insertarRegistro($tabla, $campos, $valores);  
+
+    //GUARDAMOS LOS DATOS EN LA TABLA DEL CLIENTE
+    $sqlQueries = [
+      "INSERT INTO `server_customers` (`server_customers_id`, `clientes_id`, `codigo_cliente`, `db`, `planes_id`, `sistema_id`, `validar`, `estado`) VALUES
+      (1,$clientes_id,$codigo_cliente,$databaseCliente,$planes_id,$sistema_id,$validar,1);"
+      ]
+    insertarAccesoMenus($sqlQueries, $conn);
   
     //GUARDAMOS LOS DATOS DEL COLABORADOR EN ESTE CASO CON UNA PUESTO O CATEGORIA CLIENTES
     $puestos_id_defualt = 5; //CLIENTES
@@ -2056,7 +2099,7 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     $archivos_adjuntos = [];
   
     //ENVIAMOS EL CORREO DEL CLIENTE NUEVO AL RESELLER, ADMINISTRADOR, SUPER ADMINISTRADOR Y AL CLIENTE, SOBRE LA CREACIÓN DEL SISTEMA
-    $sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos);
+    //$sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos);
 
     // Cerrar la conexión a la segunda base de datos
     $conn->close();

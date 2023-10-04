@@ -12044,3 +12044,49 @@ input:checked+.slider:before {
 .navbar-nav .nav-link.menu-item {
   color: white;
 }
+
+#pin_container {
+  display: inline-block;
+  margin-right: 10px;
+  /* Espacio entre "Pin:" y el valor del PIN */
+}
+
+#pin_label,
+#pin_value {
+  cursor: text;
+  /* Cambia el cursor a uno de selección para estos elementos */
+}
+
+#generate_pin_link {
+  cursor: pointer;
+  /* Hace que "generate_pin_link" se comporte como un enlace */
+  color: blue;
+  /* Color del texto "Generar" */
+  text-decoration: underline;
+  /* Subrayado como un enlace */
+}
+
+#generate_pin_link:hover {
+  color: red;
+  /* Cambia el color al pasar el cursor sobre "generate_pin_link" (opcional) */
+}
+
+#cliente_label,
+#cliente_value {
+  cursor: default;
+  /* Deshabilita el cursor en todos los elementos dentro del enlace */
+}
+
+.dropdown-custom {
+  pointer-events: none;
+  /* Deshabilita cualquier evento de puntero para los elementos con la clase .dropdown-custom */
+}
+
+.dropdown-custom a {
+  pointer-events: auto;
+  /* Habilita eventos de puntero solo para los enlaces dentro de .dropdown-custom */
+  cursor: text;
+  /* Cambia el cursor a uno de selección */
+  text-decoration: none !important;
+  /* Elimina el subrayado de los enlaces (usa !important para prioridad) */
+}

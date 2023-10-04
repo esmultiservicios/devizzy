@@ -29,7 +29,7 @@
 			//CONSULTAMOS EL CUSTOMR SERVER PARA TENER LA DB DEL CLIENTE Y ASI OBTENER A QUE DB NOS CONECTAREMOS
 			if ($inputCliente !== "" && $inputPin !== "") {
 				// Ambos campos tienen valores
-				$query_server = "SELECT COALESCE(s.server_customers_id, '0') AS server_customers_id, COALESCE(s.db, '" . DB_MAIN . "') AS db
+				$query_server = "SELECT COALESCE(s.server_customers_id, '0') AS server_customers_id, COALESCE(s.db, '" . DB_MAIN . "') AS db, codigo_cliente
 					FROM users AS u
 					LEFT JOIN server_customers AS s ON u.server_customers_id = s.server_customers_id
 					WHERE u.email = '$username'";
@@ -39,7 +39,7 @@
 				$respuesta = true;
 			} else if ($inputCliente === "" && $inputPin === "") {
 				// Ambos campos están vacíos
-				$query_server = "SELECT COALESCE(s.server_customers_id, '0') AS server_customers_id, COALESCE(s.db, '" . DB_MAIN . "') AS db
+				$query_server = "SELECT COALESCE(s.server_customers_id, '0') AS server_customers_id, COALESCE(s.db, '" . DB_MAIN . "') AS db, codigo_cliente
 					FROM users AS u
 					LEFT JOIN server_customers AS s ON u.server_customers_id = s.server_customers_id
 					WHERE u.email = '$username'";
@@ -47,7 +47,7 @@
 			} else {
 				$respuesta = false;
 			}
-
+			
 			if($respuesta){
 				$resultServerUser = mainModel::connectionLogin()->query($query_server);
 
@@ -55,7 +55,7 @@
 					$consultaServeruser = $resultServerUser->fetch_assoc();
 			
 					//COSULTAMOS SI EL CLIENTE Y EL PIN SON CORRECTOS Y OBTENEMOS LA BASE DE DATOS PARA INICIAR AHI				
-	
+					$codigoCliente = $consultaServeruser['codigo_cliente'];
 					$GLOBALS['db'] = $consultaServeruser['db'] === "" ? $GLOBALS['DB_MAIN'] : $consultaServeruser['db'];
 		
 					$result = loginModel::iniciar_sesion_modelo($datosLogin);			
@@ -98,6 +98,7 @@
 							$_SESSION['server_customers_id'] = $row['server_customers_id'];
 							$_SESSION['codigo_bitacora_sd'] = $codigoB;
 							$_SESSION['identidad'] = $row['identidad'];
+							$_SESSION['codigoCliente'] = $codigoCliente;
 		
 							//CONSULTAMOS LA DB DEL CLIENTE									
 							$tablServerCustomer = "server_customers";

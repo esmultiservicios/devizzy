@@ -1542,8 +1542,82 @@ $('#formAsistencia #asistencia_empleado').on('change', function() {
 //FIN MARCAR ASISTENCIA
 
 //INICIO MODIFICAR PERFIL USUARIO SISTEMA
+//CONSULTAR CODIGO DE CLIENTE
+function getCodigoCliente() {
+    var url = '<?php echo SERVERURL;?>core/getCodigoCliente.php';
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        success: function(valores) {
+            var datos = eval(valores);
+            $('#formColaboradores #cliente_codigo_colaborador').val(datos[0]);
+            return false;
+        }
+    });
+}
+
+//GENERAR PIN
+function generatePin(generateNew) {
+    var codigoCliente = $('#formColaboradores #cliente_codigo_colaborador').val();
+
+    // Realizar la solicitud Ajax para generar el PIN
+    $.ajax({
+        url: '<?php echo SERVERURL;?>core/generarPinCliente.php',
+        type: 'POST',
+        data: {
+            codigoCliente: codigoCliente,
+            generateNew: generateNew // Envía el parámetro generateNew al servidor
+        },
+        dataType: 'json',
+        success: function(response) {
+            var pin = response.pin;
+
+            // Actualizar el valor del input con el nuevo PIN
+            $('#pin_colaborador').val(pin);
+        },
+        error: function(error) {
+            console.error('Error al generar el PIN: ', error);
+        }
+    });
+}
+
+function updateDatePin(newPin) {
+    $.ajax({
+        url: '<?php echo SERVERURL;?>core/updatePin.php.php', // Reemplaza con la URL correcta para actualizar el PIN
+        type: 'POST',
+        data: {
+            pin: newPin
+        }, // Envía el nuevo PIN al servidor
+        success: function(response) {
+            // Verificar si la actualización fue exitosa
+            if (response.success) {
+                console.log('PIN actualizado correctamente en la base de datos.');
+            } else {
+                console.error('Error al actualizar el PIN en la base de datos.');
+            }
+        },
+        error: function(error) {
+            console.error('Error al actualizar el PIN: ', error);
+        }
+    });
+}
+
+// Asignar la función al evento click del botón "Generar"
+$('#generarPin').on('click', function(event) {
+    event.preventDefault();
+    generatePin(1);
+});
+
 $('#modificar_perfil_usuario_sistema').on('click', function(e) {
     e.preventDefault();
+
+    $('#formColaboradores')[0].reset();
+
+    $('#estado_colaboradores').hide();
+    $("#datosClientes").show();
+    getCodigoCliente();
+
     var url = '<?php echo SERVERURL;?>core/editarColaboradoresUsuario.php';
 
     $.ajax({
@@ -1557,7 +1631,6 @@ $('#modificar_perfil_usuario_sistema').on('click', function(e) {
             $('#formColaboradores').attr({
                 'action': '<?php echo SERVERURL;?>ajax/modificarColaboradorAjaxMain.php'
             });
-            $('#formColaboradores')[0].reset();
             $('#reg_colaborador').hide();
             $('#edi_colaborador').show();
             $('#delete_colaborador').hide();
@@ -1593,6 +1666,7 @@ $('#modificar_perfil_usuario_sistema').on('click', function(e) {
             $('#formColaboradores #buscar_colaborador_empresa').hide();
 
             $('#formColaboradores #proceso_colaboradores').val("Editar");
+            generatePin(0);
             $('#modal_registrar_colaboradores').modal({
                 show: true,
                 keyboard: false,
