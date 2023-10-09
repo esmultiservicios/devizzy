@@ -211,6 +211,8 @@ use LDAP\Result;
             <p class="nota">
                 <center>
                     <?php 
+                    /*
+                    EVALUAR SI EL CLIENTE REQUIERE VER LOS DOLARES O NO
 				include_once 'cambioDolar.php';
 				if($consulta_registro['fecha_dolar'] != '0000-00-00' ){
 					$new_fecha_dolar = $consulta_registro['fecha_dolar'];
@@ -226,19 +228,22 @@ use LDAP\Result;
 						}
 					}
 				}
+                */
 			?>
                 </center>
             </p>
 
             <p class="nota">
                 <center><?php 
-				if($consulta_registro['fecha_dolar'] != '0000-00-00') { 
+				/*    
+                EVALUAR SI EL CLIENTE REQUIERE VER LOS DOLARES O NO            
+                if($consulta_registro['fecha_dolar'] != '0000-00-00') { 
 					if($total_despues_isv != 0 || $total_despues_isv != ""){
 						if(isset($dolar->success)){
 							echo $insMainModel->convertir($dolar->result).' DOLARES';
 						}	
 					}
-				}?>
+				}*/?>
                 </center>
             </p>
 
@@ -246,16 +251,6 @@ use LDAP\Result;
             <p class="nota"><br /><br /><br /><br /></p>
             <h4 class="label_gracias"><?php  echo nl2br($consulta_registro["eslogan"]); ?></h4>
             <p class="nota"><br /><br /><br /><br /></p>
-            <p class="nota"><b>__________________________</p>
-            <p class="nota"><b>&nbsp;&nbsp;Firma y Sello de Aceptación</p>
-            <p class="nota"><br /><br /><br /><br /></p>
-            <p class="nota"><?php 
-			if($consulta_registro["vigencia_cotizacion"] != ""){
-				echo "<p class='h2'><b>Cotización valida por :</b> ".nl2br($consulta_registro["vigencia_cotizacion"])."</p>";
-			}
-		?></p>
-            <p class="nota"><br /><br /></p>
-
             <?php
 			if($consulta_registro["estado"] == 1){
 				if($firma_documento !== "") {
@@ -268,6 +263,18 @@ use LDAP\Result;
 				}
 			}
 		?>
+            <p class="nota">
+                <center><b>__________________________</center>
+            </p>
+            <p class="nota">
+                <center><b>&nbsp;&nbsp;Firma y Sello de Aceptación</center>
+            </p>
+            <p class="nota"><br /></p>
+            <p class="nota"><?php 
+			if($consulta_registro["vigencia_cotizacion"] != ""){
+				echo "<p class='h2'><b>Cotización valida por :</b> ".nl2br($consulta_registro["vigencia_cotizacion"])."</p>";
+			}
+		?></p>
 
         </div>
     </div>
