@@ -5,85 +5,95 @@ use LDAP\Result;
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>Cotziación</title>
-	<link rel="stylesheet" href="<?php echo SERVERURL; ?>vistas/plantilla/css/style_factura.css">
-	<link rel="shortcut icon" href="<?php echo SERVERURL; ?>vistas/plantilla/img/icono.png">
+    <meta charset="UTF-8">
+    <title>Cotziación</title>
+    <link rel="stylesheet" href="<?php echo SERVERURL; ?>vistas/plantilla/css/style_factura.css">
+    <link rel="shortcut icon" href="<?php echo SERVERURL; ?>vistas/plantilla/img/icono.png">
 </head>
 
 <body>
-<?php echo $anulada; ?>
-<div id="page_pdf">
-	<table id="factura_head">
-		<tr>
-			<td class="logo_factura">
-				<div>
-					<img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $logotipo; ?>" width="150px" height="95px">
-				</div>
-			</td>
+    <?php echo $anulada; ?>
+    <div id="page_pdf">
+        <table id="factura_head">
+            <tr>
+                <td class="logo_factura">
+                    <div>
+                        <img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $logotipo; ?>"
+                            width="150px" height="95px">
+                    </div>
+                </td>
 
-			<td class="info_empresa">
-				<div>
-					<span class="h2"><?php echo $consulta_registro['empresa']; ?></span>
-					<p><?php echo nl2br($consulta_registro['direccion_empresa']); ?></p>
-					<p>PBX: <?php echo $consulta_registro['empresa_telefono']; ?></p>
-					<p>WhatsApp: <?php echo $consulta_registro['empresa_celular']; ?></p>
-					<p>Correo: <?php echo $consulta_registro['empresa_correo']; ?></p>
-					<p><?php echo $consulta_registro['otra_informacion']; ?></p>					
-				</div>
-			</td>
+                <td class="info_empresa">
+                    <div>
+                        <span class="h2"><?php echo $consulta_registro['empresa']; ?></span>
+                        <p><?php echo nl2br($consulta_registro['direccion_empresa']); ?></p>
+                        <p>PBX: <?php echo $consulta_registro['empresa_telefono']; ?></p>
+                        <p>WhatsApp: <?php echo $consulta_registro['empresa_celular']; ?></p>
+                        <p>Correo: <?php echo $consulta_registro['empresa_correo']; ?></p>
+                        <p><?php echo $consulta_registro['otra_informacion']; ?></p>
+                    </div>
+                </td>
 
-			<td class="info_factura">
-				<div class="round">
-					<span class="h3">Cotización</span>
-					<p><b>N° Cotización:</b> <?php echo $consulta_registro['numero_factura']; ?></p>
-					<p><b>Fecha:</b> <?php echo $consulta_registro['fecha'].' '.date('g:i a',strtotime($consulta_registro['hora'])); ?></p>
-					<p><b>RTN:</b> <?php echo $consulta_registro['rtn_empresa']; ?></p>
-				</div>
-			</td>
-		</tr>
-	</table>
+                <td class="info_factura">
+                    <div class="round">
+                        <span class="h3">Cotización</span>
+                        <p><b>N° Cotización:</b> <?php echo $consulta_registro['numero_factura']; ?></p>
+                        <p><b>Fecha:</b>
+                            <?php echo $consulta_registro['fecha'].' '.date('g:i a',strtotime($consulta_registro['hora'])); ?>
+                        </p>
+                        <p><b>RTN:</b> <?php echo $consulta_registro['rtn_empresa']; ?></p>
+                    </div>
+                </td>
+            </tr>
+        </table>
 
-	<table id="factura_cliente">
-		<tr>
-			<td class="info_cliente">
-				<div class="round">
-					<span class="h3">Cliente</span>
-					<table class="datos_cliente">
-						<tr>
-							<td><label>RTN:</label><p><?php 
+        <table id="factura_cliente">
+            <tr>
+                <td class="info_cliente">
+                    <div class="round">
+                        <span class="h3">Cliente</span>
+                        <table class="datos_cliente">
+                            <tr>
+                                <td><label>RTN:</label>
+                                    <p><?php 
 									if(strlen($consulta_registro['rtn_cliente'])<10){
 										echo "";
 									}else{
 										echo $consulta_registro['rtn_cliente'];
 									}							
-							?></p></td>							
-							<td><label>Teléfono:</label> <p><?php echo $consulta_registro['telefono']; ?></p></td>
-						</tr>
-						<tr>
-							<td colspan="2"><label>Cliente:</label><p><?php echo $consulta_registro['cliente']; ?></p></td>
-						</tr>
-					</table>
-				</div>
-			</td>
+							?></p>
+                                </td>
+                                <td><label>Teléfono:</label>
+                                    <p><?php echo $consulta_registro['telefono']; ?></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><label>Cliente:</label>
+                                    <p><?php echo $consulta_registro['cliente']; ?></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
 
-		</tr>
-	</table>
-	<table id="factura_detalle">
-			<thead>
-				<tr>
-					<th width="2.66%">N°</th>
-					<th width="40.66%">Nombre Producto</th>
-					<th width="6.66%" class="textleft">Cantidad</th>
-					<th width="6%" class="textleft">Medida</th>
-					<th width="16.66%" class="textright">Precio</th>
-					<th width="16.66%" class="textright">Descuento</th>
-					<th width="16.66%" class="textright">Importe</th>
-				</tr>
-			</thead>
-			<tbody id="detalle_productos">
-				<?php
+            </tr>
+        </table>
+        <table id="factura_detalle">
+            <thead>
+                <tr>
+                    <th width="2.66%">N°</th>
+                    <th width="40.66%">Nombre Producto</th>
+                    <th width="6.66%" class="textleft">Cantidad</th>
+                    <th width="6%" class="textleft">Medida</th>
+                    <th width="16.66%" class="textright">Precio</th>
+                    <th width="16.66%" class="textright">Descuento</th>
+                    <th width="16.66%" class="textright">Importe</th>
+                </tr>
+            </thead>
+            <tbody id="detalle_productos">
+                <?php
 					$total_despues_isv = 0;
 					$importe_gravado = 0;
 					$importe_excento = 0;
@@ -137,67 +147,70 @@ use LDAP\Result;
 					$total_despues_isv = ($total + $isv_neto) - $descuentos_neto;			
 				?>
 
-			</tbody>
-			<tfoot id="detalle_totales">	
-				<tr>
-					<td colspan="6" class="textright"><span>&nbsp;</span></td>
-				</tr>
-				<tr>
-					<td colspan="6" class="textright"><span>Importe</span></td>
-					<td class="textright"><span>L. <?php echo number_format($total,2);?></span></td>
-				</tr>
-				<tr>
-				<td colspan="6" class="textright"><span>Descuentos y Rebajas Otorgados</span></td>
-					<td class="textright"><span>L. <?php echo number_format($descuentos_neto,2);?></span></td>
-				</tr>							
-				<tr>
-					<td colspan="6" class="textright"><span>Sub-Total</span></td>
-					<td class="textright"><span>L. <?php echo number_format($subtotal,2);?></span></td>
-				</tr>
-				<tr>
-					<td colspan="6" class="textright"><span>Importe Exonerado</span></td>
-					<td class="textright"><span>L. <?php echo number_format(0,2);?></span></td>
-				</tr>
-				<tr>
-					<td colspan="6" class="textright"><span>Importe Excento</span></td>
-					<td class="textright"><span>L. <?php echo number_format($importe_excento,2);?></span></td>
-				</tr>				
-				<tr>
-					<td colspan="6" class="textright"><span>Importe Gravado 15%</span></td>
-					<td class="textright"><span>L. <?php echo number_format($importe_gravado,2); ?></span></td>
-				</tr>
-				<tr>
-					<td colspan="6" class="textright"><span>Importe Gravado 18%</span></td>
-					<td class="textright"><span>L. <?php echo number_format(0,2);?></span></td>
-				</tr>	
-				<tr>
-					<td colspan="6" class="textright"><span>ISV 15%</span></td>
-					<td class="textright"><span>L. <?php echo number_format($isv_neto,2); ?></span></td>
-				</tr>	
+            </tbody>
+            <tfoot id="detalle_totales">
+                <tr>
+                    <td colspan="6" class="textright"><span>&nbsp;</span></td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="textright"><span>Importe</span></td>
+                    <td class="textright"><span>L. <?php echo number_format($total,2);?></span></td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="textright"><span>Descuentos y Rebajas Otorgados</span></td>
+                    <td class="textright"><span>L. <?php echo number_format($descuentos_neto,2);?></span></td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="textright"><span>Sub-Total</span></td>
+                    <td class="textright"><span>L. <?php echo number_format($subtotal,2);?></span></td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="textright"><span>Importe Exonerado</span></td>
+                    <td class="textright"><span>L. <?php echo number_format(0,2);?></span></td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="textright"><span>Importe Excento</span></td>
+                    <td class="textright"><span>L. <?php echo number_format($importe_excento,2);?></span></td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="textright"><span>Importe Gravado 15%</span></td>
+                    <td class="textright"><span>L. <?php echo number_format($importe_gravado,2); ?></span></td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="textright"><span>Importe Gravado 18%</span></td>
+                    <td class="textright"><span>L. <?php echo number_format(0,2);?></span></td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="textright"><span>ISV 15%</span></td>
+                    <td class="textright"><span>L. <?php echo number_format($isv_neto,2); ?></span></td>
+                </tr>
 
-				<tr>
-					<td colspan="6" class="textright"><span>ISV 18%</span></td>
-					<td class="textright"><span>L. <?php echo number_format(0,2);?></span></td>
-				</tr>				
-				<tr>
-					<td colspan="6" class="textright"><span>Total</span></td>
-					<td class="textright"><span>L. <?php echo number_format($total_despues_isv,2); ?></span></td>
-				</tr>
-		</tfoot>
-	</table>
+                <tr>
+                    <td colspan="6" class="textright"><span>ISV 18%</span></td>
+                    <td class="textright"><span>L. <?php echo number_format(0,2);?></span></td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="textright"><span>Total</span></td>
+                    <td class="textright"><span>L. <?php echo number_format($total_despues_isv,2); ?></span></td>
+                </tr>
+            </tfoot>
+        </table>
 
-	<div>
-		<p class="nota"><?php 
+        <div>
+            <p class="nota"><?php 
 			if($consulta_registro["notas"] != ""){
 				echo "<p class='h2'>Nota:</b></p>";
 				echo "<p class='h2'>".nl2br($consulta_registro["notas"])."</p>";
 			}	
 
 		?></p>
-		<p class="nota"><center><?php echo $insMainModel->convertir($total_despues_isv).' LEMPIRAS';?></center></p>
-		<br>
-		<p class="nota"><center>
-			<?php 
+            <p class="nota">
+                <center><?php echo $insMainModel->convertir($total_despues_isv).' LEMPIRAS';?></center>
+            </p>
+            <br>
+            <p class="nota">
+                <center>
+                    <?php 
 				include_once 'cambioDolar.php';
 				if($consulta_registro['fecha_dolar'] != '0000-00-00' ){
 					$new_fecha_dolar = $consulta_registro['fecha_dolar'];
@@ -214,10 +227,11 @@ use LDAP\Result;
 					}
 				}
 			?>
-			</center>
-		</p>
+                </center>
+            </p>
 
-		<p class="nota"><center><?php 
+            <p class="nota">
+                <center><?php 
 				if($consulta_registro['fecha_dolar'] != '0000-00-00') { 
 					if($total_despues_isv != 0 || $total_despues_isv != ""){
 						if(isset($dolar->success)){
@@ -225,21 +239,38 @@ use LDAP\Result;
 						}	
 					}
 				}?>
-		</center></p>
+                </center>
+            </p>
 
-		<p class="nota"></p>
-		<p class="nota"><br/><br/><br/><br/></p>		
-		<h4 class="label_gracias"><?php  echo nl2br($consulta_registro["eslogan"]); ?></h4>
-		<p class="nota"><br/><br/><br/><br/></p>
-		<p class="nota"><b>__________________________</p>	
-		<p class="nota"><b>&nbsp;&nbsp;Firma y Sello de Aceptación</p>
-		<p class="nota"><br/><br/><br/><br/></p>
-		<p class="nota"><?php 
+            <p class="nota"></p>
+            <p class="nota"><br /><br /><br /><br /></p>
+            <h4 class="label_gracias"><?php  echo nl2br($consulta_registro["eslogan"]); ?></h4>
+            <p class="nota"><br /><br /><br /><br /></p>
+            <p class="nota"><b>__________________________</p>
+            <p class="nota"><b>&nbsp;&nbsp;Firma y Sello de Aceptación</p>
+            <p class="nota"><br /><br /><br /><br /></p>
+            <p class="nota"><?php 
 			if($consulta_registro["vigencia_cotizacion"] != ""){
 				echo "<p class='h2'><b>Cotización valida por :</b> ".nl2br($consulta_registro["vigencia_cotizacion"])."</p>";
 			}
-		?></p>			
-	</div>
-</div>
+		?></p>
+            <p class="nota"><br /><br /></p>
+
+            <?php
+			if($consulta_registro["estado"] == 1){
+				if($firma_documento !== "") {
+		?>
+            <p class="nota">
+                <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $firma_documento; ?>"
+                        width="150px" height="130px">
+            </p>
+            <?php
+				}
+			}
+		?>
+
+        </div>
+    </div>
 </body>
+
 </html>

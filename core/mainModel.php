@@ -413,7 +413,6 @@
 		}
 
          /*Funcion que permite encriptar string */
-
         public function encryption($string){
             $ouput = FALSE;
             $key=hash('sha256', SECRET_KEY);
@@ -436,245 +435,127 @@
         /*Funcion que permite generar codigos aleatorios*/
 
         public function getRandom($word, $length, $number){
-
             for($i=1; $i<$length; $i++){
-
                 $number = rand(0,9);
-
                 $word .= $number;
-
             }
 
-
-
             return $word.$number;
-
         }
-
 
 
          /*Funcion que permite limpiar valores de los string (Inyección SQL)*/
-
         protected function cleanString($string){
-
             //Limpia espacios al inicio y al final
-
 			$string =  trim($string);
 
-
-
             //Quita las barras de un string con comillas escapadas
-
             $string = stripslashes($string);
 
-
-
             //Limpiar etiquetas de JavaScript o Instrucciones SQL entre otros
-
             $string = str_ireplace("<script>", "", $string);
-
             $string = str_ireplace("</script>", "", $string);
-
             $string = str_ireplace("<script src>", "", $string);
-
             $string = str_ireplace("<script type>", "", $string);
-
             $string = str_ireplace("SELECT * FROM", "", $string);
-
             $string = str_ireplace("DELETE FROM", "", $string);
-
             $string = str_ireplace("INSERT INTO", "", $string);
-
             $string = str_ireplace("UPDATE", "", $string);
-
             $string = str_ireplace("--", "", $string);
-
             $string = str_ireplace("^", "", $string);
-
             $string = str_ireplace("]", "", $string);
-
             $string = str_ireplace("[", "", $string);
-
             $string = str_ireplace("{", "", $string);
-
             $string = str_ireplace("}", "", $string);
-
             $string = str_ireplace("==", "", $string);
-
 			$string = str_ireplace("'", "", $string);
 
-
-
             return $string;
-
         }
-
-
 
         protected function cleanStringStrtolower($string){
-
             //Limpia espacios al inicio y al final
-
 			$string =  strtolower(trim($string));
 
-
-
             //Quita las barras de un string con comillas escapadas
-
             $string = stripslashes($string);
 
-
-
             //Limpiar etiquetas de JavaScript o Instrucciones SQL entre otros
-
             $string = str_ireplace("<script>", "", $string);
-
             $string = str_ireplace("</script>", "", $string);
-
             $string = str_ireplace("<script src>", "", $string);
-
             $string = str_ireplace("<script type>", "", $string);
-
             $string = str_ireplace("SELECT * FROM", "", $string);
-
             $string = str_ireplace("DELETE FROM", "", $string);
-
             $string = str_ireplace("INSERT INTO", "", $string);
-
             $string = str_ireplace("UPDATE", "", $string);
-
             $string = str_ireplace("--", "", $string);
-
             $string = str_ireplace("^", "", $string);
-
             $string = str_ireplace("]", "", $string);
-
             $string = str_ireplace("[", "", $string);
-
             $string = str_ireplace("{", "", $string);
-
             $string = str_ireplace("}", "", $string);
-
             $string = str_ireplace("==", "", $string);
-
 			$string = str_ireplace("'", "", $string);
 
-
-
             return $string;
-
         }
 
-
-
         protected function cleanStringStrtoupper($string){
-
             //Limpia espacios al inicio y al final
 
 			$string =  strtoupper(trim($string));
 
-
-
             //Quita las barras de un string con comillas escapadas
-
             $string = stripslashes($string);
 
-
-
             //Limpiar etiquetas de JavaScript o Instrucciones SQL entre otros
-
             $string = str_ireplace("<script>", "", $string);
-
             $string = str_ireplace("</script>", "", $string);
-
             $string = str_ireplace("<script src>", "", $string);
-
             $string = str_ireplace("<script type>", "", $string);
-
             $string = str_ireplace("SELECT * FROM", "", $string);
-
             $string = str_ireplace("DELETE FROM", "", $string);
-
             $string = str_ireplace("INSERT INTO", "", $string);
-
             $string = str_ireplace("UPDATE", "", $string);
-
             $string = str_ireplace("--", "", $string);
-
             $string = str_ireplace("^", "", $string);
-
             $string = str_ireplace("]", "", $string);
-
             $string = str_ireplace("[", "", $string);
-
             $string = str_ireplace("{", "", $string);
-
             $string = str_ireplace("}", "", $string);
-
             $string = str_ireplace("==", "", $string);
-
 			$string = str_ireplace("'", "", $string);
 
-
-
             return $string;
-
         }
 
-
-
         protected function cleanStringConverterCase($string){
-
             //Limpia espacios al inicio y al final
-
 			$string =  mb_convert_case(trim($string), MB_CASE_TITLE, "UTF-8");
 
-
-
             //Quita las barras de un string con comillas escapadas
-
             $string = stripslashes($string);
 
-
-
             //Limpiar etiquetas de JavaScript o Instrucciones SQL entre otros
-
             $string = str_ireplace("<script>", "", $string);
-
             $string = str_ireplace("</script>", "", $string);
-
             $string = str_ireplace("<script src>", "", $string);
-
             $string = str_ireplace("<script type>", "", $string);
-
             $string = str_ireplace("SELECT * FROM", "", $string);
-
             $string = str_ireplace("DELETE FROM", "", $string);
-
             $string = str_ireplace("INSERT INTO", "", $string);
-
             $string = str_ireplace("UPDATE", "", $string);
-
             $string = str_ireplace("--", "", $string);
-
             $string = str_ireplace("^", "", $string);
-
             $string = str_ireplace("]", "", $string);
-
             $string = str_ireplace("[", "", $string);
-
             $string = str_ireplace("{", "", $string);
-
             $string = str_ireplace("}", "", $string);
-
             $string = str_ireplace("==", "", $string);
-
 			$string = str_ireplace("'", "", $string);
 
-
-
             return $string;
-
         }
 
         protected function sweetAlert($datos){

@@ -79,11 +79,15 @@ class sendEmail {
                 $nombre = $resultadoEmpresa[0]['nombre'];
                 $logotipo = $resultadoEmpresa[0]['logotipo'];		
                 $ubicacion = $resultadoEmpresa[0]['ubicacion'];
+                $numero_formateado = "";
 
                 $numero = $resultadoEmpresa[0]['telefono'];
-                $parte1 = substr($numero, 0, 4);
-                $parte2 = substr($numero, 4);
-                $numero_formateado = '+504 ' . $parte1 . '-' . $parte2;
+                
+                if($numero != "") {
+                    $parte1 = substr($numero, 0, 4);
+                    $parte2 = substr($numero, 4);
+                    $numero_formateado = '+504 ' . $parte1 . '-' . $parte2;
+                }
 
                 $telefono = $numero_formateado;	
                 $sitioweb = $resultadoEmpresa[0]['sitioweb'];		

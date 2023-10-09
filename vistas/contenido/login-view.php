@@ -1,10 +1,11 @@
 <?php	
 	$peticionAjax = true;
 	require_once "././core/configAPP.php";
-?>	
+?>
 
 <link href="<?php echo SERVERURL; ?>ajax/bootstrap/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
-<link href="<?php echo SERVERURL; ?>css/bootstrap-select.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="<?php echo SERVERURL; ?>ajax/bootstrap/css/bootstrap-select.min.css" rel="stylesheet"
+    crossorigin="anonymous" />
 <link href="<?php echo SERVERURL; ?>ajax/sweetalert/sweetalert.css" rel="stylesheet" crossorigin="anonymous" />
 
 <div id="logreg-forms">
