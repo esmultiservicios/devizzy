@@ -393,6 +393,14 @@
 				$query = usuarioModelo::delete_user_modelo($usuarios_id);
 								
 				if($query){
+					if($GLOBALS['db'] !== $GLOBALS['DB_MAIN']) {
+						//ELIMINAMOS EL USUARIO DE LA DB PRINCIPAL
+						$deleteDBMainUsers = "DELETE users 
+							WHERE users_id = '$usuarios_id'";
+						
+						mainModel::connectionLogin()->query($deleteDBMainUsers);
+					}
+										
 					$alert = [
 						"alert" => "clear",
 						"title" => "Registro eliminado",
@@ -428,4 +436,4 @@
 			return mainModel::sweetAlert($alert);
 		}
     }
-?>	
+?>

@@ -9,7 +9,7 @@
     
     class loginControlador extends loginModel{
 		
-        public function iniciar_sesion_controlador(){
+        public function iniciar_sesion_controlador(){		
             $username = mainModel::cleanString($_POST['inputEmail']);
             $password = $_POST['inputPassword'];
             $password = mainModel::encryption($password);
@@ -18,33 +18,52 @@
 
 			$database = new Database();
 
-            $datosLogin = [
-                "username" => $username,
-                "password" => $password
-            ];
-
 			$respuesta = false;
 			$query_server = "";
-
+			$codigoCliente = "";
+			$pingInvalido = false;
+			$Consultacliente = false;
+			
 			//CONSULTAMOS EL CUSTOMR SERVER PARA TENER LA DB DEL CLIENTE Y ASI OBTENER A QUE DB NOS CONECTAREMOS
 			if ($inputCliente !== "" && $inputPin !== "") {
 				// Ambos campos tienen valores
 				$query_server = "SELECT COALESCE(s.server_customers_id, '0') AS server_customers_id, COALESCE(s.db, '" . DB_MAIN . "') AS db, codigo_cliente
 					FROM users AS u
 					LEFT JOIN server_customers AS s ON u.server_customers_id = s.server_customers_id
-					WHERE u.email = '$username'";
+					WHERE s.codigo_cliente = '$inputCliente'";
 
-				//COSULTAMOS SI EXISTE EL PIN
-				
-				$respuesta = true;
+				$resultServerUser = mainModel::connectionLogin()->query($query_server);
+
+				if($resultServerUser->num_rows >0 ) {
+					$consultaServeruser = $resultServerUser->fetch_assoc();
+			
+					//COSULTAMOS SI EL CLIENTE Y EL PIN SON CORRECTOS Y OBTENEMOS LA BASE DE DATOS PARA INICIAR AHI				
+					$codigoCliente = $consultaServeruser['codigo_cliente'];
+				}
+
+				//CONSULTAMOS SI EXISTE EL PIN
+				$mysqliPin = mainModel::connectionDBLocal(DB_MAIN);
+
+				$query = "SELECT pin FROM pin WHERE codigo_cliente = '$codigoCliente' AND fecha_hora_fin > NOW()";
+			
+				$resultPin = $mysqliPin->query($query) or die($mysqliPin->error);
+
+				if($resultPin->num_rows>0){
+					$Consultacliente = true;
+					$respuesta = true;
+				}else{
+					$pingInvalido = true;
+					$respuesta = false;
+				}									
 			} else if ($inputCliente === "" && $inputPin === "") {
 				// Ambos campos están vacíos
 				$query_server = "SELECT COALESCE(s.server_customers_id, '0') AS server_customers_id, COALESCE(s.db, '" . DB_MAIN . "') AS db, codigo_cliente
 					FROM users AS u
 					LEFT JOIN server_customers AS s ON u.server_customers_id = s.server_customers_id
 					WHERE u.email = '$username'";
+				
 				$respuesta = true;
-			} else {
+			} else {				
 				$respuesta = false;
 			}
 			
@@ -57,7 +76,21 @@
 					//COSULTAMOS SI EL CLIENTE Y EL PIN SON CORRECTOS Y OBTENEMOS LA BASE DE DATOS PARA INICIAR AHI				
 					$codigoCliente = $consultaServeruser['codigo_cliente'];
 					$GLOBALS['db'] = $consultaServeruser['db'] === "" ? $GLOBALS['DB_MAIN'] : $consultaServeruser['db'];
-		
+					
+					$datosLogin = [
+						"username" => $username,
+						"password" => $password,
+						"db" => $GLOBALS['db'],
+					];
+										
+					if($Consultacliente){//SI NECESITAMOS ACCEDER AL CLIENTE USAREMOS EL USUARIO ADMIN QUE SE CREA POR DEFAULT EN CADA CLIENTE PARA ESA BASE DE DATOS
+						$datosLogin = [
+							"username" => "admin",
+							"password" => mainModel::encryption("C@M1Cl1n1c@r3"),
+							"db" => $GLOBALS['db'],
+						];
+					}
+
 					$result = loginModel::iniciar_sesion_modelo($datosLogin);			
 		
 					if($result->num_rows != 0){
@@ -171,10 +204,17 @@
 					);	
 				}				
 			}else{
-				$datos = array(
-					0 => "",
-					1 => "ErrorVacio",
-				);	
+				if($pingInvalido){
+					$datos = array(
+						0 => "",
+						1 => "ErrorPinInvalido",
+					);	
+				}else{
+					$datos = array(
+						0 => "",
+						1 => "ErrorVacio",
+					);	
+				}
 			}
 
 			return json_encode($datos);

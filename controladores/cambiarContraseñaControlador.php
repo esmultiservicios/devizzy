@@ -60,6 +60,17 @@
 					$correo_usuario = trim($resultadoUsuario[0]['email']);
 				}
 
+				
+				if($GLOBALS['db'] !== $GLOBALS['DB_MAIN']) {
+					//ACTUALIZAMOS LA CONTASEÑA DEL USUARIO EN LA DB PRINCIPAL
+					$updateDBMainUsers = "UPDATE users 
+						SET 
+							estado = '$estado'
+						WHERE email = '$correo_usuario' AND server_customers_id = '$server_customers_id'";
+					
+					mainModel::connectionLogin()->query($updateDBMainUsers);
+				}
+
 				//OBTENEMOS EL NOMBRE DE LA EMPRESA
 				$empresa_id_sesion = $_SESSION['empresa_id_sd'];
 				$tablaEmpresa = "empresa";
@@ -384,4 +395,4 @@
 			return $respuesta;
 		}			
 	}
-?>	
+?>

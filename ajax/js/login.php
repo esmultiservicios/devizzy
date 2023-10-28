@@ -8,7 +8,7 @@ function redireccionar() {
 }
 
 $(document).ready(function() {
-    $("#generate_pin_link").click(function (e) {
+    $("#generate_pin_link").click(function(e) {
         e.preventDefault();
 
         // Generar un nuevo número de PIN (puedes personalizar esta lógica)
@@ -39,50 +39,61 @@ $(document).ready(function() {
 
 var timeout; // Variable para manejar el tiempo de espera entre escritura y validación
 
+$('#inputCliente').on('input', function() {
+    var inputEmailValue = $(this).val();
+
+    if (inputEmailValue.length === 8) {
+        $('#inputPin').focus();
+    }
+});
+
 $("#inputEmail, #inputPassword").on("input blur", function() {
     clearTimeout(timeout); // Limpiar el temporizador anterior
     var email = $("#inputEmail").val();
     var password = $("#inputPassword").val();
 
     timeout = setTimeout(function() {
-        if (email !== "" && password !== "") {
-            var url = '<?php echo SERVERURL;?>core/getValidUserSesion.php';
+            if (email !== "" && password !== "") {
+                var url = '<?php echo SERVERURL;?>core/getValidUserSesion.php';
 
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: {
-                    email: email,
-                    pass: password
-                },
-                success: function(resp) {
-                    if (resp === "1") {
-                        $("#groupDB").show();
-                    } else {
-                        $("#groupDB").hide();
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        email: email,
+                        pass: password
+                    },
+                    success: function(resp) {
+                        if (resp === "1") {
+                            $("#groupDB").show();
+                            $("#inputCliente").focus();
+                        } else {
+                            $("#groupDB").hide();
+                            // Limpia y oculta los campos de inputCliente e inputPin
+                            $("#inputCliente, #inputPin").val("");
+                        }
+                    },
+                    error: function() {
+                        $("#groupDB").hide(); // Oculta el campo de selección inputDB
                         // Limpia y oculta los campos de inputCliente e inputPin
                         $("#inputCliente, #inputPin").val("");
+                        $(".RespuestaAjax").html(
+                            "Error de autenticación"); // Muestra un mensaje de error al usuario
                     }
-                },
-                error: function() {
-                    $("#groupDB").hide(); // Oculta el campo de selección inputDB
-                    // Limpia y oculta los campos de inputCliente e inputPin
-                    $("#inputCliente, #inputPin").val("");
-                    $(".RespuestaAjax").html(
-                        "Error de autenticación"); // Muestra un mensaje de error al usuario
+                });
+            } else {
+                $("#groupDB").hide();
+                // Limpia los campos de inputCliente e inputPin si alguno está vacío
+                if (email === "") {
+                    $("#inputCliente").val("");
                 }
-            });
-        } else {
-            $("#groupDB").hide();
-            // Limpia los campos de inputCliente e inputPin si alguno está vacío
-            if (email === "") {
-                $("#inputCliente").val("");
+                if (password === "") {
+                    $("#inputPin").val("");
+                }
             }
-            if (password === "") {
-                $("#inputPin").val("");
-            }
-        }
-    }, 300); // Establece un tiempo de espera de 300 milisegundos (medio segundo) después de que el usuario deje de escribir
+        },
+        300
+    ); // Establece un tiempo de espera de 300 milisegundos (medio segundo) después de que el usuario deje de escribir
 });
 
 
@@ -129,6 +140,13 @@ $(document).ready(function() {
                     swal({
                         title: "Error",
                         text: "Lo sentimos, uno de los dos campos no puede ir en blanco. El sistema requiere tanto el cliente como el PIN para continuar. Si lo desea, puede dejar ambos campos en blanco, y el sistema los ignorará.",
+                        type: "error",
+                        confirmButtonClass: 'btn-danger'
+                    });
+                } else if (datos[1] === "ErrorPinInvalido") {
+                    swal({
+                        title: "Error",
+                        text: "Lo sentimos, el código del cliente o el pin son inválidos, o el mismo ha vencido, por favor solicite otro pin al cliente.",
                         type: "error",
                         confirmButtonClass: 'btn-danger'
                     });

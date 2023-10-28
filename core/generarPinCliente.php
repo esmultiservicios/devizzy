@@ -25,19 +25,18 @@
         $generoPinNuevo = true;
     } else {
         // Consultar si existe un PIN válido para el cliente
-        $condicionesPin = [
-            "codigo_cliente" => $codigoCliente,
-            "fecha_hora_fin > NOW()" // Verificar que la fecha de fin sea mayor que la fecha y hora actual
-        ];
-        $orderBy = "";
-        $tablaJoin = "";
-        $condicionesJoin = [];
-        $resultadoPin = $database->consultarTabla($tablaPin, $camposPin, $condicionesPin, $orderBy, $tablaJoin, $condicionesJoin);
+         $mysqliPin = $insMainModel->connection();
 
-        if (!empty($resultadoPin)) {
+        $query = "SELECT pin FROM pin WHERE codigo_cliente = '$codigoCliente' AND fecha_hora_fin > NOW()";
+    
+        $resultPin = $mysqliPin->query($query) or die($mysqliPin->error);
+
+        if($resultPin->num_rows>0){
             // Si existe un PIN válido, devolver ese PIN como respuesta JSON
+            $consulta2 = $resultPin->fetch_assoc();
+
             header('Content-Type: application/json');
-            echo json_encode(['pin' => $resultadoPin[0]['pin']]);
+            echo json_encode(['pin' => $consulta2['pin']]);
             exit; // Terminar el script
         } else {
             // Si no existe un PIN válido, generar uno nuevo
@@ -48,18 +47,17 @@
 
     if($generoPinNuevo){
         // Verificar si existe un PIN activo para el cliente
-        $condicionesPinActivo = [
-            "codigo_cliente" => $codigoCliente,
-            "fecha_hora_fin > NOW()" // Verificar que la fecha de fin sea mayor que la fecha y hora actual
-        ];
-        $orderBy = "";
-        $tablaJoin = "";
-        $condicionesJoin = [];
-        $resultadoPinActivo = $database->consultarTabla($tablaPin, $camposPin, $condicionesPinActivo, $orderBy, $tablaJoin, $condicionesJoin);
+        $mysqliPin = $insMainModel->connection();
 
-        if (!empty($resultadoPinActivo)) {
+        $query = "SELECT pin FROM pin WHERE codigo_cliente = '$codigoCliente' AND fecha_hora_fin > NOW()";
+    
+        $resultPin = $mysqliPin->query($query) or die($mysqliPin->error);
+
+        if($resultPin->num_rows>0){
             // Si hay un PIN activo, actualiza la fecha y hora de finalización para que venza
-            $pinAnterior = $resultadoPinActivo[0]['pin'];
+            $consulta2 = $resultPin->fetch_assoc();
+            
+            $pinAnterior = $consulta2['pin'];
             $fechaHoraActual = date("Y-m-d H:i:s");
 
             // Actualiza la fecha y hora de finalización del PIN anterior para que sea anterior a la fecha y hora actual
@@ -72,6 +70,15 @@
             ];
 
             $database->actualizarRegistros($tablaPin, $datosActualizacion, $condicionesActualizacion);
+
+            //ACTUALIZAR EL PIN EN EL SERVIDOR PRINCIPAL
+            $datos = [
+				"fecha_hora_fin" => $fechaHoraActual,
+				"codigo_cliente" => $codigoCliente,
+				"pin" => $pinAnterior		
+			];
+            
+            $insMainModel->actualizarPinServerP($datos);            
         }
 
         // Generar un nuevo PIN hasta que se encuentre uno único
@@ -99,6 +106,17 @@
                 $campos = ["pin_id", "server_customers_id", "codigo_cliente", "pin", "fecha_hora_inicio", "fecha_hora_fin"];
                 $valores = [$pin_id, $server_customers_id, $codigoCliente, $pin, $fechaHoraInicio, $fechaHoraFin];
                 $database->insertarRegistro($tablaPin, $campos, $valores);
+                
+                //INSERTARMOS EL PIN EN EL SERVIDOR PRINCIPAL
+                $datos = [
+                    "server_customers_id" => $server_customers_id,
+                    "codigo_cliente" => $codigoCliente,
+                    "pin" => $pin,
+                    "fecha_hora_inicio" => $fechaHoraInicio,
+                    "fecha_hora_fin" => $fechaHoraFin				
+                ];
+                
+                $insMainModel->insertarPinServerP($datos); 
                 
                 break;
             }else{

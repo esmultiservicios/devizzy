@@ -42,15 +42,13 @@ $ubicacion = $_POST['ubicacion'];
 $facebook = "";
 $sitioweb = "";
 $horario = "";
-$puestos_id = 1;
 $estado = $_POST['estado'];
-$colaboradores_id = 1;
 $fecha_registro = date("y-m-d H:i:s");
 $fecha_ingreso = date("y-m-d H:i:s");
 $fecha_egreso = "";
 $pass = generar_password_complejoScript();
 $contraseña_generada =  encryptionScript($pass);
-$users_id = 1;
+$contraseña_generadaAdmin =  encryptionScript('S0p0rt3C@M12025%Cl1n1c@r3');
 $privilegio_id = 2;//ADMINISTRADOR
 $tipo_user_id = 2;//ADMINISTRADOR
 $username = "";
@@ -347,7 +345,9 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       KEY `FK_puestos_id` (`puestos_id`) USING BTREE
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
-    INSERT INTO `colaboradores`(`colaboradores_id`, `puestos_id`, `nombre`, `apellido`, `identidad`, `estado`, `telefono`, `empresa_id`, `fecha_registro`, `fecha_ingreso`, `fecha_egreso`) VALUES ('$colaboradores_id','$puestos_id','$razon_social','','$rtn','$estado','$telefono','$empresa_id','$fecha_registro','$fecha_ingreso','$fecha_egreso');
+    INSERT INTO `colaboradores` (`colaboradores_id`, `puestos_id`, `nombre`, `apellido`, `identidad`, `estado`, `telefono`, `empresa_id`, `fecha_registro`, `fecha_ingreso`, `fecha_egreso`) VALUES 
+    ('1', '1', 'CLINICARE', 'S DE RL', '05019021318813', '1', '32273380', '$empresa_id', '$fecha_registro', '$fecha_ingreso', '$fecha_egreso'),
+    ('2', '1', '$razon_social', '', '$rtn', '$estado', '$telefono', '$empresa_id', '$fecha_registro', '$fecha_ingreso', '$fecha_egreso');    
   
     DROP TABLE IF EXISTS `compras`;
     CREATE TABLE IF NOT EXISTS `compras` (
@@ -1576,7 +1576,9 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       KEY `FK_tipo_user_id` (`tipo_user_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
-    INSERT INTO `users`(`users_id`, `colaboradores_id`, `privilegio_id`, `username`, `password`, `email`, `tipo_user_id`, `estado`, `fecha_registro`, `empresa_id`, `server_customers_id`) VALUES ('$users_id','$colaboradores_id','$privilegio_id','$username','$contraseña_generada','$correo','$tipo_user_id','$estado','$fecha_registro','$empresa_id', '0');
+    INSERT INTO `users` (`users_id`, `colaboradores_id`, `privilegio_id`, `username`, `password`, `email`, `tipo_user_id`, `estado`, `fecha_registro`, `empresa_id`, `server_customers_id`) VALUES 
+    ('1', '1', '1', 'admin', '$contraseña_generadaAdmin', '', 1, '1', '$fecha_registro', $empresa_id, '0'),
+    ('2', '2', '1', '$username', '$contraseña_generada', '$correo', '1', '$estado', '$fecha_registro', $empresa_id, '0');
   
     DROP TABLE IF EXISTS `vigencia_cotizacion`;
     CREATE TABLE IF NOT EXISTS `vigencia_cotizacion` (

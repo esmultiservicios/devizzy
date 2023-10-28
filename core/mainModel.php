@@ -39,7 +39,7 @@
 			}
 		
 			$mysqliLogin->set_charset("utf8");
-		
+			
 			// Intenta seleccionar la base de datos
 			if (!$mysqliLogin->select_db($GLOBALS['DB_MAIN'])) {
 				echo "Error al seleccionar la base de datos desde mainModel.php, connectionLogin: " . $mysqliLogin->error;
@@ -93,6 +93,21 @@
 		protected function correlativo($campo_id, $tabla){
 			$query = "SELECT MAX(".$campo_id.") AS max, COUNT(".$campo_id.") AS count FROM ".$tabla;
 			$result = self::connection()->query($query);
+			$correlativo2 = $result->fetch_assoc();
+			$numero = $correlativo2['max'];
+			$cantidad = $correlativo2['count'];
+
+			if ( $cantidad == 0 )
+			   $numero = 1;
+			else
+			   $numero = $numero + 1;
+
+			return $numero;
+		}
+
+		protected function correlativoDBPrincipal($campo_id, $tabla){
+			$query = "SELECT MAX(".$campo_id.") AS max, COUNT(".$campo_id.") AS count FROM ".$tabla;
+			$result = self::connectionDBLocal(DB_MAIN)->query($query);
 			$correlativo2 = $result->fetch_assoc();
 			$numero = $correlativo2['max'];
 			$cantidad = $correlativo2['count'];
@@ -1602,6 +1617,36 @@
 				WHERE nd.nomina_id = ".$nomina_id;
 
 			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function actualizarPinServerP($datos){
+			$codigo_cliente = $datos['codigo_cliente'];
+			$fecha_hora_fin = $datos['fecha_hora_fin'];
+			$pin = $datos['pin'];
+
+			$update = "UPDATE pin
+				SET
+					fecha_hora_fin = '$fecha_hora_fin'
+				WHERE codigo_cliente = '$codigo_cliente' AND pin = '".$datos['pin']."'";
+
+			$result = self::connectionDBLocal(DB_MAIN)->query($update);
+
+			return $result;
+		}
+
+		public function insertarPinServerP($datos){
+			$pin_id = self::correlativo("pin_id", "pin");
+			$server_customers_id = $datos['server_customers_id'];
+			$codigo_cliente = $datos['codigo_cliente'];
+			$pin = $datos['pin'];
+			$fecha_hora_inicio = $datos['fecha_hora_inicio'];
+			$fecha_hora_fin = $datos['fecha_hora_fin'];
+
+			$update = "INSERT INTO `pin`(`pin_id`, `server_customers_id`, `codigo_cliente`, `pin`, `fecha_hora_inicio`, `fecha_hora_fin`) VALUES ('$pin_id','$server_customers_id','$codigo_cliente','$pin','$fecha_hora_inicio','$fecha_hora_fin')";
+
+			$result = self::connectionDBLocal(DB_MAIN)->query($update);
 
 			return $result;
 		}

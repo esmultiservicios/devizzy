@@ -9,7 +9,7 @@
 	$password = $insMainModel->encryption($_POST['pass']);
 	$estatus = 1;	
 
-	$mysqli = $insMainModel->connection();
+	$mysqli = $insMainModel->connectionDBLocal(DB_MAIN);
 
 	$query = "SELECT u.*, tu.nombre AS 'cuentaTipo', c.identidad
 		FROM users AS u
@@ -17,9 +17,9 @@
 		ON u.tipo_user_id = tu.tipo_user_id 
 		INNER JOIN colaboradores AS c
 		ON u.colaboradores_id = c.colaboradores_id
-		WHERE BINARY u.email = '$username' AND u.password = '$password' AND u.estado = '$estatus'
+		WHERE (BINARY u.email = '$username' OR BINARY u.username = '$username') AND u.password = '$password' AND u.estado = '$estatus'
 		GROUP by u.tipo_user_id";
-	
+
 	$result = $mysqli->query($query) or die($mysqli->error);
 	
 	if($result->num_rows>0){
