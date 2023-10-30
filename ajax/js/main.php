@@ -2,7 +2,7 @@
 $(document).ready(function() {
     //LLAMAMOS LOS METODOS CORRESPONDIENTES AL LOS MENUS
     getGithubVersion();
-    getImagenHeader();
+    //getImagenHeader();
     getPlanes();
     getSistemas();
     getMenu(getPrivilegioUsuario());

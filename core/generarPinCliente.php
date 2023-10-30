@@ -100,7 +100,7 @@
                 $fechaHoraInicio = date("Y-m-d H:i:s");
 
                 // Calcular la fecha y hora de fin agregando 60 segundos a la fecha de inicio
-                $fechaHoraFin = date("Y-m-d H:i:s", strtotime($fechaHoraInicio) + 60);
+                $fechaHoraFin = date("Y-m-d H:i:s", strtotime($fechaHoraInicio) + (5 * 60));
                 $server_customers_id = $_SESSION['server_customers_id'];
 
                 $campos = ["pin_id", "server_customers_id", "codigo_cliente", "pin", "fecha_hora_inicio", "fecha_hora_fin"];

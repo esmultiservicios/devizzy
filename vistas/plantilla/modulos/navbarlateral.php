@@ -1,10 +1,7 @@
 <nav class="sb-sidenav accordion bg-color-navarlateral" id="sidenavAccordion">
     <!--sb-sidenav-menu-heading-->
     <div class="custom-header">
-        <a class="navbar-brand" href="<?php echo SERVERURL; ?>dashboard/">
-            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/logo.png" width="90%" alt="CLINICARE"
-                    loading="CLINICARE" class="logo"></center>
-        </a>
+
     </div>
     <br />
     <div class="sb-sidenav-menu">

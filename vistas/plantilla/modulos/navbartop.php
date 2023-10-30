@@ -1,6 +1,9 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-color-navarlateral">
     <div class="navbar-brand">
-        <span class="version" id="version"></span>
+        <a href="<?php echo SERVERURL; ?>dashboard/">
+            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/logo.png" width="90%" alt="CLINICARE"
+                    loading="CLINICARE" class="logo"></center>
+        </a>
     </div>
 
     <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i
@@ -119,7 +122,8 @@
                 <a class="dropdown-item" href="#" id="cambiar_contraseña_usuarios_sistema">Modificar Contraseña</a>
                 <a class="dropdown-item" href="#" id="modificar_perfil_usuario_sistema">Mi Perfil</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item btn-exit-system" href="<?php echo $lc->encryption($_SESSION['token_sd']);?>">Salir</a>
+                <a class="dropdown-item btn-exit-system"
+                    href="<?php echo $lc->encryption($_SESSION['token_sd']);?>">Salir</a>
             </div>
         </li>
     </ul>
