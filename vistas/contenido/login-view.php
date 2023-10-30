@@ -14,7 +14,7 @@
         <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Iniciar Sesión</h1>
 
         <p>
-            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="100%"></center>
+            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.svg" width="100%"></center>
         </p>
 
         <br />
@@ -68,7 +68,7 @@
     <form class="form-reset" id="forgot_form" autocomplete="off">
         <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Restablecer Contraseña</h1>
         <p>
-            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="100%"></center>
+            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.svg" width="100%"></center>
         </p>
 
         <br />
@@ -93,7 +93,7 @@
     <form class="form-signup" id="form_registro" autocomplete="off">
         <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Formulario de Registro</h1>
         <p>
-            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="100%"></center>
+            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.svg" width="100%"></center>
         </p>
 
         <br />

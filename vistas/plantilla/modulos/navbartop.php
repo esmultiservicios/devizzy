@@ -1,7 +1,7 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-color-navarlateral">
     <div class="navbar-brand">
         <a href="<?php echo SERVERURL; ?>dashboard/">
-            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/logo.png" width="90%" alt="CLINICARE"
+            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/logo.svg" width="100%" alt="CLINICARE"
                     loading="CLINICARE" class="logo"></center>
         </a>
     </div>
