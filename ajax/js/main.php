@@ -1677,13 +1677,31 @@ $('#modificar_perfil_usuario_sistema').on('click', function(e) {
 });
 //FIN MODIFICAR PERFIL USUARIO SISTEMA
 
+function getImagenHeaderConsulta(callback) {
+    var url = '<?php echo SERVERURL;?>core/get_image.php';
+
+    // Obtener la URL de la imagen usando Ajax
+    $.ajax({
+        type: "GET",
+        url: url, // Ruta al archivo PHP
+        success: function(imageUrl) {
+            // Llamar a la función de devolución de llamada con la URL de la imagen
+            callback(imageUrl);
+        },
+        error: function() {
+            console.error("Error al obtener la URL de la imagen");
+            // Puedes manejar errores aquí también, si es necesario.
+        }
+    });
+}
+
 var imagen;
-toDataURL(
-    '<?php echo SERVERURL;?>vistas/plantilla/img/logo.png',
-    function(dataUrl) {
+getImagenHeaderConsulta(function(imageUrl) {
+    toDataURL(imageUrl, function(dataUrl) {
         imagen = dataUrl;
-    }
-)
+        // Ahora, 'imagen' contiene los datos de la imagen en formato Data URL
+    });
+});
 
 function validarAperturaCajaUsuario() {
     if (getConsultarAperturaCaja() == 2) {
