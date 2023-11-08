@@ -13,6 +13,12 @@
 		$consulta2 = $result->fetch_assoc();
 		$totalBills = $consulta2['total'];
 	}
-	
-	echo number_format($totalBills,2);
-?>	
+
+	if ($totalBills !== null) {
+		$formattedValue = number_format($totalBills, 2);
+	} else {
+		$formattedValue = 0;
+	}
+
+	echo $formattedValue;
+?>

@@ -14,5 +14,11 @@
 		$totalSuppliers = $consulta2['total'];
 	}
 	
-	echo $totalSuppliers;
-?>	
+	if ($totalSuppliers !== null) {
+		$formattedValue = number_format($totalSuppliers, 2);
+	} else {
+		$formattedValue = 0;
+	}
+
+	echo $formattedValue;
+?>

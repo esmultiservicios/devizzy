@@ -30,9 +30,9 @@
 			$descuento += $row1['descuento'];
 	   }
 	   
-	   $subtotal = number_format($subtotal,2);
-	   $isv = number_format($isv,2);
-	   $descuento = number_format($descuento,2);
+	   $subtotal = $subtotal;
+	   $isv = $isv;
+	   $descuento = $descuento;
 	   $total = $row['total'];
 
 	   $data[] = array( 
@@ -56,4 +56,4 @@
 	);
 
 	echo json_encode($arreglo);	
-?>	
+?>

@@ -256,7 +256,7 @@
 		public function guardar_historial_accesos($comentario_){
 			$nombre_host = self::getRealIP();
 			$fecha = date("Y-m-d H:i:s");
-			$comentario = mb_convert_case($comentario_, MB_CASE_TITLE, "UTF-8");
+			$comentario = $comentario_;
 			$usuario = $_SESSION['colaborador_id_sd'];
 
 			$historial_acceso_id  = self::correlativo("historial_acceso_id ", "historial_acceso");
@@ -547,7 +547,7 @@
 
         protected function cleanStringConverterCase($string){
             //Limpia espacios al inicio y al final
-			$string =  mb_convert_case(trim($string), MB_CASE_TITLE, "UTF-8");
+			$string =  trim($string);
 
             //Quita las barras de un string con comillas escapadas
             $string = stripslashes($string);

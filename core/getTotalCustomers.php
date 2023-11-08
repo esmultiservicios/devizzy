@@ -14,5 +14,11 @@
 		$totalCustomers = $consulta2['total'];
 	}
 	
-	echo $totalCustomers;
-?>	
+	if ($totalCustomers !== null) {
+		$formattedValue = number_format($totalCustomers, 2);
+	} else {
+		$formattedValue = 0;
+	}
+
+	echo $formattedValue;
+?>

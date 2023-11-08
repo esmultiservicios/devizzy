@@ -82,7 +82,7 @@
 						"password" => $password,
 						"db" => $GLOBALS['db'],
 					];
-										
+
 					if($Consultacliente){//SI NECESITAMOS ACCEDER AL CLIENTE USAREMOS EL USUARIO ADMIN QUE SE CREA POR DEFAULT EN CADA CLIENTE PARA ESA BASE DE DATOS
 						$datosLogin = [
 							"username" => "admin",

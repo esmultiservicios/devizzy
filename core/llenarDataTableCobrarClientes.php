@@ -58,9 +58,9 @@
 			"saldo"=>$saldo,
 			"color"=> $estadoColor,
 			"estado"=>$row['estado'],
-			"total_credito"=> number_format($totalCredito,2),
-			"total_abono"=>number_format($totalAbono,2),
-			"total_pendiente"=> number_format($totalPendiente,2),
+			"total_credito"=> $totalCredito,
+			"total_abono"=>$totalAbono,
+			"total_pendiente"=> $totalPendiente,
 			"vendedor"=>$row['vendedor'],
 		);		
 	}
@@ -73,4 +73,4 @@
 	);
 
 	echo json_encode($arreglo);
-?>	
+?>

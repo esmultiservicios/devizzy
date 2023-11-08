@@ -14,5 +14,11 @@
 		$totalPurchases = $consulta2['total'];
 	}
 	
-	echo number_format($totalPurchases,2);
-?>	
+	if ($totalPurchases !== null) {
+		$formattedValue = number_format($totalPurchases, 2);
+	} else {
+		$formattedValue = 0;
+	}
+
+	echo $formattedValue;
+?>
