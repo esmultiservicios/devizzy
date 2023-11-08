@@ -46,62 +46,77 @@ class Database {
     }    
 
     public function consultarTabla($tabla, $campos = array(), $condiciones = array(), $orderBy = '', $tablaJoin = '', $condicionesJoin = array()) {
-        // Crear una sentencia preparada
-        $query = "SELECT ";
+        $tabla = $this->conexion->real_escape_string($tabla);
     
+        // Construir la consulta SELECT básica
+        $query = "SELECT ";
+
         if (empty($campos)) {
-            $query .= "*";
+            $query .= "*"; // Si no se especifican campos, seleccionar todos (*)
         } else {
+            //$campos = array_map([$this->conexion, 'real_escape_string'], $campos);
+
             $query .= implode(",", $campos);
         }
-    
+
         $query .= " FROM $tabla";
     
         // Agregar cláusula INNER JOIN si se especifica
         if (!empty($tablaJoin) && !empty($condicionesJoin)) {
+            $tablaJoin = $this->conexion->real_escape_string($tablaJoin);
+    
             $clausesJoin = array();
             foreach ($condicionesJoin as $campoJoin => $valorJoin) {
-                $clausesJoin[] = "$tabla.$campoJoin = $tablaJoin.$valorJoin";
+                $campoJoin = $this->conexion->real_escape_string($campoJoin);
+                $valorJoin = $this->conexion->real_escape_string($valorJoin);
+                $clausesJoin[] = "$tabla.$campoJoin = $tablaJoin.$valorJoin"; // Corregir el INNER JOIN
             }
     
+            // Agregar cláusula INNER JOIN separada
             $query .= " INNER JOIN $tablaJoin ON " . implode(" AND ", $clausesJoin);
         }
     
         // Si se especifican condiciones, agregarlas a la consulta
         if (!empty($condiciones)) {
             $clauses = array();
-            $params = array();
-            foreach ($condiciones as $campo => $valor) {
-                $clauses[] = "$campo = ?";
-                $params[] = $valor;
+            foreach ($condiciones as $campo => $valores) {
+                $campo = $this->conexion->real_escape_string($campo);
+    
+                if (is_array($valores)) {
+                    // Evitar el uso de real_escape_string para valores numéricos en IN
+                    $valores = array_map(function ($valor) {
+                        return is_numeric($valor) ? $valor : $this->conexion->real_escape_string($valor);
+                    }, $valores);
+                    $valores = implode("', '", $valores);
+                    $clauses[] = "$campo IN ('$valores')";
+                } else {
+                    $valores = $this->conexion->real_escape_string($valores);
+                    $clauses[] = "$campo = '$valores'";
+                }
             }
-            $query .= " WHERE " . implode(" AND ", $clauses);
+            $query .= " WHERE " . implode(" AND ", $clauses); // Concatenar las condiciones usando AND
         }
     
         // Agregar cláusula ORDER BY si se especifica
         if (!empty($orderBy)) {
-            $query .= " ORDER BY ?";
-            $params[] = $orderBy;
+            $query .= " ORDER BY $orderBy";
         }
     
-        // Preparar y ejecutar la consulta
-        $stmt = $this->conexion->prepare($query);
-        if ($stmt) {
-            if (!empty($params)) {
-                $types = str_repeat('s', count($params)); // Assuming all parameters are strings
-                $stmt->bind_param($types, ...$params);
+        // Ejecutar la consulta
+        $result = $this->conexion->query($query);
+    
+        $resultados = array();
+    
+        if ($result) { // Verificar si la consulta se ejecutó correctamente
+            while ($row = $result->fetch_assoc()) {
+                $resultados[] = $row;
             }
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $resultados = $result->fetch_all(MYSQLI_ASSOC);
-            $stmt->close();
         } else {
-            echo "Error en la consulta: " . $this->conexion->error;
-            $resultados = array();
+            echo "Error en la consulta: " . $this->conexion->error; // Mostrar mensaje de error
         }
     
         return $resultados;
-    }  
+    }
                
     public function insertarRegistro($tabla, $campos, $valores) {
         $tabla = $this->conexion->real_escape_string($tabla);
