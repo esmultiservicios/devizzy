@@ -48,7 +48,7 @@ $fecha_ingreso = date("y-m-d H:i:s");
 $fecha_egreso = "";
 $pass = generar_password_complejoScript();
 $contraseña_generada =  encryptionScript($pass);
-$contraseña_generadaAdmin =  encryptionScript('S0p0rt3C@M12025%Cl1n1c@r3');
+$contraseña_generadaAdmin =  encryptionScript('C@M1Cl1n1c@r3');
 $privilegio_id = 2;//ADMINISTRADOR
 $tipo_user_id = 2;//ADMINISTRADOR
 $username = "";
@@ -2101,7 +2101,7 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     $archivos_adjuntos = [];
   
     //ENVIAMOS EL CORREO DEL CLIENTE NUEVO AL RESELLER, ADMINISTRADOR, SUPER ADMINISTRADOR Y AL CLIENTE, SOBRE LA CREACIÓN DEL SISTEMA
-    //$sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos);
+    $sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $empresa_id, $archivos_adjuntos);
 
     // Cerrar la conexión a la segunda base de datos
     $conn->close();

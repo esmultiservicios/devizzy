@@ -28,7 +28,7 @@ class sendEmail {
         return $output;
     }    
 
-    public function enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos = []) {
+    public function enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $empresa_id, $archivos_adjuntos = []) {
         ini_set('max_execution_time', 300); // Establece el tiempo máximo de ejecución a 300 segundos (5 minutos)
 
         $mail = new PHPMailer(true);
@@ -63,12 +63,13 @@ class sendEmail {
             //CONSULTAMOS LOS DATOS DE LA EMPREA PARA ENVIAR EL CORREO
             $smtp = $resultadoCorreos[0]['server']; 
             $correo_empresa = $resultadoCorreos[0]['correo'];
+            
             $pass_empresa = $this->decryptionEmail($resultadoCorreos[0]['password']);
-
+            
             //Consultamos el nombre de la empresa
             $tablaEmpresa = "empresa";
             $camposEmpresa = ["nombre", "logotipo", "ubicacion", "telefono", "sitioweb", "correo", "rtn"];
-            $condicionesEmpresa = ["colaboradores_id" => $users_id];
+            $condicionesEmpresa = ["empresa_id" => $empresa_id];
             $orderBy = "";
             $tablaJoin = "";
 		    $condicionesJoin = [];
@@ -157,6 +158,7 @@ class sendEmail {
                     if ($mail->send()) {                                    
                         return 1; // Envío exitoso
                     } else {
+                        echo 'Error al enviar el correo: ' . $mail->ErrorInfo;
                         return 0; // Error en el envío
                     }                    
                 
@@ -165,7 +167,8 @@ class sendEmail {
                     $mail->ClearAttachments();
                 } 
             } catch (Exception $e) {
-                return 0;
+                //return 0; // Error en el envío
+                echo 'Error al enviar el correo: ' . $e->getMessage();
             }            
         }
     }

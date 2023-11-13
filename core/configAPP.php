@@ -20,7 +20,7 @@
     const PASS_MAIN = "Clin1c@r32022#";  
 
     //cPanel
-    const tokencPanel = 'cpsessXNEE7XA4JM1LRX3CE0CZZMFE75645ONE';
+    const tokencPanel = 'cpsessJVTCORJSCU43CUXSS7DAOOPHECPRDMXT';
     const usernamecPanel = 'clinicarehn';
     const passwordcPanel = 'S0p0rt32025%Cl1n1c@r3';
 

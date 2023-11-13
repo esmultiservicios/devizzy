@@ -102,7 +102,7 @@ class Database {
             $query .= " ORDER BY $orderBy";
         }
     
-        // Ejecutar la consulta
+        // Ejecutar la consulta        
         $result = $this->conexion->query($query);
     
         $resultados = array();

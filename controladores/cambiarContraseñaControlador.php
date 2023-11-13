@@ -44,7 +44,7 @@
 				if (!empty($resultadoColaborador)) {
 					$colaborador_nombre = trim($resultadoColaborador[0]['nombre'].' '.$resultadoColaborador[0]['apellido']);
 				}
-
+			
 				//OBTENEMOS EL CORREO DEL USUARUIO
 				$tablaUsuario = "users";
 				$camposUsuario = ["email"];
@@ -59,7 +59,6 @@
 				if (!empty($resultadoUsuario)) {
 					$correo_usuario = trim($resultadoUsuario[0]['email']);
 				}
-
 				
 				if($GLOBALS['db'] !== $GLOBALS['DB_MAIN']) {
 					//ACTUALIZAMOS LA CONTASEÑA DEL USUARIO EN LA DB PRINCIPAL
@@ -68,6 +67,8 @@
 							estado = '$estado'
 						WHERE email = '$correo_usuario' AND server_customers_id = '$server_customers_id'";
 					
+					echo $updateDBMainUsers."**";
+
 					mainModel::connectionLogin()->query($updateDBMainUsers);
 				}
 
@@ -131,8 +132,8 @@
 				';
 
 				$archivos_adjuntos = [];
-				$sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos);
-
+				$sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $empresa_id_sesion, $archivos_adjuntos);
+				
 				$alert = [
 					"alert" => "cerrar",
 					"title" => "Registro modificado",
@@ -274,10 +275,9 @@
 					</p>                
 				</div>
 			';
-
-
+			
 			$archivos_adjuntos = [];
-			$respuesta = $sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos);
+			$respuesta = $sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $empresa_id_sesion, $archivos_adjuntos);
 			
 			return $respuesta;
 		}

@@ -268,7 +268,7 @@
 
 							$archivos_adjuntos = [];
 							
-							$sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $users_id, $archivos_adjuntos);
+							$sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $empresa, $archivos_adjuntos);
 	
 							$alert = [
 								"alert" => "clear",
