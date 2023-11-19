@@ -62,16 +62,25 @@
     ?>
 
     <!-- Navbar Top -->
+    <?php
+        $prefixes = array("clinicarehn_", "clientes_");
+        $nombre_db_final = str_replace($prefixes, "", $GLOBALS['db']);
+        
+        if ($GLOBALS['db'] !== DB_MAIN) {
+            echo '<span class="modo_soporte"> <i class="fas fa-headset"></i> Usted está en modo soporte para el cliente: '.$nombre_db_final.'</span>';
+        }
+    ?>
+
     <?php require_once "./vistas/plantilla/modulos/navbartop.php";?>
     <!-- fin Navbar Top -->
 
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-
             <!-- Navbar Lateral -->
             <?php require_once "./vistas/plantilla/modulos/navbarlateral.php";?>
             <!-- Fin Navbar Lateral -->
         </div>
+
         <div id="layoutSidenav_content">
             <main>
                 <!-- Contenido -->

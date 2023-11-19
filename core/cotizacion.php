@@ -103,8 +103,9 @@ use LDAP\Result;
 					$total = 0;
 					$i = 1;
 					$totalHNL = 0;
+					$tasaCambioHNL = 0;
 					$descuentos = 0;
-					$producto_name = '';				
+					$producto_name = '';			
 
 					while($registro_detalles = $result_cotizacion_detalle->fetch_assoc()){																
 						$total_ = 0;
@@ -115,15 +116,15 @@ use LDAP\Result;
 						$importe += ($registro_detalles["precio"] * $registro_detalles["cantidad"] - $registro_detalles["descuento"]);
 						$subtotal += $importe;
 						$descuentos += $registro_detalles["descuento"];
-						$descuentos_neto += $registro_detalles["descuento"];
+						$descuentos_neto += $registro_detalles["descuento"];;
 						$isv_neto += $registro_detalles["isv_valor"];
 						
 						if($registro_detalles["isv_valor"] > 0){
 							$importe_gravado += ($registro_detalles["precio"] * $registro_detalles["cantidad"] - $registro_detalles["descuento"]);
 						}else{
 							$importe_excento += ($registro_detalles["precio"] * $registro_detalles["cantidad"] - $registro_detalles["descuento"]);
-						}								
-
+						}						
+						
 						if($registro_detalles["barCode"] != "" || $registro_detalles["barCode"] != null){
 							$producto_name = '['.$registro_detalles["barCode"].'] '.$registro_detalles["producto"];
 						}else{
