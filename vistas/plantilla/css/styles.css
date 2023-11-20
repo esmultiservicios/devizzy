@@ -12092,12 +12092,13 @@ input:checked+.slider:before {
   display: block;
   background-color: #ff8c00;
   color: #fff;
-  padding: 0px;
+  padding: 10px;
   text-align: center;
   font-weight: bold;
   position: fixed;
   top: 50px; /* Ajusta la posición según la altura de .sb-nav-fixed .sb-topnav */
   right: 0;
   left: 0;
-  z-index: 1200; /* Ajusta este valor según sea necesario, debe ser mayor que el z-index del otro elemento fijo */
+  font-size: 25px;
+  z-index: 1; /* Ajusta este valor según sea necesario, debe ser mayor que el z-index del otro elemento fijo */
 }
