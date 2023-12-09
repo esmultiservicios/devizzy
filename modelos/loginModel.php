@@ -20,7 +20,7 @@
 				ON u.tipo_user_id = tu.tipo_user_id 
 				INNER JOIN colaboradores AS c
 				ON u.colaboradores_id = c.colaboradores_id
-				WHERE (BINARY u.email = '$username' OR BINARY u.username = '$username') AND u.password = '$password' AND u.estado = '$estatus'
+				WHERE BINARY u.email = '$username' AND u.password = '$password' AND u.estado = '$estatus'
 				GROUP BY u.tipo_user_id
 			";
 			
@@ -28,6 +28,29 @@
 			
 			return $result;
 		}
+
+		protected function iniciar_sesion_admin_modelo($datos){
+			$username = $datos['username'];
+			$password = $datos['password'];
+			$db = $datos['db'];
+			
+			$estatus = 1;//USUARIO ACTIVO
+
+			$mysqli = mainModel::connectionDBLocal($db);
+			$query = "SELECT u.*, tu.nombre AS 'cuentaTipo', c.identidad
+				FROM users AS u
+				INNER JOIN tipo_user AS tu
+				ON u.tipo_user_id = tu.tipo_user_id 
+				INNER JOIN colaboradores AS c
+				ON u.colaboradores_id = c.colaboradores_id
+				WHERE BINARY u.username = '$username' AND u.password = '$password' AND u.estado = '$estatus'
+				GROUP BY u.tipo_user_id
+			";
+			
+			$result = $mysqli->query($query) or die($mysqli->error);
+			
+			return $result;
+		}		
 		
 		protected function getMenuAccesoLogin($privilegio_id){
 			$query = "SELECT am.acceso_menu_id AS 'acceso_menu_id', m.name AS 'name'

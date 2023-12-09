@@ -944,20 +944,12 @@
 
 		}
 
-
-
 		public function getAperturaID($datos){
-
 			$query = "SELECT apertura_id
-
 				FROM apertura
-
 				WHERE colaboradores_id = '".$datos['colaboradores_id']."' AND fecha = '".$datos['fecha']."' AND estado = '".$datos['estado']."'";
 
-
-
 			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
-
 
 
 			return $result;
@@ -970,6 +962,17 @@
 			$query = "SELECT *
 				FROM empresa
 				WHERE estado = 1
+				ORDER BY nombre";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getEmpresaConsulta($empresa_id){
+			$query = "SELECT *
+				FROM empresa
+				WHERE estado = 1 AND empresa_id = $empresa_id
 				ORDER BY nombre";
 
 			$result = self::connection()->query($query);
@@ -1052,10 +1055,19 @@
 		}
 
 		public function getColaboradoresConsulta(){
-			$query = "SELECT colaboradores_id, CONCAT(nombre, ' ', apellido) AS 'nombre'
-				FROM colaboradores
-				WHERE estado = 1 AND colaboradores_id NOT IN(1)
-				ORDER BY nombre";
+			$where = "";
+
+			if($GLOBALS['db'] === DB_MAIN) {
+				$where = "WHERE c.estado = 1";
+			}else{
+				$where = "WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1) AND p.nombre NOT IN('Reseller', 'Clientes')";
+			}
+
+			$query = "SELECT c.colaboradores_id, CONCAT(c.nombre, ' ', c.apellido) AS 'nombre'
+			FROM colaboradores AS c
+			INNER JOIN puestos AS p ON c.puestos_id = p.puestos_id
+			".$where."
+			ORDER BY c.nombre;";
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -1521,6 +1533,14 @@
 		}
 
 		public function getColaboradores(){
+			$where = "";
+
+			if($GLOBALS['db'] === DB_MAIN) {
+				$where = "WHERE c.estado = 1";
+			}else{
+				$where = "WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1) AND p.nombre NOT IN('Reseller', 'Clientes')";
+			}
+
 			$query = "SELECT c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', c.identidad AS 'identidad',
 				CASE WHEN c.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado', c.telefono AS 'telefono', e.nombre AS 'empresa', p.nombre AS 'puesto'
 				FROM colaboradores AS c
@@ -1528,12 +1548,27 @@
 				ON c.empresa_id = e.empresa_id
 				INNER JOIN puestos AS p
 				ON c.puestos_id = p.puestos_id
-				WHERE c.estado = 1
+				".$where."
 				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
 
 			$result = self::connection()->query($query);
 			return $result;
 		}
+
+		public function getColaboradoresFactura(){
+			$query = "SELECT c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', c.identidad AS 'identidad',
+				CASE WHEN c.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado', c.telefono AS 'telefono', e.nombre AS 'empresa', p.nombre AS 'puesto'
+				FROM colaboradores AS c
+				INNER JOIN empresa AS e
+				ON c.empresa_id = e.empresa_id
+				INNER JOIN puestos AS p
+				ON c.puestos_id = p.puestos_id
+				WHERE c.estado = 1 AND p.nombre = 'Vendedores'
+				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
+
+			$result = self::connection()->query($query);
+			return $result;
+		}		
 
 		public function getPuestos(){
 			$query = "SELECT *
@@ -1948,7 +1983,7 @@
 		}
 
 		public function getISV($documento){
-			$query = "SELECT i.isv_id AS 'isv_id', i.isv_tipo_id AS 'isv_tipo_id', i.valor AS 'valor', it.nombre AS 'tipo_isv'
+			$query = "SELECT i.isv_id AS 'isv_id', i.isv_tipo_id AS 'isv_tipo_id', i.valor AS 'valor', it.nombre AS 'tipo_isv', i.activar
 				FROM isv AS i
 				INNER JOIN isv_tipo As it
 				ON i.isv_tipo_id = it.isv_tipo_id
@@ -2014,7 +2049,8 @@
 		}
 
 		public function generarCodigoBarra(){
-			return date("Ymdhhmmss")."K";
+			$codigo = date("YmdHis"); // Obtener la fecha y agregar "K"
+			return substr($codigo, 0, 12); // Tomar solo los primeros 12 caracteres
 		}
 
 		public function getProductoHijo($producto_id){
@@ -2772,41 +2808,24 @@
 
 
 		public function getProveedoresEdit($proveedores_id){
-
 			$query = "SELECT *
-
 				FROM proveedores
-
 				WHERE proveedores_id = '$proveedores_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 
-
 		public function getColaboradoresEdit($colaboradores_id){
-
 			$query = "SELECT *
-
 				FROM colaboradores
-
 				WHERE colaboradores_id = '$colaboradores_id'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 		public function getPuestosEdit($puestos_id){
@@ -2854,6 +2873,65 @@
 				INNER JOIN colaboradores AS co
 				ON f.colaboradores_id = co.colaboradores_id
 				WHERE f.facturas_id = '$noFactura'";
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getComprobanteCaja($apertura_id){
+			$query = "SELECT
+					tp.nombre AS tipo_pago_nombre,
+					SUM(pd.efectivo) AS total_efectivo,
+					f.empresa_id
+				FROM
+					tipo_pago tp
+				INNER JOIN
+					pagos_detalles pd ON tp.tipo_pago_id = pd.tipo_pago_id
+				INNER JOIN
+					pagos p ON pd.pagos_id = p.pagos_id
+				INNER JOIN
+					facturas f ON p.facturas_id = f.facturas_id
+				WHERE
+					f.apertura_id = '$apertura_id'
+				GROUP BY
+					tp.nombre;";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getMetodoPagoFactura($factura_id){
+			$query = "SELECT
+					tp.nombre AS tipo_pago_nombre,
+					SUM(pd.efectivo) AS total_efectivo,
+					f.empresa_id
+				FROM
+					tipo_pago tp
+				INNER JOIN
+					pagos_detalles pd ON tp.tipo_pago_id = pd.tipo_pago_id
+				INNER JOIN
+					pagos p ON pd.pagos_id = p.pagos_id
+				INNER JOIN
+					facturas f ON p.facturas_id = f.facturas_id
+				WHERE
+					f.facturas_id = '$factura_id'
+				GROUP BY
+					tp.nombre;";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getMontoAperturaCaja($apertura_id){
+			$query = "SELECT
+					apertura
+				FROM
+					apertura
+				WHERE
+					apertura_id = '$apertura_id';";
+
 			$result = self::connection()->query($query);
 
 			return $result;

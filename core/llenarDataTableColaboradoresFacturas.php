@@ -5,7 +5,7 @@
 	
 	$insMainModel = new mainModel();
 	
-	$result = $insMainModel->getColaboradores();
+	$result = $insMainModel->getColaboradoresFactura();
 	
 	$arreglo = array();
 	$data = array();	

@@ -59,8 +59,8 @@
 				"referencia_pago3" => $referencia_pago3,
 				"print_comprobante" => $_POST['comprobante_print'],
 				"tipo_pago" => $tipo_pago,
-				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta,
+				"efectivo" => $efectivo === "" ? 0 : $efectivo,
+				"tarjeta" => $tarjeta === "" ? 0 : $tarjeta,
 				"colaboradores_id" => $colaboradores_id						
 			];
 
@@ -128,8 +128,8 @@
 				"referencia_pago3" => $referencia_pago3,
 				"print_comprobante" => $_POST['comprobante_print'],
 				"tipo_pago" => $tipo_pago,
-				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta,
+				"efectivo" => $efectivo === "" ? 0 : $efectivo,
+				"tarjeta" => $tarjeta === "" ? 0 : $tarjeta,
 				"colaboradores_id" => $colaboradores_id								
 			];
 
@@ -193,8 +193,8 @@
 				"referencia_pago3" => $referencia_pago3,
 				"print_comprobante" => $print_comprobante,
 				"tipo_pago" => $tipo_pago,
-				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta,
+				"efectivo" => $efectivo === "" ? 0 : $efectivo,
+				"tarjeta" => $tarjeta === "" ? 0 : $tarjeta,
 				"colaboradores_id" => $colaboradores_id							
 			];
 							
@@ -257,8 +257,8 @@
 				"referencia_pago3" => $referencia_pago3,
 				"print_comprobante" => $print_comprobante,
 				"tipo_pago" => $tipo_pago,
-				"efectivo" => $efectivo,
-				"tarjeta" => $tarjeta,
+				"efectivo" => $efectivo === "" ? 0 : $efectivo,
+				"tarjeta" => $tarjeta === "" ? 0 : $tarjeta,
 				"colaboradores_id" => $colaboradores_id							
 			];
 

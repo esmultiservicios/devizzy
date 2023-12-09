@@ -60,7 +60,7 @@
 			$precio_factura_id = mainModel::correlativo("precio_factura_id", "precio_factura");
 			$insert = "INSERT INTO precio_factura
 				VALUES('$precio_factura_id','".$datos['facturas_id']."','".$datos['productos_id']."','".$datos['clientes_id']."','".$datos['fecha']."','".$datos['referencia']."','".$datos['precio_anterior']."','".$datos['precio_nuevo']."','".$datos['fecha_registro']."')";
-
+			
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 		
 			return $result;				

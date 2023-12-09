@@ -16,10 +16,10 @@
 
 			$pagos_id = mainModel::correlativo("pagos_id", "pagos");
 			$insert = "INSERT INTO pagos 
-				VALUES('$pagos_id','".$datos['facturas_id']."','".$datos['tipo_pago']."','".$datos['fecha']."',
+				VALUES('$pagos_id','".$datos['facturas_id']."','".$datos['tipo_pago_id']."','".$datos['fecha']."',
 				'".$importe."','".$datos['efectivo']."','".$datos['cambio']."','".$datos['tarjeta']."',
-				'".$datos['usuario']."','".$datos['estado']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
-
+				'".$datos['usuario']."','".$datos['estado']."','".$datos['empresa']."','".$datos['fecha_registro']."')";				
+			
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $result;		

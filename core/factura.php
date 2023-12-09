@@ -32,7 +32,7 @@
                 </td>
                 <td class="info_empresa">
                     <div>
-                        <span class="h2"><?php echo $consulta_registro['empresa']; ?></span>
+                        <span class="h2"><?php echo nl2br($consulta_registro['empresa']); ?></span>
                         <p><?php echo nl2br($consulta_registro['direccion_empresa']); ?></p>
                         <p>PBX: <?php echo $consulta_registro['empresa_telefono']; ?></p>
                         <p>WhatsApp: <?php echo $consulta_registro['empresa_celular']; ?></p>
@@ -255,6 +255,38 @@
 				}
 				*/?>
             </p>
+
+            <table>
+                <tbody>
+                    <?php
+                        $total = 0;
+                        
+                        if ($result_metodos_pago->num_rows > 0) {
+                            echo '                
+                                <tr>
+                                    <td colspan="2"><span>&nbsp;&nbsp;&nbsp;</span></td>
+                                    <td><span>&nbsp;&nbsp;&nbsp;</span></td>
+                                </tr>
+                                <tr><td colspan="2"><center><b><span>Método de Pago</span></b></center></td></tr>';
+                            while ($consulta_registro_metodo2 = $result_metodos_pago->fetch_assoc()) {
+                                echo '<tr><td><span>' . $consulta_registro_metodo2["tipo_pago_nombre"]. '</span></td>';
+                                echo '<td><span>L. ' . number_format($consulta_registro_metodo2["total_efectivo"], 2) . '</span></td></tr>';
+
+                                $total += $consulta_registro_metodo2["total_efectivo"];
+                            }
+                        }
+                                       
+                        echo                      
+                         '                   
+                             <tr>
+                                 <td><b>Total: </b></td>
+                                 <td><b>L. '.number_format($total,2).'</b></td>
+                             </tr>
+                         ';
+                    ?>
+                </tbody>
+            </table>
+
             <p class="nota"><br /><br /></p>
             <p class="nota">La factura es beneficio de todos "Exíjala"</p>
             <p class="nota">N° correlativo de orden de compra excenta __________________</p>

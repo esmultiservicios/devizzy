@@ -66,7 +66,9 @@
         $prefixes = array("clinicarehn_", "clientes_");
         $nombre_db_final = str_replace($prefixes, "", $GLOBALS['db']);
         
-        if ($GLOBALS['db'] !== DB_MAIN) {
+        echo $_SESSION['modo_soporte'] ."***";
+
+        if ($_SESSION['modo_soporte'] === "SI") {
             echo '<span class="modo_soporte"> <i class="fas fa-headset"></i> Usted está en modo soporte para el cliente: '.$nombre_db_final.'</span>';
         }
     ?>

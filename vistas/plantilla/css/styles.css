@@ -11980,7 +11980,7 @@ input:checked+.slider:before {
   width: 60px;
   height: 60px;
   bottom: 40px;
-  right: 40px;
+  left: 40px; /* Ajusta el valor según sea necesario */
   background-color: #25d366;
   color: #FFF;
   border-radius: 50px;
@@ -11990,6 +11990,7 @@ input:checked+.slider:before {
   z-index: 1000;
   /* Asegura que el footer esté encima del contenido */
 }
+
 
 .float-ws:hover {
   text-decoration: none;

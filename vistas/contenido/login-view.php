@@ -43,13 +43,13 @@
             <div class="input-group-prepend">
                 <span class="input-group-text boton"><i class="fas fa-user"></i></i></span>
             </div>
-            <input type="number" class="form-control" placeholder="Cliente" aria-label="Cliente"
+            <input type="number" class="form-control" value="" placeholder="Cliente" aria-label="Cliente"
                 aria-describedby="basic-addon2" tabindex="4" id="inputCliente" name="inputCliente">
             <div class="input-group-append">
                 <span class="input-group-text boton"><i class="fas fa-key"></i></span>
             </div>
-            <input type="number" class="form-control" placeholder="PIN" aria-label="PIN" aria-describedby="basic-addon2"
-                tabindex="5" id="inputPin" name="inputPin">
+            <input type="number" class="form-control" value="" placeholder="PIN" aria-label="PIN"
+                aria-describedby="basic-addon2" tabindex="5" id="inputPin" name="inputPin">
         </div>
 
 

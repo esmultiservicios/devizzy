@@ -38,11 +38,13 @@
 		// instantiate and use the dompdf class
 		$dompdf = new Dompdf();
 		
+		$dompdf->set_option('margin-bottom', 0);
+		$dompdf->set_option('margin-left', 0); // Ajuste para quitar el borde izquierdo
 		$dompdf->set_option('isRemoteEnabled', true);
 
 		$dompdf->loadHtml(utf8_decode(utf8_encode($html)));
 		// (Optional) Setup the paper size and orientation
-		$dompdf->setPaper('b7', 'portrait');
+		$dompdf->setPaper(array(0, 0, 230, 1000), 'portrait');
 		// Render the HTML as PDF
 		$dompdf->render();
 		

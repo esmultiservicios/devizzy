@@ -135,3 +135,15 @@ p, label, span, table{
     transform: rotate(-45deg);
   color: #ecb4b4
 }
+
+.texto-td {
+    font-size: 12pt; /* Tamaño de texto deseado, ajusta según tus necesidades */
+}
+
+.nombre-producto {
+    font-weight: bold;
+    color: black;
+    font-size: 8pt;
+    word-wrap: break-word; /* Agrega esta línea para permitir el ajuste de línea */
+    /* Otros estilos que desees aplicar */
+}

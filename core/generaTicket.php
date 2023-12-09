@@ -18,13 +18,20 @@
 	$result = $insMainModel->getFactura($noFactura);	
 	
 	$anulada = '';
+	$logotipo = '';
+	$firma_documento = '';
 
 	//OBTENEMOS LOS DATOS DEL DETALLE DE FACTURA
-	$result_factura_detalle = $insMainModel->getDetalleFactura($noFactura);								
+	$result_factura_detalle = $insMainModel->getDetalleFactura($noFactura);	
+	
+	//OBTENEMOS LAS FORMAS DE PAGO
+	$result_metodos_pago = $insMainModel->getMetodoPagoFactura($noFactura);	
 
 	if($result->num_rows>0){
 		$consulta_registro = $result->fetch_assoc();	
 		
+		$logotipo = $consulta_registro['logotipo'];
+		$firma_documento = $consulta_registro['firma_documento'];
 		$no_factura = str_pad($consulta_registro['numero_factura'], $consulta_registro['relleno'], "0", STR_PAD_LEFT);
 
 		if($consulta_registro['estado'] == 4){
@@ -37,12 +44,16 @@
 
 		// instantiate and use the dompdf class
 		$dompdf = new Dompdf();
-		
+
+		$dompdf->set_option('margin-bottom', 0);
+		$dompdf->set_option('margin-left', 0); // Ajuste para quitar el borde izquierdo
 		$dompdf->set_option('isRemoteEnabled', true);
 
 		$dompdf->loadHtml(utf8_decode(utf8_encode($html)));
-		// (Optional) Setup the paper size and orientation
-		$dompdf->setPaper('b7', 'portrait');
+		
+		//$dompdf->setPaper(array(0, 0, 230, 1000), 'portrait');
+		$dompdf->setPaper(array(0, 0, 210, 1000), 'portrait');
+
 		// Render the HTML as PDF
 		$dompdf->render();
 		

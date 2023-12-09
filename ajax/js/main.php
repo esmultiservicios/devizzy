@@ -515,6 +515,23 @@ function getPorcentajeISV(documento) {
     return isv;
 }
 
+function validarISV(documento) {
+    var url = '<?php echo SERVERURL;?>core/getISV.php';
+
+    var activo;
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: 'documento=' + documento,
+        async: false,
+        success: function(data) {
+            var datos = eval(data);
+            activo = datos[1];
+        }
+    });
+    return activo;
+}
+
 $(document).ready(function() {
     showDate();
     showTimeForm();
@@ -594,11 +611,14 @@ function modal_productos() {
     $('#formProductos #cantidad').attr("disabled", false);
     $('#formProductos #producto_superior').attr("disabled", false);
 
-    $('#formProductos #almacen').val(1);
-    $('#formProductos #almacen').selectpicker('refresh');
-
     $('#formProductos #producto_empresa_id').val(1);
     $('#formProductos #producto_empresa_id').selectpicker('refresh');
+
+    $('#formProductos #producto_categoria').val(1);
+    $('#formProductos #producto_categoria').selectpicker('refresh');
+
+    $('#formProductos #almacen').val(2);
+    $('#formProductos #almacen').selectpicker('refresh');
 
     $('#formProductos #tipo_producto').val(1);
     $('#formProductos #tipo_producto').selectpicker('refresh');
@@ -606,10 +626,24 @@ function modal_productos() {
     $('#formProductos #buscar_producto_empresa').show();
     $('#formProductos #buscar_producto_categorias').show();
 
+    $('#formProductos #medida').val(2);
+    $('#formProductos #medida').selectpicker('refresh');
+
     $('#formProductos #producto_activo').attr('checked', true);
-    $('#formProductos #producto_isv_factura').attr('checked', true);
     $('#formProductos #estado_producto').hide();
     $('#formProductos #grupo_editar_bacode').hide();
+
+    if (validarISV("Facturas") == 1) {
+        $('#formProductos #producto_isv_factura').attr('checked', true);
+    } else {
+        $('#formProductos #producto_isv_factura').attr('checked', false);
+    }
+
+    if (validarISV("Compras") == 1) {
+        $('#formProductos #producto_isv_compra').attr('checked', true);
+    } else {
+        $('#formProductos #producto_isv_compra').attr('checked', false);
+    }
 
     $("#formProductos #preview").attr("src", "<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png");
 
@@ -632,6 +666,12 @@ function getEmpresaProductos() {
             $('#formProductos #producto_empresa_id').html("");
             $('#formProductos #producto_empresa_id').html(data);
             $('#formProductos #producto_empresa_id').selectpicker('refresh');
+
+            $('#formProductos #producto_empresa_id').val(1);
+            $('#formProductos #producto_empresa_id').selectpicker('refresh');
+
+            // Refrescar Bootstrap Select después de establecer los valores
+            $('.selectpicker').selectpicker('refresh');
         }
     });
 }
@@ -647,10 +687,21 @@ function getMedida(count) {
             $('#formProductos #medida').html("");
             $('#formProductos #medida').html(data);
             $('#formProductos #medida').selectpicker('refresh');
+
+            $('#formProductos #medida').val(1);
+            $('#formProductos #medida').selectpicker('refresh');
+
+
             $('#medidaPurchase_' + count).html(data);
             $('#medidaPurchase_' + count).selectpicker('refresh');
             $('#medida_' + count).html(data);
             $('#medida_' + count).selectpicker('refresh');
+
+            $('#formProductos #medida').val(1);
+            $('#formProductos #medida').selectpicker('refresh');
+
+            // Refrescar Bootstrap Select después de establecer los valores
+            $('.selectpicker').selectpicker('refresh');
         }
     });
 }
@@ -671,6 +722,9 @@ function getAlmacen() {
             $('#form_main_movimientos #almacen').html(data);
             $('#form_main_movimientos #almacen').selectpicker('refresh');
 
+            $('#form_main_movimientos #almacen').val(1);
+            $('#form_main_movimientos #almacen').selectpicker('refresh');
+
             $('#formulario_busqueda_productos_facturacion #almacen').html("");
             $('#formulario_busqueda_productos_facturacion #almacen').html(data);
             $('#formulario_busqueda_productos_facturacion #almacen').selectpicker('refresh');
@@ -678,14 +732,22 @@ function getAlmacen() {
             $('#formTransferencia #id_bodega').html("");
             $('#formTransferencia #id_bodega').html(data);
             $('#formTransferencia #id_bodega').selectpicker('refresh');
+
             $('#formTransferencia #id_bodega').val(1);
             $('#formTransferencia #id_bodega').selectpicker('refresh');
 
             $('#almacen_modal').html("");
             $('#almacen_modal').html(data);
             $('#almacen_modal').selectpicker('refresh');
+
             $('#almacen_modal').val(1);
             $('#almacen_modal').selectpicker('refresh');
+
+            $('#formProductos #almacen').val(1);
+            $('#formProductos #almacen').selectpicker('refresh');
+
+            // Refrescar Bootstrap Select después de establecer los valores
+            $('.selectpicker').selectpicker('refresh');
         }
     });
 }
@@ -701,6 +763,12 @@ function getTipoProducto() {
             $('#formProductos #tipo_producto').html("");
             $('#formProductos #tipo_producto').html(data);
             $('#formProductos #tipo_producto').selectpicker('refresh');
+
+            $('#formProductos #tipo_producto').val(1);
+            $('#formProductos #tipo_producto').selectpicker('refresh');
+
+            // Refrescar Bootstrap Select después de establecer los valores
+            $('.selectpicker').selectpicker('refresh');
         }
     });
 }
@@ -715,6 +783,9 @@ function getCategoriaProductos() {
         success: function(data) {
             $('#formProductos #producto_categoria').html("");
             $('#formProductos #producto_categoria').html(data);
+            $('#formProductos #producto_categoria').selectpicker('refresh');
+
+            $('#formProductos #producto_categoria').val(1);
             $('#formProductos #producto_categoria').selectpicker('refresh');
         }
     });
@@ -1197,8 +1268,24 @@ function printBill(facturas_id, $print_comprobante) {
     return false;
 }
 
-function printBillReporteVentas(facturas_id, $print_comprobante) {
+function printComprobanteCajas(apertura_id, $print_comprobante) {
+    var url = "<?php echo SERVERURL;?>core/llenarDataTableImpresora.php";
 
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+            id: 1,
+        },
+        success: function(data) {
+            var url = '<?php echo SERVERURL;?>core/generaTicketCaja.php?apertura_id=' +
+                apertura_id;
+            window.open(url);
+        }
+    });
+}
+
+function printBillReporteVentas(facturas_id, $print_comprobante) {
     var url = "<?php echo SERVERURL;?>core/llenarDataTableImpresora.php";
 
     $.ajax({
@@ -1209,22 +1296,18 @@ function printBillReporteVentas(facturas_id, $print_comprobante) {
         },
         success: function(data) {
             $.each(JSON.parse(data), function() {
-
-                    if (this.tipo == 1 && this.estado == 1) {
-                        var url = '<?php echo SERVERURL;?>core/generaFactura.php?facturas_id=' +
-                            facturas_id;
-                        window.open(url);
-                    }
-
-                    if (this.tipo == 2 && this.estado == 1) {
-                        var url = '<?php echo SERVERURL;?>core/generaTicket.php?facturas_id=' +
-                            facturas_id;
-                        window.open(url);
-
-                    }
+                if (this.tipo == 1 && this.estado == 1) {
+                    var url = '<?php echo SERVERURL;?>core/generaFactura.php?facturas_id=' +
+                        facturas_id;
+                    window.open(url);
                 }
 
-            )
+                if (this.tipo == 2 && this.estado == 1) {
+                    var url = '<?php echo SERVERURL;?>core/generaTicket.php?facturas_id=' +
+                        facturas_id;
+                    window.open(url);
+                }
+            })
         }
     });
 }

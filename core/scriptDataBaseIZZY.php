@@ -693,18 +693,19 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       PRIMARY KEY (`ingresos_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
-    DROP TABLE IF EXISTS `isv`;
-    CREATE TABLE IF NOT EXISTS `isv` (
-      `isv_id` int NOT NULL,
-      `isv_tipo_id` int NOT NULL,
-      `valor` float(12,2) NOT NULL,
-      `fecha_registro` datetime NOT NULL,
-      PRIMARY KEY (`isv_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-  
-    INSERT INTO `isv` (`isv_id`, `isv_tipo_id`, `valor`, `fecha_registro`) VALUES
-    (1, 1, 15.00, NOW()),
-    (2, 2, 15.00, NOW());
+	DROP TABLE IF EXISTS `isv`;
+	CREATE TABLE IF NOT EXISTS `isv` (
+	  `isv_id` int(11) NOT NULL,
+	  `isv_tipo_id` int(11) NOT NULL,
+	  `valor` float(12,2) NOT NULL,
+	  `activar` int(11) NOT NULL COMMENT '0. No 1. Si',
+	  `fecha_registro` datetime NOT NULL,
+	  PRIMARY KEY (`isv_id`)
+	) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+	INSERT INTO `isv` (`isv_id`, `isv_tipo_id`, `valor`, `activar`, `fecha_registro`) VALUES
+	(1, 1, 15.00, 1, '2021-11-05 18:04:31'),
+	(2, 2, 15.00, 1, '2021-11-05 18:04:31');
   
     DROP TABLE IF EXISTS `isv_tipo`;
     CREATE TABLE IF NOT EXISTS `isv_tipo` (

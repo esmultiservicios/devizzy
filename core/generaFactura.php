@@ -15,7 +15,10 @@
 	$noFactura = $_GET['facturas_id'];
 
 	//OBTENEMOS LOS DATOS DEL ENCABEZADO DE LA FACTURA
-	$result = $insMainModel->getFactura($noFactura);	
+	$result = $insMainModel->getFactura($noFactura);
+	
+	//OBTENEMOS LAS FORMAS DE PAGO
+	$result_metodos_pago = $insMainModel->getMetodoPagoFactura($noFactura);	
 	
 	$anulada = '';
 	$logotipo = '';

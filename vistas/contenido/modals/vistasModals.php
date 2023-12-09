@@ -464,7 +464,7 @@
                                                 <div class="fas fa-money-check fa-lg"></div> &nbsp;&nbsp; Cheque
                                             </div>
                                         </a>
-                                        <div class="container mt-md-0" id="GrupoPagosMultiples">
+                                        <div class="container mt-md-0" id="GrupoPagosMultiples" style="display: none;">
                                             <p class="mb-0 mt-3">Pagos Multiples:</p>
                                             <label class="switch mb-2" data-toggle="tooltip" data-placement="top">
                                                 <input type="checkbox" id="pagos_multiples_switch"
@@ -559,7 +559,7 @@
                                                                     <label>Quien Paga</label>
                                                                     <div class="input-group">
                                                                         <select id="usuario_efectivo_compras"
-                                                                            name="usuario_efectivo_compras" required
+                                                                            name="usuario_efectivo_compras"
                                                                             class="selectpicker col-12" data-size="5"
                                                                             data-live-search="true"
                                                                             title="Usuario que Paga">
@@ -649,7 +649,7 @@
                                                                     <label>Quien Paga</label>
                                                                     <div class="input-group">
                                                                         <select id="usuario_tarjeta_compras"
-                                                                            name="usuario_tarjeta_compras" required
+                                                                            name="usuario_tarjeta_compras"
                                                                             class="selectpicker col-12" data-size="5"
                                                                             data-live-search="true"
                                                                             title="Usuario que Paga">
@@ -747,8 +747,8 @@
                                                                     <div class="input-group">
                                                                         <select id="usuario_transferencia_compras"
                                                                             name="usuario_transferencia_compras"
-                                                                            required class="selectpicker col-12"
-                                                                            data-size="5" data-live-search="true"
+                                                                            class="selectpicker col-12" data-size="5"
+                                                                            data-live-search="true"
                                                                             title="Usuario que Paga">
                                                                         </select>
                                                                     </div>
@@ -828,7 +828,7 @@
                                                                     <label>Quien Paga</label>
                                                                     <div class="input-group">
                                                                         <select id="usuario_cheque_compras"
-                                                                            name="usuario_cheque_compras" required
+                                                                            name="usuario_cheque_compras"
                                                                             class="selectpicker col-12" data-size="5"
                                                                             data-live-search="true"
                                                                             title="Usuario que Paga">
@@ -917,7 +917,8 @@
                                             </label>
                                             <span class="question mb-2" id="label_print_comprobant"></span>
                                         </div>
-                                        <div class="container mt-md-0" id="GrupoPagosMultiplesFacturas">
+                                        <div class="container mt-md-0" id="GrupoPagosMultiplesFacturas"
+                                            style="display:none;">
                                             <p class="mb-0 mt-3">Pagos Multiples:</p>
                                             <label class="switch mb-2" data-toggle="tooltip" data-placement="top">
                                                 <input type="checkbox" id="pagos_multiples_switch"
@@ -1007,7 +1008,7 @@
                                                                     <label>Quien Recibe</label>
                                                                     <div class="input-group">
                                                                         <select id="usuario_efectivo"
-                                                                            name="usuario_efectivo" required
+                                                                            name="usuario_efectivo"
                                                                             class="selectpicker col-12"
                                                                             data-live-search="true"
                                                                             title="Usuario que Recibe">
@@ -1097,7 +1098,7 @@
                                                                     <label>Quien Recibe</label>
                                                                     <div class="input-group">
                                                                         <select id="usuario_tarjeta"
-                                                                            name="usuario_tarjeta" required
+                                                                            name="usuario_tarjeta"
                                                                             class="selectpicker col-12" data-size="5"
                                                                             data-live-search="true"
                                                                             title="Usuario que Recibe">
@@ -1206,7 +1207,7 @@
                                                                     <label>Quien Recibe</label>
                                                                     <div class="input-group">
                                                                         <select id="usuario_pago_mixto"
-                                                                            name="usuario_pago_mixto" required
+                                                                            name="usuario_pago_mixto"
                                                                             class="selectpicker col-12" data-size="5"
                                                                             data-live-search="true"
                                                                             title="Usuario que Recibe">
@@ -1299,7 +1300,7 @@
                                                                     <label>Quien Recibe</label>
                                                                     <div class="input-group">
                                                                         <select id="usuario_transferencia"
-                                                                            name="usuario_transferencia" required
+                                                                            name="usuario_transferencia"
                                                                             class="selectpicker col-12" data-size="5"
                                                                             data-live-search="true"
                                                                             title="Usuario que Recibe">
@@ -1383,7 +1384,7 @@
                                                                     <label>Quien Recibe</label>
                                                                     <div class="input-group">
                                                                         <select id="usuario_cheque"
-                                                                            name="usuario_cheque" required
+                                                                            name="usuario_cheque"
                                                                             class="selectpicker col-12" data-size="5"
                                                                             data-live-search="true"
                                                                             title="Usuario que Recibe">
@@ -2562,9 +2563,9 @@
                             </select>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="departamento_cliente">Precio Compra <span class="priority">*<span /></label>
+                            <label for="departamento_cliente">Precio Compra <span></label>
                             <input type="number" class="form-control" id="precio_compra" name="precio_compra"
-                                placeholder="Precio Compra" step="0.00001" required>
+                                placeholder="Precio Compra" step="0.00001">
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="precio_venta">Precio Venta</label>

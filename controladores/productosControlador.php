@@ -13,7 +13,7 @@
 			
 			$almacen_id = mainModel::cleanStringConverterCase($_POST['almacen']);
 			$medida_id = mainModel::cleanStringConverterCase($_POST['medida']);
-			$producto_superior = mainModel::cleanString($_POST['producto_superior']);
+			$producto_superior = mainModel::cleanString($_POST['producto_superior']) == "" ? 0 : mainModel::cleanString($_POST['producto_superior']);
 			$categoria_id = mainModel::cleanStringConverterCase($_POST['producto_categoria']);
 			$tipo_producto = mainModel::cleanStringConverterCase($_POST['tipo_producto']);			
 			$nombre = mainModel::cleanString($_POST['producto']);
@@ -310,7 +310,7 @@
 					"form" => "formProductos",	
 					"id" => "proceso_productos",
 					"valor" => "Editar",
-					"funcion" => "listar_productos();getProductos();getCategoriaProductos();getTipoProducto();getAlmacen();getMedida(0);getEmpresaProductos();",
+					"funcion" => "listar_productos();getEmpresaProductos();getCategoriaProductos();getAlmacen();getTipoProducto();getMedida(1);",
 					"modal" => "",
 				];
 			}else{
@@ -322,6 +322,11 @@
 					"btn-class" => "btn-danger",					
 				];				
 			}			
+			
+			/*echo '
+				<script>			
+					setValoresProduco();
+				</script>';*/
 			
 			return mainModel::sweetAlert($alert);
 		}
@@ -453,7 +458,7 @@
 					"form" => "formMovimientos",	
 					"id" => "proceso_movimientos",
 					"valor" => "Editar",
-					"funcion" => "inventario_transferencia();getAlmacen();getTipoProductos();getProductoOperacion();getTipoProductosMovimientos();",
+					"funcion" => "inventario_transferencia();setValoresProduco();",
 					"modal" => "",
 				];
 			}else{
@@ -518,4 +523,4 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
-?>	
+?>

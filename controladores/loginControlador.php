@@ -23,6 +23,7 @@
 			$codigoCliente = "";
 			$pingInvalido = false;
 			$Consultacliente = false;
+			$mantenimiento = false;
 			
 			//CONSULTAMOS EL CUSTOMR SERVER PARA TENER LA DB DEL CLIENTE Y ASI OBTENER A QUE DB NOS CONECTAREMOS
 			if ($inputCliente !== "" && $inputPin !== "") {
@@ -60,7 +61,7 @@
 				$query_server = "SELECT COALESCE(s.server_customers_id, '0') AS server_customers_id, COALESCE(s.db, '" . DB_MAIN . "') AS db, codigo_cliente
 					FROM users AS u
 					LEFT JOIN server_customers AS s ON u.server_customers_id = s.server_customers_id
-					WHERE u.email = '$username'";
+					WHERE (BINARY u.email = '$username' OR BINARY u.username = '$username')";		
 				
 				$respuesta = true;
 			} else {				
@@ -89,9 +90,15 @@
 							"password" => mainModel::encryption("C@M1Cl1n1c@r3"),
 							"db" => $GLOBALS['db'],
 						];
-					}
 
-					$result = loginModel::iniciar_sesion_modelo($datosLogin);			
+						$result = loginModel::iniciar_sesion_admin_modelo($datosLogin);
+
+						if($result->num_rows > 0) {
+							$mantenimiento = true;
+						}						
+					}else{
+						$result = loginModel::iniciar_sesion_modelo($datosLogin);
+					}								
 		
 					if($result->num_rows != 0){
 						$row = $result->fetch_assoc();
@@ -132,6 +139,12 @@
 							$_SESSION['codigo_bitacora_sd'] = $codigoB;
 							$_SESSION['identidad'] = $row['identidad'];
 							$_SESSION['codigoCliente'] = $codigoCliente;
+
+							if($mantenimiento == true) {
+								$_SESSION['modo_soporte'] = "SI";
+							}else{
+								$_SESSION['modo_soporte'] = "NO";
+							}
 		
 							//CONSULTAMOS LA DB DEL CLIENTE									
 							$tablServerCustomer = "server_customers";

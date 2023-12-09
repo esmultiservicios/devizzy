@@ -9,8 +9,8 @@
 
     //DATOS DE CONEXION DEL CLIENTE
     const SERVER = "localhost";
-    const USER = "root";
-    const PASS = "Edwin82003%";
+    const USER = "clinicarehn_clinicare";
+    const PASS = "Clin1c@r32022#";
 
     //DATOS DE CONEXION SERVIDOR PRINCIPAL
     const SERVER_MAIN = "localhost";    
@@ -34,7 +34,7 @@
     const METHOD = "AES-256-CBC";
     const SECRET_KEY = '$DP_@2020';
     const SECRET_IV = '10172';
-    const SISTEMA_PRUEBA = "SI"; //SI o NO
+    const SISTEMA_PRUEBA = "NO"; //SI o NO
 
     initConfig(); // Llamar a la función para inicializar la configuración
 

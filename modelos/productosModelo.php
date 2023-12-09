@@ -14,7 +14,8 @@
 			'".$datos['precio_venta']."','".$datos['cantidad_mayoreo']."','".$datos['precio_mayoreo']."','".$datos['cantidad_minima']."',
 			'".$datos['cantidad_maxima']."','".$datos['estado']."','".$datos['isv_venta']."','".$datos['isv_compra']."',
 			'".$datos['colaborador_id']."','".$datos['file']."','".$datos['empresa']."','".$datos['fecha_registro']."',
-			'".$datos['id_producto_superior']."')";
+			'".$datos['id_producto_superior']."')";		
+			
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			
@@ -119,4 +120,4 @@
 			return $result;			
 		}		
 	}
-?>	
+?>
