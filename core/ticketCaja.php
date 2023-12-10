@@ -65,7 +65,7 @@
         <table id="factura_head">
             <tr>
                 <td class="textcenter">
-                    <span class="h2"><?php echo nl2br($consulta_empreasa_caja['nombre']); ?></span>
+                    <span class="h1"><?php echo nl2br($consulta_empreasa_caja['nombre']); ?></span>
                 </td>
             </tr>
             <tr>
