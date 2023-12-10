@@ -66,7 +66,7 @@
         <table id="factura_head">
             <tr>
                 <td class="textcenter">
-                    <span class="h2"><?php echo nl2br($consulta_registro['empresa']); ?></span>
+                    <span class="h1"><?php echo nl2br($consulta_registro['empresa']); ?></span>
                 </td>
             </tr>
             <tr>
@@ -192,11 +192,13 @@
             <thead>
                 <tr>
                     <th width="" class="textright">Precio</th>
+                    <th class="textright" colspan="2"><span>&nbsp;&nbsp;</span></th>
                     <th width="" class="textright">Descuento</th>
+                    <th class="textright"><span>&nbsp;&nbsp;</span></th>
                     <th width="" class="textright">Importe</th>
                 </tr>
                 <tr>
-                    <th colspan="3" class="header-line"></th>
+                    <th colspan="6" class="header-line"></th>
                 </tr>
             </thead>
             <tbody>
@@ -236,15 +238,17 @@
 
 						echo
                         '<tr>
-                        <td colspan="4" class="nombre-producto">'.$producto_name.'</td>
+                        <td colspan="5" class="nombre-producto">'.$producto_name.'</td>
                         </tr>
                         <tr>
                         <td class="textright">L. '.number_format($registro_detalles["precio"],2).'</td>
+                        <th class="textright" colspan="2"><span>&nbsp;&nbsp;</span></th>
                         <td class="textright">L. '.number_format($descuentos,2).'</td>
+                        <th><span>&nbsp;</span></th>
                         <td class="textright">L. '.number_format($importe,2).'</td>
                         </tr>
                         <tr>
-                        <td colspan="3" class="nombre-producto">Qty: '.$registro_detalles["cantidad"].'</td>
+                        <td colspan="6" class="nombre-producto">Qty: '.$registro_detalles["cantidad"].'</td>
                         </tr>';
 						$i++;
 					}
@@ -252,53 +256,56 @@
 					$total_despues_isv = ($total + $isv_neto) - $descuentos_neto;                                        
 				?>
             </tbody>
-            <tfoot id="detalle_totales">
+            <tfoot id=" detalle_totales">
                 <tr>
-                    <th colspan="3" class="header-line"></th>
+                    <th colspan="6" class="header-line"></th>
                 </tr>
                 <tr>
-                    <td colspan="2"><span>&nbsp;&nbsp;&nbsp;</span></td>
+                    <td colspan="3"><span>&nbsp;&nbsp;&nbsp;</span></td>
                     <td><span>&nbsp;&nbsp;&nbsp;</span></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><span>Importe</span></td>
+                    <td colspan="3"><span>Importe</span></td>
                     <td<span>L. <?php echo number_format($total,2);?></span></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><span>Descuentos y Reb:</span></td>
+                    <td colspan="3"><span>Descuentos y Reb:</span></td>
                     <td><span>L. <?php echo number_format($descuentos_neto,2);?></span></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><span>Sub-Total</span></td>
+                    <td colspan="3"><span>Sub-Total</span></td>
                     <td><span>L. <?php echo number_format($subtotal,2);?></span></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><span>Importe Exonerado</span></td>
+                    <td colspan="3"><span>Importe Exonerado</span></td>
                     <td><span>L. <?php echo number_format(0,2);?></span></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><span>Importe Excento</span></td>
+                    <td colspan="3"><span>Importe Excento</span></td>
                     <td><span>L. <?php echo number_format($importe_excento,2);?></span></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><span>Importe Gravado 15%</span></td>
+                    <td colspan="3"><span>Importe Gravado 15%</span></td>
                     <td><span>L. <?php echo number_format($importe_gravado,2); ?></span></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><span>Importe Gravado 18%</span></td>
+                    <td colspan="3"><span>Importe Gravado 18%</span></td>
                     <td><span>L. <?php echo number_format(0,2);?></span></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><span>ISV 15%</span></td>
+                    <td colspan="3"><span>ISV 15%</span></td>
                     <td><span>L. <?php echo number_format($isv_neto,2); ?></span></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><span>ISV 18%</span></td>
+                    <td colspan="3"><span>ISV 18%</span></td>
                     <td><span>L. <?php echo number_format(0,2);?></span></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><span>Total</span></td>
+                    <td colspan="3"><span>Total</span></td>
                     <td><span>L. <?php echo number_format($total_despues_isv,2); ?></span></td>
+                </tr>
+                <tr>
+                    <th colspan="6" class="header-line"></th>
                 </tr>
             </tfoot>
         </table>
