@@ -1097,7 +1097,7 @@ $(document).ready(function() {
             if ($("#invoice-form #invoiceItem #bar-code-id_" + row_index).val() != "") {
                 var url = '<?php echo SERVERURL;?>core/getProdcutoBarCode.php';
                 var element = $("#invoice-form #invoiceItem #bar-code-id_" + row_index).val().split(
-                '*');
+                    '*');
                 var cantidad = element[0];
                 var barcode = element[1];
 
@@ -1157,8 +1157,8 @@ $(document).ready(function() {
                             $('#invoice-form #invoiceItem #medida_' + row).val(valores[8]);
 
                             var impuesto_venta = parseFloat($(
-                                '#invoice-form #invoiceItem #isv_' + row_index)
-                            .val());
+                                    '#invoice-form #invoiceItem #isv_' + row_index)
+                                .val());
                             var cantidad1 = parseFloat($(
                                     '#invoice-form #invoiceItem #quantity_' + row_index)
                                 .val());
@@ -1247,7 +1247,7 @@ $(document).ready(function() {
 
                     //EVALUAMOS ANTES QUE LA CANTIDAD DE MAYOREO Y EL PRECIO DE MAYOREO NO ESTEN VACIOS					
                     if (parseFloat($('#invoice-form #invoiceItem #cantidad_mayoreo_' + row_index)
-                    .val()) != 0 && parseFloat($('#invoice-form #invoiceItem #precio_mayoreo_' +
+                            .val()) != 0 && parseFloat($('#invoice-form #invoiceItem #precio_mayoreo_' +
                             row_index).val()) != 0) {
                         //SI LA CANTIDAD A VENDER ES MAYOR O IGUAL A LA CANTIDAD DE MAYOREO PERMITIDA, SE CAMBIA EL PRECIO POR EL PRECIO DE MAYOREO
                         if (parseFloat($('#invoice-form #invoiceItem #quantity_' + row_index).val()) >=
@@ -1255,7 +1255,7 @@ $(document).ready(function() {
                                 .val())) {
                             $('#invoice-form #invoiceItem #price_' + row_index).val($(
                                     '#invoice-form #invoiceItem #precio_mayoreo_' + row_index)
-                            .val());
+                                .val());
                         } else {
                             $('#invoice-form #invoiceItem #price_' + row_index).val($(
                                 '#invoice-form #invoiceItem #precio_real_' + row_index).val());
@@ -1316,7 +1316,7 @@ $(document).ready(function() {
 
                     //EVALUAMOS ANTES QUE LA CANTIDAD DE MAYOREO Y EL PRECIO DE MAYOREO NO ESTEN VACIOS
                     if (parseFloat($('#invoice-form #invoiceItem #cantidad_mayoreo_' + row_index)
-                    .val()) != 0 && parseFloat($('#invoice-form #invoiceItem #precio_mayoreo_' +
+                            .val()) != 0 && parseFloat($('#invoice-form #invoiceItem #precio_mayoreo_' +
                             row_index).val()) != 0) {
                         //SI LA CANTIDAD A VENDER ES MAYOR O IGUAL A LA CANTIDAD DE MAYOREO PERMITIDA, SE CAMBIA EL PRECIO POR EL PRECIO DE MAYOREO
                         if (parseFloat($('#invoice-form #invoiceItem #quantity_' + row_index).val()) >=
@@ -1324,7 +1324,7 @@ $(document).ready(function() {
                                 .val())) {
                             $('#invoice-form #invoiceItem #price_' + row_index).val($(
                                     '#invoice-form #invoiceItem #precio_mayoreo_' + row_index)
-                            .val());
+                                .val());
                         } else {
                             $('#invoice-form #invoiceItem #price_' + row_index).val($(
                                 '#invoice-form #invoiceItem #precio_real_' + row_index).val());
@@ -1662,7 +1662,7 @@ $("#reg_modificar_precio_fact").on("click", function(e) {
     var referencia = $('#formModificarPrecioFacturacion #referencia_modificar_precio_fact').val();
     var cantidad = $("#invoice-form #invoiceItem #quantity_" + row_index).val();
     var precio = parseFloat($('#formModificarPrecioFacturacion #precio_modificar_precio_fact').val()).toFixed(
-    2);
+        2);
     var descuento = $("#invoice-form #invoiceItem #discount_" + row_index).val();
 
     var aplica_isv = $("#invoice-form #invoiceItem #isv_" + row_index).val();

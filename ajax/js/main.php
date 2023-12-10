@@ -1268,7 +1268,7 @@ function printBill(facturas_id, $print_comprobante) {
     return false;
 }
 
-function printComprobanteCajas(apertura_id, $print_comprobante) {
+function printComprobanteCajas(apertura_id) {
     var url = "<?php echo SERVERURL;?>core/llenarDataTableImpresora.php";
 
     $.ajax({

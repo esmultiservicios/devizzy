@@ -506,9 +506,7 @@
 							"facturas_id" => $res['facturas_id'],
 							"estado" => 2,//PAGADA
 							"number" => $numero,
-						];	
-
-						echo 'entro';
+						];
 	
 						pagoFacturaModelo::actualizar_factura($datos_update_factura);
 	
@@ -517,7 +515,6 @@
 							$numero += $incremento;
 							pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);		
 						}	
-						echo 'final';
 
 						$alert = [
 							"alert" => "save_simple",

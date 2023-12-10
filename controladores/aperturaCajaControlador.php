@@ -242,7 +242,7 @@
 						];
 						
 						aperturaCajaModelo::agregar_movimientos_contabilidad_modelo($datos_movimientos);					
-				}
+					}
 
 					$alert = [
 						"alert" => "clear",
@@ -254,7 +254,7 @@
 						"form" => "formAperturaCaja",
 						"id" => "proceso_aperturaCaja",
 						"valor" => "Registro",
-						"funcion" => "validarAperturaCajaUsuario();getCajero();",
+						"funcion" => "validarAperturaCajaUsuario();getCajero();printComprobanteCajas($apertura_id);listar_registro_cajas();",
 						"modal" => "modal_apertura_caja",	
 					];					
 				}else{
@@ -279,4 +279,4 @@
 			return mainModel::sweetAlert($alert);
 		}
 	}
-?>	
+?>
