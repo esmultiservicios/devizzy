@@ -316,8 +316,9 @@
 			}		
 		?></p>
             <p class="nota" style="word-wrap: break-word;"><br /><br /></p>
+
             <p class="nota">
-                <center><?php echo $insMainModel->convertir($total_despues_isv).' LEMPIRAS';?></center>
+                <center><?php echo nl2br($insMainModel->convertir($total_despues_isv).' <br>LEMPIRAS');?></center>
             </p>
 
             <p class="nota">
@@ -383,10 +384,11 @@
 
             <p class="nota"><br /><br /></p>
             <p class="nota">La factura es beneficio de todos "Exíjala"</p>
-            <p class="nota">N° correlativo de orden de compra excenta __________________</p>
-            <p class="nota">N° correlativo constancia de registro Exonerado __________________</p>
-            <p class="nota">N° identificativo del registro de la SAG __________________</p>
+            <p class="nota">N° correlativo de orden de compra excenta _____________</p>
+            <p class="nota">N° correlativo constancia de registro Exonerado _________</p>
+            <p class="nota">N° identificativo del registro de la SAG ________________</p>
 
+            <p class="nota" style="word-wrap: break-word;"><br /><br /></p>
             <p class="nota">
                 <center><b>Original:</b> Cliente</center>
             </p>
