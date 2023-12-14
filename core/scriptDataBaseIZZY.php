@@ -379,16 +379,6 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       PRIMARY KEY (`compras_detalles_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
-    DROP TABLE IF EXISTS `config_apertura`;
-    CREATE TABLE IF NOT EXISTS `config_apertura` (
-      `config_apertura_id` int NOT NULL,
-      `validar` int NOT NULL COMMENT '0. No 1. Sí',
-      PRIMARY KEY (`config_apertura_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-  
-    INSERT INTO `config_apertura` (`config_apertura_id`, `validar`) VALUES
-    (1, 1);
-  
     DROP TABLE IF EXISTS `contrato`;
     CREATE TABLE IF NOT EXISTS `contrato` (
       `contrato_id` int NOT NULL,
@@ -1615,7 +1605,19 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     INSERT INTO `sistema` (`sistema_id`, `nombre`, `estado`) VALUES
     (1, 'IZZY', 1),
     (2, 'CAMI', 1),
-    (3, 'Monitoring', 1);    
+    (3, 'Monitoring', 1);  
+    
+    DROP TABLE IF EXISTS `config`;
+    CREATE TABLE IF NOT EXISTS `config` (
+      `config_id` int(11) NOT NULL,
+      `accion` char(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `activar` int(11) NOT NULL COMMENT '1. Si 0.No',
+      PRIMARY KEY (`config_id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+    INSERT INTO `config` (`config_id`, `accion`, `activar`) VALUES
+    (1, 'Mostrar detalle facturas - Caja', 0),
+    (2, 'Validar Apertura Caja', 1);
     ";
   
     // Ejecutar el script SQL

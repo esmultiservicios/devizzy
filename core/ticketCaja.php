@@ -152,8 +152,36 @@
                         <tr>
                             <td><b>Total: </b></td>
                             <td><b>L. '.number_format($saldoCredito,2).'</b></td>
-                        </tr>
+                        </tr>                                                 
                     ';
+
+                    if($activar === "1"){
+                        echo                      
+                        '   
+                            <tr>
+                                <td>&nbsp;&nbsp;&nbsp; </td>
+                                <td>&nbsp;&nbsp;&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><center><b>Detalle de Facturas</b></center></td>
+                            </tr> 
+                            <tr>
+                                <td><b>Factura</b></td>
+                                <td><b>Importe</b></td>
+                            </tr>                                                 
+                        ';
+    
+                        while ($consulta_registro2 = $resulFacturasCaja->fetch_assoc()) {
+                            $no_factura = $consulta_registro2['prefijo'].str_pad($consulta_registro2['number'], $consulta_registro2['relleno'], "0", STR_PAD_LEFT);
+    
+                            echo
+                            '   <tr>
+                                    <td>'.$no_factura.' </td>
+                                    <td>'.number_format($consulta_registro2['importe'], 2).' </td>                            
+                                </tr>                            
+                                ';
+                        }
+                    }
 				?>
             </tbody>
         </table>

@@ -81,7 +81,9 @@
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p>PBX: <?php echo $consulta_registro['empresa_telefono']; ?></p>
+                    <p>PBX:
+                        <?php echo $consulta_registro['empresa_telefono'] === "0" ? '' : $consulta_registro['empresa_telefono']; ?>
+                    </p>
                 </td>
             </tr>
             <tr>
@@ -109,7 +111,7 @@
             <tr>
                 <td class="textcenter">
                     <p><b>N° Factura:</b>
-                        <?php echo $consulta_registro['prefijo'].''.str_pad($consulta_registro['numero_factura'], $consulta_registro['relleno'], "0", STR_PAD_LEFT); ?>
+                        <b><?php echo $consulta_registro['prefijo'].''.str_pad($consulta_registro['numero_factura'], $consulta_registro['relleno'], "0", STR_PAD_LEFT); ?></b>
                     </p>
                 </td>
             </tr>
@@ -122,35 +124,36 @@
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>CAI:</b> <?php echo $consulta_registro['cai']; ?></p>
+                    <p><b>CAI:</b> <b><?php echo $consulta_registro['cai']; ?></b></p>
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>RTN:</b> <?php echo $consulta_registro['rtn_empresa']; ?></p>
+                    <p><b>RTN:</b> <b><?php echo $consulta_registro['rtn_empresa']; ?></b></p>
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
                     <p><b>Desde:</b>
-                        </b><?php echo $consulta_registro['prefijo'].''.$consulta_registro['rango_inicial']; ?>
-                        <b>Hasta:</b> <?php echo $consulta_registro['prefijo'].''.$consulta_registro['rango_final']; ?>
+                        <b><?php echo $consulta_registro['prefijo'].''.$consulta_registro['rango_inicial']; ?></b>
+                        <b>Hasta:</b>
+                        <b><?php echo $consulta_registro['prefijo'].''.$consulta_registro['rango_final']; ?></b>
                     </p>
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>Fecha de Activación:</b> <?php echo $consulta_registro['fecha_activacion']; ?></p>
+                    <p><b>Fecha de Activación:</b> <b><?php echo $consulta_registro['fecha_activacion']; ?></b></p>
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>Fecha Limite de Emisión:</b> <?php echo $consulta_registro['fecha_limite']; ?></p>
+                    <p><b>Fecha Limite de Emisión:</b> <b><?php echo $consulta_registro['fecha_limite']; ?></b></p>
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>Factura:</b> <?php echo $consulta_registro['tipo_documento']; ?></p>
+                    <p><b>Factura:</b> <b><?php echo $consulta_registro['tipo_documento']; ?></b></p>
                 </td>
             </tr>
         </table>
@@ -173,7 +176,8 @@
                             </tr>
                             <tr>
                                 <td colspan="2"><label>Teléfono:</label>
-                                    <p><?php echo $consulta_registro['telefono']; ?></p>
+                                    <p><?php echo $consulta_registro['telefono'] === "0" ? "" : $consulta_registro['telefono']; ?>
+                                    </p>
                                 </td>
                             </tr>
                             <tr class="datos-cliente">
@@ -225,7 +229,7 @@
 						$importe += ($registro_detalles["precio"] * $registro_detalles["cantidad"] - $registro_detalles["descuento"]);
 						$subtotal += $importe;
 						$descuentos += $registro_detalles["descuento"];
-						$descuentos_neto += $descuentos;
+						$descuentos_neto += $registro_detalles["descuento"];
 						$isv_neto += $registro_detalles["isv_valor"];
 						
 						if($registro_detalles["isv_valor"] > 0){
@@ -234,21 +238,27 @@
 							$importe_excento += ($registro_detalles["precio"] * $registro_detalles["cantidad"] - $registro_detalles["descuento"]);
 						}						
 						
+						if($registro_detalles["barCode"] != "" || $registro_detalles["barCode"] != null){
+							$producto_name = '['.$registro_detalles["barCode"].'] '.$registro_detalles["producto"];
+						}else{
+							$producto_name = $registro_detalles["producto"];
+						}					
+						
                         $producto_name = $registro_detalles["producto"];
 
 						echo
                         '<tr>
-                        <td colspan="5" class="nombre-producto">'.$producto_name.'</td>
-                        </tr>
-                        <tr>
-                        <td class="textright">L. '.number_format($registro_detalles["precio"],2).'</td>
-                        <th class="textright" colspan="2"><span>&nbsp;&nbsp;</span></th>
-                        <td class="textright">L. '.number_format($descuentos,2).'</td>
-                        <th><span>&nbsp;</span></th>
-                        <td class="textright">L. '.number_format($importe,2).'</td>
-                        </tr>
-                        <tr>
-                        <td colspan="6" class="nombre-producto">Qty: '.$registro_detalles["cantidad"].'</td>
+                            <td colspan="5" class="nombre-producto">'.$producto_name.'</td>
+                            </tr>
+                                <tr>
+                                <td class="textright">L. '.number_format($registro_detalles["precio"],2).'</td>
+                                <th class="textright" colspan="2"><span>&nbsp;&nbsp;</span></th>
+                                <td class="textright">L. '.number_format($registro_detalles["descuento"],2).'</td>
+                                <th><span>&nbsp;</span></th>
+                                <td class="textright">L. '.number_format($importe,2).'</td>
+                            </tr>
+                            <tr>
+                            <td colspan="6" class="nombre-producto">Qty: '.$registro_detalles["cantidad"].'</td>
                         </tr>';
 						$i++;
 					}
@@ -301,8 +311,8 @@
                     <td><span>L. <?php echo number_format(0,2);?></span></td>
                 </tr>
                 <tr>
-                    <td colspan="3"><span>Total</span></td>
-                    <td><span>L. <?php echo number_format($total_despues_isv,2); ?></span></td>
+                    <td colspan="3"><span><b>Total</b></span></td>
+                    <td><span><b>L. <?php echo number_format($total_despues_isv,2); ?></b></span></td>
                 </tr>
                 <tr>
                     <th colspan="6" class="header-line"></th>
@@ -318,7 +328,8 @@
             <p class="nota" style="word-wrap: break-word;"><br /><br /></p>
 
             <p class="nota">
-                <center><?php echo nl2br($insMainModel->convertir($total_despues_isv).' <br>LEMPIRAS');?></center>
+                <center><b><?php echo nl2br($insMainModel->convertir($total_despues_isv).' <br>LEMPIRAS');?></b>
+                </center>
             </p>
 
             <p class="nota">
@@ -374,7 +385,7 @@
                         echo                      
                         '                   
                             <tr>
-                                <td><b>Total: </b></td>
+                                <td><b>Total Recibido: </b></td>
                                 <td><b>L. '.number_format($total,2).'</b></td>
                             </tr>
                         ';

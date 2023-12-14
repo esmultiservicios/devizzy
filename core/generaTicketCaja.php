@@ -17,6 +17,7 @@
 	//OBTENEMOS LOS DATOS DEL ENCABEZADO DE LA FACTURA
 	$result = $insMainModel->getComprobanteCaja($apertura_id);	
 	$resultCaja = $insMainModel->getComprobanteCaja($apertura_id);
+	$resulFacturasCaja = $insMainModel->getFacturasCaja($apertura_id);	
 	
 	$anulada = '';
 	$logotipo = '';
@@ -39,6 +40,10 @@
 		$consulta_AperturaCaja = $resultAperturaCaja->fetch_assoc();
 		$montoApertura = $consulta_AperturaCaja['apertura'];
 
+		$resultMostrarDetalleFactura = $insMainModel->getAcciones("Mostrar detalle facturas - Caja");
+		$consulta_MostrarDetalleFactura = $resultMostrarDetalleFactura->fetch_assoc();
+		$activar = $consulta_MostrarDetalleFactura['activar'];
+		
 		//CONSULTAMOS EL TOTAL DE FACTURAS AL CREDITO
 
 		//OBTENEMOS LOS DATOS DEL LA EMPRESA

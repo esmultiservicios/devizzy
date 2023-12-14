@@ -1047,26 +1047,27 @@ function calculateTotalFacturas() {
             isv_calculo = 0;
         }
 
-        var total = (price * quantity) - discount;
+        var total = (price * quantity);
         $('#total_' + id).val(parseFloat(price * quantity) - parseFloat(discount));
         totalAmount += total;
         totalGeneral += (price * quantity);
         totalISV += parseFloat(isv_calculo);
         totalDiscount += parseFloat(discount);
     });
-    $('#subTotal').val(parseFloat(totalAmount).toFixed(2));
-    $('#subTotalFooter').val(parseFloat(totalAmount).toFixed(2));
-    $('#taxDescuento').val(parseFloat(totalDiscount).toFixed(2));
-    $('#taxDescuentoFooter').val(parseFloat(totalDiscount).toFixed(2));
+    $('#subTotal').val(parseFloat(totalAmount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    $('#subTotalFooter').val(parseFloat(totalAmount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    $('#taxDescuento').val(parseFloat(totalDiscount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    $('#taxDescuentoFooter').val(parseFloat(totalDiscount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     var taxRate = $("#taxRate").val();
-    var subTotal = $('#subTotal').val();
+    var subTotal = totalAmount;
     if (subTotal) {
-        $('#subTotalImporte').val(parseFloat(totalGeneral).toFixed(2));
-        $('#taxAmount').val(parseFloat(totalISV).toFixed(2));
-        $('#taxAmountFooter').val(parseFloat(totalISV).toFixed(2));
-        subTotal = (parseFloat(subTotal) + parseFloat($('#taxAmount').val())) - parseFloat(totalDiscount);
-        $('#totalAftertax').val(parseFloat(subTotal + totalDiscount).toFixed(2));
-        $('#totalAftertaxFooter').val(parseFloat(subTotal + totalDiscount).toFixed(2));
+        $('#subTotalImporte').val(parseFloat(totalGeneral).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        $('#taxAmount').val(parseFloat(totalISV).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        $('#taxAmountFooter').val(parseFloat(totalISV).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        subTotal = (parseFloat(subTotal) + totalISV) - parseFloat(totalDiscount);
+        $('#totalAftertax').val(parseFloat(subTotal).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        $('#totalAftertaxFooter').val(parseFloat(subTotal).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
         var totalAftertax = $('#totalAftertax').val();
         var cambioDolar = $('#cambioBill').val();
         $('#totalHNLBill').val(parseFloat(totalAftertax * cambioDolar).toFixed(2));

@@ -2937,6 +2937,36 @@
 			return $result;
 		}
 
+
+		public function getFacturasCaja($apertura_id){
+			$query = "SELECT 
+					s.prefijo, s.relleno, f.number, f.importe
+				FROM 
+					facturas AS f
+				INNER JOIN 
+					secuencia_facturacion AS s
+				ON f.secuencia_facturacion_id  = s.secuencia_facturacion_id	
+				WHERE 
+					f.apertura_id = '$apertura_id';";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getAcciones($acciones){
+			$query = "SELECT 
+				activar
+			FROM 
+				config
+			WHERE 
+				accion = '$acciones';";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}		
+
 		public function getCotizacion($noCotizacion){
 			$query = "SELECT cl.nombre AS 'cliente', cl.rtn AS 'rtn_cliente', cl.telefono AS 'telefono', cl.localidad AS 'localidad',
 			 e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular',
@@ -4578,23 +4608,14 @@
 		}
 
 		function getAperturaCajaUsuario($colaborador_id_sd, $fecha){
-
 			$query = "SELECT apertura_id, estado
-
 				FROM apertura
-
 				WHERE fecha = '$fecha' AND colaboradores_id = '$colaborador_id_sd'
-
 				ORDER BY apertura_id DESC LIMIT 1";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 		function getAlmacenId($almacen_id){

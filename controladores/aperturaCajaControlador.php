@@ -28,7 +28,7 @@
 			];
 						
 			//VAIDAR CONFIG APERTURA
-			$configApertura = aperturaCajaModelo::valid_config_apertura_modelo()->fetch_assoc();
+			$configApertura = aperturaCajaModelo::valid_config_apertura_modelo("Validar Apertura Caja")->fetch_assoc();
 			$config_apertura_id = $configApertura['validar'];
 			$query = "";
 			$validar = false;

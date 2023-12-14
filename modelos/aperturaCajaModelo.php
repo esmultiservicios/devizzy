@@ -138,9 +138,10 @@
 			return $sql;			
 		}	
 		
-		protected function valid_config_apertura_modelo(){
-			$query = "SELECT validar
-				FROM config_apertura";
+		protected function valid_config_apertura_modelo($accion){
+			$query = "SELECT activar AS validar
+				FROM config
+				WHERE accion = '$accion'";
 
 			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			

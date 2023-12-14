@@ -81,7 +81,7 @@
 							?></p>
                                 </td>
                                 <td><label>Teléfono:</label>
-                                    <p><?php echo $consulta_registro['telefono']; ?></p>
+                                    <p><?php echo $consulta_registro['telefono'] === "0" ? "" : $consulta_registro['telefono']; ?>
                                 </td>
                             </tr>
                             <tr>
@@ -131,7 +131,7 @@
 						$importe += ($registro_detalles["precio"] * $registro_detalles["cantidad"] - $registro_detalles["descuento"]);
 						$subtotal += $importe;
 						$descuentos += $registro_detalles["descuento"];
-						$descuentos_neto += $registro_detalles["descuento"];;
+						$descuentos_neto += $registro_detalles["descuento"];
 						$isv_neto += $registro_detalles["isv_valor"];
 						
 						if($registro_detalles["isv_valor"] > 0){
@@ -140,16 +140,16 @@
 							$importe_excento += ($registro_detalles["precio"] * $registro_detalles["cantidad"] - $registro_detalles["descuento"]);
 						}						
 						
-						if($registro_detalles["barCode"] != "" || $registro_detalles["barCode"] != null){
+						/*if($registro_detalles["barCode"] != "" || $registro_detalles["barCode"] != null){
 							$producto_name = '['.$registro_detalles["barCode"].'] '.$registro_detalles["producto"];
 						}else{
 							$producto_name = $registro_detalles["producto"];
-						}
+						}*/
 
 						echo '
 						  <tr>
 							<td>'.$i.'</td>
-							<td>'.$producto_name.'</td>
+							<td>'.$registro_detalles["producto"].'</td>
 							<td align="center">'.$registro_detalles["cantidad"].'</td>
 							<td align="center">'.$registro_detalles["medida"].'</td>
 							<td class="textright">L. '.number_format($registro_detalles["precio"],2).'</td>
@@ -279,7 +279,7 @@
                         echo                      
                          '                   
                              <tr>
-                                 <td><b>Total: </b></td>
+                                 <td><b>Total Recibido: </b></td>
                                  <td><b>L. '.number_format($total,2).'</b></td>
                              </tr>
                          ';
