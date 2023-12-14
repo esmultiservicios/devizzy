@@ -395,9 +395,9 @@
 
             <p class="nota"><br /><br /></p>
             <p class="nota">La factura es beneficio de todos "Exíjala"</p>
-            <p class="nota">N° correlativo de orden de compra excenta _____________</p>
-            <p class="nota">N° correlativo constancia de registro Exonerado _________</p>
-            <p class="nota">N° identificativo del registro de la SAG ________________</p>
+            <p class="nota">N° correlativo de orden de compra excenta _________</p>
+            <p class="nota">N° correlativo constancia de registro Exonerado _____</p>
+            <p class="nota">N° identificativo del registro de la SAG _____________</p>
 
             <p class="nota" style="word-wrap: break-word;"><br /><br /></p>
             <p class="nota">
