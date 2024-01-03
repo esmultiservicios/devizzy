@@ -911,46 +911,28 @@
 
 
 		public function agregar_facturas($datos){
-
 			$insert = "INSERT INTO facturas
-
 				VALUES('".$datos['facturas_id']."','".$datos['clientes_id']."','".$datos['secuencia_facturacion_id']."','".$datos['apertura_id']."','".$datos['numero']."','".$datos['tipo_factura']."','".$datos['colaboradores_id']."','".$datos['importe']."','".$datos['notas']."','".$datos['fecha']."','".$datos['estado']."','".$datos['usuario']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
 
-
-
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 
-
-
 			return $result;
-
 		}
 
-
-
 		public function agregar_detalle_facturas($datos){
-
 			$facturas_detalle_id = mainModel::correlativo("facturas_detalle_id", "facturas_detalles");
-
 			$insert = "INSERT INTO facturas_detalles
-
 				VALUES('$facturas_detalle_id','".$datos['facturas_id']."','".$datos['productos_id']."','".$datos['cantidad']."','".$datos['precio']."','".$datos['isv_valor']."','".$datos['descuento']."')";
-
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 
-
-
 			return $result;
-
 		}
 
 		public function getAperturaID($datos){
 			$query = "SELECT apertura_id
 				FROM apertura
 				WHERE colaboradores_id = '".$datos['colaboradores_id']."' AND fecha = '".$datos['fecha']."' AND estado = '".$datos['estado']."'";
-
 			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
-
 
 			return $result;
 
@@ -958,10 +940,33 @@
 
 		/*FIN CONVERTIR COTIZACION A FACTURA*/
 
-		public function getEmpresa(){
+		public function getEmpresa($datos){
+			if($datos['privilegio_colaborador'] === "Super Administrador" && $datos['privilegio_colaborador'] === "Administrador"){
+				$where = "WHERE estado = 1";
+			}else{
+				$where = "WHERE estado = 1 AND empresa_id = '".$datos['empresa_id']."'";
+			}
+						
 			$query = "SELECT *
 				FROM empresa
-				WHERE estado = 1
+				".$where."
+				ORDER BY nombre";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getEmpresaSelect($datos){
+			if($datos['privilegio_colaborador'] === "Super Administrador" && $datos['privilegio_colaborador'] === "Administrador"){
+				$where = "WHERE estado = 1";
+			}else{
+				$where = "WHERE estado = 1 AND empresa_id = '".$datos['empresa_id']."'";
+			}
+						
+			$query = "SELECT *
+				FROM empresa
+				WHERE estado = 1 AND empresa_id = '".$datos['empresa_id']."'
 				ORDER BY nombre";
 
 			$result = self::connection()->query($query);
@@ -1926,39 +1931,47 @@
 		}
 
 		public function getUsuarios($datos){
-			if($datos['privilegio_colaborador'] !== "Super Administrador"){
+			if ($datos['privilegio_colaborador'] === "Super Administrador" && $datos['privilegio_colaborador'] === "Administrador") {
 				$where = "WHERE u.estado = 1";
-			}else{
-				$where = "WHERE u.estado = 1 AND u.privilegio_id NOT IN(1)";
-			}
-
+			} else {
+				$where = "WHERE u.estado = 1 AND u.privilegio_id NOT IN(1) AND u.empresa_id = '".$datos['empresa_id']."'";
+			}		
+						
 			$query = "SELECT u.users_id AS 'users_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', u.username AS 'username', u.email AS 'correo', tp.nombre AS 'tipo_usuario',
 				CASE WHEN u.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado',
-				e.nombre AS 'empresa', u.server_customers_id
+				e.nombre AS 'empresa', u.server_customers_id, p.nombre AS 'privilegio'
 				FROM users AS u
 				INNER JOIN colaboradores AS c
 				ON u.colaboradores_id = c.colaboradores_id
 				INNER JOIN tipo_user AS tp
 				ON u.tipo_user_id = tp.tipo_user_id
+				INNER JOIN privilegio AS p
+				ON u.privilegio_id = p.privilegio_id
 				INNER JOIN empresa AS e
 				ON u.empresa_id = e.empresa_id
 				".$where."
-				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
-				
+				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";		
+
 			$result = self::connection()->query($query);
 
 			return $result;
 		}
 
 
-		public function getSecuenciaFacturacion(){
+		public function getSecuenciaFacturacion($datos){
+			if($datos['privilegio_colaborador'] === "Super Administrador" && $datos['privilegio_colaborador'] === "Administrador"){
+				$where = "WHERE sf.activo = 1";
+			}else{
+				$where = "WHERE sf.activo = 1 AND e.empresa_id = '".$datos['empresa_id']."'";
+			}
+						
 			$query = "SELECT sf.secuencia_facturacion_id AS 'secuencia_facturacion_id', sf.cai AS 'cai', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno', sf.incremento AS 'incremento', sf.siguiente AS 'siguiente', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', DATE_FORMAT(sf.fecha_activacion, '%d/%m/%Y') AS 'fecha_activacion', DATE_FORMAT(sf.fecha_registro, '%d/%m/%Y') AS 'fecha_registro', e.nombre AS 'empresa', DATE_FORMAT(sf.fecha_limite, '%d/%m/%Y') AS 'fecha_limite', d.nombre AS 'documento'
 				FROM secuencia_facturacion AS sf
 				INNER JOIN empresa AS e
 				ON sf.empresa_id = e.empresa_id
 				INNER JOIN documento as d
 				ON sf.documento_id = d.documento_id
-				WHERE sf.activo = 1
+				".$where."
 				ORDER BY sf.fecha_registro";
 
 			$result = self::connection()->query($query);
@@ -2486,30 +2499,24 @@
 
 
 		public function getDiariosEdit($diarios_id){
-
 			$query = "SELECT d.diarios_id AS 'diarios_id', d.nombre AS 'diario', d.cuentas_id AS 'cuentas_id', c.nombre AS 'cuenta', d.estado AS 'estado'
-
 				FROM diarios AS d
-
 				INNER JOIN cuentas AS c
-
 				ON d.cuentas_id = c.cuentas_id
-
 				WHERE diarios_id = '$diarios_id'";
 
-
-
 			$result = self::connection()->query($query);
-
-
 
 			return $result;
 
 		}
 
-
-
-		public function getAlmacen(){
+		public function getAlmacen($datos){
+			if($datos['privilegio_colaborador'] === "Super Administrador" && $datos['privilegio_colaborador'] === "Administrador"){
+				$where = "WHERE a.estado = 1";
+			}else{
+				$where = "WHERE a.estado = 1  AND a.empresa_id = '".$datos['empresa_id']."'";
+			}
 
 			$query = "SELECT a.almacen_id AS 'almacen_id', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
 				a.facturar_cero
@@ -2519,7 +2526,7 @@
 				ON a.ubicacion_id = u.ubicacion_id
 				INNER JOIN empresa AS e
 				ON a.empresa_id = e.empresa_id
-				WHERE a.estado = 1
+				".$where."
 				ORDER BY a.nombre ASC";
 
 			$result = self::connection()->query($query);
@@ -2539,12 +2546,37 @@
 			return $result;
 		}
 
-		public function getUbicacion(){
+		public function getUbicacion($datos){
+			if($datos['privilegio_colaborador'] === "Super Administrador" && $datos['privilegio_colaborador'] === "Administrador"){
+				$where = "WHERE u.estado = 1";
+			}else{
+				$where = "WHERE u.estado = 1 AND u.empresa_id = '".$datos['empresa_id']."'";
+			}
+			
 			$query = "SELECT u.ubicacion_id AS 'ubicacion_id', u.nombre AS 'ubicacion', e.nombre AS 'empresa'
 				FROM ubicacion AS u
 				INNER JOIN empresa AS e
 				ON u.empresa_id = e.empresa_id
-				WHERE u.estado = 1
+				".$where."
+				ORDER BY u.nombre ASC";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getUbicacionSelect($datos){
+			if($datos['privilegio_colaborador'] === "Super Administrador" && $datos['privilegio_colaborador'] === "Administrador"){
+				$where = "WHERE u.estado = 1";
+			}else{
+				$where = "WHERE u.estado = 1 AND u.empresa_id = '".$datos['empresa_id']."'";
+			}
+			
+			$query = "SELECT u.ubicacion_id AS 'ubicacion_id', u.nombre AS 'ubicacion', e.nombre AS 'empresa'
+				FROM ubicacion AS u
+				INNER JOIN empresa AS e
+				ON u.empresa_id = e.empresa_id
+				".$where."
 				ORDER BY u.nombre ASC";
 
 			$result = self::connection()->query($query);
@@ -3049,18 +3081,13 @@
 		}
 
 		public function getEmpresaFacturaCorreoUsuario($users_id){
-
 			$query = "SELECT e.telefono AS 'telefono', e.celular AS 'celular', e.correo AS 'correo', e.horario AS 'horario', e.eslogan AS 'eslogan', e.facebook AS 'facebook', e.sitioweb AS 'sitioweb'
-
 			FROM users AS u
-
 			INNER JOIN empresa AS e
-
 			ON u.empresa_id = e.empresa_id
-
 			WHERE u.users_id = '$users_id'";
-
 			$result = self::connection()->query($query);
+			
 			return $result;
 		}
 
@@ -4619,7 +4646,6 @@
 		}
 
 		function getAlmacenId($almacen_id){
-
 			$query = "
 			SELECT
 				almacen.almacen_id,
@@ -4631,17 +4657,11 @@
 				almacen.fecha_registro
 				FROM
 				almacen
-
 				WHERE almacen_id = '$almacen_id' ";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 		function getFacturasAnual($año){
@@ -4669,13 +4689,9 @@
 
 
 		function testingMail($servidor, $correo, $contraseña, $puerto, $SMTPSecure, $CharSet){
-
 			$cabeceras = "MIME-Version: 1.0\r\n";
-
 			$cabeceras .= "Content-type: text/html; charset=iso-8859-1\r\n";
-
 			$cabeceras .= "From: $correo \r\n";
-
 
 
 			//incluyo la clase phpmailer

@@ -5,7 +5,11 @@
 	
 	$insMainModel = new mainModel();
 	
-	$result = $insMainModel->getUbicacion();
+	$datos = [	
+		"empresa_id" => $_SESSION['empresa_id_sd']	
+	];
+
+	$result = $insMainModel->getUbicacionSelect($datos);
 	
 	if($result->num_rows>0){
 		while($consulta2 = $result->fetch_assoc()){
@@ -14,4 +18,4 @@
 	}else{
 		echo '<option value="">No hay datos que mostrar</option>';
 	}
-?>	
+?>

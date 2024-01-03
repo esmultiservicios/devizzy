@@ -1730,15 +1730,14 @@
                                 <thead>
                                     <tr>
                                         <th>Seleccione</th>
+                                        <th>Imagen</th>
                                         <th>Bar Code</th>
                                         <th>Producto</th>
                                         <th>Cantidad</th>
                                         <th>Medida</th>
                                         <th>Categoria</th>
-                                        <th>Precio Venta</th>
+                                        <th>Venta</th>
                                         <th>Almacén</th>
-                                        <th></th>
-                                        <th>ISV</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -1753,6 +1752,66 @@
     </div>
 </div>
 <!--FIN MODAL BUSQUEDA DE PRODUCTOS EN FACTURACION-->
+
+<!--INICIO MODAL BUSQUEDA DE PRODUCTOS EN COMPRAS-->
+<div class="modal fade" id="modal_buscar_productos_compras">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Buscar Productos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+                <form class="FormularioAjax" id="formulario_busqueda_productos_compras">
+                    <input type="hidden" id="row" name="row" class="form-control" />
+                    <input type="hidden" id="col" name="col" class="form-control" />
+
+                    <div class="form-group">
+                        <div class="form-group mx-sm-3 mb-1">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <div class="sb-nav-link-icon"></div>Bodega
+                                    </span>
+                                    <select id="almacen" name="almacen" class="selectpicker" title="Bodega"
+                                        data-live-search="true">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="overflow-auto">
+                            <table id="DatatableProductosBusquedaCompra"
+                                class="table table-striped table-condensed table-hover" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Seleccione</th>
+                                        <th>Imagen</th>
+                                        <th>Bar Code</th>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Medida</th>
+                                        <th>Categoria</th>
+                                        <th>Compra</th>
+                                        <th>Almacén</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--FIN MODAL BUSQUEDA DE PRODUCTOS EN COMPRAS-->
 
 <!--INICIO MODAL BUSQUEDA DE PRODUCTOS MOVIMIENTOS-->
 <div class="modal fade" id="modal_buscar_productos_movimientos">
@@ -2515,7 +2574,7 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 mb-3" style="display: none;">
                             <label for="producto_empresa_id">Empresa <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="producto_empresa_id" name="producto_empresa_id" required
@@ -2524,7 +2583,8 @@
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="producto_superior">Superior</label>
+                            <label for="producto_superior" data-toggle="tooltip" data-placement="top"
+                                title="Este campo se utiliza cuando un producto tiene una dependencia, es decir si el producto que estoy creando depende de este podemos seleccionar uno de la lista">Superior</label>
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="producto_superior" name="producto_superior"
                                     data-size="7" data-live-search="true" title="Superior">
@@ -2547,15 +2607,15 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="form-row">
                         <div class="col-md-3 mb-3">
                             <label for="tipo_producto">Tipo Producto <span class="priority">*<span /></label>
                             <select id="tipo_producto" name="tipo_producto" required class="selectpicker" data-size="7"
                                 data-live-search="true" title="Tipo Producto">
                             </select>
                         </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="col-md-3 mb-3">
                             <label for="medida">Medida <span class="priority">*<span /></label>
                             <select id="medida" name="medida" required class="selectpicker" data-size="7"
@@ -2572,14 +2632,14 @@
                             <input type="number" class="form-control" id="precio_venta" name="precio_venta"
                                 placeholder="Precio Venta" step="0.00001">
                         </div>
-                    </div>
-
-                    <div class="form-row">
                         <div class="col-md-3 mb-3">
                             <label for="porcentaje_venta">% Ganancia</label>
                             <input type="number" class="form-control" id="porcentaje_venta" name="porcentaje_venta"
                                 placeholder="Precio Venta" step="0.00001">
                         </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="col-md-3 mb-3">
                             <label for="cantidad_mayoreo">Cantidad Mayoreo </label>
                             <input type="number" class="form-control" id="cantidad_mayoreo" name="cantidad_mayoreo"
@@ -2595,8 +2655,6 @@
                             <input type="number" id="cantidad_minima" name="cantidad_minima"
                                 placeholder="Cantidad Mínima" class="form-control" step="0.00001">
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="col-md-3 mb-3">
                             <label>Cantidad Máxima</label>
                             <input type="number" id="cantidad_maxima" name="cantidad_maxima"

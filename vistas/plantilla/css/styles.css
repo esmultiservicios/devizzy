@@ -11980,7 +11980,7 @@ input:checked+.slider:before {
   width: 60px;
   height: 60px;
   bottom: 40px;
-  left: 40px; /* Ajusta el valor según sea necesario */
+  left: 40px;
   background-color: #25d366;
   color: #FFF;
   border-radius: 50px;

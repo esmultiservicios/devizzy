@@ -69,13 +69,9 @@
 			if($precio_mayoreo == ""){
 				$precio_mayoreo = 0;
 			}
-
-			if (isset($_POST['almacen_empresa_id'])){
-				$empresa = $_POST['almacen_empresa_id'];
-			}else{
-				$empresa = 1;
-			}
 			
+			$empresa = 1;
+
 			$colaborador_id = $_SESSION['colaborador_id_sd'];
 			$fecha_registro = date("Y-m-d H:i:s");
 			$file = "image_preview.png";

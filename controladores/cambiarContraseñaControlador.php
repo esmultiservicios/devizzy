@@ -65,9 +65,7 @@
 					$updateDBMainUsers = "UPDATE users 
 						SET 
 							estado = '$estado'
-						WHERE email = '$correo_usuario' AND server_customers_id = '$server_customers_id'";
-					
-					echo $updateDBMainUsers."**";
+						WHERE email = '$correo_usuario' AND server_customers_id = '$server_customers_id'";			
 
 					mainModel::connectionLogin()->query($updateDBMainUsers);
 				}

@@ -1,36 +1,38 @@
 <div class="container-fluid">
     <ol class="breadcrumb mt-2 mb-4">
-        <li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo SERVERURL; ?>dashboard/">Dashboard</a></li>
+        <li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo SERVERURL; ?>dashboard/">Dashboard</a>
+        </li>
         <li class="breadcrumb-item active">Clientes</li>
     </ol>
     <div class="card mb-4">
-		<div class="card mb-4">
-			<div class="card-header">
-				<i class="fas fa-user mr-1"></i>
-				Clientes
-			</div>
-			<div class="card-body"> 
-				<div class="table-responsive">
-					<table id="dataTableClientes" class="table table-striped table-condensed table-hover" style="width:100%">
-						<thead>
-							<tr>
-								<th>Cliente</th>
-								<th>RTN</th>
-								<th>Teléfono</th>
-								<th>Correo</th>	
-								<th>Departamento</th>
-								<th>Municipio</th>	
-								<th class="sistema">Sistema</th>	
-								<th class="generar">Generar</th>
-								<th>Editar</th>	
-								<th>Eliminar</th>								
-							</tr>
-						</thead>
-					</table>  
-				</div>                   
-				</div>
-			<div class="card-footer small text-muted">
-			<?php
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-user mr-1"></i>
+                Clientes
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="dataTableClientes" class="table table-striped table-condensed table-hover"
+                        style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Clientes</th>
+                                <th>RTN</th>
+                                <th>Teléfono</th>
+                                <th>Correo</th>
+                                <th>Departamento</th>
+                                <th>Municipio</th>
+                                <th class="sistema">Sistema</th>
+                                <th class="generar">Generar</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer small text-muted">
+                <?php
 				require_once "./core/mainModel.php";
 				
 				$insMainModel = new mainModel();
@@ -47,10 +49,10 @@
 					echo "No se encontraron registros ";
 				}			
 			?>
-			</div>
-		</div>
-	</div>
-<?php
+            </div>
+        </div>
+    </div>
+    <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Clientes");
 ?>
 </div>

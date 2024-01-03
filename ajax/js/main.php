@@ -617,7 +617,7 @@ function modal_productos() {
     $('#formProductos #producto_categoria').val(1);
     $('#formProductos #producto_categoria').selectpicker('refresh');
 
-    $('#formProductos #almacen').val(2);
+    $('#formProductos #almacen').val(1);
     $('#formProductos #almacen').selectpicker('refresh');
 
     $('#formProductos #tipo_producto').val(1);

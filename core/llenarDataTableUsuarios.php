@@ -29,7 +29,8 @@
 	$datos = [
 		"privilegio_id" => $_SESSION['privilegio_sd'],
 		"colaborador_id" => $_SESSION['colaborador_id_sd'],	
-		"privilegio_colaborador" => $privilegio_colaborador	
+		"privilegio_colaborador" => $privilegio_colaborador,	
+		"empresa_id" => $_SESSION['empresa_id_sd']	
 	];	
 
 	$result = $insMainModel->getUsuarios($datos);
@@ -44,6 +45,7 @@
 			"username"=>$row['username'],
 			"correo"=>$row['correo'],
 			"tipo_usuario"=>$row['tipo_usuario'],
+			"privilegio"=>$row['privilegio'],
 			"estado"=>$row['estado'],
 			"empresa"=>$row['empresa'],		
 			"server_customers_id"=>$row['server_customers_id']
@@ -59,4 +61,4 @@
 
 	echo json_encode($arreglo);
 	
-?>	
+?>

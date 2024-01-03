@@ -5,7 +5,11 @@
 	
 	$insMainModel = new mainModel();
 	
-	$result = $insMainModel->getAlmacen();
+	$datos = [	
+		"empresa_id" => $_SESSION['empresa_id_sd']	
+	];
+
+	$result = $insMainModel->getAlmacen($datos);
 	
 	if($result->num_rows>0){
 		echo '<option value=0>Todos</option>';
@@ -15,4 +19,4 @@
 	}else{
 		echo '<option value="">No hay datos que mostrar</option>';
 	}
-?>	
+?>

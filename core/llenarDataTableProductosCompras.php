@@ -42,6 +42,7 @@
 					"medida"=>$row['medida'],
 					"tipo_producto_id"=>$row['tipo_producto_id'],
 					"precio_venta"=>$row['precio_venta'],
+					"precio_compra"=>$row['precio_compra'],
 					"almacen"=>$bodega,
 					"almacen_id"=>$row['almacen_id'],
 					"tipo_producto"=>$row['tipo_producto'],
@@ -50,7 +51,8 @@
 					"cantidad_mayoreo"=>$row['cantidad_mayoreo'],
 					"tipo_producto_nombre"=>$row['tipo_producto_nombre'],
 					"isv_venta"=>$row['isv_venta'],
-					"isv_compra"=>$row['isv_compra']
+					"isv_compra"=>$row['isv_compra'],
+					"image"=>$row['image']
 				);
 			}
 		}			
@@ -63,4 +65,4 @@
 	);
 
 	echo json_encode($arreglo);
-?>	
+?>

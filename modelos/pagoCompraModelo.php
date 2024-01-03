@@ -419,7 +419,7 @@
 				VALUES('$pagoscompras_id','".$datos['compras_id']."','".$datos['tipo_pago']."','".$datos['fecha']."',
 				'".$importe."','".$datos['efectivo']."','".$datos['cambio']."','".$datos['tarjeta']."',
 				'".$datos['usuario']."','".$datos['estado']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
-				
+			
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 		
 			return $result;		

@@ -57,7 +57,8 @@
 					"cantidad_mayoreo"=>$row['cantidad_mayoreo'],
 					"tipo_producto_nombre"=>$row['tipo_producto_nombre'],
 					"isv_venta"=>$row['isv_venta'],
-					"isv_compra"=>$row['isv_compra']
+					"isv_compra"=>$row['isv_compra'],
+					"image"=>$row['image']
 				);
 			}
 		}			
@@ -70,4 +71,4 @@
 	);
 
 	echo json_encode($arreglo);
-?>	
+?>
