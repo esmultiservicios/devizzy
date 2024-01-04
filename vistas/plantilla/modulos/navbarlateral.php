@@ -288,7 +288,7 @@
                     </a>
                     <a class="nav-link link" href="<?php echo SERVERURL; ?>tipoUser/" id="tipoUser"
                         style="display:none">
-                        <div class="sb-nav-link-icon"><i class="fas fa-user-lock"></i></div>Tipo Usuario
+                        <div class="sb-nav-link-icon"><i class="fas fa-user-lock"></i></div>Permisos
                     </a>
                 </nav>
             </div>

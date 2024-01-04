@@ -206,15 +206,17 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="col-md-3 mb-3">
-                            <label for="tipo_user">Tipo Usuario <span class="priority">*<span /></label>
+                        <div class="col-md-3 mb-3" data-toggle="tooltip" data-placement="top"
+                            title="'Permisos' definen lo que puedes hacer: guardar, crear, modificar, eliminar, etc. Son las acciones que tienes permitidas en el sistema.">
+                            <label for="tipo_user">Perrmisos <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="tipo_user" name="tipo_user" class="selectpicker" data-live-search="true"
                                     title="Tipo Usuario">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 mb-3" data-toggle="tooltip" data-placement="top"
+                            title="'Privilegio' determina qué áreas y menús puedes acceder. Es tu permiso para entrar a distintas partes.">
                             <label for="privilegio_id">Privilegio <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="privilegio_id" name="privilegio_id" class="selectpicker"
@@ -2584,7 +2586,7 @@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="producto_superior" data-toggle="tooltip" data-placement="top"
-                                title="Este campo se utiliza cuando un producto tiene una dependencia, es decir si el producto que estoy creando depende de este podemos seleccionar uno de la lista">Superior</label>
+                                title="El campo 'Producto Superior' se emplea cuando estás creando un producto que tiene una conexión con otro. Imagina que estás diseñando un 'Kit de Jardinería', aquí puedes elegir 'Semillas' como el producto superior, indicando que el kit depende de las semillas para su existencia.">Superior</label>
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="producto_superior" name="producto_superior"
                                     data-size="7" data-live-search="true" title="Superior">
@@ -2635,7 +2637,7 @@
                         <div class="col-md-3 mb-3">
                             <label for="porcentaje_venta">% Ganancia</label>
                             <input type="number" class="form-control" id="porcentaje_venta" name="porcentaje_venta"
-                                placeholder="Precio Venta" step="0.00001">
+                                placeholder="Ganancia" step="0.00001">
                         </div>
                     </div>
 
@@ -2643,7 +2645,7 @@
                         <div class="col-md-3 mb-3">
                             <label for="cantidad_mayoreo">Cantidad Mayoreo </label>
                             <input type="number" class="form-control" id="cantidad_mayoreo" name="cantidad_mayoreo"
-                                placeholder="Precio Mayoreo" step="0.00001" value="3">
+                                placeholder="Precio Mayoreo" step="0.00001" value="">
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="precio_mayoreo">Precio Mayoreo </label>
@@ -2683,16 +2685,24 @@
                     <br />
                     <div class="form-group custom-control custom-checkbox custom-control-inline">
                         <div class="col-md-6">
-                            <label class="form-check-label mr-1" for="defaultCheck1">¿ISV Venta?</label>
-                            <label class="switch">
+                            <label class="form-check-label mr-1" for="defaultCheck1" data-toggle="tooltip"
+                                data-placement="top"
+                                title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de venta.">¿ISV
+                                Venta?</label>
+                            <label class="switch" data-toggle="tooltip" data-placement="top"
+                                title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de venta.">
                                 <input type="checkbox" id="producto_isv_factura" name="producto_isv_factura" value="1">
                                 <div class="slider round"></div>
                             </label>
                             <span class="question mb-2" id="label_producto_isv_factura"></span>
                         </div>
                         <div class="col-md-7">
-                            <label class="form-check-label mr-1" for="defaultCheck1">¿ISV Compra?</label>
-                            <label class="switch">
+                            <label class="form-check-label mr-1" for="defaultCheck1" data-toggle="tooltip"
+                                data-placement="top"
+                                title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de compra.">¿ISV
+                                Compra?</label>
+                            <label class="switch" data-toggle="tooltip" data-placement="top"
+                                title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de compra.">
                                 <input type="checkbox" id="producto_isv_compra" name="producto_isv_compra" value="1">
                                 <div class="slider round"></div>
                             </label>
