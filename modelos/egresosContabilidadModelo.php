@@ -44,6 +44,17 @@
 			return $sql;
 		}
 
+		protected function edit_categoria_egresos_contabilidad_modelo($datos){
+			$update = "UPDATE categoria_gastos
+			SET
+				nombre = '".$datos['nombre']."'				
+			WHERE categoria_gastos_id = '".$datos['categoria_gastos_id']."'";
+
+			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
+			
+			return $sql;
+		}
+
 		protected function cancel_egresos_contabilidad_modelo($datos){
 			$update = "UPDATE egresos
 			SET

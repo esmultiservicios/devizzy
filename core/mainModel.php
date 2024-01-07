@@ -2708,7 +2708,20 @@
 			return $result;
 		}
 
+		public function getReporteCategoriaGastos($datos){
+			$query = "SELECT cg.nombre AS 'categoria', SUM(e.total) As 'monto'
+				FROM egresos AS e
+				INNER JOIN categoria_gastos AS cg
+				ON e.categoria_gastos_id = cg.categoria_gastos_id
+				WHERE CAST(e.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND e.estado = 1
+				GROUP BY e.categoria_gastos_id";
 
+			$result = self::connection()->query($query);
+
+			return $result;
+
+		}
+		
 		public function getEgresosContables($datos){
 			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', e.factura AS 'factura', e.subtotal as 'subtotal', e.impuesto AS 'impuesto', e.descuento AS 'descuento', e.nc AS 'nc', e.total AS 'total', e.fecha_registro As 'fecha_registro', cg.nombre AS 'categoria'
 				FROM egresos AS e

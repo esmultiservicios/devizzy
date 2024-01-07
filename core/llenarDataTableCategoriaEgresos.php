@@ -35,6 +35,7 @@ $data = array();
 if (!empty($resultadoCategoriaGastos)) {
     foreach ($resultadoCategoriaGastos as $fila) {
         $data[] = array(
+            "categoria_gastos_id" => $fila['categoria_gastos_id'],
             "nombre" => $fila['nombre'],
             "estado" => $fila['estado'],
         );

@@ -50,15 +50,14 @@ class Database {
     
         // Construir la consulta SELECT básica
         $query = "SELECT ";
-
+    
         if (empty($campos)) {
             $query .= "*"; // Si no se especifican campos, seleccionar todos (*)
         } else {
-            //$campos = array_map([$this->conexion, 'real_escape_string'], $campos);
-
+            $campos = array_map([$this->conexion, 'real_escape_string'], $campos);
             $query .= implode(",", $campos);
         }
-
+    
         $query .= " FROM $tabla";
     
         // Agregar cláusula INNER JOIN si se especifica
@@ -82,7 +81,10 @@ class Database {
             foreach ($condiciones as $campo => $valores) {
                 $campo = $this->conexion->real_escape_string($campo);
     
-                if (is_array($valores)) {
+                // Verificar si es una condición especial
+                if (strpos($valores, 'BETWEEN') !== false) {
+                    $clauses[] = $valores; // Usar la condición especial sin escapar
+                } elseif (is_array($valores)) {
                     // Evitar el uso de real_escape_string para valores numéricos en IN
                     $valores = array_map(function ($valor) {
                         return is_numeric($valor) ? $valor : $this->conexion->real_escape_string($valor);
@@ -102,7 +104,7 @@ class Database {
             $query .= " ORDER BY $orderBy";
         }
     
-        // Ejecutar la consulta        
+        // Ejecutar la consulta
         $result = $this->conexion->query($query);
     
         $resultados = array();
@@ -116,7 +118,7 @@ class Database {
         }
     
         return $resultados;
-    }
+    }    
                
     public function insertarRegistro($tabla, $campos, $valores) {
         $tabla = $this->conexion->real_escape_string($tabla);
@@ -210,7 +212,7 @@ class Database {
             }
             $query .= " WHERE " . implode(" AND ", $clauses); // Concatenar las condiciones usando AND
         }
-
+        
         // Ejecutar la consulta
         if ($this->conexion->query($query) === TRUE) {
             return true;
@@ -221,9 +223,7 @@ class Database {
 
   /*
       // Condiciones para seleccionar los registros que se eliminarán
-      $condiciones_eliminar = array(
-          'activo = 0' // Eliminar los usuarios inactivos
-      );
+      $condiciones_eliminar = ["categoria_gastos_id" => $categoria_gastos_id];
 
       // Llamar a la función para eliminar los registros
       if ($database->eliminarRegistros('usuarios', $condiciones_eliminar)) {

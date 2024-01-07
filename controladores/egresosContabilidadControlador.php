@@ -222,6 +222,57 @@
 			return mainModel::sweetAlert($alert);
 		}
 
+		public function edit_categoria_egresos_contabilidad_controlador(){
+			$categoria_gastos_id = $_POST['categoria_gastos_id'];
+			$categoria = $_POST['categoria'];
+
+			$datos = [
+				"categoria_gastos_id" => $categoria_gastos_id,
+				"nombre" => $categoria							
+			];		
+			
+			$resultCategoriaEgresos = egresosContabilidadModelo::valid_categoria_egresos_modelo($datos);
+			
+			if($resultCategoriaEgresos->num_rows==0){
+				echo "estas aqui";
+				$query = egresosContabilidadModelo::edit_categoria_egresos_contabilidad_modelo($datos);
+
+				if($query){
+					$alert = [
+						"alert" => "clear",
+						"title" => "Registro editado",
+						"text" => "Registro editado correctamente",
+						"type" => "success",
+						"btn-class" => "btn-primary",
+						"btn-text" => "¡Bien Hecho!",
+						"form" => "formUpdateCategoriaEgresos",
+						"id" => "pro_categoriaEgresos",
+						"valor" => "Registro",	
+						"funcion" => "listar_categoria_egresos();",
+						"modal" => "modalUpdateCategoriasEgresos",
+					];
+				}else{
+					$alert = [
+						"alert" => "simple",
+						"title" => "Ocurrio un error inesperado",
+						"text" => "No hemos podido procesar su solicitud",
+						"type" => "error",
+						"btn-class" => "btn-danger",					
+					];	
+				}
+			}else{
+				$alert = [
+					"alert" => "simple",
+					"title" => "Resgistro ya existe",
+					"text" => "Lo sentimos este registro ya existe",
+					"type" => "error",	
+					"btn-class" => "btn-danger",						
+				];	
+			}		
+
+			return mainModel::sweetAlert($alert);
+		}
+
 		public function cancel_egresos_contabilidad_controlador(){
 			if(!isset($_SESSION['user_sd'])){ 
 				session_start(['name'=>'SD']); 
