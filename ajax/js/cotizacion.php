@@ -766,6 +766,13 @@ var listar_productos_cotizacion_buscar = function() {
                 "defaultContent": "<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus fa-lg'></span></button>"
             },
             {
+                "data": "image",
+                "render": function(data, type, row, meta) {
+                    return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
+                        data + '" alt="' + data + '" height="100px" width="100px"/>';
+                }
+            },
+            {
                 "data": "barCode"
             },
             {
@@ -821,12 +828,6 @@ var listar_productos_cotizacion_buscar = function() {
             },
             {
                 "data": "almacen"
-            },
-            {
-                "data": "almacen_id"
-            },
-            {
-                "data": "isv_venta"
             }
         ],
         "lengthMenu": lengthMenu,
@@ -871,10 +872,6 @@ var listar_productos_cotizacion_buscar = function() {
                 width: "0%",
                 targets: 8,
                 visible: false
-            },
-            {
-                width: "10%",
-                targets: 9
             }
         ],
         "buttons": [{

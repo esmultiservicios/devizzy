@@ -70,7 +70,11 @@ var listar_productos_compras_buscar = function() {
                 "defaultContent": "<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus'></span></button>"
             },
             {
-                "data": "image"
+                "data": "image",
+                "render": function(data, type, row, meta) {
+                    return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
+                        data + '" alt="' + data + '" height="100px" width="100px"/>';
+                }
             },
             {
                 "data": "barCode"
@@ -130,14 +134,6 @@ var listar_productos_compras_buscar = function() {
                 "data": "almacen"
             }
         ],
-        "columnDefs": [{
-            "targets": 1,
-            "data": 'image',
-            "render": function(data, type, row, meta) {
-                return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
-                    data + '" alt="' + data + '" height="100px" width="100px"/>';
-            }
-        }],
         "lengthMenu": lengthMenu,
         "stateSave": true,
         "bDestroy": true,
@@ -227,59 +223,59 @@ var view_productos_busqueda_compras_dataTable = function(tbody, table) {
 
         e.preventDefault();
 
-        if ($("#purchase-form #facturaPurchase").val() != "" && $("#purchase-form #proveedores_id").val() !=
+        /*if ($("#purchase-form #facturaPurchase").val() != "" && $("#purchase-form #proveedores_id").val() !=
             "" && $("#purchase-form #proveedor").val() != "" && $("#purchase-form #colaborador_id").val() !=
-            "" && $("#purchase-form #colaborador").val() != "") {
+            "" && $("#purchase-form #colaborador").val() != "") {*/
 
-            var data = table.row($(this).parents("tr")).data();
+        var data = table.row($(this).parents("tr")).data();
 
-            //var row = $('#formulario_busqueda_productos_facturacion #row').val();
+        //var row = $('#formulario_busqueda_productos_facturacion #row').val();
 
-            $('#purchase-form #purchaseItem #productos_idPurchase_' + row).val(data.productos_id);
-            $('#purchase-form #purchaseItem #productNamePurchase_' + row).val(data.nombre);
-            $('#purchase-form #purchaseItem #quantityPurchase_' + row).val(1);
-            $('#purchase-form #purchaseItem #quantityPurchase_' + row).focus();
-            $('#purchase-form #purchaseItem #pricePurchase_' + row).val(data.precio_compra);
-            $('#purchase-form #purchaseItem #medidaPurchase_' + row).val(data.medida);
-            $('#purchase-form #purchaseItem #bodegaPurchase_' + row).val(data.almacen_id);
-            $('#purchase-form #purchaseItem #discountPurchase_' + row).val(0);
-            $('#purchase-form #purchaseItem #isvPurchase_' + row).val(data.isv_compra);
+        $('#purchase-form #purchaseItem #productos_idPurchase_' + row).val(data.productos_id);
+        $('#purchase-form #purchaseItem #productNamePurchase_' + row).val(data.nombre);
+        $('#purchase-form #purchaseItem #quantityPurchase_' + row).val(1);
+        $('#purchase-form #purchaseItem #quantityPurchase_' + row).focus();
+        $('#purchase-form #purchaseItem #pricePurchase_' + row).val(data.precio_compra);
+        $('#purchase-form #purchaseItem #medidaPurchase_' + row).val(data.medida);
+        $('#purchase-form #purchaseItem #bodegaPurchase_' + row).val(data.almacen_id);
+        $('#purchase-form #purchaseItem #discountPurchase_' + row).val(0);
+        $('#purchase-form #purchaseItem #isvPurchase_' + row).val(data.isv_compra);
 
-            var isv = 0;
-            var isv_total = 0;
-            var porcentaje_isv = 0;
-            var porcentaje_calculo = 0;
-            var isv_neto = 0;
+        var isv = 0;
+        var isv_total = 0;
+        var porcentaje_isv = 0;
+        var porcentaje_calculo = 0;
+        var isv_neto = 0;
 
-            if (data.isv_compra == 1) {
-                porcentaje_isv = parseFloat(getPorcentajeISV("Compras") / 100);
-                if ($('#purchase-form #taxAmountPurchase').val() == "" || $(
-                        '#purchase-form #taxAmountPurchase').val() == 0) {
-                    porcentaje_calculo = (parseFloat(data.precio_compra) * porcentaje_isv).toFixed(2);
-                    isv_neto = porcentaje_calculo;
-                    $('#purchase-form #taxAmountPurchase').val(porcentaje_calculo);
-                    $('#purchase-form #purchaseItem #valor_isvPurchase_' + row).val(porcentaje_calculo);
-                } else {
-                    isv_total = parseFloat($('#purchase-form #taxAmountPurchase').val());
-                    porcentaje_calculo = (parseFloat(data.precio_compra) * porcentaje_isv).toFixed(2);
-                    isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
-                    $('#purchase-form #taxAmountPurchase').val(isv_neto);
-                    $('#purchase-form #purchaseItem #valor_isvPurchase_' + row).val(porcentaje_calculo);
-                }
+        if (data.isv_compra == 1) {
+            porcentaje_isv = parseFloat(getPorcentajeISV("Compras") / 100);
+            if ($('#purchase-form #taxAmountPurchase').val() == "" || $(
+                    '#purchase-form #taxAmountPurchase').val() == 0) {
+                porcentaje_calculo = (parseFloat(data.precio_compra) * porcentaje_isv).toFixed(2);
+                isv_neto = porcentaje_calculo;
+                $('#purchase-form #taxAmountPurchase').val(porcentaje_calculo);
+                $('#purchase-form #purchaseItem #valor_isvPurchase_' + row).val(porcentaje_calculo);
+            } else {
+                isv_total = parseFloat($('#purchase-form #taxAmountPurchase').val());
+                porcentaje_calculo = (parseFloat(data.precio_compra) * porcentaje_isv).toFixed(2);
+                isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
+                $('#purchase-form #taxAmountPurchase').val(isv_neto);
+                $('#purchase-form #purchaseItem #valor_isvPurchase_' + row).val(porcentaje_calculo);
             }
+        }
 
-            calculateTotalCompras();
-            addRowCompras();
-            $('#modal_buscar_productos_compras').modal('hide');
-            row++;
-        } else {
+        calculateTotalCompras();
+        addRowCompras();
+        $('#modal_buscar_productos_compras').modal('hide');
+        row++;
+        /*} else {
             swal({
                 title: "Error",
                 text: "Lo sentimos no se puede seleccionar un producto, por favor antes de continuar, verifique que los siguientes campos: proveedores, usuario y número de factura no se encuentren vacíos",
                 type: "error",
                 confirmButtonClass: "btn-danger"
             });
-        }
+        }*/
     });
 }
 //FIN BUSQUEDA PRODUCTOS COMPRAS
@@ -288,30 +284,17 @@ $(document).ready(function() {
     $("#purchase-form #purchaseItem").on('blur', '.buscar_cantidad_purchase', function() {
         var row_index = $(this).closest("tr").index();
         var col_index = $(this).closest("td").index();
-
         var impuesto_compra = parseFloat($('#purchase-form #purchaseItem #isvPurchase_' + row_index)
             .val());
-
         var cantidad = parseFloat($('#purchase-form #purchaseItem #quantityPurchase_' + row_index)
             .val());
-
         var precio = parseFloat($('#purchase-form #purchaseItem #pricePurchase_' + row_index).val());
-
         var total = parseFloat($('#purchase-form #purchaseItem #totalPurchase_' + row_index).val());
-
-
-
         var isv = 0;
-
         var isv_total = 0;
-
         var porcentaje_isv = 0;
-
         var porcentaje_calculo = 0;
-
         var isv_neto = 0;
-
-
 
         if (impuesto_compra == 1) {
 

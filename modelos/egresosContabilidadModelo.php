@@ -7,12 +7,20 @@
 	
 	class egresosContabilidadModelo extends mainModel{
 		protected function agregar_egresos_contabilidad_modelo($datos){
-			$insert = "INSERT INTO egresos VALUES('".$datos['egresos_id']."','".$datos['cuentas_id']."','".$datos['proveedores_id']."','".$datos['empresa_id']."','".$datos['tipo_egreso']."','".$datos['fecha']."','".$datos['factura']."','".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."','".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO egresos VALUES('".$datos['egresos_id']."','".$datos['cuentas_id']."','".$datos['proveedores_id']."','".$datos['empresa_id']."','".$datos['tipo_egreso']."','".$datos['fecha']."','".$datos['factura']."','".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."','".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."','".$datos['categoria_gastos']."')";
 			
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			
 		}
+
+		protected function agregar_categoria_egresos_modelo($datos){
+			$insert = "INSERT INTO `categoria_gastos`(`categoria_gastos_id`, `nombre`, `estado`, `usuario`, `date_write`) VALUES ('" . $datos['categoria_gastos_id'] . "','" . $datos['nombre'] . "','" . $datos['estado'] . "','" . $datos['usuario'] . "','" . $datos['date_write'] . "')";
+			
+			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}		
 		
 		protected function agregar_movimientos_contabilidad_modelo($datos){
 			$movimientos_cuentas_id = mainModel::correlativo("movimientos_cuentas_id", "movimientos_cuentas");
@@ -72,5 +80,13 @@
 			
 			return $sql;			
 		}
+
+		protected function valid_categoria_egresos_modelo($datos){
+			$query = "SELECT categoria_gastos_id FROM categoria_gastos WHERE nombre = '".$datos['nombre']."'";
+			
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}		
 	}
-?>	
+?>

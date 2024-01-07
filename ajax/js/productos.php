@@ -1,19 +1,36 @@
 <script>
 $(document).ready(function() {
-    listar_productos();
+    getEstadoProducto();
+    var estado = $('#form_main_productos #estado_producto').val() === "" ? 1 : $(
+        '#form_main_productos #estado_producto').val();
+    listar_productos(estado);
     getEmpresaProductos();
 });
 
+$('#form_main_productos #buscar_productos').on('click', function(e) {
+    e.preventDefault();
+    var estado = $('#form_main_productos #estado_producto').val() === "" ? 1 : $(
+        '#form_main_productos #estado_producto').val();
+    listar_productos(estado);
+});
+
 //INICIO ACCIONES FROMULARIO PRODUCTOS
-var listar_productos = function() {
+var listar_productos = function(estado) {
     var table_productos = $("#dataTableProductos").DataTable({
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableProductos.php"
+            "url": "<?php echo SERVERURL;?>core/llenarDataTableProductos.php",
+            "data": {
+                "estado": estado // nuevo parámetro
+            }
         },
         "columns": [{
-                "data": "image"
+                "data": "image",
+                "render": function(data, type, row, meta) {
+                    return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
+                        data + '" alt="' + data + '" height="100px" width="100px"/>';
+                }
             },
             {
                 "data": "barCode"
@@ -78,14 +95,6 @@ var listar_productos = function() {
                 "defaultContent": "<button class='table_eliminar btn btn-dark ocultar'><span class='fa fa-trash fa-lg'></span></button>"
             }
         ],
-        "columnDefs": [{
-            "targets": 0,
-            "data": 'image',
-            "render": function(data, type, row, meta) {
-                return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
-                    data + '" alt="' + data + '"height="100px" width="100px"/>';
-            }
-        }],
         "lengthMenu": lengthMenu10,
         "stateSave": true,
         "bDestroy": true,
@@ -175,7 +184,7 @@ var editar_producto_dataTable = function(tbody, table) {
                 $('#reg_producto').hide();
                 $('#edi_producto').show();
                 $('#delete_producto').hide();
-                $('#formProductos #proceso_productos').val("Editar");
+                $('#formProductos #proceso_productos').val("Editar Productos");
                 evaluarCategoriaDetalle(datos[13]);
                 $('#formProductos #medida').val(datos[1]);
                 $('#formProductos #medida').selectpicker('refresh');
@@ -289,7 +298,7 @@ var eliminar_producto_dataTable = function(tbody, table) {
                 $('#reg_producto').hide();
                 $('#edi_producto').hide();
                 $('#delete_producto').show();
-                $('#formProductos #proceso_productos').val("Eliminar");
+                $('#formProductos #proceso_productos').val("Eliminar Productos");
                 $('#formProductos #medida').val(datos[0]);
                 $('#formProductos #medida').selectpicker('refresh');
                 $('#formProductos #almacen').val(datos[1]);
@@ -624,4 +633,19 @@ $('#formProductos .switch').change(function() {
         return false;
     }
 });
+
+function getEstadoProducto() {
+    var url = '<?php echo SERVERURL;?>core/getEstado.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(data) {
+            $('#form_main_productos #estado_producto').html("");
+            $('#form_main_productos #estado_producto').html(data);
+            $('#form_main_productos #estado_producto').selectpicker('refresh');
+        }
+    });
+}
 </script>

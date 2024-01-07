@@ -647,7 +647,7 @@ function modal_productos() {
 
     $("#formProductos #preview").attr("src", "<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png");
 
-    $('#formProductos #proceso_productos').val("Registro");
+    $('#formProductos #proceso_productos').val("Registro de Productos");
     $('#modal_registrar_productos').modal({
         show: true,
         keyboard: false,
@@ -2448,13 +2448,17 @@ $(document).ready(function() {
     });
 });
 
+
 //INICIO ACCIONES FROMULARIO CLIENTES
-var listar_clientes = function() {
+var listar_clientes = function(estado) {
     var table_clientes = $("#dataTableClientes").DataTable({
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableClientes.php"
+            "url": "<?php echo SERVERURL;?>core/llenarDataTableClientes.php",
+            "data": {
+                "estado": estado // nuevo parámetro
+            }
         },
         "columns": [{
                 "data": "cliente"
@@ -4580,6 +4584,21 @@ function getGithubVersion() {
         },
         error: function() {
             $('#version').text('Error al obtener la versión.');
+        }
+    });
+}
+
+function getEstadoClientes() {
+    var url = '<?php echo SERVERURL;?>core/getEstado.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(data) {
+            $('#form_main_clientes #estado_clientes').html("");
+            $('#form_main_clientes #estado_clientes').html(data);
+            $('#form_main_clientes #estado_clientes').selectpicker('refresh');
         }
     });
 }

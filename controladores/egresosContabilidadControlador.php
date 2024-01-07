@@ -23,6 +23,7 @@
 			$nc = mainModel::cleanStringConverterCase($_POST['nc_egresos']);
 			$total = mainModel::cleanStringConverterCase($_POST['total_egresos']);
 			$observacion = mainModel::cleanString($_POST['observacion_egresos']);
+			$categoria_gastos = mainModel::cleanString($_POST['categoria_gastos']);
 			$estado = 1;
 			$colaboradores_id = $_SESSION['colaborador_id_sd'];
 			$fecha_registro = date("Y-m-d H:i:s");	
@@ -44,7 +45,8 @@
 				"observacion" => $observacion,
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
-				"colaboradores_id" => $colaboradores_id								
+				"colaboradores_id" => $colaboradores_id,
+				"categoria_gastos" => $categoria_gastos
 			];
 			
 			$resultEgresos = egresosContabilidadModelo::valid_egresos_cuentas_modelo($datos);
@@ -55,7 +57,14 @@
 					if($query){
 					//CONSULTAMOS EL SALDO DISPONIBLE PARA LA CUENTA
 					$consulta_ingresos_contabilidad = egresosContabilidadModelo::consultar_saldo_movimientos_cuentas_contabilidad($cuentas_id)->fetch_assoc();
-					$saldo_consulta = $consulta_ingresos_contabilidad['saldo'];	
+
+					if ($consulta_ingresos_contabilidad !== false && $consulta_ingresos_contabilidad->num_rows > 0) {
+						$saldo_consulta = $consulta_ingresos_contabilidad['saldo'];
+					} else {
+						// Asignamos cero al saldo si no hay resultados o la consulta falla
+						$saldo_consulta = 0;
+					}
+					
 					$ingreso = 0;
 					$egreso = $total;
 					$saldo = $saldo_consulta - $egreso;
@@ -85,6 +94,66 @@
 						"id" => "pro_egresos_contabilidad",
 						"valor" => "Registro",	
 						"funcion" => "listar_gastos_contabilidad();getEmpresaEgresos(); getCuentaEgresos(); getProveedorEgresos();printGastos(".$egresos_id.");total_gastos_footer();",
+						"modal" => "",
+					];
+				}else{
+					$alert = [
+						"alert" => "simple",
+						"title" => "Ocurrio un error inesperado",
+						"text" => "No hemos podido procesar su solicitud",
+						"type" => "error",
+						"btn-class" => "btn-danger",					
+					];				
+				}				
+			}else{
+				$alert = [
+					"alert" => "simple",
+					"title" => "Resgistro ya existe",
+					"text" => "Lo sentimos este registro ya existe",
+					"type" => "error",	
+					"btn-class" => "btn-danger",						
+				];				
+			}
+			
+			return mainModel::sweetAlert($alert);
+		}
+
+		public function agregar_categoria_egresos_controlador(){
+			if(!isset($_SESSION['user_sd'])){ 
+				session_start(['name'=>'SD']); 
+			}
+			
+			$categoria = $_POST['categoria'];	
+			$estado = 1;
+			$colaboradores_id = $_SESSION['colaborador_id_sd'];
+			$fecha_registro = date("Y-m-d H:i:s");	
+			$categoria_gastos_id = mainModel::correlativo("categoria_gastos_id ", "categoria_gastos");
+
+			$datos = [
+				"categoria_gastos_id" => $categoria_gastos_id,
+				"nombre" => $categoria,
+				"estado" => $estado,
+				"usuario" => $colaboradores_id,
+				"date_write" => $fecha_registro							
+			];
+			
+			$resultCategoriaEgresos = egresosContabilidadModelo::valid_categoria_egresos_modelo($datos);
+			
+			if($resultCategoriaEgresos->num_rows==0){
+				$query = egresosContabilidadModelo::agregar_categoria_egresos_modelo($datos);
+				
+				if($query){
+					$alert = [
+						"alert" => "clear",
+						"title" => "Registro almacenado",
+						"text" => "El registro se ha almacenado correctamente",
+						"type" => "success",
+						"btn-class" => "btn-primary",
+						"btn-text" => "¡Bien Hecho!",
+						"form" => "formCategoriaEgresos",
+						"id" => "pro_categoriaEgresos",
+						"valor" => "Registro",	
+						"funcion" => "",
 						"modal" => "",
 					];
 				}else{
@@ -255,4 +324,4 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
-?>	
+?>

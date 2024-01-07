@@ -28,7 +28,8 @@
 			"impuesto"=>'L. '.$row['impuesto'],
 			"descuento"=>'L. '.$row['descuento'],
 			"nc"=>'L. '.$row['nc'],
-			"total"=>'L. '.$row['total']			
+			"total"=>'L. '.$row['total'],
+			"categoria"=>$row['categoria'],
 		);			
 	}
 	
@@ -40,4 +41,4 @@
 	);
 
 	echo json_encode($arreglo);
-?>	
+?>

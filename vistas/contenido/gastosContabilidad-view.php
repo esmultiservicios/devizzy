@@ -8,18 +8,19 @@
 	        <div class="card-body">
 	            <form class="form-inline" id="formMainGastosContabilidad" action="" method="POST" data-form=""
 	                autocomplete="off" enctype="multipart/form-data">
+
 	                <div class="form-group mx-sm-3 mb-1">
 	                    <div class="input-group">
 	                        <div class="input-group-append">
 	                            <span class="input-group-text">
 	                                <div class="sb-nav-link-icon"></div>Estado
 	                            </span>
+	                            <select id="estado_egresos" name="estado_egresos" class="selectpicker" title="Estado"
+	                                data-live-search="true">
+	                                <option value="1">Activas</option>
+	                                <option value="2">Anuladas</option>
+	                            </select>
 	                        </div>
-	                        <select id="estado_egresos" name="estado_egresos" class="custom-select" data-toggle="tooltip"
-	                            data-placement="top" title="Tipo de Factura">
-	                            <option value="1">Activas</option>
-	                            <option value="2">Anuladas</option>
-	                        </select>
 	                    </div>
 	                </div>
 	                <div class="form-group mx-sm-3 mb-1">
@@ -78,7 +79,8 @@
 	                    <thead>
 	                        <tr>
 	                            <th>Fecha Registro</th>
-	                            <th>Numero de Gasto</th>
+	                            <th>Numero</th>
+	                            <th>Categoria</th>
 	                            <th>Fecha Factura</th>
 	                            <th>Forma de Pago</th>
 	                            <th>Proveedor</th>
@@ -94,15 +96,14 @@
 	                    </thead>
 	                    <tfoot class="bg-info text-white font-weight-bold">
 	                        <tr>
-	                            <td colspan='1'>Total</td>
+	                            <td colspan='2'>Total</td>
 	                            <td colspan="5"></td>
 	                            <td id="subtotal-g"></td>
 	                            <td id="impuesto-g"></td>
 	                            <td id="descuento-g"></td>
 	                            <td id="nc-g"></td>
-	                            <td colspan='1' id='total-footer-gastos'></td>
+	                            <td id='total-footer-gastos'></td>
 	                            <td colspan="2"></td>
-
 	                        </tr>
 	                    </tfoot>
 	                </table>

@@ -6,8 +6,9 @@
 	
 	$insMainModel = new mainModel();
 	$database = new Database();
-	
-	$result = $insMainModel->getClientes();
+		
+	$estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
+	$result = $insMainModel->getClientes($estado);
 	
 	$arreglo = array();
 	$data = array();
@@ -58,4 +59,4 @@
 	);
 
 	echo json_encode($arreglo);
-?>	
+?>

@@ -1496,7 +1496,7 @@
 			return $result;
 		}
 
-		public function getClientes(){
+		public function getClientes($estado){
 			if(!isset($_SESSION['user_sd'])){ 
 				session_start(['name'=>'SD']); 
 			}
@@ -1504,10 +1504,10 @@
 			$privilegio_sd = $_SESSION['privilegio_sd'];
 			$colaborador_id_sd = $_SESSION['colaborador_id_sd'];
 
-			$where = "WHERE c.estado = 1";
+			$where = "WHERE c.estado = '$estado'";
 
 			if($privilegio_sd === "3"){
-				$where = "WHERE c.estado = 1 AND c.colaboradores_id = '$colaborador_id_sd'";
+				$where = "WHERE c.estado = '$estado' AND c.colaboradores_id = '$colaborador_id_sd'";
 			}
 
 			$query = "SELECT c.clientes_id AS 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn' , c.localidad AS 'localidad', c.telefono AS 'telefono', c.correo AS 'correo', d.nombre AS 'departamento', m.nombre AS 'municipio', c.rtn AS 'rtn', IFNULL(s.sistema_id, '') AS sistema_id, c.eslogan, c.otra_informacion, c.whatsapp, c.empresa, s.db, s.planes_id, s.sistema_id
@@ -1522,14 +1522,14 @@
 			return $result;
 		}
 
-		public function getProveedores(){
+		public function getProveedores($estado){
 			$query = "SELECT p.proveedores_id AS 'proveedores_id', p.nombre AS 'proveedor', p.rtn AS 'rtn' , p.localidad AS 'localidad', p.telefono AS 'telefono', p.correo AS 'correo', d.nombre AS 'departamento', m.nombre AS 'municipio'
 				FROM proveedores AS p
 				INNER JOIN departamentos AS d
 				ON p.departamentos_id = d.departamentos_id
 				INNER JOIN municipios AS m
 				ON p.municipios_id = m.municipios_id
-				WHERE p.estado = 1
+				WHERE p.estado = '$estado'
 				ORDER BY p.nombre";
 
 			$result = self::connection()->query($query);
@@ -2143,7 +2143,7 @@
 			return $sql;
 		}
 
-		public function getProductos(){
+		public function getProductos($estado){
 			$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', p.precio_compra AS 'precio_compra', p.precio_venta AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
 			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
 			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'categoria', (CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END) AS 'isv_venta', (CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END) AS 'isv_compra', p.file_name AS 'image'
@@ -2158,7 +2158,7 @@
 				ON u.empresa_id = e.empresa_id
 				INNER JOIN tipo_producto AS tp
 				ON p.tipo_producto_id = tp.tipo_producto_id
-				WHERE p.estado = 1";
+				WHERE p.estado = '$estado'";
 
 			$result = self::connection()->query($query);
 
@@ -2710,12 +2710,14 @@
 
 
 		public function getEgresosContables($datos){
-			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', e.factura AS 'factura', e.subtotal as 'subtotal', e.impuesto AS 'impuesto', e.descuento AS 'descuento', e.nc AS 'nc', e.total AS 'total', e.fecha_registro As 'fecha_registro'
+			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', e.factura AS 'factura', e.subtotal as 'subtotal', e.impuesto AS 'impuesto', e.descuento AS 'descuento', e.nc AS 'nc', e.total AS 'total', e.fecha_registro As 'fecha_registro', cg.nombre AS 'categoria'
 				FROM egresos AS e
 				INNER JOIN cuentas AS c
 				ON e.cuentas_id = c.cuentas_id
 				INNER JOIN proveedores AS p
 				ON e.proveedores_id = p.proveedores_id
+				INNER JOIN categoria_gastos AS cg
+				ON e.categoria_gastos_id = cg.categoria_gastos_id
 				WHERE CAST(e.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
 				AND e.estado = '".$datos['estado']."'
 				ORDER BY e.fecha_registro DESC";
@@ -2727,7 +2729,7 @@
 		}
 
 		public function getEgresosContablesReporte($egresos_id){
-			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', p.rtn AS 'rtn_proveedor', p.localidad AS 'localidad', p.telefono AS 'telefono', e.factura AS 'factura', e.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(e.fecha, '%d/%m/%Y') AS 'fecha', time(e.fecha_registro) AS 'hora', e.observacion AS 'observacion', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido', e.estado AS 'estado', emp.rtn AS 'rtn_empresa', e.subtotal AS 'subtotal', e.descuento AS 'descuento', e.nc AS 'nc', e.impuesto AS 'impuesto', e.total AS 'total', DATE_FORMAT(e.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta', emp.logotipo AS 'logotipo', emp.firma_documento AS 'firma_documento'
+			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', p.rtn AS 'rtn_proveedor', p.localidad AS 'localidad', p.telefono AS 'telefono', e.factura AS 'factura', e.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(e.fecha, '%d/%m/%Y') AS 'fecha', time(e.fecha_registro) AS 'hora', e.observacion AS 'observacion', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido', e.estado AS 'estado', emp.rtn AS 'rtn_empresa', e.subtotal AS 'subtotal', e.descuento AS 'descuento', e.nc AS 'nc', e.impuesto AS 'impuesto', e.total AS 'total', DATE_FORMAT(e.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta', emp.logotipo AS 'logotipo', emp.firma_documento AS 'firma_documento', cg.nombre AS 'categoria'
 				FROM egresos AS e
 				INNER JOIN cuentas AS c
 				ON e.cuentas_id = c.cuentas_id
@@ -2737,6 +2739,8 @@
 				ON e.empresa_id = emp.empresa_id
 				INNER JOIN colaboradores AS co
 				ON e.colaboradores_id = co.colaboradores_id
+				INNER JOIN categoria_gastos AS cg
+				ON e.categoria_gastos_id = cg.categoria_gastos_id				
 				WHERE e.egresos_id = '$egresos_id'
 				ORDER BY e.fecha_registro DESC";
 

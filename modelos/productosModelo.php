@@ -52,19 +52,35 @@
 		}			
 
 		protected function edit_productos_modelo($datos){
-			$update = "UPDATE productos
-			SET
-				nombre = '".$datos['nombre']."',
-				descripcion = '".$datos['descripcion']."',
-				precio_compra = '".$datos['precio_compra']."',
-				porcentaje_venta = '".$datos['porcentaje_venta']."',
-				precio_venta = '".$datos['precio_venta']."',
-				precio_mayoreo = '".$datos['precio_mayoreo']."',
-				estado = '".$datos['estado']."',
-				isv_venta = '".$datos['isv_venta']."',
-				isv_compra = '".$datos['isv_compra']."',
-				file_name = '".$datos['file']."'			
-			WHERE productos_id = '".$datos['productos_id']."'";
+			if($datos['cargarLogo'] === true) {
+				$update = "UPDATE productos
+				SET
+					nombre = '".$datos['nombre']."',
+					descripcion = '".$datos['descripcion']."',
+					precio_compra = '".$datos['precio_compra']."',
+					porcentaje_venta = '".$datos['porcentaje_venta']."',
+					precio_venta = '".$datos['precio_venta']."',
+					precio_mayoreo = '".$datos['precio_mayoreo']."',
+					estado = '".$datos['estado']."',
+					isv_venta = '".$datos['isv_venta']."',
+					isv_compra = '".$datos['isv_compra']."',
+					file_name = '".$datos['file']."'			
+				WHERE productos_id = '".$datos['productos_id']."'";
+			}else{
+				$update = "UPDATE productos
+				SET
+					nombre = '".$datos['nombre']."',
+					descripcion = '".$datos['descripcion']."',
+					precio_compra = '".$datos['precio_compra']."',
+					porcentaje_venta = '".$datos['porcentaje_venta']."',
+					precio_venta = '".$datos['precio_venta']."',
+					precio_mayoreo = '".$datos['precio_mayoreo']."',
+					estado = '".$datos['estado']."',
+					isv_venta = '".$datos['isv_venta']."',
+					isv_compra = '".$datos['isv_compra']."'			
+				WHERE productos_id = '".$datos['productos_id']."'";
+			}
+
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 			
 			return $sql;			

@@ -12,7 +12,6 @@
 			'".$datos['almacen_almacen']."','".$datos['estado']."','".$datos['empresa']."','".$datos['facturar_cero']."',
 			'".$datos['fecha_registro']."')";
 
-			echo $insert."***";
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			

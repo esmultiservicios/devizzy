@@ -5,7 +5,8 @@
 	
 	$insMainModel = new mainModel();
 	
-	$result = $insMainModel->getProductos();
+	$estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
+	$result = $insMainModel->getProductos($estado);
 	
 	$arreglo = array();
 	$data = array();
@@ -40,4 +41,4 @@
 	);
 
 	echo json_encode($arreglo);
-?>	
+?>

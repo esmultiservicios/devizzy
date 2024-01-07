@@ -10,8 +10,8 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <form class="FormularioAjax" id="purchase-form" action="<?php echo SERVERURL;?>ajax/addComprasAjax.php"
-                    method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
+                <form class="FormularioAjax" id="purchase-form" action="" method="POST" data-form="save"
+                    autocomplete="off" enctype="multipart/form-data">
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <button class="btn btn-secondary" type="submit" id="reg_factura" form="purchase-form"
@@ -38,8 +38,8 @@
                                     name="compras_id" readonly>
                                 <input type="hidden" class="form-control" placeholder="Proveedor" id="proveedores_id"
                                     name="proveedores_id" required>
-                                <select id="proveedor" name="proveedor" class="selectpicker col-12" title="Proveedor"
-                                    data-size="7" data-live-search="true">
+                                <select id="proveedor" name="proveedor" required class="selectpicker col-12"
+                                    title="Proveedor" data-size="7" data-live-search="true">
                                 </select>
                             </div>
                         </div>
@@ -56,10 +56,10 @@
                                 class="priority">*<span /></label>
                         <div class="col-sm-5">
                             <div class="input-group mb-3">
-                                <input type="hidden" class="form-control" placeholder="Vendedor" id="colaborador_id"
+                                <input type="hidden" class="form-control" placeholder="Usuario" id="colaborador_id"
                                     name="colaborador_id" aria-label="Colaborador" aria-describedby="basic-addon2"
                                     readonly required>
-                                <select id="colaborador" name="colaborador" class="selectpicker col-12" title="Vendedor"
+                                <select id="colaborador" name="colaborador" class="selectpicker col-12" title="Usuario"
                                     data-size="7" data-live-search="true">
                                 </select>
                             </div>
@@ -102,7 +102,8 @@
                                                 <input type="hidden" name="productos_idPurchase[]"
                                                     id="productos_idPurchase_0" class="form-control" autocomplete="off">
                                                 <input type="text" name="productNamePurchase[]"
-                                                    id="productNamePurchase_0" class="form-control" autocomplete="off">
+                                                    id="productNamePurchase_0" class="form-control" autocomplete="off"
+                                                    required>
                                                 <div class="input-group-append">
                                                     <span data-toggle="tooltip" data-placement="top"
                                                         title="Búsqueda de Productos"><a data-toggle="modal" href="#"

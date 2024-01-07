@@ -78,15 +78,17 @@
 			$file_exist = 0;
 			
 			//FILE IMAGE
-			if($_FILES['file']['name']!=""){
-				//MOVEMOS LA IMAGEN EN LA CARPETA DE IMAGENES
-				$file = $_FILES['file']['name'];
-				$path = $_SERVER["DOCUMENT_ROOT"].PRODUCT_PATH.$file;
-				if (file_exists($path)) {
-					$file_exist = 1;
-				}else{
-					move_uploaded_file($_FILES['file']['tmp_name'],$path);
-				}				
+			if (isset($_FILES["file"]["name"])){
+				if(!empty($_FILES["file"]["name"])) {
+					//MOVEMOS LA IMAGEN EN LA CARPETA DE IMAGENES
+					$file = $_FILES['file']['name'];
+					$path = $_SERVER["DOCUMENT_ROOT"].PRODUCT_PATH.$file;
+					if (file_exists($path)) {
+						$file_exist = 1;
+					}else{
+						move_uploaded_file($_FILES['file']['tmp_name'],$path);
+					}	
+				}
 			}
 
 			$estado = 1;
@@ -238,8 +240,7 @@
 			$precio_venta = mainModel::cleanString($_POST['precio_venta']);
 			$precio_mayoreo = mainModel::cleanString($_POST['precio_mayoreo']);
 			$cantidad_minima = mainModel::cleanString($_POST['cantidad_minima']);
-			$cantidad_maxima = mainModel::cleanString($_POST['cantidad_maxima']);							
-			$file = "image_preview.png";
+			$cantidad_maxima = mainModel::cleanString($_POST['cantidad_maxima']);										
 			$file_exist = false;
 			
 			if($precio_mayoreo == ""){
@@ -247,16 +248,21 @@
 			}
 						
 			//FILE IMAGE
-			if($_FILES['file']['name']!=""){
-				//MOVEMOS LA IMAGEN EN LA CARPETA DE IMAGENES
-				$file = $_FILES['file']['name'];
-				$path = $_SERVER["DOCUMENT_ROOT"].PRODUCT_PATH.$file;
-				
-				if (file_exists($path)) {
-					$file_exist = true;
-				}else{
-					move_uploaded_file($_FILES['file']['tmp_name'],$path);
-				}				
+			$cargarLogo = false;
+			$file = "image_preview.png";
+			if (isset($_FILES["file"]["name"])) {
+				if(!empty($_FILES["file"]["name"])) {
+					$cargarLogo = true;
+					//MOVEMOS LA IMAGEN EN LA CARPETA DE IMAGENES
+					$file = $_FILES['file']['name'];
+					$path = $_SERVER["DOCUMENT_ROOT"].PRODUCT_PATH.$file;
+					
+					if (file_exists($path)) {
+						$file_exist = true;
+					}else{
+						move_uploaded_file($_FILES['file']['tmp_name'],$path);
+					}	
+				}
 			}
 			
 			if(isset($_POST['producto_activo'])){
@@ -290,7 +296,8 @@
 				"estado" => $estado,
 				"isv_venta" => $isv_venta,
 				"isv_compra" => $isv_compra,
-				"file" => $file				
+				"file" => $file,
+				"cargarLogo" => $cargarLogo,			
 			];
 					
 			$query = productosModelo::edit_productos_modelo($datos);

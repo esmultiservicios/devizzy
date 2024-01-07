@@ -2684,13 +2684,13 @@
                     </div>
                     <br />
                     <div class="form-group custom-control custom-checkbox custom-control-inline">
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <label class="form-check-label mr-1" for="defaultCheck1" data-toggle="tooltip"
                                 data-placement="top"
-                                title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de venta.">¿ISV
-                                Venta?</label>
+                                title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de venta, basándose en el precio de venta agregado en este formulario.">¿Calcular
+                                ISV en Factura Venta?</label>
                             <label class="switch" data-toggle="tooltip" data-placement="top"
-                                title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de venta.">
+                                title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de venta, basándose en el precio de venta agregado en este formulario.">
                                 <input type="checkbox" id="producto_isv_factura" name="producto_isv_factura" value="1">
                                 <div class="slider round"></div>
                             </label>
@@ -2699,10 +2699,11 @@
                         <div class="col-md-7">
                             <label class="form-check-label mr-1" for="defaultCheck1" data-toggle="tooltip"
                                 data-placement="top"
-                                title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de compra.">¿ISV
-                                Compra?</label>
+                                title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de compra, basándose en el precio de compra agregado en este formulario.">¿Calcular
+                                ISV
+                                en Compra?</label>
                             <label class="switch" data-toggle="tooltip" data-placement="top"
-                                title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de compra.">
+                                title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de compra, basándose en el precio de compra agregado en este formulario.">
                                 <input type="checkbox" id="producto_isv_compra" name="producto_isv_compra" value="1">
                                 <div class="slider round"></div>
                             </label>
@@ -2779,6 +2780,10 @@
                             </div>
                         </div>
                     </div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                     <div class="RespuestaAjax"></div>
                 </form>
             </div>

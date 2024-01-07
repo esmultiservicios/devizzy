@@ -167,6 +167,18 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       `fecha_registro` datetime NOT NULL,
       PRIMARY KEY (`acceso_submenu1_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+
+    DROP TABLE IF EXISTS `categoria_gastos`;
+    CREATE TABLE IF NOT EXISTS `categoria_gastos` (
+      `categoria_gastos_id` int(11) NOT NULL,
+      `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `estado` int(1) NOT NULL COMMENT '0 Inactivo 1. Activo',
+      `usuario` int(11) NOT NULL,
+      `date_write` datetime NOT NULL,
+      PRIMARY KEY (`categoria_gastos_id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+    COMMIT;
   
     DROP TABLE IF EXISTS `almacen`;
     CREATE TABLE IF NOT EXISTS `almacen` (
@@ -541,22 +553,23 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
   
     DROP TABLE IF EXISTS `egresos`;
     CREATE TABLE IF NOT EXISTS `egresos` (
-      `egresos_id` int NOT NULL,
-      `cuentas_id` int NOT NULL,
-      `proveedores_id` int NOT NULL,
-      `empresa_id` int NOT NULL,
-      `tipo_egreso` int NOT NULL COMMENT '1. Compras 2. Gastos	',
+      `egresos_id` int(11) NOT NULL,
+      `cuentas_id` int(11) NOT NULL,
+      `proveedores_id` int(11) NOT NULL,
+      `empresa_id` int(11) NOT NULL,
+      `tipo_egreso` int(11) NOT NULL COMMENT '1. Compras 2. Gastos	',
       `fecha` date NOT NULL,
-      `factura` char(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+      `factura` char(20) COLLATE utf8mb4_spanish_ci NOT NULL,
       `subtotal` float(12,2) NOT NULL,
       `descuento` float(12,2) NOT NULL,
       `nc` float(12,2) NOT NULL COMMENT 'Nota de Credito',
       `impuesto` float(12,2) NOT NULL,
       `total` float(12,2) NOT NULL,
-      `observacion` char(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `estado` int NOT NULL COMMENT '1. Activo 2. Inactivo',
-      `colaboradores_id` int NOT NULL,
+      `observacion` char(150) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `estado` int(11) NOT NULL COMMENT '1. Activo 2. Inactivo',
+      `colaboradores_id` int(11) NOT NULL,
       `fecha_registro` datetime NOT NULL,
+      `categoria_gastos_id` int(11) NOT NULL,
       PRIMARY KEY (`egresos_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   

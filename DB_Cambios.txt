@@ -1,3 +1,14 @@
+####06/01/2024####
+tabla => categoria_gastos
+categoria_gastos_id  	int 
+nombre			char(30)
+estado			int(1)
+usuario 		int
+date_write		datetime
+
+tabla => egresos
+categoria_gastos_id 	int se agrego despues de fecha_registro
+
 ####12/11/2023####
 tabla => config
 config_id		int 

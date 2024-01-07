@@ -8,9 +8,8 @@
                     <span style="font-size: 30px; text-align: center;" class="input-group-text"
                         id="basic-addon1">L</span>
                 </div>
-                <textarea style="font-size: 30px; text-align: center;" class="form-control" rows="3"
-                    name="subTotalFooter" id="subTotalFooter" placeholder="Subtotal" maxlength="2000"
-                    readonly></textarea>
+                <textarea style="font-size: 30px; text-align: center;" class="form-control" rows="2"
+                    name="subTotalFooter" id="subTotalFooter" placeholder="0.00" maxlength="2000" readonly></textarea>
             </div>
         </div>
 
@@ -21,8 +20,8 @@
                     <span style="font-size: 30px; text-align: center;" class="input-group-text"
                         id="basic-addon1">L</span>
                 </div>
-                <textarea style="font-size: 30px; text-align: center;" class="form-control" rows="3"
-                    name="taxDescuentoFooter" id="taxDescuentoFooter" placeholder="Descuento" maxlength="2000"
+                <textarea style="font-size: 30px; text-align: center;" class="form-control" rows="2"
+                    name="taxDescuentoFooter" id="taxDescuentoFooter" placeholder="0.00" maxlength="2000"
                     readonly></textarea>
             </div>
         </div>
@@ -33,9 +32,8 @@
                     <span style="font-size: 30px; text-align: center;" class="input-group-text"
                         id="basic-addon1">L</span>
                 </div>
-                <textarea style="font-size: 30px; text-align: center;" class="form-control" rows="3"
-                    name="taxAmountFooter" id="taxAmountFooter" placeholder="Impuesto" maxlength="2000"
-                    readonly></textarea>
+                <textarea style="font-size: 30px; text-align: center;" class="form-control" rows="2"
+                    name="taxAmountFooter" id="taxAmountFooter" placeholder="0.00" maxlength="2000" readonly></textarea>
             </div>
         </div>
         <div class="col-md-3 mb-3">
@@ -45,8 +43,8 @@
                     <span style="font-size: 30px; text-align: center;" class="input-group-text"
                         id="basic-addon1">L</span>
                 </div>
-                <textarea style="font-size: 30px; text-align: center;" class="form-control" rows="3"
-                    name="totalAftertaxFooter" id="totalAftertaxFooter" placeholder="Total" maxlength="2000"
+                <textarea style="font-size: 30px; text-align: center;" class="form-control" rows="2"
+                    name="totalAftertaxFooter" id="totalAftertaxFooter" placeholder="0.00" maxlength="2000"
                     readonly></textarea>
             </div>
         </div>

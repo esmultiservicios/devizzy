@@ -8,18 +8,19 @@
 	        <div class="card-body">
 	            <form class="form-inline" id="formMainIngresosContabilidad" action="" method="POST" data-form=""
 	                autocomplete="off" enctype="multipart/form-data">
+
 	                <div class="form-group mx-sm-3 mb-1">
 	                    <div class="input-group">
 	                        <div class="input-group-append">
 	                            <span class="input-group-text">
 	                                <div class="sb-nav-link-icon"></div>Estado
 	                            </span>
+	                            <select id="estado_ingresos" name="estado_ingresos" class="selectpicker" title="Estado"
+	                                data-live-search="true">
+	                                <option value="1">Activas</option>
+	                                <option value="2">Anuladas</option>
+	                            </select>
 	                        </div>
-	                        <select id="estado_ingresos" name="estado_ingresos" class="custom-select" data-toggle="tooltip"
-	                            data-placement="top" title="Tipo de Factura">
-	                            <option value="1">Activas</option>
-	                            <option value="2">Anuladas</option>
-	                        </select>
 	                    </div>
 	                </div>
 	                <div class="form-group mx-sm-3 mb-1">

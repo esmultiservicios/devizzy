@@ -1,46 +1,61 @@
-<br/><br/><br/><br/>
+<br /><br /><br /><br />
 <div class="footer1 sb-sidenav">
-		<div class="form-row col-xs-12 col-sm-12 col-md-8 col-lg-8">
-			<div class="col-md-3 mb-3">
-				<label>Subtotal:</label>
-				<div class="input-group">
-					<div class="input-group-append mb-1">
-						<span class="input-group-text"><div class="sb-nav-link-icon"></div>L</i></span>
-					</div>												
-					<input value="" type="number" class="form-control" name="subTotalFooterPurchase" id="subTotalFooterPurchase" readonly placeholder="Subtotal">
-				</div> 
-			</div>
-			<div class="col-md-3 mb-3">
-				<label>Descuento:</label>
-				<div class="input-group">
-					<div class="input-group-append mb-1">
-						<span class="input-group-text"><div class="sb-nav-link-icon"></div>L</i></span>
-					</div>												
-					<input value="" type="number" class="form-control" name="taxDescuentoFooterPurchase" id="taxDescuentoFooterPurchase" readonly placeholder="Descuento">
-				</div> 
-			</div>				
-			<div class="col-md-3 mb-3">
-				<label>ISV:</label>
-				<div class="input-group mb-1">											
-					<div class="input-group-append">
-						<span class="input-group-text"><div class="sb-nav-link-icon"></div>L</i></span>
-					</div>	
-					<input value="" type="number" class="form-control" name="taxAmountFooterPurchase" id="taxAmountFooterPurchase" readonly placeholder="Impuesto">
-				</div> 
-			</div>	
-			<div class="col-md-3 mb-3">
-				<label>Total:</label>
-				<div class="input-group mb-1">
-					<div class="input-group-append">				
-						<span class="input-group-text"><div class="sb-nav-link-icon"></div>L</i></span>
-					</div>	
-					<input value="" type="number" class="form-control" name="totalAftertaxFooterPurchase" id="totalAftertaxFooterPurchase" readonly placeholder="Total">
-				</div>
-			</div> 			
-		</div>	
-		<div class="form-row col-xs-12 col-sm-12 col-md-8 col-lg-8">
-			<div class="col-md-12">			
-				<div id="mensajeFacturas"></div>
-			</div> 				
-		</div>			
+    <div class="form-row col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <div class="col-md-3 mb-3">
+            <label style="font-size: 30px; text-align: center;">Subtotal:</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span style="font-size: 30px; text-align: center;" class="input-group-text"
+                        id="basic-addon1">L</span>
+                </div>
+                <textarea style="font-size: 30px; text-align: center;" class="form-control" rows="2"
+                    name="subTotalFooterPurchase" id="subTotalFooterPurchase" placeholder="0.00" maxlength="2000"
+                    readonly></textarea>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label style="font-size: 30px; text-align: center;">Descuento:</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span style="font-size: 30px; text-align: center;" class="input-group-text"
+                        id="basic-addon1">L</span>
+                </div>
+                <textarea style="font-size: 30px; text-align: center;" class="form-control" rows="2"
+                    name="taxDescuentoFooterPurchase" id="taxDescuentoFooterPurchase" placeholder="0.00"
+                    maxlength="2000" readonly></textarea>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label style="font-size: 30px; text-align: center;">ISV:</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span style="font-size: 30px; text-align: center;" class="input-group-text"
+                        id="basic-addon1">L</span>
+                </div>
+                <textarea style="font-size: 30px; text-align: center;" class="form-control" rows="2"
+                    name="taxAmountFooterPurchase" id="taxAmountFooterPurchase" placeholder="0.00" maxlength="2000"
+                    readonly></textarea>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label style="font-size: 30px; text-align: center;">Total:</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span style="font-size: 30px; text-align: center;" class="input-group-text"
+                        id="basic-addon1">L</span>
+                </div>
+                <textarea style="font-size: 30px; text-align: center;" class="form-control" rows="2"
+                    name="totalAftertaxFooterPurchase" id="totalAftertaxFooterPurchase" placeholder="0.00"
+                    maxlength="2000" readonly></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="form-row col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <div class="col-md-12">
+            <div id="mensajeFacturas"></div>
+        </div>
+    </div>
 </div>
