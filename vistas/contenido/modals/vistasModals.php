@@ -99,13 +99,13 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4 mb-3" style="display: none">
                             <label for="cuenta_codigo">Código</label>
                             <input type="text" id="cuenta_codigo" name="cuenta_codigo" placeholder="Código"
                                 class="form-control" maxlength="11"
                                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
                         </div>
-                        <div class="col-md-8 mb-3">
+                        <div class="col-md-12 mb-3">
                             <label for="cuenta_nombre">Nombre <span class="priority">*<span /></label>
                             <input type="text" required id="cuenta_nombre" name="cuenta_nombre"
                                 placeholder="Descripción" class="form-control" maxlength="30"

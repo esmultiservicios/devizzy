@@ -1,17 +1,21 @@
 	<div class="container-fluid">
-    <ol class="breadcrumb mt-2 mb-4">
-        <li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo SERVERURL; ?>dashboard/">Dashboard</a></li>
-        <li class="breadcrumb-item active">Cuentas</li>
-    </ol>
-    <div class="card mb-4">
-        <div class="card-body">
-			<form class="form-inline" id="formMainCuentasContabilidad" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
-				<div class="form-group mx-sm-3 mb-1">
-					<div class="input-group">				
-						<div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
-						</div>
-						<input type="date" class="form-control" id="fechai" name="fechai" value="<?php 
+	    <ol class="breadcrumb mt-2 mb-4">
+	        <li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo SERVERURL; ?>dashboard/">Dashboard</a>
+	        </li>
+	        <li class="breadcrumb-item active">Cuentas</li>
+	    </ol>
+	    <div class="card mb-4">
+	        <div class="card-body">
+	            <form class="form-inline" id="formMainCuentasContabilidad" action="" method="POST" data-form=""
+	                autocomplete="off" enctype="multipart/form-data">
+	                <div class="form-group mx-sm-3 mb-1">
+	                    <div class="input-group">
+	                        <div class="input-group-append">
+	                            <span class="input-group-text">
+	                                <div class="sb-nav-link-icon"></div>Fecha Inicio
+	                            </span>
+	                        </div>
+	                        <input type="date" class="form-control" id="fechai" name="fechai" value="<?php 
 							$fecha = date ("Y-m-d");
 							
 							$año = date("Y", strtotime($fecha));
@@ -27,48 +31,53 @@
 							
 							echo $fecha_inicial;
 						?>">
-					</div>
-				</div>	
-				<div class="form-group mx-sm-3 mb-1">
-					<div class="input-group">				
-						<div class="input-group-append">				
-							<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Fin</span>
-						</div>
-						<input type="date" class="form-control" id="fechaf" name="fechaf" value="<?php echo date('Y-m-d');?>" >
-					</div>
-				</div>
-				<div class="form-group mx-sm-2 mb-1">
-					<button class="consultar btn btn-secondary" type="submit" id="search"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar</button>
-				</div> 			  
-			</form>	           
-        </div>
-    </div>		
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-receipt mr-1"></i>
-            Cuentas
-        </div>
-        <div class="card-body"> 
-            <div class="table-responsive">
-                <table id="dataTableCuentasContabilidad" class="table table-striped table-condensed table-hover" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-							<th>Cuenta</th>
-							<th>Saldo Anterior</th>
-							<th>Ingreso</th>
-							<th>Egreso</th>
-							<th>Saldo al Cierre</th>
-							<th>Saldo Total</th>														
-                            <th>Editar</th>
-                            <th>Eliminar</th>							
-                        </tr>
-                    </thead>
-                </table>  
-            </div>                   
-            </div>
-        <div class="card-footer small text-muted">
- 			<?php
+	                    </div>
+	                </div>
+	                <div class="form-group mx-sm-3 mb-1">
+	                    <div class="input-group">
+	                        <div class="input-group-append">
+	                            <span class="input-group-text">
+	                                <div class="sb-nav-link-icon"></div>Fecha Fin
+	                            </span>
+	                        </div>
+	                        <input type="date" class="form-control" id="fechaf" name="fechaf"
+	                            value="<?php echo date('Y-m-d');?>">
+	                    </div>
+	                </div>
+	                <div class="form-group mx-sm-2 mb-1">
+	                    <button class="consultar btn btn-secondary" type="submit" id="search">
+	                        <div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i> Buscar
+	                    </button>
+	                </div>
+	            </form>
+	        </div>
+	    </div>
+	    <div class="card mb-4">
+	        <div class="card-header">
+	            <i class="fas fa-receipt mr-1"></i>
+	            Cuentas
+	        </div>
+	        <div class="card-body">
+	            <div class="table-responsive">
+	                <table id="dataTableCuentasContabilidad" class="table table-striped table-condensed table-hover"
+	                    style="width:100%">
+	                    <thead>
+	                        <tr>
+	                            <th>Cuenta</th>
+	                            <th>Saldo Anterior</th>
+	                            <th>Ingreso</th>
+	                            <th>Egreso</th>
+	                            <th>Saldo al Cierre</th>
+	                            <th>Saldo Total</th>
+	                            <th>Editar</th>
+	                            <th>Eliminar</th>
+	                        </tr>
+	                    </thead>
+	                </table>
+	            </div>
+	        </div>
+	        <div class="card-footer small text-muted">
+	            <?php
 				require_once "./core/mainModel.php";
 				
 				$insMainModel = new mainModel();
@@ -85,9 +94,9 @@
 					echo "No se encontraron registros ";
 				}			
 			?>
-        </div>
-    </div>
-</div>
-<?php
+	        </div>
+	    </div>
+	</div>
+	<?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Cuentas Cuentas Contabilidad");
 ?>

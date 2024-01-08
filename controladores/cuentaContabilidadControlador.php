@@ -24,7 +24,7 @@
 			];
 			
 			//VALIDAMOS QUE NO EXISTA LA CUENTA
-			$resultPuestos = cuentaContabilidadModelo::valid_cuenta_contable_modelo($codigo);
+			$resultPuestos = cuentaContabilidadModelo::valid_cuenta_contable_modelo($nombre);
 			
 			if($resultPuestos->num_rows==0){
 				$query = cuentaContabilidadModelo::agregar_cuenta_contabilidad_modelo($datos);
@@ -67,7 +67,7 @@
 		
 		public function edit_productos_controlador(){;
 			$cuentas_id = mainModel::cleanString($_POST['cuentas_id']);		
-			$codigo = mainModel::cleanStringStrtoupper($_POST['cuenta_codigo']);
+			$codigo = mainModel::cleanStringStrtoupper(ISSET($_POST['cuenta_codigo']) ? $_POST['cuenta_codigo'] : "");
 			$nombre = mainModel::cleanStringConverterCase($_POST['cuenta_nombre']);
 
 			if (isset($_POST['cuentas_activo'])){

@@ -15,8 +15,8 @@
 			return $sql;			
 		}
 		
-		protected function valid_cuenta_contable_modelo($codigo){
-			$query = "SELECT cuentas_id FROM cuentas WHERE codigo = '$codigo'";
+		protected function valid_cuenta_contable_modelo($nombre){
+			$query = "SELECT cuentas_id FROM cuentas WHERE nombre = '$nombre'";
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;
@@ -50,4 +50,4 @@
 			return $sql;			
 		}		
 	}
-?>	
+?>
