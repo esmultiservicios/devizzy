@@ -540,7 +540,7 @@
                                                                         <input type="text" name="efectivo_Purchase"
                                                                             id="efectivo_Purchase" class="inputfield"
                                                                             placeholder="0.00" step="0.01">
-                                                                        <input type="text" name="tipo_factura"
+                                                                        <input type="hidden" name="tipo_factura"
                                                                             id="tipo_purchase_efectivo" value="1">
 
                                                                     </div>
@@ -1481,17 +1481,17 @@
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="departamento_cliente">Departamento <span class="priority">*<span /></label>
+                            <label for="departamento_cliente">Departamento</label>
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="departamento_cliente" name="departamento_cliente"
-                                    required data-size="7" data-live-search="true" title="Departamentos">
+                                    data-size="7" data-live-search="true" title="Departamentos">
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="municipio_cliente">Municipio <span class="priority">*<span /></label>
+                            <label for="municipio_cliente">Municipio </label>
                             <div class="input-group mb-3">
-                                <select class="selectpicker" id="municipio_cliente" name="municipio_cliente" required
+                                <select class="selectpicker" id="municipio_cliente" name="municipio_cliente"
                                     data-size="7" data-live-search="true" title="Municipio">
                                 </select>
                             </div>
@@ -1616,19 +1616,19 @@
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="departamento_proveedores">Departamento <span class="priority">*<span /></label>
+                            <label for="departamento_proveedores">Departamento </label>
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="departamento_proveedores"
-                                    name="departamento_proveedores" required data-size="7" data-live-search="true"
+                                    name="departamento_proveedores" data-size="7" data-live-search="true"
                                     title="Departamentos">
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="municipio_proveedores">Municipio <span class="priority">*<span /></label>
+                            <label for="municipio_proveedores">Municipio </label>
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="municipio_proveedores" name="municipio_proveedores"
-                                    required data-size="7" data-live-search="true" title="Municipios">
+                                    data-size="7" data-live-search="true" title="Municipios">
                                 </select>
                             </div>
                         </div>

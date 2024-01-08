@@ -405,7 +405,7 @@
 													"fecha_registro" => $fecha_registro,
 													"empresa" => $empresa_id === "" ? 1: $empresa_id,
 													"clientes_id" => 0,
-													"comentario"  => '',
+													"comentario"  => 'Ingreso por Compra',
 													"almacen_id" => $bodega
 												];	
 

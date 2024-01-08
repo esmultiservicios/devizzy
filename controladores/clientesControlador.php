@@ -14,8 +14,8 @@
 			$nombre = mainModel::cleanString($_POST['nombre_clientes']);
 			$rtn = mainModel::cleanString($_POST['identidad_clientes']);
 			$fecha = mainModel::cleanString($_POST['fecha_clientes']);			
-			$departamento_id = mainModel::cleanString($_POST['departamento_cliente']);
-			$municipio_id = mainModel::cleanString($_POST['municipio_cliente']);
+			$departamento_id = mainModel::cleanString($_POST['departamento_cliente'] === "" ? 0 : $_POST['departamento_cliente']);
+			$municipio_id = mainModel::cleanString($_POST['municipio_cliente'] === "" ? 0 : $_POST['municipio_cliente']);
 			$localidad = mainModel::cleanString($_POST['dirección_clientes']);
 			$telefono = mainModel::cleanString($_POST['telefono_clientes']);
 			$correo = mainModel::cleanStringStrtolower($_POST['correo_clientes']);
@@ -172,4 +172,4 @@
 			return mainModel::sweetAlert($alert);
 		}
 	}
-?>	
+?>

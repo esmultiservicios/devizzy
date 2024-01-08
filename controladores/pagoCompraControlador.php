@@ -58,6 +58,7 @@
 				"referencia_pago1" => $referencia_pago1,
 				"referencia_pago2" => $referencia_pago2,
 				"referencia_pago3" => $referencia_pago3,
+				"colaboradores_id" => $colaboradores_id,
 			];
 
 			$alert = pagoCompraModelo::agregar_pago_compras_base($datos);

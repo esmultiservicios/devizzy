@@ -14,8 +14,8 @@
 			$nombre = mainModel::cleanString($_POST['nombre_proveedores']);
 			$rtn = mainModel::cleanString($_POST['rtn_proveedores']);
 			$fecha = mainModel::cleanString($_POST['fecha_proveedores']);			
-			$departamento_id = mainModel::cleanString($_POST['departamento_proveedores']);
-			$municipio_id = mainModel::cleanString($_POST['municipio_proveedores']);
+			$departamento_id = mainModel::cleanString($_POST['departamento_proveedores'] === "" ? 0 : $_POST['departamento_proveedores']);
+			$municipio_id = mainModel::cleanString($_POST['municipio_proveedores'] === "" ? 0 : $_POST['municipio_proveedores']);
 			$localidad = mainModel::cleanString($_POST['dirección_proveedores']);
 			$telefono = mainModel::cleanString($_POST['telefono_proveedores']);
 			$correo = mainModel::cleanStringStrtolower($_POST['correo_proveedores']);
@@ -167,4 +167,4 @@
 			return mainModel::sweetAlert($alert);
 		}		
 	}
-?>	
+?>
