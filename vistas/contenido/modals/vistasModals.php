@@ -106,9 +106,9 @@
                                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="cuenta_nombre">Nombre <span class="priority">*<span /></label>
-                            <input type="text" required id="cuenta_nombre" name="cuenta_nombre"
-                                placeholder="Descripción" class="form-control" maxlength="30"
+                            <label for="cuenta_nombre">Cuenta <span class="priority">*<span /></label>
+                            <input type="text" required id="cuenta_nombre" name="cuenta_nombre" placeholder="Cuenta"
+                                class="form-control" maxlength="30"
                                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
                         </div>
                     </div>
