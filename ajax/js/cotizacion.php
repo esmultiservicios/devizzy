@@ -756,11 +756,17 @@ $(document).ready(function() {
 });
 
 var listar_productos_cotizacion_buscar = function() {
+    var bodega = $("#formulario_busqueda_productos_facturacion #almacen").val() === "" ? 1 : $(
+        "#formulario_busqueda_productos_facturacion #almacen").val();
+
     var table_productos_cotizacion_buscar = $("#DatatableProductosBusquedaFactura").DataTable({
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableProductosFacturas.php"
+            "url": "<?php echo SERVERURL;?>core/llenarDataTableProductosFacturas.php",
+            "data": {
+                "bodega": bodega
+            }
         },
         "columns": [{
                 "defaultContent": "<button class='table_view btn btn-primary ocultar'><span class='fas fa-cart-plus fa-lg'></span></button>"

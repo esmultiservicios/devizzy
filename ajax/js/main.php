@@ -729,9 +729,8 @@ function getAlmacen() {
             $('#formulario_busqueda_productos_facturacion #almacen').html(data);
             $('#formulario_busqueda_productos_facturacion #almacen').selectpicker('refresh');
 
-            $('#formulario_busqueda_productos_compras #almacen').html("");
-            $('#formulario_busqueda_productos_compras #almacen').html(data);
-            $('#formulario_busqueda_productos_compras #almacen').selectpicker('refresh');
+            $('#formulario_busqueda_productos_facturacion #almacen').val(1);
+            $('#formulario_busqueda_productos_facturacion #almacen').selectpicker('refresh');
 
             $('#formTransferencia #id_bodega').html("");
             $('#formTransferencia #id_bodega').html(data);

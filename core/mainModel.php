@@ -2246,78 +2246,20 @@
 		}
 
 		public function getProductosCantidadCompras($datos){
-			$bodega = '';
-			$barCode = '';
-
-			if($datos['bodega'] != ''){
-				$bodega = "AND m.almacen_id = '".$datos['bodega']."'";
-			}
-			if($datos['bodega'] == '0'){$bodega = '';}
-
-			if($datos['barcode'] != ''){
-				$barCode = "AND p.barCode  = '".$datos['barcode']."'";
-			}
-
-			$query = "SELECT
-			m.almacen_id,
-			m.movimientos_id AS 'movimientos_id',
-			p.barCode AS 'barCode',
-			p.nombre AS 'nombre',
-			me.nombre AS 'medida',
-			SUM(m.cantidad_entrada) AS 'entrada',
-			SUM(m.cantidad_salida) AS 'salida',
-			(
-				SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
-			) AS 'cantidad',
-			bo.nombre AS 'almacen',
-			DATE_FORMAT(
-				m.fecha_registro,
-				'%d/%m/%Y %H:%i:%s'
-			) AS 'fecha_registro',
-			p.productos_id AS 'productos_id',
-			p.id_producto_superior,
-			p.precio_compra AS 'precio_compra',
-			p.precio_venta,
-			p.precio_mayoreo,
-			p.cantidad_mayoreo,
-			p.isv_venta AS 'impuesto_venta',
-			p.isv_compra AS 'isv_compra',
-			p.file_name AS 'image',
-			tp.tipo_producto_id AS 'tipo_producto_id',
-			tp.nombre AS 'tipo_producto',
-			(
-				CASE
-				WHEN p.estado = '1' THEN
-					'Activo'
-				ELSE
-					'Inactivo'
-				END
-			) AS 'estado',
-			(
-				CASE
-				WHEN p.isv_venta = '1' THEN
-					'Sí'
-				ELSE
-					'No'
-				END
-			) AS 'isv', tp.nombre AS 'tipo_producto_nombre',
-			(CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END) AS 'isv_venta',
-			(CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END) AS 'isv_compra'
-
-		FROM
-			movimientos AS m
-		RIGHT JOIN productos AS p ON m.productos_id = p.productos_id
-		LEFT JOIN medida AS me ON p.medida_id = me.medida_id
-		LEFT JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
-		INNER JOIN tipo_producto AS tp ON p.tipo_producto_id = tp.tipo_producto_id
-		WHERE
-			p.estado = 1
-		$bodega
-		$barCode
-		GROUP BY
-			p.productos_id, m.almacen_id
-		ORDER BY
-			p.fecha_registro ASC";
+			$query = "SELECT p.productos_id AS 'productos_id', p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', m.nombre AS 'medida',
+			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
+			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'tipo_producto', p.colaborador_id AS 'colaborador_id', p.file_name AS 'image'
+				FROM productos AS p
+				INNER JOIN medida AS m
+				ON p.medida_id = m.medida_id
+				INNER JOIN tipo_producto AS tp
+				ON p.tipo_producto_id = tp.tipo_producto_id
+				WHERE
+					p.estado = 1
+				GROUP BY
+					p.productos_id
+				ORDER BY
+					p.fecha_registro ASC";
 
 			$result = self::connection()->query($query);
 

@@ -92,13 +92,11 @@
 									$quantity = $_POST['quantityPurchase'][$i];
 									$price = $_POST['pricePurchase'][$i];
 									$medida= $_POST['medidaPurchase'][$i];
-									$bodega = $_POST['bodegaPurchase'][$i];
+									$bodega = $_POST['almacenPurchase'][$i] === "" ? 0 : $_POST['almacenPurchase'][$i];
 
 									if($_POST['discountPurchase'][$i] != "" || $_POST['discountPurchase'][$i] != null){
-
 										$discount = $_POST['discountPurchase'][$i];	
-
-									}									
+									}								
 
 									$total = $_POST['totalPurchase'][$i];			
 
@@ -152,8 +150,8 @@
 													"cantidad_salida" => 0,
 													"saldo" => $saldoNuevoPrincipal,
 													"fecha_registro" => $fecha_registro,
-													"empresa" => $empresa_id,
-													"clientes_id" => '',
+													"empresa" => $empresa_id === "" ? 1 : $empresa_id,
+													"clientes_id" => 0,
 													"comentario"  => '',
 													"almacen_id" => $bodega
 												];	
@@ -199,8 +197,8 @@
 																"cantidad_salida" => 0,
 																"saldo" => $saldoNuevoHijos,
 																"fecha_registro" => $fecha_registro,
-																"empresa" => $empresa_id,
-																"clientes_id" => '',
+																"empresa" => $empresa_id === "" ? 1 : $empresa_id,
+																"clientes_id" => 0,
 																"almacen_id" => $bodega,
 															];	
 																									
@@ -240,8 +238,8 @@
 																"cantidad_salida" => 0,
 																"saldo" => $saldoNuevoPadre,
 																"fecha_registro" => $fecha_registro,
-																"empresa" => $empresa_id,
-																"clientes_id" => '',
+																"empresa" => $empresa_id === "" ? 1 : $empresa,
+																"clientes_id" => 0,
 																"almacen_id" => $bodega,
 															];	
 																									
@@ -275,6 +273,8 @@
 									"importe" => $total_despues_isv		
 								];								
 							
+								$parametro2 = "";
+
 								$alert = [
 									"alert" => "save_simple",
 									"title" => "Registro almacenado",
@@ -285,7 +285,7 @@
 									"form" => "purchase-form",	
 									"id" => "proceso_Purchase",
 									"valor" => "Registro",
-									"funcion" => "limpiarTablaCompras();pagoCompras(".$compras_id.");getColaboradorCompras();cleanFooterValuePurchase();resetRowPurchase();",
+									"funcion" => "limpiarTablaCompras(); pagoCompras('" . $compras_id . "', '" . $parametro2 . "', '" . $tipoPurchase . "'); getColaboradorCompras(); cleanFooterValuePurchase(); resetRowPurchase();",
 									"modal" => "",
 								];
 
@@ -338,7 +338,7 @@
 									$quantity = $_POST['quantityPurchase'][$i];
 									$medida= $_POST['medidaPurchase'][$i];
 									$price = $_POST['pricePurchase'][$i];
-									$bodega = $_POST['bodegaPurchase'][$i];
+									$bodega = $_POST['almacenPurchase'][$i] === "" ? 0 : $_POST['almacenPurchase'][$i];
 
 									if($_POST['discountPurchase'][$i] != "" || $_POST['discountPurchase'][$i] != null){
 										$discount = $_POST['discountPurchase'][$i];	
@@ -403,8 +403,8 @@
 													"cantidad_salida" => 0,
 													"saldo" => $saldoNuevoPrincipal,
 													"fecha_registro" => $fecha_registro,
-													"empresa" => $empresa_id,
-													"clientes_id" => '',
+													"empresa" => $empresa_id === "" ? 1: $empresa_id,
+													"clientes_id" => 0,
 													"comentario"  => '',
 													"almacen_id" => $bodega
 												];	
@@ -450,8 +450,8 @@
 																"cantidad_salida" => 0,
 																"saldo" => $saldoNuevoHijos,
 																"fecha_registro" => $fecha_registro,
-																"empresa" => $empresa_id,
-																"clientes_id" => '',
+																"empresa" => $empresa_id === "" ? 1 : $empresa,
+																"clientes_id" => 0,
 																"almacen_id" => $bodega,
 															];	
 																									
@@ -491,8 +491,8 @@
 																"cantidad_salida" => 0,
 																"saldo" => $saldoNuevoPadre,
 																"fecha_registro" => $fecha_registro,
-																"empresa" => $empresa_id,
-																"clientes_id" => '',
+																"empresa" => $empresa_id === "" ? 1 : $empresa_id,
+																"clientes_id" => 0,
 																"almacen_id" => $bodega,
 															];	
 																									

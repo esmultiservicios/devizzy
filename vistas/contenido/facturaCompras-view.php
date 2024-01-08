@@ -10,8 +10,8 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <form class="FormularioAjax" id="purchase-form" action="" method="POST" data-form="save"
-                    autocomplete="off" enctype="multipart/form-data">
+                <form class="FormularioAjax" id="purchase-form" action="<?php echo SERVERURL;?>ajax/addComprasAjax.php"
+                    method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <button class="btn btn-secondary" type="submit" id="reg_factura" form="purchase-form"
@@ -82,12 +82,13 @@
                                     <tr>
                                         <th width="2%" scope="col"><input id="checkAllPurchase" class="formcontrol"
                                                 type="checkbox"></th>
-                                        <th width="38%">Nombre Producto</th>
+                                        <th width="30%">Nombre Producto</th>
                                         <th width="10%">Cantidad</th>
-                                        <th width="10%">Medida</th>
+                                        <th width="10%">Almacén</th>
+                                        <th width="13%">Medida</th>
                                         <th width="15%">Precio</th>
                                         <th width="10%">Descuento</th>
-                                        <th width="15%">Total</th>
+                                        <th width="18%">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -117,7 +118,11 @@
                                         <td><input type="number" name="quantityPurchase[]" id="quantityPurchase_0"
                                                 class="buscar_cantidad_purchase form-control" autocomplete="off"
                                                 step="0.01"></td>
+                                        <td><select id="almacenPurchase_0" name="almacenPurchase[]" class="selectpicker"
+                                                title="Almacén" data-live-search="true" required data-size="5">
+                                            </select></td>
                                         <td>
+
                                             <input type="text" name="medidaPurchase[]" id="medidaPurchase_0" readonly
                                                 class="form-control buscar_medida_purchase" autocomplete="off">
                                             <input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_0" readonly

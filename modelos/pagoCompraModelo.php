@@ -280,6 +280,7 @@
 						"referencia_pago1" => $referencia_pago1,
 						"referencia_pago2" => $referencia_pago2,
 						"referencia_pago3" => $referencia_pago3,
+						"abono" => $abono
 					];
 
 					$result_valid_pagos_compras = pagoCompraModelo::valid_pagos_compras($compras_id);
@@ -411,7 +412,7 @@
 			$importe = $datos['importe'];
 
 			if($datos['abono']>0){
-				$importe = $datos['abono'];
+				$importe = $datos['abono'] === "" ? 0 : $datos['abono'];
 			}
 
 			$pagoscompras_id = mainModel::correlativo("pagoscompras_id", " pagoscompras");

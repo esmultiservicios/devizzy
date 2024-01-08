@@ -414,7 +414,8 @@ $(document).ready(function() {
 });
 
 var listar_productos_factura_buscar = function() {
-    var bodega = $("#formulario_busqueda_productos_facturacion #almacen").val();
+    var bodega = $("#formulario_busqueda_productos_facturacion #almacen").val() === "" ? 1 : $(
+        "#formulario_busqueda_productos_facturacion #almacen").val();
 
     var table_productos_factura_buscar = $("#DatatableProductosBusquedaFactura").DataTable({
         "destroy": true,

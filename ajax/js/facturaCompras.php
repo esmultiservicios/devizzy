@@ -5,6 +5,7 @@ $(document).ready(function() {
     getMedida(0);
     getProveedores();
     getColaboradores();
+    getAlmacenProductos(0);
 });
 
 function getColaboradorCompras() {
@@ -83,55 +84,10 @@ var listar_productos_compras_buscar = function() {
                 "data": "nombre"
             },
             {
-                "data": "cantidad",
-                render: function(data, type) {
-                    if (data == null) {
-                        data = 0;
-                    }
-
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, '')
-                        .display(data);
-
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        }
-
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
-
-                    return number;
-                },
-            },
-            {
                 "data": "medida"
             },
             {
-                "data": "tipo_producto_nombre"
-            },
-            {
-                "data": "precio_compra",
-                render: function(data, type) {
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, 'L ')
-                        .display(data);
-
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        }
-
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
-
-                    return number;
-                },
-            },
-            {
-                "data": "almacen"
+                "data": "tipo_producto"
             }
         ],
         "lengthMenu": lengthMenu,
@@ -163,19 +119,6 @@ var listar_productos_compras_buscar = function() {
             {
                 width: "10%",
                 targets: 5
-            },
-            {
-                width: "12%",
-                targets: 6
-            },
-            {
-                width: "12%",
-                targets: 7
-            },
-            {
-                width: "0%",
-                targets: 8,
-                visible: false
             }
         ],
         "buttons": [{
@@ -577,10 +520,14 @@ function limpiarTablaCompras() {
         count +
         '" class="form-control" autocomplete="off"><input type="text" name="productNamePurchase[]" id="productNamePurchase_' +
         count +
-        '" class="form-control" autocomplete="off"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control buscar_productos_purchase"><div class="sb-nav-link-icon"></div><i class="fas fa-search-plus fa-lg"></i></a></span></div></div></td>';
+        '" class="form-control" autocomplete="off" required><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos"><a data-toggle="modal" href="#" class="btn btn-outline-success form-control buscar_productos_purchase"><div class="sb-nav-link-icon"></div><i class="fas fa-search-plus fa-lg"></i></a></span></div></div></td>';
 
     htmlRows += '<td><input type="number" name="quantityPurchase[]" id="quantityPurchase_' + count +
         '" class="buscar_cantidad_purchase form-control" autocomplete="off" step="0.01"></td>';
+
+    htmlRows += '<td><select id="almacenPurchase_' + count +
+        '" name="almacenPurchase[]" class="selectpicker" title="Almacén" data-live-search="true" required data-size="5">' +
+        '</select></td>';
 
     htmlRows += '<td><input type="text" name="medidaPurchase[]" id="medidaPurchase_' + count +
         '" readonly class="form-control buscar_medida_purchase" autocomplete="off"><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_' +
@@ -622,6 +569,10 @@ function addRowCompras() {
     htmlRows += '<td><input type="number" name="quantityPurchase[]" id="quantityPurchase_' + count +
         '" class="buscar_cantidad_purchase form-control" autocomplete="off" step="0.01"></td>';
 
+    htmlRows += '<td><select id="almacenPurchase_' + count +
+        '" name="almacenPurchase[]" class="selectpicker" title="Almacén" data-live-search="true" data-size="5">' +
+        '</select></td>';
+
     htmlRows += '<td><input type="text" name="medidaPurchase[]" id="medidaPurchase_' + count +
         '" readonly class="form-control buscar_medida_purchase" autocomplete="off"><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_' +
         count + '"  class="buscar_bodega_purchase form-control" ></td>';
@@ -641,8 +592,8 @@ function addRowCompras() {
     htmlRows += '</tr>';
 
     $('#purchaseItem').append(htmlRows);
-    getMedida(count)
-
+    getMedida(count);
+    getAlmacenProductos(count);
 }
 
 
@@ -1018,6 +969,22 @@ function getProveedores() {
         }
     });
 }
+
+function getAlmacenProductos(index) {
+    var url = '<?php echo SERVERURL;?>core/getAlmacen.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(data) {
+            $('#purchase-form #almacenPurchase_' + index).html("");
+            $('#purchase-form #almacenPurchase_' + index).html(data);
+            $('#purchase-form #almacenPurchase_' + index).selectpicker('refresh');
+        }
+    });
+}
+
 
 $("#purchase-form #proveedor").on('change', function() {
     $('#purchase-form #proveedores_id').val($('#purchase-form #proveedor').val());

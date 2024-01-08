@@ -11,7 +11,6 @@
 			$insert = "INSERT INTO compras 
 				VALUES('$compras_id','".$datos['proveedores_id']."','".$datos['number']."','".$datos['tipoPurchase']."','".$datos['colaboradores_id']."','".$datos['importe']."','".$datos['notas']."','".$datos['fecha']."','".$datos['estado']."','".$datos['usuario']."','".$datos['empresa']."','".$datos['fecha_registro']."')";
 			
-			echo $insert."***";
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $result;			
@@ -35,6 +34,7 @@
 				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
 				'".$datos['clientes_id']."','".$datos['comentario']."','".$datos['almacen_id']."'
 				)";
+
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 		
 			return $result;				

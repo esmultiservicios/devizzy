@@ -34,10 +34,10 @@
 					"cantidad_salida" => 0,
 					"saldo" => 0,
 					"fecha_registro" => $fecha_registro,
-					"empresa" => $empresa_id,
-					"clientes_id" => $cliente_movimientos,
+					"empresa" => $empresa_id === "" ? 0 : $empresa_id,
+					"clientes_id" => $cliente_movimientos === "" ? 0 : $cliente_movimientos,
 					"comentario"  => $movimiento_comentario,
-					"almacen_id" => $almacen
+					"almacen_id" => $almacen === "" ? 0 : $almacen
 				];	
 				
 				$query = movimientoProductosModelo::agregar_movimiento_productos_modelo($datos);
@@ -74,10 +74,10 @@
 					"cantidad_salida" => $movimiento_cantidad,
 					"saldo" => 0,
 					"fecha_registro" => $fecha_registro,
-					"empresa" => $empresa_id,
-					"clientes_id" => $cliente_movimientos,
+					"empresa" => $empresa_id === "" ? 0 : $empresa_id,
+					"clientes_id" => $cliente_movimientos === "" ? 0 : $cliente_movimientos,
 					"comentario"  => $movimiento_comentario,
-					"almacen_id" => $almacen
+					"almacen_id" => $almacen === "" ? 0 : $almacen
 				];
 				
 				$query = movimientoProductosModelo::agregar_movimiento_productos_modelo($datos);
@@ -110,4 +110,4 @@
 			return mainModel::sweetAlert($alert);
 		}
 	}
-?>	
+?>

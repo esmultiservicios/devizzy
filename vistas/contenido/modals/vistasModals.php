@@ -540,7 +540,7 @@
                                                                         <input type="text" name="efectivo_Purchase"
                                                                             id="efectivo_Purchase" class="inputfield"
                                                                             placeholder="0.00" step="0.01">
-                                                                        <input type="hidden" name="tipo_factura"
+                                                                        <input type="text" name="tipo_factura"
                                                                             id="tipo_purchase_efectivo" value="1">
 
                                                                     </div>
@@ -1771,20 +1771,6 @@
                     <input type="hidden" id="row" name="row" class="form-control" />
                     <input type="hidden" id="col" name="col" class="form-control" />
 
-                    <div class="form-group">
-                        <div class="form-group mx-sm-3 mb-1">
-                            <div class="input-group">
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        <div class="sb-nav-link-icon"></div>Bodega
-                                    </span>
-                                    <select id="almacen" name="almacen" class="selectpicker" title="Bodega"
-                                        data-live-search="true">
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-md-12">
                         <div class="overflow-auto">
                             <table id="DatatableProductosBusquedaCompra"
@@ -1796,10 +1782,7 @@
                                         <th>Bar Code</th>
                                         <th>Producto</th>
                                         <th>Cantidad</th>
-                                        <th>Medida</th>
                                         <th>Categoria</th>
-                                        <th>Compra</th>
-                                        <th>Almacén</th>
                                     </tr>
                                 </thead>
                             </table>
