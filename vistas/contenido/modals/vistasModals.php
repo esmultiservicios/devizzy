@@ -100,8 +100,8 @@
                     </div>
                     <div class="form-row">
                         <div class="col-md-4 mb-3">
-                            <label for="cuenta_codigo">Código <span class="priority">*<span /></label>
-                            <input type="text" required id="cuenta_codigo" name="cuenta_codigo" placeholder="Código"
+                            <label for="cuenta_codigo">Código</label>
+                            <input type="text" id="cuenta_codigo" name="cuenta_codigo" placeholder="Código"
                                 class="form-control" maxlength="11"
                                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
                         </div>
