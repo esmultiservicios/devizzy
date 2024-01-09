@@ -32,11 +32,11 @@
                             <input type="date" required id="fecha_egresos" name="fecha_egresos"
                                 value="<?php echo date ("Y-m-d");?>" class="form-control" />
                         </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label for="proveedor_egresos">Proveedor <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
-                                <select id="proveedor_egresos" name="proveedor_egresos" class="selectpicker"
-                                    data-size="10" data-live-search="true" title="Proveedor">
+                                <select id="proveedor_egresos" name="proveedor_egresos" data-width="100%"
+                                    class="selectpicker" data-size="10" data-live-search="true" title="Proveedor">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -50,7 +50,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 mb-3" style="display: none">
                             <label for="empresa_egresos">Empresa <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="empresa_egresos" name="empresa_egresos" class="selectpicker" data-size="10"
@@ -84,8 +84,8 @@
                                 placeholder="Subtotal" class="form-control" step="0.01" />
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="isv_egresos">ISV <span class="priority">*<span /></label>
-                            <input type="number" required id="isv_egresos" name="isv_egresos" placeholder="ISV"
+                            <label for="isv_egresos">ISV </label>
+                            <input type="number" id="isv_egresos" name="isv_egresos" placeholder="ISV"
                                 class="form-control" step="0.01" value="0" />
                         </div>
                         <div class="col-md-3 mb-3">

@@ -75,9 +75,9 @@
                                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="subtotal_ingresos">Subtotal</label>
-                            <input type="number" id="subtotal_ingresos" name="subtotal_ingresos" placeholder="Subtotal"
-                                class="form-control" step="0.01" />
+                            <label for="subtotal_ingresos">Subtotal <span class="priority">*<span /></label>
+                            <input type="number" id="subtotal_ingresos" name="subtotal_ingresos" required
+                                placeholder="Subtotal" class="form-control" step="0.01" />
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="isv_ingresos">ISV </label>

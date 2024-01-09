@@ -70,7 +70,7 @@
 				FROM movimientos_cuentas
 				WHERE cuentas_id = '$cuentas_id'
 				ORDER BY movimientos_cuentas_id DESC LIMIT 1";
-			
+
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;				

@@ -114,11 +114,11 @@
 							session_start(['name'=>'SD']); 
 						}
 
+						$clientes_id = 2;
 						$consulta_nombre_ingresos_contabilidad = aperturaCajaModelo::getNombreClienteModelo($clientes_id)->fetch_assoc();
 						$recibide = $consulta_nombre_ingresos_contabilidad['nombre'];
 
-						$nc = 0;
-						$clientes_id = 2;
+						$nc = 0;						
 						$empresa_id = $_SESSION['empresa_id_sd'];
 						$colaboradores_id = $_SESSION['colaborador_id_sd'];
 						$observacion = "Ingresos por venta Cierre de Caja";

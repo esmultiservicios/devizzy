@@ -13,15 +13,15 @@
 			
 			$proveedores_id = $_POST['proveedor_egresos'];
 			$cuentas_id = mainModel::cleanStringConverterCase($_POST['cuenta_egresos']);
-			$empresa_id = mainModel::cleanStringConverterCase($_POST['empresa_egresos']);
+			$empresa_id = $_SESSION['empresa_id_sd'];
 			$tipo_egreso = 2;//GASTOS
 			$fecha = $_POST['fecha_egresos'];
 			$factura = mainModel::cleanString($_POST['factura_egresos']);
 			$subtotal = mainModel::cleanStringConverterCase($_POST['subtotal_egresos'] === "" ? 0 : $_POST['subtotal_egresos']);
 			$isv = mainModel::cleanStringConverterCase($_POST['isv_egresos'] === "" ? 0 : $_POST['isv_egresos']);
 			$descuento = mainModel::cleanStringConverterCase($_POST['descuento_egresos'] === "" ? 0 : $_POST['descuento_egresos']);
-			$nc = mainModel::cleanStringConverterCase($_POST['nc_egresos']);
-			$total = mainModel::cleanStringConverterCase($_POST['total_egresos']);
+			$nc = mainModel::cleanStringConverterCase($_POST['nc_egresos'] === "" ? 0 : $_POST['nc_egresos']);
+			$total = mainModel::cleanStringConverterCase($_POST['total_egresos'] === "" ? 0 : $_POST['total_egresos']);
 			$observacion = mainModel::cleanString($_POST['observacion_egresos']);
 			$categoria_gastos = mainModel::cleanString($_POST['categoria_gastos']);
 			$estado = 1;
@@ -31,9 +31,9 @@
 
 			$datos = [
 				"egresos_id" => $egresos_id,
-				"proveedores_id" => $proveedores_id,
+				"proveedores_id" => $proveedores_id === "" ? 0 : $proveedores_id,
 				"cuentas_id" => $cuentas_id,
-				"empresa_id" => $empresa_id,
+				"empresa_id" => $empresa_id === "" ? 1 : $empresa_id,
 				"tipo_egreso" => $tipo_egreso,
 				"fecha" => $fecha,
 				"factura" => $factura,
@@ -57,13 +57,7 @@
 					if($query){
 					//CONSULTAMOS EL SALDO DISPONIBLE PARA LA CUENTA
 					$consulta_ingresos_contabilidad = egresosContabilidadModelo::consultar_saldo_movimientos_cuentas_contabilidad($cuentas_id)->fetch_assoc();
-
-					if ($consulta_ingresos_contabilidad !== false && $consulta_ingresos_contabilidad->num_rows > 0) {
-						$saldo_consulta = $consulta_ingresos_contabilidad['saldo'];
-					} else {
-						// Asignamos cero al saldo si no hay resultados o la consulta falla
-						$saldo_consulta = 0;
-					}
+					$saldo_consulta = isset($consulta_ingresos_contabilidad['saldo']) && $consulta_ingresos_contabilidad['saldo'] !== "" ? $consulta_ingresos_contabilidad['saldo'] : 0;
 					
 					$ingreso = 0;
 					$egreso = $total;
@@ -72,7 +66,7 @@
 					//AGREGAMOS LOS MOVIMIENTOS DE LA CUENTA
 					$datos_movimientos = [
 						"cuentas_id" => $cuentas_id,
-						"empresa_id" => $empresa_id,
+						"empresa_id" => $empresa_id === "" ? 1 : $empresa_id,
 						"fecha" => $fecha,
 						"ingreso" => $ingreso,
 						"egreso" => $egreso,

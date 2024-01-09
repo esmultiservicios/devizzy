@@ -25,7 +25,7 @@
 		}
 
 		protected function getNombreClienteModelo($clientes_id){
-			$result = mainModel::getNombreCliente($usuario);
+			$result = mainModel::getNombreCliente($clientes_id);
 			
 			return $result;	
 		}

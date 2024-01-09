@@ -20,7 +20,7 @@
 			$isv = mainModel::cleanStringConverterCase($_POST['isv_ingresos'] === "" ? 0 : $_POST['isv_ingresos']);
 			$descuento = mainModel::cleanStringConverterCase($_POST['descuento_ingresos'] === "" ? 0 : $_POST['descuento_ingresos']);
 			$nc = mainModel::cleanStringConverterCase($_POST['nc_ingresos'] === "" ? 0 : $_POST['nc_ingresos']);
-			$total = mainModel::cleanStringConverterCase($_POST['total_ingresos'] == "" ? 0 : $_POST['total_ingresos']);
+			$total = mainModel::cleanStringConverterCase($_POST['total_ingresos'] === "" ? 0 : $_POST['total_ingresos']);
 			$observacion = mainModel::cleanString($_POST['observacion_ingresos']);
 			$recibide = mainModel::cleanString($_POST['recibide_ingresos']);
 			$estado = 1;
@@ -94,13 +94,7 @@
 				if ($query) {
 					// Consulta el saldo disponible para la cuenta
 					$consulta_ingresos_contabilidad = ingresosContabilidadModelo::consultar_saldo_movimientos_cuentas_contabilidad($cuentas_id)->fetch_assoc();
-		
-					// Asigna cero al saldo si no hay resultados o la consulta falla
-					$saldo_consulta = 0;
-
-					if ($consulta_ingresos_contabilidad !== false && is_object($consulta_ingresos_contabilidad) && $consulta_ingresos_contabilidad->num_rows > 0) {
-						$saldo_consulta = $consulta_ingresos_contabilidad->saldo;
-					}
+					$saldo_consulta = isset($consulta_ingresos_contabilidad['saldo']) && $consulta_ingresos_contabilidad['saldo'] !== "" ? $consulta_ingresos_contabilidad['saldo'] : 0;
 								
 					$ingreso = $total;
 					$egreso = 0;
@@ -155,13 +149,7 @@
 					if ($query) {
 						// Consulta el saldo disponible para la cuenta
 						$consulta_ingresos_contabilidad = ingresosContabilidadModelo::consultar_saldo_movimientos_cuentas_contabilidad($cuentas_id)->fetch_assoc();
-
-						// Asigna cero al saldo si no hay resultados o la consulta falla
-						$saldo_consulta = 0;
-
-						if ($consulta_ingresos_contabilidad !== false && is_object($consulta_ingresos_contabilidad) && $consulta_ingresos_contabilidad->num_rows > 0) {
-							$saldo_consulta = $consulta_ingresos_contabilidad->saldo;
-						}
+						$saldo_consulta = isset($consulta_ingresos_contabilidad['saldo']) && $consulta_ingresos_contabilidad['saldo'] !== "" ? $consulta_ingresos_contabilidad['saldo'] : 0;
 
 						$ingreso = $total;
 						$egreso = 0;
