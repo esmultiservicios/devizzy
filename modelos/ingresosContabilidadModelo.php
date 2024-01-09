@@ -7,11 +7,20 @@
 	
 	class ingresosContabilidadModelo extends mainModel{
 		protected function agregar_ingresos_contabilidad_modelo($datos){			
-			$insert = "INSERT INTO ingresos VALUES('".$datos['ingresos_id']."','".$datos['cuentas_id']."','".$datos['clientes_id']."','".$datos['empresa_id']."','".$datos['tipo_ingreso']."','".$datos['fecha']."','".$datos['factura']."','".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."','".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO ingresos VALUES('".$datos['ingresos_id']."','".$datos['cuentas_id']."','".$datos['clientes_id']."','".$datos['empresa_id']."','".$datos['tipo_ingreso']."','".$datos['fecha']."','".$datos['factura']."','".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."','".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."','".$datos['recibide']."')";
 			
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			
+		}
+
+		protected function agregar_clientes_ingresos_contabilidad_modelo($datos){
+			$insert = "INSERT INTO `clientes`(`clientes_id`, `nombre`, `rtn`, `fecha`, `departamentos_id`, `municipios_id`, `localidad`, `telefono`, `correo`, `estado`, `colaboradores_id`, `fecha_registro`, `empresa`, `eslogan`, `otra_informacion`, `whatsapp`) 
+        VALUES ('{$datos['clientes_id']}', '{$datos['nombre']}', '{$datos['rtn']}', '{$datos['fecha']}', '{$datos['departamentos_id']}', '{$datos['municipios_id']}', '{$datos['localidad']}', '{$datos['telefono']}', '{$datos['correo']}', '{$datos['estado']}', '{$datos['colaboradores_id']}', '{$datos['fecha_registro']}', '{$datos['empresa']}', '{$datos['eslogan']}', '{$datos['otra_informacion']}', '{$datos['whatsapp']}')";
+        
+			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
+			
+			return $sql;
 		}
 		
 		protected function agregar_movimientos_contabilidad_modelo($datos){
@@ -21,7 +30,7 @@
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			
-		}
+		}	
 		
 		protected function edit_ingresos_contabilidad_modelo($datos){
 			$update = "UPDATE ingresos
@@ -47,6 +56,16 @@
 			return $sql;			
 		}
 		
+		protected function valid_clientes_cuentas_contabilidad($nombre){
+			$query = "SELECT clientes_id
+				FROM clientes
+				WHERE nombre = '$nombre'";
+
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;				
+		}
+
 		protected function consultar_saldo_movimientos_cuentas_contabilidad($cuentas_id){
 			$query = "SELECT ingreso, egreso, saldo
 				FROM movimientos_cuentas
@@ -74,4 +93,4 @@
 			return $sql;			
 		}
 	}
-?>	
+?>

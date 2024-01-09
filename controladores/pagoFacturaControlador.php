@@ -61,7 +61,8 @@
 				"tipo_pago" => $tipo_pago,
 				"efectivo" => $efectivo === "" ? 0 : $efectivo,
 				"tarjeta" => $tarjeta === "" ? 0 : $tarjeta,
-				"colaboradores_id" => $colaboradores_id						
+				"colaboradores_id" => $colaboradores_id,
+				"recibide" => ""						
 			];
 
 			$alert = pagoFacturaModelo::agregar_pago_factura_base($datos);

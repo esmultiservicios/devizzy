@@ -30,7 +30,9 @@
 			"impuesto"=>'L. '.$row['impuesto'],
 			"descuento"=>'L. '.$row['descuento'],
 			"nc"=>'L. '.$row['nc'],
-			"total"=>'L. '.$row['total']			
+			"total"=>'L. '.$row['total'],
+			"recibide"=>$row['recibide'],
+			"tipo_ingreso"=>$row['tipo_ingreso']	
 		);	
 	}
 
@@ -43,4 +45,4 @@
 	);
 
 	echo json_encode($arreglo);
-?>	
+?>

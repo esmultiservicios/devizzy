@@ -202,7 +202,7 @@
 	    //METODO QUE PERMITE AGREGAR EL INGRESO DEL PAGO DEL CLIENTE
 		protected function agregar_ingresos_contabilidad_pagos_modelo($datos){	
 			$ingresos_id = mainModel::correlativo("ingresos_id", "ingresos");		
-			$insert = "INSERT INTO ingresos VALUES('".$ingresos_id."','".$datos['cuentas_id']."','".$datos['clientes_id']."','".$datos['empresa_id']."','".$datos['tipo_ingreso']."','".$datos['fecha']."','".$datos['factura']."','".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."','".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO ingresos VALUES('".$ingresos_id."','".$datos['cuentas_id']."','".$datos['clientes_id']."','".$datos['empresa_id']."','".$datos['tipo_ingreso']."','".$datos['fecha']."','".$datos['factura']."','".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."','".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."','".$datos['recibide']."')";
 			
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
@@ -330,7 +330,8 @@
 							"estado" => $estado,
 							"fecha_registro" => $fecha_registro,
 							"colaboradores_id" => $res['colaboradores_id'],
-							"tipo_ingreso" => $tipo_ingreso								
+							"tipo_ingreso" => $tipo_ingreso,
+							"recibide" => ""								
 						];						
 
 						//ALMACENAMOS EL INGRESO DEL PAGO

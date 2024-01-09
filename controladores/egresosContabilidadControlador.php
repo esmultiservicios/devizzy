@@ -17,9 +17,9 @@
 			$tipo_egreso = 2;//GASTOS
 			$fecha = $_POST['fecha_egresos'];
 			$factura = mainModel::cleanString($_POST['factura_egresos']);
-			$subtotal = mainModel::cleanStringConverterCase($_POST['subtotal_egresos']);
-			$isv = mainModel::cleanStringConverterCase($_POST['isv_egresos']);
-			$descuento = mainModel::cleanStringConverterCase($_POST['descuento_egresos']);
+			$subtotal = mainModel::cleanStringConverterCase($_POST['subtotal_egresos'] === "" ? 0 : $_POST['subtotal_egresos']);
+			$isv = mainModel::cleanStringConverterCase($_POST['isv_egresos'] === "" ? 0 : $_POST['isv_egresos']);
+			$descuento = mainModel::cleanStringConverterCase($_POST['descuento_egresos'] === "" ? 0 : $_POST['descuento_egresos']);
 			$nc = mainModel::cleanStringConverterCase($_POST['nc_egresos']);
 			$total = mainModel::cleanStringConverterCase($_POST['total_egresos']);
 			$observacion = mainModel::cleanString($_POST['observacion_egresos']);

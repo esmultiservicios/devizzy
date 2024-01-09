@@ -73,6 +73,9 @@ var listar_ingresos_contabilidad = function() {
                 "data": "fecha_registro"
             },
             {
+                "data": "tipo_ingreso"
+            },
+            {
                 "data": "ingresos_id"
             },
             {
@@ -245,6 +248,10 @@ var listar_ingresos_contabilidad = function() {
             {
                 width: "8.33%",
                 targets: 12
+            },
+            {
+                width: "8.33%",
+                targets: 13
             }
         ],
         "buttons": [{
@@ -630,6 +637,58 @@ $(document).ready(function() {
 $(document).ready(function() {
     $("#modal_buscar_clientes_facturacion").on('shown.bs.modal', function() {
         $(this).find('#formulario_busqueda_clientes_facturacion #buscar').focus();
+    });
+});
+
+$(document).ready(function() {
+    $("#modalIngresosContables").on('shown.bs.modal', function() {
+        $(this).find('#formIngresosContables #recibide_ingresos').focus();
+    });
+});
+
+$(document).ready(function() {
+    var peticionAjax = true; // Puedes ajustar esto según tus necesidades
+
+    // Evento cuando se escribe en el input
+    $("#recibide_ingresos").on("input", function() {
+        var searchText = $(this).val();
+
+        if (searchText !== '') {
+            $.ajax({
+                type: "POST",
+                url: "<?php echo SERVERURL;?>core/buscar_clientes.php",
+                data: {
+                    searchText: searchText,
+                    peticionAjax: peticionAjax
+                },
+                success: function(response) {
+                    $("#recibide_suggestions").html(response);
+                    $("#recibide_suggestions").fadeIn();
+                }
+            });
+        } else {
+            $("#recibide_suggestions").fadeOut();
+        }
+    });
+
+    // Evento cuando el input obtiene el foco
+    $("#recibide_ingresos").on("focus", function() {
+        if ($("#recibide_suggestions li").length > 0) {
+            $("#recibide_suggestions").fadeIn();
+        }
+    });
+
+    // Evento cuando el input pierde el foco
+    $("#recibide_ingresos").on("blur", function() {
+        setTimeout(function() {
+            $("#recibide_suggestions").fadeOut();
+        }, 200); // Un pequeño retraso para manejar clics en sugerencias
+    });
+
+    // Manejar clics en sugerencias
+    $(document).on("click", "#recibide_suggestions li", function() {
+        $("#recibide_ingresos").val($(this).text());
+        $("#recibide_suggestions").fadeOut();
     });
 });
 </script>

@@ -93,6 +93,11 @@
 		protected function correlativo($campo_id, $tabla){
 			$query = "SELECT MAX(".$campo_id.") AS max, COUNT(".$campo_id.") AS count FROM ".$tabla;
 			$result = self::connection()->query($query);
+
+			if (!$result) {
+				die("Error en la consulta: " . self::connection()->error . " - Query: " . $query);
+			}
+			
 			$correlativo2 = $result->fetch_assoc();
 			$numero = $correlativo2['max'];
 			$cantidad = $correlativo2['count'];
@@ -2603,38 +2608,49 @@
 			$query = "SELECT mc.movimientos_cuentas_id AS 'movimientos_cuentas_id', mc.fecha_registro AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', mc.ingreso As 'ingreso', mc.egreso AS 'egreso', mc.saldo AS 'saldo'
 				FROM movimientos_cuentas AS mc
 				INNER JOIN cuentas AS c
-
 				ON mc.cuentas_id = c.cuentas_id
-
 				AND fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'
-
 				ORDER BY mc.fecha_registro DESC";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
-
 		public function getIngresosContables($datos){
-			$query = "SELECT i.ingresos_id AS 'ingresos_id', i.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', cli.nombre AS 'cliente', i.factura AS 'factura', i.subtotal as 'subtotal', i.impuesto AS 'impuesto', i.descuento AS 'descuento', i.nc AS 'nc', i.total AS 'total', i.fecha_registro As 'fecha_registro'
-				FROM ingresos AS i
-				INNER JOIN cuentas AS c
-				ON i.cuentas_id = c.cuentas_id
-				INNER JOIN clientes AS cli
-				ON i.clientes_id = cli.clientes_id
-				WHERE CAST(i.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND i.estado = '".$datos['estado']."'
-				ORDER BY i.fecha_registro DESC";
+			$query = "SELECT
+				i.ingresos_id AS 'ingresos_id',
+				i.fecha AS 'fecha',
+				c.codigo AS 'codigo',
+				c.nombre AS 'nombre',
+				cli.nombre AS 'cliente',
+				i.factura AS 'factura',
+				i.subtotal AS 'subtotal',
+				i.impuesto AS 'impuesto',
+				i.descuento AS 'descuento',
+				i.recibide AS 'recibide',
+				COALESCE(cli.nombre, i.recibide) AS 'cliente',
+				i.nc AS 'nc',
+				i.total AS 'total',
+				i.fecha_registro AS 'fecha_registro',
+				CASE i.tipo_ingreso
+					WHEN 1 THEN 'Ingresos por Ventas'
+					WHEN 2 THEN 'Ingresos Manuales'
+					ELSE 'Otro'
+				END AS 'tipo_ingreso'
+			FROM
+				ingresos AS i
+			INNER JOIN
+				cuentas AS c ON i.cuentas_id = c.cuentas_id
+			INNER JOIN
+				clientes AS cli ON i.clientes_id = cli.clientes_id
+			WHERE 
+				CAST(i.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND i.estado = '".$datos['estado']."'
+			ORDER BY i.fecha_registro DESC;";
 
 			$result = self::connection()->query($query);
 
 			return $result;
-
 		}
 
 		public function ejecutar_consulta_simple($query){
@@ -3120,6 +3136,26 @@
 			$query = "SELECT nombre
 			FROM clientes
 			WHERE clientes_id = '$clientes_id'";
+			
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getNombreClienteLike($clientes_id){
+			$query = "SELECT nombre
+			FROM clientes
+			WHERE nombre LIKE '%$clientes_id%'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getProductosLike($clientes_id){
+			$query = "SELECT nombre
+			FROM productos
+			WHERE nombre LIKE '%$clientes_id%'";
 
 			$result = self::connection()->query($query);
 

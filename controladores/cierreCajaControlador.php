@@ -114,6 +114,9 @@
 							session_start(['name'=>'SD']); 
 						}
 
+						$consulta_nombre_ingresos_contabilidad = aperturaCajaModelo::getNombreClienteModelo($clientes_id)->fetch_assoc();
+						$recibide = $consulta_nombre_ingresos_contabilidad['nombre'];
+
 						$nc = 0;
 						$clientes_id = 2;
 						$empresa_id = $_SESSION['empresa_id_sd'];
@@ -137,7 +140,8 @@
 							"estado" => $estado,
 							"fecha_registro" => $fecha_registro,
 							"colaboradores_id" => $colaboradores_id_apertura,
-							"tipo_ingreso" => $tipo_ingreso				
+							"tipo_ingreso" => $tipo_ingreso,
+							"recibide" => $recibide				
 						];
 						
 						$resultIngresos = aperturaCajaModelo::valid_ingreso_cuentas_modelo($datosMontoTipoPago);

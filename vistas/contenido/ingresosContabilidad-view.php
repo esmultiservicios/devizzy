@@ -79,10 +79,11 @@
 	                    <thead>
 	                        <tr>
 	                            <th>Fecha Registro</th>
-	                            <th>Numero de Ingreso</th>
+	                            <th>Tipo</th>
+	                            <th>Ingreso #</th>
 	                            <th>Fecha Factura</th>
 	                            <th>Forma de Pago</th>
-	                            <th>Cliente</th>
+	                            <th>Recibí de</th>
 	                            <th>Número Factura</th>
 	                            <th>Subtotal</th>
 	                            <th>Impuesto</th>
@@ -96,7 +97,7 @@
 	                    <tfoot class="bg-info text-white font-weight-bold">
 	                        <tr>
 	                            <td colspan='1'>Total</td>
-	                            <td colspan="5"></td>
+	                            <td colspan="6"></td>
 	                            <td id="subtotal-i"></td>
 	                            <td id="impuesto-i"></td>
 	                            <td id="descuento-i"></td>
