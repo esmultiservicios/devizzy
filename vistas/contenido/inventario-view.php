@@ -91,7 +91,7 @@
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fab fa-servicestack mr-1"></i>
-                Inventario
+                Movimiento de Productos
             </div>
             <div class="card-body">
                 <div class="table-responsive">
