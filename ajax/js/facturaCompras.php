@@ -6,6 +6,7 @@ $(document).ready(function() {
     getProveedores();
     getColaboradores();
     getAlmacenProductos(0);
+    getCuentasProveedores();
 });
 
 function getColaboradorCompras() {
@@ -966,6 +967,21 @@ function getProveedores() {
             $('#purchase-form #proveedor').html("");
             $('#purchase-form #proveedor').html(data);
             $('#purchase-form #proveedor').selectpicker('refresh');
+        }
+    });
+}
+
+function getCuentasProveedores() {
+    var url = '<?php echo SERVERURL;?>core/getCuenta.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(data) {
+            $('#modal_pagosPurchase #metodopago_efectivo_compras').html("");
+            $('#modal_pagosPurchase #metodopago_efectivo_compras').html(data);
+            $('#modal_pagosPurchase #metodopago_efectivo_compras').selectpicker('refresh');
         }
     });
 }

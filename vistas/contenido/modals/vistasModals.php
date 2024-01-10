@@ -438,7 +438,7 @@
                         <div class="card card0">
                             <div class="d-flex" id="wrapper">
                                 <!-- Sidebar -->
-                                <div class="bg-light border-right" id="sidebar-wrapper">
+                                <!--<div class="bg-light border-right" id="sidebar-wrapper">
                                     <div class="sidebar-heading pt-5 pb-4"><strong>Método de pago</strong></div>
                                     <div class="list-group list-group-flush">
 
@@ -448,7 +448,7 @@
                                                 <div class="fas fa-money-bill-alt fa-lg"></div> &nbsp;&nbsp; Efectivo
                                             </div>
                                         </a>
-                                        <a data-toggle="tab" href="#menu2Purchase" id="tab2Purchase"
+                                        <!--<a data-toggle="tab" href="#menu2Purchase" id="tab2Purchase"
                                             class="tabs list-group-item">
                                             <div class="list-div my-2">
                                                 <div class="far fa-credit-card fa-lg"></div> &nbsp;&nbsp; Tarjeta
@@ -475,382 +475,375 @@
                                             </label>
                                             <span class="question mb-2 label_pagos_multiples"
                                                 id="label_pagos_multiples"></span>
-                                        </div>
+                                        </div>-->
 
+                            </div>
+                            <!-- </div> Page Content -->
+                            <div id="page-content-wrapper">
+                                <div class="row pt-3" id="border-btm">
+                                    <div class="col-2" style="display: none;">
+                                        <i id="menu-toggle1Purchase"
+                                            class="fas fa-angle-double-left fa-2x menu-toggle1"></i>
+                                        <i id="menu-toggle2Purchase"
+                                            class="fas fa-angle-double-right fa-2x menu-toggle2"></i>
                                     </div>
-                                </div> <!-- Page Content -->
-                                <div id="page-content-wrapper">
-                                    <div class="row pt-3" id="border-btm">
-                                        <div class="col-2">
-                                            <i id="menu-toggle1Purchase"
-                                                class="fas fa-angle-double-left fa-2x menu-toggle1"></i>
-                                            <i id="menu-toggle2Purchase"
-                                                class="fas fa-angle-double-right fa-2x menu-toggle2"></i>
-                                        </div>
-                                        <div class="col-10">
-                                            <div class="row justify-content-right">
-                                                <div class="col-12">
-                                                    <p class="mb-0 mr-4 mt-4 text-right" id="customer-name-Purchase">
-                                                    </p>
-                                                    <input type="hidden" name="customer_bill_pay"
-                                                        id="customer_Purchase_pay" placeholder="0.00">
-                                                </div>
+                                    <div class="col-10">
+                                        <div class="row justify-content-right">
+                                            <div class="col-12">
+                                                <p class="mb-0 mr-4 mt-4 text-right" id="customer-name-Purchase">
+                                                </p>
+                                                <input type="hidden" name="customer_bill_pay" id="customer_Purchase_pay"
+                                                    placeholder="0.00">
                                             </div>
-                                            <div class="row justify-content-right">
-                                                <div class="col-12">
-                                                    <p class="mb-0 mr-4 text-right color-text-white"><b>Pagar</b> <span
-                                                            class="top-highlight" id="Purchase-pay"></span> </p>
+                                        </div>
+                                        <div class="row justify-content-right">
+                                            <div class="col-12">
+                                                <p class="mb-0 mr-4 text-right color-text-white"><b>Pagar</b> <span
+                                                        class="top-highlight" id="Purchase-pay"></span> </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-content" style="height: auto; overflow-y:auto;">
+                                    <div id="menu1Purchase" class="tab-pane in active">
+                                        <div class="row justify-content-center">
+                                            <div class="col-11">
+                                                <div class="form-card">
+                                                    <h3 class="mt-0 mb-4 text-center">Ingrese detalles del Pago</h3>
+                                                    <form class="FormularioAjax" id="formEfectivoPurchase"
+                                                        action="<?php echo SERVERURL;?>ajax/addPagoComprasEfectivoAjax.php"
+                                                        method="POST" data-form="save" autocomplete="off"
+                                                        enctype="multipart/form-data">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="input-group">
+                                                                    <label for="fecha_compras_efectivo">Fecha</label>
+                                                                    <input type="date" name="fecha_compras_efectivo"
+                                                                        id="fecha_compras_efectivo" class="inputfield"
+                                                                        value="<?php echo date("Y-m-d");?>">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <label>Método de Pago</label>
+                                                                <div class="input-group">
+                                                                    <select id="metodopago_efectivo_compras"
+                                                                        name="metodopago_efectivo_compras"
+                                                                        class="selectpicker col-12" data-size="5"
+                                                                        data-width="100%" data-live-search="true"
+                                                                        title="Método de Pago">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="input-group">
+                                                                    <label for="monto_efectivo">Pago</label>
+                                                                    <input type="hidden" class="multiple_pago"
+                                                                        name="multiple_pago" value="0">
+                                                                    <input type="hidden" name="compras_id_efectivo"
+                                                                        id="compras_id_efectivo"
+                                                                        placeholder="Compra Codigo">
+                                                                    <input type="hidden" name="monto_efectivoPurchase"
+                                                                        id="monto_efectivoPurchase" placeholder="0.00">
+                                                                    <input type="text" name="efectivo_Purchase"
+                                                                        id="efectivo_Purchase" class="inputfield"
+                                                                        placeholder="0.00" step="0.01">
+                                                                    <input type="hidden" name="tipo_factura"
+                                                                        id="tipo_purchase_efectivo" value="1">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12" id="grupo_cambio_compras">
+                                                                <div class="input-group">
+                                                                    <label for="cambio_efectivo">Cambio</label>
+                                                                    <input type="number" readonly
+                                                                        name="cambio_efectivoPurchase"
+                                                                        id="cambio_efectivoPurchase" class="inputfield"
+                                                                        step="0.01" placeholder="0.00">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label>Quien Paga</label>
+                                                                <div class="input-group">
+                                                                    <select id="usuario_efectivo_compras"
+                                                                        name="usuario_efectivo_compras"
+                                                                        class="selectpicker col-12" data-size="5"
+                                                                        data-width="100%" data-live-search="true"
+                                                                        title="Usuario que Paga">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <input type="submit" value="Efectuar Pago"
+                                                                    id="pago_efectivo"
+                                                                    class="mt-3 pay btn btn-info placeicon"
+                                                                    form="formEfectivoPurchase">
+                                                            </div>
+                                                        </div>
+                                                        <div class="RespuestaAjax"></div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-content" style="height: auto; overflow-y:auto;">
-                                        <div id="menu1Purchase" class="tab-pane in active">
-                                            <div class="row justify-content-center">
-                                                <div class="col-11">
-                                                    <div class="form-card">
-                                                        <h3 class="mt-0 mb-4 text-center">Ingrese detalles del Pago</h3>
-                                                        <form class="FormularioAjax" id="formEfectivoPurchase"
-                                                            action="<?php echo SERVERURL;?>ajax/addPagoComprasEfectivoAjax.php"
-                                                            method="POST" data-form="save" autocomplete="off"
-                                                            enctype="multipart/form-data">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <div class="input-group">
-                                                                        <label
-                                                                            for="fecha_compras_efectivo">Fecha</label>
-                                                                        <input type="date" name="fecha_compras_efectivo"
-                                                                            id="fecha_compras_efectivo"
-                                                                            class="inputfield"
-                                                                            value="<?php echo date("Y-m-d");?>">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <div class="input-group">
-                                                                        <label for="monto_efectivo">Efectivo</label>
-                                                                        <input type="hidden" class="multiple_pago"
-                                                                            name="multiple_pago" value="0">
-                                                                        <input type="hidden" name="compras_id_efectivo"
-                                                                            id="compras_id_efectivo"
-                                                                            placeholder="Compra Codigo">
-                                                                        <input type="hidden"
-                                                                            name="monto_efectivoPurchase"
-                                                                            id="monto_efectivoPurchase"
-                                                                            placeholder="0.00">
-                                                                        <input type="text" name="efectivo_Purchase"
-                                                                            id="efectivo_Purchase" class="inputfield"
-                                                                            placeholder="0.00" step="0.01">
-                                                                        <input type="hidden" name="tipo_factura"
-                                                                            id="tipo_purchase_efectivo" value="1">
-
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12" id="grupo_cambio_compras">
-                                                                    <div class="input-group">
-                                                                        <label for="cambio_efectivo">Cambio</label>
-                                                                        <input type="number" readonly
-                                                                            name="cambio_efectivoPurchase"
-                                                                            id="cambio_efectivoPurchase"
-                                                                            class="inputfield" step="0.01"
-                                                                            placeholder="0.00">
-                                                                    </div>
+                                    <div id="menu2Purchase" class="tab-pane" style="display: none;">
+                                        <div class="row justify-content-center">
+                                            <div class="col-11">
+                                                <div class="form-card">
+                                                    <h3 class="mt-0 mb-4 text-center">Ingrese detalles de la Tarjeta
+                                                    </h3>
+                                                    <form class="FormularioAjax" id="formTarjetaPurchase" method="POST"
+                                                        data-form="save"
+                                                        action="<?php echo SERVERURL;?>ajax/addPagoComprasTarjetaAjax.php"
+                                                        autocomplete="off" enctype="multipart/form-data">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="input-group">
+                                                                    <label for="fecha_compras_tarjeta">Fecha</label>
+                                                                    <input type="date" name="fecha_compras_tarjeta"
+                                                                        id="fecha_compras_tarjeta" class="inputfield"
+                                                                        value="<?php echo date("Y-m-d");?>">
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <label>Quien Paga</label>
-                                                                    <div class="input-group">
-                                                                        <select id="usuario_efectivo_compras"
-                                                                            name="usuario_efectivo_compras"
-                                                                            class="selectpicker col-12" data-size="5"
-                                                                            data-width="100%" data-live-search="true"
-                                                                            title="Usuario que Paga">
-                                                                        </select>
-                                                                    </div>
+                                                            <div class="col-12">
+                                                                <div class="input-group">
+                                                                    <label>Número de Tarjeta</label>
+                                                                    <input type="hidden" class="multiple_pago"
+                                                                        name="multiple_pago" value="0">
+                                                                    <input type="hidden" name="compras_id_tarjeta"
+                                                                        id="compras_id_tarjeta"
+                                                                        placeholder="Compra Codigo">
+                                                                    <input type="text" id="cr_Purchase"
+                                                                        name="cr_Purchase" class="inputfield"
+                                                                        placeholder="XXXX">
+                                                                    <input type="hidden" name="monto_efectivoPurchase"
+                                                                        id="monto_efectivoPurchase" placeholder="0.00">
+                                                                    <input type="hidden" name="monto_efectivo_tarjeta"
+                                                                        id="monto_efectivo_tarjeta" class="inputfield"
+                                                                        step="0.01" placeholder="0.00"
+                                                                        data-toggle="tooltip" data-placement="top"
+                                                                        title="Ingrese el monto">
+                                                                    <input type="hidden" name="tipo_factura"
+                                                                        id="tipo_purchase_efectivo" value="1">
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <input type="submit" value="Efectuar Pago"
-                                                                        id="pago_efectivo"
-                                                                        class="mt-3 pay btn btn-info placeicon"
-                                                                        form="formEfectivoPurchase">
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="input-group">
+                                                                    <label> Fecha de Expiración</label>
+                                                                    <input type="text" name="exp" id="exp"
+                                                                        class="mask inputfield" placeholder="MM/YY">
                                                                 </div>
                                                             </div>
-                                                            <div class="RespuestaAjax"></div>
-                                                        </form>
-                                                    </div>
+                                                            <div class="col-6">
+                                                                <div class="input-group">
+                                                                    <label>Número Aprobación</label>
+                                                                    <input type="text" name="cvcpwd" id="cvcpwd"
+                                                                        class="placeicon inputfield">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label>Quien Paga</label>
+                                                                <div class="input-group">
+                                                                    <select id="usuario_tarjeta_compras"
+                                                                        name="usuario_tarjeta_compras"
+                                                                        class="selectpicker col-12" data-size="5"
+                                                                        data-width="100%" data-live-search="true"
+                                                                        title="Usuario que Paga">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <input type="submit" value="Efectuar Pago"
+                                                                    id="pago_tarjeta"
+                                                                    class="mt-3 pay btn btn-info placeicon"
+                                                                    form="formTarjetaPurchase">
+                                                            </div>
+                                                        </div>
+                                                        <div class="RespuestaAjax"></div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="menu2Purchase" class="tab-pane">
-                                            <div class="row justify-content-center">
-                                                <div class="col-11">
-                                                    <div class="form-card">
-                                                        <h3 class="mt-0 mb-4 text-center">Ingrese detalles de la Tarjeta
-                                                        </h3>
-                                                        <form class="FormularioAjax" id="formTarjetaPurchase"
-                                                            method="POST" data-form="save"
-                                                            action="<?php echo SERVERURL;?>ajax/addPagoComprasTarjetaAjax.php"
-                                                            autocomplete="off" enctype="multipart/form-data">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <div class="input-group">
-                                                                        <label for="fecha_compras_tarjeta">Fecha</label>
-                                                                        <input type="date" name="fecha_compras_tarjeta"
-                                                                            id="fecha_compras_tarjeta"
-                                                                            class="inputfield"
-                                                                            value="<?php echo date("Y-m-d");?>">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <div class="input-group">
-                                                                        <label>Número de Tarjeta</label>
-                                                                        <input type="hidden" class="multiple_pago"
-                                                                            name="multiple_pago" value="0">
-                                                                        <input type="hidden" name="compras_id_tarjeta"
-                                                                            id="compras_id_tarjeta"
-                                                                            placeholder="Compra Codigo">
-                                                                        <input type="text" id="cr_Purchase"
-                                                                            name="cr_Purchase" class="inputfield"
-                                                                            placeholder="XXXX">
-                                                                        <input type="hidden"
-                                                                            name="monto_efectivoPurchase"
-                                                                            id="monto_efectivoPurchase"
-                                                                            placeholder="0.00">
-                                                                        <input type="hidden"
-                                                                            name="monto_efectivo_tarjeta"
-                                                                            id="monto_efectivo_tarjeta"
-                                                                            class="inputfield" step="0.01"
-                                                                            placeholder="0.00" data-toggle="tooltip"
-                                                                            data-placement="top"
-                                                                            title="Ingrese el monto">
-                                                                        <input type="hidden" name="tipo_factura"
-                                                                            id="tipo_purchase_efectivo" value="1">
-                                                                    </div>
+                                    </div>
+                                    <div id="menu3Purchase" class="tab-pane" style="display: none;">
+                                        <div class="row justify-content-center">
+                                            <div class="col-11">
+                                                <div class="form-card">
+                                                    <h3 class="mt-0 mb-4 text-center">Ingrese detalles de la
+                                                        Transferencia</h3>
+                                                    <form class="FormularioAjax" id="formTransferenciaPurchase"
+                                                        method="POST" data-form="save"
+                                                        action="<?php echo SERVERURL;?>ajax/addPagoComprasTransferenciaAjax.php"
+                                                        autocomplete="off" enctype="multipart/form-data">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="input-group">
+                                                                    <label
+                                                                        for="fecha_compras_transferencia">Fecha</label>
+                                                                    <input type="date"
+                                                                        name="fecha_compras_transferencia"
+                                                                        id="fecha_compras_transferencia"
+                                                                        class="inputfield"
+                                                                        value="<?php echo date("Y-m-d");?>">
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    <div class="input-group">
-                                                                        <label> Fecha de Expiración</label>
-                                                                        <input type="text" name="exp" id="exp"
-                                                                            class="mask inputfield" placeholder="MM/YY">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <div class="input-group">
-                                                                        <label>Número Aprobación</label>
-                                                                        <input type="text" name="cvcpwd" id="cvcpwd"
-                                                                            class="placeicon inputfield">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <label>Quien Paga</label>
-                                                                    <div class="input-group">
-                                                                        <select id="usuario_tarjeta_compras"
-                                                                            name="usuario_tarjeta_compras"
-                                                                            class="selectpicker col-12" data-size="5"
-                                                                            data-width="100%" data-live-search="true"
-                                                                            title="Usuario que Paga">
-                                                                        </select>
-                                                                    </div>
+                                                            <div class="col-12">
+                                                                <label>Banco</label>
+                                                                <div class="input-group">
+                                                                    <input type="hidden" name="compras_id_transferencia"
+                                                                        id="compras_id_transferencia"
+                                                                        placeholder="Compra Codigo">
+                                                                    <select id="bk_nm" name="bk_nm" required
+                                                                        class="selectpicker col-12" data-size="5"
+                                                                        data-width="100%" data-live-search="true"
+                                                                        title="banco">
+                                                                    </select>
+                                                                    <input type="hidden" class="multiple_pago"
+                                                                        name="multiple_pago" value="0">
+                                                                    <input type="hidden" name="importe_transferencia"
+                                                                        id="importe_transferencia"
+                                                                        class="inputfield mt-5" step="0.01"
+                                                                        placeholder="0.00" data-toggle="tooltip"
+                                                                        data-placement="top" title="Ingrese el monto">
+                                                                    <input type="hidden" name="monto_efectivoPurchase"
+                                                                        id="monto_efectivoPurchase" placeholder="0.00">
+                                                                    <input type="hidden" name="tipo_factura"
+                                                                        id="tipo_purchase_efectivo" value="1">
+
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <input type="submit" value="Efectuar Pago"
-                                                                        id="pago_tarjeta"
-                                                                        class="mt-3 pay btn btn-info placeicon"
-                                                                        form="formTarjetaPurchase">
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="input-group">
+                                                                    <label>Número de Autorización</label>
+                                                                    <input type="text" name="ben_nm" id="ben_nm"
+                                                                        class="inputfield"
+                                                                        placeholder="Número de Autorización">
                                                                 </div>
                                                             </div>
-                                                            <div class="RespuestaAjax"></div>
-                                                        </form>
-                                                    </div>
+                                                            <div class="col-12" style="display: none;">
+                                                                <div class="input-group">
+                                                                    <input type="text" name="scode"
+                                                                        placeholder="ABCDAB1S" class="placeicon"
+                                                                        minlength="8" maxlength="11">
+                                                                    <label>SWIFT CODE</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label>Quien Paga</label>
+                                                                <div class="input-group">
+                                                                    <select id="usuario_transferencia_compras"
+                                                                        name="usuario_transferencia_compras"
+                                                                        class="selectpicker col-12" data-size="5"
+                                                                        data-width="100%" data-live-search="true"
+                                                                        title="Usuario que Paga">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <input type="submit" value="Efectuar Pago"
+                                                                    id="pago_transferencia"
+                                                                    class="mt-3 pay btn btn-info placeicon"
+                                                                    form="formTransferenciaPurchase">
+                                                            </div>
+                                                        </div>
+                                                        <div class="RespuestaAjax"></div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="menu3Purchase" class="tab-pane">
-                                            <div class="row justify-content-center">
-                                                <div class="col-11">
-                                                    <div class="form-card">
-                                                        <h3 class="mt-0 mb-4 text-center">Ingrese detalles de la
-                                                            Transferencia</h3>
-                                                        <form class="FormularioAjax" id="formTransferenciaPurchase"
-                                                            method="POST" data-form="save"
-                                                            action="<?php echo SERVERURL;?>ajax/addPagoComprasTransferenciaAjax.php"
-                                                            autocomplete="off" enctype="multipart/form-data">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <div class="input-group">
-                                                                        <label
-                                                                            for="fecha_compras_transferencia">Fecha</label>
-                                                                        <input type="date"
-                                                                            name="fecha_compras_transferencia"
-                                                                            id="fecha_compras_transferencia"
-                                                                            class="inputfield"
-                                                                            value="<?php echo date("Y-m-d");?>">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <label>Banco</label>
-                                                                    <div class="input-group">
-                                                                        <input type="hidden"
-                                                                            name="compras_id_transferencia"
-                                                                            id="compras_id_transferencia"
-                                                                            placeholder="Compra Codigo">
-                                                                        <select id="bk_nm" name="bk_nm" required
-                                                                            class="selectpicker col-12" data-size="5"
-                                                                            data-width="100%" data-live-search="true"
-                                                                            title="banco">
-                                                                        </select>
-                                                                        <input type="hidden" class="multiple_pago"
-                                                                            name="multiple_pago" value="0">
-                                                                        <input type="hidden"
-                                                                            name="importe_transferencia"
-                                                                            id="importe_transferencia"
-                                                                            class="inputfield mt-5" step="0.01"
-                                                                            placeholder="0.00" data-toggle="tooltip"
-                                                                            data-placement="top"
-                                                                            title="Ingrese el monto">
-                                                                        <input type="hidden"
-                                                                            name="monto_efectivoPurchase"
-                                                                            id="monto_efectivoPurchase"
-                                                                            placeholder="0.00">
-                                                                        <input type="hidden" name="tipo_factura"
-                                                                            id="tipo_purchase_efectivo" value="1">
+                                    </div>
 
-                                                                    </div>
+                                    <div id="menu4Purchase" class="tab-pane" style="display: none;">
+                                        <div class="row justify-content-center">
+                                            <div class="col-11">
+                                                <div class="form-card">
+                                                    <h3 class="mt-0 mb-4 text-center">Ingrese detalles del Cheque
+                                                    </h3>
+                                                    <form class="FormularioAjax" id="formChequePurchase" method="POST"
+                                                        data-form="save"
+                                                        action="<?php echo SERVERURL;?>ajax/addPagoComprasChequeAjax.php"
+                                                        autocomplete="off" enctype="multipart/form-data">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="input-group">
+                                                                    <label for="fecha_compras_cheque">Fecha</label>
+                                                                    <input type="date" name="fecha_compras_cheque"
+                                                                        id="fecha_compras_cheque" class="inputfield"
+                                                                        value="<?php echo date("Y-m-d");?>">
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <div class="input-group">
-                                                                        <label>Número de Autorización</label>
-                                                                        <input type="text" name="ben_nm" id="ben_nm"
-                                                                            class="inputfield"
-                                                                            placeholder="Número de Autorización">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12" style="display: none;">
-                                                                    <div class="input-group">
-                                                                        <input type="text" name="scode"
-                                                                            placeholder="ABCDAB1S" class="placeicon"
-                                                                            minlength="8" maxlength="11">
-                                                                        <label>SWIFT CODE</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <label>Quien Paga</label>
-                                                                    <div class="input-group">
-                                                                        <select id="usuario_transferencia_compras"
-                                                                            name="usuario_transferencia_compras"
-                                                                            class="selectpicker col-12" data-size="5"
-                                                                            data-width="100%" data-live-search="true"
-                                                                            title="Usuario que Paga">
-                                                                        </select>
-                                                                    </div>
+                                                            <div class="col-12">
+                                                                <label>Banco</label>
+                                                                <div class="input-group">
+                                                                    <input type="hidden" name="compras_id_cheque"
+                                                                        id="compras_id_cheque">
+                                                                    <select id="bk_nm_chk" name="bk_nm_chk" required
+                                                                        class="selectpicker col-12" data-size="5"
+                                                                        data-width="100%" data-live-search="true"
+                                                                        title="banco">
+                                                                    </select>
+                                                                    <input type="hidden" class="multiple_pago"
+                                                                        name="multiple_pago" value="0">
+                                                                    <input type="number" name="importe_cheque"
+                                                                        id="importe_cheque" class="inputfield mt-5"
+                                                                        step="0.01" placeholder="0.00"
+                                                                        data-toggle="tooltip" data-placement="top"
+                                                                        title="Ingrese el monto">
+                                                                    <input type="hidden" name="tipo_factura"
+                                                                        id="tipo_purchase_efectivo" value="1">
+                                                                    <input type="hidden" name="monto_efectivoPurchase"
+                                                                        id="monto_efectivoPurchase" placeholder="0.00">
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <input type="submit" value="Efectuar Pago"
-                                                                        id="pago_transferencia"
-                                                                        class="mt-3 pay btn btn-info placeicon"
-                                                                        form="formTransferenciaPurchase">
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="input-group">
+                                                                    <label>Número de Cheque</label>
+                                                                    <input type="text" name="check_num" id="check_num"
+                                                                        class="inputfield"
+                                                                        placeholder="Número de Cheque">
                                                                 </div>
                                                             </div>
-                                                            <div class="RespuestaAjax"></div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="menu4Purchase" class="tab-pane">
-                                            <div class="row justify-content-center">
-                                                <div class="col-11">
-                                                    <div class="form-card">
-                                                        <h3 class="mt-0 mb-4 text-center">Ingrese detalles del Cheque
-                                                        </h3>
-                                                        <form class="FormularioAjax" id="formChequePurchase"
-                                                            method="POST" data-form="save"
-                                                            action="<?php echo SERVERURL;?>ajax/addPagoComprasChequeAjax.php"
-                                                            autocomplete="off" enctype="multipart/form-data">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <div class="input-group">
-                                                                        <label for="fecha_compras_cheque">Fecha</label>
-                                                                        <input type="date" name="fecha_compras_cheque"
-                                                                            id="fecha_compras_cheque" class="inputfield"
-                                                                            value="<?php echo date("Y-m-d");?>">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <label>Banco</label>
-                                                                    <div class="input-group">
-                                                                        <input type="hidden" name="compras_id_cheque"
-                                                                            id="compras_id_cheque">
-                                                                        <select id="bk_nm_chk" name="bk_nm_chk" required
-                                                                            class="selectpicker col-12" data-size="5"
-                                                                            data-width="100%" data-live-search="true"
-                                                                            title="banco">
-                                                                        </select>
-                                                                        <input type="hidden" class="multiple_pago"
-                                                                            name="multiple_pago" value="0">
-                                                                        <input type="number" name="importe_cheque"
-                                                                            id="importe_cheque" class="inputfield mt-5"
-                                                                            step="0.01" placeholder="0.00"
-                                                                            data-toggle="tooltip" data-placement="top"
-                                                                            title="Ingrese el monto">
-                                                                        <input type="hidden" name="tipo_factura"
-                                                                            id="tipo_purchase_efectivo" value="1">
-                                                                        <input type="hidden"
-                                                                            name="monto_efectivoPurchase"
-                                                                            id="monto_efectivoPurchase"
-                                                                            placeholder="0.00">
-                                                                    </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label>Quien Paga</label>
+                                                                <div class="input-group">
+                                                                    <select id="usuario_cheque_compras"
+                                                                        name="usuario_cheque_compras"
+                                                                        class="selectpicker col-12" data-size="5"
+                                                                        data-width="100%" data-live-search="true"
+                                                                        title="Usuario que Paga">
+                                                                    </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <div class="input-group">
-                                                                        <label>Número de Cheque</label>
-                                                                        <input type="text" name="check_num"
-                                                                            id="check_num" class="inputfield"
-                                                                            placeholder="Número de Cheque">
-                                                                    </div>
-                                                                </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <input type="submit" value="Efectuar Pago"
+                                                                    id="pago_transferencia"
+                                                                    class="mt-3 pay btn btn-info placeicon"
+                                                                    form="formChequePurchase">
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <label>Quien Paga</label>
-                                                                    <div class="input-group">
-                                                                        <select id="usuario_cheque_compras"
-                                                                            name="usuario_cheque_compras"
-                                                                            class="selectpicker col-12" data-size="5"
-                                                                            data-width="100%" data-live-search="true"
-                                                                            title="Usuario que Paga">
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <input type="submit" value="Efectuar Pago"
-                                                                        id="pago_transferencia"
-                                                                        class="mt-3 pay btn btn-info placeicon"
-                                                                        form="formChequePurchase">
-                                                                </div>
-                                                            </div>
-                                                            <div class="RespuestaAjax"></div>
-                                                        </form>
-                                                    </div>
+                                                        </div>
+                                                        <div class="RespuestaAjax"></div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -860,11 +853,12 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
+
+
         </div>
     </div>
+</div>
 </div>
 <!--FIN MODAL PAGOS COMPRAS-->
 

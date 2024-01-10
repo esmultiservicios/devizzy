@@ -69,8 +69,8 @@
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
                             <label for="factura_ingresos" data-toggle="tooltip" data-placement="top"
-                                title="Añade un número de factura opcional para propósitos fiscales. Recomendamos su uso para un mejor control.">Factura</label>
-                            <input type="text" id="factura_ingresos" name="factura_ingresos" placeholder="Factura"
+                                title="Añade un número de factura opcional para propósitos fiscales. Recomendamos su uso para un mejor control.">Método</label>
+                            <input type="text" id="factura_ingresos" name="factura_ingresos" placeholder="Método"
                                 class="form-control" maxlength="19"
                                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
                         </div>

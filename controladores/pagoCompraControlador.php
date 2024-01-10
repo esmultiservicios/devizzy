@@ -17,7 +17,8 @@
 			$importe = $_POST['monto_efectivoPurchase'];
 			$abono = isset($_POST['efectivo_Purchase']) ? $_POST['efectivo_Purchase'] : 0;
 			$cambio = $_POST['cambio_efectivoPurchase'];
-			$empresa_id = $_SESSION['empresa_id_sd'];	
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$cuentas_id = $_POST['metodopago_efectivo_compras'];
 			$banco_id = 0;//SIN BANCO	
 			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO
 			$metodo_pago = 1; //EFECTIVO
@@ -59,6 +60,7 @@
 				"referencia_pago2" => $referencia_pago2,
 				"referencia_pago3" => $referencia_pago3,
 				"colaboradores_id" => $colaboradores_id,
+				"cuentas_id" => $cuentas_id,
 			];
 
 			$alert = pagoCompraModelo::agregar_pago_compras_base($datos);

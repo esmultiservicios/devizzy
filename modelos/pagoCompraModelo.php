@@ -27,6 +27,7 @@
 			$efectivo = $res['efectivo'];
 			$tarjeta = 	$res['tarjeta'];
 			$multiple_pago = $res['multiple_pago'];	
+			$cuentas_id = $res['cuentas_id'];
 			$categoria_gastos_id = 0;
 
 			isset($res["colaboradores_id"]) ? $colaboradores_id = $res["colaboradores_id"] : $colaboradores_id = '';
@@ -135,8 +136,10 @@
 					
 					/**###########################################################################################################*/
 					//CONSULTAMOS LA CUENTA_ID SEGUN EL TIPO DE PAGO
+					/*
 					$consulta_fecha_compra = self::consultar_cuenta_contabilidad_tipo_pago($metodo_pago)->fetch_assoc();
 					$cuentas_id = $consulta_fecha_compra['cuentas_id'];
+					*/
 
 					//CONSULTAMOS EL PROVEEDOR
 					$consulta_fecha_compra = pagoCompraModelo::consultar_proveedor_id_compra($compras_id)->fetch_assoc();
@@ -331,8 +334,8 @@
 				}
 					
 				//CONSULTAMOS LA CUENTA_ID SEGUN EL TIPO DE PAGO
-				$consulta_fecha_compra = self::consultar_cuenta_contabilidad_tipo_pago($metodo_pago)->fetch_assoc();
-				$cuentas_id = $consulta_fecha_compra['cuentas_id'];
+				/*$consulta_fecha_compra = self::consultar_cuenta_contabilidad_tipo_pago($metodo_pago)->fetch_assoc();
+				$cuentas_id = $consulta_fecha_compra['cuentas_id'];*/
 
 				//CONSULTAMOS EL PROVEEDOR
 				$consulta_fecha_compra = self::consultar_proveedor_id_compra($compras_id)->fetch_assoc();

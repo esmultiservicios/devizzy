@@ -2681,7 +2681,7 @@
 		}
 		
 		public function getEgresosContables($datos){
-			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', e.factura AS 'factura', e.subtotal as 'subtotal', e.impuesto AS 'impuesto', e.descuento AS 'descuento', e.nc AS 'nc', e.total AS 'total', e.fecha_registro As 'fecha_registro', cg.nombre AS 'categoria'
+			$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', e.factura AS 'factura', e.subtotal as 'subtotal', e.impuesto AS 'impuesto', e.descuento AS 'descuento', e.nc AS 'nc', e.total AS 'total', e.fecha_registro As 'fecha_registro', cg.nombre AS 'categoria', e.observacion
 				FROM egresos AS e
 				INNER JOIN cuentas AS c
 				ON e.cuentas_id = c.cuentas_id
