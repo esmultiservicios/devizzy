@@ -88,7 +88,6 @@
 	                            <th>Subtotal</th>
 	                            <th>Impuesto</th>
 	                            <th>Descuento</th>
-	                            <th>Nota Crédito</th>
 	                            <th>Total</th>
 	                            <th>Editar</th>
 	                            <th>Imprimir</th>
@@ -101,7 +100,6 @@
 	                            <td id="subtotal-i"></td>
 	                            <td id="impuesto-i"></td>
 	                            <td id="descuento-i"></td>
-	                            <td id="nc-i"></td>
 	                            <td colspan='1' id='total-footer-ingreso'></td>
 	                            <td colspan="2"></td>
 	                        </tr>

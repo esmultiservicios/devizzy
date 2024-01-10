@@ -91,7 +91,7 @@
                             <input type="number" id="descuento_ingresos" name="descuento_ingresos"
                                 placeholder="Descuento" class="form-control" step="0.01" value="0" />
                         </div>
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 mb-4" style="display: none">
                             <label for="nc_ingresos">Nota Crédito </label>
                             <input type="number" id="nc_ingresos" name="nc_ingresos" placeholder="NC"
                                 class="form-control" step="0.01" value="0" />

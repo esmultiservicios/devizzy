@@ -19,7 +19,7 @@
 			$subtotal = mainModel::cleanStringConverterCase($_POST['subtotal_ingresos'] === "" ? 0 : $_POST['subtotal_ingresos']);
 			$isv = mainModel::cleanStringConverterCase($_POST['isv_ingresos'] === "" ? 0 : $_POST['isv_ingresos']);
 			$descuento = mainModel::cleanStringConverterCase($_POST['descuento_ingresos'] === "" ? 0 : $_POST['descuento_ingresos']);
-			$nc = mainModel::cleanStringConverterCase($_POST['nc_ingresos'] === "" ? 0 : $_POST['nc_ingresos']);
+			$nc = 0;
 			$total = mainModel::cleanStringConverterCase($_POST['total_ingresos'] === "" ? 0 : $_POST['total_ingresos']);
 			$observacion = mainModel::cleanString($_POST['observacion_ingresos']);
 			$recibide = mainModel::cleanString($_POST['recibide_ingresos']);

@@ -2619,35 +2619,36 @@
 
 		public function getIngresosContables($datos){
 			$query = "SELECT
-				i.ingresos_id AS 'ingresos_id',
-				i.fecha AS 'fecha',
-				c.codigo AS 'codigo',
-				c.nombre AS 'nombre',
-				cli.nombre AS 'cliente',
-				i.factura AS 'factura',
-				i.subtotal AS 'subtotal',
-				i.impuesto AS 'impuesto',
-				i.descuento AS 'descuento',
-				i.recibide AS 'recibide',
-				COALESCE(cli.nombre, i.recibide) AS 'cliente',
-				i.nc AS 'nc',
-				i.total AS 'total',
-				i.fecha_registro AS 'fecha_registro',
+					i.ingresos_id AS 'ingresos_id',
+					i.fecha AS 'fecha',
+					c.codigo AS 'codigo',
+					c.nombre AS 'nombre',
+					cli.nombre AS 'cliente',
+					i.factura AS 'factura',
+					i.subtotal AS 'subtotal',
+					i.impuesto AS 'impuesto',
+					i.descuento AS 'descuento',
+					i.recibide AS 'recibide',
+					COALESCE(cli.nombre, i.recibide) AS 'cliente',
+					i.nc AS 'nc',
+					i.total AS 'total',
+					i.fecha_registro AS 'fecha_registro',
 				CASE i.tipo_ingreso
 					WHEN 1 THEN 'Ingresos por Ventas'
 					WHEN 2 THEN 'Ingresos Manuales'
 					ELSE 'Otro'
 				END AS 'tipo_ingreso'
-			FROM
-				ingresos AS i
-			INNER JOIN
-				cuentas AS c ON i.cuentas_id = c.cuentas_id
-			INNER JOIN
-				clientes AS cli ON i.clientes_id = cli.clientes_id
-			WHERE 
-				CAST(i.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND i.estado = '".$datos['estado']."'
-			ORDER BY i.fecha_registro DESC;";
+				FROM
+					ingresos AS i
+				INNER JOIN
+					cuentas AS c ON i.cuentas_id = c.cuentas_id
+				INNER JOIN
+					clientes AS cli ON i.clientes_id = cli.clientes_id
+				WHERE 
+					CAST(i.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND i.estado = '".$datos['estado']."'
+				ORDER BY i.fecha_registro DESC;";
 
+			echo $query."***";
 			$result = self::connection()->query($query);
 
 			return $result;

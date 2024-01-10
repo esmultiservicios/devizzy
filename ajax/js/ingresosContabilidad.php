@@ -148,25 +148,6 @@ var listar_ingresos_contabilidad = function() {
                 },
             },
             {
-                "data": "nc",
-                render: function(data, type) {
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, 'L ')
-                        .display(data);
-
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        }
-
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
-
-                    return number;
-                },
-            },
-            {
                 "data": "total",
                 render: function(data, type) {
                     var number = $.fn.dataTable.render
@@ -249,10 +230,6 @@ var listar_ingresos_contabilidad = function() {
                 width: "8.33%",
                 targets: 12
             },
-            {
-                width: "8.33%",
-                targets: 13
-            }
         ],
         "buttons": [{
                 text: '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
@@ -324,7 +301,6 @@ var listar_ingresos_contabilidad = function() {
     view_reporte_ingresos_dataTable("#dataTableIngresosContabilidad tbody", table_ingresos_contabilidad);
     total_ingreso_footer();
 }
-
 
 var edit_reporte_ingresos_dataTable = function(tbody, table) {
     $(tbody).off("click", "button.table_editar");
