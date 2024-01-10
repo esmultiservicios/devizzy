@@ -270,7 +270,8 @@
                                         <div class="sb-nav-link-icon"></div>Tipo Factura
                                     </span>
                                     <select id="tipo_cotizacion_reporte" name="tipo_cotizacion_reporte"
-                                        class="selectpicker" title="Tipo Factura" data-live-search="true">
+                                        data-width="100%" class="selectpicker" title="Tipo Factura"
+                                        data-live-search="true">
                                     </select>
                                 </div>
                             </div>
@@ -373,7 +374,7 @@
                                         <div class="sb-nav-link-icon"></div>Estado
                                     </span>
                                     <select id="cobrar_clientes_estado" name="cobrar_clientes_estado"
-                                        class="selectpicker" title="Estado" data-live-search="true">
+                                        class="selectpicker" data-width="100%" title="Estado" data-live-search="true">
                                     </select>
                                 </div>
                             </div>
@@ -385,7 +386,7 @@
                                         <div class="sb-nav-link-icon"></div>Clientes
                                     </span>
                                     <select id="cobrar_clientes" name="cobrar_clientes" class="selectpicker"
-                                        title="Clientes" data-live-search="true">
+                                        data-width="100%" title="Clientes" data-live-search="true">
                                     </select>
                                 </div>
                             </div>
@@ -560,7 +561,7 @@
                                         <div class="sb-nav-link-icon"></div>Tipo Factura
                                     </span>
                                     <select id="tipo_factura_reporte" name="tipo_factura_reporte" class="selectpicker"
-                                        title="Tipo de Factura" data-live-search="true">
+                                        data-width="100%" title="Tipo de Factura" data-live-search="true">
                                     </select>
                                 </div>
                             </div>
@@ -572,7 +573,7 @@
                                         <div class="sb-nav-link-icon"></div>Facturador
                                     </span>
                                     <select id="facturador" name="facturador" class="selectpicker" title="Facturador"
-                                        data-live-search="true">
+                                        data-width="100%" data-live-search="true">
                                     </select>
                                 </div>
                             </div>
@@ -584,7 +585,7 @@
                                         <div class="sb-nav-link-icon"></div>Vendedor
                                     </span>
                                     <select id="vendedor" name="vendedor" class="selectpicker" title="Vendedor"
-                                        data-live-search="true">
+                                        data-width="100%" data-live-search="true">
                                     </select>
                                 </div>
                             </div>

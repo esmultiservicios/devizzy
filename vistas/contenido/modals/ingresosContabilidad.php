@@ -42,7 +42,7 @@
                             <label for="cliente_ingresos">Proveedor <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="cliente_ingresos" name="cliente_ingresos" class="selectpicker"
-                                    data-size="10" data-live-search="true" title="Proveedor">
+                                    data-width="100%" data-size="10" data-live-search="true" title="Proveedor">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -51,7 +51,7 @@
                             <label for="cuenta_ingresos">Cuenta <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="cuenta_ingresos" name="cuenta_ingresos" class="selectpicker" data-size="7"
-                                    data-live-search="true" title="Cuenta" required>
+                                    data-width="100%" data-live-search="true" title="Cuenta" required>
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -60,7 +60,7 @@
                             <label for="empresa_ingresos">Empresa <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="empresa_ingresos" name="empresa_ingresos" class="selectpicker"
-                                    data-size="10" data-live-search="true" title="Empresa">
+                                    data-width="100%" data-size="10" data-live-search="true" title="Empresa">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>

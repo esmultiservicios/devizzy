@@ -31,7 +31,7 @@
                             <label>Empresa <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="almacen_empresa_id" name="almacen_empresa_id" required class="selectpicker"
-                                    data-live-search="true" title="Empresa">
+                                    data-width="100%" data-live-search="true" title="Empresa">
                                 </select>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                             <label for="ubicacion_almacen">Ubicación <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="ubicacion_almacen" required name="ubicacion_almacen" class="selectpicker"
-                                    data-live-search="true" title="Ubicacion">
+                                    data-width="100%" data-live-search="true" title="Ubicacion">
                                 </select>
                             </div>
                         </div>

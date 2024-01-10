@@ -178,8 +178,8 @@
                         <div class="col-md-3 mb-3">
                             <label for="colaborador_id_usuario">Colaboradores <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
-                                <select id="colaborador_id_usuario" name="colaborador_id_usuario" class="selectpicker"
-                                    data-live-search="true" title="Colaboradores">
+                                <select id="colaborador_id_usuario" name="colaborador_id_usuario" data-width="100%"
+                                    class="selectpicker" data-live-search="true" title="Colaboradores">
                                 </select>
                             </div>
                         </div>
@@ -199,7 +199,7 @@
                             <label for="empresa_usuario">Empresa <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="empresa_usuario" name="empresa_usuario" class="selectpicker"
-                                    data-live-search="true" title="Empresa">
+                                    data-width="100%" data-live-search="true" title="Empresa">
                                 </select>
                             </div>
                         </div>
@@ -211,7 +211,7 @@
                             <label for="tipo_user">Perrmisos <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="tipo_user" name="tipo_user" class="selectpicker" data-live-search="true"
-                                    title="Tipo Usuario">
+                                    data-width="100%" title="Tipo Usuario">
                                 </select>
                             </div>
                         </div>
@@ -219,7 +219,7 @@
                             title="'Privilegio' determina qué áreas y menús puedes acceder. Es tu permiso para entrar a distintas partes.">
                             <label for="privilegio_id">Privilegio <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
-                                <select id="privilegio_id" name="privilegio_id" class="selectpicker"
+                                <select id="privilegio_id" name="privilegio_id" class="selectpicker" data-width="100%"
                                     data-live-search="true" title="Tipo Usuario">
                                 </select>
                             </div>
@@ -563,7 +563,7 @@
                                                                         <select id="usuario_efectivo_compras"
                                                                             name="usuario_efectivo_compras"
                                                                             class="selectpicker col-12" data-size="5"
-                                                                            data-live-search="true"
+                                                                            data-width="100%" data-live-search="true"
                                                                             title="Usuario que Paga">
                                                                         </select>
                                                                     </div>
@@ -653,7 +653,7 @@
                                                                         <select id="usuario_tarjeta_compras"
                                                                             name="usuario_tarjeta_compras"
                                                                             class="selectpicker col-12" data-size="5"
-                                                                            data-live-search="true"
+                                                                            data-width="100%" data-live-search="true"
                                                                             title="Usuario que Paga">
                                                                         </select>
                                                                     </div>
@@ -704,7 +704,8 @@
                                                                             placeholder="Compra Codigo">
                                                                         <select id="bk_nm" name="bk_nm" required
                                                                             class="selectpicker col-12" data-size="5"
-                                                                            data-live-search="true" title="banco">
+                                                                            data-width="100%" data-live-search="true"
+                                                                            title="banco">
                                                                         </select>
                                                                         <input type="hidden" class="multiple_pago"
                                                                             name="multiple_pago" value="0">
@@ -750,7 +751,7 @@
                                                                         <select id="usuario_transferencia_compras"
                                                                             name="usuario_transferencia_compras"
                                                                             class="selectpicker col-12" data-size="5"
-                                                                            data-live-search="true"
+                                                                            data-width="100%" data-live-search="true"
                                                                             title="Usuario que Paga">
                                                                         </select>
                                                                     </div>
@@ -797,7 +798,8 @@
                                                                             id="compras_id_cheque">
                                                                         <select id="bk_nm_chk" name="bk_nm_chk" required
                                                                             class="selectpicker col-12" data-size="5"
-                                                                            data-live-search="true" title="banco">
+                                                                            data-width="100%" data-live-search="true"
+                                                                            title="banco">
                                                                         </select>
                                                                         <input type="hidden" class="multiple_pago"
                                                                             name="multiple_pago" value="0">
@@ -832,7 +834,7 @@
                                                                         <select id="usuario_cheque_compras"
                                                                             name="usuario_cheque_compras"
                                                                             class="selectpicker col-12" data-size="5"
-                                                                            data-live-search="true"
+                                                                            data-width="100%" data-live-search="true"
                                                                             title="Usuario que Paga">
                                                                         </select>
                                                                     </div>
@@ -1011,8 +1013,8 @@
                                                                     <div class="input-group">
                                                                         <select id="usuario_efectivo"
                                                                             name="usuario_efectivo"
-                                                                            class="selectpicker col-12"
-                                                                            data-live-search="true"
+                                                                            class="selectpicker col-12" data-size="5"
+                                                                            data-width="100%" data-live-search="true"
                                                                             title="Usuario que Recibe">
                                                                         </select>
                                                                     </div>
@@ -1102,7 +1104,7 @@
                                                                         <select id="usuario_tarjeta"
                                                                             name="usuario_tarjeta"
                                                                             class="selectpicker col-12" data-size="5"
-                                                                            data-live-search="true"
+                                                                            data-width="100%" data-live-search="true"
                                                                             title="Usuario que Recibe">
                                                                         </select>
                                                                     </div>
@@ -1211,7 +1213,7 @@
                                                                         <select id="usuario_pago_mixto"
                                                                             name="usuario_pago_mixto"
                                                                             class="selectpicker col-12" data-size="5"
-                                                                            data-live-search="true"
+                                                                            data-width="100%" data-live-search="true"
                                                                             title="Usuario que Recibe">
                                                                         </select>
                                                                     </div>
@@ -1258,7 +1260,8 @@
                                                                             id="factura_id_transferencia">
                                                                         <select id="bk_nm" name="bk_nm" required
                                                                             class="selectpicker col-12" data-size="5"
-                                                                            data-live-search="true" title="Banco">
+                                                                            data-width="100%" data-live-search="true"
+                                                                            title="Banco">
                                                                         </select>
                                                                         <input type="hidden" class="multiple_pago"
                                                                             name="multiple_pago" value="0">
@@ -1304,7 +1307,7 @@
                                                                         <select id="usuario_transferencia"
                                                                             name="usuario_transferencia"
                                                                             class="selectpicker col-12" data-size="5"
-                                                                            data-live-search="true"
+                                                                            data-width="100%" data-live-search="true"
                                                                             title="Usuario que Recibe">
                                                                         </select>
                                                                     </div>
@@ -1356,7 +1359,8 @@
                                                                             id="factura_id_cheque">
                                                                         <select id="bk_nm_chk" name="bk_nm_chk" required
                                                                             data-size="5" class="selectpicker col-12"
-                                                                            data-live-search="true" title="Banco">
+                                                                            data-width="100%" data-live-search="true"
+                                                                            title="Banco">
                                                                         </select>
                                                                         <input type="hidden" name="monto_efectivo"
                                                                             id="monto_efectivo" placeholder="0.00">
@@ -1388,7 +1392,7 @@
                                                                         <select id="usuario_cheque"
                                                                             name="usuario_cheque"
                                                                             class="selectpicker col-12" data-size="5"
-                                                                            data-live-search="true"
+                                                                            data-width="100%" data-live-search="true"
                                                                             title="Usuario que Recibe">
                                                                         </select>
                                                                     </div>
@@ -1484,7 +1488,7 @@
                             <label for="departamento_cliente">Departamento</label>
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="departamento_cliente" name="departamento_cliente"
-                                    data-size="7" data-live-search="true" title="Departamentos">
+                                    data-width="100%" data-size="7" data-live-search="true" title="Departamentos">
                                 </select>
                             </div>
                         </div>
@@ -1492,7 +1496,7 @@
                             <label for="municipio_cliente">Municipio </label>
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="municipio_cliente" name="municipio_cliente"
-                                    data-size="7" data-live-search="true" title="Municipio">
+                                    data-width="100%" data-size="7" data-live-search="true" title="Municipio">
                                 </select>
                             </div>
                         </div>
@@ -1620,7 +1624,7 @@
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="departamento_proveedores"
                                     name="departamento_proveedores" data-size="7" data-live-search="true"
-                                    title="Departamentos">
+                                    data-width="100%" title="Departamentos">
                                 </select>
                             </div>
                         </div>
@@ -1628,7 +1632,7 @@
                             <label for="municipio_proveedores">Municipio </label>
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="municipio_proveedores" name="municipio_proveedores"
-                                    data-size="7" data-live-search="true" title="Municipios">
+                                    data-width="100%" data-size="7" data-live-search="true" title="Municipios">
                                 </select>
                             </div>
                         </div>
@@ -1719,7 +1723,7 @@
                                         <div class="sb-nav-link-icon"></div>Bodega
                                     </span>
                                     <select id="almacen" name="almacen" class="selectpicker" title="Bodega"
-                                        data-live-search="true">
+                                        data-width="100%" data-size="5" data-live-search="true">
                                     </select>
                                 </div>
                             </div>
@@ -1977,7 +1981,7 @@
                             <label>Puesto <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="puesto_colaborador" name="puesto_colaborador" class="selectpicker"
-                                    title="Puesto" data-live-search="true" required>
+                                    data-width="100%" title="Puesto" data-live-search="true" required>
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -1986,7 +1990,7 @@
                             <label>Empresa <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="colaborador_empresa_id" name="colaborador_empresa_id" class="selectpicker"
-                                    title="Empresa" data-live-search="true" required>
+                                    data-width="100%" title="Empresa" data-live-search="true" required>
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -2562,7 +2566,7 @@
                         <div class="col-md-3 mb-3" style="display: none;">
                             <label for="producto_empresa_id">Empresa <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
-                                <select id="producto_empresa_id" name="producto_empresa_id" required
+                                <select id="producto_empresa_id" name="producto_empresa_id" required data-width="100%"
                                     class="selectpicker" data-size="7" data-live-search="true" title="Empresa">
                                 </select>
                             </div>
@@ -2572,7 +2576,7 @@
                                 title="El campo 'Producto Superior' se emplea cuando estás creando un producto que tiene una conexión con otro. Imagina que estás diseñando un 'Kit de Jardinería', aquí puedes elegir 'Semillas' como el producto superior, indicando que el kit depende de las semillas para su existencia.">Superior</label>
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="producto_superior" name="producto_superior"
-                                    data-size="7" data-live-search="true" title="Superior">
+                                    data-width="100%" data-size="7" data-live-search="true" title="Superior">
                                 </select>
                             </div>
                         </div>
@@ -2580,14 +2584,14 @@
                             <label for="producto_categoria">Categoria</label>
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="producto_categoria" name="producto_categoria" required
-                                    data-size="7" data-live-search="true" title="Categoria">
+                                    data-width="100%" data-size="7" data-live-search="true" title="Categoria">
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="almacen">Almacén</label>
                             <div class="input-group mb-3">
-                                <select id="almacen" name="almacen" required class="selectpicker"
+                                <select id="almacen" name="almacen" required class="selectpicker" data-width="100%"
                                     data-live-search="true" title="Almacén">
                                 </select>
                             </div>
@@ -2595,7 +2599,7 @@
                         <div class="col-md-3 mb-3">
                             <label for="tipo_producto">Tipo Producto <span class="priority">*<span /></label>
                             <select id="tipo_producto" name="tipo_producto" required class="selectpicker" data-size="7"
-                                data-live-search="true" title="Tipo Producto">
+                                data-width="100%" data-live-search="true" title="Tipo Producto">
                             </select>
                         </div>
                     </div>
@@ -2604,7 +2608,7 @@
                         <div class="col-md-3 mb-3">
                             <label for="medida">Medida <span class="priority">*<span /></label>
                             <select id="medida" name="medida" required class="selectpicker" data-size="7"
-                                data-live-search="true" title="Medida">
+                                data-width="100%" data-live-search="true" title="Medida">
                             </select>
                         </div>
                         <div class="col-md-3 mb-3">
@@ -2741,7 +2745,7 @@
                             <label for="prefijo">Bodega</label>
                             <div class="input-group mb-3">
                                 <select id="id_bodega" name="id_bodega" class="selectpicker" data-live-search="true"
-                                    title="Bodega">
+                                    data-width="100%" title="Bodega">
                                 </select>
                                 <div class="input-group-append">
                                     <span class="input-group-text">
@@ -3132,7 +3136,8 @@
                             <div class="input-group">
                                 <div class="input-group-append">
                                     <select id="asistencia_empleado" name="asistencia_empleado" class="selectpicker"
-                                        title="Empleado" data-size="5" data-live-search="true" required>
+                                        data-width="100%" title="Empleado" data-size="5" data-live-search="true"
+                                        required>
                                     </select>
                                 </div>
                             </div>
@@ -3264,7 +3269,7 @@
                             <div class="input-group">
                                 <div class="input-group-append">
                                     <select id="sistema" name="sistema" class="selectpicker" title="Sistema"
-                                        data-size="5" data-live-search="true" required>
+                                        data-width="100%" data-size="5" data-live-search="true" required>
                                     </select>
                                 </div>
                             </div>
@@ -3274,7 +3279,7 @@
                             <div class="input-group">
                                 <div class="input-group-append">
                                     <select id="plan" name="plan" class="selectpicker" title="Plan" data-size="5"
-                                        data-live-search="true" required>
+                                        data-width="100%" data-live-search="true" required>
                                     </select>
                                 </div>
                             </div>
@@ -3288,7 +3293,7 @@
                             <div class="input-group">
                                 <div class="input-group-append">
                                     <select id="validar" name="validar" class="selectpicker" title="Validar Facturación"
-                                        data-size="5" data-live-search="true" required>
+                                        data-width="100%" data-size="5" data-live-search="true" required>
                                     </select>
                                 </div>
                             </div>

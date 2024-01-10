@@ -44,8 +44,8 @@
                         <div class="col-md-3 mb-3">
                             <label for="cuenta_egresos">Cuenta <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
-                                <select id="cuenta_egresos" name="cuenta_egresos" class="selectpicker" data-size="10"
-                                    data-live-search="true" title="Cuenta">
+                                <select id="cuenta_egresos" name="cuenta_egresos" class="selectpicker" data-width="100%"
+                                    data-size="10" data-live-search="true" title="Cuenta">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -53,8 +53,8 @@
                         <div class="col-md-3 mb-3" style="display: none">
                             <label for="empresa_egresos">Empresa <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
-                                <select id="empresa_egresos" name="empresa_egresos" class="selectpicker" data-size="10"
-                                    data-live-search="true" title="Empresa">
+                                <select id="empresa_egresos" name="empresa_egresos" class="selectpicker"
+                                    data-width="100%" data-size="10" data-live-search="true" title="Empresa">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -66,7 +66,7 @@
                             <label for="prefijo">Categoria</label>
                             <div class="input-group mb-3">
                                 <select id="categoria_gastos" name="categoria_gastos" class="selectpicker"
-                                    data-size="10" data-live-search="true" title="Categoria">
+                                    data-width="100%" data-size="10" data-live-search="true" title="Categoria">
                                 </select>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
                             <label for="proveedor_egresos">Proveedor <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="proveedor_egresos" name="proveedor_egresos" class="selectpicker"
-                                    data-size="10" data-live-search="true" title="Proveedor">
+                                    data-width="100%" data-size="10" data-live-search="true" title="Proveedor">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -183,7 +183,7 @@
                             <label for="cuenta_egresos">Cuenta <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="cuenta_egresos" name="cuenta_egresos" class="selectpicker" data-size="10"
-                                    data-live-search="true" title="Cuenta">
+                                    data-width="100%" data-live-search="true" title="Cuenta">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -192,7 +192,7 @@
                             <label for="empresa_egresos">Empresa <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="empresa_egresos" name="empresa_egresos" class="selectpicker" data-size="10"
-                                    data-live-search="true" title="Empresa">
+                                    data-width="100%" data-live-search="true" title="Empresa">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -204,7 +204,7 @@
                             <label for="prefijo">Categoria</label>
                             <div class="input-group mb-3">
                                 <select id="categoria_gastos" name="categoria_gastos" class="selectpicker"
-                                    data-size="10" data-live-search="true" title="Categoria">
+                                    data-width="100%" data-size="10" data-live-search="true" title="Categoria">
                                 </select>
                             </div>
                         </div>

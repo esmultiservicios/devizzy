@@ -29,7 +29,8 @@
                             <label>Tipo Producto <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="movimientos_tipo_producto_id" name="movimientos_tipo_producto_id"
-                                    class="selectpicker" data-live-search="true" title="Tipo Producto" required>
+                                    class="selectpicker" data-width="100%" data-live-search="true" title="Tipo Producto"
+                                    required>
                                 </select>
                             </div>
                         </div>
@@ -37,7 +38,7 @@
                             <label>Productos <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="movimiento_producto" name="movimiento_producto" class="selectpicker"
-                                    data-live-search="true" title="Producto" required data-size="10">
+                                    data-width="100%" data-live-search="true" title="Producto" required data-size="10">
                                 </select>
                             </div>
                         </div>
@@ -45,7 +46,7 @@
                             <label>Tipo de Operación <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="movimiento_operacion" name="movimiento_operacion" class="selectpicker"
-                                    data-live-search="true" title="Tipo Operacion" required>
+                                    data-width="100%" data-live-search="true" title="Tipo Operacion" required>
                                 </select>
                             </div>
                         </div>
@@ -53,7 +54,7 @@
                             <label>Cliente</label>
                             <div class="input-group mb-3">
                                 <select id="cliente_movimientos" name="cliente_movimientos" class="selectpicker"
-                                    data-live-search="true" title="Cliente" data-size="5">
+                                    data-width="100%" data-live-search="true" title="Cliente" data-size="5">
                                 </select>
                             </div>
                         </div>
@@ -67,7 +68,7 @@
                         <div class="col-md-3 col-md-3">
                             <label>Bodega <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
-                                <select id="almacen_modal" name="almacen_modal" class="selectpicker"
+                                <select id="almacen_modal" name="almacen_modal" class="selectpicker" data-width="100%"
                                     data-live-search="true" title="Bodega" required>
                                 </select>
                             </div>
