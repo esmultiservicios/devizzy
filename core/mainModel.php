@@ -2648,7 +2648,6 @@
 					CAST(i.fecha_registro AS DATE) BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND i.estado = '".$datos['estado']."'
 				ORDER BY i.fecha_registro DESC;";
 
-			echo $query."***";
 			$result = self::connection()->query($query);
 
 			return $result;
