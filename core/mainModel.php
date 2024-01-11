@@ -1740,9 +1740,19 @@
 			return $result;
 		}
 
+		public function getCuentaIdNomina($nomina_id){
+			$query = "SELECT cuentas_id
+			FROM nomina
+			WHERE nomina_id = '".$nomina_id."'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
 		public function agregarEgresosMainModel($datos){
 			$egresos_id = mainModel::correlativo("egresos_id", "egresos");
-			$insert = "INSERT INTO egresos VALUES('".$egresos_id."','".$datos['cuentas_id']."','".$datos['proveedores_id']."','".$datos['empresa_id']."','".$datos['tipo_egreso']."','".$datos['fecha']."','".$datos['factura']."','".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."','".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO egresos VALUES('".$egresos_id."','".$datos['cuentas_id']."','".$datos['proveedores_id']."','".$datos['empresa_id']."','".$datos['tipo_egreso']."','".$datos['fecha']."','".$datos['factura']."','".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."','".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."','".$datos['categoria_gastos_id']."')";
 
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 

@@ -53,6 +53,7 @@ var listar_movimientos = function() {
 
     var table_movimientos = $("#dataTablaMovimientos").DataTable({
         "destroy": true,
+        "footer": true,
         "ajax": {
             "method": "POST",
             "url": "<?php echo SERVERURL;?>core/llenarDataTableMovimientos.php",
@@ -66,7 +67,14 @@ var listar_movimientos = function() {
             }
         },
         "columns": [{
-                "data": "fecha_registro"
+                "data": "fecha_registro",
+                "render": function(data, type, row) {
+                    if (type === 'sort' || type === 'type') {
+                        return new Date(data);
+                    }
+                    // For display or other types, return the formatted date string
+                    return data;
+                }
             },
             {
                 "data": "barCode"
@@ -137,7 +145,8 @@ var listar_movimientos = function() {
         "dom": dom,
         "columnDefs": [{
                 width: "13.5%",
-                targets: 0
+                targets: 0,
+                "orderable": true
             },
             {
                 width: "10.5%",
@@ -234,16 +243,41 @@ var listar_movimientos = function() {
         ],
         "drawCallback": function(settings) {
             getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+        },
+        "footerCallback": function(row, data, start, end, display) {
+            var api = this.api();
+
+            var totalEntrada = api.column(6, {
+                page: 'current'
+            }).data().reduce(function(a, b) {
+                return a + parseFloat(b);
+            }, 0);
+
+            var totalSalida = api.column(7, {
+                page: 'current'
+            }).data().reduce(function(a, b) {
+                return a + parseFloat(b);
+            }, 0);
+
+            var total = totalEntrada - totalSalida;
+
+            $('#entrada-footer-movimiento').html(formatNumber(totalEntrada));
+            $('#salida-footer-movimiento').html(formatNumber(totalSalida));
+            $('#total-footer-movimiento').html(formatNumber(total));
         }
     });
     table_movimientos.search('').draw();
     table_movimientos.order([0, 'desc'])
     $('#buscar').focus();
 
-    total_movimiento_footer();
+    //total_movimiento_footer();
     //transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos);
-
 }
+
+function formatNumber(number) {
+    return $.fn.dataTable.render.number(',', '.', 2, '').display(number);
+}
+
 //FOOTER MOVIMIENTOS
 var total_movimiento_footer = function() {
     var tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
@@ -267,9 +301,9 @@ var total_movimiento_footer = function() {
         })
         .done(function(data) {
             data = JSON.parse(data)
-            $("#entrada-footer-movimiento").html("L. " + data.entrada);
-            $("#salida-footer-movimiento").html("L. " + data.salida);
-            $("#total-footer-movimiento").html("L. " + data.saldo);
+            $("#entrada-footer-movimiento").html(data.entrada);
+            $("#salida-footer-movimiento").html(data.salida);
+            $("#total-footer-movimiento").html(data.saldo);
         })
         .fail(function(data) {
             console.log("total ingreso error");
@@ -305,7 +339,14 @@ var inventario_transferencia = function() {
             }
         },
         "columns": [{
-                "data": "fecha_registro"
+                "data": "fecha_registro",
+                "render": function(data, type, row) {
+                    if (type === 'sort' || type === 'type') {
+                        return new Date(data);
+                    }
+                    // For display or other types, return the formatted date string
+                    return data;
+                }
             },
             {
                 "data": "barCode"
@@ -403,7 +444,8 @@ var inventario_transferencia = function() {
         "dom": dom,
         "columnDefs": [{
                 width: "13.5%",
-                targets: 0
+                targets: 0,
+                "orderable": true
             },
             {
                 width: "10.5%",

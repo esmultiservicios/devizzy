@@ -51,6 +51,7 @@ var listar_reporte_ventas = function() {
 
     var table_reporteVentas = $("#dataTablaReporteVentas").DataTable({
         "destroy": true,
+        "footer": true,
         "ajax": {
             "method": "POST",
             "url": "<?php echo SERVERURL;?>core/llenarDataTableReporteVentas.php",

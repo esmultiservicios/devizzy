@@ -1482,7 +1482,8 @@
                             <label for="departamento_cliente">Departamento</label>
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="departamento_cliente" name="departamento_cliente"
-                                    data-width="100%" data-size="7" data-live-search="true" title="Departamentos">
+                                    data-width="100%" data-width="100%" data-size="7" data-live-search="true"
+                                    title="Departamentos">
                                 </select>
                             </div>
                         </div>

@@ -45,7 +45,7 @@
                             <label for="nomina_empresa_id">Empresa <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="nomina_empresa_id" name="nomina_empresa_id" class="selectpicker"
-                                    data-width="100%" data-live-search="true" title="Empresa">
+                                    data-width="100%" data-width="100%" data-live-search="true" title="Empresa">
                                 </select>
                             </div>
                         </div>
@@ -56,6 +56,14 @@
                             <label for="nomina_empresa_id">Tipo Nomina <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="tipo_nomina" name="tipo_nomina" class="selectpicker" data-width="100%"
+                                    data-live-search="true" title="Tipo Nomina">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="nomina_empresa_id">Pago <span class="priority">*<span /></label>
+                            <div class="input-group mb-3">
+                                <select id="pago_nomina" name="pago_nomina" class="selectpicker" data-width="100%"
                                     data-live-search="true" title="Tipo Nomina">
                                 </select>
                             </div>
@@ -213,14 +221,12 @@
                         <div class="card-body">
                             <div class="form-row">
                                 <div class="col-md-3 mb-3">
-                                    <label for="nominad_empleados">Empleado <span class="priority">*<span /></label>
-                                    <div class="input-group">
-                                        <div class="input-group-append">
-                                            <select id="nominad_empleados" name="nominad_empleados" class="selectpicker"
-                                                data-width="100%" title="Empleado" data-live-search="true">
-                                                <option value="">Seleccione</option>
-                                            </select>
-                                        </div>
+                                    <label for="nominad_empleados">Empleado</label>
+                                    <div class="input-group mb-3">
+                                        <select class="selectpicker" id="nominad_empleados" name="nominad_empleados"
+                                            data-width="100%" data-width="100%" data-size="7" data-live-search="true"
+                                            title="Empleado">
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-3 mb-3">

@@ -17,8 +17,9 @@
 			$fecha_inicio = mainModel::cleanString($_POST['nomina_fecha_inicio']);						
 			$fecha_fin = mainModel::cleanString($_POST['nomina_fecha_fin']);
 			$detalle = mainModel::cleanString($_POST['nomina_detale']);
-			$importe = mainModel::cleanString($_POST['nomina_importe']);			
+			$importe = mainModel::cleanString($_POST['nomina_importe'] === "" ? 0 : $_POST['nomina_importe']);			
 			$notas = mainModel::cleanString($_POST['nomina_notas']);
+			$cuentas_id = $notas = mainModel::cleanString($_POST['pago_nomina']);
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$estado = 0;//SIN GENERAR
 			$fecha_registro = date("Y-m-d H:i:s");			
@@ -35,6 +36,7 @@
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,
 				"tipo_nomina" => $tipo_nomina,
+				"cuentas_id" => $cuentas_id,
 			];
 			
 			$resultNmina = nominaModelo::valid_nomina_modelo($detalle);
@@ -389,4 +391,4 @@
 			return mainModel::sweetAlert($alert);			
 		}				
 	}
-?>	
+?>

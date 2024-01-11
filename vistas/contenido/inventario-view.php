@@ -27,8 +27,22 @@
                                     <div class="sb-nav-link-icon"></div>Fecha Inicio
                                 </span>
                             </div>
-                            <input type="date" required id="fechai" name="fechai" value="<?php echo date ("Y-m-d");?>"
-                                style="width:165px;" class="form-control" data-toggle="tooltip" data-placement="top"
+                            <input type="date" required id="fechai" name="fechai" value="<?php 
+                                $fecha = date ("Y-m-d");
+                                
+                                $año = date("Y", strtotime($fecha));
+                                $mes = date("m", strtotime($fecha));
+                                $dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
+
+                                $dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
+                                $dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
+
+                                $fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
+                                $fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));						
+                                
+                                
+                                echo $fecha_inicial;
+                            ?>" style="width:165px;" class="form-control" data-toggle="tooltip" data-placement="top"
                                 title="Fecha Inicio">
                         </div>
                     </div>

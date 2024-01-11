@@ -8,7 +8,7 @@
 	class nominaModelo extends mainModel{
 		protected function agregar_nomina_modelo($datos){
 			$nomina_id = mainModel::correlativo("nomina_id", "nomina");
-			$insert = "INSERT INTO nomina VALUES('$nomina_id','".$datos['empresa_id']."','".$datos['pago_planificado_id']."','".$datos['tipo_nomina']."','".$datos['fecha_inicio']."','".$datos['fecha_fin']."','".$datos['detalle']."','".$datos['importe']."','".$datos['notas']."','".$datos['usuario']."','".$datos['estado']."','".$datos['fecha_registro']."')";
+			$insert = "INSERT INTO nomina VALUES('$nomina_id','".$datos['empresa_id']."','".$datos['pago_planificado_id']."','".$datos['tipo_nomina']."','".$datos['fecha_inicio']."','".$datos['fecha_fin']."','".$datos['detalle']."','".$datos['importe']."','".$datos['notas']."','".$datos['usuario']."','".$datos['estado']."','".$datos['fecha_registro']."','".$datos['cuentas_id']."')";
 
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
@@ -18,7 +18,7 @@
 		protected function agregar_nomina_detalles_modelo($datos){
 			$nomina_detalles_id = mainModel::correlativo("nomina_detalles_id", "nomina_detalles");
 			$insert = "INSERT INTO nomina_detalles VALUES('$nomina_detalles_id','".$datos['nomina_id']."','".$datos['colaboradores_id']."','".$datos['salario']."','".$datos['dias_trabajados']."','".$datos['hrse25']."','".$datos['hrse50']."','".$datos['hrse75']."','".$datos['hrse100']."','".$datos['retroactivo']."','".$datos['bono']."','".$datos['otros_ingresos']."','".$datos['deducciones']."','".$datos['prestamo']."','".$datos['ihss']."','".$datos['rap']."','".$datos['isr']."','".$datos['incapacidad_ihss']."','".$datos['neto_ingresos']."','".$datos['neto_egresos']."','".$datos['neto']."','".$datos['usuario']."','".$datos['estado']."','".$datos['notas']."','".$datos['fecha_registro']."')";
-
+					
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			

@@ -6,6 +6,7 @@
 	$insMainModel = new mainModel();
 	$nomina_id = $_POST['nomina_id'];
 	$empresa_id = $_POST['empresa_id'];
+	$categoria_gastos_id = 0;
 	
 	//CONSULTAMOS EL TOTAL DEL NETO DEL DETALLE DE LA NOMINA
 	$result_saldos = $insMainModel->getTotalesNominaDetalle($nomina_id);
@@ -30,9 +31,12 @@
 			session_start(['name'=>'SD']); 
 		}
 				
-		$result_cuenta = $insMainModel->getCuentaNomina("Planilla");
+		$consulta_cuenta = $insMainModel->getCuentaIdNomina($nomina_id)->fetch_assoc();
+		$cuentas_id = $consulta_cuenta['cuentas_id'];
+													
+		/*$result_cuenta = $insMainModel->getCuentaNomina("Planilla");
 		$row_cuenta = $result_cuenta->fetch_assoc();		
-		$cuentas_id = $row_cuenta['cuentas_id'];
+		$cuentas_id = $row_cuenta['cuentas_id'];*/
 		$tipo_egreso = 2;//GASTOS
 		$fecha = date("Y-m-d");
 		$fecha_registro = date("Y-m-d H:i:s");
@@ -66,7 +70,8 @@
 			"observacion" => $observacion,
 			"estado" => $estado,
 			"fecha_registro" => $fecha_registro,
-			"colaboradores_id" => $colaboradores_id								
+			"colaboradores_id" => $colaboradores_id,
+			"categoria_gastos_id" => $categoria_gastos_id									
 		];
 
 		$resultEgresos = $insMainModel->validEgresosCuentasMainModel($datos);

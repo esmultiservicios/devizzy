@@ -61,7 +61,14 @@ var inventario_transferencia = function() {
             }
         },
         "columns": [{
-                "data": "fecha_registro"
+                "data": "fecha_registro",
+                "render": function(data, type, row) {
+                    if (type === 'sort' || type === 'type') {
+                        return new Date(data);
+                    }
+                    // For display or other types, return the formatted date string
+                    return data;
+                }
             },
             {
                 "data": "barCode"
@@ -156,7 +163,8 @@ var inventario_transferencia = function() {
         "dom": dom,
         "columnDefs": [{
                 width: "13.5%",
-                targets: 0
+                targets: 0,
+                "orderable": true
             },
             {
                 width: "10.5%",

@@ -13,7 +13,7 @@
 	$result = $insMainModel->getAlmacen($datos);
 	
 	if($result->num_rows>0){
-		echo '<option value=0>Todos</option>';
+		echo '<option value=0>Todo</option>';
 		while($consulta2 = $result->fetch_assoc()){
 			 echo '<option value="'.$consulta2['almacen_id'].'">'.$consulta2['almacen'].'</option>';
 		}
