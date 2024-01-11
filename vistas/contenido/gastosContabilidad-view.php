@@ -79,7 +79,7 @@
 	                    <thead>
 	                        <tr>
 	                            <th>Fecha Registro</th>
-	                            <th>Numero</th>
+	                            <th>Número</th>
 	                            <th>Categoria</th>
 	                            <th>Fecha Factura</th>
 	                            <th>Forma de Pago</th>
@@ -90,6 +90,7 @@
 	                            <th>Descuento</th>
 	                            <th>Nota de Crédito</th>
 	                            <th>Total</th>
+	                            <th>Observación</th>
 	                            <th>Editar</th>
 	                            <th>Imprimir</th>
 	                        </tr>
@@ -103,7 +104,7 @@
 	                            <td id="descuento-g"></td>
 	                            <td id="nc-g"></td>
 	                            <td id='total-footer-gastos'></td>
-	                            <td colspan="2"></td>
+	                            <td colspan="3"></td>
 	                        </tr>
 	                    </tfoot>
 	                </table>

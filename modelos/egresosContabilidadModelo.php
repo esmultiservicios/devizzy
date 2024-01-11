@@ -34,7 +34,6 @@
 		protected function edit_egresos_contabilidad_modelo($datos){
 			$update = "UPDATE egresos
 			SET
-				proveedores_id = '".$datos['proveedores_id']."',
 				factura = '".$datos['factura']."',
 				fecha = '".$datos['fecha']."',
 				observacion = '".$datos['observacion']."'				

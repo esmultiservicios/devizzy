@@ -20,7 +20,8 @@
 		7 => $valores2['descuento'],
 		8 => $valores2['nc'],
 		9 => $valores2['total'],
-	    10 => $valores2['observacion']		
+	    10 => $valores2['observacion'],
+		11 => $valores2['recibide'],		
 	);
 	echo json_encode($datos);
-?>	
+?>

@@ -30,7 +30,7 @@
 			"nc"=>'L. '.$row['nc'],
 			"total"=>'L. '.$row['total'],
 			"categoria"=>$row['categoria'],
-			"categoria"=>$row['categoria'],
+			"observacion"=>$row['observacion'],
 		);			
 	}
 	

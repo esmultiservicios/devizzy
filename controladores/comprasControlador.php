@@ -33,6 +33,7 @@
 			$notas = mainModel::cleanString($_POST['notesPurchase']);
 			$fecha = $_POST['fechaPurchase'];
 			$fecha_registro = date("Y-m-d H:i:s");
+			$cuentas_id = 0;
 			
 			if($tipoPurchase == 1){
 				$estado = 2;//PAGADA
@@ -52,7 +53,8 @@
 				"estado" => $estado,
 				"usuario" => $usuario,
 				"fecha_registro" => $fecha_registro,
-				"empresa" => $empresa_id	
+				"empresa" => $empresa_id,
+				"cuentas_id" => $cuentas_id
 			];
 						
 			if($proveedores_id != "" && $colaboradores_id != "" && $number != ""){

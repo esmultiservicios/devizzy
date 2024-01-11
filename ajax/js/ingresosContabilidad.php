@@ -167,6 +167,9 @@ var listar_ingresos_contabilidad = function() {
                 },
             },
             {
+                "data": "observacion"
+            },
+            {
                 "defaultContent": "<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit'></span></button>"
             },
             {
@@ -179,56 +182,60 @@ var listar_ingresos_contabilidad = function() {
         "language": idioma_español,
         "dom": dom,
         "columnDefs": [{
-                width: "8.33%",
+                width: "7.69%",
                 targets: 0
             },
             {
-                width: "5.33%",
+                width: "7.69%",
                 targets: 1
             },
             {
-                width: "8.33%",
+                width: "7.69%",
                 targets: 2
             },
             {
-                width: "11.33%",
+                width: "7.69%",
                 targets: 3
             },
             {
-                width: "8.33%",
+                width: "7.69%",
                 targets: 4
             },
             {
-                width: "8.33%",
+                width: "7.69%",
                 targets: 5
             },
             {
-                width: "8.33%",
+                width: "7.69%",
                 targets: 6
             },
             {
-                width: "8.33%",
+                width: "7.69%",
                 targets: 7
             },
             {
-                width: "8.33%",
+                width: "7.69%",
                 targets: 8
             },
             {
-                width: "8.33%",
+                width: "7.69%",
                 targets: 9
             },
             {
-                width: "8.33%",
+                width: "7.69%",
                 targets: 10
             },
             {
-                width: "8.33%",
+                width: "7.69%",
                 targets: 11
             },
             {
-                width: "8.33%",
+                width: "7.69%",
                 targets: 12
+            },
+            {
+                width: "7.69%",
+                targets: 13
             },
         ],
         "buttons": [{
@@ -340,6 +347,7 @@ var edit_reporte_ingresos_dataTable = function(tbody, table) {
                 $('#formIngresosContables #nc_ingresos').val(valores[8]);
                 $('#formIngresosContables #total_ingresos').val(valores[9]);
                 $('#formIngresosContables #observacion_ingresos').val(valores[10]);
+                $('#formIngresosContables #recibide_ingresos').val(valores[11]);
 
                 //DESHABILITAR OBJETOS
                 $('#formIngresosContables #cuenta_ingresos').attr('disabled', true);
@@ -349,6 +357,7 @@ var edit_reporte_ingresos_dataTable = function(tbody, table) {
                 $('#formIngresosContables #descuento_ingresos').attr('disabled', true);
                 $('#formIngresosContables #nc_ingresos').attr('disabled', true);
                 $('#formIngresosContables #total_ingresos').attr('disabled', true);
+                $('#formIngresosContables #recibide_ingresos').attr('disabled', true);
                 $('#formIngresosContables #buscar_cuenta_ingresos').hide();
                 $('#formIngresosContables #buscar_empresa_ingresos').hide();
 
@@ -400,6 +409,7 @@ function modal_ingresos_contabilidad() {
     $('#formIngresosContables #descuento_ingresos').attr('disabled', false);
     $('#formIngresosContables #nc_ingresos').attr('disabled', false);
     $('#formIngresosContables #total_ingresos').attr('disabled', false);
+    $('#formIngresosContables #recibide_ingresos').attr('disabled', false);
     $('#formIngresosContables #buscar_cuenta_ingresos').show();
     $('#formIngresosContables #buscar_empresa_ingresos').show();
 

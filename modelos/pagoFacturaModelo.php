@@ -90,18 +90,6 @@
 			
 			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 			return $result;					
-		}		
-
-		protected function insert_factura_cuentas_por_cobrar($estado,$importe){			
-			if($importe != ''){
-				$importe = $importe;
-			}
-
-			$update = "INSERT INTO cobrar_clientes
-				(estado,saldo) VALUES ($estado,$importe)";
-			
-			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
-			return $result;					
 		}
 		
 		protected function consultar_factura_cuentas_por_cobrar($facturas_id){

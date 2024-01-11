@@ -32,7 +32,8 @@
 			"nc"=>'L. '.$row['nc'],
 			"total"=>'L. '.$row['total'],
 			"recibide"=>$row['recibide'],
-			"tipo_ingreso"=>$row['tipo_ingreso']	
+			"tipo_ingreso"=>$row['tipo_ingreso'],
+			"observacion"=>$row['observacion'],
 		);	
 	}
 

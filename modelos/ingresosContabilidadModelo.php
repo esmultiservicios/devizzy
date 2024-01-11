@@ -35,7 +35,6 @@
 		protected function edit_ingresos_contabilidad_modelo($datos){
 			$update = "UPDATE ingresos
 			SET
-				clientes_id = '".$datos['clientes_id']."',
 				factura = '".$datos['factura']."',
 				fecha = '".$datos['fecha']."',
 				observacion = '".$datos['observacion']."'				

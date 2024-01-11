@@ -187,6 +187,9 @@ var listar_gastos_contabilidad = function() {
                 },
             },
             {
+                "data": "observacion"
+            },
+            {
                 "defaultContent": "<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit'></span></button>"
             },
             {
@@ -200,59 +203,59 @@ var listar_gastos_contabilidad = function() {
         "language": idioma_español,
         "dom": dom,
         "columnDefs": [{
-                width: "8.33%",
+                width: "7.14%",
                 targets: 0
             },
             {
-                width: "5.33%",
+                width: "7.14%",
                 targets: 1
             },
             {
-                width: "8.33%",
+                width: "7.14%",
                 targets: 2
             },
             {
-                width: "11.33%",
+                width: "7.14%",
                 targets: 3
             },
             {
-                width: "8.33%",
+                width: "7.14%",
                 targets: 4
             },
             {
-                width: "8.33%",
+                width: "7.14%",
                 targets: 5
             },
             {
-                width: "8.33%",
+                width: "7.14%",
                 targets: 6
             },
             {
-                width: "8.33%",
+                width: "7.14%",
                 targets: 7
             },
             {
-                width: "8.33%",
+                width: "7.14%",
                 targets: 8
             },
             {
-                width: "8.33%",
+                width: "7.14%",
                 targets: 9
             },
             {
-                width: "8.33%",
+                width: "7.14%",
                 targets: 10
             },
             {
-                width: "8.33%",
+                width: "7.14%",
                 targets: 11
             },
             {
-                width: "8.33%",
+                width: "7.14%",
                 targets: 12
             },
             {
-                width: "8.33%",
+                width: "7.14%",
                 targets: 13
             }
         ],

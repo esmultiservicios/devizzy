@@ -2633,6 +2633,7 @@
 					i.nc AS 'nc',
 					i.total AS 'total',
 					i.fecha_registro AS 'fecha_registro',
+					i.observacion AS 'observacion',
 				CASE i.tipo_ingreso
 					WHEN 1 THEN 'Ingresos por Ventas'
 					WHEN 2 THEN 'Ingresos Manuales'
@@ -3300,55 +3301,30 @@
 				ON pd.tipo_pago_id = tp.tipo_pago_id
 				WHERE f.apertura_id = '$apertura_id'
 				GROUP BY tp.cuentas_id";
-
 			$result = self::connection()->query($query);
-
 			return $result;
-
 		}
-
-
 
 		function getMontoTipoPagoCompras($compras_id){
-
 			$query = "SELECT tp.tipo_pago_id As 'tipo_pago_id', SUM(cd.isv_valor) AS 'isv_valor', SUM(cd.descuento) AS 'descuento', SUM(pd.efectivo) AS 'monto', tp.cuentas_id As 'cuentas_id'
-
 				FROM compras AS c
-
 				INNER JOIN compras_detalles AS cd
-
 				ON c.compras_id = cd.compras_detalles_id
-
 				INNER JOIN pagoscompras AS p
-
 				ON c.compras_id = p.compras_id
-
 				INNER JOIN pagoscompras_detalles AS pd
-
 				ON p.pagoscompras_id = pd.pagoscompras_id
-
 				INNER JOIN tipo_pago As tp
-
 				ON pd.tipo_pago_id = tp.tipo_pago_id
-
 				WHERE c.compras_id = '$compras_id'
-
 				GROUP BY tp.cuentas_id";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
-
-
 		public function getDetalleCompra($noFactura){
-
 			$query = "SELECT p.nombre AS 'producto', cd.cantidad As 'cantidad', cd.precio AS 'precio', cd.descuento AS 'descuento', cd.productos_id  AS 'productos_id', cd.isv_valor AS 'isv_valor'
 				FROM compras_detalles AS cd
 				INNER JOIN productos AS p
@@ -4038,10 +4014,11 @@
 				$where = "WHERE c.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND c.estado = 4";
 			}
 
-			$query = "SELECT c.compras_id AS 'compras_id', DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', p.nombre AS 'proveedor', c.number AS 'numero', FORMAT(c.importe,2) As 'total', (CASE WHEN c.tipo_compra = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento'
+			$query = "SELECT c.compras_id AS 'compras_id', DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', p.nombre AS 'proveedor', c.number AS 'numero', FORMAT(c.importe,2) As 'total', (CASE WHEN c.tipo_compra = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', ct.nombre AS cuenta
 				FROM compras AS c
 				INNER JOIN proveedores AS p
 				ON c.proveedores_id = p.proveedores_id
+				INNER JOIN cuentas AS ct ON c.cuentas_id = ct.cuentas_id
 				".$where;
 
 			$result = self::connection()->query($query);
@@ -4132,12 +4109,15 @@
 				c.fecha AS fecha_compra,
 				c.notas AS notas,
 				c.tipo_compra,
-				pagar_proveedores.saldo
+				pagar_proveedores.saldo,
+				ct.nombre AS cuenta
 			FROM compras AS c
 			INNER JOIN proveedores AS p ON c.proveedores_id = p.proveedores_id
 			INNER JOIN pagar_proveedores ON pagar_proveedores.compras_id = c.compras_id
+			INNER JOIN cuentas AS ct ON c.cuentas_id = ct.cuentas_id;
 			WHERE c.compras_id = '$compras_id'";
 
+			echo $query."**";
 			$result = self::connection()->query($query);
 
 			return $result;

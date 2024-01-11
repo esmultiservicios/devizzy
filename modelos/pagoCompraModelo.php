@@ -315,6 +315,9 @@
 				
 				//ACTUALIZAMOS EL ESTADO DE LA FACTURA
 				pagoCompraModelo::update_status_compras($compras_id);
+
+				//ACTUALIZAMOS LA CUENTA CON LA QUE SE PAGO
+				pagoCompraModelo::update_cuenta_compras($compras_id, $cuentas_id);
 								
 				/**###########################################################################################################*/
 				//CONSULTAMOS EL SUBTOTAL, ISV, DESCUENTO, NC Y TOTAL EN LOS COMPRAS DETALLES
@@ -331,11 +334,7 @@
 					$isv_neto = $dataDetallesCompra['isv_valor'];
 					$descuentos = $dataDetallesCompra['descuento'];
 					$total_antes_isvMontoTipoPago = ($total_despues_isvMontoTipoPago - $isv_neto) - $descuentos;
-				}
-					
-				//CONSULTAMOS LA CUENTA_ID SEGUN EL TIPO DE PAGO
-				/*$consulta_fecha_compra = self::consultar_cuenta_contabilidad_tipo_pago($metodo_pago)->fetch_assoc();
-				$cuentas_id = $consulta_fecha_compra['cuentas_id'];*/
+				}			
 
 				//CONSULTAMOS EL PROVEEDOR
 				$consulta_fecha_compra = self::consultar_proveedor_id_compra($compras_id)->fetch_assoc();
@@ -374,7 +373,7 @@
 
 					//CONSULTAMOS EL SALDO DISPONIBLE PARA LA CUENTA
 					$consulta_ingresos_contabilidad = self::consultar_saldo_movimientos_cuentas_contabilidad($cuentas_id)->fetch_assoc();
-					$saldo_consulta = $consulta_ingresos_contabilidad['saldo'];	
+					$saldo_consulta = isset($consulta_ingresos_contabilidad['saldo']) ? $consulta_ingresos_contabilidad['saldo'] : 0;	
 					$ingreso = 0;
 					$egreso = $total_despues_isvMontoTipoPago;
 					$saldo = $saldo_consulta - $egreso;
@@ -459,7 +458,7 @@
 			'".$datos['subtotal']."','".$datos['descuento']."','".$datos['nc']."','".$datos['isv']."','".$datos['total']."',
 			'".$datos['observacion']."','".$datos['estado']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."','".$datos['categoria_gastos_id']."')";
 			
-			echo $insert."***";
+
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			
@@ -499,6 +498,19 @@
 			return $result;					
 		}
 		
+		protected function update_cuenta_compras($compras_id, $cuentas_id){
+			$estado = 2;//FACTURA PAGADA
+			$update = "UPDATE compras
+				SET
+					cuentas_id = '$cuentas_id'
+				WHERE 
+					compras_id = '$compras_id'";
+			
+			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
+			
+			return $result;					
+		}
+		
 		protected function update_status_compras_cuentas_por_pagar($compras_id,$estado = 2,$importe = ''){
 			if($importe != '' || $importe == 0){
 				$importe = ', saldo = '.$importe;
@@ -513,7 +525,7 @@
 			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 			
 			return $result;					
-		}		
+		}
 		
 		protected function consultar_compra_cuentas_por_pagar($compras_id){
 			$query = "SELECT *

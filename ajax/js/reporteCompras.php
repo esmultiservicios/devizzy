@@ -49,6 +49,9 @@ var listar_reporte_compras = function() {
                 "data": "tipo_documento"
             },
             {
+                "data": "cuenta"
+            },
+            {
                 "data": "proveedor"
             },
             {
@@ -143,44 +146,48 @@ var listar_reporte_compras = function() {
         "language": idioma_español, //esta se encuenta en el archivo main.js
         "dom": dom,
         "columnDefs": [{
-                width: "10%",
+                width: "9.09%",
                 targets: 0
             },
             {
-                width: "10%",
+                width: "9.09%",
                 targets: 1
             },
             {
-                width: "22%",
+                width: "9.09%",
                 targets: 2
             },
             {
-                width: "12%",
+                width: "9.09%",
                 targets: 3
             },
             {
-                width: "10%",
+                width: "9.09%",
                 targets: 4
             },
             {
-                width: "10%",
+                width: "9.09%",
                 targets: 5
             },
             {
-                width: "10%",
+                width: "9.09%",
                 targets: 6
             },
             {
-                width: "10%",
+                width: "9.09%",
                 targets: 7
             },
             {
-                width: "3%",
+                width: "9.09%",
                 targets: 8
             },
             {
-                width: "3%",
+                width: "9.09%",
                 targets: 9
+            },
+            {
+                width: "9.09%",
+                targets: 10
             }
         ],
         "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {

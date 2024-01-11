@@ -987,7 +987,7 @@ function getCuentasProveedores() {
 }
 
 function getAlmacenProductos(index) {
-    var url = '<?php echo SERVERURL;?>core/getAlmacen.php';
+    var url = '<?php echo SERVERURL;?>core/getAlmacenCompras.php';
 
     $.ajax({
         type: "POST",

@@ -60,7 +60,8 @@
 		  "isv"=>'L. '.$isv,	
 		  "descuento"=>'L. '.$descuento,
 		  "total"=>'L. '.$total	,
-		  "color"=> $color,   
+		  "color"=> $color, 
+		  "cuenta"=>$row['cuenta']		  
 	  );		
 	}
 	
