@@ -1313,11 +1313,17 @@
 		}
 
 		public function getTipoUsuario($datos){
-			if($datos['privilegio_id'] == 1){
+			if($datos['DB_MAIN'] === "clinicarehn_clientes_clinicare"){
 				$where = "WHERE estado = 1";
 			}else{
 				$where = "WHERE estado = 1 AND tipo_user_id NOT IN(1)";
 			}
+
+			/*if($datos['privilegio_id'] == 1){
+				$where = "WHERE estado = 1";
+			}else{
+				$where = "WHERE estado = 1 AND tipo_user_id NOT IN(1)";
+			}*/
 
 			$query = "SELECT *
 				FROM tipo_user
@@ -1331,11 +1337,17 @@
 		}
 
 		public function getPrivilegio($datos){
-			if($datos['privilegio_colaborador'] !== "Super Administrador"){//SUPER ADMINISTRADOR
+			if($datos['DB_MAIN'] === "clinicarehn_clientes_clinicare"){
 				$where = "WHERE estado = 1";
 			}else{
 				$where = "WHERE estado = 1 AND privilegio_id NOT IN(1)";
 			}
+
+			/*if($datos['privilegio_colaborador'] !== "Super Administrador"){//SUPER ADMINISTRADOR
+				$where = "WHERE estado = 1";
+			}else{
+				$where = "WHERE estado = 1 AND privilegio_id NOT IN(1)";
+			}*/
 
 			$query = "SELECT *
 				FROM privilegio

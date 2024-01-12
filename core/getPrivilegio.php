@@ -11,7 +11,8 @@
 
 	$datos = [
 		"privilegio_id" => $_SESSION['privilegio_sd'],
-		"colaborador_id" => $_SESSION['colaborador_id_sd'],	
+		"colaborador_id" => $_SESSION['colaborador_id_sd'],
+		"DB_MAIN" => $GLOBALS['DB_MAIN'],		
 	];	
 
 	$result = $insMainModel->getPrivilegio($datos);
@@ -23,5 +24,4 @@
 	}else{
 		echo '<option value="">No hay datos que mostrar</option>';
 	}
-?>	
-	
+?>

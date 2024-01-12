@@ -1258,6 +1258,22 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     (7, 2, 'reportes', 1, NOW()),
     (8, 2, 'actualizar', 1, NOW());
   
+    DROP TABLE IF EXISTS `planes`;
+    CREATE TABLE `planes` (
+      `planes_id` int NOT NULL,
+      `nombre` char(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+      `usuarios` int NOT NULL COMMENT 'Cantidad Usuarios en el plan',
+      `estado` int NOT NULL,
+      `fecha_registro` datetime NOT NULL
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+    
+    INSERT INTO `planes` (`planes_id`, `nombre`, `usuarios`, `estado`, `fecha_registro`) VALUES
+    (1, 'Emprendedor', 2, 1, '2023-09-15 16:36:14'),
+    (2, 'Básico', 3, 1, '2023-09-15 16:36:14'),
+    (3, 'Regular', 4, 1, '2023-09-15 16:36:45'),
+    (4, 'Estandar', 6, 1, '2023-09-15 16:36:57'),
+    (5, 'Premium', 10, 1, '2024-01-12 02:51:07');
+
     DROP TABLE IF EXISTS `plan`;
     CREATE TABLE IF NOT EXISTS `plan` (
       `plan_id` int NOT NULL,
