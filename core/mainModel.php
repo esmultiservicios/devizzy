@@ -1313,7 +1313,7 @@
 		}
 
 		public function getTipoUsuario($datos){
-			if($datos['DB_MAIN'] === "clinicarehn_clientes_clinicare"){
+			if($datos['db_cliente'] === "clinicarehn_clientes_clinicare"){
 				$where = "WHERE estado = 1";
 			}else{
 				$where = "WHERE estado = 1 AND tipo_user_id NOT IN(1)";
@@ -1337,7 +1337,7 @@
 		}
 
 		public function getPrivilegio($datos){
-			if($datos['DB_MAIN'] === "clinicarehn_clientes_clinicare"){
+			if($datos['db_cliente'] === "clinicarehn_clientes_clinicare"){
 				$where = "WHERE estado = 1";
 			}else{
 				$where = "WHERE estado = 1 AND privilegio_id NOT IN(1)";

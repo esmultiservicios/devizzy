@@ -12,7 +12,7 @@
 	$datos = [
 		"privilegio_id" => $_SESSION['privilegio_sd'],
 		"colaborador_id" => $_SESSION['colaborador_id_sd'],
-		"DB_MAIN" => $GLOBALS['DB_MAIN'],		
+		"DB_MAIN" => $_SESSION['db_cliente'],		
 	];	
 
 	$result = $insMainModel->getPrivilegio($datos);
