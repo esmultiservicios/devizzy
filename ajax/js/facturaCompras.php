@@ -160,10 +160,8 @@ function resetRowPurchase() {
 
 var row = 0;
 var view_productos_busqueda_compras_dataTable = function(tbody, table) {
-
-    $(tbody).off("click", "button.table_view");
-
-    $(tbody).on("click", "button.table_view", function(e) {
+    $(tbody).off("click", "button.table_view, td img");
+    $(tbody).on("click", "button.table_view, td img", function(e) {
 
         e.preventDefault();
 
@@ -967,21 +965,6 @@ function getProveedores() {
             $('#purchase-form #proveedor').html("");
             $('#purchase-form #proveedor').html(data);
             $('#purchase-form #proveedor').selectpicker('refresh');
-        }
-    });
-}
-
-function getCuentasProveedores() {
-    var url = '<?php echo SERVERURL;?>core/getCuenta.php';
-
-    $.ajax({
-        type: "POST",
-        url: url,
-        async: true,
-        success: function(data) {
-            $('#modal_pagosPurchase #metodopago_efectivo_compras').html("");
-            $('#modal_pagosPurchase #metodopago_efectivo_compras').html(data);
-            $('#modal_pagosPurchase #metodopago_efectivo_compras').selectpicker('refresh');
         }
     });
 }

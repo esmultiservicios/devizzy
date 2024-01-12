@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label for="nombre_proveedores">Almacén <span class="priority">*<span /></label>
+                            <label for="almacen_almacen">Almacén <span class="priority">*<span /></label>
                             <input type="text" required class="form-control" name="almacen_almacen" id="almacen_almacen"
                                 placeholder="Almacén" maxlength="30"
                                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />

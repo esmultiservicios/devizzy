@@ -71,8 +71,8 @@
 			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 			
 			return $result;					
-		}
-		
+		}	
+
 		protected function actualizar_compra_importe($datos){
 			$update = "UPDATE compras
 				SET

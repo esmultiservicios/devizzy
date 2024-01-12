@@ -114,6 +114,7 @@
                         <thead>
                             <tr>
                                 <th>Fecha</th>
+                                <th>Imagen</th>
                                 <th>Bar Code</th>
                                 <th>Cliente</th>
                                 <th>Producto</th>
@@ -128,12 +129,11 @@
                         <tfoot class="bg-info text-white font-weight-bold">
                             <tr>
                                 <td colspan='1' class="text-center">Total</td>
-                                <td colspan="4"></td>
-                                <td></td>
+                                <td colspan="5"></td>
                                 <td id="entrada-footer-movimiento"></td>
                                 <td id='salida-footer-movimiento'></td>
                                 <td id='total-footer-movimiento'></td>
-                                <td></td>
+                                <td colspan="2"></td>
                             </tr>
                         </tfoot>
                     </table>

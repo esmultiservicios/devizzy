@@ -11,7 +11,7 @@
 				session_start(['name'=>'SD']); 
 			}
 			
-			$almacen_id = mainModel::cleanStringConverterCase($_POST['almacen']);
+			$almacen_id = 1;
 			$medida_id = mainModel::cleanStringConverterCase($_POST['medida']);
 			$producto_superior = mainModel::cleanString($_POST['producto_superior']) == "" ? 0 : mainModel::cleanString($_POST['producto_superior']);
 			$categoria_id = mainModel::cleanStringConverterCase($_POST['producto_categoria']);
@@ -22,11 +22,11 @@
 			$precio_compra = mainModel::cleanString($_POST['precio_compra']);
 			$porcentaje_venta = mainModel::cleanString($_POST['porcentaje_venta']);
 			$precio_venta = mainModel::cleanString($_POST['precio_venta']);
-			$cantidad_mayoreo = mainModel::cleanString($_POST['cantidad_mayoreo']);
+			$cantidad_mayoreo = mainModel::cleanString($_POST['cantidad_mayoreo'] === "" ? 3 : $_POST['cantidad_mayoreo']);
 			$precio_mayoreo = mainModel::cleanString($_POST['precio_mayoreo']);
 			$cantidad_minima = mainModel::cleanString($_POST['cantidad_minima']);
 			$cantidad_maxima = mainModel::cleanString($_POST['cantidad_maxima']);
-
+			
 			if($_POST['bar_code_product'] == ""){
 				$flag_barcode = true;
 				while($flag_barcode){

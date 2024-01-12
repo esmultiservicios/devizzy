@@ -2002,20 +2002,25 @@ var listar_cuentas_por_cobrar_clientes = function() {
                 targets: 9
             }
         ],
-        "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-            // Agregar clases de color a las filas
-            $('td', nRow).addClass(aData['color']);
+        "footerCallback": function(row, data, start, end, display) {
+            var totalCredito = data.reduce(function(acc, row) {
+                return acc + (parseFloat(row.credito) || 0);
+            }, 0).toFixed(2);
 
-            // Personalizar el color de una celda específica (por ejemplo, la celda en la posición 2)
-            $('td:eq(2)', nRow).css('color', 'red');
+            var totalAbono = data.reduce(function(acc, row) {
+                return acc + (parseFloat(row.abono) || 0);
+            }, 0).toFixed(2);
 
-            // Mostrar totales formateados en el pie de página
-            var totalCreditoFormatted = "L. " + parseFloat(aData['total_credito']).toLocaleString(
-                'es-HN');
-            var totalAbonoFormatted = "L. " + parseFloat(aData['total_abono']).toLocaleString('es-HN');
-            var totalPendienteFormatted = "L. " + parseFloat(aData['total_pendiente']).toLocaleString(
-                'es-HN');
+            var totalPendiente = data.reduce(function(acc, row) {
+                return acc + (parseFloat(row.saldo) || 0);
+            }, 0).toFixed(2);
 
+            // Formatear los totales con separadores de miles y coma para decimales
+            var totalCreditoFormatted = "L. " + totalCredito.toLocaleString('es-HN');
+            var totalAbonoFormatted = "L. " + totalAbono.toLocaleString('es-HN');
+            var totalPendienteFormatted = "L. " + totalPendiente.toLocaleString('es-HN');
+
+            // Asignar los totales a los elementos HTML
             $('#credito-cxc').html(totalCreditoFormatted);
             $('#abono-cxc').html(totalAbonoFormatted);
             $('#total-footer-cxc').html(totalPendienteFormatted);
@@ -2323,20 +2328,19 @@ var listar_cuentas_por_pagar_proveedores = function() {
             // Personalizar el color de la celda en la posición 2 (índice 2)
             $('td:eq(2)', nRow).css('color', 'red');
         },
-
         "footerCallback": function(row, data, start, end, display) {
             // Calcular los totales
             var totalCredito = data.reduce(function(acc, row) {
-                return acc + parseFloat(row.credito);
-            }, 0);
+                return acc + (parseFloat(row.credito) || 0); // Asegurar que sea numérico
+            }, 0).toFixed(2);
 
             var totalAbono = data.reduce(function(acc, row) {
-                return acc + parseFloat(row.abono);
-            }, 0);
+                return acc + (parseFloat(row.abono) || 0);
+            }, 0).toFixed(2);
 
             var totalPendiente = data.reduce(function(acc, row) {
-                return acc + parseFloat(row.saldo);
-            }, 0);
+                return acc + (parseFloat(row.saldo) || 0);
+            }, 0).toFixed(2);
 
             // Formatear los totales con separadores de miles y coma para decimales
             var totalCreditoFormatted = "L. " + totalCredito.toLocaleString('es-HN');
@@ -4631,6 +4635,21 @@ function getEstadoClientes() {
             $('#form_main_clientes #estado_clientes').html("");
             $('#form_main_clientes #estado_clientes').html(data);
             $('#form_main_clientes #estado_clientes').selectpicker('refresh');
+        }
+    });
+}
+
+function getCuentasProveedores() {
+    var url = '<?php echo SERVERURL;?>core/getCuenta.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(data) {
+            $('#modal_pagosPurchase #metodopago_efectivo_compras').html("");
+            $('#modal_pagosPurchase #metodopago_efectivo_compras').html(data);
+            $('#modal_pagosPurchase #metodopago_efectivo_compras').selectpicker('refresh');
         }
     });
 }

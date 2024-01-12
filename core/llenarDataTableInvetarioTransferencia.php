@@ -43,8 +43,8 @@
 					"bodega"=>$bodega,
 					"id_bodega"=>$row['almacen_id'],
 					"productos_id"=>$row['productos_id'],
-					"superior"=>$row['id_producto_superior']			
-				
+					"superior"=>$row['id_producto_superior'],			
+					"image"=>$row['image']
 				);
 			}
 		}	
@@ -58,4 +58,4 @@
 	);
 
 	echo json_encode($arreglo);
-?>	
+?>

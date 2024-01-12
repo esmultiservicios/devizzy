@@ -4,34 +4,28 @@ $(document).ready(function() {
     getFacturador();
     getVendedores();
     listar_reporte_ventas();
-    total_ingreso_footer();
     $('#form_main_ventas #tipo_factura_reporte').val(1);
     $('#form_main_ventas #tipo_factura_reporte').selectpicker('refresh');
 });
 
 $('#form_main_ventas #tipo_factura_reporte').on("change", function(e) {
     listar_reporte_ventas();
-    total_ingreso_footer();
 });
 
 $('#form_main_ventas #facturador').on("change", function(e) {
     listar_reporte_ventas();
-    total_ingreso_footer();
 });
 
 $('#form_main_ventas #vendedor').on("change", function(e) {
     listar_reporte_ventas();
-    total_ingreso_footer();
 });
 
 $('#form_main_ventas #fechai').on("change", function(e) {
     listar_reporte_ventas();
-    total_ingreso_footer();
 });
 
 $('#form_main_ventas #fechaf').on("change", function(e) {
     listar_reporte_ventas();
-    total_ingreso_footer();
 });
 
 //INICIO REPORTE DE VENTAS
@@ -197,6 +191,42 @@ var listar_reporte_ventas = function() {
         "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
             $('td', nRow).addClass(aData['color']);
         },
+        "footerCallback": function(row, data, start, end, display) {
+            // Aquí puedes calcular los totales y actualizar el footer
+            var totalSubtotal = data.reduce(function(acc, row) {
+                return acc + (parseFloat(row.subtotal) || 0);
+            }, 0).toFixed(2);
+
+            var totalIsv = data.reduce(function(acc, row) {
+                return acc + (parseFloat(row.isv) || 0);
+            }, 0).toFixed(2);
+
+            var totalDescuento = data.reduce(function(acc, row) {
+                return acc + (parseFloat(row.descuento) || 0);
+            }, 0).toFixed(2);
+
+            var totalVentas = data.reduce(function(acc, row) {
+                return acc + (parseFloat(row.total) || 0);
+            }, 0).toFixed(2);
+
+            var totalGanancia = data.reduce(function(acc, row) {
+                return acc + (parseFloat(row.ganancia) || 0);
+            }, 0).toFixed(2);
+
+            // Formatear los totales con separadores de miles y coma para decimales
+            var totalSubtotalFormatted = "L. " + totalSubtotal.toLocaleString('es-HN');
+            var totalIsvFormatted = "L. " + totalIsv.toLocaleString('es-HN');
+            var totalDescuentoFormatted = "L. " + totalDescuento.toLocaleString('es-HN');
+            var totalVentasFormatted = "L. " + totalVentas.toLocaleString('es-HN');
+            var totalGananciaFormatted = "L. " + totalGanancia.toLocaleString('es-HN');
+
+            // Asignar los totales a los elementos HTML en el footer
+            $('#subtotal-i').html(totalSubtotalFormatted);
+            $('#impuesto-i').html(totalIsvFormatted);
+            $('#descuento-i').html(totalDescuentoFormatted);
+            $('#total-footer-ingreso').html(totalVentasFormatted);
+            $('#ganancia').html(totalGananciaFormatted);
+        },
         "buttons": [{
                 text: '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
                 titleAttr: 'Actualizar Reporte de Ventas',
@@ -259,7 +289,7 @@ var listar_reporte_ventas = function() {
     view_reporte_comprobante_dataTable("#dataTablaReporteVentas tbody", table_reporteVentas);
     view_anular_facturas_dataTable("#dataTablaReporteVentas tbody", table_reporteVentas);
 
-    total_ingreso_footer();
+    //total_ingreso_footer();
 }
 
 var view_anular_facturas_dataTable = function(tbody, table) {
@@ -335,7 +365,6 @@ function anular(facturas_id, comentario) {
                     type: "success",
                 });
                 listar_reporte_ventas();
-                total_ingreso_footer();
             } else {
                 swal({
                     title: "Error",
@@ -394,44 +423,4 @@ function getVendedores() {
     });
 }
 //FIN REPORTE DE VENTAS
-
-var total_ingreso_footer = function() {
-    var tipo_factura_reporte = $("#form_main_ventas #tipo_factura_reporte").val();
-
-    var fechai = $("#form_main_ventas #fechai").val();
-    var fechaf = $("#form_main_ventas #fechaf").val();
-
-    $.ajax({
-            url: '<?php echo SERVERURL;?>core/totalVentasFooter.php',
-            type: "POST",
-            data: {
-                "tipo_factura_reporte": tipo_factura_reporte,
-                "fechai": fechai,
-                "fechaf": fechaf
-            }
-        })
-        .done(function(data) {
-            try {
-                data = JSON.parse(data);
-                var totalFormatted = "L. " + parseFloat(data.total).toLocaleString('es-HN');
-                var creditoFormatted = "L. " + parseFloat(data.subtotal).toLocaleString('es-HN');
-                var abonoFormatted = "L. " + parseFloat(data.impuesto).toLocaleString('es-HN');
-                var pendienteFormatted = "L. " + parseFloat(data.descuento).toLocaleString('es-HN');
-
-
-                // Ahora intenta actualizar los elementos HTML
-                $("#ganancia").html("L. " + data.ganancia);
-                $("#total-footer-ingreso").html(totalFormatted);
-                $("#subtotal-i").html(creditoFormatted);
-                $("#impuesto-i").html(abonoFormatted);
-                $("#descuento-i").html(pendienteFormatted);
-
-            } catch (error) {
-                console.error("Error al parsear los datos JSON", error);
-            }
-        })
-        .fail(function(data) {
-            console.log("total ingreso error", data);
-        });
-}
 </script>

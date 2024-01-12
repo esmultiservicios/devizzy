@@ -34,7 +34,8 @@
 			"saldo"=>$row['saldo'],
 			"bodega"=>$row['bodega'],
 			"id_bodega"=>$row['almacen_id'],
-			"productos_id"=>$row['productos_id']						
+			"productos_id"=>$row['productos_id'],
+			"image"=>$row['image']						
 		);	
 	}
 	
@@ -46,4 +47,4 @@
 	);
 
 	echo json_encode($arreglo);
-?>	
+?>

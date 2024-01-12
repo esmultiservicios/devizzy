@@ -6,8 +6,10 @@
         </a>
     </div>
 
-    <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i
-            class="fas fa-bars fa-lg"></i></button>
+    <!-- Botón de alternar menú para pantallas pequeñas -->
+    <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#">
+        <i class="fas fa-bars fa-lg"></i>
+    </button>
 
     <!-- Menú principal -->
     <ul class="navbar-nav">
@@ -66,6 +68,7 @@
         </li>
     </ul>
 
+    <!-- Menú rápido -->
     <div class="dropdown d-md-none">
         <button class="btn btn-secondary bg-color-navarlateral dropdown-toggle" type="button" id="dropdownMenuButton"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -110,9 +113,8 @@
         </div>
     </div>
 
-
-    <!-- Navbar-->
-    <ul class="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    <!-- Navbar usuario -->
+    <ul class="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0 navbar-nav-user">
         <li class="nav-item dropdown active">
             <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">

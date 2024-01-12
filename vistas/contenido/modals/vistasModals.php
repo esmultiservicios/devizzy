@@ -2583,10 +2583,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 mb-3" style="display: none;">
                             <label for="almacen">Almacén</label>
                             <div class="input-group mb-3">
-                                <select id="almacen" name="almacen" required class="selectpicker" data-width="100%"
+                                <select id="almacen" name="almacen" class="selectpicker" data-width="100%"
                                     data-live-search="true" title="Almacén">
                                 </select>
                             </div>
@@ -2597,15 +2597,15 @@
                                 data-width="100%" data-live-search="true" title="Tipo Producto">
                             </select>
                         </div>
-                    </div>
-
-                    <div class="form-row">
                         <div class="col-md-3 mb-3">
                             <label for="medida">Medida <span class="priority">*<span /></label>
                             <select id="medida" name="medida" required class="selectpicker" data-size="7"
                                 data-width="100%" data-live-search="true" title="Medida">
                             </select>
                         </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="col-md-3 mb-3">
                             <label for="departamento_cliente">Precio Compra <span></label>
                             <input type="number" class="form-control" id="precio_compra" name="precio_compra"
@@ -2621,14 +2621,14 @@
                             <input type="number" class="form-control" id="porcentaje_venta" name="porcentaje_venta"
                                 placeholder="Ganancia" step="0.00001">
                         </div>
-                    </div>
-
-                    <div class="form-row">
                         <div class="col-md-3 mb-3">
                             <label for="cantidad_mayoreo">Cantidad Mayoreo </label>
                             <input type="number" class="form-control" id="cantidad_mayoreo" name="cantidad_mayoreo"
                                 placeholder="Precio Mayoreo" step="0.00001" value="">
                         </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="col-md-3 mb-3">
                             <label for="precio_mayoreo">Precio Mayoreo </label>
                             <input type="number" class="form-control" id="precio_mayoreo" name="precio_mayoreo"

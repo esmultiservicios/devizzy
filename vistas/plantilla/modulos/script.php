@@ -13,6 +13,7 @@
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/dataTables.buttons.min.js" crossorigin="anonymous"></script>
+<script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/dataTables.select.min.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/jszip.min.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/pdfmake.min.js" crossorigin="anonymous"></script>
 <script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/vfs_fonts.js" crossorigin="anonymous"></script>

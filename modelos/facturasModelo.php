@@ -39,7 +39,7 @@
 				VALUES('$movimientos_id','".$datos['productos_id']."','".$datos['documento']."','".$datos['cantidad_entrada']."',
 				'".$datos['cantidad_salida']."','".$datos['saldo']."','".$datos['empresa']."','".$datos['fecha_registro']."',
 				'".$datos['clientes_id']."','','".$datos['almacen_id']."')";
-			
+				
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);	
 			return $result;				
 

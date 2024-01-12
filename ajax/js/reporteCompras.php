@@ -193,6 +193,39 @@ var listar_reporte_compras = function() {
         "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
             $('td', nRow).addClass(aData['color']);
         },
+        "footerCallback": function(row, data, start, end, display) {
+            // Aquí puedes calcular los totales y actualizar el footer
+            var totalSubtotal = data.reduce(function(acc, row) {
+                return acc + (parseFloat(row.subtotal) || 0);
+            }, 0);
+
+            var totalIsv = data.reduce(function(acc, row) {
+                return acc + (parseFloat(row.isv) || 0);
+            }, 0);
+
+            var totalDescuento = data.reduce(function(acc, row) {
+                return acc + (parseFloat(row.descuento) || 0);
+            }, 0);
+
+            var totalVentas = data.reduce(function(acc, row) {
+                return acc + (parseFloat(row.total) || 0);
+            }, 0);
+
+            // Formatear los totales con dos decimales y separadores de miles
+            var totalSubtotalFormatted = "L. " + totalSubtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g,
+                '$&,');
+            var totalIsvFormatted = "L. " + totalIsv.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            var totalDescuentoFormatted = "L. " + totalDescuento.toFixed(2).replace(/\d(?=(\d{3})+\.)/g,
+                '$&,');
+            var totalVentasFormatted = "L. " + totalVentas.toFixed(2).replace(/\d(?=(\d{3})+\.)/g,
+                '$&,');
+
+            // Asignar los totales a los elementos HTML en el footer
+            $('#subtotal-i').html(totalSubtotalFormatted);
+            $('#impuesto-i').html(totalIsvFormatted);
+            $('#descuento-i').html(totalDescuentoFormatted);
+            $('#total-footer-ingreso').html(totalVentasFormatted);
+        },
         "buttons": [{
                 text: '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
                 titleAttr: 'Actualizar Reporte de Compras',
@@ -251,8 +284,6 @@ var listar_reporte_compras = function() {
 
     view_reporteCompras_dataTable("#dataTablaReporteCompras tbody", table_reporteCompras);
     view_anularCompras_dataTable("#dataTablaReporteCompras tbody", table_reporteCompras);
-
-    total_ingreso_footer();
 }
 
 var view_anularCompras_dataTable = function(tbody, table) {
@@ -332,27 +363,4 @@ function getReporteCompras() {
     });
 }
 //FIN REPORTE DE COMPRAS
-
-var total_ingreso_footer = function() {
-    var fechai = $("#form_main_compras #fechai").val();
-    var fechaf = $("#form_main_compras #fechaf").val();
-    $.ajax({
-            url: '<?php echo SERVERURL;?>core/totalCompraFooter.php',
-            type: "POST",
-            data: {
-                "fechai": fechai,
-                "fechaf": fechaf
-            }
-        })
-        .done(function(data) {
-            data = JSON.parse(data)
-            $("#total-footer-ingreso").html("L. " + data.total);
-            $("#subtotal-i").html("L. " + data.subtotal);
-            $("#impuesto-i").html("L. " + data.impuesto);
-            $("#descuento-i").html("L. " + data.descuento);
-        })
-        .fail(function(data) {
-            console.log("total ingreso error");
-        });
-}
 </script>

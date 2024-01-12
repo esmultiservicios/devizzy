@@ -2120,7 +2120,7 @@ pre code {
   background-color: rgba(255, 255, 255, 0.075);
 }
 
-@media (max-width: 575.98px) {
+@media (max-width: 575px) {
   .table-responsive-sm {
     display: block;
     width: 100%;
@@ -11455,7 +11455,6 @@ body {
 
 
 /* Mobile */
-
 @media screen and (max-width:500px) {
   #logreg-forms {
     width: 300px;
@@ -11706,7 +11705,6 @@ hr.line_table {
   /* Asegura que el navbar-brand no sea más alto que el custom-header */
 }
 
-
 .custom-header .navbar-brand img {
   max-height: 100%;
   /* La imagen se ajustará proporcionalmente en función de la altura máxima del custom-header */
@@ -11956,6 +11954,41 @@ input:checked+.slider:before {
   /* Asegura que el footer esté encima del contenido */
 }
 
+/* Estilos para pantallas más pequeñas (tablets y móviles) */
+@media (max-width: 900px) {
+  .navbar-nav {
+      display: none; /* Oculta el menú principal en pantallas pequeñas */
+  }
+
+  .dropdown.d-md-none {
+      display: block; /* Muestra el menú rápido en pantallas pequeñas */
+  }
+
+  .toggle-menu-button {
+      display: block; /* Muestra el botón de alternar menú en pantallas pequeñas */
+  }
+}
+
+/* Estilos generales para todos los tamaños de pantalla */
+/* Puedes ajustar estos estilos según tus necesidades */
+.toggle-menu-button {
+  display: none; /* Oculta el botón de alternar menú en pantallas más grandes */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Estilos adicionales para mejorar el diseño */
+.navbar-brand {
+  margin-right: auto; /* Mueve la marca hacia la izquierda en pantallas más grandes */
+}
+
+/* Agrega un poco de espacio entre la marca y el botón de alternar menú */
+.navbar-brand, .toggle-menu-button {
+  margin-right: 15px;
+}
+
+
 .table-responsive {
   position: relative;
   z-index: 0
@@ -12125,4 +12158,53 @@ input:checked+.slider:before {
 
 .suggestions li:hover {
     background-color: #f0f0f0;
+}
+
+/* Estilos para pantallas más pequeñas (tablets y móviles) */
+/* Estilos para pantallas más pequeñas (tablets y móviles) */
+@media (max-width: 900px) {
+  .navbar-nav {
+      display: none !important; /* Oculta el menú principal en pantallas pequeñas */
+  }
+
+  .dropdown.d-md-none {
+      display: block !important; /* Muestra el menú rápido en pantallas pequeñas */
+  }
+
+  .toggle-menu-button {
+      display: block !important; /* Muestra el botón de alternar menú en pantallas pequeñas */
+  }
+
+  .navbar-collapse {
+      order: 1 !important; /* Cambia el orden del menú rápido en pantallas pequeñas */
+  }
+
+  .navbar-nav-user {
+      order: 2 !important; /* Cambia el orden del menú de usuario en pantallas pequeñas */
+  }
+}
+
+/* Estilos generales para todos los tamaños de pantalla */
+/* Puedes ajustar estos estilos según tus necesidades */
+.toggle-menu-button {
+  display: none !important; /* Oculta el botón de alternar menú en pantallas más grandes */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Estilos adicionales para mejorar el diseño */
+.navbar-brand {
+  margin-right: auto !important; /* Mueve la marca hacia la izquierda en pantallas más grandes */
+}
+
+/* Agrega un poco de espacio entre la marca y el botón de alternar menú */
+.navbar-brand, .toggle-menu-button {
+  margin-right: 15px !important;
+}
+
+/* Estilos para el menú de usuario */
+.navbar-nav-user {
+  display: flex !important;
+  align-items: center !important;
 }

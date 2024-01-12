@@ -168,7 +168,6 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       PRIMARY KEY (`acceso_submenu1_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
-
     DROP TABLE IF EXISTS `categoria_gastos`;
     CREATE TABLE IF NOT EXISTS `categoria_gastos` (
       `categoria_gastos_id` int(11) NOT NULL,

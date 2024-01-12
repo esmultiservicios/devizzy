@@ -71,6 +71,13 @@ var inventario_transferencia = function() {
                 }
             },
             {
+                "data": "image",
+                "render": function(data, type, row, meta) {
+                    return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
+                        data + '" alt="' + data + '" height="100px" width="100px"/>';
+                }
+            },
+            {
                 "data": "barCode"
             },
             {
@@ -197,6 +204,10 @@ var inventario_transferencia = function() {
             {
                 width: "10.5%",
                 targets: 8
+            },
+            {
+                width: "10.5%",
+                targets: 9
             },
         ],
         "buttons": [{

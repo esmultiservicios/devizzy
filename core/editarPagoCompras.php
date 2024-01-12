@@ -47,7 +47,6 @@
 		 4 => $compras_id,	
 		 5 => $estado,
 		 6 => $saldo
-
 	);	
 	echo json_encode($datos);
 ?>

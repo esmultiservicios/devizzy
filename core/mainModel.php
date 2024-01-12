@@ -3831,6 +3831,7 @@
 					m.cantidad_salida AS 'salida',
 					m.saldo AS 'saldo',
 					bo.nombre AS 'bodega',
+					p.file_name AS 'image',
 					bo.almacen_id,
 					DATE_FORMAT(
 						m.fecha_registro,
@@ -3884,35 +3885,36 @@
 			}
 
 			$query = "
-			SELECT
-			m.almacen_id AS 'almacen_id',
-			m.movimientos_id AS 'movimientos_id',
-			p.barCode AS 'barCode',
-			p.nombre AS 'producto',
-			me.nombre AS 'medida',
-			SUM(m.cantidad_entrada) AS 'entrada',
-			SUM(m.cantidad_salida) AS 'salida',
-			(
-				SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
-			) AS 'saldo',
-			bo.nombre AS 'bodega',
-			DATE_FORMAT(
-				p.fecha_registro,
-				'%d/%m/%Y %H:%i:%s'
-			) AS 'fecha_registro',
-			p.productos_id AS 'productos_id',
-			p.id_producto_superior
-		FROM
-			movimientos AS m
-		INNER JOIN productos AS p ON m.productos_id = p.productos_id
-		INNER JOIN medida AS me ON p.medida_id = me.medida_id
-		INNER JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
-					WHERE p.estado = 1
-					$tipo_product
-				    $bodega
-					$id_producto
-					GROUP BY p.productos_id, m.almacen_id
-				    ORDER BY p.fecha_registro ASC";
+				SELECT
+				m.almacen_id AS 'almacen_id',
+				m.movimientos_id AS 'movimientos_id',
+				p.barCode AS 'barCode',
+				p.nombre AS 'producto',
+				me.nombre AS 'medida',
+				p.file_name AS 'image',
+				SUM(m.cantidad_entrada) AS 'entrada',
+				SUM(m.cantidad_salida) AS 'salida',
+				(
+					SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
+				) AS 'saldo',
+				bo.nombre AS 'bodega',
+				DATE_FORMAT(
+					p.fecha_registro,
+					'%d/%m/%Y %H:%i:%s'
+				) AS 'fecha_registro',
+				p.productos_id AS 'productos_id',
+				p.id_producto_superior
+			FROM
+				movimientos AS m
+			INNER JOIN productos AS p ON m.productos_id = p.productos_id
+			INNER JOIN medida AS me ON p.medida_id = me.medida_id
+			INNER JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
+			WHERE p.estado = 1
+			$tipo_product
+			$bodega
+			$id_producto
+			GROUP BY p.productos_id, m.almacen_id
+			ORDER BY p.fecha_registro ASC";
 
 			$result = self::connection()->query($query);
 			//echo 'quersdfasd  '.$query;
@@ -4095,17 +4097,11 @@
 
 
 		public function getTipoPago(){
-
 			$query = "SELECT * FROM tipo_pago";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 		public function getDatosCompras($compras_id){
@@ -4119,15 +4115,12 @@
 				c.fecha AS fecha_compra,
 				c.notas AS notas,
 				c.tipo_compra,
-				pagar_proveedores.saldo,
-				ct.nombre AS cuenta
+				pagar_proveedores.saldo
 			FROM compras AS c
 			INNER JOIN proveedores AS p ON c.proveedores_id = p.proveedores_id
 			INNER JOIN pagar_proveedores ON pagar_proveedores.compras_id = c.compras_id
-			INNER JOIN cuentas AS ct ON c.cuentas_id = ct.cuentas_id;
 			WHERE c.compras_id = '$compras_id'";
-
-			echo $query."**";
+			
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -4250,9 +4243,9 @@
 				$fecha = "AND proveedores.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."'";
 			}
 
-			if($datos['proveedores_id'] !== 0){
+			if(!empty($datos['proveedores_id']) && $datos['proveedores_id'] !== 0){
 				$proveedores_id = "AND proveedores.proveedores_id = '".$datos['proveedores_id']."'";
-			}
+			}			
 
 			$query = "SELECT
 			proveedores.nombre AS proveedores,
@@ -4266,7 +4259,7 @@
 			proveedores
 			INNER JOIN compras ON proveedores.proveedores_id = compras.proveedores_id
 			INNER JOIN pagar_proveedores ON pagar_proveedores.compras_id = compras.compras_id
-			WHERE proveedores.estado = '".$datos['estado']."'
+			WHERE pagar_proveedores.estado = '".$datos['estado']."'
 			$fecha
 			$proveedores_id
 			ORDER BY proveedores.fecha ASC";

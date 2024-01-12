@@ -7,10 +7,13 @@ $(document).ready(function() {
 function funciones() {
     getTipoProductosMovimientos();
     getTipoProductos();
+    getTipoProductosModal()
     getProductoOperacion();
     getClientes();
+    getClientesModal();
     getProductosMovimientos(1);
     getAlmacen();
+    getAlmacenModal();
 }
 
 $('#form_main_movimientos #categoria_id').on('change', function() {
@@ -74,6 +77,13 @@ var listar_movimientos = function() {
                     }
                     // For display or other types, return the formatted date string
                     return data;
+                }
+            },
+            {
+                "data": "image",
+                "render": function(data, type, row, meta) {
+                    return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
+                        data + '" alt="' + data + '" height="100px" width="100px"/>';
                 }
             },
             {
@@ -184,7 +194,32 @@ var listar_movimientos = function() {
                 width: "10.5%",
                 targets: 9
             },
+            {
+                width: "10.5%",
+                targets: 10
+            },
         ],
+        "footerCallback": function(row, data, start, end, display) {
+            var api = this.api();
+
+            var totalEntrada = api.column(7, {
+                page: 'current'
+            }).data().reduce(function(a, b) {
+                return a + parseFloat(b || 0);
+            }, 0);
+
+            var totalSalida = api.column(8, {
+                page: 'current'
+            }).data().reduce(function(a, b) {
+                return a + parseFloat(b || 0);
+            }, 0);
+
+            var total = totalEntrada - totalSalida;
+
+            $('#entrada-footer-movimiento').html(formatNumber(totalEntrada));
+            $('#salida-footer-movimiento').html(formatNumber(totalSalida));
+            $('#total-footer-movimiento').html(formatNumber(total));
+        },
         "buttons": [{
                 text: '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
                 titleAttr: 'Actualizar Movimientos',
@@ -243,73 +278,18 @@ var listar_movimientos = function() {
         ],
         "drawCallback": function(settings) {
             getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
-        },
-        "footerCallback": function(row, data, start, end, display) {
-            var api = this.api();
-
-            var totalEntrada = api.column(6, {
-                page: 'current'
-            }).data().reduce(function(a, b) {
-                return a + parseFloat(b);
-            }, 0);
-
-            var totalSalida = api.column(7, {
-                page: 'current'
-            }).data().reduce(function(a, b) {
-                return a + parseFloat(b);
-            }, 0);
-
-            var total = totalEntrada - totalSalida;
-
-            $('#entrada-footer-movimiento').html(formatNumber(totalEntrada));
-            $('#salida-footer-movimiento').html(formatNumber(totalSalida));
-            $('#total-footer-movimiento').html(formatNumber(total));
         }
     });
     table_movimientos.search('').draw();
     table_movimientos.order([0, 'desc'])
     $('#buscar').focus();
 
-    //total_movimiento_footer();
     //transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos);
 }
 
 function formatNumber(number) {
     return $.fn.dataTable.render.number(',', '.', 2, '').display(number);
 }
-
-//FOOTER MOVIMIENTOS
-var total_movimiento_footer = function() {
-    var tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
-    var fechai = $("#form_main_movimientos #fechai").val();
-    var fechaf = $("#form_main_movimientos #fechaf").val();
-    var bodega = $("#form_main_movimientos #almacen").val();
-    var producto = $("#producto_movimiento_filtro").val();
-    var cliente = $('#cliente_movimiento_filtro').val();
-
-    $.ajax({
-            url: '<?php echo SERVERURL;?>core/totalMovimientosFooter.php',
-            type: "POST",
-            data: {
-                "tipo_producto_id": tipo_producto_id,
-                "fechai": fechai,
-                "fechaf": fechaf,
-                "bodega": bodega,
-                "producto": producto,
-                "cliente": cliente,
-            }
-        })
-        .done(function(data) {
-            data = JSON.parse(data)
-            $("#entrada-footer-movimiento").html(data.entrada);
-            $("#salida-footer-movimiento").html(data.salida);
-            $("#total-footer-movimiento").html(data.saldo);
-        })
-        .fail(function(data) {
-            console.log("total ingreso error");
-        });
-}
-//FIN MOVIMIENTOS
 
 //INVENTARIO TRANSFERENCIA
 var inventario_transferencia = function() {
@@ -598,7 +578,18 @@ function getAlmacen() {
             $('#form_main_movimientos #almacen').html("");
             $('#form_main_movimientos #almacen').html(data);
             $('#form_main_movimientos #almacen').selectpicker('refresh');
+        }
+    });
+}
 
+function getAlmacenModal() {
+    var url = '<?php echo SERVERURL;?>core/getAlmacenCompras.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(data) {
             $('#formMovimientos #almacen_modal').html("");
             $('#formMovimientos #almacen_modal').html(data);
             $('#formMovimientos #almacen_modal').selectpicker('refresh');
@@ -619,6 +610,18 @@ function getTipoProductos() {
             $('#form_main_movimientos #inventario_tipo_productos_id').html(data);
             $('#form_main_movimientos #inventario_tipo_productos_id').selectpicker('refresh');
 
+        }
+    });
+}
+
+function getTipoProductosModal() {
+    var url = '<?php echo SERVERURL;?>core/getTipoProductoMovimientosModal.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(data) {
             $('#formMovimientos #movimientos_tipo_producto_id').html("");
             $('#formMovimientos #movimientos_tipo_producto_id').html(data);
             $('#formMovimientos #movimientos_tipo_producto_id').selectpicker('refresh');
@@ -715,7 +718,18 @@ function getClientes() {
             $('#form_main_movimientos #cliente_movimiento_filtro').html("");
             $('#form_main_movimientos #cliente_movimiento_filtro').html(data);
             $('#form_main_movimientos #cliente_movimiento_filtro').selectpicker('refresh');
+        }
+    });
+}
 
+function getClientesModal() {
+    var url = '<?php echo SERVERURL;?>core/getClientesHostProductosModal.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(data) {
             $('#formMovimientos #cliente_movimientos').html("");
             $('#formMovimientos #cliente_movimientos').html(data);
             $('#formMovimientos #cliente_movimientos').selectpicker('refresh');

@@ -916,14 +916,9 @@ var listar_productos_cotizacion_buscar = function() {
 var row = 0;
 
 var view_productos_busqueda_cotizacion_dataTable = function(tbody, table) { //resp1
-
-    $(tbody).off("click", "button.table_view");
-
-    $(tbody).on("click", "button.table_view", function(e) {
-
+    $(tbody).off("click", "button.table_view, td img");
+    $(tbody).on("click", "button.table_view, td img", function(e) {
         e.preventDefault();
-
-
 
         if ($("#quoteForm #cliente_id").val() != "" && $("#quoteForm #cliente").val() != "" && $(
                 "#quoteForm #colaborador_id").val() != "" && $("#quoteForm #colaborador").val() != "") {

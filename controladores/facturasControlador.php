@@ -185,7 +185,7 @@
 														"saldo" => $saldoNuevoPricipal,
 														"fecha_registro" => $fecha_registro,
 														"empresa" => $empresa_id,
-														"clientes_id" => '0',
+														"clientes_id" => $clientes_id,
 														"almacen_id" => $bodega,
 													];	
 																							
@@ -231,7 +231,7 @@
 																	"saldo" => $saldoNuevoHijos,
 																	"fecha_registro" => $fecha_registro,
 																	"empresa" => $empresa_id,
-																	"clientes_id" => '',
+																	"clientes_id" => $clientes_id,
 																	"almacen_id" => $bodega,
 																];	
 																										
@@ -272,7 +272,7 @@
 																	"saldo" => $saldoNuevoPadre,
 																	"fecha_registro" => $fecha_registro,
 																	"empresa" => $empresa_id,
-																	"clientes_id" => '',
+																	"clientes_id" => $clientes_id,
 																	"almacen_id" => $bodega,
 																];	
 																										
@@ -484,7 +484,7 @@
 													"saldo" => $saldoNuevoPricipal,
 													"fecha_registro" => $fecha_registro,
 													"empresa" => $empresa_id,
-													"clientes_id" => '',
+													"clientes_id" => $clientes_id,
 													"almacen_id" => $bodega,
 												];	
 																						
@@ -530,7 +530,7 @@
 																"saldo" => $saldoNuevoHijos,
 																"fecha_registro" => $fecha_registro,
 																"empresa" => $empresa_id,
-																"clientes_id" => '',
+																"clientes_id" => $clientes_id,
 																"almacen_id" => $bodega,
 															];	
 																									
@@ -571,7 +571,7 @@
 																"saldo" => $saldoNuevoPadre,
 																"fecha_registro" => $fecha_registro,
 																"empresa" => $empresa_id,
-																"clientes_id" => '',
+																"clientes_id" => $clientes_id,
 																"almacen_id" => $bodega,
 															];	
 																									
@@ -881,7 +881,7 @@
 										"saldo" => $saldoNuevoPricipal,
 										"fecha_registro" => $fecha_registro,
 										"empresa" => $empresa_id,
-										"clientes_id" => '',
+										"clientes_id" => $clientes_id,
 										"almacen_id" => $bodega,
 									];	
 										
@@ -932,7 +932,7 @@
 													"saldo" => $saldoNuevoHijos,
 													"fecha_registro" => $fecha_registro,
 													"empresa" => $empresa_id,
-													"clientes_id" => '',
+													"clientes_id" => $clientes_id,
 													"almacen_id" => $bodega,
 												];	
 																						
@@ -973,7 +973,7 @@
 													"saldo" => $saldoNuevoPadre,
 													"fecha_registro" => $fecha_registro,
 													"empresa" => $empresa_id,
-													"clientes_id" => '',
+													"clientes_id" => $clientes_id,
 													"almacen_id" => $bodega,
 												];	
 																						

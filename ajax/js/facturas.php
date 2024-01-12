@@ -568,8 +568,8 @@ var listar_productos_factura_buscar = function() {
 }
 
 var view_productos_busqueda_factura_dataTable = function(tbody, table) {
-    $(tbody).off("click", "button.table_view");
-    $(tbody).on("click", "button.table_view", function(e) {
+    $(tbody).off("click", "button.table_view, td img");
+    $(tbody).on("click", "button.table_view, td img", function(e) {
         e.preventDefault();
 
         row = $("#invoice-form #bill_row").val();

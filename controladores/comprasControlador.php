@@ -305,7 +305,15 @@
 									"empresa" => $empresa_id
 								];		
 								
-								comprasModelo::agregar_cuenta_por_pagar_proveedores($datos_cobrar_clientes);								
+								comprasModelo::agregar_cuenta_por_pagar_proveedores($datos_cobrar_clientes);	
+								
+								//ACTUALIZAMOS EL IMPORTE EN LA COMPRA
+								$datos_factura = [
+									"compras_id" => $compras_id,
+									"importe" => $total_despues_isv		
+								];
+							
+								comprasModelo::actualizar_compra_importe($datos_factura);
 
 							}else{
 								$alert = [
@@ -523,7 +531,6 @@
 								$total_despues_isv = ($total_valor + $isv_neto) - $descuentos;
 								
 								//ACTUALIZAMOS EL IMPORTE EN LA COMPRA
-
 								$datos_factura = [
 									"compras_id" => $compras_id,
 									"importe" => $total_despues_isv		

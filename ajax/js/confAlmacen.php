@@ -171,12 +171,12 @@ var edit_alamcen_dataTable = function(tbody, table) {
                 }
 
                 //HABILITAR OBJETOS			
-                $('#formAlmacen #ubicacion_almacen').attr('disabled', false);
-                $('#formAlmacen #almacen_activo').attr('disabled', false);
+                $('#formAlmacen #almacen_almacen').attr('readonly', false);
+                $('#formAlmacen #ubicacion_almacen').attr('disabled', true);
+                $('#formAlmacen #almacen_activo').attr('disabled', true);
                 $('#formAlmacen #almacen_empresa_id').attr('disabled', true);
 
                 //DESHABILITAR OBJETO
-                $('#formAlmacen #ubicacion_almacen').attr('disabled', true);
                 $('#formAlmacen #almacen_empresa_id').attr('disabled', true);
 
                 $('#modal_almacen').modal({
