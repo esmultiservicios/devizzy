@@ -206,18 +206,20 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="col-md-3 mb-3" data-toggle="tooltip" data-placement="top"
-                            title="'Permisos' definen lo que puedes hacer: guardar, crear, modificar, eliminar, etc. Son las acciones que tienes permitidas en el sistema.">
-                            <label for="tipo_user">Perrmisos <span class="priority">*<span /></label>
+                        <div class="col-md-3 mb-3">
+                            <label for="tipo_user" data-toggle="tooltip" data-placement="top"
+                                title="'Permisos' definen lo que puedes hacer: guardar, crear, modificar, eliminar, etc. Son las acciones que tienes permitidas en el sistema.">Perrmisos
+                                <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="tipo_user" name="tipo_user" class="selectpicker" data-live-search="true"
                                     data-width="100%" title="Tipo Usuario">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3" data-toggle="tooltip" data-placement="top"
-                            title="'Privilegio' determina qué áreas y menús puedes acceder. Es tu permiso para entrar a distintas partes.">
-                            <label for="privilegio_id">Privilegio <span class="priority">*<span /></label>
+                        <div class="col-md-3 mb-3">
+                            <label for="privilegio_id" data-toggle="tooltip" data-placement="top"
+                                title="'Privilegio' determina qué áreas y menús puedes acceder. Es tu permiso para entrar a distintas partes.">Privilegio
+                                <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="privilegio_id" name="privilegio_id" class="selectpicker" data-width="100%"
                                     data-live-search="true" title="Tipo Usuario">
