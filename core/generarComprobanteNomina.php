@@ -18,6 +18,7 @@
 	$result = $insMainModel->getNominaComprobante($nomina_id);
 	
 	$anulada = '';
+	$logotipo = '';
 
 	//OBTENEMOS LOS DATOS DEL DETALLE DE FACTURA
 	$result_voucher_detalle = $insMainModel->getNominaComprobanteDetalles($nomina_id);								
@@ -26,7 +27,8 @@
 		$consulta_registro = $result->fetch_assoc();	
 		
 		$no_factura = $consulta_registro['nomina_id'];
-
+		$logotipo = $consulta_registro['logotipo'];
+		
 		if($consulta_registro['estado'] == 2){
 			$anulada = '<img class="anulada" src="'.SERVERURL.'vistas/plantilla/img/anulado.png" alt="Anulada">';
 		}
@@ -53,4 +55,4 @@
 		
 		exit;	
 	}
-?>	
+?>

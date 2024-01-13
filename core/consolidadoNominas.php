@@ -19,12 +19,13 @@
             <tr>
                 <td class="logo_factura">
                     <div>
-                        <img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.png" width="150px" height="95px">
+                        <img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $logotipo; ?>"
+                            width="150px" height="95px">
                     </div>
                 </td>
                 <td class="info_empresa" colspan="3">
                     <div>
-                        <span class="h3">Consolidado de Nomina
+                        <span class="h3">Consolidado de Nómina
                             <?php echo $insMainModel->nombremes(date("m", strtotime($consulta_registro['fecha_registro_1']))).", ".$consulta_registro['ano_registro']; ?></span>
                     </div>
                 </td>
@@ -32,7 +33,13 @@
             <tr>
                 <td class="info_empresa">
                     <div>
-                        <span class="h3">Compañia</span>
+                        <span class="h3">Número de Nómina</span>
+                        <span class="h2"><?php echo $consulta_registro['nomina_id']; ?></span>
+                    </div>
+                </td>
+                <td class="info_empresa">
+                    <div>
+                        <span class="h3">Empresa</span>
                         <span class="h2"><?php echo $consulta_registro['empresa']; ?></span>
                     </div>
                 </td>
@@ -44,7 +51,7 @@
                 </td>
                 <td class="info_empresa">
                     <div>
-                        <span class="h3">Fecha Registro</span>
+                        <span class="h3">Fecha de Nómina</span>
                         <span class="h2"><?php echo $consulta_registro['fecha_registro']; ?></span>
                     </div>
                 </td>
@@ -62,7 +69,7 @@
                     <th align="center" rowspan="2" width="5%">Total Ingresos</th>
                     <th align="center" colspan="7" width="30%">Egresos</th>
                     <th align="center" rowspan="2" width="5%">Total Egresos</th>
-                    <th align="center" rowspan="2" width="5%">Neto</th>
+                    <th align="center" rowspan="2f" width="5%">Neto</th>
                 </tr>
                 <tr>
                     <th align="center" width="5%">Hrs 25%</th>
