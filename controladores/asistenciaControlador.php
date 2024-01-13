@@ -23,7 +23,7 @@
 
 			//OBTENEMOS EL COMENTARIO PREVIO
 			$result_comentario = asistenciaModelo::getComentarioAsistenciaModelo($datos_comentario)->fetch_assoc();
-			$_comentario = $result_comentario['comentario'];
+			$_comentario = isset($result_comentario['comentario']) ? $result_comentario['comentario'] : "";
 
 			if($_comentario == "")
 			{
@@ -168,4 +168,4 @@
 			return mainModel::sweetAlert($alert);			
 		}	
 	}
-?>	
+?>

@@ -1,3 +1,6 @@
+####13/01/2024####
+tabla => nomina
+vales			decimal(12,2) sse agrego despues de isr
 
 ####12/01/2024####
 tabla => vale

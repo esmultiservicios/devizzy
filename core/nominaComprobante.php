@@ -93,7 +93,7 @@ require_once "mainModel.php";
                 <td class="info_empresa">
                     <div>
                         <span class="h3">Empresa</span>
-                        <span class="h2"><?php echo $consulta_registro['empresa']; ?></span>
+                        <span class="h2"><?php echo $consulta_registro['razon_social']; ?></span>
                     </div>
                     <!-- Agregar fecha de nómina y número de nómina -->
                     <div>
@@ -159,7 +159,16 @@ require_once "mainModel.php";
                     $datos .= '<tr>';
                     $datos .= '<td>' . $concepto . '</td>';
                     $datos .= '<td>' . $campo . '</td>';
-                    $datos .= '<td>L. ' . number_format($registro_detalles[$campo], 2, '.', ',') . '</td>';
+                    
+                    // Verificar si el concepto es 'Días Trabajados'
+                    if ($campo === 'dias_trabajados') {
+                        // Mostrar la cantidad sin formato de moneda
+                        $datos .= '<td>' . number_format($registro_detalles[$campo], 2, '.', ',') . '</td>';
+                    } else {
+                        // Mostrar la cantidad con formato de moneda
+                        $datos .= '<td>L. ' . number_format($registro_detalles[$campo], 2, '.', ',') . '</td>';
+                    }
+                    
                     $datos .= '</tr>';
                 }
             }

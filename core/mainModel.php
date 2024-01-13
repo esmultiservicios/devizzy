@@ -1923,7 +1923,7 @@
 		}
 
 		public function getNominaComprobante($nomina_id){
-			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id', e.rtn AS 'rtn_empresa', DATE_FORMAT(n.fecha_registro, '%d/%m/%Y') AS fecha_registro, YEAR(n.fecha_registro) AS 'ano_registro', MONTHNAME(n.fecha_registro) AS 'mes_registro', n.fecha_registro AS 'fecha_registro_1', e.logotipo
+			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id', e.rtn AS 'rtn_empresa', DATE_FORMAT(n.fecha_registro, '%d/%m/%Y') AS fecha_registro, YEAR(n.fecha_registro) AS 'ano_registro', MONTHNAME(n.fecha_registro) AS 'mes_registro', n.fecha_registro AS 'fecha_registro_1', e.logotipo, e.razon_social
 			FROM nomina AS n
 			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
 			WHERE n.nomina_id = '".$nomina_id."' AND n.estado = 1

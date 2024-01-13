@@ -40,7 +40,7 @@
                 <td class="info_empresa">
                     <div>
                         <span class="h3">Empresa</span>
-                        <span class="h2"><?php echo $consulta_registro['empresa']; ?></span>
+                        <span class="h2"><?php echo $consulta_registro['razon_social']; ?></span>
                     </div>
                 </td>
                 <td class="info_empresa">
