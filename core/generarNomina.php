@@ -24,6 +24,15 @@
 		while($consulta2 = $result_colaboradores->fetch_assoc()){
 			//ACTUALIZAMOS EL ESTADO DE LA ASISTENCIA DE LOS EMPLEADOS
 			$insMainModel->ActualizarEstadoAsistencia($consulta2['colaboradores_id']);
+
+			//ACTUALIZAMOS EL VALE PARA CADA EMPLEADO
+			$datos_vale = [
+				"colaboradores_id" => $consulta2['colaboradores_id'],
+				"nomina_id" => $nomina_id,
+				"estado" => "1"				
+			];
+
+			$insMainModel->actualizarVales($datos_vale);
 		}
 
 		//CONSULTAMOS LA CUENTA QUE TIENE CONFIGURADA LA NOMINA
@@ -34,9 +43,6 @@
 		$consulta_cuenta = $insMainModel->getCuentaIdNomina($nomina_id)->fetch_assoc();
 		$cuentas_id = $consulta_cuenta['cuentas_id'];
 													
-		/*$result_cuenta = $insMainModel->getCuentaNomina("Planilla");
-		$row_cuenta = $result_cuenta->fetch_assoc();		
-		$cuentas_id = $row_cuenta['cuentas_id'];*/
 		$tipo_egreso = 2;//GASTOS
 		$fecha = date("Y-m-d");
 		$fecha_registro = date("Y-m-d H:i:s");

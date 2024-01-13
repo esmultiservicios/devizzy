@@ -17,12 +17,66 @@
 
 		protected function agregar_nomina_detalles_modelo($datos){
 			$nomina_detalles_id = mainModel::correlativo("nomina_detalles_id", "nomina_detalles");
-			$insert = "INSERT INTO nomina_detalles VALUES('$nomina_detalles_id','".$datos['nomina_id']."','".$datos['colaboradores_id']."','".$datos['salario']."','".$datos['dias_trabajados']."','".$datos['hrse25']."','".$datos['hrse50']."','".$datos['hrse75']."','".$datos['hrse100']."','".$datos['retroactivo']."','".$datos['bono']."','".$datos['otros_ingresos']."','".$datos['deducciones']."','".$datos['prestamo']."','".$datos['ihss']."','".$datos['rap']."','".$datos['isr']."','".$datos['incapacidad_ihss']."','".$datos['neto_ingresos']."','".$datos['neto_egresos']."','".$datos['neto']."','".$datos['usuario']."','".$datos['estado']."','".$datos['notas']."','".$datos['fecha_registro']."')";
-					
+			
+			$insert = "INSERT INTO nomina_detalles 
+			(`nomina_detalles_id`, `nomina_id`, `colaboradores_id`, `salario`, `dias_trabajados`, `hrse25`, `hrse50`, `hrse75`, `hrse100`, 
+			`retroactivo`, `bono`, `otros_ingresos`, `deducciones`, `prestamo`, `ihss`, `rap`, `isr`, `vales`, `incapacidad_ihss`, 
+			`neto_ingresos`, `neto_egresos`, `neto`, `usuario`, `estado`, `notas`, `fecha_registro`) 
+			VALUES (
+				'{$nomina_detalles_id}',
+				'{$datos['nomina_id']}',
+				'{$datos['colaboradores_id']}',
+				'{$datos['salario']}',
+				'{$datos['dias_trabajados']}',
+				'{$datos['hrse25']}',
+				'{$datos['hrse50']}',
+				'{$datos['hrse75']}',
+				'{$datos['hrse100']}',
+				'{$datos['retroactivo']}',
+				'{$datos['bono']}',
+				'{$datos['otros_ingresos']}',
+				'{$datos['deducciones']}',
+				'{$datos['prestamo']}',
+				'{$datos['ihss']}',
+				'{$datos['rap']}',
+				'{$datos['isr']}',
+				'{$datos['vales']}',
+				'{$datos['incapacidad_ihss']}',
+				'{$datos['neto_ingresos']}',
+				'{$datos['neto_egresos']}',
+				'{$datos['neto']}',
+				'{$datos['usuario']}',
+				'{$datos['estado']}',
+				'{$datos['notas']}',
+				'{$datos['fecha_registro']}'
+			)";
+							
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			
 		}		
+
+		protected function agregar_vale_modelo($datos){
+			$vale_id = mainModel::correlativo("vale_id", "vale");
+
+			$insert = "INSERT INTO `vale`(`vale_id`, `nomina_id`, `colaboradores_id`, `monto`, `fecha`, `nota`, `usuario`, `estado`, `empresa_id`, `fecha_registro`) 
+            VALUES (
+                '{$vale_id}',
+                '{$datos['nomina_id']}',
+                '{$datos['colaboradores_id']}',
+                '{$datos['monto']}',
+                '{$datos['fecha']}',
+                '{$datos['nota']}',
+                '{$datos['usuario']}',
+                '{$datos['estado']}',
+                '{$datos['empresa_id']}',
+                '{$datos['fecha_registro']}'
+            )";
+					
+			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}
 		
 		protected function valid_nomina_modelo($detalle){
 			$query = "SELECT nomina_id FROM nomina WHERE estado = 0 AND detalle = '".$detalle."'";
@@ -31,15 +85,22 @@
 			return $sql;
 		}
 
+		protected function valid_vale_modelo($colaboradores_id){
+			$query = "SELECT vale_id FROM vale WHERE estado = 0 AND colaboradores_id = '".$colaboradores_id."'";
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;
+		}		
+
 		protected function valid_nomina_detalles_modelo($nomina_id){
 			$query = "SELECT nomina_detalles_id FROM nomina_detalles WHERE estado = 0 AND nomina_id = '".$nomina_id."'";
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;
-		}	
+		}
 		
-		protected function edit_nomina_modelo($datos){
-			$update = "UPDATE nomina
+		protected function edit_nomina_detalles_modelo($datos){
+			$update = "UPDATE nomina_detalles
 			SET 
 				dias_trabajados = '".$datos['dias_trabajados']."',
 				dias_trabajados = '".$datos['dias_trabajados']."',
@@ -55,6 +116,7 @@
 				ihss = '".$datos['ihss']."',
 				rap = '".$datos['rap']."',
 				isr = '".$datos['isr']."',
+				vales = '".$datos['vales']."',
 				incapacidad_ihss = '".$datos['incapacidad_ihss']."',
 				neto_ingresos = '".$datos['neto_ingresos']."',
 				neto_egresos = '".$datos['neto_egresos']."',
@@ -67,7 +129,7 @@
 			return $sql;			
 		}
 
-		protected function edit_nomina_detalles_modelo($datos){
+		protected function edit_nomina_modelo($datos){
 			$update = "UPDATE nomina
 			SET 
 				fecha_inicio = '".$datos['fecha_inicio']."',

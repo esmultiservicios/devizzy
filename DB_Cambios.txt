@@ -1,3 +1,17 @@
+
+####12/01/2024####
+tabla => vale
+vale_id			int 
+nomina_id		int
+colaboradores_id	int
+monto			decimal(12,2)
+fecha			date
+nota			varchar(254)
+usuario			int
+estado			int
+empresa_id		int
+fecha_registro		datetime
+
 ####11/01/2024####
 tabla => nomina
 cuentas_id		int se agrfego despues de fecha_registro

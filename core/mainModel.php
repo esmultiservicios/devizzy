@@ -307,8 +307,18 @@
 			$update = "UPDATE compras
 			SET
 				estado = 4
-
 			WHERE compras_id = '$compras_id'";
+
+			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
+
+			return $sql;
+		}
+
+		public function anular_vale($vale_id){
+			$update = "UPDATE vale 
+					   SET estado = 3 
+					   WHERE vale_id = '$vale_id' 
+					   AND estado = 0";
 
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 
@@ -1043,11 +1053,22 @@
 		}
 
 		public function ActualizarEstadoAsistencia($colaboradores_id){
-
 			$update = "UPDATE asistencia
 				SET
 					estado = 1
 				WHERE colaboradores_id = '".$colaboradores_id."'";
+
+			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
+
+			return $sql;
+		}
+
+		public function actualizarVales($datos){
+			$update = "UPDATE vale
+				SET
+					nomina_id = {$datos['nomina_id']},
+					estado = {$datos['estado']}
+				WHERE colaboradores_id = {$datos['colaboradores_id']} AND estado = 0";
 
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 
@@ -1914,7 +1935,7 @@
 		}
 
 		public function getNominaComprobanteDetalles($nomina_id){
-			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', c.identidad AS 'identidad', c.fecha_ingreso AS 'fecha_ingreso', c.colaboradores_id AS 'colaboradores_id', pc.nombre AS 'puesto', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.isr AS 'isr'
+			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', c.identidad AS 'identidad', c.fecha_ingreso AS 'fecha_ingreso', c.colaboradores_id AS 'colaboradores_id', pc.nombre AS 'puesto', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.isr AS 'isr', nd.vales
 				FROM nomina_detalles AS nd
 				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
 				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id
@@ -1931,7 +1952,7 @@
 		}
 
 		public function getNominaDetallesEdit($nomina_detalles_id){
-			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_detalles_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.pago_planificado_id AS 'pago_planificado_id', n.notas AS 'notas', c.identidad AS 'identidad', p.nombre AS 'puesto', co.contrato_id AS 'contrato_id', c.fecha_ingreso AS 'fecha_ingreso', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.isr AS 'isr', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.notas AS 'nota_detalles'
+			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_detalles_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.pago_planificado_id AS 'pago_planificado_id', n.notas AS 'notas', c.identidad AS 'identidad', p.nombre AS 'puesto', co.contrato_id AS 'contrato_id', c.fecha_ingreso AS 'fecha_ingreso', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.isr AS 'isr', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.notas AS 'nota_detalles', nd.vales
 				FROM nomina_detalles AS nd
 				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
 				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id
@@ -4072,6 +4093,27 @@
 
 		public function getBanco(){
 			$query = "SELECT * FROM banco";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getValesPendientes(){
+			$query = "SELECT v.vale_id, CONCAT(c.nombre, ' ', c.apellido) AS empleado, v.monto, v.nota, v.colaboradores_id
+				FROM vale AS v
+				INNER JOIN colaboradores AS c ON v.colaboradores_id = c.colaboradores_id
+				WHERE v.estado = 0;";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getConsultaValesEmpleado($colaboradores_id){
+			$query = "SELECT SUM(monto) AS monto
+				FROM vale 				
+				WHERE colaboradores_id = '$colaboradores_id' AND estado = 0;";
 
 			$result = self::connection()->query($query);
 

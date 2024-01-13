@@ -40,6 +40,8 @@
 		27 => $valores2['notas'],
 		28 => $valores2['nota_detalles'],
 		29 => $valores2['estado'],
+		30 => $valores2['vales'],
+		31 => $valores2['colaboradores_id']
 	);
 
 	echo json_encode($datos);

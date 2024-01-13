@@ -366,6 +366,11 @@
                                     <input type="text" id="nominad_incapacidad_ihss" name="nominad_incapacidad_ihss"
                                         class="form-control" placeholder="Incapacidad IHSS" step="0.01" value="0.00">
                                 </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="nominad_vale">Vale</label>
+                                    <input type="number" id="nominad_vale" name="nominad_vale" class="form-control"
+                                        placeholder="Vale" step="0.01" value="0.00">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -473,7 +478,7 @@
                                 placeholder="Neto" step="0.01" readonly>
                         </div>
                     </div>
-                    <div class="col-md-3 mb-3">
+                    <div class="col-md-3 mb-3 d-flex flex-column">
                         <button class="guardar btn btn-primary mt-4" type="submit" style="display: none;"
                             id="reg_nominaD" form="formNominaDetalles">
                             <div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar
@@ -487,6 +492,7 @@
                             <div class="sb-nav-link-icon"></div><i class="fa fa-trash fa-lg"></i> Eliminar
                         </button>
                     </div>
+
                 </div>
 
             </div>
@@ -494,3 +500,110 @@
     </div>
 </div>
 <!--FIN MODAL NOMINA DETALLES-->
+
+<!--INICIO MODAL REGISTRO VALES-->
+<div class="modal fade" id="modalRegistrarVales">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Registro de Nomina</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+                <form class="FormularioAjax" id="formVales" action="" method="POST" data-form="" autocomplete="off"
+                    enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <div class="input-group mb-3">
+                                <input type="hidden" id="vale_id" name="vale_id" class="form-control">
+                                <input type="text" id="proceso_vale" class="form-control" readonly>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <div class="sb-nav-link-icon"></div><i class="fa fa-plus-square fa-lg"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="vale_monto">Fecha <span class="priority">*<span /></label>
+                            <input type="date" required id="vale_fecha" name="vale_fecha"
+                                value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip"
+                                data-placement="top" title="Fecha">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="vale_empleado" data-toggle="tooltip" data-placement="top"
+                                title="Aquí se muestran todos los empleados que tengan un contrato activo.">Empleado con
+                                Contrato Activo
+                                <span class="priority">*<span /></label>
+                            <div class="input-group mb-3">
+                                <select id="vale_empleado" name="vale_empleado" class="selectpicker" data-width="100%"
+                                    data-live-search="true" title="Empleado con Contrato Activo" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="vale_monto">Monto del Vale <span class="priority">*<span /></label>
+                            <input type="number" id="vale_monto" name="vale_monto" placeholder="Monto del Vale"
+                                class="form-control" step="0.01" required />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="vale_notas">Notas</label>
+                            <div class="input-group">
+                                <textarea id="vale_notas" name="vale_notas" placeholder="Notas" class="form-control"
+                                    maxlength="1000" rows="3"></textarea>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="btn btn-outline-success fas fa-microphone-alt"
+                                            id="search_vale_notas_start"></i>
+                                        <i class="btn btn-outline-success fas fa-microphone-slash"
+                                            id="search_vale_notas_stop"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <p id="charNumvale_notas">254 Caracteres</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="overflow-auto">
+                            <table id="DatatableVale" class="table table-striped table-condensed table-hover"
+                                style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Empleado</th>
+                                        <th>Monto</th>
+                                        <th>Notas</th>
+                                        <th>Anular</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="RespuestaAjax"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_vale"
+                    form="formVales">
+                    <div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar
+                </button>
+                <button class="editar btn btn-warning ml-2" type="submit" style="display: none;" id="edi_vale"
+                    form="formVales">
+                    <div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar
+                </button>
+                <button class="eliminar btn btn-danger ml-2" type="submit" style="display: none;" id="delete_vale"
+                    form="formVales">
+                    <div class="sb-nav-link-icon"></div><i class="fa fa-trash fa-lg"></i> Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--FIN MODAL REGISTRO VALES-->

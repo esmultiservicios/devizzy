@@ -80,6 +80,73 @@
 			return mainModel::sweetAlert($alert);
 		}
 
+		public function agregar_vale_controlador(){
+			if(!isset($_SESSION['user_sd'])){ 
+				session_start(['name'=>'SD']); 
+			}
+						
+			$vale_empleado = mainModel::cleanString($_POST['vale_empleado']);
+			$vale_monto = mainModel::cleanString($_POST['vale_monto']);
+			$vale_fecha = mainModel::cleanString($_POST['vale_fecha']);
+			$vale_notas = mainModel::cleanString($_POST['vale_notas']);
+			$usuario = $_SESSION['colaborador_id_sd'];
+			$empresa_id = $_SESSION['empresa_id_sd'];
+			$estado = 0;//SIN GENERAR
+			$fecha_registro = date("Y-m-d H:i:s");			
+
+			$datos = [
+				"nomina_id" => 0,
+				"colaboradores_id" => $vale_empleado,
+				"monto" => $vale_monto,
+				"fecha" => $vale_fecha,
+				"nota" => $vale_notas,
+				"usuario" => $usuario,
+				"estado" => $estado,
+				"empresa_id" => $empresa_id,
+				"fecha_registro" => $fecha_registro
+			];
+			
+			$resultNmina = nominaModelo::valid_vale_modelo($vale_empleado);
+			
+			if($resultNmina->num_rows==0){
+				$query = nominaModelo::agregar_vale_modelo($datos);
+				
+				if($query){
+					$alert = [
+						"alert" => "clear",
+						"title" => "Registro almacenado",
+						"text" => "El registro se ha almacenado correctamente",
+						"type" => "success",
+						"btn-class" => "btn-primary",
+						"btn-text" => "¡Bien Hecho!",
+						"form" => "formVales",
+						"id" => "proceso_vale",
+						"valor" => "Registro",	
+						"funcion" => "getEmpleadoVales();",
+						"modal" => "",
+					];
+				}else{
+					$alert = [
+						"alert" => "simple",
+						"title" => "Ocurrio un error inesperado",
+						"text" => "No hemos podido procesar su solicitud",
+						"type" => "error",
+						"btn-class" => "btn-danger",					
+					];				
+				}				
+			}else{
+				$alert = [
+					"alert" => "simple",
+					"title" => "Resgistro ya existe",
+					"text" => "Lo sentimos este registro ya existe",
+					"type" => "error",	
+					"btn-class" => "btn-danger",						
+				];				
+			}
+			
+			return mainModel::sweetAlert($alert);
+		}
+
 		public function agregar_nomina_detalles_controlador(){
 			if(!isset($_SESSION['user_sd'])){ 
 				session_start(['name'=>'SD']); 
@@ -107,6 +174,7 @@
 			$ihss = mainModel::cleanString($_POST['nominad_ihss']);
 			$rap = mainModel::cleanString($_POST['nominad_rap']);
 			$isr = mainModel::cleanString($_POST['nominad_isr']);
+			$vales = mainModel::cleanString($_POST['nominad_vale']);
 			$incapacidad_ihss = mainModel::cleanString($_POST['nominad_incapacidad_ihss']);
 
 			//RESUMEN
@@ -136,6 +204,7 @@
 				"ihss" => $ihss,
 				"rap" => $rap,
 				"isr" => $isr,
+				"vales" => $vales,
 				"incapacidad_ihss" => $incapacidad_ihss,
 				"neto_ingresos" => $neto_ingresos,
 				"neto_egresos" => $neto_egresos,
@@ -231,34 +300,36 @@
 
 		public function edit_nomina_detalles_controlador(){
 			$nomina_id = $_POST['nomina_id'];
-			$colaboradores_id = mainModel::cleanString($_POST['nominad_empleados']);
-			$salario = mainModel::cleanString($_POST['nominad_salario']);						
-
+			$colaboradores_id = mainModel::cleanString($_POST['colaboradores_id']);
+			$salario = mainModel::cleanString($_POST['nominad_salario']);	
+			$nomina_detalles_id = mainModel::cleanString($_POST['nomina_detalles_id']);					
+			
 			//INGRESOS
-			$dias_trabajados = mainModel::cleanString($_POST['nomina_fecha_fin']);
-			$hrse25 = mainModel::cleanString($_POST['nomina_detale']);
-			$hrse50 = mainModel::cleanString($_POST['nomina_importe']);			
-			$hrse75 = mainModel::cleanString($_POST['nomina_notas']);
-			$hrse100 = mainModel::cleanString($_POST['nominad_salario']);						
-			$retroactivo = mainModel::cleanString($_POST['nomina_fecha_fin']);
-			$bono = mainModel::cleanString($_POST['nomina_detale']);
+			$dias_trabajados = mainModel::cleanString($_POST['nominad_diast']);
+			$hrse25 = mainModel::cleanString($_POST['nominad_horas25']);
+			$hrse50 = mainModel::cleanString($_POST['nominad_horas50']);			
+			$hrse75 = mainModel::cleanString($_POST['nominad_horas75']);
+			$hrse100 = mainModel::cleanString($_POST['nominad_horas100']);						
+			$retroactivo = mainModel::cleanString($_POST['nominad_retroactivo']);
+			$bono = mainModel::cleanString($_POST['nominad_bono']);
 			$otros_ingresos = mainModel::cleanString($_POST['nominad_otros_ingresos']);
 			
 			//EGRESOS
-			$deducciones = mainModel::cleanString($_POST['deducciones']);
-			$prestamo = mainModel::cleanString($_POST['prestamo']);
-			$ihss = mainModel::cleanString($_POST['ihss']);
-			$rap = mainModel::cleanString($_POST['rap']);
-			$isr = mainModel::cleanString($_POST['isr']);
-			$incapacidad_ihss = mainModel::cleanString($_POST['incapacidad_ihss']);
-
+			$deducciones = mainModel::cleanString($_POST['nominad_deducciones']);
+			$prestamo = mainModel::cleanString($_POST['nominad_prestamo']);
+			$ihss = mainModel::cleanString($_POST['nominad_ihss']);
+			$rap = mainModel::cleanString($_POST['nominad_rap']);
+			$isr = mainModel::cleanString($_POST['nominad_isr']);
+			$vales = mainModel::cleanString($_POST['nominad_vale']);
+			$incapacidad_ihss = mainModel::cleanString($_POST['nominad_incapacidad_ihss']);			
+			
 			//RESUMEN
-			$neto_ingresos = mainModel::cleanString($_POST['neto_ingresos']);
-			$neto_egresos = mainModel::cleanString($_POST['neto_egresos']);
-			$neto = mainModel::cleanString($_POST['neto']);
+			$neto_ingresos = mainModel::cleanString($_POST['nominad_neto_ingreso']);
+			$neto_egresos = mainModel::cleanString($_POST['nominad_neto_egreso']);
+			$neto = mainModel::cleanString($_POST['nominad_neto']);
 
 			$estado = 1;//ACTIVAS
-			$notas = mainModel::cleanString($_POST['neto']);
+			$notas = mainModel::cleanString($_POST['nomina_detalles_notas']);
 			$fecha_registro = date("Y-m-d H:i:s");	
 
 			$datos = [
@@ -275,15 +346,18 @@
 				"deducciones" => $deducciones,
 				"prestamo" => $prestamo,
 				"rap" => $rap,
+				"ihss" => $ihss,
 				"isr" => $isr,
+				"vales" => $vales,
 				"incapacidad_ihss" => $incapacidad_ihss,
 				"neto_ingresos" => $neto_ingresos,
 				"neto_egresos" => $neto_egresos,
 				"neto" => $neto,					
-				"usuario" => $usuario,
 				"estado" => $estado,
 				"notas" => $notas,
 				"fecha_registro" => $fecha_registro,				
+				"dias_trabajados" => $dias_trabajados,
+				"nomina_detalles_id" => $nomina_detalles_id
 			];	
 
 			$query = nominaModelo::edit_nomina_detalles_modelo($datos);
@@ -389,6 +463,6 @@
 			}
 			
 			return mainModel::sweetAlert($alert);			
-		}				
+		}	
 	}
 ?>

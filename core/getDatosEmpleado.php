@@ -8,7 +8,13 @@
 	$colaboradores_id = $_POST['colaboradores_id'];
 	$result = $insMainModel->getEmpleadoContratoEdit($colaboradores_id);
 	$valores2 = $result->fetch_assoc();
-	$salario = $valores2['salario'];
+	$salario = isset($valores2['salario']) ? $valores2['salario'] : 0;
+
+	//CONSULTAR SI EL EMPLEADO TIENE VALES
+	$resultVales = $insMainModel->getConsultaValesEmpleado($colaboradores_id);
+	$valores2Vales = $result->fetch_assoc();
+	$valores2Vales = $resultVales->fetch_assoc();
+	$vales = isset($valores2Vales['monto']) ? $valores2Vales['monto'] : 0;
 
 	$datos = array(
 		0 => $valores2['puesto'],
@@ -17,7 +23,8 @@
 		3 => $salario,	
 		4 => $valores2['fecha_ingreso'],
 		5 => $valores2['tipo_empleado_id'],
-		6 => $valores2['pago_planificado_id']
+		6 => $valores2['pago_planificado_id'],
+		7 => $vales
 	);
 
 	echo json_encode($datos);

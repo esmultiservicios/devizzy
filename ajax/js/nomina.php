@@ -10,6 +10,8 @@ $(document).ready(function() {
     listar_nominas();
     getTipoNomina();
     getCuentaNominas();
+    getEmpleadoVales();
+    listar_vales();
     $('#form_main_nominas #estado_nomina').val(0);
     $('#form_main_nominas #estado_nomina').selectpicker('refresh');
 });
@@ -173,11 +175,19 @@ var listar_nominas = function() {
                 }
             },
             {
-                text: '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
+                text: '<i class="fas fas fa-plus fa-lg"></i> Registrar Nomina',
                 titleAttr: 'Agregar Nomina',
                 className: 'table_crear btn btn-primary ocultar',
                 action: function() {
                     modal_nominas();
+                }
+            },
+            {
+                text: '<i class="fas fas fa-plus fa-lg"></i> Registrar Vales',
+                titleAttr: 'Agregar Nomina',
+                className: 'table_crear btn btn-primary ocultar',
+                action: function() {
+                    modal_vales();
                 }
             },
             {
@@ -325,7 +335,8 @@ var voucher_nominas_dataTable = function(tbody, table) {
                 allowOutsideClick: false
             });
         } else {
-            var url_comprobante = '<?php echo SERVERURL; ?>core/generarNomina.php?nomina_id=' + data
+            var url_comprobante = '<?php echo SERVERURL; ?>core/generarComprobanteNomina.php?nomina_id=' +
+                data
                 .nomina_id;
             window.open(url_comprobante);
         }
@@ -539,9 +550,34 @@ function modal_nominas() {
     $('#formNomina #nomina_activo').attr('disabled', false);
     $('#formNomina #estado_nomina').hide();
 
-    $('#formNomina #proceso_nomina').val("Registro");
+    $('#formNomina #proceso_nomina').val("Registro Nomina Empleados");
 
     $('#modal_registrar_nomina').modal({
+        show: true,
+        keyboard: false,
+        backdrop: 'static'
+    });
+}
+
+function modal_vales() {
+    $('#formVales').attr({
+        'data-form': 'save'
+    });
+    $('#formVales').attr({
+        'action': '<?php echo SERVERURL;?>ajax/addValesAjax.php'
+    });
+    $('#formVales')[0].reset();
+    $('#reg_vale').show();
+    $('#edi_vale').hide();
+    $('#delete_vale').hide();
+
+    $('#formVales #vale_empleado').attr('disabled', false);
+    $('#formVales #vale_monto').attr('disabled', false);
+    $('#formVales #vale_notas').attr('disabled', false);
+
+    $('#formVales #proceso_vale').val("Registro Vale Empleados");
+
+    $('#modalRegistrarVales').modal({
         show: true,
         keyboard: false,
         backdrop: 'static'
@@ -572,6 +608,7 @@ function modalNominasDetalles() {
         $('#delete_nominaD').hide();
 
         //HABILITAR OBJETOS		
+        $('#formNominaDetalles #nominad_empleados').prop('disabled', false);
         $('#formNominaDetalles #nominad_retroactivo').attr('readonly', false);
         $('#formNominaDetalles #nominad_bono').attr('readonly', false);
         $('#formNominaDetalles #nominad_otros_ingresos').attr('readonly', false);
@@ -740,6 +777,21 @@ function getEmpleado() {
         }
     });
 }
+
+function getEmpleadoVales() {
+    var url = '<?php echo SERVERURL;?>core/getEmpleado.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(data) {
+            $('#formVales #vale_empleado').html("");
+            $('#formVales #vale_empleado').html(data);
+            $('#formVales #vale_empleado').selectpicker('refresh');
+        }
+    });
+}
 // FIN FORMULARIO CONTRATO
 
 $('#formNomina #nomina_notas').keyup(function() {
@@ -784,6 +836,30 @@ function caracteresnotaNominaDetalles() {
     var diff = max_chars - chars;
 
     $('#formNominaDetalles #charNum_nomina_detales_notas').html(diff + ' Caracteres');
+
+    if (diff == 0) {
+        return false;
+    }
+}
+
+$('#formVales #vale_notas').keyup(function() {
+    var max_chars = 254;
+    var chars = $(this).val().length;
+    var diff = max_chars - chars;
+
+    $('#formVales #charNumvale_notas').html(diff + ' Caracteres');
+
+    if (diff == 0) {
+        return false;
+    }
+});
+
+function caracteresnotaValeNotas() {
+    var max_chars = 254;
+    var chars = $('#formVales #vale_notas').val().length;
+    var diff = max_chars - chars;
+
+    $('#formVales #charNumvale_notas').html(diff + ' Caracteres');
 
     if (diff == 0) {
         return false;
@@ -864,6 +940,44 @@ $(document).ready(function() {
     $('#formNominaDetalles #search_nomina_detalles_notas_stop').on("click", function(event) {
         $('#formNominaDetalles #search_nomina_detalles_notas_start').show();
         $('#formNominaDetalles #search_nomina_detalles_notas_start').hide();
+        recognition.stop();
+    });
+    /*###############################################################################################################################*/
+    $('#formVales #search_vale_notas_stop').hide();
+
+    var recognition = new webkitSpeechRecognition();
+    recognition.continuous = true;
+    recognition.lang = "es";
+
+    $('#formVales #search_vale_notas_start').on('click', function(event) {
+        $('#formVales #search_vale_notas_start').hide();
+        $('#formVales #search_vale_notas_stop').show();
+
+        recognition.start();
+
+        recognition.onresult = function(event) {
+            finalResult = '';
+            var valor_anterior = $('#formVales #vale_notas').val();
+            for (var i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    finalResult = event.results[i][0].transcript;
+                    if (valor_anterior != "") {
+                        $('#formVales #vale_notas').val(valor_anterior + ' ' +
+                            finalResult);
+                        caracteresnotaValeNotas();
+                    } else {
+                        $('#formVales #vale_notas').val(finalResult);
+                        caracteresnotaValeNotas();
+                    }
+                }
+            }
+        };
+        return false;
+    });
+
+    $('#formVales #search_vale_notas_stop').on("click", function(event) {
+        $('#formVales #search_vale_notas_start').show();
+        $('#formVales #search_vale_notas_start').hide();
         recognition.stop();
     });
 });
@@ -1125,10 +1239,10 @@ var editar_nominas_detalles_dataTable = function(tbody, table) {
                 $('#formNominaDetalles #nomina_id').val(valores[0]);
                 $('#formNominaDetalles #nomina_detalles_id').val(valores[1]);
                 $('#formNominaDetalles #pago_planificado_id').val(valores[2]);
-                $('#formNominaDetalles #colaboradores_id').val(valores[3]);
-                $('#formNominaDetalles #colaboradores_id').selectpicker('refresh');
+                $('#formNominaDetalles #colaboradores_id').val(valores[31]);
                 $('#formNominaDetalles #nominad_numero').val(valores[0]);
-                $('#formNominaDetalles #nominad_empleados').val(valores[4]);
+                $('#formNominaDetalles #nominad_empleados').val(valores[31]);
+                $('#formNominaDetalles #nominad_empleados').selectpicker('refresh');
                 $('#formNominaDetalles #nominad_puesto').val(valores[5]);
                 $('#formNominaDetalles #nominad_identidad').val(valores[6]);
                 $('#formNominaDetalles #nominad_contrato_id').val(valores[7]);
@@ -1156,12 +1270,14 @@ var editar_nominas_detalles_dataTable = function(tbody, table) {
                 $('#formNominaDetalles #nominad_ihss').val(valores[20]);
                 $('#formNominaDetalles #nominad_rap').val(valores[21]);
                 $('#formNominaDetalles #nominad_isr').val(valores[22]);
+                $('#formNominaDetalles #nominad_vales').val(valores[30]);
                 $('#formNominaDetalles #nominad_incapacidad_ihss').val(valores[23]);
                 $('#formNominaDetalles #nominad_neto_ingreso').val(valores[24]);
                 $('#formNominaDetalles #nominad_neto_egreso').val(valores[25]);
                 $('#formNominaDetalles #nominad_neto').val(valores[26]);
                 $('#formNominaDetalles #nominad_detalle').val(valores[27]);
                 $('#formNominaDetalles #nomina_detalles_notas').val(valores[28]);
+                $('#formNominaDetalles #nominad_vale').val(valores[30]);
 
                 calculoNomina();
 
@@ -1194,6 +1310,7 @@ var editar_nominas_detalles_dataTable = function(tbody, table) {
 
                 //DESHABILITAR OBJETOS
                 //$('#formNominaDetalles #nominad_diast').attr('readonly', true);
+                $('#formNominaDetalles #nominad_empleados').prop('disabled', true);
                 $('#formNominaDetalles #nominad_neto_ingreso').attr('readonly', true);
                 $('#formNominaDetalles #nominad_neto_egreso').attr('readonly', true);
                 $('#formNominaDetalles #nominad_neto').attr('readonly', true);
@@ -1268,6 +1385,7 @@ var eliminar_nominas_detalles_dataTable = function(tbody, table) {
                 $('#formNominaDetalles #nominad_ihss').val(valores[20]);
                 $('#formNominaDetalles #nominad_rap').val(valores[21]);
                 $('#formNominaDetalles #nominad_isr').val(valores[22]);
+                $('#formNominaDetalles #nominad_vales').val(valores[30]);
                 $('#formNominaDetalles #nominad_incapacidad_ihss').val(valores[23]);
                 $('#formNominaDetalles #nominad_neto_ingreso').val(Math.round(valores[24]));
                 $('#formNominaDetalles #nominad_neto_egreso').val(Math.round(valores[25]));
@@ -1324,7 +1442,7 @@ var eliminar_nominas_detalles_dataTable = function(tbody, table) {
 }
 //FIN DETALLE DE NOMINAS
 
-$("#formNominaDetalles #nominad_empleados").on("change", function() {
+/*$("#formNominaDetalles #nominad_empleados").on("change", function() {
     var url = '<?php echo SERVERURL;?>core/getDatosEmpleado.php';
     let colaboradores_id = $("#formNominaDetalles #nominad_empleados").val();
 
@@ -1337,10 +1455,8 @@ $("#formNominaDetalles #nominad_empleados").on("change", function() {
             var valores = eval(data);
 
             //VER EL TIPO DE EMPLEADO
-            /*
             Pago Planificado
             1. Semanal 2 Quincenal 3 Mensual
-            */
             var valor_dividir =
                 0; //ESTE ES EL VALOR QUE TRAE SEGUN EL TIPO DE PAGO PARA DIVIDIRSE CON EL SALARIO
 
@@ -1383,12 +1499,10 @@ $("#formNominaDetalles #nominad_empleados").on("change", function() {
             calculoNomina();
         }
     });
-});
+});*/
 
-function calculoHorasExtras(hora_valor, salario_hora, horas) {
-    /*
-    	Tipo 1. Normal 2. Medico
-    */
+/*function calculoHorasExtras(hora_valor, salario_hora, horas) {
+    Tipo 1. Normal 2. Medico
 
     var valor = 0.00;
 
@@ -1411,9 +1525,9 @@ function calculoHorasExtras(hora_valor, salario_hora, horas) {
     console.log("El valor por hora es: ", valor);
 
     return parseFloat(valor);
-}
+}*/
 
-function calculoNomina() {
+/*function calculoNomina() {
     var neto_ingresos = 0;
     var neto_egresos = 0;
     var neto = 0;
@@ -1509,6 +1623,7 @@ function calculoNomina() {
     var ihss = 0;
     var rap = 0;
     var isr = 0;
+    var vales = 0;
     var incapacidad_ihss = 0;
 
     if ($('#formNominaDetalles #nominad_deducciones').val() != "" || $('#formNominaDetalles #nominad_deducciones')
@@ -1533,13 +1648,17 @@ function calculoNomina() {
         isr = parseFloat($('#formNominaDetalles #nominad_isr').val());
     }
 
+    if ($('#formNominaDetalles #nominad_vale').val() != "" || $('#formNominaDetalles #nominad_vale').val() != null) {
+        vales = parseFloat($('#formNominaDetalles #nominad_vale').val());
+    }
+
     if ($('#formNominaDetalles #nominad_incapacidad_ihss').val() != "" || $(
             '#formNominaDetalles #nominad_incapacidad_ihss').val() != null) {
         incapacidad_ihss = parseFloat($('#formNominaDetalles #nominad_incapacidad_ihss').val());
     }
 
     neto_egresos = parseFloat(deducciones) + parseFloat(prestamo) + parseFloat(ihss) + parseFloat(rap) + parseFloat(
-        isr) + parseFloat(incapacidad_ihss);
+        isr) + parseFloat(vales) + parseFloat(incapacidad_ihss);
 
     neto = parseFloat(neto_ingresos) - parseFloat(neto_egresos);
 
@@ -1550,7 +1669,112 @@ function calculoNomina() {
     $('#nominad_neto_ingreso1').val(parseFloat(Math.round(neto_ingresos)).toFixed(2));
     $('#nominad_neto_egreso1').val(parseFloat(Math.round(neto_egresos)).toFixed(2));
     $('#nominad_neto1').val(parseFloat(Math.round(neto)).toFixed(2));
+}*/
+
+$("#formNominaDetalles #nominad_empleados").on("change", function() {
+    var url = '<?php echo SERVERURL;?>core/getDatosEmpleado.php';
+    var colaboradores_id = $("#formNominaDetalles #nominad_empleados").val();
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        data: 'colaboradores_id=' + colaboradores_id,
+        success: function(data) {
+            var valores = JSON.parse(data);
+
+            // Mapear el tipo de pago a días trabajados
+            var diasTrabajadosMap = {
+                1: 7,
+                2: 15,
+                3: 30
+            };
+            var valor_dividir = diasTrabajadosMap[valores[6]] || 0;
+
+            $('#formNominaDetalles #nominad_diast').val(valor_dividir);
+
+            var salario = parseFloat(valores[3]);
+            var salario_diario = salario / parseFloat(valor_dividir);
+            var salario_hora = (valores[5] == 1) ? salario_diario / 8 : salario_diario / 6;
+
+            // Asignar valores
+            $('#formNominaDetalles #nominad_puesto').val(valores[0]);
+            $('#formNominaDetalles #nominad_identidad').val(valores[1]);
+            $('#formNominaDetalles #nominad_contrato_id').val(valores[2]);
+            $('#formNominaDetalles #nominad_salario').val(salario.toFixed(2));
+            $('#formNominaDetalles #nominad_fecha_ingreso').val(valores[4]);
+            $('#formNominaDetalles #nominad_sueldo_diario').val((salario / 30).toFixed(2));
+            $('#formNominaDetalles #nominad_sueldo_hora').val(salario_hora.toFixed(2));
+            $('#formNominaDetalles #nominad_vale').val(valores[7]);
+
+            $('#formNominaDetalles #nominad_diast').val(ObtenerDiasTrabajados(colaboradores_id));
+            calculoNomina();
+        }
+    });
+});
+
+
+function calculoHorasExtras(hora_valor, salario_hora, horas) {
+    var porcentaje = parseFloat(horas) / 100;
+
+    if (porcentaje >= 0.25 && porcentaje <= 1) {
+        return parseFloat((salario_hora * porcentaje + salario_hora) * hora_valor);
+    }
+
+    console.log("El valor por hora es: ", 0);
+    return 0;
 }
+
+function calculoNomina() {
+    var neto_ingresos = 0;
+    var neto_egresos = 0;
+    var neto = 0;
+
+    // INGRESOS
+    var dias_trabajadas = parseFloat($('#formNominaDetalles #nominad_diast').val()) || 0;
+    var salario_diario = parseFloat($('#formNominaDetalles #nominad_sueldo_diario').val()) || 0;
+    var salario_hora = parseFloat($('#formNominaDetalles #nominad_sueldo_hora').val()) || 0;
+
+    var hora25 = calculoHorasExtras($('#formNominaDetalles #nominad_horas25').val(), salario_hora, "25");
+    var hora50 = calculoHorasExtras($('#formNominaDetalles #nominad_horas50').val(), salario_hora, "50");
+    var hora75 = calculoHorasExtras($('#formNominaDetalles #nominad_horas75').val(), salario_hora, "75");
+    var hora100 = calculoHorasExtras($('#formNominaDetalles #nominad_horas100').val(), salario_hora, "100");
+
+    var retroactivo = parseFloat($('#formNominaDetalles #nominad_retroactivo').val()) || 0;
+    var bono = parseFloat($('#formNominaDetalles #nominad_bono').val()) || 0;
+    var otros_ingresos = parseFloat($('#formNominaDetalles #nominad_otros_ingresos').val()) || 0;
+
+    neto_ingresos = (dias_trabajadas * salario_diario) + retroactivo + bono + otros_ingresos + hora25 + hora50 +
+        hora75 + hora100;
+
+    // EGRESOS
+    var deducciones = parseFloat($('#formNominaDetalles #nominad_deducciones').val()) || 0;
+    var prestamo = parseFloat($('#formNominaDetalles #nominad_prestamo').val()) || 0;
+    var ihss = parseFloat($('#formNominaDetalles #nominad_ihss').val()) || 0;
+    var rap = parseFloat($('#formNominaDetalles #nominad_rap').val()) || 0;
+    var isr = parseFloat($('#formNominaDetalles #nominad_isr').val()) || 0;
+    var vales = parseFloat($('#formNominaDetalles #nominad_vale').val()) || 0;
+    var incapacidad_ihss = parseFloat($('#formNominaDetalles #nominad_incapacidad_ihss').val()) || 0;
+
+    neto_egresos = deducciones + prestamo + ihss + rap + isr + vales + incapacidad_ihss;
+
+    neto = neto_ingresos - neto_egresos;
+
+    // Actualizar valores en los campos
+    actualizarCampo('#formNominaDetalles #nominad_neto_ingreso', neto_ingresos);
+    actualizarCampo('#formNominaDetalles #nominad_neto_egreso', neto_egresos);
+    actualizarCampo('#formNominaDetalles #nominad_neto', neto);
+
+    // También actualiza los valores en otros campos si es necesario
+    actualizarCampo('#nominad_neto_ingreso1', neto_ingresos);
+    actualizarCampo('#nominad_neto_egreso1', neto_egresos);
+    actualizarCampo('#nominad_neto1', neto);
+}
+
+function actualizarCampo(selector, valor) {
+    $(selector).val(parseFloat(Math.round(valor)).toFixed(2));
+}
+
 
 $("#formNominaDetalles #nominad_diast").on("keyup", function() {
     calculoNomina();
@@ -1645,4 +1869,178 @@ function getCuentaNominas() {
         }
     });
 }
+
+
+//INICIO VALES
+var listar_vales = function() {
+    var table_vales = $("#DatatableVale").DataTable({
+        "destroy": true,
+        "ajax": {
+            "method": "POST",
+            "url": "<?php echo SERVERURL;?>core/llenarDataTableVales.php"
+        },
+        "columns": [{
+                "data": "empleado"
+            },
+            {
+                "data": "monto",
+                render: function(data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        }
+
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+
+                    return number;
+                },
+            },
+            {
+                "data": "nota"
+            },
+            {
+                "defaultContent": "<button class='table_editar anular_vale btn btn-dark ocultar'><span class='fas fa-ban fa-lg'></span></button>"
+            }
+        ],
+        "lengthMenu": lengthMenu10,
+        "stateSave": true,
+        "bDestroy": true,
+        "language": idioma_español,
+        "dom": dom,
+        "columnDefs": [{
+                width: "45%",
+                targets: 0
+            },
+            {
+                width: "10%",
+                targets: 1
+            },
+            {
+                width: "35%",
+                targets: 2
+            },
+            {
+                width: "2%",
+                targets: 3
+            }
+        ],
+        "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            var number = $.fn.dataTable.render
+                .number(',', '.', 2, 'L ')
+                .display(aData['neto_importe']);
+            $('#neto_importe').html(number);
+        },
+        "buttons": [{
+                text: '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+                titleAttr: 'Actualizar Vales',
+                className: 'table_actualizar btn btn-secondary ocultar',
+                action: function() {
+                    listar_vales();
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel fa-lg"></i> Excel',
+                titleAttr: 'Excel',
+                title: 'Nomina Empleados',
+                messageTop: 'Fecha: ' + convertDateFormat(today()),
+                messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+                className: 'table_reportes btn btn-success ocultar',
+                exportOptions: {
+                    columns: [0, 1, 2, 3]
+                }
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+                titleAttr: 'PDF',
+                orientation: 'landscape',
+                title: 'Nomina Empleados',
+                messageTop: 'Fecha: ' + convertDateFormat(today()),
+                messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+                className: 'table_reportes btn btn-danger ocultar',
+                exportOptions: {
+                    columns: [0, 1, 2, 3]
+                },
+                customize: function(doc) {
+                    doc.content.splice(1, 0, {
+                        margin: [0, 0, 0, 12],
+                        alignment: 'left',
+                        image: imagen,
+                        width: 100,
+                        height: 45
+                    });
+                }
+            }
+        ],
+        "drawCallback": function(settings) {
+            getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+        }
+    });
+    table_vales.search('').draw();
+    $('#buscar').focus();
+
+    anular_vale_nominas_dataTable("#DatatableVale tbody", table_vales);
+}
+
+var anular_vale_nominas_dataTable = function(tbody, table) {
+    $(tbody).off("click", "button.anular_vale");
+    $(tbody).on("click", "button.anular_vale", function(e) {
+        e.preventDefault();
+        var data = table.row($(this).parents("tr")).data();
+
+        swal({
+                title: "¿Estas seguro?",
+                text: "¿Desea anular este vale de <strong>" + data.empleado + "</strong>?",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "¡Sí, anular el vale!",
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: false,
+                html: true // Habilita HTML en el mensaje
+            },
+            function() {
+                anularVale(data.vale_id);
+            });
+    });
+}
+
+function anularVale(vale_id) {
+    var url = '<?php echo SERVERURL;?>core/anularVale.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        data: 'vale_id=' + vale_id,
+        success: function(data) {
+            if (data == 1) {
+                swal({
+                    title: "Success",
+                    text: "El vale ha sido anulado correctamente",
+                    type: "success",
+                    timer: 3000
+                });
+                listar_vales();
+            } else {
+                swal({
+                    title: "Error",
+                    text: "Lo sentimos, no se puede anular el vale",
+                    type: "error",
+                    confirmButtonClass: 'btn-danger',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false
+                });
+            }
+        }
+    });
+}
+//FIN VALES
 </script>

@@ -635,6 +635,22 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       KEY `productos_id` (`productos_id`),
       KEY `facturas_id` (`facturas_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+    DROP TABLE IF EXISTS `vale`;
+    CREATE TABLE IF NOT EXISTS `vale` (
+      `vale_id` int(11) NOT NULL,
+      `nomina_id` int(11) NOT NULL,
+      `colaboradores_id` int(11) NOT NULL,
+      `monto` decimal(12,2) NOT NULL,
+      `fecha` date NOT NULL,
+      `nota` varchar(254) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `usuario` int(11) NOT NULL,
+      `estado` int(11) NOT NULL COMMENT '0. Pendiente 1. Pagado 2. Anulado',
+      `empresa_id` int(11) NOT NULL,
+      `fecha_registro` datetime NOT NULL,
+      PRIMARY KEY (`vale_id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+    COMMIT;
   
     DROP TABLE IF EXISTS `historial`;
     CREATE TABLE IF NOT EXISTS `historial` (
