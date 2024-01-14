@@ -154,9 +154,10 @@
 						
 			$nomina_id = $_POST['nomina_id'];
 			$colaboradores_id = mainModel::cleanString($_POST['nominad_empleados']);
-			$salario = mainModel::cleanString($_POST['nominad_salario']);
+			$salario_mensual = mainModel::cleanString($_POST['nominad_salario']);
 			$salario_diario = mainModel::cleanString($_POST['nominad_sueldo_diario']);
 			$salario_hora = mainModel::cleanString($_POST['nominad_sueldo_hora']);
+			$salario = mainModel::cleanString($_POST['salario']);
 
 			//INGRESOS
 			$dias_trabajados = mainModel::cleanString($_POST['nominad_diast']);
@@ -181,6 +182,11 @@
 			$neto_ingresos = mainModel::cleanString($_POST['nominad_neto_ingreso']);
 			$neto_egresos = mainModel::cleanString($_POST['nominad_neto_egreso']);
 			$neto = mainModel::cleanString($_POST['nominad_neto']);
+			
+			$hrse25_valor = mainModel::cleanString($_POST['hrse25_valor']);
+			$hrse50_valor = mainModel::cleanString($_POST['hrse50_valor']);
+			$hrse75_valor = mainModel::cleanString($_POST['hrse75_valor']);
+			$hrse100_valor = mainModel::cleanString($_POST['hrse100_valor']);
 
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$estado = 0;//SIN GENERAR
@@ -190,7 +196,7 @@
 			$datos = [
 				"nomina_id" => $nomina_id,
 				"colaboradores_id" => $colaboradores_id,
-				"salario" => $salario,
+				"salario_mensual" => $salario_mensual,
 				"dias_trabajados" => $dias_trabajados,
 				"hrse25" => $hrse25,
 				"hrse50" => $hrse50,
@@ -212,7 +218,12 @@
 				"usuario" => $usuario,
 				"estado" => $estado,
 				"notas" => $notas,
-				"fecha_registro" => $fecha_registro,				
+				"fecha_registro" => $fecha_registro,
+				"hrse25_valor" => $hrse25_valor,
+				"hrse50_valor" => $hrse50_valor,
+				"hrse75_valor" => $hrse75_valor,
+				"hrse100_valor" => $hrse100_valor,
+				"salario" => $salario
 			];
 			
 			$resultNominaEmpleados = nominaModelo::valid_nomina_detalles_modelo($nomina_id);

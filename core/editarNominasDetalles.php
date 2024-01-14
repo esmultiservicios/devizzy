@@ -19,7 +19,7 @@
 		6 => $valores2['identidad'],
 		7 => $valores2['contrato_id'],
 		8 => $valores2['fecha_ingreso'],
-		9 => $valores2['salario'],	
+		9 => $valores2['salario_mensual'],	
 		10 => $valores2['dias_trabajados'],
 		11 => $valores2['retroactivo'],		
 		12 => $valores2['bono'],
@@ -41,7 +41,13 @@
 		28 => $valores2['nota_detalles'],
 		29 => $valores2['estado'],
 		30 => $valores2['vales'],
-		31 => $valores2['colaboradores_id']
+		31 => $valores2['colaboradores_id'],
+		32 => $valores2['hrse25_valor'],
+		33 => $valores2['hrse50_valor'],
+		34 => $valores2['hrse75_valor'],
+		35 => $valores2['hrse100_valor'],
+		36 => $valores2['detalle'],
+		37 => $valores2['tipo_empleado_id'],		
 	);
 
 	echo json_encode($datos);

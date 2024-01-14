@@ -49,7 +49,7 @@
 			return $mysqliLogin;
 		}
 
-		public function connectionDBLocal($dblocal){	
+		public function connectionDBLocal($dblocal) {
 			$mysqliDBLocal = new mysqli(SERVER, USER, PASS);
 		
 			if ($mysqliDBLocal->connect_errno) {
@@ -142,10 +142,10 @@
 			return $result;
 		}
 
-    public function guardarHistorial($datos){
+   		public function guardarHistorial($datos){
 			$historial_id = self::correlativo("historial_id", "historial");
 			$modulo = $datos['modulo'];
-      $colaboradores_id = $datos['colaboradores_id'];
+      		$colaboradores_id = $datos['colaboradores_id'];
 			$status = $datos['status'];
 			$observacion = $datos['observacion'];
 			$fecha_registro = date("Y-m-d H:i:s");
@@ -356,6 +356,28 @@
 
 			return $sql;
 		}
+
+		public function consultar_tabla($tabla, $campos, $condicion) {
+			// Convierte el array de campos en una cadena separada por comas
+			$campos_str = implode(', ', $campos);
+		
+			// Construye la consulta SQL dinámicamente
+			$query = "SELECT $campos_str FROM $tabla WHERE $condicion";
+		
+			// Ejecuta la consulta
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+		
+			// Inicializa un array para almacenar los resultados
+			$resultados = [];
+		
+			// Recorre los resultados y almacena en el array
+			while ($fila = $sql->fetch_assoc()) {
+				$resultados[] = $fila;
+			}
+		
+			// Retorna el array de resultados
+			return $resultados;
+		}			
 
 		public function abonos_cxc_cliente($facturas_id){
 			$query = "SELECT
@@ -1550,8 +1572,8 @@
 
 			$query = "SELECT c.clientes_id AS 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn' , c.localidad AS 'localidad', c.telefono AS 'telefono', c.correo AS 'correo', d.nombre AS 'departamento', m.nombre AS 'municipio', c.rtn AS 'rtn', IFNULL(s.sistema_id, '') AS sistema_id, c.eslogan, c.otra_informacion, c.whatsapp, c.empresa, s.db, s.planes_id, s.sistema_id
 				FROM clientes AS c 
-				INNER JOIN departamentos AS d ON c.departamentos_id = d.departamentos_id 
-				INNER JOIN municipios AS m ON c.municipios_id = m.municipios_id 
+				LEFT JOIN departamentos AS d ON c.departamentos_id = d.departamentos_id 
+				LEFT JOIN municipios AS m ON c.municipios_id = m.municipios_id 
 				LEFT JOIN server_customers AS s ON c.clientes_id = s.clientes_id
 				".$where;
 
@@ -1563,9 +1585,9 @@
 		public function getProveedores($estado){
 			$query = "SELECT p.proveedores_id AS 'proveedores_id', p.nombre AS 'proveedor', p.rtn AS 'rtn' , p.localidad AS 'localidad', p.telefono AS 'telefono', p.correo AS 'correo', d.nombre AS 'departamento', m.nombre AS 'municipio'
 				FROM proveedores AS p
-				INNER JOIN departamentos AS d
+				LEFT JOIN departamentos AS d
 				ON p.departamentos_id = d.departamentos_id
-				INNER JOIN municipios AS m
+				LEFT JOIN municipios AS m
 				ON p.municipios_id = m.municipios_id
 				WHERE p.estado = '$estado'
 				ORDER BY p.nombre";
@@ -1676,7 +1698,7 @@
 		}
 
 		public function getEmpleadoContratoEdit($colaboradores_id){
-			$query = "SELECT c.colaborador_id AS colaborador_id, CONCAT(co.nombre, ' ', co.apellido) AS 'nombre', co.identidad AS 'identidad', p.nombre AS 'puesto', c.contrato_id AS 'contrato_id', c.salario_mensual AS 'salario', co.fecha_ingreso AS 'fecha_ingreso', c.tipo_empleado_id AS 'tipo_empleado_id', c.pago_planificado_id AS 'pago_planificado_id'
+			$query = "SELECT c.colaborador_id AS colaborador_id, CONCAT(co.nombre, ' ', co.apellido) AS 'nombre', co.identidad AS 'identidad', p.nombre AS 'puesto', c.contrato_id AS 'contrato_id', c.salario_mensual AS 'salario_mensual', co.fecha_ingreso AS 'fecha_ingreso', c.tipo_empleado_id AS 'tipo_empleado_id', c.pago_planificado_id AS 'pago_planificado_id', c.salario
 				FROM contrato AS c
 				INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
 				INNER JOIN puestos AS p ON co.puestos_id = p.puestos_id
@@ -1887,7 +1909,7 @@
 		}
 
 		public function getNominaEdit($nomina_id){
-			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', e.empresa_id AS 'empresa_id', n.estado AS 'estado', tipo_nomina_id AS 'tipo_nomina_id'
+			$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', e.empresa_id AS 'empresa_id', n.estado AS 'estado', n.tipo_nomina_id AS 'tipo_nomina_id', n.cuentas_id
 			FROM nomina AS n
 			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
 			WHERE n.nomina_id = '".$nomina_id."'
@@ -1935,7 +1957,49 @@
 		}
 
 		public function getNominaComprobanteDetalles($nomina_id){
-			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', c.identidad AS 'identidad', c.fecha_ingreso AS 'fecha_ingreso', pc.nombre AS 'puesto', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.isr AS 'isr', nd.vales, c.fecha_ingreso AS 'fecha_ingreso', n.fecha_inicio, n.fecha_fin, n.fecha_registro, e.logotipo
+			$query = "SELECT 
+					n.nomina_id AS 'nomina_id', 
+					nd.nomina_id AS 'nomina_detalles_id', 
+					CONCAT(c.nombre, ' ', c.apellido) AS 'empleado', 
+					nd.salario AS 'salario', 
+					nd.hrse25,
+					nd.hrse50,
+					nd.hrse75, 
+					nd.hrse100, 
+					nd.retroactivo AS 'retroactivo', 
+					nd.bono AS 'bono', 
+					nd.deducciones AS 'deducciones', 
+					nd.prestamo AS 'prestamo', 
+					nd.ihss AS 'ihss', 
+					nd.rap AS 'rap', 
+					nd.estado AS 'estado', 
+					nd.estado AS 'estado', 
+					nd.nomina_detalles_id AS 'nomina_detalles_id', 
+					(CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', 
+					nd.colaboradores_id AS 'colaboradores_id', 
+					nd.neto_ingresos AS 'neto_ingresos', 
+					nd.neto_egresos AS 'neto_egresos', 
+					nd.neto AS 'neto', 
+					nd.notas AS 'notas', 
+					tp.nombre AS 'contrato', 
+					e.nombre AS 'empresa', 
+					c.identidad AS 'identidad', 
+					c.fecha_ingreso AS 'fecha_ingreso', 
+					pc.nombre AS 'puesto', 
+					nd.dias_trabajados AS 'dias_trabajados', 
+					nd.otros_ingresos AS 'otros_ingresos', 
+					nd.incapacidad_ihss AS 'incapacidad_ihss', 
+					nd.isr AS 'isr', 
+					nd.vales, 
+					c.fecha_ingreso AS 'fecha_ingreso', 
+					n.fecha_inicio, 
+					n.fecha_fin, 
+					n.fecha_registro, 
+					e.logotipo, 
+					nd.hrse25_valor, 
+					nd.hrse50_valor, 
+					nd.hrse75_valor, 
+					nd.hrse100_valor
 				FROM nomina_detalles AS nd
 				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
 				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id
@@ -1952,7 +2016,7 @@
 		}
 
 		public function getNominaDetallesEdit($nomina_detalles_id){
-			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_detalles_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.pago_planificado_id AS 'pago_planificado_id', n.notas AS 'notas', c.identidad AS 'identidad', p.nombre AS 'puesto', co.contrato_id AS 'contrato_id', c.fecha_ingreso AS 'fecha_ingreso', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.isr AS 'isr', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.notas AS 'nota_detalles', nd.vales, e.logotipo
+			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_detalles_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.pago_planificado_id AS 'pago_planificado_id', n.notas AS 'notas', c.identidad AS 'identidad', p.nombre AS 'puesto', co.contrato_id AS 'contrato_id', c.fecha_ingreso AS 'fecha_ingreso', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.isr AS 'isr', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.notas AS 'nota_detalles', nd.vales, e.logotipo, nd.hrse25_valor, nd.hrse50_valor, nd.hrse75_valor, nd.hrse100_valor, n.detalle, nd.salario_mensual, co.tipo_empleado_id
 				FROM nomina_detalles AS nd
 				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
 				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id
@@ -1979,11 +2043,15 @@
 		}
 
 		public function getUsuarios($datos){
-			if ($datos['privilegio_colaborador'] === "Super Administrador" && $datos['privilegio_colaborador'] === "Administrador") {
+			if ($datos['db_cliente'] === "clinicarehn_clientes_clinicare"){
 				$where = "WHERE u.estado = 1";
-			} else {
-				$where = "WHERE u.estado = 1 AND u.privilegio_id NOT IN(1) AND u.empresa_id = '".$datos['empresa_id']."'";
-			}		
+			}else{
+				if ($datos['privilegio_colaborador'] === "Super Administrador" && $datos['privilegio_colaborador'] === "Administrador") {
+					$where = "WHERE u.estado = 1";
+				} else {
+					$where = "WHERE u.estado = 1 AND u.privilegio_id NOT IN(1) AND u.empresa_id = '".$datos['empresa_id']."'";
+				}	
+			}	
 						
 			$query = "SELECT u.users_id AS 'users_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', u.username AS 'username', u.email AS 'correo', tp.nombre AS 'tipo_usuario',
 				CASE WHEN u.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado',

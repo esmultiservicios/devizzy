@@ -399,6 +399,8 @@ var editar_nominas_dataTable = function(tbody, table) {
                 $('#formNomina #nomina_notas').val(valores[6]);
                 $('#formNomina #tipo_nomina').val(valores[8]);
                 $('#formNomina #tipo_nomina').selectpicker('refresh');
+                $('#formNomina #pago_nomina').val(valores[9]);
+                $('#formNomina #pago_nomina').selectpicker('refresh');
 
                 if (data.estado == 1) {
                     $('#edi_nomina').attr('disabled', true);
@@ -424,8 +426,7 @@ var editar_nominas_dataTable = function(tbody, table) {
                 $('#formNomina #search_nomina_notas_start').attr('disabled', false);
                 $('#formNomina #search_nomina_notas_stop').attr('disabled', false);
                 $('#formNomina #nomina_activo').attr('disabled', false);
-                $('#formNomina #estado_nomina').show();
-
+                $('#formNomina #estado_nomina').show();;
 
                 $('#formNomina #proceso_nomina').val("Editar");
 
@@ -1240,6 +1241,7 @@ var editar_nominas_detalles_dataTable = function(tbody, table) {
                 $('#formNominaDetalles #nomina_detalles_id').val(valores[1]);
                 $('#formNominaDetalles #pago_planificado_id').val(valores[2]);
                 $('#formNominaDetalles #colaboradores_id').val(valores[31]);
+
                 $('#formNominaDetalles #nominad_numero').val(valores[0]);
                 $('#formNominaDetalles #nominad_empleados').val(valores[31]);
                 $('#formNominaDetalles #nominad_empleados').selectpicker('refresh');
@@ -1252,10 +1254,11 @@ var editar_nominas_detalles_dataTable = function(tbody, table) {
 
                 let salario = parseFloat(valores[9]).toFixed(2);
                 let salario_diario = (valores[9] / 30).toFixed(2);
-                let salario_hora = parseFloat(salario_diario).toFixed() / 8;
+                var salario_hora = (valores[37] == 1) ? salario_diario / 8 : salario_diario / 6;
 
                 $('#formNominaDetalles #nominad_sueldo_diario').val(salario_diario);
-                $('#formNominaDetalles #nominad_sueldo_hora').val(salario_hora);
+                $('#formNominaDetalles #nominad_sueldo_hora').val(parseFloat(salario_hora)
+                    .toFixed(2));
 
                 $('#formNominaDetalles #nominad_diast').val(valores[10]);
                 $('#formNominaDetalles #nominad_retroactivo').val(valores[11]);
@@ -1275,9 +1278,13 @@ var editar_nominas_detalles_dataTable = function(tbody, table) {
                 $('#formNominaDetalles #nominad_neto_ingreso').val(valores[24]);
                 $('#formNominaDetalles #nominad_neto_egreso').val(valores[25]);
                 $('#formNominaDetalles #nominad_neto').val(valores[26]);
-                $('#formNominaDetalles #nominad_detalle').val(valores[27]);
+                $('#formNominaDetalles #nominad_detalle').val(valores[36]);
                 $('#formNominaDetalles #nomina_detalles_notas').val(valores[28]);
                 $('#formNominaDetalles #nominad_vale').val(valores[30]);
+                $('#formNominaDetalles #hrse25_valor').val(valores[32]);
+                $('#formNominaDetalles #hrse50_valor').val(valores[33]);
+                $('#formNominaDetalles #hrse75_valor').val(valores[34]);
+                $('#formNominaDetalles #hrse100_valor').val(valores[35]);
 
                 calculoNomina();
 
@@ -1387,9 +1394,9 @@ var eliminar_nominas_detalles_dataTable = function(tbody, table) {
                 $('#formNominaDetalles #nominad_isr').val(valores[22]);
                 $('#formNominaDetalles #nominad_vales').val(valores[30]);
                 $('#formNominaDetalles #nominad_incapacidad_ihss').val(valores[23]);
-                $('#formNominaDetalles #nominad_neto_ingreso').val(Math.round(valores[24]));
-                $('#formNominaDetalles #nominad_neto_egreso').val(Math.round(valores[25]));
-                $('#formNominaDetalles #nominad_neto').val(Math.round(valores[26]));
+                $('#formNominaDetalles #nominad_neto_ingreso').val(valores[24].toFixed(2));
+                $('#formNominaDetalles #nominad_neto_egreso').val(valores[25].toFixed(2));
+                $('#formNominaDetalles #nominad_neto').val(valores[26].toFixed(2));
                 $('#formNominaDetalles #nominad_detalle').val(valores[27]);
                 $('#formNominaDetalles #nomina_detalles_notas').val(valores[28]);
 
@@ -1671,9 +1678,9 @@ var eliminar_nominas_detalles_dataTable = function(tbody, table) {
     $('#nominad_neto1').val(parseFloat(Math.round(neto)).toFixed(2));
 }*/
 
-$("#formNominaDetalles #nominad_empleados").on("change", function() {
+// Función para obtener datos de empleado
+function obtenerDatosEmpleado(colaboradores_id) {
     var url = '<?php echo SERVERURL;?>core/getDatosEmpleado.php';
-    var colaboradores_id = $("#formNominaDetalles #nominad_empleados").val();
 
     $.ajax({
         type: "POST",
@@ -1689,29 +1696,41 @@ $("#formNominaDetalles #nominad_empleados").on("change", function() {
                 2: 15,
                 3: 30
             };
+
             var valor_dividir = diasTrabajadosMap[valores[6]] || 0;
 
-            $('#formNominaDetalles #nominad_diast').val(valor_dividir);
-
             var salario = parseFloat(valores[3]);
-            var salario_diario = salario / parseFloat(valor_dividir);
+            var salario_diario = salario / parseFloat(30);
+
             var salario_hora = (valores[5] == 1) ? salario_diario / 8 : salario_diario / 6;
 
             // Asignar valores
             $('#formNominaDetalles #nominad_puesto').val(valores[0]);
             $('#formNominaDetalles #nominad_identidad').val(valores[1]);
             $('#formNominaDetalles #nominad_contrato_id').val(valores[2]);
-            $('#formNominaDetalles #nominad_salario').val(salario.toFixed(2));
+            $('#formNominaDetalles #nominad_salario').val(parseFloat(salario).toFixed(2));
             $('#formNominaDetalles #nominad_fecha_ingreso').val(valores[4]);
             $('#formNominaDetalles #nominad_sueldo_diario').val((salario / 30).toFixed(2));
-            $('#formNominaDetalles #nominad_sueldo_hora').val(salario_hora.toFixed(2));
+            $('#formNominaDetalles #nominad_sueldo_hora').val(parseFloat(salario_hora).toFixed(2));
             $('#formNominaDetalles #nominad_vale').val(valores[7]);
+            $('#formNominaDetalles #salario').val(parseFloat(valores[8]).toFixed(2));
 
             $('#formNominaDetalles #nominad_diast').val(ObtenerDiasTrabajados(colaboradores_id));
             calculoNomina();
         }
     });
+}
+
+// Evento change para el campo #nominad_empleados
+$("#formNominaDetalles #nominad_empleados").on("change", function() {
+    var colaboradores_id = $(this).val();
+    obtenerDatosEmpleado(colaboradores_id);
 });
+
+// Llamada a la función con un valor predeterminado (descomentar y ajustar según sea necesario)
+// var colaboradores_id_predeterminado = 123; // Reemplaza con el valor deseado
+// obtenerDatosEmpleado(colaboradores_id_predeterminado);
+
 
 
 function calculoHorasExtras(hora_valor, salario_hora, horas) {
@@ -1734,18 +1753,25 @@ function calculoNomina() {
     var dias_trabajadas = parseFloat($('#formNominaDetalles #nominad_diast').val()) || 0;
     var salario_diario = parseFloat($('#formNominaDetalles #nominad_sueldo_diario').val()) || 0;
     var salario_hora = parseFloat($('#formNominaDetalles #nominad_sueldo_hora').val()) || 0;
+    var salario_mensual = parseFloat($('#formNominaDetalles #nominad_salario').val()) || 0;
+    var salario = parseFloat($('#formNominaDetalles #salario').val()) || 0;
 
     var hora25 = calculoHorasExtras($('#formNominaDetalles #nominad_horas25').val(), salario_hora, "25");
     var hora50 = calculoHorasExtras($('#formNominaDetalles #nominad_horas50').val(), salario_hora, "50");
     var hora75 = calculoHorasExtras($('#formNominaDetalles #nominad_horas75').val(), salario_hora, "75");
     var hora100 = calculoHorasExtras($('#formNominaDetalles #nominad_horas100').val(), salario_hora, "100");
 
+    $('#formNominaDetalles #hrse25_valor').val(hora25.toFixed(2));
+    $('#formNominaDetalles #hrse50_valor').val(hora50.toFixed(2));
+    $('#formNominaDetalles #hrse75_valor').val(hora75.toFixed(2));
+    $('#formNominaDetalles #hrse100_valor').val(hora100.toFixed(2));
+
     var retroactivo = parseFloat($('#formNominaDetalles #nominad_retroactivo').val()) || 0;
     var bono = parseFloat($('#formNominaDetalles #nominad_bono').val()) || 0;
     var otros_ingresos = parseFloat($('#formNominaDetalles #nominad_otros_ingresos').val()) || 0;
 
-    neto_ingresos = (dias_trabajadas * salario_diario) + retroactivo + bono + otros_ingresos + hora25 + hora50 +
-        hora75 + hora100;
+    neto_ingresos = dias_trabajadas * salario_diario + retroactivo + bono + otros_ingresos + hora25 + hora50 + hora75 +
+        hora100;
 
     // EGRESOS
     var deducciones = parseFloat($('#formNominaDetalles #nominad_deducciones').val()) || 0;
@@ -1756,23 +1782,24 @@ function calculoNomina() {
     var vales = parseFloat($('#formNominaDetalles #nominad_vale').val()) || 0;
     var incapacidad_ihss = parseFloat($('#formNominaDetalles #nominad_incapacidad_ihss').val()) || 0;
 
-    neto_egresos = deducciones + prestamo + ihss + rap + isr + vales + incapacidad_ihss;
+    neto_egresos = deducciones + prestamo + ihss + rap + isr + incapacidad_ihss + vales;
 
     neto = neto_ingresos - neto_egresos;
 
     // Actualizar valores en los campos
-    actualizarCampo('#formNominaDetalles #nominad_neto_ingreso', neto_ingresos);
-    actualizarCampo('#formNominaDetalles #nominad_neto_egreso', neto_egresos);
-    actualizarCampo('#formNominaDetalles #nominad_neto', neto);
+    $('#formNominaDetalles #nominad_neto_ingreso').val(neto_ingresos.toFixed(2));
+    $('#formNominaDetalles #nominad_neto_egreso').val(neto_egresos.toFixed(2));
+    $('#formNominaDetalles #nominad_neto').val(neto.toFixed(2));
 
     // También actualiza los valores en otros campos si es necesario
-    actualizarCampo('#nominad_neto_ingreso1', neto_ingresos);
-    actualizarCampo('#nominad_neto_egreso1', neto_egresos);
-    actualizarCampo('#nominad_neto1', neto);
+    $('#nominad_neto_ingreso1').val(neto_ingresos.toFixed(2));
+    $('#nominad_neto_egreso1').val(neto_egresos.toFixed(2));
+    $('#nominad_neto1').val(neto.toFixed(2));
 }
 
+
 function actualizarCampo(selector, valor) {
-    $(selector).val(parseFloat(Math.round(valor)).toFixed(2));
+    $(selector).val(valor);
 }
 
 
@@ -1833,6 +1860,10 @@ $("#formNominaDetalles #nominad_isr").on("keyup", function() {
 });
 
 $("#formNominaDetalles #nominad_incapacidad_ihss").on("keyup", function() {
+    calculoNomina();
+});
+
+$("#formNominaDetalles #nominad_vale").on("keyup", function() {
     calculoNomina();
 });
 

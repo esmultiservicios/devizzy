@@ -917,8 +917,7 @@
                                             </label>
                                             <span class="question mb-2" id="label_print_comprobant"></span>
                                         </div>
-                                        <div class="container mt-md-0" id="GrupoPagosMultiplesFacturas"
-                                            style="display:none;">
+                                        <div class="container mt-md-0" id="GrupoPagosMultiplesFacturas">
                                             <p class="mb-0 mt-3">Pagos Multiples:</p>
                                             <label class="switch mb-2" data-toggle="tooltip" data-placement="top">
                                                 <input type="checkbox" id="pagos_multiples_switch"
@@ -3100,7 +3099,7 @@
 
 <!--INICIO MODAL ASISTENCIA-->
 <div class="modal fade" id="modal_registrar_asistencia">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Asistencia</h4>
@@ -3129,15 +3128,13 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 mb-3">
                             <label for="asistencia_empleado">Empleado <span class="priority">*<span /></label>
-                            <div class="input-group">
-                                <div class="input-group-append">
-                                    <select id="asistencia_empleado" name="asistencia_empleado" class="selectpicker"
-                                        data-width="100%" title="Empleado" data-size="5" data-live-search="true"
-                                        required>
-                                    </select>
-                                </div>
+                            <div class="input-group mb-3">
+                                <select id="asistencia_empleado" name="asistencia_empleado" class="selectpicker"
+                                    data-size="7" data-width="100%" data-live-search="true" title="Empleado">
+                                    <option value="">Seleccione</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-3 mb-3" id="fechaAsistencia">

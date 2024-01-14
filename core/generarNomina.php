@@ -88,7 +88,7 @@
 			if($query){
 				//CONSULTAMOS EL SALDO DISPONIBLE PARA LA CUENTA
 				$consulta_ingresos_contabilidad = $insMainModel->consultaSaldoMovimientosMainModel($cuentas_id)->fetch_assoc();
-				$saldo_consulta = $consulta_ingresos_contabilidad['saldo'];	
+				$saldo_consulta = isset($consulta_ingresos_contabilidad['saldo']) ? $consulta_ingresos_contabilidad['saldo'] : 0;	
 				$ingreso = 0;
 				$egreso = $total;
 				$saldo = $saldo_consulta - $egreso;

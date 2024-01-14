@@ -1,4 +1,13 @@
 ####13/01/2024####
+tabla => nomina_detalles
+salario_mensual		decimal(12,2) se cambio antes era salario
+hrse25_valor		decimal(12,2) se agrego despues de fecha_registro e igual los siguientes campos
+hrse50_valor		decimal(12,2)
+hrse75_valor		decimal(12,2)
+hrse100_valor		decimal(12,2)
+salario			decimal(12,2)
+
+####13/01/2024####
 tabla => nomina
 vales			decimal(12,2) sse agrego despues de isr
 

@@ -19,6 +19,7 @@
 		6 => $valores2['notas'],
 		7 => $valores2['estado'],
 		8 => $valores2['tipo_nomina_id'],
+		9 => $valores2['cuentas_id'],
 	);
 
 	echo json_encode($datos);

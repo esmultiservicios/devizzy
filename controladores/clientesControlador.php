@@ -14,8 +14,8 @@
 			$nombre = mainModel::cleanString($_POST['nombre_clientes']);
 			$rtn = mainModel::cleanString($_POST['identidad_clientes']);
 			$fecha = mainModel::cleanString($_POST['fecha_clientes']);			
-			$departamento_id = mainModel::cleanString($_POST['departamento_cliente'] === "" ? 0 : $_POST['departamento_cliente']);
-			$municipio_id = mainModel::cleanString($_POST['municipio_cliente'] === "" ? 0 : $_POST['municipio_cliente']);
+			$departamento_id = isset($_POST['departamento_cliente']) ? intval($_POST['departamento_cliente']) : 0;
+			$municipio_id = isset($_POST['municipio_cliente']) ? intval($_POST['municipio_cliente']) : 0;					
 			$localidad = mainModel::cleanString($_POST['dirección_clientes']);
 			$telefono = mainModel::cleanString($_POST['telefono_clientes']);
 			$correo = mainModel::cleanStringStrtolower($_POST['correo_clientes']);
@@ -43,6 +43,17 @@
 			$query = clientesModelo::agregar_clientes_modelo($datos);
 			
 			if($query){
+				//GUARDAR HISTORIAL
+				$datos = [
+					"modulo" => 'Clientes',
+					"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+					"status" => "Registro",
+					"observacion" => "Se registro el cliente {$nombre} con el RTN {$rtn}",
+					"fecha_registro" => date("Y-m-d H:i:s")
+				];	
+				
+				mainModel::guardarHistorial($datos);
+
 				$alert = [
 					"alert" => "save",
 					"title" => "Registro almacenado",
@@ -73,12 +84,11 @@
 			$clientes_id = $_POST['clientes_id'];
 			$nombre = mainModel::cleanStringConverterCase($_POST['nombre_clientes']);
 			$rtn = mainModel::cleanString($_POST['identidad_clientes']);			
-			$departamento_id = mainModel::cleanString($_POST['departamento_cliente']);
-			$municipio_id = mainModel::cleanString($_POST['municipio_cliente']);
+			$departamento_id = isset($_POST['departamento_cliente']) ? intval($_POST['departamento_cliente']) : 0;
+			$municipio_id = isset($_POST['municipio_cliente']) ? intval($_POST['municipio_cliente']) : 0;
 			$localidad = mainModel::cleanString($_POST['dirección_clientes']);
 			$telefono = mainModel::cleanString($_POST['telefono_clientes']);
 			$correo = mainModel::cleanStringStrtolower($_POST['correo_clientes']);
-			$rtn = mainModel::cleanString($_POST['identidad_clientes']);
 			
 			if (isset($_POST['clientes_activo'])){
 				$estado = $_POST['clientes_activo'];
@@ -101,7 +111,18 @@
 						
 			$query = clientesModelo::edit_clientes_modelo($datos);
 			
-			if($query){				
+			if($query){	
+				//GUARDAR HISTORIAL
+				$datos = [
+					"modulo" => 'Clientes',
+					"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+					"status" => "Edición",
+					"observacion" => "Se edito el cliente {$nombre} con el RTN {$rtn}",
+					"fecha_registro" => date("Y-m-d H:i:s")
+				];	
+				
+				mainModel::guardarHistorial($datos);
+
 				$alert = [
 					"alert" => "edit",
 					"title" => "Registro modificado",
@@ -131,12 +152,42 @@
 		public function delete_clientes_controlador(){
 			$clientes_id = $_POST['clientes_id'];
 			
+			$campos = ['nombre', 'rtn'];
+			$resultados = mainModel::consultar_tabla('clientes', $campos, "clientes_id = {$clientes_id}");
+			
+			// Verifica si hay resultados antes de intentar acceder a los campos
+			if (!empty($resultados)) {
+				// Obtén el primer resultado (puedes ajustar según tus necesidades)
+				$primerResultado = $resultados[0];
+			
+				// Verifica si las claves existen antes de acceder a ellas
+				$nombre = isset($primerResultado['nombre']) ? $primerResultado['nombre'] : null;
+				$rtn = isset($primerResultado['rtn']) ? $primerResultado['rtn'] : null;
+			
+				// Ahora puedes usar $nombre y $rtn de forma segura
+			} else {
+				// No se encontraron resultados
+				$nombre = null;
+				$rtn = null;
+			}
+							
 			$result_valid_clientes = clientesModelo::valid_clientes_facturas_modelo($clientes_id);
 			
 			if($result_valid_clientes->num_rows==0){
 				$query = clientesModelo::delete_clientes_modelo($clientes_id);
 								
 				if($query){
+					//GUARDAR HISTORIAL
+					$datos = [
+						"modulo" => 'Clientes',
+						"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+						"status" => "Eliminar",
+						"observacion" => "Se elimino el cliente {$nombre} con el RTN {$rtn}",
+						"fecha_registro" => date("Y-m-d H:i:s")
+					];	
+					
+					mainModel::guardarHistorial($datos);
+
 					$alert = [
 						"alert" => "delete",
 						"title" => "Registro eliminado",

@@ -39,7 +39,6 @@ $(document).ready(function() {
     $('#form_main_cobrar_clientes #cobrar_clientes_estado').selectpicker('refresh');
 });
 
-
 //INICIO MENUS
 function getPermisosTipoUsuarioAccesosTable(privilegio_id) {
     var url = '<?php echo SERVERURL;?>core/getTipoUsuarioAccesos.php';
@@ -138,7 +137,6 @@ function getMenu(privilegio_id) {
             valores_menu = JSON.parse(registro);
             try {
                 for (var i = 0; i < valores_menu.length; i++) {
-                    console.log(valores_menu[i]);
                     if (valores_menu[i].estado == 1) {
                         $('#' + valores_menu[i].menu).show();
                         $('.' + valores_menu[i].menu).show();
@@ -3353,7 +3351,6 @@ function getNombreCliente(clientes_id) {
 //funcion aplicar nuevo saldo
 function saldoFactura(facturas_id) {
     //IMPORTE NUEVO EFECTIVO
-    console.log('SALDO', facturas_id)
     var url = '<?php echo SERVERURL;?>core/getSaldoFactura.php';
 
     $.ajax({
@@ -3361,7 +3358,6 @@ function saldoFactura(facturas_id) {
         url: url,
         data: 'facturas_id=' + facturas_id,
         success: function(saldoFactura) {
-            console.log('res', saldoFactura);
             $('#formEfectivoBill #monto_efectivo').val(saldoFactura);
             $('#bill-pay').html(saldoFactura);
         }
@@ -3371,7 +3367,6 @@ function saldoFactura(facturas_id) {
 //funcion aplicar nuevo saldo compras CXP
 function saldoCompras(compras_id) {
     //IMPORTE NUEVO EFECTIVO
-    console.log('SALDO', compras_id)
     var url = '<?php echo SERVERURL;?>core/getSaldoCompras.php';
 
     $.ajax({
@@ -3379,11 +3374,8 @@ function saldoCompras(compras_id) {
         url: url,
         data: 'compras_id=' + compras_id,
         success: function(saldoFactura) {
-            console.log('res', saldoFactura);
             //$('#formEfectivoBill #monto_efectivo').val(saldoFactura);
             $('#Purchase-pay').html(saldoFactura);
-
-
         }
     });
 }
@@ -3502,8 +3494,6 @@ $(document).ready(function() {
         var monto = parseFloat($("#formEfectivoBill #monto_efectivo").val()).toFixed(2);
         var credito = $("#formEfectivoBill #tipo_factura").val();
         var pagos_multiples = $('#pagos_multiples_switch').val();
-
-        console.log('credito', credito)
 
         if (credito == 2) {
             $("#formEfectivoBill #cambio_efectivo").val(0)
@@ -3934,7 +3924,6 @@ function pagoCompras(compras_id, saldo, tipo) {
     $('#pagos_multiples_switch').attr('checked', false);
     getCollaboradoresModalPagoFacturasCompras();
 
-    console.log('tipo dato', tipo);
     $.ajax({
         type: 'POST',
         url: url,
@@ -4038,7 +4027,7 @@ $(document).ready(function() {
         }
 
         var total = efectivo - monto;
-        console.log('keyup', pagos_multiples);
+
         //Math.floor NOS PERMITE COMPARAR UN FLOAT CONVIRTIENDOLO A ENTERO CUANDO SE MULTIPLICA POR 100
 
         if (Math.floor(efectivo * 100) >= Math.floor(monto * 100) || credito == 2 || pagos_multiples ==

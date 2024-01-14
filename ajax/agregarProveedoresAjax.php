@@ -2,7 +2,7 @@
 	$peticionAjax = true;
 	require_once "../core/configGenerales.php";
 	
-	if(isset($_POST['nombre_proveedores']) && isset($_POST['rtn_proveedores']) && isset($_POST['fecha_proveedores']) && isset($_POST['departamento_proveedores']) && isset($_POST['municipio_proveedores'])){
+	if(isset($_POST['nombre_proveedores']) && isset($_POST['rtn_proveedores']) && isset($_POST['fecha_proveedores'])){
 		require_once "../controladores/proveedoresControlador.php";
 		$insVarios = new proveedoresControlador();
 		
@@ -18,4 +18,4 @@
 				});			
 			</script>";
 	}
-?>	
+?>

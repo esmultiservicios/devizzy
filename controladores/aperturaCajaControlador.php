@@ -57,6 +57,16 @@
 				
 			if($validar){
 				if($query){
+					$datos = [
+						"modulo" => 'Caja',
+						"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+						"status" => "Apertura",
+						"observacion" => "Se aperturo la caja",
+						"fecha_registro" => date("Y-m-d H:i:s")
+					];	
+					
+					mainModel::guardarHistorial($datos);
+
 					//SE ACTUALIZA EL USO DE LA CAJA
 					$alert = [
 						"alert" => "clear",
@@ -243,6 +253,16 @@
 						
 						aperturaCajaModelo::agregar_movimientos_contabilidad_modelo($datos_movimientos);					
 					}
+
+					$datos = [
+						"modulo" => 'Caja',
+						"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+						"status" => "Cierre",
+						"observacion" => "Se cerro la caja",
+						"fecha_registro" => date("Y-m-d H:i:s")
+					];	
+					
+					mainModel::guardarHistorial($datos);
 
 					$alert = [
 						"alert" => "clear",

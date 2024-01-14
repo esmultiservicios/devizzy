@@ -14,13 +14,25 @@
 
 <body>
     <?php echo $anulada; ?>
+    <?php
+  if (SISTEMA_PRUEBA=="SI"){ //CAJA
+?>
+    <span class="container-fluid prueba-sistema">SISTEMA DE PRUEBA</span>
+    <?php
+  }
+?>
     <div id="page_pdf">
         <table id="factura_head">
             <tr>
                 <td class="logo_factura">
                     <div>
-                        <img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $logotipo; ?>"
-                            width="150px" height="95px">
+                        <img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php 
+                            if (SISTEMA_PRUEBA === "SI"){
+                                echo "logo_prueba.jpg"; 
+                            }else{
+                                echo $logotipo; 
+                            }   
+                        ?>" width="150px" height="95px">
                     </div>
                 </td>
                 <td class="info_empresa" colspan="3">
@@ -93,27 +105,27 @@
 						while($registro_detalles = $result_voucher_detalle->fetch_assoc()){
 							echo '
 								<tr>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["puesto"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["empleado"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["salario"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["dias_trabajados"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["horas_25"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["horas_50"].'</th>	
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["horas_75"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["horas_100"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["retroactivo"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["bono"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["otros_ingresos"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["neto_ingresos"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["deducciones"].'</th
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["prestamo"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["ihss"].'</th>									
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["rap"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["isr"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["vales"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["incapacidad_ihss"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["neto_egresos"].'</th>
-									<th align="center" width="5%" style="font-weight: none;">'.$registro_detalles["neto"].'</th>
+									<th align="center" width="8%" style="font-weight: none;">'.$registro_detalles["puesto"].'</th>
+									<th align="center" width="20%" style="font-weight: none;">'.$registro_detalles["empleado"].'</th>
+									<th align="center" width="10%" style="font-weight: none;">L. '.number_format($registro_detalles["salario"], 2, '.', ',').'</th>                                    
+									<th align="center" width="8%" style="font-weight: none;">'.$registro_detalles["dias_trabajados"].'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["hrse25_valor"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["hrse50_valor"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["hrse75_valor"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["hrse100_valor"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["retroactivo"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["bono"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["otros_ingresos"], 2, '.', ',').'</th>
+                                    <th align="center" width="10%" style="font-weight: none;">L. '.number_format($registro_detalles["neto_ingresos"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["deducciones"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["prestamo"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["ihss"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["rap"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["isr"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["vales"], 2, '.', ',').'</th>
+                                    <th align="center" width="8%" style="font-weight: none;">L. '.number_format($registro_detalles["incapacidad_ihss"], 2, '.', ',').'</th>
+                                    <th align="center" width="10%" style="font-weight: none;">L. '.number_format($registro_detalles["neto_egresos"], 2, '.', ',').'</th>
+                                    <th align="center" width="15%" style="font-weight: none;">L. '.number_format($registro_detalles["neto"], 2, '.', ',').'</th>								
 								</tr>							
 							';
 						}

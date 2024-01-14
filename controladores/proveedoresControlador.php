@@ -14,8 +14,8 @@
 			$nombre = mainModel::cleanString($_POST['nombre_proveedores']);
 			$rtn = mainModel::cleanString($_POST['rtn_proveedores']);
 			$fecha = mainModel::cleanString($_POST['fecha_proveedores']);			
-			$departamento_id = mainModel::cleanString($_POST['departamento_proveedores'] === "" ? 0 : $_POST['departamento_proveedores']);
-			$municipio_id = mainModel::cleanString($_POST['municipio_proveedores'] === "" ? 0 : $_POST['municipio_proveedores']);
+			$departamento_id = isset($_POST['departamento_proveedores']) ? intval($_POST['departamento_proveedores']) : 0;
+			$municipio_id = isset($_POST['municipio_proveedores']) ? intval($_POST['municipio_proveedores']) : 0;	
 			$localidad = mainModel::cleanString($_POST['dirección_proveedores']);
 			$telefono = mainModel::cleanString($_POST['telefono_proveedores']);
 			$correo = mainModel::cleanStringStrtolower($_POST['correo_proveedores']);
@@ -40,6 +40,17 @@
 			$query = proveedoresModelo::agregar_proveedores_model($datos);
 			
 			if($query){
+				//GUARDAR HISTORIAL
+				$datos = [
+					"modulo" => 'Proveedor',
+					"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+					"status" => "Registro",
+					"observacion" => "Se registro el proveedor {$nombre} con el RTN {$rtn}",
+					"fecha_registro" => date("Y-m-d H:i:s")
+				];	
+				
+				mainModel::guardarHistorial($datos);
+								
 				$alert = [
 					"alert" => "clear",
 					"title" => "Registro almacenado",
@@ -69,8 +80,8 @@
 		public function edit_proveedores_controlador(){
 			$proveedores_id = $_POST['proveedores_id'];
 			$nombre = mainModel::cleanStringConverterCase($_POST['nombre_proveedores']);		
-			$departamento_id = mainModel::cleanString($_POST['departamento_proveedores']);
-			$municipio_id = mainModel::cleanString($_POST['municipio_proveedores']);
+			$departamento_id = isset($_POST['departamento_proveedores']) ? intval($_POST['departamento_proveedores']) : 0;
+			$municipio_id = isset($_POST['municipio_proveedores']) ? intval($_POST['municipio_proveedores']) : 0;
 			$localidad = mainModel::cleanString($_POST['dirección_proveedores']);
 			$telefono = mainModel::cleanString($_POST['telefono_proveedores']);
 			$correo = mainModel::cleanStringStrtolower($_POST['correo_proveedores']);
@@ -96,7 +107,18 @@
 
 			$query = proveedoresModelo::edit_proveedores_modelo($datos);
 			
-			if($query){				
+			if($query){		
+				//GUARDAR HISTORIAL
+				$datos = [
+					"modulo" => 'Proveedor',
+					"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+					"status" => "Edición",
+					"observacion" => "Se edito el proveedor {$nombre} con el RTN {$rtn}",
+					"fecha_registro" => date("Y-m-d H:i:s")
+				];	
+				
+				mainModel::guardarHistorial($datos);
+
 				$alert = [
 					"alert" => "edit",
 					"title" => "Registro modificado",
@@ -126,12 +148,42 @@
 		public function delete_proveedores_controlador(){
 			$proveedores_id = $_POST['proveedores_id'];
 			
+			$campos = ['nombre', 'rtn'];
+			$resultados = mainModel::consultar_tabla('proveedores', $campos, "proveedores_id = {$proveedores_id}");
+			
+			// Verifica si hay resultados antes de intentar acceder a los campos
+			if (!empty($resultados)) {
+				// Obtén el primer resultado (puedes ajustar según tus necesidades)
+				$primerResultado = $resultados[0];
+			
+				// Verifica si las claves existen antes de acceder a ellas
+				$nombre = isset($primerResultado['nombre']) ? $primerResultado['nombre'] : null;
+				$rtn = isset($primerResultado['rtn']) ? $primerResultado['rtn'] : null;
+			
+				// Ahora puedes usar $nombre y $rtn de forma segura
+			} else {
+				// No se encontraron resultados
+				$nombre = null;
+				$rtn = null;
+			}
+
 			$result_valid_proveedores = proveedoresModelo::valid_proveedores_compras($proveedores_id);
 			
 			if($result_valid_proveedores->num_rows==0){
 				$query = proveedoresModelo::delete_proveedores_modelo($proveedores_id);
 								
 				if($query){
+					//GUARDAR HISTORIAL
+					$datos = [
+						"modulo" => 'Proveedor',
+						"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+						"status" => "Eliminar",
+						"observacion" => "Se elimino el proveedor {$nombre} con el RTN {$rtn}",
+						"fecha_registro" => date("Y-m-d H:i:s")
+					];	
+					
+					mainModel::guardarHistorial($datos);
+
 					$alert = [
 						"alert" => "clear",
 						"title" => "Registro eliminado",

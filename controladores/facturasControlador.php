@@ -326,6 +326,36 @@
 									
 									facturasModelo::actualizar_factura_importe($datos_factura);							
 									
+									//GUARDAR HISTORIAL
+									$campos = ['nombre', 'rtn'];
+									$resultados = mainModel::consultar_tabla('clientes', $campos, "clientes_id = {$clientes_id}");
+									
+									// Verifica si hay resultados antes de intentar acceder a los campos
+									if (!empty($resultados)) {
+										// Obtén el primer resultado (puedes ajustar según tus necesidades)
+										$primerResultado = $resultados[0];
+									
+										// Verifica si las claves existen antes de acceder a ellas
+										$nombre = isset($primerResultado['nombre']) ? $primerResultado['nombre'] : null;
+										$rtn = isset($primerResultado['rtn']) ? $primerResultado['rtn'] : null;
+									
+										// Ahora puedes usar $nombre y $rtn de forma segura
+									} else {
+										// No se encontraron resultados
+										$nombre = null;
+										$rtn = null;
+									}
+																
+									$datos = [
+										"modulo" => 'Facturas',
+										"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+										"status" => "Registro",
+										"observacion" => "Se registro la factura al contado para el cliente {$nombre} con el RTN {$rtn}",
+										"fecha_registro" => date("Y-m-d H:i:s")
+									];	
+								
+									mainModel::guardarHistorial($datos);
+									
 									$alert = [
 										"alert" => "save_simple",
 										"title" => "Registro almacenado",
@@ -646,6 +676,36 @@
 								
 								facturasModelo::agregar_cuenta_por_cobrar_clientes($datos_cobrar_clientes);
 								
+								//GUARDAR HISTORIAL
+								$campos = ['nombre', 'rtn'];
+								$resultados = mainModel::consultar_tabla('clientes', $campos, "clientes_id = {$clientes_id}");
+								
+								// Verifica si hay resultados antes de intentar acceder a los campos
+								if (!empty($resultados)) {
+									// Obtén el primer resultado (puedes ajustar según tus necesidades)
+									$primerResultado = $resultados[0];
+								
+									// Verifica si las claves existen antes de acceder a ellas
+									$nombre = isset($primerResultado['nombre']) ? $primerResultado['nombre'] : null;
+									$rtn = isset($primerResultado['rtn']) ? $primerResultado['rtn'] : null;
+								
+									// Ahora puedes usar $nombre y $rtn de forma segura
+								} else {
+									// No se encontraron resultados
+									$nombre = null;
+									$rtn = null;
+								}
+																
+								$datos = [
+									"modulo" => 'Facturas',
+									"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+									"status" => "Registrar",
+									"observacion" => "Se registro la factura {$numero} al crédito para el cliente {$nombre} con el RTN {$rtn}",
+									"fecha_registro" => date("Y-m-d H:i:s")
+								];	
+								
+								mainModel::guardarHistorial($datos);
+
 								$alert = [
 									"alert" => "save_simple",
 									"title" => "Registro almacenado",
@@ -1078,9 +1138,38 @@
 		public function cancelar_facturas_controlador(){
 			$facturas_id = $_POST['facturas_id'];		
 
+			$campos = ['number'];
+			$resultados = mainModel::consultar_tabla('facturas', $campos, "facturas_id = {$facturas_id}");
+			
+			// Verifica si hay resultados antes de intentar acceder a los campos
+			if (!empty($resultados)) {
+				// Obtén el primer resultado (puedes ajustar según tus necesidades)
+				$primerResultado = $resultados[0];
+			
+				// Verifica si las claves existen antes de acceder a ellas
+				$number = isset($primerResultado['number']) ? $primerResultado['number'] : null;
+			
+				// Ahora puedes usar $nombre y $rtn de forma segura
+			} else {
+				// No se encontraron resultados
+				$number = null;
+			}
+			
 			$query = facturasModelo::cancelar_facturas_modelo($facturas_id);
 			
 			if($query){
+				//GUARDAR HISTORIAL
+												
+				$datos = [
+					"modulo" => 'Facturas',
+					"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+					"status" => "Cancelar",
+					"observacion" => "Se cancelo la factura {$number}",
+					"fecha_registro" => date("Y-m-d H:i:s")
+				];	
+				
+				mainModel::guardarHistorial($datos);
+
 				$alert = [
 					"alert" => "clear",
 					"title" => "Registro eliminado",

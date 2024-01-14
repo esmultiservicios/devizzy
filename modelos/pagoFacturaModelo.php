@@ -328,7 +328,7 @@
 						//INGRESAMOS LOS DATOS DEL PAGO EN LA TABLA movimientos_cuentas
 						//CONSULTAMOS EL SALDO DISPONIBLE PARA LA CUENTA
 						$consulta_ingresos_contabilidad = self::consultar_saldo_movimientos_cuentas_pagos_contabilidad($cuentas_id)->fetch_assoc();
-						$saldo_consulta = $consulta_ingresos_contabilidad['saldo'];	
+						$saldo_consulta = isset($consulta_ingresos_contabilidad['saldo']) ? $consulta_ingresos_contabilidad['saldo'] : 0;	
 						$ingreso = $total;
 						$egreso = 0;
 						$saldo = $saldo_consulta + $ingreso;
@@ -356,6 +356,16 @@
 							}
 						
 						if($res['multiple_pago'] == 1 && $saldo_nuevo > 0){
+							$datos = [
+								"modulo" => 'Pagos',
+								"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+								"status" => "Registrar",
+								"observacion" => "Se registro el pago para la factura {$no_factura} al contado, con pagos múltiples",
+								"fecha_registro" => date("Y-m-d H:i:s")
+							];	
+							
+							mainModel::guardarHistorial($datos);
+
 							$alert = [
 								"alert" => "save",
 								"title" => "Registro pago multiples almacenado",
@@ -367,8 +377,7 @@
 								"id" => "proceso_pagos",
 								"valor" => "Registro",	
 								"funcion" => "pago(".$res['facturas_id'].");saldoFactura(".$res['facturas_id'].")",
-								"modal" => "modal_pagos",
-														
+								"modal" => "modal_pagos",														
 							];
 
 							//OBTENEMOS EL DOCUMENTO ID DE LA FACTURACION
@@ -402,7 +411,16 @@
 								pagoFacturaModelo::actualizar_factura($datos_update_factura);
 							}
 						}else{
-
+							$datos = [
+								"modulo" => 'Pagos',
+								"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+								"status" => "Registrar",
+								"observacion" => "Se registro el pago para la factura {$no_factura} al contado",
+								"fecha_registro" => date("Y-m-d H:i:s")
+							];	
+							
+							mainModel::guardarHistorial($datos);
+							
 							$alert = [
 								"alert" => "save_simple",
 								"title" => "Registro almacenado",
@@ -505,6 +523,17 @@
 							pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);		
 						}	
 
+						//GUARDAR HISTORIAL												
+						$datos = [
+							"modulo" => 'Pagos',
+							"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
+							"status" => "Registrar",
+							"observacion" => "Se registro el pago para la factura {$numero} al contado",
+							"fecha_registro" => date("Y-m-d H:i:s")
+						];	
+						
+						mainModel::guardarHistorial($datos);
+
 						$alert = [
 							"alert" => "save_simple",
 							"title" => "Registro almacenado",
@@ -519,7 +548,6 @@
 							"modal" => "modal_pagos",
 													
 						];
-	
 					}else{
 						$alert = [
 							"alert" => "simple",

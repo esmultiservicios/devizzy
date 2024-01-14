@@ -1131,10 +1131,10 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
   
     DROP TABLE IF EXISTS `nomina_detalles`;
     CREATE TABLE IF NOT EXISTS `nomina_detalles` (
-      `nomina_detalles_id` int NOT NULL,
-      `nomina_id` int NOT NULL,
-      `colaboradores_id` int NOT NULL,
-      `salario` decimal(12,2) NOT NULL,
+      `nomina_detalles_id` int(11) NOT NULL,
+      `nomina_id` int(11) NOT NULL,
+      `colaboradores_id` int(11) NOT NULL,
+      `salario_mensual` decimal(12,2) NOT NULL,
       `dias_trabajados` decimal(12,2) NOT NULL,
       `hrse25` decimal(12,2) NOT NULL,
       `hrse50` decimal(12,2) NOT NULL,
@@ -1148,14 +1148,20 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       `ihss` decimal(12,2) NOT NULL,
       `rap` decimal(12,2) NOT NULL,
       `isr` decimal(12,2) NOT NULL,
+      `vales` decimal(12,2) NOT NULL,
       `incapacidad_ihss` decimal(12,2) NOT NULL,
       `neto_ingresos` decimal(12,2) NOT NULL,
       `neto_egresos` decimal(12,2) NOT NULL,
       `neto` decimal(12,2) NOT NULL,
-      `usuario` int NOT NULL,
-      `estado` int NOT NULL,
-      `notas` varchar(254) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+      `usuario` int(11) NOT NULL,
+      `estado` int(11) NOT NULL,
+      `notas` varchar(254) COLLATE utf8mb4_spanish_ci NOT NULL,
       `fecha_registro` datetime NOT NULL,
+      `hrse25_valor` decimal(12,2) NOT NULL,
+      `hrse50_valor` decimal(12,2) NOT NULL,
+      `hrse75_valor` decimal(12,2) NOT NULL,
+      `hrse100_valor` decimal(12,2) NOT NULL,
+      `salario` decimal(12,2) NOT NULL,
       PRIMARY KEY (`nomina_detalles_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   

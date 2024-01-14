@@ -15,13 +15,25 @@ use LDAP\Result;
 
 <body>
     <?php echo $anulada; ?>
+    <?php
+  if (SISTEMA_PRUEBA=="SI"){ //CAJA
+?>
+    <span class="container-fluid prueba-sistema">SISTEMA DE PRUEBA</span>
+    <?php
+  }
+?>
     <div id="page_pdf">
         <table id="factura_head">
             <tr>
                 <td class="logo_factura">
                     <div>
-                        <img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $logotipo; ?>"
-                            width="150px" height="95px">
+                        <img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php 
+                            if (SISTEMA_PRUEBA === "SI"){
+                                echo "logo_prueba.jpg"; 
+                            }else{
+                                echo $logotipo; 
+                            }   
+                        ?>" width="150px" height="95px">
                     </div>
                 </td>
 

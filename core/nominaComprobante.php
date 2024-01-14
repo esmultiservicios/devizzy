@@ -14,13 +14,13 @@ require_once "mainModel.php";
     table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 20px;
+        margin-bottom: 3px;
     }
 
     th,
     td {
         border: 1px solid #ddd;
-        padding: 8px;
+        padding: 1px;
         text-align: left;
     }
 
@@ -35,7 +35,7 @@ require_once "mainModel.php";
     .two-columns {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 5px;
+        margin-bottom: 3px;
     }
 
     .column {
@@ -45,23 +45,23 @@ require_once "mainModel.php";
     .table-title {
         width: 100%;
         text-align: center;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
         background-color: #f2f2f2;
-        margin-bottom: 5px;
+        margin-bottom: 3px;
     }
 
     /* Estilo para ajustar la posición de la tabla "Neto" */
     .table-neto {
-        position: relative;
-        top: -15%;
-        /* Ajusta este valor según tus necesidades */
+        position: absolute;
+        margin-top: -14%;
+        /* Ajusta este alor según tus necesidades */
     }
 
     /* Agrega este bloque de estilos al head de tu documento o al CSS externo */
     .firma-empleado {
         text-align: center;
-        margin-top: -18%;
+        /* Ajusta este valor según sea necesario */
     }
 
     .firma-empleado hr {
@@ -69,25 +69,47 @@ require_once "mainModel.php";
         width: 50%;
         margin: 0 auto;
         /* Centra la línea horizontalmente */
-        margin-top: 5px;
+        margin-top: -7%;
+        /* Ajusta este valor según sea necesario */
     }
 
-    .firma-texto {
-        margin-top: 10px;
+    /* Contenedor para percepciones y deducciones */
+    .percepciones-deducciones-container {
+        display: flex;
+        justify-content: space-between;
+        page-break-inside: avoid;
+        /* Evitar salto de página dentro de este contenedor */
+    }
+
+    /* Estilo para la sección de notas */
+    .notas-section {
+        margin-top: 2%;
+        /* Asegurar que haya un salto de página después de esta sección */
     }
     </style>
-
 </head>
 
 <body>
     <?php echo $anulada; ?>
+    <?php
+  if (SISTEMA_PRUEBA=="SI"){ //CAJA
+?>
+    <span class="container-fluid prueba-sistema">SISTEMA DE PRUEBA</span>
+    <?php
+  }
+?>
     <div id="page_pdf">
         <table id="factura_head">
             <tr>
                 <td class="logo_factura">
                     <div>
-                        <img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $logotipo; ?>"
-                            width="150px" height="95px">
+                        <img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php 
+                            if (SISTEMA_PRUEBA === "SI"){
+                                echo "logo_prueba.jpg"; 
+                            }else{
+                                echo $logotipo; 
+                            }   
+                        ?>" width="150px" height="95px">
                     </div>
                 </td>
                 <td class="info_empresa">
@@ -102,7 +124,8 @@ require_once "mainModel.php";
                     </div>
                     <div>
                         <span class="h3">Número de Nómina</span>
-                        <span class="h2"><?php echo $consulta_registro['nomina_id']; ?></span>
+                        <span
+                            class="h2"><?php echo $consulta_registro['nomina_id']; echo $consulta_registro['nomina_id'];?></span>
                     </div>
                 </td>
             </tr>
@@ -129,9 +152,9 @@ require_once "mainModel.php";
             $datos .= '</tr>';
             $datos .= '</table>';
 
-            // Mostrar Percepciones y Deducciones en dos columnas
-            $datos .= '<div class="two-columns">';
-            
+            // Agrupar Percepciones y Deducciones en un contenedor
+            $datos .= '<div class="percepciones-deducciones-container">';
+
             // Mostrar Percepciones
             $datos .= '<div class="column">';
             $datos .= '<div class="table-title">Percepciones</div>';
@@ -158,25 +181,31 @@ require_once "mainModel.php";
                 if (!empty($registro_detalles[$campo]) && floatval($registro_detalles[$campo]) > 0) {
                     $datos .= '<tr>';
                     $datos .= '<td>' . $concepto . '</td>';
-                    $datos .= '<td>' . $campo . '</td>';
-                    
-                    // Verificar si el concepto es 'Días Trabajados'
-                    if ($campo === 'dias_trabajados') {
-                        // Mostrar la cantidad sin formato de moneda
-                        $datos .= '<td>' . number_format($registro_detalles[$campo], 2, '.', ',') . '</td>';
+            
+                    if ($campo === 'hrse25' || $campo === 'hrse50' || $campo === 'hrse75' || $campo === 'hrse100') {
+                        $datos .= '<td>' . $registro_detalles[$campo] . '</td>';
+                        $datos .= '<td>L. ' . number_format($registro_detalles[$campo.'_valor'], 2, '.', ',') . '</td>';
                     } else {
-                        // Mostrar la cantidad con formato de moneda
-                        $datos .= '<td>L. ' . number_format($registro_detalles[$campo], 2, '.', ',') . '</td>';
+                        $datos .= '<td>' . $campo . '</td>';
+                        
+                        // Verificar si el concepto es 'Días Trabajados'
+                        if ($campo === 'dias_trabajados') {
+                            // Mostrar la cantidad sin formato de moneda
+                            $datos .= '<td>' . number_format($registro_detalles[$campo], 2, '.', ',') . '</td>';
+                        } else {
+                            // Mostrar la cantidad con formato de moneda
+                            $datos .= '<td>L. ' . number_format($registro_detalles[$campo], 2, '.', ',') . '</td>';
+                        }
                     }
-                    
+            
                     $datos .= '</tr>';
                 }
             }
 
             // Mostrar neto_ingresos
             $datos .= '<tr>';
-            $datos .= '<td colspan="2">Neto Ingresos</td>';
-            $datos .= '<td>L. ' . number_format($registro_detalles['neto_ingresos'], 2, '.', ',') . '</td>';
+            $datos .= '<td colspan="2"><strong>Neto Ingresos</strong></td>';
+            $datos .= '<td><strong>L. ' . number_format($registro_detalles['neto_ingresos'], 2, '.', ',') . '</strong></td>';
             $datos .= '</tr>';
             $datos .= '</table>';
             $datos .= '</div>'; // Fin de la columna de percepciones
@@ -212,8 +241,8 @@ require_once "mainModel.php";
 
             // Mostrar neto_egresos
             $datos .= '<tr>';
-            $datos .= '<td colspan="2">Neto Egresos</td>';
-            $datos .= '<td>L. ' . number_format($registro_detalles['neto_egresos'], 2, '.', ',') . '</td>';
+            $datos .= '<td colspan="2"><strong>Neto Egresos</strong></td>';
+            $datos .= '<td><strong>L. ' . number_format($registro_detalles['neto_egresos'], 2, '.', ',') . '</strong></td>';
             $datos .= '</tr>';
             $datos .= '</table>';
             $datos .= '</div>'; // Fin de la columna de deducciones
@@ -221,22 +250,22 @@ require_once "mainModel.php";
             // Fin de mostrar Percepciones y Deducciones
 
             // Mostrar Neto
-			$datos .= '<table class="table-neto">';
-			$datos .= '<tr>';
-			$datos .= '<th width="60%" colspan="2">Concepto</th>';
-			$datos .= '<th width="40%">Cantidad</th>';
-			$datos .= '</tr>';
-			$datos .= '<tr>';
-			$datos .= '<td colspan="2">Neto</td>';
-			$datos .= '<td>L. ' . number_format($registro_detalles['neto'], 2, '.', ',') . '</td>';
-			$datos .= '</tr>';
-			$datos .= '</table>';
-			
+            $datos .= '<div class="notas-section">';
+            $datos .= '<table class="table-neto">';
+            $datos .= '<tr>';
+            $datos .= '<th width="60%" colspan="2">Concepto</th>';
+            $datos .= '<th width="40%">Cantidad</th>';
+            $datos .= '</tr>';
+            $datos .= '<tr>';
+            $datos .= '<td colspan="2"><strong>Neto</strong></td>';
+            $datos .= '<td><strong>L. ' . number_format($registro_detalles['neto'], 2, '.', ',') . '</strong></td>';
+            $datos .= '</tr>';
+            $datos .= '</table>';
+            $datos .= '</div>'; // Fin de la columna de percepciones	        
         }
         echo $datos;
         ?>
 
-        <!-- Agregar esta sección al final de tu código, justo antes de cerrar el body -->
         <!-- Agregar esta sección al final de tu código, justo antes de cerrar el body -->
         <div class="firma-empleado">
             <hr>

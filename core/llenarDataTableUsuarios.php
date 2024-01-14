@@ -30,7 +30,8 @@
 		"privilegio_id" => $_SESSION['privilegio_sd'],
 		"colaborador_id" => $_SESSION['colaborador_id_sd'],	
 		"privilegio_colaborador" => $privilegio_colaborador,	
-		"empresa_id" => $_SESSION['empresa_id_sd']	
+		"empresa_id" => $_SESSION['empresa_id_sd'],
+		"db_cliente" => $_SESSION['db_cliente']
 	];	
 
 	$result = $insMainModel->getUsuarios($datos);

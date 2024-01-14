@@ -181,6 +181,13 @@
                         <div class="col-md-12 mb-3">
                             <div class="input-group mb-3">
                                 <input type="hidden" id="nomina_id" name="nomina_id" class="form-control">
+
+                                <input type="hidden" id="hrse25_valor" name="hrse25_valor" class="form-control">
+                                <input type="hidden" id="hrse50_valor" name="hrse50_valor" class="form-control">
+                                <input type="hidden" id="hrse75_valor" name="hrse75_valor" class="form-control">
+                                <input type="hidden" id="hrse100_valor" name="hrse100_valor" class="form-control">
+                                <input type="hidden" id="salario" name="salario" class="form-control">
+
                                 <input type="hidden" id="nomina_detalles_id" name="nomina_detalles_id"
                                     class="form-control">
                                 <input type="hidden" id="pago_planificado_id" name="pago_planificado_id"

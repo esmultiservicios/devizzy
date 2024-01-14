@@ -18,15 +18,12 @@
 		protected function agregar_nomina_detalles_modelo($datos){
 			$nomina_detalles_id = mainModel::correlativo("nomina_detalles_id", "nomina_detalles");
 			
-			$insert = "INSERT INTO nomina_detalles 
-			(`nomina_detalles_id`, `nomina_id`, `colaboradores_id`, `salario`, `dias_trabajados`, `hrse25`, `hrse50`, `hrse75`, `hrse100`, 
-			`retroactivo`, `bono`, `otros_ingresos`, `deducciones`, `prestamo`, `ihss`, `rap`, `isr`, `vales`, `incapacidad_ihss`, 
-			`neto_ingresos`, `neto_egresos`, `neto`, `usuario`, `estado`, `notas`, `fecha_registro`) 
+			$insert = "INSERT INTO `nomina_detalles`(`nomina_detalles_id`, `nomina_id`, `colaboradores_id`, `salario_mensual`, `dias_trabajados`, `hrse25`, `hrse50`, `hrse75`, `hrse100`, `retroactivo`, `bono`, `otros_ingresos`, `deducciones`, `prestamo`, `ihss`, `rap`, `isr`, `vales`, `incapacidad_ihss`, `neto_ingresos`, `neto_egresos`, `neto`, `usuario`, `estado`, `notas`, `fecha_registro`, `hrse25_valor`, `hrse50_valor`, `hrse75_valor`, `hrse100_valor`, `salario`)
 			VALUES (
 				'{$nomina_detalles_id}',
 				'{$datos['nomina_id']}',
 				'{$datos['colaboradores_id']}',
-				'{$datos['salario']}',
+				'{$datos['salario_mensual']}',
 				'{$datos['dias_trabajados']}',
 				'{$datos['hrse25']}',
 				'{$datos['hrse50']}',
@@ -48,9 +45,14 @@
 				'{$datos['usuario']}',
 				'{$datos['estado']}',
 				'{$datos['notas']}',
-				'{$datos['fecha_registro']}'
+				'{$datos['fecha_registro']}',
+				'{$datos['hrse25_valor']}',
+				'{$datos['hrse50_valor']}',
+				'{$datos['hrse75_valor']}',
+				'{$datos['hrse100_valor']}',
+				'{$datos['salario']}'			
 			)";
-							
+					
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			
@@ -121,7 +123,11 @@
 				neto_ingresos = '".$datos['neto_ingresos']."',
 				neto_egresos = '".$datos['neto_egresos']."',
 				neto = '".$datos['neto']."',						
-				notas = '".$datos['notas']."'
+				notas = '".$datos['notas']."',
+				hrse25_valor = '".$datos['hrse25_valor']."',
+				hrse50_valor = '".$datos['hrse50_valor']."',
+				hrse75_valor = '".$datos['hrse75_valor']."',						
+				hrse100_valor = '".$datos['hrse100_valor']."'				
 			WHERE nomina_detalles_id = '".$datos['nomina_detalles_id']."'";
 			
 			$sql = mainModel::connection()->query($update) or die(mainModel::connection()->error);
