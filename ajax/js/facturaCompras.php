@@ -7,6 +7,7 @@ $(document).ready(function() {
     getColaboradores();
     getAlmacenProductos(0);
     getCuentasProveedores();
+    setRecordatorio();
 });
 
 function getColaboradorCompras() {
@@ -23,6 +24,21 @@ function getColaboradorCompras() {
             return false;
         }
     });
+}
+
+function setRecordatorio() {
+    var selectRecordatorio = $("#recordatorio");
+
+    // Agregar la opción sin valor por default
+    selectRecordatorio.append("<option value=''>Seleccionar un recordatorio mensual</option>");
+
+    for (var i = 1; i <= 31; i++) {
+        selectRecordatorio.append("<option value='" + i + "'>" + i + " de cada mes</option>");
+    }
+
+    var diaActual = new Date().getDate();
+    selectRecordatorio.val(diaActual);
+    selectRecordatorio.selectpicker('refresh'); // Actualizar el Bootstrap Select
 }
 
 //INICIO PURCHARSE BILL

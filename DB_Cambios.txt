@@ -1,3 +1,8 @@
+####14/01/2024####
+tabla => compras
+cuentas_id		int despues de fecha_registro
+recordatorio 		int
+
 ####13/01/2024####
 tabla => nomina_detalles
 salario_mensual		decimal(12,2) se cambio antes era salario

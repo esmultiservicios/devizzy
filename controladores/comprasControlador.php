@@ -16,7 +16,8 @@
 			//ENCABEZADO DE LA COMPRA
 			$proveedores_id = $_POST['proveedores_id'];
 			$proveedor = $_POST['proveedor'];
-			$colaboradores_id = $_POST['colaborador_id'];		
+			$colaboradores_id = $_POST['colaborador_id'];	
+			$recordatorio = $_POST['recordatorio'] ?? 0;//EVALUAMOS SI EL VALOR NO ES NULO O ESTA DEFINIDO DE LO CONTRARIO DEVOLVEMOS CERO
 
 			if(isset($_POST['tipoPurchase'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
 				if($_POST['tipoPurchase'] == ""){
@@ -54,7 +55,8 @@
 				"usuario" => $usuario,
 				"fecha_registro" => $fecha_registro,
 				"empresa" => $empresa_id,
-				"cuentas_id" => $cuentas_id
+				"cuentas_id" => $cuentas_id,
+				"recordatorio" => $recordatorio
 			];
 						
 			if($proveedores_id != "" && $colaboradores_id != "" && $number != ""){

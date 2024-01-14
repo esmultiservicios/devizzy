@@ -19,7 +19,7 @@
 			$detalle = mainModel::cleanString($_POST['nomina_detale']);
 			$importe = mainModel::cleanString($_POST['nomina_importe'] === "" ? 0 : $_POST['nomina_importe']);			
 			$notas = mainModel::cleanString($_POST['nomina_notas']);
-			$cuentas_id = $notas = mainModel::cleanString($_POST['pago_nomina']);
+			$cuentas_id = mainModel::cleanString($_POST['pago_nomina']);
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$estado = 0;//SIN GENERAR
 			$fecha_registro = date("Y-m-d H:i:s");			
@@ -190,7 +190,7 @@
 
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$estado = 0;//SIN GENERAR
-			$notas = mainModel::cleanString($_POST['nomina_detalles_notas']);
+			$notas = mainModel::cleanString($_POST['nomina_notas']);
 			$fecha_registro = date("Y-m-d H:i:s");	
 
 			$datos = [
@@ -340,7 +340,7 @@
 			$neto = mainModel::cleanString($_POST['nominad_neto']);
 
 			$estado = 1;//ACTIVAS
-			$notas = mainModel::cleanString($_POST['nomina_detalles_notas']);
+			$notas = mainModel::cleanString($_POST['nomina_notas']);
 			$fecha_registro = date("Y-m-d H:i:s");	
 
 			$datos = [

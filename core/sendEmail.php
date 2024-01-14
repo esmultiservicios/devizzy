@@ -14,6 +14,9 @@ require 'phpmailer/SMTP.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception; 
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 class sendEmail {
 
     public function __construct() {
@@ -98,7 +101,7 @@ class sendEmail {
                 $de_empresa = "CLINICARE";
                 $nombre = "CLINICARE";
                 $logotipo = "logo.png";	
-                $ubicacion = "Col. Monte Carlo, 6-7 , 22 AVENIDA B Casa #17 San Pedro Sula, Cortés";
+                $ubicacion = "Col. Monte Carlo, 6-7 , 22 AVENIDA B Casa #17 San Pedro Sula, Cortes";
                 $telefono = "+504 25035517";	
                 $sitioweb = "https://clinicarehn.com";	
                 $correo = "clinicare@clinicarehn.com";
@@ -131,6 +134,7 @@ class sendEmail {
                 $mail->isHTML(true);
                 // Especificamos el conjunto de caracteres para el mensaje y los encabezados
                 $mail->CharSet = 'UTF-8';
+                $mail->ContentType = 'text/html; charset=UTF-8';
         
                 foreach ($destinatarios as $email => $nombre) {
                     $mail->addAddress($email, $nombre);
@@ -147,6 +151,7 @@ class sendEmail {
                     $htmlMensaje = $this->getCorreoPlantilla($asunto, $mensaje, $datos_empresa);
     
                     $mail->Body = $htmlMensaje;
+                    $mail->Encoding = 'base64';
         
                     // Adjuntar archivos
                     //$archivos_adjuntos = ['ruta/archivo1.pdf', 'ruta/archivo2.jpg'];

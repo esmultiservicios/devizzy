@@ -14,17 +14,26 @@
 	
 	$arreglo = array();
 	$data = array();
-	$neto_importe = 0;	
+	$neto_importe = 0;
+	$importe = 0;	
 
 	while($row = $result->fetch_assoc()){
-		$neto_importe += $row['importe'];
+		$importe  = $row['importe'];
+		if($row['estado'] === "0"){
+			//CONSULTAMOS EL TOTAL DE EMPLEADOS AGREGADOS EN LA NOMINA DE TALLES PARA SUMAR EL IMPORTE
+			$resultNominaDetalle = $insMainModel->getImporteNominaDetalles($row['nomina_id']);
+			$consultaNominaDetalle = $resultNominaDetalle->fetch_assoc();
+			$importe = $consultaNominaDetalle['neto'] ?? 0;
+		}
+
+		$neto_importe += $importe;
 
 		$data[] = array( 
 			"nomina_id"=>$row['nomina_id'],
 			"empresa"=>$row['empresa'],
 			"fecha_inicio"=>$row['fecha_inicio'],
 			"fecha_fin"=>$row['fecha_fin'],
-			"importe"=>$row['importe'],
+			"importe"=>$importe ,
 			"notas"=>$row['notas']	,
 			"detalle"=>$row['detalle'],
 			"pago_planificado_id"=>$row['pago_planificado_id'],

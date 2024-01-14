@@ -9,7 +9,7 @@
 		protected function agregar_compras_modelo($datos){
 			$compras_id = mainModel::correlativo("compras_id", "compras");
 			$insert = "INSERT INTO compras 
-				VALUES('$compras_id','".$datos['proveedores_id']."','".$datos['number']."','".$datos['tipoPurchase']."','".$datos['colaboradores_id']."','".$datos['importe']."','".$datos['notas']."','".$datos['fecha']."','".$datos['estado']."','".$datos['usuario']."','".$datos['empresa']."','".$datos['fecha_registro']."','".$datos['cuentas_id']."')";
+				VALUES('$compras_id','".$datos['proveedores_id']."','".$datos['number']."','".$datos['tipoPurchase']."','".$datos['colaboradores_id']."','".$datos['importe']."','".$datos['notas']."','".$datos['fecha']."','".$datos['estado']."','".$datos['usuario']."','".$datos['empresa']."','".$datos['fecha_registro']."','".$datos['cuentas_id']."','".$datos['recordatorio']."')";
 			
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			

@@ -14,14 +14,14 @@
                     method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
                     <div class="form-group row">
                         <div class="col-sm-6">
-                            <button class="btn btn-secondary" type="submit" id="reg_factura" form="purchase-form"
+                            <button class="btn btn-primary" type="submit" id="reg_factura" form="purchase-form"
                                 data-toggle="tooltip" data-placement="top" title="Ingresar Factura de Compra">
                                 <div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Ingresar
                             </button>
                         </div>
                         <label for="inputCliente" class="col-sm-1 col-form-label-md">Factura <span
                                 class="priority">*<span /></label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" placeholder="Número de Factura de Compra"
                                 id="facturaPurchase" name="facturaPurchase" required data-toggle="tooltip"
                                 data-placement="top" title="Factura Compra" maxlength="19" required>
@@ -45,7 +45,7 @@
                         </div>
                         <label for="inputFecha" class="col-sm-1 col-form-label-md">Fecha <span
                                 class="priority">*<span /></label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>" required
                                 id="fechaPurchase" name="fechaPurchase" data-toggle="tooltip" data-placement="top"
                                 title="Fecha de Facturación">
@@ -54,7 +54,7 @@
                     <div class="form-group row">
                         <label for="inputCliente" class="col-sm-1 col-form-label-md">Usuario <span
                                 class="priority">*<span /></label>
-                        <div class="col-sm-5">
+                        <div class="col-sm-3">
                             <div class="input-group mb-3">
                                 <input type="hidden" class="form-control" placeholder="Usuario" id="colaborador_id"
                                     name="colaborador_id" aria-label="Colaborador" aria-describedby="basic-addon2"
@@ -64,14 +64,25 @@
                                 </select>
                             </div>
                         </div>
-                        <label for="inputCliente" class="col-sm-1 col-form-label-md">Tipo <span
-                                class="priority">*<span /></label>
-                        <div class="col-md-5">
+                        <label for="inputCliente" class="col-sm-1 col-form-label-md" data-toggle="tooltip"
+                            data-placement="top"
+                            title="Es para definir si la factura de compra será al crédito o al contado">Tipo
+                            Factura<span class="priority">*<span /></label>
+                        <div class="col-md-2">
                             <label class="switch">
                                 <input type="checkbox" id="tipoPurchase" name="tipoPurchase" value="1" checked>
                                 <div class="slider round"></div>
                             </label>
                             <span class="question mb-2" id="label_tipoPurchase"></span>
+                        </div>
+                        <label for="inputCliente" class="col-sm-1 col-form-label-md" data-toggle="tooltip"
+                            data-placement="top"
+                            title="Selecciona el número de días para establecer un recordatorio mensual. El recordatorio se activará automáticamente a partir del próximo mes después del registro de la factura.">Recordatorio</label>
+                        <div class="col-md-3">
+                            <select class="selectpicker" id="recordatorio" name="recordatorio" data-width="100%"
+                                data-size="7" data-live-search="true" title="Seleccionar un recordatorio mensual"
+                                data-toggle="tooltip">
+                            </select>
                         </div>
                     </div>
 
@@ -143,11 +154,11 @@
                     <hr class="line_table" />
                     <div class="form-group row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <button class="btn btn-secondary ml-3 bill-bottom-add" id="addRowsPurchase" type="button"
+                            <button class="btn btn-success ml-3 bill-bottom-add" id="addRowsPurchase" type="button"
                                 data-toggle="tooltip" data-placement="top" title="Agregar filas en la factura">
                                 <div class="sb-nav-link-icon"></div><i class="fas fa-plus fa-lg"></i> Agregar
                             </button>
-                            <button class="btn btn-secondary delete bill-bottom-remove" id="removeRowsPurchase"
+                            <button class="btn btn-success delete bill-bottom-remove" id="removeRowsPurchase"
                                 type="button" data-toggle="tooltip" data-placement="top"
                                 title="Remover filas en la factura">
                                 <div class="sb-nav-link-icon"></div><i class="fas fa-minus fa-lg"></i> Quitar

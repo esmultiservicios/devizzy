@@ -362,18 +362,20 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
   
     DROP TABLE IF EXISTS `compras`;
     CREATE TABLE IF NOT EXISTS `compras` (
-      `compras_id` int NOT NULL,
-      `proveedores_id` int NOT NULL,
-      `number` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `tipo_compra` int NOT NULL COMMENT '1. Contado 2. Crédito',
-      `colaboradores_id` int NOT NULL,
+      `compras_id` int(11) NOT NULL,
+      `proveedores_id` int(11) NOT NULL,
+      `number` char(30) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `tipo_compra` int(11) NOT NULL COMMENT '1. Contado 2. Crédito',
+      `colaboradores_id` int(11) NOT NULL,
       `importe` float(12,2) NOT NULL,
-      `notas` char(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+      `notas` char(255) COLLATE utf8mb4_spanish_ci NOT NULL,
       `fecha` date NOT NULL,
-      `estado` int NOT NULL COMMENT '1. Borrador 2. Pagada 3. Crédito 4. Cancelada',
-      `usuario` int NOT NULL,
-      `empresa_id` int NOT NULL,
+      `estado` int(11) NOT NULL COMMENT '1. Borrador 2. Pagada 3. Crédito 4. Cancelada',
+      `usuario` int(11) NOT NULL,
+      `empresa_id` int(11) NOT NULL,
       `fecha_registro` datetime NOT NULL,
+      `cuentas_id` int(11) NOT NULL,
+      `recordatorio` int(11) NOT NULL,
       PRIMARY KEY (`compras_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
@@ -1113,7 +1115,7 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     (302, 18, 'Yorito');
   
     DROP TABLE IF EXISTS `nomina`;
-    CREATE TABLE IF NOT EXISTS `nomina` (
+    CREATE TABLE `nomina` (
       `nomina_id` int NOT NULL,
       `empresa_id` int NOT NULL,
       `pago_planificado_id` int NOT NULL,
@@ -1124,9 +1126,9 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       `importe` decimal(12,2) NOT NULL,
       `notas` varchar(254) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
       `usuario` int NOT NULL,
-      `estado` int NOT NULL,
+      `estado` int NOT NULL COMMENT '0. No Generada 1. Generada',
       `fecha_registro` datetime NOT NULL,
-      PRIMARY KEY (`nomina_id`)
+      `cuentas_id` int NOT NULL
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
     DROP TABLE IF EXISTS `nomina_detalles`;

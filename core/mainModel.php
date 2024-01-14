@@ -66,7 +66,7 @@
 			}
 		
 			return $mysqliDBLocal;
-		}		
+		}	
 
 		protected function correlativoLogin($campo_id, $tabla){
 			$query = "SELECT MAX(".$campo_id.") AS max, COUNT(".$campo_id.") AS count FROM ".$tabla;
@@ -929,23 +929,28 @@
 			return $result;
 		}
 
-		public function secuencia_facturacion($empresa_id){
+		function consultarDBClientes(){
+			$query = "SELECT db
+				FROM server_customers
+				WHERE db LIKE 'clinicarehn_clientes_%'
+					AND db NOT LIKE 'clinicarehn_clientes_monisys'
+				UNION
+				SELECT 'clinicarehn_clientes_clinicare' AS db
+				ORDER BY db;";
 
-			$query = "SELECT secuencia_facturacion_id, prefijo, siguiente AS 'numero', rango_final, fecha_limite, incremento, relleno
-
-			   FROM secuencia_facturacion
-
-			   WHERE activo = '1' AND empresa_id = '$empresa_id'";
-
-			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
-
-
+			$result = self::connection()->query($query);
 
 			return $result;
-
 		}
 
+		public function secuencia_facturacion($empresa_id){
+			$query = "SELECT secuencia_facturacion_id, prefijo, siguiente AS 'numero', rango_final, fecha_limite, incremento, relleno
+			   FROM secuencia_facturacion
+			   WHERE activo = '1' AND empresa_id = '$empresa_id'";
+			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 
+			return $result;
+		}
 
 		public function agregar_facturas($datos){
 			$insert = "INSERT INTO facturas
@@ -1902,6 +1907,16 @@
 			WHERE n.estado = '".$datos['estado']."'
 			$pago_planificado_id
 			ORDER BY n.fecha_registro DESC";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getImporteNominaDetalles($nomina_id){
+			$query = "SELECT SUM(neto) AS neto
+			FROM nomina_detalles
+			WHERE nomina_id = {$nomina_id}";
 
 			$result = self::connection()->query($query);
 

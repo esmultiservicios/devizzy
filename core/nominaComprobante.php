@@ -58,19 +58,24 @@ require_once "mainModel.php";
         /* Ajusta este alor según tus necesidades */
     }
 
-    /* Agrega este bloque de estilos al head de tu documento o al CSS externo */
+    /* Estilo para la sección de firma del empleado */
     .firma-empleado {
         text-align: center;
+        position: relative;
+        top: 4%;
         /* Ajusta este valor según sea necesario */
     }
 
+    /* Estilo para la línea horizontal (hr) en la firma del empleado */
     .firma-empleado hr {
         border: 1px solid #ddd;
         width: 50%;
         margin: 0 auto;
         /* Centra la línea horizontalmente */
-        margin-top: -7%;
-        /* Ajusta este valor según sea necesario */
+        position: relative;
+        /* Cambia a relative para ajustar en relación con el contenedor firma-empleado */
+        top: -5px;
+        /* Ajusta este valor según sea necesario, puedes probar con valores negativos */
     }
 
     /* Contenedor para percepciones y deducciones */
@@ -84,7 +89,10 @@ require_once "mainModel.php";
     /* Estilo para la sección de notas */
     .notas-section {
         margin-top: 2%;
-        /* Asegurar que haya un salto de página después de esta sección */
+        position: relative;
+        /* Agrega esta propiedad */
+        top: 10%;
+        /* Ajusta este valor según sea necesario */
     }
     </style>
 </head>
