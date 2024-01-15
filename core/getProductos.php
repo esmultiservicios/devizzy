@@ -4,8 +4,9 @@
 	require_once "mainModel.php";
 	
 	$insMainModel = new mainModel();
-	
-	$result = $insMainModel->getProductos();
+	$estado = 1;
+
+	$result = $insMainModel->getProductos($estado);
 	
 	if($result->num_rows>0){
 		echo '<option value="0">Todo</option>';

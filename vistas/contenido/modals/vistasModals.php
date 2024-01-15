@@ -3234,7 +3234,7 @@
                         <div class="col-md-3 mb-4">
                             <label for="empresa">Empresa <span class="priority">*<span /></label>
                             <input type="text" class="form-control" id="empresa" name="empresa" placeholder="Empresa"
-                                required maxlength="30"
+                                data-width="100%" required maxlength="30"
                                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </div>
                     </div>
