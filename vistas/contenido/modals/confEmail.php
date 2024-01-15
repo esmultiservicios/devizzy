@@ -125,3 +125,75 @@
     </div>
 </div>
 <!--FIN MODAL PARA EL INGRESO DE CORREOS-->
+
+<!--INICIO MODAL DESTINATARIOS-->
+<div class="modal fade" id="modalRegistrarDestinatarios">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Destinatarios</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+                <form class="FormularioAjax" id="formDestinatarios" action="" method="POST" data-form=""
+                    autocomplete="off" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <div class="input-group mb-3">
+                                <input type="hidden" id="notificaciones_id" name="notificaciones_id"
+                                    class="form-control">
+                                <input type="text" id="proceso_destinatarios" class="form-control" readonly>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <div class="sb-nav-link-icon"></div><i class="fa fa-plus-square fa-lg"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="correo">Correo <span class="priority">*<span /></label>
+                            <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo"
+                                required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="correo">Nombre <span class="priority">*<span /></label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre"
+                                required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="overflow-auto">
+                                <table id="DatatableDestinatarios"
+                                    class="table table-striped table-condensed table-hover" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Correo</th>
+                                            <th>Nombre</th>
+                                            <th>Eliminar</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="RespuestaAjax"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_destinatarios"
+                    form="formDestinatarios">
+                    <div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--FIN MODAL DESTINATARIOS-->

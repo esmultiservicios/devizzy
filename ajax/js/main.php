@@ -39,6 +39,71 @@ $(document).ready(function() {
     $('#form_main_cobrar_clientes #cobrar_clientes_estado').selectpicker('refresh');
 });
 
+let renovar = false;
+
+function mostrarNotificacionRenovacion(tiempoRestante, tiempoSesion) {
+    swal({
+        title: "Renovar Sesión",
+        text: `Tu sesión está a punto de vencer. Tiempo restante: ${tiempoRestante} minutos. ¿Deseas renovarla?`,
+        type: "info",
+        showCancelButton: true,
+        confirmButtonClass: "btn-primary",
+        confirmButtonText: "Renovar",
+        cancelButtonText: "Cancelar",
+        closeOnConfirm: true
+    }, function(isConfirmed) {
+        if (isConfirmed) {
+            renovar = true;
+        }
+    });
+}
+
+function mostrarNotificacionExpiracion() {
+    swal({
+        title: "Sesión Expirada",
+        text: "Su sesión ha expirado. Serás redirigido a la página de inicio de sesión.",
+        type: "warning",
+        closeOnConfirm: false
+    }, function() {
+        // Redirigir al usuario a la página de inicio de sesión
+        window.location.href = '<?php echo SERVERURL;?>';
+    });
+}
+
+function validarSesion(renovar) {
+    $.ajax({
+        url: '<?php echo SERVERURL;?>core/verificar_sesion.php',
+        type: 'GET',
+        data: {
+            renovar: renovar.toString() // Convertir a cadena para evitar problemas de tipo
+        },
+        success: function(response) {
+            const data = JSON.parse(response);
+
+            renovar = data.renovar;
+
+            console.log('Estado de sesión:', data);
+            console.log('Estado de sesión:', renovar);
+
+            if (data.estado === 'expired') {
+                mostrarNotificacionExpiracion();
+            }
+            /*else if (data.estado === 'show_notification') {
+                           mostrarNotificacionRenovacion(data.tiempoRestante, data.tiempoSesion);
+                       }*/
+        },
+        error: function() {
+            console.error('Error de conexión al verificar la sesión.');
+        }
+    });
+}
+
+/*
+setInterval(function() {
+    validarSesion(renovar);
+}, 1000);/*
+
+
 //INICIO MENUS
 function getPermisosTipoUsuarioAccesosTable(privilegio_id) {
     var url = '<?php echo SERVERURL;?>core/getTipoUsuarioAccesos.php';

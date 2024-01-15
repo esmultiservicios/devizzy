@@ -20,5 +20,22 @@
 			
 			return $sql;			
 		}
+
+		protected function agregar_destinatarios_modelo($datos){
+			$notificaciones_id = mainModel::correlativo("notificaciones_id", "notificaciones");
+		
+			$insert = "INSERT INTO `notificaciones`(`notificaciones_id`, `correo`, `nombre`) VALUES ('{$notificaciones_id}','{$datos['correo']}','{$datos['nombre']}')";
+			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
+			
+			return $sql;
+		}		
+
+		protected function valid_pdestinatarios_modelo($correo){
+			$query = "SELECT notificaciones_id FROM notificaciones WHERE correo = '$correo'";
+			
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}
 	}
-?>	
+?>

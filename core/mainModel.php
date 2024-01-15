@@ -193,6 +193,14 @@
 			return $sql;
 		}
 
+		public function deleteDestinatarios($notificaciones_id){
+			$delete = "DELETE FROM notificaciones WHERE notificaciones_id = '$notificaciones_id'";
+
+			$sql = mainModel::connection()->query($delete) or die(mainModel::connection()->error);
+
+			return $sql;
+		}
+
 		public function eliminar_bitacora($user_id){
 			$delte = "DELETE FROM bitacora WHERE user_id = '$user_id'";
 			$result = self::connection()->query($update);
@@ -2966,6 +2974,15 @@
 			$query = "SELECT *
 				FROM puestos
 				WHERE puestos_id = '$puestos_id'";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getDestinatarios(){
+			$query = "SELECT notificaciones_id, correo, nombre
+				FROM notificaciones";
 
 			$result = self::connection()->query($query);
 

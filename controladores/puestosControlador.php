@@ -58,7 +58,7 @@
 			
 			return mainModel::sweetAlert($alert);
 		}
-		
+
 		public function edit_puestos_controlador(){
 			$puestos_id = $_POST['puestos_id'];
 			
@@ -157,4 +157,4 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
-?>	
+?>

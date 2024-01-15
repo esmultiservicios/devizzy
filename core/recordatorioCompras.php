@@ -59,9 +59,25 @@ if($resultDbClientes->num_rows>0){
 
                 // Verifica si el saldo pendiente es mayor que cero
                 if($saldoPendiente > 0){
+                    //CONSULTAR CORREOS PARA ENVIAR LA NOTIFICACIONES
+                    $query_correos = "SELECT correo, nombre
+                        FROM notificaciones;";
+			
+                    // Ejecuta la consulta o muestra un mensaje de error
+                    $resultCorreos = $mysqli->query($query_correos) or die($mysqli->error);
+
+                    $bccDestinatarios = []; 
+                    // Verifica si hay resultados antes de procesar
+                    if ($resultCorreos->num_rows > 0) {
+                        // Recorre los resultados y agrega cada correo al array
+                        while ($row = $resultCorreos->fetch_assoc()) {
+                            $bccDestinatarios[$row['correo']] = $row['nombre'];
+                        }
+                    }
+
                     // Configura destinatarios y asunto del correo
                     $destinatarios = array($correo_usuario => $nombreEmpresa);
-                    $bccDestinatarios = [];    
+   
                     $asunto = "Recordatorio de Pago - Factura #{$numeroFactura}";
 
                     // Construye el mensaje del correo

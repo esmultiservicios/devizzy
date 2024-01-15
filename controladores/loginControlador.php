@@ -134,6 +134,7 @@
 							$_SESSION['codigo_bitacora_sd'] = $codigoB;
 							$_SESSION['identidad'] = $row['identidad'];
 							$_SESSION['codigoCliente'] = $codigoCliente;
+							$_SESSION['session_time'] = time();
 		
 							if ($mantenimiento) {
 								$_SESSION['modo_soporte'] = "SI";
