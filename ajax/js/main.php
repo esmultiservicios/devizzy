@@ -98,10 +98,9 @@ function validarSesion(renovar) {
     });
 }
 
-/*
-setInterval(function() {
+/*setInterval(function() {
     validarSesion(renovar);
-}, 1000);/*
+}, 1000);*/
 
 
 //INICIO MENUS
