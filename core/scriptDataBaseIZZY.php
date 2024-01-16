@@ -394,19 +394,20 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
   
     DROP TABLE IF EXISTS `contrato`;
     CREATE TABLE IF NOT EXISTS `contrato` (
-      `contrato_id` int NOT NULL,
-      `colaborador_id` int NOT NULL,
-      `tipo_contrato_id` int NOT NULL,
-      `pago_planificado_id` int NOT NULL,
-      `tipo_empleado_id` int NOT NULL,
+      `contrato_id` int(11) NOT NULL,
+      `colaborador_id` int(11) NOT NULL,
+      `tipo_contrato_id` int(11) NOT NULL,
+      `pago_planificado_id` int(11) NOT NULL,
+      `tipo_empleado_id` int(11) NOT NULL,
       `salario_mensual` decimal(12,2) NOT NULL,
       `salario` decimal(12,2) NOT NULL,
       `fecha_inicio` date NOT NULL,
-      `fecha_fin` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `notas` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `usuario` int NOT NULL,
-      `estado` int NOT NULL COMMENT '1. Activo 2.Inactivo',
+      `fecha_fin` varchar(30) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `notas` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `usuario` int(11) NOT NULL,
+      `estado` int(11) NOT NULL COMMENT '1. Activo 2.Inactivo',
       `fecha_registro` datetime NOT NULL,
+      `semanal` int(11) NOT NULL COMMENT '0. No 1. Sí',
       PRIMARY KEY (`contrato_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
@@ -1979,12 +1980,14 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     $valores = [$server_customers_id, $clientes_id, $databaseCliente, $validar, $sistema_id, $planes_id, "1", $codigo_cliente];
     $database->insertarRegistro($tabla, $campos, $valores);  
 
-    //GUARDAMOS LOS DATOS EN LA TABLA DEL CLIENTE
+    // GUARDAMOS LOS DATOS EN LA TABLA DEL CLIENTE
     $sqlQueries = [
       "INSERT INTO `server_customers` (`server_customers_id`, `clientes_id`, `codigo_cliente`, `db`, `planes_id`, `sistema_id`, `validar`, `estado`) VALUES
-      (1,$clientes_id,$codigo_cliente,$databaseCliente,$planes_id,$sistema_id,$validar,1);"
-      ]
+      (1, $clientes_id, '$codigo_cliente', '$databaseCliente', $planes_id, $sistema_id, $validar, 1);"
+    ];
+
     insertarAccesoMenus($sqlQueries, $conn);
+
   
     //GUARDAMOS LOS DATOS DEL COLABORADOR EN ESTE CASO CON UNA PUESTO O CATEGORIA CLIENTES
     $puestos_id_defualt = 5; //CLIENTES
@@ -2107,11 +2110,11 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       </p>
       
       <p style="margin-bottom: 10px;">
-        ¡Bienvenido a CLINICARE con IZZY! Estamos encantados de darte la bienvenida a nuestra plataforma de gestión de facturación e inventario diseñada para hacer tu vida más fácil.
+        ¡Bienvenido a CLINICARE con IZZY! Estamos encantados de darle la bienvenida a nuestra plataforma de gestión de facturación e inventario diseñada para hacer su vida más fácil.
       </p>								
       
       <p style="margin-bottom: 10px;">
-        Te damos las gracias por elegirnos como tu solución de confianza para administrar tu negocio de manera eficiente. Tu registro en nuestro sistema ha sido exitoso y ahora eres parte de la familia CLINICARE.
+        Le damos las gracias por elegirnos como su solución de confianza para administrar su negocio de manera eficiente. Su registro en nuestro sistema ha sido exitoso y ahora es parte de la familia CLINICARE.
       </p>
       
       <ul style="margin-bottom: 12px;">
@@ -2124,23 +2127,23 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       </ul>
       
       <p style="margin-bottom: 10px;">
-        Recuerda que la seguridad es una prioridad para nosotros. Por ello, te recomendamos cambiar tu contraseña temporal en tu primera sesión.
+        Recuerde que la seguridad es una prioridad para nosotros. Por ello, le recomendamos cambiar su contraseña temporal en su primera sesión.
       </p>
       
       <p style="margin-bottom: 10px;">
-        Si tienes alguna pregunta o necesitas ayuda en cualquier momento, no dudes en ponerte en contacto con nuestro dedicado equipo de soporte. Estamos aquí para proporcionarte la asistencia que necesitas.
+        Si tiene alguna pregunta o necesita ayuda en cualquier momento, no dude en ponerse en contacto con nuestro dedicado equipo de soporte. Estamos aquí para proporcionarle la asistencia que necesita.
       </p>
       
       <p style="margin-bottom: 10px;">
-        Te invitamos a explorar todas las características y funcionalidades que IZZY ofrece para simplificar la gestión de tu negocio. Tu éxito es nuestro objetivo y estamos comprometidos a ayudarte en cada paso del camino.
+        Le invitamos a explorar todas las características y funcionalidades que IZZY ofrece para simplificar la gestión de su negocio. Su éxito es nuestro objetivo y estamos comprometidos en ayudarle en cada paso del camino.
       </p>
   
       <p style="margin-bottom: 10px;">
-        ¡Empieza a explorar y a aprovechar al máximo nuestra plataforma de gestión de facturación e inventario!.
+        ¡Empiece a explorar y a aprovechar al máximo nuestra plataforma de gestión de facturación e inventario!
       </p>									
       
       <p style="margin-bottom: 10px;">
-        Gracias por unirte a CLINICARE con IZZY. Esperamos que esta plataforma sea una herramienta valiosa para tu negocio.
+        Gracias por unirse a CLINICARE con IZZY. Esperamos que esta plataforma sea una herramienta valiosa para su negocio.
       </p>
       
       <p style="margin-bottom: 10px;">

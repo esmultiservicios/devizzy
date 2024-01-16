@@ -7,7 +7,7 @@ $tiempoActual = time(); // Tiempo actual en segundos
 $renovar = filter_var($_GET['renovar'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
 if ($renovar) {
-    $_SESSION['session_time'] = time();
+    $_SESSION['session_time'] = time(); // Actualiza el tiempo de la sesión
 }
 
 $sessionTime = $_SESSION['session_time'] ?? 0; // Convertir la fecha y hora almacenada en timestamp
@@ -15,8 +15,8 @@ $sessionTime = $_SESSION['session_time'] ?? 0; // Convertir la fecha y hora alma
 $diferenciaEnSegundos = $tiempoActual - $sessionTime;
 $diferenciaEnMinutos = $diferenciaEnSegundos / 60;
 
-$tiempoSesion = 30; // minutos (ajústalo según tus necesidades)
-$umbralNotificacion = 1; // minutos antes de la expiración para mostrar la notificación (ajústalo según tus necesidades)
+$tiempoSesion = 120; // segundos (ajústalo según tus necesidades)
+$umbralNotificacion = 60; // segundos antes de la expiración para mostrar la notificación (ajústalo según tus necesidades)
 
 // Calcular el tiempo restante en minutos
 $tiempoRestante = max(0, round($tiempoSesion - $diferenciaEnMinutos, 2)); // Redondear a 2 decimales

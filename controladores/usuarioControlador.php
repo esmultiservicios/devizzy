@@ -221,11 +221,11 @@
 									</p>
 									
 									<p style="margin-bottom: 10px;">
-										¡Bienvenido a CLINICARE con IZZY! Estamos encantados de darte la bienvenida a nuestra plataforma de gestión de facturación e inventario diseñada para hacer tu vida más fácil.
+										¡Bienvenido a CLINICARE con IZZY! Estamos encantados de darle la bienvenida a nuestra plataforma de gestión de facturación e inventario diseñada para hacer su vida más fácil.
 									</p>								
 									
 									<p style="margin-bottom: 10px;">
-										Te damos las gracias por elegirnos como tu solución de confianza para administrar tu negocio de manera eficiente. Tu registro en nuestro sistema ha sido exitoso y ahora eres parte de la familia CLINICARE.
+										Le damos las gracias por elegirnos como su solución de confianza para administrar su negocio de manera eficiente. Su registro en nuestro sistema ha sido exitoso y ahora es parte de la familia CLINICARE.
 									</p>
 									
 									<ul style="margin-bottom: 12px;">
@@ -237,23 +237,23 @@
 									</ul>
 									
 									<p style="margin-bottom: 10px;">
-										Recuerda que la seguridad es una prioridad para nosotros. Por ello, te recomendamos cambiar tu contraseña temporal en tu primera sesión.
+										Recuerde que la seguridad es una prioridad para nosotros. Por ello, le recomendamos cambiar su contraseña temporal en su primera sesión.
 									</p>
 									
 									<p style="margin-bottom: 10px;">
-										Si tienes alguna pregunta o necesitas ayuda en cualquier momento, no dudes en ponerte en contacto con nuestro dedicado equipo de soporte. Estamos aquí para proporcionarte la asistencia que necesitas.
+										Si tiene alguna pregunta o necesita ayuda en cualquier momento, no dude en ponerse en contacto con nuestro dedicado equipo de soporte. Estamos aquí para proporcionarle la asistencia que necesita.
 									</p>
 									
 									<p style="margin-bottom: 10px;">
-										Te invitamos a explorar todas las características y funcionalidades que IZZY ofrece para simplificar la gestión de tu negocio. Tu éxito es nuestro objetivo y estamos comprometidos a ayudarte en cada paso del camino.
+										Le invitamos a explorar todas las características y funcionalidades que IZZY ofrece para simplificar la gestión de su negocio. Su éxito es nuestro objetivo y estamos comprometidos en ayudarle en cada paso del camino.
 									</p>
 
 									<p style="margin-bottom: 10px;">
-										¡Empieza a explorar y a aprovechar al máximo nuestra plataforma de gestión de facturación e inventario!.
+										¡Empiece a explorar y a aprovechar al máximo nuestra plataforma de gestión de facturación e inventario!
 									</p>									
 									
 									<p style="margin-bottom: 10px;">
-										Gracias por unirte a CLINICARE con IZZY. Esperamos que esta plataforma sea una herramienta valiosa para tu negocio.
+										Gracias por unirse a CLINICARE con IZZY. Esperamos que esta plataforma sea una herramienta valiosa para su negocio.
 									</p>
 									
 									<p style="margin-bottom: 10px;">

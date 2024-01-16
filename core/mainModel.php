@@ -1711,7 +1711,7 @@
 		}
 
 		public function getEmpleadoContratoEdit($colaboradores_id){
-			$query = "SELECT c.colaborador_id AS colaborador_id, CONCAT(co.nombre, ' ', co.apellido) AS 'nombre', co.identidad AS 'identidad', p.nombre AS 'puesto', c.contrato_id AS 'contrato_id', c.salario_mensual AS 'salario_mensual', co.fecha_ingreso AS 'fecha_ingreso', c.tipo_empleado_id AS 'tipo_empleado_id', c.pago_planificado_id AS 'pago_planificado_id', c.salario
+			$query = "SELECT c.colaborador_id AS colaborador_id, CONCAT(co.nombre, ' ', co.apellido) AS 'nombre', co.identidad AS 'identidad', p.nombre AS 'puesto', c.contrato_id AS 'contrato_id', c.salario_mensual AS 'salario_mensual', co.fecha_ingreso AS 'fecha_ingreso', c.tipo_empleado_id AS 'tipo_empleado_id', c.pago_planificado_id AS 'pago_planificado_id', c.salario, c.semanal
 				FROM contrato AS c
 				INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
 				INNER JOIN puestos AS p ON co.puestos_id = p.puestos_id
@@ -1866,35 +1866,30 @@
 		}
 
 		public function getContrato($datos){
-			$estado = '';
-			$tipo_contrato = '';
-			$pago_planificado_id = '';
-			$tipo_empleado = '';
+		$filtro = '';
 
+		if ($datos['tipo_contrato'] != "" && $datos['tipo_contrato'] != 0) {
+			$filtro .= " AND c.tipo_contrato_id = '".$datos['tipo_contrato']."'";
+		}
 
-			if($datos['tipo_contrato'] != "" || $datos['tipo_contrato'] != 0){
-				$tipo_contrato = "AND c.tipo_contrato_id = '".$datos['tipo_contrato']."'";
-			}
+		if ($datos['pago_planificado'] != "" && $datos['pago_planificado'] != 0) {
+			$filtro .= " AND c.pago_planificado_id = '".$datos['pago_planificado']."'";
+		}
 
-			if($datos['pago_planificado'] != "" || $datos['pago_planificado'] != 0){
-				$pago_planificado_id = "AND c.pago_planificado_id = '".$datos['pago_planificado']."'";
-			}
+		if ($datos['tipo_empleado'] != "" && $datos['tipo_empleado'] != 0) {
+			$filtro .= " AND c.tipo_empleado_id = '".$datos['tipo_empleado']."'";
+		}
 
-			if($datos['tipo_empleado'] != "" || $datos['tipo_empleado'] != 0){
-				$tipo_empleado = "AND c.tipo_empleado_id = '".$datos['tipo_empleado']."'";
-			}
+		$query = "SELECT c.contrato_id AS contrato_id, CONCAT(co.nombre, ' ', co.apellido) AS 'empleado', tc.nombre AS 'tipo_contrato', pp.nombre AS 'pago_planificado', te.nombre AS 'tipo_empleado', c.fecha_inicio AS 'fecha_inicio', c.estado AS 'estado', (CASE WHEN c.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', c.salario AS 'salario', c.tipo_contrato_id AS 'tipo_contrato_id', c.pago_planificado_id AS 'pago_planificado_id', c.tipo_empleado_id AS 'tipo_empleado_id', (CASE WHEN c.fecha_fin = '' THEN 'Sin Registro' ELSE c.fecha_fin END) AS 'fecha_fin', c.notas AS 'notas'
+			FROM contrato AS c
+			INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
+			INNER JOIN tipo_contrato AS tc ON c.tipo_contrato_id = tc.tipo_contrato_id
+			INNER JOIN pago_planificado AS pp ON c.pago_planificado_id = pp.pago_planificado_id
+			INNER JOIN tipo_empleado AS te ON c.tipo_empleado_id = te.tipo_empleado_id
+			WHERE c.estado = '".$datos['estado']."'
+			$filtro
+			ORDER BY co.nombre ASC";
 
-			$query = "SELECT c.contrato_id AS contrato_id, CONCAT(co.nombre, ' ', co.apellido) AS 'empleado', tc.nombre AS 'tipo_contrato', pp.nombre AS 'pago_planificado', te.nombre AS 'tipo_empleado', c.fecha_inicio AS 'fecha_inicio', c.estado AS 'estado', (CASE WHEN c.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', c.salario AS 'salario', c.tipo_contrato_id AS 'tipo_contrato_id', c.pago_planificado_id AS 'pago_planificado_id', c.tipo_empleado_id AS 'tipo_empleado_id', (CASE WHEN c.fecha_fin = '' THEN 'Sin Registro' ELSE c.fecha_fin END) AS 'fecha_fin', c.notas AS 'notas'
-				FROM contrato AS c
-				INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
-				INNER JOIN tipo_contrato AS tc ON c.tipo_contrato_id = tc.tipo_contrato_id
-				INNER JOIN pago_planificado AS pp ON c.pago_planificado_id = pp.pago_planificado_id
-				INNER JOIN tipo_empleado AS te ON c.tipo_empleado_id = te.tipo_empleado_id
-				WHERE c.estado = '".$datos['estado']."'
-				$tipo_contrato
-				$pago_planificado_id
-				$tipo_empleado
-				ORDER BY co.nombre ASC";
 
 			$result = self::connection()->query($query);
 
@@ -1951,7 +1946,7 @@
 				$empleado = "AND c.colaboradores_id = '".$datos['empleado']."'";
 			}
 
-			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa'
+			$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.fecha_inicio, n.fecha_fin
 				FROM nomina_detalles AS nd
 				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
 				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id

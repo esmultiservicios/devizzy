@@ -31,7 +31,7 @@
                             <label for="contrato_colaborador_id">Empleado <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="contrato_colaborador_id" name="contrato_colaborador_id" class="selectpicker"
-                                    data-width="100%" data-live-search="true" title="Empleado">
+                                    data-size="7" data-width="100%" data-live-search="true" title="Empleado">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
@@ -63,7 +63,7 @@
                                     class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="contrato_tipo_empleado_id" name="contrato_tipo_empleado_id"
-                                    class="selectpicker" data-width="100%" data-live-search="true"
+                                    class="selectpicker" data-width="100%" data-live-search="true" data-size="7"
                                     title="Tipo Empleado">
                                     <option value="">Seleccione</option>
                                 </select>
@@ -78,7 +78,7 @@
                                 placeholder="Salario" class="form-control" step="0.01" />
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="contrato_salario">Salario <span class="priority">*<span /></label>
+                            <label for="contrato_salario">Salario</label>
                             <input type="number" required id="contrato_salario" name="contrato_salario" readonly
                                 placeholder="Salario" class="form-control" step="0.01" />
                         </div>
@@ -113,13 +113,25 @@
                         </div>
                     </div>
 
-                    <div class="form-group" id="estado_contrato">
+                    <div class="form-group custom-control custom-checkbox custom-control-inline" id="estado_contrato">
                         <div class="col-md-12">
+                            <label class="form-check-label mr-1" for="defaultCheck1">Estado</label>
                             <label class="switch">
                                 <input type="checkbox" id="contrato_activo" name="contrato_activo" value="1" checked>
                                 <div class="slider round"></div>
                             </label>
                             <span class="question mb-2" id="label_contrato_activo"></span>
+                        </div>
+                    </div>
+                    <div class="form-group custom-control custom-checkbox custom-control-inline" style="display: none"
+                        id="estado_base_semanal">
+                        <div class="col-md-12">
+                            <label class="form-check-label mr-1" for="defaultCheck1">¿Basado en la semana?</label>
+                            <label class="switch">
+                                <input type="checkbox" id="calculo_semanal" name="calculo_semanal" value="1">
+                                <div class="slider round"></div>
+                            </label>
+                            <span class="question mb-2" id="label_calculo_semanal"></span>
                         </div>
                     </div>
                     <div class="RespuestaAjax"></div>

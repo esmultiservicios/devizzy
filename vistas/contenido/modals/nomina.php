@@ -186,8 +186,10 @@
                                 <input type="hidden" id="hrse50_valor" name="hrse50_valor" class="form-control">
                                 <input type="hidden" id="hrse75_valor" name="hrse75_valor" class="form-control">
                                 <input type="hidden" id="hrse100_valor" name="hrse100_valor" class="form-control">
+                                <input type="hidden" id="fecha_inicio" name="fecha_inicio" class="form-control">
+                                <input type="hidden" id="fecha_fin" name="fecha_fin" class="form-control">
                                 <input type="hidden" id="salario" name="salario" class="form-control">
-
+                                <input type="hidden" id="validar_semanal" name="validar_semanal" class="form-control">
                                 <input type="hidden" id="nomina_detalles_id" name="nomina_detalles_id"
                                     class="form-control">
                                 <input type="hidden" id="pago_planificado_id" name="pago_planificado_id"

@@ -10,8 +10,8 @@
 			if(!isset($_SESSION['user_sd'])){ 
 				session_start(['name'=>'SD']); 
 			}
-			
-			$almacen_id = 1;
+
+			$almacen_id = 1;//ALMACEN 1 POR DEFAULT
 			$medida_id = mainModel::cleanStringConverterCase($_POST['medida']);
 			$producto_superior = mainModel::cleanString($_POST['producto_superior']) == "" ? 0 : mainModel::cleanString($_POST['producto_superior']);
 			$categoria_id = mainModel::cleanStringConverterCase($_POST['producto_categoria']);

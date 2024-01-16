@@ -40,21 +40,21 @@ $(document).ready(function() {
 });
 
 let renovar = false;
+let tiempoRestante = 0;
 
-function mostrarNotificacionRenovacion(tiempoRestante, tiempoSesion) {
-    swal({
-        title: "Renovar Sesión",
-        text: `Tu sesión está a punto de vencer. Tiempo restante: ${tiempoRestante} minutos. ¿Deseas renovarla?`,
-        type: "info",
-        showCancelButton: true,
-        confirmButtonClass: "btn-primary",
-        confirmButtonText: "Renovar",
-        cancelButtonText: "Cancelar",
-        closeOnConfirm: true
-    }, function(isConfirmed) {
-        if (isConfirmed) {
-            renovar = true;
-        }
+function mostrarNotificacionRenovacion(tiempoRestante) {
+    return new Promise((resolve) => {
+        swal({
+            title: "Renovar Sesión",
+            text: `Tu sesión está a punto de vencer. Tiempo restante: ${tiempoRestante} minutos. ¿Deseas renovarla?`,
+            type: "info",
+            showCancelButton: true,
+            confirmButtonClass: "btn-primary",
+            confirmButtonText: "Renovar",
+            cancelButtonText: "Cancelar"
+        }, function(isConfirmed) {
+            resolve(isConfirmed);
+        });
     });
 }
 
@@ -70,40 +70,48 @@ function mostrarNotificacionExpiracion() {
     });
 }
 
-function validarSesion(renovar) {
-    $.ajax({
-        url: '<?php echo SERVERURL;?>core/verificar_sesion.php',
-        type: 'GET',
-        data: {
-            renovar: renovar.toString() // Convertir a cadena para evitar problemas de tipo
-        },
-        success: function(response) {
-            const data = JSON.parse(response);
+async function renovarSesion() {
+    const response = await fetch('<?php echo SERVERURL;?>core/renovar_sesion.php');
+    const data = await response.json();
 
-            renovar = data.renovar;
+    console.log('Estado de sesión renovada:', data);
 
-            console.log('Estado de sesión:', data);
-            console.log('Estado de sesión:', renovar);
-
-            if (data.estado === 'expired') {
-                mostrarNotificacionExpiracion();
-            }
-            /*else if (data.estado === 'show_notification') {
-                           mostrarNotificacionRenovacion(data.tiempoRestante, data.tiempoSesion);
-                       }*/
-        },
-        error: function() {
-            console.error('Error de conexión al verificar la sesión.');
-        }
-    });
+    if (data.success) {
+        // La renovación fue exitosa, actualizar el tiempo restante
+        tiempoRestante = data.tiempoSesion;
+        // Llamar nuevamente a validarSesion después de renovar
+        await validarSesion();
+    }
 }
 
-/*setInterval(function() {
-    validarSesion(renovar);
-}, 1000);*/
+async function validarSesion() {
+    const response = await fetch('<?php echo SERVERURL;?>core/verificar_sesion.php?renovar=' + renovar.toString());
+    const data = await response.json();
 
+    console.log('Estado de sesión:', data);
 
-//INICIO MENUS
+    if (data.estado === 'expired') {
+        mostrarNotificacionExpiracion();
+    } else if (data.estado === 'show_notification') {
+        const isRenewed = await mostrarNotificacionRenovacion(data.tiempoRestante);
+
+        if (isRenewed) {
+            renovar = true;
+            // Llamar a renovarSesion solo si la renovación no está en curso
+            if (!data.renovar) {
+                renovarSesion();
+            }
+        }
+    }
+}
+
+// Ejecutar validarSesion inicialmente
+validarSesion();
+
+// Configurar intervalo para validar la sesión cada minuto
+setInterval(validarSesion, 1000); // 1000 milisegundos = 1 segundo
+
+//IICIO MENUS
 function getPermisosTipoUsuarioAccesosTable(privilegio_id) {
     var url = '<?php echo SERVERURL;?>core/getTipoUsuarioAccesos.php';
 

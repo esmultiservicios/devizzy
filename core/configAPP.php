@@ -23,7 +23,7 @@
     const tokencPanel = 'cpsessCPBCU71RXAL9R3908OM444JE0OECS6LM';
     const usernamecPanel = 'clinicarehn';
     const passwordcPanel = 'S0p0rt32025%Cl1n1c@r3';
-
+    
     //BASE DE DATOS EXCEPTION LOGIN CONTROLADOR
     const DB_MAIN_LOGIN_CONTROLADOR = DB_MAIN;//LA BASE DE DATOS QUE ESTE AQUÍ SE EXCEPTÚA EN EL LOGIN CONTROLADOR
 

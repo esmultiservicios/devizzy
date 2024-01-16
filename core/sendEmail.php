@@ -126,8 +126,8 @@ class sendEmail {
                 $mail->SMTPAuth      = true;
                 $mail->Username      = $correo_empresa; // Cambiar por tu correo electrónico
                 $mail->Password      = $pass_empresa; // Cambiar por tu contraseña de correo
-                $mail->SMTPSecure    = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port          = 587;
+                $mail->SMTPSecure    = PHPMailer::ENCRYPTION_STARTTLS;//SSL - 587
+                $mail->Port          = 587;//SSL
         
                 // Configuración del correo
                 $mail->setFrom($correo_empresa, $de_empresa);

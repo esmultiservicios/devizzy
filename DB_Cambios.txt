@@ -1,3 +1,7 @@
+####15/01/2024####
+tabla => contrato
+semanal		 	int (0. No 1. Sí) se agrego despúes de fecha_registro
+
 ####14/01/2024####
 tabla => notificaciones
 notificaciones_id 	int

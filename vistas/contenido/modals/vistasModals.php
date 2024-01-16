@@ -2562,7 +2562,7 @@
                         <div class="col-md-3 mb-3" style="display: none;">
                             <label for="producto_empresa_id">Empresa <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
-                                <select id="producto_empresa_id" name="producto_empresa_id" required data-width="100%"
+                                <select id="producto_empresa_id" name="producto_empresa_id" data-width="100%"
                                     class="selectpicker" data-size="7" data-live-search="true" title="Empresa">
                                 </select>
                             </div>

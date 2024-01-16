@@ -315,6 +315,10 @@ var crear_nominas_dataTable = function(tbody, table) {
         $('#form_main_nominas_detalles #estado_nomina_detalles').val(data.estado);
         $('#form_main_nominas_detalles #estado_nomina_detalles').selectpicker('refresh');
 
+        $('#form_main_nominas_detalles #fecha_inicio').val(data.fecha_inicio);
+        $('#form_main_nominas_detalles #fecha_fin').val(data.fecha_fin);
+
+
         $("#nomina_principal").hide();
         $("#nomina_detalles").show();
         listar_nominas_detalles();
@@ -603,6 +607,12 @@ function modalNominasDetalles() {
         $('#formNominaDetalles #nomina_id').val(nomina_id);
         $('#formNominaDetalles #nominad_numero').val(numero_nomima);
         $('#formNominaDetalles #nominad_detalle').val(detalle);
+
+        $('#formNominaDetalles #nominad_numero').val(numero_nomima);
+        $('#formNominaDetalles #nominad_detalle').val(detalle);
+
+        $('#formNominaDetalles #fecha_inicio').val($('#form_main_nominas_detalles #fecha_inicio').val());
+        $('#formNominaDetalles #fecha_fin').val($('#form_main_nominas_detalles #fecha_fin').val());
 
         $('#reg_nominaD').show();
         $('#edi_nominaD').hide();
@@ -1689,6 +1699,7 @@ function obtenerDatosEmpleado(colaboradores_id) {
         data: 'colaboradores_id=' + colaboradores_id,
         success: function(data) {
             var valores = JSON.parse(data);
+            var validar_semanal = valores[9];
 
             // Mapear el tipo de pago a días trabajados
             var diasTrabajadosMap = {
@@ -1700,8 +1711,14 @@ function obtenerDatosEmpleado(colaboradores_id) {
             var valor_dividir = diasTrabajadosMap[valores[6]] || 0;
 
             var salario = parseFloat(valores[3]);
-            var salario_diario = salario / parseFloat(30);
 
+            if (validar_semanal === 1) {
+
+            } else {
+
+            }
+
+            var salario_diario = salario / parseFloat(30);
             var salario_hora = (valores[5] == 1) ? salario_diario / 8 : salario_diario / 6;
 
             // Asignar valores
@@ -1714,8 +1731,13 @@ function obtenerDatosEmpleado(colaboradores_id) {
             $('#formNominaDetalles #nominad_sueldo_hora').val(parseFloat(salario_hora).toFixed(2));
             $('#formNominaDetalles #nominad_vale').val(valores[7]);
             $('#formNominaDetalles #salario').val(parseFloat(valores[8]).toFixed(2));
+            $('#formNominaDetalles #validar_semanal').val(valores[9])
+            var fecha_inicio = $('#formNominaDetalles #fecha_inicio').val();
+            var fecha_fin = $('#formNominaDetalles #fecha_fin').val();
 
-            $('#formNominaDetalles #nominad_diast').val(ObtenerDiasTrabajados(colaboradores_id));
+
+            $('#formNominaDetalles #nominad_diast').val(ObtenerDiasTrabajados(colaboradores_id,
+                fecha_inicio, fecha_fin));
             calculoNomina();
         }
     });
@@ -1749,6 +1771,9 @@ function calculoNomina() {
     var neto_egresos = 0;
     var neto = 0;
 
+    var validar_semanal = parseFloat($('#formNominaDetalles #validar_semanal').val() === '' ? 0 : $(
+        '#formNominaDetalles #validar_semanal').val());
+
     // INGRESOS
     var dias_trabajadas = parseFloat($('#formNominaDetalles #nominad_diast').val()) || 0;
     var salario_diario = parseFloat($('#formNominaDetalles #nominad_sueldo_diario').val()) || 0;
@@ -1770,8 +1795,16 @@ function calculoNomina() {
     var bono = parseFloat($('#formNominaDetalles #nominad_bono').val()) || 0;
     var otros_ingresos = parseFloat($('#formNominaDetalles #nominad_otros_ingresos').val()) || 0;
 
-    neto_ingresos = dias_trabajadas * salario_diario + retroactivo + bono + otros_ingresos + hora25 + hora50 + hora75 +
-        hora100;
+    if (validar_semanal === 1) {
+        neto_ingresos = dias_trabajadas * ((salario_mensual / 4) / 7) + retroactivo + bono + otros_ingresos + hora25 +
+            hora50 +
+            hora75 +
+            hora100;
+    } else {
+        neto_ingresos = dias_trabajadas * salario_diario + retroactivo + bono + otros_ingresos + hora25 + hora50 +
+            hora75 +
+            hora100;
+    }
 
     // EGRESOS
     var deducciones = parseFloat($('#formNominaDetalles #nominad_deducciones').val()) || 0;
@@ -1867,7 +1900,7 @@ $("#formNominaDetalles #nominad_vale").on("keyup", function() {
     calculoNomina();
 });
 
-function ObtenerDiasTrabajados(colaboradores_id) {
+function ObtenerDiasTrabajados(colaboradores_id, fechaiNomina, fechafNomina) {
     var url = '<?php echo SERVERURL;?>core/getDiasTrabajados.php';
 
     var dt;
@@ -1875,12 +1908,23 @@ function ObtenerDiasTrabajados(colaboradores_id) {
     $.ajax({
         type: 'POST',
         url: url,
-        async: false,
-        data: 'colaboradores_id=' + colaboradores_id,
+        data: {
+            colaboradores_id: colaboradores_id,
+            fechaiNomina: fechaiNomina,
+            fechafNomina: fechafNomina,
+        },
         success: function(registro) {
-            var valores = eval(registro);
-            dt = valores[0];
-        }
+            try {
+                var valores = JSON.parse(registro);
+                dt = valores[0];
+            } catch (error) {
+                console.error("Error al procesar la respuesta JSON:", error);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
+        },
+        async: false // Considera eliminar esta opción y usar un enfoque asincrónico más moderno
     });
 
     return dt;

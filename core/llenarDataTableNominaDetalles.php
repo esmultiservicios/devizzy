@@ -37,7 +37,9 @@
 			"empresa"=>$row['empresa'],
 			"total_neto_ingreso"=>$total_neto_ingreso,
 			"total_neto_egreso"=>$total_neto_egreso,
-			"total_neto"=>$total_neto				
+			"total_neto"=>$total_neto,
+			"fecha_inicio"=>$row['fecha_inicio'],
+			"fecha_fin"=>$row['fecha_fin'],			
 		);		
 	}
 	

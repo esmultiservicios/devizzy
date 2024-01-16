@@ -20,6 +20,7 @@
 			$fecha_inicio = mainModel::cleanString($_POST['contrato_fecha_inicio']);
 			$fecha_fin = mainModel::cleanString($_POST['contrato_fecha_fin']);
 			$notas = mainModel::cleanString($_POST['contrato_notas']);
+			$calculo_semanal = mainModel::cleanString(isset($_POST['calculo_semanal']) ? $_POST['calculo_semanal'] : 0);
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$estado = 1;
 			$fecha_registro = date("Y-m-d H:i:s");	
@@ -37,6 +38,7 @@
 				"usuario" => $usuario,				
 				"estado" => $estado,
 				"fecha_registro" => $fecha_registro,				
+				"calculo_semanal" => $calculo_semanal,
 			];
 			
 			$resultContrato = contratoModelo::valid_contrato_modelo($colaborador_id);
@@ -175,4 +177,4 @@
 			return mainModel::sweetAlert($alert);			
 		}
 	}
-?>	
+?>

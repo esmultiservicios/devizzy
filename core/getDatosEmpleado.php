@@ -26,7 +26,8 @@
 		5 => $valores2['tipo_empleado_id'],
 		6 => $valores2['pago_planificado_id'],
 		7 => $vales,
-		8 => $salario
+		8 => $salario,
+		9 =>  $valores2['semanal']
 	);
 
 	echo json_encode($datos);

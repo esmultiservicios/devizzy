@@ -88,7 +88,7 @@ if($resultDbClientes->num_rows>0){
                             </p>
                             
                             <p style="margin-bottom: 10px;">
-                                Este es un recordatorio amistoso sobre la factura pendiente con el número #'.$numeroFactura.'. Aún tiene un saldo pendiente de $'.$saldoPendiente.' por pagar al proveedor '.$nombreProveedor.'. Por favor, realice el pago a la brevedad posible para evitar posibles inconvenientes.
+                                Este es un recordatorio amistoso sobre la factura pendiente con el número #'.$numeroFactura.'. Aún tiene un saldo pendiente de L'.number_format($saldoPendiente, 2, '.', ',').' por pagar al proveedor '.$nombreProveedor.'. Por favor, realice el pago a la brevedad posible para evitar posibles inconvenientes.
                             </p>							
                             
                             <ul style="margin-bottom: 12px;">
