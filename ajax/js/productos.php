@@ -548,39 +548,25 @@ function evaluarCategoriaDetalle(TipoProducto) {
 }
 
 $(document).ready(function() {
-    $("#formProductos #porcentaje_venta").on("keyup", function() {
-        if ($("#formProductos #precio_compra").val() != "" && $("#formProductos #porcentaje_venta")
-            .val() > 0) {
-            var precio_compra = $("#formProductos #precio_compra").val();
-            var porcentaje = $("#formProductos #porcentaje_venta").val();
-            var porcentajeCalculo = ((100 - parseFloat(porcentaje)) / 100);
-            $("#formProductos #precio_venta").val((parseFloat(precio_compra) / parseFloat(
-                porcentajeCalculo)).toFixed(2));
-        } else {
-            $("#formProductos #precio_venta").val("");
-        }
-    });
-});
-
-//Math.floor($("#formProductos #precio_venta").val()*100) PERMITE EVALUAR NUMEROS MAYORES QUE MIL
-$(document).ready(function() {
     $("#formProductos #precio_venta").on("keyup", function() {
-        if ($("#formProductos #precio_compra").val() != "") {
-            if (Math.floor($("#formProductos #precio_venta").val() * 100) > Math.floor($(
-                    "#formProductos #precio_compra").val() * 100)) {
-                var precio_compra = $("#formProductos #precio_compra").val();
-                var precio_venta = $("#formProductos #precio_venta").val();
-                var porcentajeCalculo = 100 - ((parseFloat(precio_compra) / parseFloat(precio_venta)) *
-                    100);
+        calcularGanancia();
+    });
 
-                $("#formProductos #porcentaje_venta").val(parseFloat(porcentajeCalculo).toFixed(2));
-            } else {
-                $("#formProductos #porcentaje_venta").val("0");
-            }
+    $("#formProductos #precio_compra").on("keyup", function() {
+        calcularGanancia();
+    });
+
+    function calcularGanancia() {
+        var precio_compra = parseFloat($("#formProductos #precio_compra").val()) || 0;
+        var precio_venta = parseFloat($("#formProductos #precio_venta").val()) || 0;
+
+        if ($("#formProductos #precio_compra").val() !== "" && precio_venta > precio_compra) {
+            var ganancia = precio_venta - precio_compra;
+            $("#formProductos #porcentaje_venta").val(ganancia.toFixed(2));
         } else {
             $("#formProductos #porcentaje_venta").val("0");
         }
-    });
+    }
 });
 
 /*

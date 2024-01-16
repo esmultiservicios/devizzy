@@ -2618,9 +2618,9 @@
                                 placeholder="Precio Venta" step="0.00001">
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="porcentaje_venta">% Ganancia</label>
+                            <label for="porcentaje_venta">Ganancia</label>
                             <input type="number" class="form-control" id="porcentaje_venta" name="porcentaje_venta"
-                                placeholder="Ganancia" step="0.00001">
+                                placeholder="Ganancia" step="0.00001" readonly>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="cantidad_mayoreo">Cantidad Mayoreo </label>
