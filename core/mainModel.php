@@ -989,23 +989,31 @@
 		}
 
 		/*FIN CONVERTIR COTIZACION A FACTURA*/
-
 		public function getEmpresa($datos){
-			if($datos['privilegio_colaborador'] === "Super Administrador" && $datos['privilegio_colaborador'] === "Administrador"){
+			$privilegio = $datos['privilegio_colaborador'];
+		
+			if($privilegio === "Super Administrador" || 
+			   $privilegio === "Administrador" ||  
+			   $privilegio === "Emprendedor" || 
+			   $privilegio === "basico" || 
+			   $privilegio === "Regular" || 
+			   $privilegio === "Estandar" || 
+			   $privilegio === "Premium") {
+		
 				$where = "WHERE estado = 1";
-			}else{
+			} else {
 				$where = "WHERE estado = 1 AND empresa_id = '".$datos['empresa_id']."'";
 			}
-						
+		
 			$query = "SELECT *
 				FROM empresa
-				".$where."
 				ORDER BY nombre";
-
+		
 			$result = self::connection()->query($query);
-
+		
 			return $result;
 		}
+		
 
 		public function getEmpresaSelect($datos){
 			if($datos['privilegio_colaborador'] === "Super Administrador" && $datos['privilegio_colaborador'] === "Administrador"){
