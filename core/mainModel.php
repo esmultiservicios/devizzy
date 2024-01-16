@@ -995,7 +995,7 @@
 			if($privilegio === "Super Administrador" || 
 			   $privilegio === "Administrador" ||  
 			   $privilegio === "Emprendedor" || 
-			   $privilegio === "basico" || 
+			   $privilegio === "Basico" || 
 			   $privilegio === "Regular" || 
 			   $privilegio === "Estandar" || 
 			   $privilegio === "Premium") {
@@ -1007,6 +1007,7 @@
 		
 			$query = "SELECT *
 				FROM empresa
+				{$where}
 				ORDER BY nombre";
 		
 			$result = self::connection()->query($query);
