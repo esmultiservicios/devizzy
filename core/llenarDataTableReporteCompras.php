@@ -56,10 +56,10 @@
 		  "tipo_documento"=>$row['tipo_documento'],
 		  "proveedor"=>$row['proveedor'],
 		  "numero"=>$row['numero'],
-		  "subtotal"=>'L. '.$subtotal,	
-		  "isv"=>'L. '.$isv,	
-		  "descuento"=>'L. '.$descuento,
-		  "total"=>'L. '.$total	,
+		  "subtotal"=>$subtotal,	
+		  "isv"=>$isv,	
+		  "descuento"=>$descuento,
+		  "total"=>$total	,
 		  "color"=> $color, 
 		  "cuenta"=>$row['cuenta']		  
 	  );		

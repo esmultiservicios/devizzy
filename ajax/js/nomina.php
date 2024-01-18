@@ -1688,6 +1688,19 @@ var eliminar_nominas_detalles_dataTable = function(tbody, table) {
     $('#nominad_neto1').val(parseFloat(Math.round(neto)).toFixed(2));
 }*/
 
+function pagoPlanificado(pago_planificado) {
+    var valor_dividir = 0;
+
+    // Mapear el tipo de pago a días trabajados
+    var diasTrabajadosMap = {
+        1: 7,
+        2: 15,
+        3: 30
+    };
+
+    return valor_dividir = diasTrabajadosMap[pago_planificado] || 0;
+}
+
 // Función para obtener datos de empleado
 function obtenerDatosEmpleado(colaboradores_id) {
     var url = '<?php echo SERVERURL;?>core/getDatosEmpleado.php';
@@ -1701,14 +1714,7 @@ function obtenerDatosEmpleado(colaboradores_id) {
             var valores = JSON.parse(data);
             var validar_semanal = valores[9];
 
-            // Mapear el tipo de pago a días trabajados
-            var diasTrabajadosMap = {
-                1: 7,
-                2: 15,
-                3: 30
-            };
-
-            var valor_dividir = diasTrabajadosMap[valores[6]] || 0;
+            var valor_dividir = pagoPlanificado(valores[6]);
 
             var salario = parseFloat(valores[3]);
 
@@ -1732,9 +1738,9 @@ function obtenerDatosEmpleado(colaboradores_id) {
             $('#formNominaDetalles #nominad_vale').val(valores[7]);
             $('#formNominaDetalles #salario').val(parseFloat(valores[8]).toFixed(2));
             $('#formNominaDetalles #validar_semanal').val(valores[9])
+            $('#formNominaDetalles #pago_planificado_id').val(valor_dividir)
             var fecha_inicio = $('#formNominaDetalles #fecha_inicio').val();
             var fecha_fin = $('#formNominaDetalles #fecha_fin').val();
-
 
             $('#formNominaDetalles #nominad_diast').val(ObtenerDiasTrabajados(colaboradores_id,
                 fecha_inicio, fecha_fin));
@@ -1801,7 +1807,8 @@ function calculoNomina() {
             hora75 +
             hora100;
     } else {
-        neto_ingresos = dias_trabajadas * salario_diario + retroactivo + bono + otros_ingresos + hora25 + hora50 +
+        neto_ingresos = dias_trabajadas * (salario_mensual / 30) + retroactivo + bono + otros_ingresos + hora25 +
+            hora50 +
             hora75 +
             hora100;
     }

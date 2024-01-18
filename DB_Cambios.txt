@@ -1,3 +1,19 @@
+####16/01/2024####
+tabla => menu_plan
+menu_plan_id	 	int
+planes_id		int
+planes_id		int
+
+tabla => ubmenu_plan
+submenu_plan	 	int
+submenu_id		int
+planes_id		int
+
+tabla => submenu1_plan
+submenu1_plan_id 	int
+submenu1_id		int
+planes_id		int
+
 ####15/01/2024####
 tabla => contrato
 semanal		 	int (0. No 1. Sí) se agrego despúes de fecha_registro

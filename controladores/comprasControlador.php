@@ -18,16 +18,11 @@
 			$proveedor = $_POST['proveedor'];
 			$colaboradores_id = $_POST['colaborador_id'];	
 			$recordatorio = $_POST['recordatorio'] ?? 0;//EVALUAMOS SI EL VALOR NO ES NULO O ESTA DEFINIDO DE LO CONTRARIO DEVOLVEMOS CERO
-
-			if(isset($_POST['tipoPurchase'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
-				if($_POST['tipoPurchase'] == ""){
-					$tipoPurchase = 2;
-				}else{
-					$tipoPurchase = $_POST['tipoPurchase'];
-				}
-			}else{
-				$tipoPurchase = 2;
-			}			
+			$tipoPurchase = $_POST['tipoPurchase'] ?? 2;	
+			
+			if($tipoPurchase === "1"){
+				$recordatorio = 0;
+			}
 
 			$number = $_POST['facturaPurchase'];
 			$no_factura = $number;
@@ -104,8 +99,8 @@
 
 									$total = $_POST['totalPurchase'][$i];			
 
-									if($_POST['valor_isvPurchase'][$i] != "" || $_POST['valor_isvPurchase'][$i] != null){
-										$isv_valor = $_POST['valor_isvPurchase'][$i];
+									if($_POST['isvPurchaseWrite'][$i] != "" || $_POST['isvPurchaseWrite'][$i] != null){
+										$isv_valor = $_POST['isvPurchaseWrite'][$i];
 									}
 								
 									if($productos_id != "" && $productName != "" && $quantity != "" && $price != "" && $discount != "" && $total != ""){
@@ -358,8 +353,8 @@
 
 									$total = $_POST['totalPurchase'][$i];			
 
-									if($_POST['valor_isvPurchase'][$i] != "" || $_POST['valor_isvPurchase'][$i] != null){
-										$isv_valor = $_POST['valor_isvPurchase'][$i];
+									if($_POST['isvPurchaseWrite'][$i] != "" || $_POST['isvPurchaseWrite'][$i] != null){
+										$isv_valor = $_POST['isvPurchaseWrite'][$i];
 									}
 								
 									if($productos_id != "" && $productName != "" && $quantity != "" && $price != "" && $discount != "" && $total != ""){

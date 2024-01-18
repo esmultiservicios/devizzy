@@ -578,7 +578,6 @@ $('#formContrato #contrato_pago_planificado_id').on("change", function(e) {
 });
 
 $('#formContrato #calculo_semanal').on("change", function() {
-    console.log("Evento change detectado");
     if ($(this).is(":checked")) {
         ValidarTipoPago(true);
     } else {

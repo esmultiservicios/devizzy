@@ -1781,7 +1781,7 @@
                                         <th>Imagen</th>
                                         <th>Bar Code</th>
                                         <th>Producto</th>
-                                        <th>Cantidad</th>
+                                        <th>Medida</th>
                                         <th>Categoria</th>
                                     </tr>
                                 </thead>
@@ -2667,7 +2667,7 @@
                     </div>
                     <br />
                     <div class="form-group custom-control custom-checkbox custom-control-inline">
-                        <div class="col-md-7">
+                        <div class="col-md-12">
                             <label class="form-check-label mr-1" for="defaultCheck1" data-toggle="tooltip"
                                 data-placement="top"
                                 title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de venta, basándose en el precio de venta agregado en este formulario.">¿Calcular
@@ -2679,7 +2679,7 @@
                             </label>
                             <span class="question mb-2" id="label_producto_isv_factura"></span>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-7" style="display: none;">
                             <label class="form-check-label mr-1" for="defaultCheck1" data-toggle="tooltip"
                                 data-placement="top"
                                 title="Al activar esta opción, el Impuesto sobre Ventas (ISV) se añadirá automáticamente al producto en la factura de compra, basándose en el precio de compra agregado en este formulario.">¿Calcular

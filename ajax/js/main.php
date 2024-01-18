@@ -106,10 +106,10 @@ async function validarSesion() {
 }
 
 // Ejecutar validarSesion inicialmente
-validarSesion();
+//validarSesion();
 
 // Configurar intervalo para validar la sesión cada minuto
-setInterval(validarSesion, 1000); // 1000 milisegundos = 1 segundo
+//setInterval(validarSesion, 1000); // 1000 milisegundos = 1 segundo
 
 //IICIO MENUS
 function getPermisosTipoUsuarioAccesosTable(privilegio_id) {
@@ -2073,22 +2073,29 @@ var listar_cuentas_por_cobrar_clientes = function() {
             }
         ],
         "footerCallback": function(row, data, start, end, display) {
+            // Aquí puedes calcular los totales y actualizar el footer
             var totalCredito = data.reduce(function(acc, row) {
                 return acc + (parseFloat(row.credito) || 0);
-            }, 0).toFixed(2);
+            }, 0);
 
             var totalAbono = data.reduce(function(acc, row) {
                 return acc + (parseFloat(row.abono) || 0);
-            }, 0).toFixed(2);
+            }, 0);
 
             var totalPendiente = data.reduce(function(acc, row) {
                 return acc + (parseFloat(row.saldo) || 0);
-            }, 0).toFixed(2);
+            }, 0);
 
             // Formatear los totales con separadores de miles y coma para decimales
-            var totalCreditoFormatted = "L. " + totalCredito.toLocaleString('es-HN');
-            var totalAbonoFormatted = "L. " + totalAbono.toLocaleString('es-HN');
-            var totalPendienteFormatted = "L. " + totalPendiente.toLocaleString('es-HN');
+            var formatter = new Intl.NumberFormat('es-HN', {
+                style: 'currency',
+                currency: 'HNL',
+                minimumFractionDigits: 2,
+            });
+
+            var totalCreditoFormatted = formatter.format(totalCredito);
+            var totalAbonoFormatted = formatter.format(totalAbono);
+            var totalPendienteFormatted = formatter.format(totalPendiente);
 
             // Asignar los totales a los elementos HTML
             $('#credito-cxc').html(totalCreditoFormatted);
@@ -2413,9 +2420,15 @@ var listar_cuentas_por_pagar_proveedores = function() {
             }, 0).toFixed(2);
 
             // Formatear los totales con separadores de miles y coma para decimales
-            var totalCreditoFormatted = "L. " + totalCredito.toLocaleString('es-HN');
-            var totalAbonoFormatted = "L. " + totalAbono.toLocaleString('es-HN');
-            var totalPendienteFormatted = "L. " + totalPendiente.toLocaleString('es-HN');
+            var formatter = new Intl.NumberFormat('es-HN', {
+                style: 'currency',
+                currency: 'HNL',
+                minimumFractionDigits: 2,
+            });
+
+            var totalCreditoFormatted = formatter.format(totalCredito);
+            var totalAbonoFormatted = formatter.format(totalAbono);
+            var totalPendienteFormatted = formatter.format(totalPendiente);
 
             // Asignar los totales a los elementos HTML
             $('#credito-cxp').html(totalCreditoFormatted);

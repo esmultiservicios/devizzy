@@ -41,10 +41,10 @@
 		  "tipo_documento"=>$row['tipo_documento'],
 		  "cliente"=>$row['cliente'],
 		  "numero"=>$row['numero'],
-		  "subtotal"=>'L. '.$subtotal,	
-		  "isv"=>'L. '.$isv,	
-		  "descuento"=>'L. '.$descuento,
-		  "total"=>'L. '.$total	    
+		  "subtotal"=>$subtotal,	
+		  "isv"=>$isv,	
+		  "descuento"=>$descuento,
+		  "total"=>$total	    
 	  );		
 	}
 	

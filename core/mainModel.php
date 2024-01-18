@@ -1181,8 +1181,10 @@
 
 		/*INICIO PRIVILEGIOS*/
 		public function getMenusAcceso(){
-			$query = "SELECT *
-				FROM menu";
+			$query = "SELECT m.menu_id, m.name
+				FROM plan AS p
+				INNER JOIN menu_plan AS mp ON p.planes_id = mp.planes_id
+				INNER JOIN menu AS m ON mp.menu_id = m.menu_id";
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -1201,10 +1203,12 @@
 		}
 
 		public function getSubMenusAcceso($data){
-			$query = "SELECT *
-				FROM submenu
-				WHERE menu_id = '".$data['menu_id']."'";
-
+			$query = "SELECT s.submenu_id, s.name
+				FROM plan AS p
+				INNER JOIN submenu_plan AS sp ON p.planes_id = sp.planes_id
+				INNER JOIN submenu AS s ON sp.submenu_id = s.submenu_id
+				WHERE s.menu_id = '".$data['menu_id']."'";
+			
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -1212,11 +1216,23 @@
 
 		public function getSubMenus1Acceso($privilegio_id){
 			$query = "SELECT sm.submenu_id, sm.name As 'submenu'
-				FROM acceso_submenu AS asm
-				INNER JOIN submenu AS sm ON asm.submenu_id = sm.submenu_id
+				FROM plan AS p
+				INNER JOIN submenu_plan AS sp ON p.planes_id = sp.planes_id
+				INNER JOIN submenu AS sm ON sp.submenu_id  = sm.submenu_id
 				INNER JOIN submenu1 AS sm1 ON sm.submenu_id = sm1.submenu_id
-				WHERE asm.privilegio_id = '$privilegio_id'
 				GROUP BY sm.submenu_id";
+
+			$result = self::connection()->query($query);
+
+			return $result;
+		}
+
+		public function getSubMenusConsultaAccesos($data){
+			$query = "SELECT sm.submenu1_id AS 'submenu_id', sm.name AS 'submenu'
+				FROM plan AS p
+				INNER JOIN submenu1_plan AS sp ON p.planes_id = sp.planes_id
+				INNER JOIN submenu1 AS sm ON sp.submenu1_id = sm.submenu1_id
+				WHERE sm.submenu_id = '".$data['menu_id']."'";
 
 			$result = self::connection()->query($query);
 
@@ -1244,17 +1260,6 @@
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 
 			return $sql;
-		}
-
-		public function getSubMenusConsultaAccesos($data){
-			$query = "SELECT sm1.submenu1_id AS 'submenu_id', sm1.name AS 'submenu'
-				FROM submenu1 AS sm1
-				INNER JOIN submenu AS sm ON sm1.submenu_id = sm.submenu_id
-				WHERE sm1.submenu_id = '".$data['menu_id']."'";
-
-			$result = self::connection()->query($query);
-
-			return $result;
 		}
 
 		public function getMenuAccesosDataTable($privilegio_id){
@@ -2289,7 +2294,7 @@
 		public function getProductos($estado){
 			$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', p.precio_compra AS 'precio_compra', p.precio_venta AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
 			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
-			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'categoria', (CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END) AS 'isv_venta', (CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END) AS 'isv_compra', p.file_name AS 'image'
+			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'categoria', (CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END) AS 'isv_venta', (CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END) AS 'isv_compra', p.file_name AS 'image', p.porcentaje_venta
 				FROM productos AS p
 				INNER JOIN medida AS m
 				ON p.medida_id = m.medida_id
@@ -2391,7 +2396,7 @@
 		public function getProductosCantidadCompras($datos){
 			$query = "SELECT p.productos_id AS 'productos_id', p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', m.nombre AS 'medida',
 			(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
-			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'tipo_producto', p.colaborador_id AS 'colaborador_id', p.file_name AS 'image'
+			tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'tipo_producto', p.colaborador_id AS 'colaborador_id', p.file_name AS 'image', p.precio_compra
 				FROM productos AS p
 				INNER JOIN medida AS m
 				ON p.medida_id = m.medida_id
@@ -4163,7 +4168,7 @@
 				$where = "WHERE c.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND c.estado = 4";
 			}
 
-			$query = "SELECT c.compras_id AS 'compras_id', DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', p.nombre AS 'proveedor', c.number AS 'numero', FORMAT(c.importe,2) As 'total', (CASE WHEN c.tipo_compra = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', ct.nombre AS cuenta
+			$query = "SELECT c.compras_id AS 'compras_id', DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', p.nombre AS 'proveedor', c.number AS 'numero', c.importe As 'total', (CASE WHEN c.tipo_compra = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', ct.nombre AS cuenta
 				FROM compras AS c
 				INNER JOIN proveedores AS p
 				ON c.proveedores_id = p.proveedores_id
@@ -4182,7 +4187,7 @@
 				$where = "WHERE c.fecha BETWEEN '".$datos['fechai']."' AND '".$datos['fechaf']."' AND c.estado = 2";
 			}
 
-			$query = "SELECT c.cotizacion_id AS 'cotizacion_id', DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', cl.nombre AS 'cliente', c.number AS 'numero', FORMAT(c.importe,2) As 'total', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento'
+			$query = "SELECT c.cotizacion_id AS 'cotizacion_id', DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', cl.nombre AS 'cliente', c.number AS 'numero', c.importe As 'total', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento'
 				FROM cotizacion AS c
 				INNER JOIN clientes AS cl
 				ON c.clientes_id = cl.clientes_id

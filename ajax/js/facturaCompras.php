@@ -26,6 +26,14 @@ function getColaboradorCompras() {
     });
 }
 
+$('#purchase-form #tipoPurchase').on("change", function() {
+    if ($(this).is(":checked")) {
+        $('#purchase-form .recordatorio').hide();
+    } else {
+        $('#purchase-form .recordatorio').show();
+    }
+});
+
 function setRecordatorio() {
     var selectRecordatorio = $("#recordatorio");
 
@@ -193,7 +201,7 @@ var view_productos_busqueda_compras_dataTable = function(tbody, table) {
         $('#purchase-form #purchaseItem #productNamePurchase_' + row).val(data.nombre);
         $('#purchase-form #purchaseItem #quantityPurchase_' + row).val(1);
         $('#purchase-form #purchaseItem #quantityPurchase_' + row).focus();
-        $('#purchase-form #purchaseItem #pricePurchase_' + row).val(data.precio_compra);
+        //$('#purchase-form #purchaseItem #pricePurchase_' + row).val(data.precio_compra);
         $('#purchase-form #purchaseItem #medidaPurchase_' + row).val(data.medida);
         $('#purchase-form #purchaseItem #bodegaPurchase_' + row).val(data.almacen_id);
         $('#purchase-form #purchaseItem #discountPurchase_' + row).val(0);
@@ -506,15 +514,11 @@ $(document).ready(function() {
 
         }
 
-
-
         calculateTotalCompras();
 
     });
 
 });
-
-
 
 function limpiarTablaCompras() {
 
@@ -551,6 +555,9 @@ function limpiarTablaCompras() {
 
     htmlRows += '<td><input type="number" name="pricePurchase[]" id="pricePurchase_' + count +
         '" placeholder="Precio" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
+
+    htmlRows += '<td><input type="number" name="isvPurchaseWrite[]" id="isvPurchaseWrite_' + count +
+        '" placeholder="ISV" class=" form-control" autocomplete="off" step="0.01"></td>';
 
     htmlRows += '<td><input type="number" name="discountPurchase[]" id="discountPurchase_' + count +
         '" class="form-control" autocomplete="off" step="0.01"></td>';
@@ -596,6 +603,9 @@ function addRowCompras() {
     htmlRows += '<td><input type="number" name="pricePurchase[]" id="pricePurchase_' + count +
         '" placeholder="Precio" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
 
+    htmlRows += '<td><input type="number" name="isvPurchaseWrite[]" id="isvPurchaseWrite_' + count +
+        '" placeholder="ISV" class=" form-control" autocomplete="off" step="0.01"></td>';
+
     htmlRows += '<td><input type="number" name="discountPurchase[]" id="discountPurchase_' + count +
         '" class="form-control" autocomplete="off" step="0.01"></td>';
 
@@ -610,8 +620,6 @@ function addRowCompras() {
     getMedida(count);
     getAlmacenProductos(count);
 }
-
-
 
 $(document).ready(function() {
 
@@ -678,63 +686,49 @@ $(document).ready(function() {
             calculateTotalCompras();
 
         } else {
-
             swal({
-
                 title: "Error",
-
                 text: "Lo sentimos debe seleccionar un fila antes de intentar eliminarla",
-
                 type: "error",
-
                 confirmButtonClass: "btn-danger"
-
             });
-
         }
-
     });
 
     $(document).on('blur', "[id^=quantityPurchase_]", function() {
-
         calculateTotalCompras();
-
     });
 
     $(document).on('keyup', "[id^=quantityPurchase_]", function() {
-
         calculateTotalCompras();
-
     });
 
     $(document).on('blur', "[id^=pricePurchase_]", function() {
-
         calculateTotalCompras();
-
     });
 
     $(document).on('keyup', "[id^=pricePurchase_]", function() {
-
         calculateTotalCompras();
-
     });
 
     $(document).on('blur', "[id^=discountPurchase_]", function() {
-
         calculateTotalCompras();
-
     });
 
     $(document).on('keyup', "[id^=discountPurchase_]", function() {
-
         calculateTotalCompras();
+    });
 
+    $(document).on('keyup', "[id^=isvPurchaseWrite_]", function() {
+        calculateTotalCompras();
+    });
+
+    $(document).on('blur', "[id^=isvPurchaseWrite_]", function() {
+        calculateTotalCompras();
     });
 
     $(document).on('blur', "#taxRatePurchase", function() {
-
         calculateTotalCompras();
-
     });
 
     $(document).on('blur', "#amountPaidPurchase", function() {
@@ -799,85 +793,59 @@ $(document).ready(function() {
 });
 
 
-
 function calculateTotalCompras() {
-
     var totalAmount = 0;
-
     var totalDiscount = 0;
-
     var totalISV = 0;
-
     var totalGeneral = 0;
-
-
+    var isv = 0;
 
     $("[id^='pricePurchase_']").each(function() {
-
         var id = $(this).attr('id');
-
         id = id.replace("pricePurchase_", '');
-
         var price = $('#pricePurchase_' + id).val();
-
         var isv_calculo = $('#valor_isvPurchase_' + id).val();
-
         var discount = $('#discountPurchase_' + id).val();
-
         var quantity = $('#quantityPurchase_' + id).val();
+        var isv = $('#isvPurchaseWrite_' + id).val();
+
+        console.log(isv);
 
         if (!discount) {
-
             discount = 0;
-
         }
 
         if (!quantity) {
-
             quantity = 1;
-
         }
-
-
 
         if (!isv_calculo) {
-
             isv_calculo = 0;
-
         }
 
+        if (!isv) {
+            isv = 0;
+        }
 
-
-        var total = price * quantity;
-
+        var total = ((price * quantity) + parseFloat(isv) - discount);
+        var total1 = (price * quantity);
         $('#totalPurchase_' + id).val(parseFloat(total));
-
-        totalAmount += total;
-
+        totalAmount += total1;
         totalGeneral += (price * quantity);
-
-        totalISV += parseFloat(isv_calculo);
-
+        totalISV += parseFloat(isv).toFixed(2);
         totalDiscount += parseFloat(discount);
-
     });
 
     $('#subTotalPurchase').val(parseFloat(totalAmount).toFixed(2));
-
     $('#subTotalFooterPurchase').val(parseFloat(totalAmount).toFixed(2));
-
     $('#taxDescuentoPurchase').val(parseFloat(totalDiscount).toFixed(2));
-
     $('#taxDescuentoFooterPurchase').val(parseFloat(totalDiscount).toFixed(2));
 
     var taxRate = $("#taxRatePurchase").val();
-
     var subTotal = $('#subTotalPurchase').val();
 
     if (subTotal) {
-
         $('#subTotalImportePurchase').val(parseFloat(totalGeneral).toFixed(2));
-
         $('#taxAmountPurchase').val(parseFloat(totalISV).toFixed(2));
 
         $('#taxAmountFooterPurchase').val(parseFloat(totalISV).toFixed(2));
@@ -908,40 +876,23 @@ function calculateTotalCompras() {
 
 }
 
-
-
 function cleanFooterValuePurchase() {
-
     $('#subTotalFooterPurchase').val("");
-
     $('#taxDescuentoFooterPurchase').val("");
-
     $('#taxAmountFooterPurchase').val("");
-
     $('#totalAftertaxFooterPurchase').val("");
-
 }
 
 
-
 $('#purchase-form #notesPurchase').keyup(function() {
-
     var max_chars = 2000;
-
     var chars = $(this).val().length;
-
     var diff = max_chars - chars;
-
-
 
     $('#purchase-form #charNum_notasPurchase').html(diff + ' Caracteres');
 
-
-
     if (diff == 0) {
-
         return false;
-
     }
 
 });

@@ -194,37 +194,47 @@ var listar_reporte_compras = function() {
             $('td', nRow).addClass(aData['color']);
         },
         "footerCallback": function(row, data, start, end, display) {
-            // Aquí puedes calcular los totales y actualizar el footer
-            var totalSubtotal = data.reduce(function(acc, row) {
-                return acc + (parseFloat(row.subtotal) || 0);
+            var api = this.api();
+
+            function formatNumber(number) {
+                return 'L ' + number.toLocaleString('es-HN', {
+                    minimumFractionDigits: 2
+                });
+            }
+
+            // Sumar los valores de la columna de Subtotal
+            var subtotal = api.column(5, {
+                page: 'current'
+            }).data().reduce(function(a, b) {
+                return a + parseFloat(b);
             }, 0);
 
-            var totalIsv = data.reduce(function(acc, row) {
-                return acc + (parseFloat(row.isv) || 0);
+            // Sumar los valores de la columna de ISV
+            var isv = api.column(6, {
+                page: 'current'
+            }).data().reduce(function(a, b) {
+                return a + parseFloat(b);
             }, 0);
 
-            var totalDescuento = data.reduce(function(acc, row) {
-                return acc + (parseFloat(row.descuento) || 0);
+            // Sumar los valores de la columna de Descuento
+            var descuento = api.column(7, {
+                page: 'current'
+            }).data().reduce(function(a, b) {
+                return a + parseFloat(b);
             }, 0);
 
-            var totalVentas = data.reduce(function(acc, row) {
-                return acc + (parseFloat(row.total) || 0);
+            // Sumar los valores de la columna de Total
+            var total = api.column(8, {
+                page: 'current'
+            }).data().reduce(function(a, b) {
+                return a + parseFloat(b);
             }, 0);
 
-            // Formatear los totales con dos decimales y separadores de miles
-            var totalSubtotalFormatted = "L. " + totalSubtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g,
-                '$&,');
-            var totalIsvFormatted = "L. " + totalIsv.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-            var totalDescuentoFormatted = "L. " + totalDescuento.toFixed(2).replace(/\d(?=(\d{3})+\.)/g,
-                '$&,');
-            var totalVentasFormatted = "L. " + totalVentas.toFixed(2).replace(/\d(?=(\d{3})+\.)/g,
-                '$&,');
-
-            // Asignar los totales a los elementos HTML en el footer
-            $('#subtotal-i').html(totalSubtotalFormatted);
-            $('#impuesto-i').html(totalIsvFormatted);
-            $('#descuento-i').html(totalDescuentoFormatted);
-            $('#total-footer-ingreso').html(totalVentasFormatted);
+            // Mostrar los totales con formato en las celdas correspondientes del pie de la tabla
+            $('#subtotal-i').html(formatNumber(subtotal));
+            $('#impuesto-i').html(formatNumber(isv));
+            $('#descuento-i').html(formatNumber(descuento));
+            $('#total-footer-ingreso').html(formatNumber(total));
         },
         "buttons": [{
                 text: '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',

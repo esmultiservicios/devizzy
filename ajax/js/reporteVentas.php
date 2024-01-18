@@ -195,30 +195,36 @@ var listar_reporte_ventas = function() {
             // Aquí puedes calcular los totales y actualizar el footer
             var totalSubtotal = data.reduce(function(acc, row) {
                 return acc + (parseFloat(row.subtotal) || 0);
-            }, 0).toFixed(2);
+            }, 0);
 
             var totalIsv = data.reduce(function(acc, row) {
                 return acc + (parseFloat(row.isv) || 0);
-            }, 0).toFixed(2);
+            }, 0);
 
             var totalDescuento = data.reduce(function(acc, row) {
                 return acc + (parseFloat(row.descuento) || 0);
-            }, 0).toFixed(2);
+            }, 0);
 
             var totalVentas = data.reduce(function(acc, row) {
                 return acc + (parseFloat(row.total) || 0);
-            }, 0).toFixed(2);
+            }, 0);
 
             var totalGanancia = data.reduce(function(acc, row) {
                 return acc + (parseFloat(row.ganancia) || 0);
-            }, 0).toFixed(2);
+            }, 0);
 
             // Formatear los totales con separadores de miles y coma para decimales
-            var totalSubtotalFormatted = "L. " + totalSubtotal.toLocaleString('es-HN');
-            var totalIsvFormatted = "L. " + totalIsv.toLocaleString('es-HN');
-            var totalDescuentoFormatted = "L. " + totalDescuento.toLocaleString('es-HN');
-            var totalVentasFormatted = "L. " + totalVentas.toLocaleString('es-HN');
-            var totalGananciaFormatted = "L. " + totalGanancia.toLocaleString('es-HN');
+            var formatter = new Intl.NumberFormat('es-HN', {
+                style: 'currency',
+                currency: 'HNL',
+                minimumFractionDigits: 2,
+            });
+
+            var totalSubtotalFormatted = "L. " + formatter.format(totalSubtotal);
+            var totalIsvFormatted = "L. " + formatter.format(totalIsv);
+            var totalDescuentoFormatted = "L. " + formatter.format(totalDescuento);
+            var totalVentasFormatted = "L. " + formatter.format(totalVentas);
+            var totalGananciaFormatted = "L. " + formatter.format(totalGanancia);
 
             // Asignar los totales a los elementos HTML en el footer
             $('#subtotal-i').html(totalSubtotalFormatted);

@@ -48,8 +48,8 @@
                                 <th>Categoria</th>
                                 <th>Precio Compra</th>
                                 <th>Precio Venta</th>
+                                <th>Ganancia</th>
                                 <th>ISV Venta</th>
-                                <th>ISV Compra</th>
                                 <th>Editar</th>
                                 <th>Eliminar</th>
                             </tr>

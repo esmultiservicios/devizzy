@@ -43,8 +43,7 @@ var listar_productos = function(estado) {
             },
             {
                 "data": "categoria"
-            },
-            {
+            }, {
                 "data": "precio_compra",
                 render: function(data, type) {
                     var number = $.fn.dataTable.render
@@ -83,10 +82,26 @@ var listar_productos = function(estado) {
                 },
             },
             {
-                "data": "isv_venta"
+                "data": "porcentaje_venta",
+                render: function(data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        }
+
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+
+                    return number;
+                },
             },
             {
-                "data": "isv_compra"
+                "data": "isv_venta"
             },
             {
                 "defaultContent": "<button class='table_editar btn btn-dark ocultar'><span class='fas fa-edit fa-lg'></span></button>"

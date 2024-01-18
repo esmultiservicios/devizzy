@@ -75,10 +75,10 @@
                             </label>
                             <span class="question mb-2" id="label_tipoPurchase"></span>
                         </div>
-                        <label for="inputCliente" class="col-sm-1 col-form-label-md" data-toggle="tooltip"
-                            data-placement="top"
+                        <label for="inputCliente" class="col-sm-1 col-form-label-md recordatorio" data-toggle="tooltip"
+                            style="display: none;" data-placement="top"
                             title="Selecciona el número de días para establecer un recordatorio mensual. El recordatorio se activará automáticamente a partir del próximo mes después del registro de la factura.">Recordatorio</label>
-                        <div class="col-md-3">
+                        <div class="col-md-3 recordatorio" style="display: none;">
                             <select class="selectpicker" id="recordatorio" name="recordatorio" data-width="100%"
                                 data-size="7" data-live-search="true" title="Seleccionar un recordatorio mensual"
                                 data-toggle="tooltip">
@@ -93,13 +93,14 @@
                                     <tr>
                                         <th width="2%" scope="col"><input id="checkAllPurchase" class="formcontrol"
                                                 type="checkbox"></th>
-                                        <th width="30%">Nombre Producto</th>
-                                        <th width="10%">Cantidad</th>
-                                        <th width="10%">Almacén</th>
-                                        <th width="13%">Medida</th>
-                                        <th width="15%">Precio</th>
-                                        <th width="10%">Descuento</th>
-                                        <th width="18%">Total</th>
+                                        <th width="23.5%">Nombre Producto</th>
+                                        <th width="9.5%">Cantidad</th>
+                                        <th width="9.5%">Almacén</th>
+                                        <th width="11.5%">Medida</th>
+                                        <th width="11.5%">Precio</th>
+                                        <th width="11.5%">ISV</th>
+                                        <th width="11.5%">Descuento</th>
+                                        <th width="11.5%">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -142,6 +143,8 @@
                                         <td><input type="number" name="pricePurchase[]" id="pricePurchase_0"
                                                 class="buscar_price_purchase form-control" autocomplete="off"
                                                 step="0.01"></td>
+                                        <td><input type="number" name="isvPurchaseWrite[]" id="isvPurchaseWrite_0"
+                                                class="form-control" autocomplete="off" step="0.01"></td>
                                         <td><input type="number" name="discountPurchase[]" id="discountPurchase_0"
                                                 class="form-control" autocomplete="off" step="0.01"></td>
                                         <td><input type="number" name="totalPurchase[]" id="totalPurchase_0"

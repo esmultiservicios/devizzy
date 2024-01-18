@@ -35,7 +35,8 @@
 					"medida"=>$row['medida'],
 					"tipo_producto_id"=>$row['tipo_producto_id'],
 					"tipo_producto"=>$row['tipo_producto'],
-					"image"=>$row['image']
+					"image"=>$row['image'],
+					"precio_compra"=>$row['precio_compra'],
 				);
 			}
 		}			
