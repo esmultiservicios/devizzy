@@ -2577,10 +2577,16 @@
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
+                            <label for="tipo_producto">Tipo Producto <span class="priority">*<span /></label>
+                            <select id="tipo_producto" name="tipo_producto" required class="selectpicker" data-size="7"
+                                data-width="100%" data-live-search="true" title="Tipo Producto">
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3 confCategoria" style="display:none;">
                             <label for="producto_categoria">Categoria</label>
                             <div class="input-group mb-3">
                                 <select class="selectpicker" id="producto_categoria" name="producto_categoria" required
-                                    data-width="100%" data-size="7" data-live-search="true" title="Categoria">
+                                    data-width="100%" data-size="7" data-live-search="true" title="Categoría">
                                 </select>
                             </div>
                         </div>
@@ -2591,12 +2597,6 @@
                                     data-live-search="true" title="Almacén">
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="tipo_producto">Tipo Producto <span class="priority">*<span /></label>
-                            <select id="tipo_producto" name="tipo_producto" required class="selectpicker" data-size="7"
-                                data-width="100%" data-live-search="true" title="Tipo Producto">
-                            </select>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="medida">Medida <span class="priority">*<span /></label>

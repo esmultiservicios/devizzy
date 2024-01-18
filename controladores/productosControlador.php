@@ -12,12 +12,12 @@
 			}
 
 			$almacen_id = 1;//ALMACEN 1 POR DEFAULT
-			$medida_id = mainModel::cleanStringConverterCase($_POST['medida']);
+			$medida_id = mainModel::cleanStringConverterCase($_POST['medida'] ?? 0);
 			$producto_superior = mainModel::cleanString($_POST['producto_superior']) == "" ? 0 : mainModel::cleanString($_POST['producto_superior']);
-			$categoria_id = mainModel::cleanStringConverterCase($_POST['producto_categoria']);
-			$tipo_producto = mainModel::cleanStringConverterCase($_POST['tipo_producto']);			
+			$categoria_id = mainModel::cleanStringConverterCase($_POST['producto_categoria'] ?? 0);
+			$tipo_producto = mainModel::cleanStringConverterCase($_POST['tipo_producto'] ?? 1);			
 			$nombre = mainModel::cleanString($_POST['producto']);
-			$descripcion = mainModel::cleanString($_POST['descripcion']);			
+			$descripcion = mainModel::cleanString($_POST['descripcion']);
 			$cantidad = 0;
 			$precio_compra = mainModel::cleanString($_POST['precio_compra']);
 			$porcentaje_venta = mainModel::cleanString($_POST['porcentaje_venta']);

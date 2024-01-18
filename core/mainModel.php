@@ -1207,7 +1207,8 @@
 				FROM plan AS p
 				INNER JOIN submenu_plan AS sp ON p.planes_id = sp.planes_id
 				INNER JOIN submenu AS s ON sp.submenu_id = s.submenu_id
-				WHERE s.menu_id = '".$data['menu_id']."'";
+				WHERE s.menu_id = '".$data['menu_id']."'
+				GROUP BY s.submenu_id";
 			
 			$result = self::connection()->query($query);
 

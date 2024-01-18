@@ -243,9 +243,11 @@ function getSubMenu(privilegio_id) {
                         $('#' + valores_submenu[i].submenu).hide();
                         $('.' + valores_submenu[i].submenu).hide();
                     }
+
+                    console.log(valores_submenu[i].submenu);
                 }
             } catch (e) {
-
+                console.error('Error:', e);
             }
         }
     });
