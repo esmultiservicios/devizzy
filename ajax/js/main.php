@@ -2074,6 +2074,13 @@ var listar_cuentas_por_cobrar_clientes = function() {
                 targets: 9
             }
         ],
+        "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            // Agregar clases de color a las celdas de cada fila según el valor de 'color'
+            $('td', nRow).addClass(aData['color']);
+
+            // Personalizar el color de la celda en la posición 2 (índice 2)
+            $('td:eq(2)', nRow).css('color', 'red');
+        },
         "footerCallback": function(row, data, start, end, display) {
             // Aquí puedes calcular los totales y actualizar el footer
             var totalCredito = data.reduce(function(acc, row) {

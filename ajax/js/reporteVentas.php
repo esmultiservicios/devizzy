@@ -31,6 +31,7 @@ $('#form_main_ventas #fechaf').on("change", function(e) {
 //INICIO REPORTE DE VENTAS
 var listar_reporte_ventas = function() {
     var tipo_factura_reporte = 1;
+
     if ($("#form_main_ventas #tipo_factura_reporte").val() == null || $("#form_main_ventas #tipo_factura_reporte")
         .val() == "") {
         tipo_factura_reporte = 1;
@@ -186,7 +187,7 @@ var listar_reporte_ventas = function() {
         "lengthMenu": lengthMenu10,
         "stateSave": true,
         "bDestroy": true,
-        "language": idioma_español, //esta se encuenta en el archivo main.js
+        "language": idioma_español, // esta se encuentra en el archivo main.js
         "dom": dom,
         "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
             $('td', nRow).addClass(aData['color']);
@@ -287,6 +288,7 @@ var listar_reporte_ventas = function() {
             getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
         }
     });
+
     table_reporteVentas.search('').draw();
     $('#buscar').focus();
 
@@ -295,8 +297,21 @@ var listar_reporte_ventas = function() {
     view_reporte_comprobante_dataTable("#dataTablaReporteVentas tbody", table_reporteVentas);
     view_anular_facturas_dataTable("#dataTablaReporteVentas tbody", table_reporteVentas);
 
-    //total_ingreso_footer();
-}
+    // Función para determinar el color de fondo de la fila
+    function determinarColorFila(saldo) {
+        return saldo < 0 ? 'fila-roja' : 'fila-verde'; // Puedes ajustar los nombres de las clases según tu estilo
+    }
+
+    // Callback para colorear las filas según el saldo
+    table_reporteVentas.on('draw', function() {
+        table_reporteVentas.rows().every(function(index, element) {
+            var saldo = parseFloat(this.data().saldo) || 0;
+            var color = determinarColorFila(saldo);
+
+            $(this.node()).removeClass('fila-roja fila-verde').addClass(color);
+        });
+    });
+};
 
 var view_anular_facturas_dataTable = function(tbody, table) {
     $(tbody).off("click", "button.cancelar_factura");
