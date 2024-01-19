@@ -698,7 +698,7 @@ function modal_productos() {
     $('#formProductos #buscar_producto_empresa').show();
     $('#formProductos #buscar_producto_categorias').show();
 
-    $('#formProductos #medida').val(2);
+    $('#formProductos #medida').val(1);
     $('#formProductos #medida').selectpicker('refresh');
 
     $('#formProductos #producto_activo').attr('checked', true);
