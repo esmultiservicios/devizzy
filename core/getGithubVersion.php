@@ -18,7 +18,7 @@
         echo $data['tag_name'];
     } else {
         //echo "No se pudo obtener la versión.";
-        echo "Versión: 3.4.8";
+        echo "Versión: 3.4.9";
 
 /*
 Número de Versión Principal (Major Version): El primer número representa la versión principal del software. Se incrementa cuando se realizan cambios significativos que pueden no ser compatibles con versiones anteriores. Por ejemplo, agregar una funcionalidad importante o realizar cambios que rompen la compatibilidad hacia atrás.
