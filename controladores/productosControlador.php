@@ -19,13 +19,13 @@
 			$nombre = mainModel::cleanString($_POST['producto']);
 			$descripcion = mainModel::cleanString($_POST['descripcion']);
 			$cantidad = 0;
-			$precio_compra = mainModel::cleanString($_POST['precio_compra']);
-			$porcentaje_venta = mainModel::cleanString($_POST['porcentaje_venta']);
-			$precio_venta = mainModel::cleanString($_POST['precio_venta']);
+			$precio_compra = mainModel::cleanString($_POST['precio_compra'] === "" ? 0 : $_POST['precio_compra']);
+			$porcentaje_venta = mainModel::cleanString($_POST['porcentaje_venta'] === "" ? 0 : $_POST['porcentaje_venta']);
+			$precio_venta = mainModel::cleanString($_POST['precio_venta'] === "" ? 0 : $_POST['precio_venta']);
 			$cantidad_mayoreo = mainModel::cleanString($_POST['cantidad_mayoreo'] === "" ? 3 : $_POST['cantidad_mayoreo']);
-			$precio_mayoreo = mainModel::cleanString($_POST['precio_mayoreo']);
-			$cantidad_minima = mainModel::cleanString($_POST['cantidad_minima']);
-			$cantidad_maxima = mainModel::cleanString($_POST['cantidad_maxima']);
+			$precio_mayoreo = mainModel::cleanString($_POST['precio_mayoreo'] === "" ? 0 : $_POST['precio_mayoreo']);
+			$cantidad_minima = mainModel::cleanString($_POST['cantidad_minima'] === "" ? 0 : $_POST['cantidad_minima']);
+			$cantidad_maxima = mainModel::cleanString($_POST['cantidad_maxima'] === "" ? 0 : $_POST['cantidad_maxima']);
 			
 			if($_POST['bar_code_product'] == ""){
 				$flag_barcode = true;

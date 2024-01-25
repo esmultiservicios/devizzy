@@ -28,10 +28,25 @@ var listar_productos = function(estado) {
         "columns": [{
                 "data": "image",
                 "render": function(data, type, row, meta) {
-                    return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
-                        data + '" alt="' + data + '" height="100px" width="100px"/>';
+                    var imageUrl = data ? '<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
+                        data :
+                        '<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png';
+
+                    // Verificar si la imagen existe
+                    var img = new Image();
+                    img.src = imageUrl;
+
+                    if (img.complete) {
+                        // La imagen existe, mostrarla
+                        return '<img class="" src="' + imageUrl + '" alt="' + (data ||
+                            'Image Preview') + '" height="100px" width="100px"/>';
+                    } else {
+                        // La imagen no existe, mostrar la imagen de vista previa
+                        return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png" alt="Image Preview" height="100px" width="100px"/>';
+                    }
                 }
             },
+
             {
                 "data": "barCode"
             },

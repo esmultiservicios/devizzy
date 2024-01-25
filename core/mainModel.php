@@ -68,7 +68,7 @@
 			return $mysqliDBLocal;
 		}	
 
-		protected function correlativoLogin($campo_id, $tabla){
+		public function correlativoLogin($campo_id, $tabla){
 			$query = "SELECT MAX(".$campo_id.") AS max, COUNT(".$campo_id.") AS count FROM ".$tabla;
 			$result = self::connectionLogin()->query($query);
 			$correlativo2 = $result->fetch_assoc();
@@ -90,7 +90,7 @@
 		}
 		//FUNCION CORRELATIVO
 
-		protected function correlativo($campo_id, $tabla){
+		public function correlativo($campo_id, $tabla){
 			$query = "SELECT MAX(".$campo_id.") AS max, COUNT(".$campo_id.") AS count FROM ".$tabla;
 			$result = self::connection()->query($query);
 
@@ -2502,25 +2502,15 @@
 		}
 
 		function getProductoTipoProducto($tipo_producto_id){
-
 			$query = "SELECT *
-
 				FROM productos
-
 				WHERE tipo_producto_id = '$tipo_producto_id'";
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
-
-
 		public function getMedida(){
-
 			$query = "
 			SELECT
 			*
@@ -2533,55 +2523,48 @@
 			return $result;
 		}
 
+		public function sms_proveedor(){
+			$query = "
+				SELECT
+				*
+				FROM
+				sms_proveedor
+				WHERE estado = 1";
 
+			$result = self::connection()->query($query);
+			return $result;
+		}
+
+		public function insertSMS($data){
+			$query = "INSERT INTO `sms`(`sms_id`, `proveedor_id`, `number`, `text`, `response`, `date`) VALUES ('{$data['id']}','{$data['proveedor_id']}','{$data['msisdn']}','{$data['message']}','{$data['response']}','{$data['date']}')";
+
+			$result = self::connection()->query($query);
+			return $result;
+		}
 
 		public function getCorreo(){
-
 			$query = "SELECT c.correo_id AS 'correo_id', c.server AS 'server', c.correo AS 'correo', c.port AS 'port', c.smtp_secure AS 'smtp_secure', c.estado AS 'estado', ct.nombre AS 'tipo_correo'
-
 				FROM correo AS c
-
 				INNER JOIN correo_tipo AS ct
-
 				ON c.correo_tipo_id = ct.correo_tipo_id
-
 				WHERE c.estado = 1
-
 				ORDER BY c.correo_id";
 
-
-
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getDiarios(){
-
 			$query = "SELECT d.diarios_id AS 'diarios_id', d.nombre AS 'diario', d.cuentas_id AS 'cuentas_id', c.nombre AS 'cuenta', d.estado AS 'estado'
-
 				FROM diarios AS d
-
 				INNER JOIN cuentas AS c
-
 				ON d.cuentas_id = c.cuentas_id";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function getDiariosEdit($diarios_id){
 			$query = "SELECT d.diarios_id AS 'diarios_id', d.nombre AS 'diario', d.cuentas_id AS 'cuentas_id', c.nombre AS 'cuenta', d.estado AS 'estado'
@@ -2593,7 +2576,6 @@
 			$result = self::connection()->query($query);
 
 			return $result;
-
 		}
 
 		public function getAlmacen($datos){
@@ -2605,7 +2587,6 @@
 
 			$query = "SELECT a.almacen_id AS 'almacen_id', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
 				a.facturar_cero
-
 				FROM almacen AS a
 				INNER JOIN ubicacion AS u
 				ON a.ubicacion_id = u.ubicacion_id
