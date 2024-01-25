@@ -142,9 +142,11 @@ var listar_movimientos = function() {
                         .display(data);
 
                     if (type === 'display') {
-                        let color = 'orange';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
+                        } else if (data > 0) {
+                            color = 'orange';
                         }
 
                         return '<span style="color:' + color + '">' + number + '</span>';
@@ -153,7 +155,6 @@ var listar_movimientos = function() {
                     return number;
                 },
             },
-
             {
                 "data": "comentario"
             },

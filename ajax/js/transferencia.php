@@ -126,18 +126,16 @@ var inventario_transferencia = function() {
             {
                 "data": "salida",
                 render: function(data, type) {
-                    if (data == null) {
-                        data = 0;
-                    }
-
                     var number = $.fn.dataTable.render
                         .number(',', '.', 2, '')
                         .display(data);
 
                     if (type === 'display') {
-                        let color = 'orange';
+                        let color = 'green';
                         if (data < 0) {
                             color = 'red';
+                        } else if (data > 0) {
+                            color = 'orange';
                         }
 
                         return '<span style="color:' + color + '">' + number + '</span>';
