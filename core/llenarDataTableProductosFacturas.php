@@ -13,7 +13,8 @@
 
 	$datos = [
 		"bodega" => $bodega,
-		"barcode" => '',	
+		"barcode" => '',
+		"planes_id" => $_SESSION['planes_id'],		
 	];
 	
 	$result = $insMainModel->getProductosCantidad($datos);
