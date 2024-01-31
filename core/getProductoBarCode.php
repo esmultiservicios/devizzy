@@ -48,6 +48,8 @@ while($row = $result->fetch_assoc()){
                         6 => number_format($entradaH - $salidaH, 2),
                         7 => $row['almacen_id'],
                         8 => $row['medida'],
+                        9 => $row['tipo_producto_id'],
+                        10 => $row['precio_compra']
                     );	
                 }
             } else {
@@ -61,6 +63,8 @@ while($row = $result->fetch_assoc()){
                     6 => $row['cantidad'],
                     7 => $row['almacen_id'],
                     8 => $row['medida'],
+                    9 => $row['tipo_producto_id'],
+                    10 => $row['precio_compra']
                 );
             }
         }

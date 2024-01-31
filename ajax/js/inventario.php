@@ -1,7 +1,12 @@
 <script>
+var registro = false;
+
 $(document).ready(function() {
     funciones();
     listar_movimientos();
+
+    $('#movimientos').css('cursor', 'pointer');
+    $('#registroMovimientos').css('cursor', 'pointer');
 });
 
 function funciones() {
@@ -82,22 +87,33 @@ var listar_movimientos = function() {
             {
                 "data": "image",
                 "render": function(data, type, row, meta) {
-                    var imageUrl = data ? '<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
-                        data :
+                    var defaultImageUrl =
                         '<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png';
+                    var imageUrl = data ? '<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
+                        data : defaultImageUrl;
 
-                    // Verificar si la imagen existe
+                    var imageHtml = '<img class="table-image" src="' + imageUrl +
+                        '" alt="Image Preview" height="100px" width="100px"/>';
+
+                    var cell = $('td:eq(' + meta.col + ')', meta.settings.oInstance.api().row(meta
+                        .row).node());
+
                     var img = new Image();
+
+                    img.onload = function() {
+                        // La imagen se cargó correctamente, actualizar la imagen en la celda
+                        $('.table-image', cell).attr('src', imageUrl);
+                    };
+
+                    img.onerror = function() {
+                        // La imagen no se pudo cargar, usar la imagen de vista previa
+                        $('.table-image', cell).attr('src', defaultImageUrl);
+                    };
+
+                    // Establecer la fuente de la imagen
                     img.src = imageUrl;
 
-                    if (img.complete) {
-                        // La imagen existe, mostrarla
-                        return '<img class="" src="' + imageUrl + '" alt="' + (data ||
-                            'Image Preview') + '" height="100px" width="100px"/>';
-                    } else {
-                        // La imagen no existe, mostrar la imagen de vista previa
-                        return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png" alt="Image Preview" height="100px" width="100px"/>';
-                    }
+                    return imageHtml;
                 }
             },
             {
@@ -250,6 +266,7 @@ var listar_movimientos = function() {
                 className: 'table_crear btn btn-primary ocultar',
                 action: function() {
                     modal_movimientos();
+                    //registro_inventario();
                 }
             },
             {
@@ -583,7 +600,7 @@ $("#putEditarBodega").click(function() {
 //TRANSFERIR PRODUCTO/BODEGA
 
 function getAlmacen() {
-    var url = '<?php echo SERVERURL;?>core/getAlmacen.php';
+    var url = '<?php echo SERVERURL;?>core/getAlmacenCompras.php';
 
     $.ajax({
         type: "POST",
@@ -593,6 +610,10 @@ function getAlmacen() {
             $('#form_main_movimientos #almacen').html("");
             $('#form_main_movimientos #almacen').html(data);
             $('#form_main_movimientos #almacen').selectpicker('refresh');
+
+            $('#formMovimientoInventario #almacen_modal').html("");
+            $('#formMovimientoInventario #almacen_modal').html(data);
+            $('#formMovimientoInventario #almacen_modal').selectpicker('refresh');
         }
     });
 }
@@ -655,6 +676,10 @@ function getProductoOperacion() {
             $('#formMovimientos #movimiento_operacion').html("");
             $('#formMovimientos #movimiento_operacion').html(data);
             $('#formMovimientos #movimiento_operacion').selectpicker('refresh');
+
+            $('#formMovimientoInventario #movimiento_producto').html("");
+            $('#formMovimientoInventario #movimiento_producto').html(data);
+            $('#formMovimientoInventario #movimiento_producto').selectpicker('refresh');
         }
     });
 }
@@ -733,6 +758,10 @@ function getClientes() {
             $('#form_main_movimientos #cliente_movimiento_filtro').html("");
             $('#form_main_movimientos #cliente_movimiento_filtro').html(data);
             $('#form_main_movimientos #cliente_movimiento_filtro').selectpicker('refresh');
+
+            $('#formMovimientoInventario #cliente_movimientos').html("");
+            $('#formMovimientoInventario #cliente_movimientos').html(data);
+            $('#formMovimientoInventario #cliente_movimientos').selectpicker('refresh');
         }
     });
 }
@@ -789,4 +818,32 @@ $(document).ready(function() {
         $(this).find('#formTransferencia #cantidad_movimiento').focus();
     });
 });
+
+
+$('#movimientos').on('click', function() {
+    if (registro === true) {
+        registro = false;
+        $('#movimientos').removeClass('active');
+        $('#main_inventario').show();
+        $('#movimiento_inventario').hide();
+        $('#registroMovimientos').addClass('active');
+    }
+});
+
+$('#registroMovimientos').on('click', function() {
+    if (registro === true) {
+        $('#registroMovimientos').removeClass('active');
+        $('#main_inventario').hide();
+        $('#movimiento_inventario').show();
+        $('#movimientos').addClass('active');
+    }
+});
+
+function registro_inventario() {
+    registro = true;
+    $('#movimiento_inventario').show();
+    $('#main_inventario').hide();
+    $('#registroMovimientos').removeClass('active');
+    $('#movimientos').addClass('active');
+}
 </script>

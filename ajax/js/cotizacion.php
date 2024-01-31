@@ -774,22 +774,33 @@ var listar_productos_cotizacion_buscar = function() {
             {
                 "data": "image",
                 "render": function(data, type, row, meta) {
-                    var imageUrl = data ? '<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
-                        data :
+                    var defaultImageUrl =
                         '<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png';
+                    var imageUrl = data ? '<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
+                        data : defaultImageUrl;
 
-                    // Verificar si la imagen existe
+                    var imageHtml = '<img class="table-image" src="' + imageUrl +
+                        '" alt="Image Preview" height="100px" width="100px"/>';
+
+                    var cell = $('td:eq(' + meta.col + ')', meta.settings.oInstance.api().row(meta
+                        .row).node());
+
                     var img = new Image();
+
+                    img.onload = function() {
+                        // La imagen se cargó correctamente, actualizar la imagen en la celda
+                        $('.table-image', cell).attr('src', imageUrl);
+                    };
+
+                    img.onerror = function() {
+                        // La imagen no se pudo cargar, usar la imagen de vista previa
+                        $('.table-image', cell).attr('src', defaultImageUrl);
+                    };
+
+                    // Establecer la fuente de la imagen
                     img.src = imageUrl;
 
-                    if (img.complete) {
-                        // La imagen existe, mostrarla
-                        return '<img class="" src="' + imageUrl + '" alt="' + (data ||
-                            'Image Preview') + '" height="100px" width="100px"/>';
-                    } else {
-                        // La imagen no existe, mostrar la imagen de vista previa
-                        return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png" alt="Image Preview" height="100px" width="100px"/>';
-                    }
+                    return imageHtml;
                 }
             },
             {

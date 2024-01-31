@@ -432,22 +432,29 @@ var listar_productos_factura_buscar = function() {
             {
                 "data": "image",
                 "render": function(data, type, row, meta) {
-                    var imageUrl = data ? '<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
-                        data :
+                    var defaultImageUrl =
                         '<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png';
+                    var imageUrl = data ? '<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
+                        data : defaultImageUrl;
 
-                    // Verificar si la imagen existe
                     var img = new Image();
+
+                    img.onload = function() {
+                        $('img', meta.settings.oInstance.api().row(meta.row).node()).attr('src',
+                            imageUrl);
+                    };
+
+                    img.onerror = function() {
+                        $('img', meta.settings.oInstance.api().row(meta.row).node()).attr('src',
+                            defaultImageUrl);
+                    };
+
                     img.src = imageUrl;
 
-                    if (img.complete) {
-                        // La imagen existe, mostrarla
-                        return '<img class="" src="' + imageUrl + '" alt="' + (data ||
-                            'Image Preview') + '" height="100px" width="100px"/>';
-                    } else {
-                        // La imagen no existe, mostrar la imagen de vista previa
-                        return '<img class="" src="<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png" alt="Image Preview" height="100px" width="100px"/>';
-                    }
+                    var altText = data ? data : 'Image Preview';
+
+                    return '<img src="' + imageUrl + '" alt="' + altText +
+                        '" height="100px" width="100px"/>';
                 }
             },
             {
@@ -1133,15 +1140,17 @@ function manejarPresionEnter(row_index) {
                 getTotalFacturasDisponibles();
                 var valores = eval(registro);
 
-                if (valores[7] === null || valores[7] === "") {
-                    swal({
-                        title: "Error",
-                        html: true, // Habilitar HTML
-                        text: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL;?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=\"purple\"' onmouseout='this.style.color=\"blue\"' onmousedown='this.style.color=\"purple\"' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar.",
-                        type: "error",
-                        confirmButtonClass: "btn-danger"
-                    });
-                    return false;
+                if (valores[9] !== "2") {
+                    if (valores[7] === null || valores[7] === "") {
+                        swal({
+                            title: "Error",
+                            html: true, // Habilitar HTML
+                            text: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL;?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=\"purple\"' onmouseout='this.style.color=\"blue\"' onmousedown='this.style.color=\"purple\"' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar.",
+                            type: "error",
+                            confirmButtonClass: "btn-danger"
+                        });
+                        return false;
+                    }
                 }
 
                 if (valores[0]) {

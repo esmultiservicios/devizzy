@@ -19,12 +19,12 @@
                                 <div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Ingresar
                             </button>
                         </div>
-                        <label for="inputCliente" class="col-sm-1 col-form-label-md">Factura <span
+                        <label for="inputFecha" class="col-sm-1 col-form-label-md">Fecha <span
                                 class="priority">*<span /></label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" placeholder="Número de Factura de Compra"
-                                id="facturaPurchase" name="facturaPurchase" required data-toggle="tooltip"
-                                data-placement="top" title="Factura Compra" maxlength="19" required>
+                            <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>" required
+                                id="fechaPurchase" name="fechaPurchase" data-toggle="tooltip" data-placement="top"
+                                title="Fecha de Facturación">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -43,12 +43,12 @@
                                 </select>
                             </div>
                         </div>
-                        <label for="inputFecha" class="col-sm-1 col-form-label-md">Fecha <span
+                        <label for="inputCliente" class="col-sm-1 col-form-label-md">Factura <span
                                 class="priority">*<span /></label>
                         <div class="col-sm-4">
-                            <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>" required
-                                id="fechaPurchase" name="fechaPurchase" data-toggle="tooltip" data-placement="top"
-                                title="Fecha de Facturación">
+                            <input type="text" class="form-control" placeholder="Número de Factura de Compra"
+                                id="facturaPurchase" name="facturaPurchase" required data-toggle="tooltip"
+                                data-placement="top" title="Factura Compra" maxlength="19" required>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -93,19 +93,37 @@
                                     <tr>
                                         <th width="2%" scope="col"><input id="checkAllPurchase" class="formcontrol"
                                                 type="checkbox"></th>
-                                        <th width="23.5%">Nombre Producto</th>
-                                        <th width="9.5%">Cantidad</th>
-                                        <th width="9.5%">Almacén</th>
-                                        <th width="11.5%">Medida</th>
-                                        <th width="11.5%">Precio</th>
-                                        <th width="11.5%">ISV</th>
-                                        <th width="11.5%">Descuento</th>
-                                        <th width="11.5%">Total</th>
+                                        <th width="18%">Código</th>
+                                        <th width="17%">Nombre Producto</th>
+                                        <th width="6%">Cantidad</th>
+                                        <th width="7%">Almacén</th>
+                                        <th width="10%">Medida</th>
+                                        <th width="10%">Precio</th>
+                                        <th width="10%">ISV</th>
+                                        <th width="10%">Descuento</th>
+                                        <th width="10%">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td><input class="itemRowPurchase" type="checkbox"></td>
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-append">
+                                                    <span data-toggle="tooltip" data-placement="top"
+                                                        title="Búsqueda de Productos" id="icon-search-bar_0"><a
+                                                            data-toggle="modal" href="#"
+                                                            class="btn btn-link form-control buscar_productos_purchase">
+                                                            <div class="sb-nav-link-icon"></div><i
+                                                                class="fas fa-search fa-lg icon-color"></i>
+                                                        </a></span>
+                                                    <input type="text" name="bar-code-idPurchase[]"
+                                                        id="bar-code-idPurchase_0"
+                                                        class="form-control product-bar-codePurchase inputfield-details1"
+                                                        placeholder="Código del Producto" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </td>
                                         <td>
                                             <div class="input-group mb-3">
                                                 <input type="hidden" name="isvPurchase[]" id="isvPurchase_0"
@@ -117,14 +135,6 @@
                                                 <input type="text" name="productNamePurchase[]"
                                                     id="productNamePurchase_0" class="form-control" autocomplete="off"
                                                     required>
-                                                <div class="input-group-append">
-                                                    <span data-toggle="tooltip" data-placement="top"
-                                                        title="Búsqueda de Productos"><a data-toggle="modal" href="#"
-                                                            class="btn btn-outline-success form-control buscar_productos_purchase">
-                                                            <div class="sb-nav-link-icon"></div><i
-                                                                class="fas fa-search-plus fa-lg"></i>
-                                                        </a></span>
-                                                </div>
                                             </div>
                                         </td>
                                         <td><input type="number" name="quantityPurchase[]" id="quantityPurchase_0"
