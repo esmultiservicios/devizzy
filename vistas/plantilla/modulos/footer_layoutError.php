@@ -23,7 +23,7 @@
 				<div class="col-11 text-left" style="max-width: 100%;max-height: 100%;">
 					<span>
 						<center>
-							<?php echo COMPANY;?>
+							<?php echo htmlspecialchars(COMPANY, ENT_QUOTES, 'UTF-8');?>
 						</center>
 					</span>
 				</div>

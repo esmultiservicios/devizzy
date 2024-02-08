@@ -12,6 +12,7 @@
 	$datos = [
 		"privilegio_id" => $_SESSION['privilegio_sd'],
 		"colaborador_id" => $_SESSION['colaborador_id_sd'],	
+		"db_cliente" => $_SESSION['db_cliente']
 	];	
 
 	$result = $insMainModel->getTipoUsuario($datos);

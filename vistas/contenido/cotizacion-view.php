@@ -6,7 +6,7 @@
                 Cotización
             </div>
             <div class="card-body">
-                <form class="FormularioAjax" id="quoteForm" action="<?php echo SERVERURL;?>ajax/addCotizacionAjax.php"
+                <form class="FormularioAjax" id="quoteForm" action="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8');?>ajax/addCotizacionAjax.php"
                     method="POST" data-form="save" autocomplete="off" enctype="multipart/form-data">
                     <div class="form-group row customer-bill-box-left">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -373,14 +373,12 @@
 					
 					if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
 						$consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();
-						
-						$fecha_registro = $consulta_last_update['fecha_registro'];
-						$hora = date('g:i:s a',strtotime($fecha_registro));
-										
-						echo "Última Actualización ".$insMainModel->getTheDay($fecha_registro, $hora);						
-					}else{
+						$fecha_registro = htmlspecialchars($consulta_last_update['fecha_registro'], ENT_QUOTES, 'UTF-8');
+						$hora = htmlspecialchars(date('g:i:s a', strtotime($fecha_registro)), ENT_QUOTES, 'UTF-8');
+						echo "Última Actualización ".htmlspecialchars($insMainModel->getTheDay($fecha_registro, $hora), ENT_QUOTES, 'UTF-8');
+					} else {
 						echo "No se encontraron registros ";
-					}			
+					}				
 				?>
             </div>
         </div>

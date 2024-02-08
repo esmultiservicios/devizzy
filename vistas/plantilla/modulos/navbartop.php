@@ -1,7 +1,7 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-color-navarlateral">
     <div class="navbar-brand">
-        <a href="<?php echo SERVERURL; ?>dashboard/">
-            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/logo.svg" width="100%" alt="CLINICARE"
+        <a href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>dashboard/">
+            <center><img src="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>vistas/plantilla/img/logos/logo.svg" width="100%" alt="CLINICARE"
                     loading="CLINICARE" class="logo"></center>
         </a>
     </div>
@@ -15,49 +15,49 @@
     <ul class="navbar-nav">
         <!-- Elementos del menú principal -->
         <li class="nav-item d-none d-md-block d-sm-block">
-            <a class="nav-link link menu-item reporteVentas" href="<?php echo SERVERURL; ?>reporteVentas/"
+            <a class="nav-link link menu-item reporteVentas" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>reporteVentas/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>Reporte Ventas
             </a>
         </li>
         <li class="nav-item d-none d-md-block d-sm-block">
-            <a class="nav-link link menu-item reporteCotizacion" href="<?php echo SERVERURL; ?>reporteCotizacion/"
+            <a class="nav-link link menu-item reporteCotizacion" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>reporteCotizacion/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>Reporte Cotización
             </a>
         </li>
         <li class="nav-item d-none d-md-block d-sm-block">
-            <a class="nav-link link menu-item reporteCompras" href="<?php echo SERVERURL; ?>reporteCompras/"
+            <a class="nav-link link menu-item reporteCompras" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>reporteCompras/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>Reporte Compras
             </a>
         </li>
         <li class="nav-item d-none d-md-block d-sm-block">
-            <a class="nav-link link menu-item cobrarClientes" href="<?php echo SERVERURL; ?>cobrarClientes/"
+            <a class="nav-link link menu-item cobrarClientes" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>cobrarClientes/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>CXC Clientes
             </a>
         </li>
         <li class="nav-item d-none d-md-block d-sm-block">
-            <a class="nav-link link menu-item pagarProveedores" href="<?php echo SERVERURL; ?>pagarProveedores/"
+            <a class="nav-link link menu-item pagarProveedores" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>pagarProveedores/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>CXP Proveedores
             </a>
         </li>
         <li class="nav-item d-none d-md-block d-sm-block">
-            <a class="nav-link link menu-item inventario" href="<?php echo SERVERURL; ?>inventario/"
+            <a class="nav-link link menu-item inventario" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>inventario/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>Movimientos
             </a>
         </li>
         <li class="nav-item d-none d-md-block d-sm-block">
-            <a class="nav-link link menu-item transferencia" href="<?php echo SERVERURL; ?>transferencia/"
+            <a class="nav-link link menu-item transferencia" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>transferencia/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>Inventario
             </a>
         </li>
         <li class="nav-item d-none d-md-block d-sm-block">
-            <a class="nav-link link menu-item nomina" href="<?php echo SERVERURL; ?>nomina/" style="display:none">
+            <a class="nav-link link menu-item nomina" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>nomina/" style="display:none">
                 <div class="sb-nav-link-icon"></div>Nomina
             </a>
         </li>
@@ -76,35 +76,35 @@
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-            <a class="dropdown-item menu-rapido reporteVentas" href="<?php echo SERVERURL; ?>reporteVentas/"
+            <a class="dropdown-item menu-rapido reporteVentas" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>reporteVentas/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></i></div>Reporte Ventas
             </a>
-            <a class="dropdown-item menu-rapido reporteCotizacion" href="<?php echo SERVERURL; ?>reporteCotizacion/"
+            <a class="dropdown-item menu-rapido reporteCotizacion" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>reporteCotizacion/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>Reporte Cotización
             </a>
-            <a class="dropdown-item menu-rapido reporteCompras" href="<?php echo SERVERURL; ?>reporteCompras/"
+            <a class="dropdown-item menu-rapido reporteCompras" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>reporteCompras/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>Reporte Compras
             </a>
-            <a class="dropdown-item menu-rapido cobrarClientes" href="<?php echo SERVERURL; ?>cobrarClientes/"
+            <a class="dropdown-item menu-rapido cobrarClientes" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>cobrarClientes/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>CXC Clientes
             </a>
-            <a class="dropdown-item menu-rapido pagarProveedores" href="<?php echo SERVERURL; ?>pagarProveedores/"
+            <a class="dropdown-item menu-rapido pagarProveedores" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>pagarProveedores/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>CXP Proveedores
             </a>
-            <a class="dropdown-item menu-rapido inventario" href="<?php echo SERVERURL; ?>inventario/"
+            <a class="dropdown-item menu-rapido inventario" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>inventario/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>Movimientos
             </a>
-            <a class="dropdown-item menu-rapido transferencia" href="<?php echo SERVERURL; ?>transferencia/"
+            <a class="dropdown-item menu-rapido transferencia" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>transferencia/"
                 style="display:none">
                 <div class="sb-nav-link-icon"></div>Inventario
             </a>
-            <a class="dropdown-item menu-rapido nomina" href="<?php echo SERVERURL; ?>nomina/" style="display:none">
+            <a class="dropdown-item menu-rapido nomina" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>nomina/" style="display:none">
                 <div class="sb-nav-link-icon"></div>Nomina
             </a>
             <a class="dropdown-item menu-rapido asistencia" href="#" id="marcarAsistencia">

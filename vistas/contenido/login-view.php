@@ -3,10 +3,12 @@
 	require_once "././core/configAPP.php";
 ?>
 
-<link href="<?php echo SERVERURL; ?>ajax/bootstrap/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
-<link href="<?php echo SERVERURL; ?>ajax/bootstrap/css/bootstrap-select.min.css" rel="stylesheet"
-    crossorigin="anonymous" />
-<link href="<?php echo SERVERURL; ?>ajax/sweetalert/sweetalert.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>ajax/bootstrap/css/bootstrap.min.css"
+    rel="stylesheet" crossorigin="anonymous" />
+<link href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>ajax/bootstrap/css/bootstrap-select.min.css"
+    rel="stylesheet" crossorigin="anonymous" />
+<link href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>ajax/sweetalert/sweetalert.css"
+    rel="stylesheet" crossorigin="anonymous" />
 
 <div id="logreg-forms">
     <!-- Formulario Inicio de Sesion  -->
@@ -14,7 +16,9 @@
         <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Iniciar Sesión</h1>
 
         <p>
-            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.svg" width="100%"></center>
+            <center><img
+                    src="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>vistas/plantilla/img/logo.svg"
+                    width="100%"></center>
         </p>
 
         <br />
@@ -68,7 +72,9 @@
     <form class="form-reset" id="forgot_form" autocomplete="off">
         <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Restablecer Contraseña</h1>
         <p>
-            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.svg" width="100%"></center>
+            <center><img
+                    src="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>vistas/plantilla/img/logo.svg"
+                    width="100%"></center>
         </p>
 
         <br />
@@ -93,7 +99,9 @@
     <form class="form-signup" id="form_registro" autocomplete="off">
         <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Formulario de Registro</h1>
         <p>
-            <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logo.svg" width="100%"></center>
+            <center><img
+                    src="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>vistas/plantilla/img/logo.svg"
+                    width="100%"></center>
         </p>
 
         <br />
@@ -188,12 +196,18 @@
         })g" </p>
 </div>
 
-<script src="<?php echo SERVERURL; ?>ajax/query/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-<script src="<?php echo SERVERURL; ?>ajax/popper/popper.min.js" crossorigin="anonymous"></script>
-<script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<script src="<?php echo SERVERURL; ?>ajax/bootstrap/js/bootstrap-select.min.js" crossorigin="anonymous"></script>
-<script src="<?php echo SERVERURL; ?>ajax/sweetalert/sweetalert.min.js" crossorigin="anonymous"></script>
-<script src="<?php echo SERVERURL; ?>ajax/js/script_login.js" crossorigin="anonymous"></script>
+<script src="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>ajax/query/jquery-3.5.1.min.js"
+    crossorigin="anonymous"></script>
+<script src="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>ajax/popper/popper.min.js"
+    crossorigin="anonymous"></script>
+<script src="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>ajax/bootstrap/js/bootstrap.min.js"
+    crossorigin="anonymous"></script>
+<script src="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>ajax/bootstrap/js/bootstrap-select.min.js"
+    crossorigin="anonymous"></script>
+<script src="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>ajax/sweetalert/sweetalert.min.js"
+    crossorigin="anonymous"></script>
+<script src="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>ajax/js/script_login.js"
+    crossorigin="anonymous"></script>
 
 
 <?php

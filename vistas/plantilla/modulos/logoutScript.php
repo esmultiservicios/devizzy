@@ -25,10 +25,10 @@ $(document).ready(function() {
 
 function salir(token){
 	$.ajax({
-		url: '<?php echo SERVERURL;?>ajax/loginAjax.php?token='+token,
+		url: '<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8');?>ajax/loginAjax.php?token='+token,
 		success: function(data){
 			if(data==1){
-				window.location.href = "<?php echo SERVERURL;?>login/";
+				window.location.href = "<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8');?>login/";
 			}else{
 				swal({
 					title: 'Ocurrio un error inesperado', 

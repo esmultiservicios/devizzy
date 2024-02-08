@@ -11,7 +11,7 @@
 		<div class="card-body"> 
 			<div class="row">
 				<div class="col-md-12 col-xl-3">
-					<a href="<?php echo SERVERURL; ?>clientes/">
+					<a href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>clientes/">
 						<div class="stati card bg-c-blue order-card">
 							<div class="card-block">
 								<h6 class="m-b-20">Total Clientes</h6>
@@ -23,7 +23,7 @@
 				</div>
 				
 				<div class="col-md-12 col-xl-3">
-					<a href="<?php echo SERVERURL; ?>proveedores/">
+					<a href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>proveedores/">
 						<div class="stati card bg-c-green order-card">
 							<div class="card-block">
 								<h6 class="m-b-20">Total Proveedores</h6>
@@ -35,7 +35,7 @@
 				</div>
 				
 				<div class="col-md-12 col-xl-3">
-					<a href="<?php echo SERVERURL; ?>reporteVentas/">
+					<a href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>reporteVentas/">
 						<div class="stati card bg-c-yellow order-card">
 							<div class="card-block">
 								<h6 class="m-b-20">Total Facturas</h6>
@@ -47,7 +47,7 @@
 				</div>
 				
 				<div class="col-md-12 col-xl-3">
-					<a href="<?php echo SERVERURL; ?>reporteCompras/">
+					<a href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>reporteCompras/">
 						<div class="stati card bg-c-pink order-card">
 							<div class="card-block">
 								<h6 class="m-b-20">Total Compras</h6>
@@ -69,7 +69,7 @@
 		<div class="card-body"> 
 			<div class="row">
 				<div class="col-md-12 col-xl-6">
-					<a href="<?php echo SERVERURL; ?>reporteVentas/" style="color: #3366BB;">
+					<a href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>reporteVentas/" style="color: #3366BB;">
 						<div class="stati card mb-3">
 							<div class="card-header">
 								<i class="fas fa-chart-bar mr-1"></i>
@@ -81,7 +81,7 @@
 				</div>
 					
 				<div class="col-md-12 col-xl-6">
-					<a href="<?php echo SERVERURL; ?>reporteCompras/" style="color: #3366BB;">
+					<a href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>reporteCompras/" style="color: #3366BB;">
 						<div class="stati card mb-4">
 							<div class="card-header">
 								<i class="fas fa-chart-bar mr-1"></i>
@@ -97,7 +97,7 @@
 
 	<div class="row">
 		<div class="col-md-12 col-xl-12">
-			<a href="<?php echo SERVERURL; ?>secuencia/" style="color: #3366BB;">
+			<a href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>secuencia/" style="color: #3366BB;">
 				<div class="card-header">
 					<i class="fas fa-sliders-h mr-1"></i>
 					Documentos Fiscales
@@ -127,14 +127,12 @@
 					
 					if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
 						$consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();
-						
-						$fecha_registro = $consulta_last_update['fecha_registro'];
-						$hora = date('g:i:s a',strtotime($fecha_registro));
-										
-						echo "Última Actualización ".$insMainModel->getTheDay($fecha_registro, $hora);						
-					}else{
+						$fecha_registro = htmlspecialchars($consulta_last_update['fecha_registro'], ENT_QUOTES, 'UTF-8');
+						$hora = htmlspecialchars(date('g:i:s a', strtotime($fecha_registro)), ENT_QUOTES, 'UTF-8');
+						echo "Última Actualización ".htmlspecialchars($insMainModel->getTheDay($fecha_registro, $hora), ENT_QUOTES, 'UTF-8');
+					} else {
 						echo "No se encontraron registros ";
-					}			
+					}				
 				?>
 				</div>				
 			</a>

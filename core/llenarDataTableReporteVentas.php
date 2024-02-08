@@ -59,21 +59,21 @@
 	   }
 
 	   $data[] = array( 
-		  "facturas_id"=>$row['facturas_id'],
-		  "fecha"=>$row['fecha'],
-		  "tipo_documento"=>$row['tipo_documento'],
-		  "cliente"=>$row['cliente'],
-		  "numero"=>$row['numero'],
-		  "subtotal"=> $subtotal,	
-		  "ganancia" => $ganancia,
-		  "isv"=>$isv,	
-		  "descuento"=>$descuento,
-		  "total"=>$total,
-		  "color"=> $color,
-		  "footer_total" => $footer_total,
-		  "vendedor"=>$row['vendedor'],	  
-		  "facturador"=>$row['facturador'],	
-	  );		
+			"facturas_id" => $row['facturas_id'],
+			"fecha" => $row['fecha'],
+			"tipo_documento" => $row['tipo_documento'],
+			"cliente" => $row['cliente'],
+			"numero" => $row['numero'],
+			"subtotal" => number_format(floor($subtotal * 100) / 100, 2),   
+			"ganancia" => number_format(floor($ganancia * 100) / 100, 2),
+			"isv" => number_format(floor($isv * 100) / 100, 2),   
+			"descuento" => number_format(floor($descuento * 100) / 100, 2),
+			"total" => number_format(floor($total * 100) / 100, 2),
+			"color" => $color,
+			"footer_total" => number_format(floor($footer_total * 100) / 100, 2),
+			"vendedor" => $row['vendedor'],    
+			"facturador" => $row['facturador'],  
+		);		
 	}
 	
 	$arreglo = array(

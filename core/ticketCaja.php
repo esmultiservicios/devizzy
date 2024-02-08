@@ -121,7 +121,7 @@
                         echo
                         '   <tr>
                                 <td>'.$consulta_registro2["tipo_pago_nombre"].' </td>
-                                <td>L. '.number_format($consulta_registro2["total_efectivo"],2).'</td>
+                                <td>L. '.number_format(floor($consulta_registro2["total_efectivo"] * 100) / 100, 2).'</td>
                             </tr>';
 
                             $total += $consulta_registro2["total_efectivo"];
@@ -136,7 +136,7 @@
                         </tr>                    
                         <tr>
                             <td><b>Total: </b></td>
-                            <td><b>L. '.number_format($total,2).'</b></td>
+                            <td>L. '.number_format(floor($total * 100) / 100, 2).'</td>
                         </tr>
                     ';
 
@@ -151,7 +151,7 @@
                         </tr>                    
                         <tr>
                             <td><b>Total: </b></td>
-                            <td><b>L. '.number_format($saldoCredito,2).'</b></td>
+                            <td>L. '.number_format(floor($saldoCredito * 100) / 100, 2).'</td>
                         </tr>                                                 
                     ';
 
@@ -177,7 +177,7 @@
                             echo
                             '   <tr>
                                     <td>'.$no_factura.' </td>
-                                    <td>'.number_format($consulta_registro2['importe'], 2).' </td>                            
+                                    <td>L. '.number_format(floor($consulta_registro2["importe"] * 100) / 100, 2).'</td>                            
                                 </tr>                            
                                 ';
                         }
