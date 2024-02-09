@@ -1732,7 +1732,7 @@
                                 <thead>
                                     <tr>
                                         <th>Seleccione</th>
-                                        <th>Imagen</th>
+                                        <th class="table-image">Imagen</th>
                                         <th>Bar Code</th>
                                         <th>Producto</th>
                                         <th>Cantidad</th>
@@ -1778,7 +1778,7 @@
                                 <thead>
                                     <tr>
                                         <th>Seleccione</th>
-                                        <th>Imagen</th>
+                                        <th class="table-image">Imagen</th>
                                         <th>Bar Code</th>
                                         <th>Producto</th>
                                         <th>Medida</th>

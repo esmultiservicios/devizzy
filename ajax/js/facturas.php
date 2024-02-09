@@ -432,29 +432,24 @@ var listar_productos_factura_buscar = function() {
             {
                 "data": "image",
                 "render": function(data, type, row, meta) {
-                    var defaultImageUrl =
-                        '<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png';
-                    var imageUrl = data ? '<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
-                        data : defaultImageUrl;
+                    var defaultImageUrl = '<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png';
+                    var imageUrl = data ? '<?php echo SERVERURL;?>vistas/plantilla/img/products/' + data : defaultImageUrl;
 
                     var img = new Image();
 
                     img.onload = function() {
-                        $('img', meta.settings.oInstance.api().row(meta.row).node()).attr('src',
-                            imageUrl);
+                        $('img.table-image', meta.settings.oInstance.api().row(meta.row).node()).attr('src', imageUrl);
                     };
 
                     img.onerror = function() {
-                        $('img', meta.settings.oInstance.api().row(meta.row).node()).attr('src',
-                            defaultImageUrl);
+                        $('img.table-image', meta.settings.oInstance.api().row(meta.row).node()).attr('src', defaultImageUrl);
                     };
 
                     img.src = imageUrl;
 
                     var altText = data ? data : 'Image Preview';
 
-                    return '<img src="' + imageUrl + '" alt="' + altText +
-                        '" height="100px" width="100px"/>';
+                    return '<img class="table-image" src="' + imageUrl + '" alt="' + altText + '" height="100px" width="100px"/>';
                 }
             },
             {
@@ -661,13 +656,13 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table) {
                     porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
                     if ($('#invoice-form #taxAmount').val() == "" || $('#invoice-form #taxAmount').val() ==
                         0) {
-                        porcentaje_calculo = (parseFloat(data.precio_venta) * porcentaje_isv);
+                        porcentaje_calculo = (parseFloat(data.precio_venta) * porcentaje_isv).toFixed(2);
                         isv_neto = porcentaje_calculo;
                         $('#invoice-form #taxAmount').val(porcentaje_calculo);
                         $('#invoice-form #invoiceItem #valor_isv_' + row).val(porcentaje_calculo);
                     } else {
                         isv_total = parseFloat($('#invoice-form #taxAmount').val());
-                        porcentaje_calculo = (parseFloat(data.precio_venta) * porcentaje_isv);
+                        porcentaje_calculo = (parseFloat(data.precio_venta) * porcentaje_isv).toFixed(2);
                         isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
                         $('#invoice-form #taxAmount').val(isv_neto);
                         $('#invoice-form #invoiceItem #valor_isv_' + row).val(porcentaje_calculo);
@@ -741,12 +736,12 @@ $(document).ready(function() {
         if (impuesto_venta == 1) {
             porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
             if (total == "" || total == 0) {
-                porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad) * porcentaje_isv);
+                porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad) * porcentaje_isv).toFixed(2);
                 isv_neto = parseFloat(porcentaje_calculo);
                 $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
             } else {
                 isv_total = parseFloat($('#invoice-form #taxAmount').val());
-                porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad) * porcentaje_isv);
+                porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad) * porcentaje_isv).toFixed(2);
                 isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
                 $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
             }
@@ -795,12 +790,12 @@ $(document).ready(function() {
         if (impuesto_venta == 1) {
             porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
             if (total == "" || total == 0) {
-                porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad) * porcentaje_isv);
+                porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad) * porcentaje_isv).toFixed(2);
                 isv_neto = parseFloat(porcentaje_calculo);
                 $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
             } else {
                 isv_total = parseFloat($('#invoice-form #taxAmount').val());
-                porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad) * porcentaje_isv);
+                porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad) * porcentaje_isv).toFixed(2);
                 isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
                 $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
             }
@@ -1084,29 +1079,24 @@ function calculateTotalFacturas() {
 
         totalDiscount += parseFloat(discount);
     });
-    $('#subTotal').val(parseFloat(totalAmount).toFixed(4));
-    $('#subTotalFooter').val(parseFloat(totalAmount).toFixed(4));
-    $('#taxDescuento').val(parseFloat(totalDiscount).toFixed(4));
+    $('#subTotal').val(parseFloat(totalAmount).toFixed(2));
+    $('#subTotalFooter').val(parseFloat(totalAmount).toFixed(2));
+    $('#taxDescuento').val(parseFloat(totalDiscount).toFixed(2));
 
     $('#taxDescuentoFooter').val(parseFloat(totalDiscount));
     var taxRate = $("#taxRate").val();
     var subTotal = totalAmount;
     if (subTotal) {
-        // Actualización de los valores usando la función de redondeo personalizada
-        $('#subTotalImporte').val(customRound(totalGeneral));
-        $('#taxAmount').val(customRound(totalISV));
-        $('#taxAmountFooter').val(customRound(totalISV));
-
-        // Cálculo del subtotal con redondeo personalizado
-        subTotal = (parseFloat(subTotal) + totalISV).toFixed(4) - parseFloat(totalDiscount).toFixed(4);
-
-        // Asignación del subtotal redondeado a los campos correspondientes
-        $('#totalAftertax').val(customRound(parseFloat(subTotal).toFixed(4)));
-        $('#totalAftertaxFooter').val(customRound(parseFloat(subTotal).toFixed(4)));
+        $('#subTotalImporte').val(parseFloat(totalGeneral).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        $('#taxAmount').val(parseFloat(totalISV).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        $('#taxAmountFooter').val(parseFloat(totalISV).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        subTotal = (parseFloat(subTotal) + totalISV) - parseFloat(totalDiscount);
+        $('#totalAftertax').val(parseFloat(subTotal).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        $('#totalAftertaxFooter').val(parseFloat(subTotal).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
         var totalAftertax = $('#totalAftertax').val();
         var cambioDolar = $('#cambioBill').val();
-        $('#totalHNLBill').val(customRound(parseFloat(totalAftertax * cambioDolar).toFixed(4)));
+        $('#totalHNLBill').val(customRound(parseFloat(totalAftertax * cambioDolar).toFixed(2)));
     }
 }
 
@@ -1252,13 +1242,13 @@ function manejarPresionEnter(row_index) {
 
                         if (total == "" || total == 0) {
                             porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad1) *
-                                porcentaje_isv);
+                                porcentaje_isv).toFixed(2);
                             isv_neto = parseFloat(porcentaje_calculo);
                             $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
                         } else {
                             isv_total = parseFloat($('#invoice-form #taxAmount').val());
                             porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad1) *
-                                porcentaje_isv);
+                                porcentaje_isv).toFixed(2);
                             isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
                             $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
                         }
@@ -1316,12 +1306,12 @@ function manejarPresionTeclaMasMenos(codigoTecla, row_index) {
         porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
 
         if (total == "" || total == 0) {
-            porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad1) * porcentaje_isv);
+            porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad1) * porcentaje_isv).toFixed(2);
             isv_neto = parseFloat(porcentaje_calculo);
             $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
         } else {
             isv_total = parseFloat($('#invoice-form #taxAmount').val());
-            porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad1) * porcentaje_isv);
+            porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad1) * porcentaje_isv).toFixed(2);
             isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
             $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
         }
@@ -1488,13 +1478,13 @@ $("#reg_DescuentoFacturacion").on("click", function(e) {
         if (impuesto_venta == 1) {
             porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
             if ($('#invoice-form #taxAmount').val() == "" || $('#invoice-form #taxAmount').val() == 0) {
-                porcentaje_calculo = (parseFloat(total_) * porcentaje_isv);
+                porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
                 isv_neto = porcentaje_calculo;
                 $('#invoice-form #taxAmount').val(porcentaje_calculo);
                 $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
             } else {
                 isv_total = parseFloat($('#invoice-form #taxAmount').val());
-                porcentaje_calculo = (parseFloat(total_) * porcentaje_isv);
+                porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
                 isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
                 $('#invoice-form #taxAmount').val(isv_neto);
                 $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
@@ -1638,7 +1628,7 @@ $("#reg_modificar_precio_fact").on("click", function(e) {
     if (aplica_isv == 1) {
         porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
         if ($('#invoice-form #taxAmount').val() == "" || $('#invoice-form #taxAmount').val() == 0) {
-            porcentaje_calculo = (parseFloat(total_) * porcentaje_isv);
+            porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
             isv_neto = porcentaje_calculo;
             $('#invoice-form #taxAmount').val(porcentaje_calculo);
             $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
@@ -3104,13 +3094,13 @@ $("#reg_DescuentoFacturacion").on("click", function(e) {
         if (impuesto_venta == 1) {
             porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
             if ($('#invoice-form #taxAmount').val() == "" || $('#invoice-form #taxAmount').val() == 0) {
-                porcentaje_calculo = (parseFloat(total_) * porcentaje_isv);
+                porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
                 isv_neto = porcentaje_calculo;
                 $('#invoice-form #taxAmount').val(porcentaje_calculo);
                 $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
             } else {
                 isv_total = parseFloat($('#invoice-form #taxAmount').val());
-                porcentaje_calculo = (parseFloat(total_) * porcentaje_isv);
+                porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
                 isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
                 $('#invoice-form #taxAmount').val(isv_neto);
                 $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);

@@ -157,9 +157,9 @@
 							<td>'.$registro_detalles["producto"].'</td>
 							<td align="center">'.$registro_detalles["cantidad"].'</td>
 							<td align="center">'.$registro_detalles["medida"].'</td>
-<td class="textright">L. '.number_format(floor($registro_detalles["precio"] * 100) / 100, 2).'</td>
-            <td class="textright">L. '.number_format(floor($registro_detalles["descuento"] * 100) / 100, 2).'</td>
-            <td class="textright">L. '.number_format(floor($importe * 100) / 100, 2).'</td>
+							<td class="textright">L. '.number_format($registro_detalles["precio"],2).'</td>
+							<td class="textright">L. '.number_format($registro_detalles["descuento"],2).'</td>
+							<td class="textright">L. '.number_format($importe,2).'</td>
 						  </tr>
 						';
 						$i++;
@@ -174,15 +174,15 @@
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>Importe</span></td>
-                    <td class="textright"><span>L. <?php echo number_format((floor($total * 100) / 100),2); ?></span></td>                    
+                    <td class="textright"><span>L. <?php echo number_format($total,2);?></span></td>                  
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>Descuentos y Rebajas Otorgados</span></td>
-                    <td class="textright"><span>L. <?php echo number_format((floor($descuentos_neto * 100) / 100),2); ?></span></td>                    
+                    <td class="textright"><span>L. <?php echo number_format($descuentos_neto,2);?></span></td>                    
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>Sub-Total</span></td>
-                    <td class="textright"><span>L. <?php echo number_format((floor($subtotal * 100) / 100),2); ?></span></td>
+                    <td class="textright"><span>L. <?php echo number_format($subtotal,2);?></span></td>
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>Importe Exonerado</span></td>
@@ -190,11 +190,11 @@
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>Importe Excento</span></td>
-                    <td class="textright"><span>L. <?php echo number_format((floor($importe_excento * 100) / 100),2); ?></span></td>
+                    <td class="textright"><span>L. <?php echo number_format($importe_excento,2);?></span></td>
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>Importe Gravado 15%</span></td>
-                    <td class="textright"><span>L. <?php echo number_format((floor($importe_gravado * 100) / 100),2); ?></span></td>
+                    <td class="textright"><span>L. <?php echo number_format($importe_gravado,2); ?></span></td>
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>Importe Gravado 18%</span></td>
@@ -202,7 +202,7 @@
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>ISV 15%</span></td>
-                    <td class="textright"><span>L. <?php echo number_format((floor($isv_neto * 100) / 100),2); ?></span></td>
+                    <td class="textright"><span>L. <?php echo number_format($isv_neto,2); ?></span></td>
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>ISV 18%</span></td>
@@ -210,7 +210,7 @@
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>Total</span></td>
-                    <td class="textright"><span>L. <?php echo number_format(($total_despues_isv - floor($total_despues_isv) < 0.5) ? floor($total_despues_isv) : ceil($total_despues_isv), 2); ?></span></td>
+                    <td class="textright"><span>L. <?php echo number_format($total_despues_isv,2); ?></span></td>
                 </tr>
             </tfoot>
         </table>
@@ -223,9 +223,8 @@
 		?></p>
             <p class="nota"><br /><br /></p>
             <p class="nota textcenter" style="text-align: center;">
-                <?php 
-                    $total_despues_isv_formatted = number_format(($total_despues_isv - floor($total_despues_isv) < 0.5) ? floor($total_despues_isv) : ceil($total_despues_isv), 2); 
-                    echo $insMainModel->convertir($total_despues_isv_formatted) . ' LEMPIRAS';
+                <?php                     
+                    echo $insMainModel->convertir($total_despues_isv) . ' LEMPIRAS';
                 ?>
             <br>
             <p class="nota textcenter">

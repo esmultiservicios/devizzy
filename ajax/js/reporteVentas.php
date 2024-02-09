@@ -94,21 +94,7 @@ var listar_reporte_ventas = function() {
                             color = 'red';
                         }
 
-                        // Aplicar el redondeo personalizado a 'data' antes de mostrarlo
-                        var roundedNumber = customRound(parseFloat(data));
-
-                        // Formatear el número redondeado con punto para decimales y coma para separar miles
-                        var formattedNumber = new Intl.NumberFormat('es-ES', {
-                            style: 'currency',
-                            currency: 'HNL', // Utilizar la moneda HNL (Lempira hondureño)
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }).format(roundedNumber).replace(',', '.');
-
-                        // Separar miles con coma
-                        formattedNumber = formattedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-                        return '<span style="color:' + color + '">' + formattedNumber + '</span>';
+                        return '<span style="color:' + color + '">' + number + '</span>';
                     }
 
                     return number;
@@ -127,21 +113,7 @@ var listar_reporte_ventas = function() {
                             color = 'red';
                         }
 
-                        // Aplicar el redondeo personalizado a 'data' antes de mostrarlo
-                        var roundedNumber = customRound(parseFloat(data));
-
-                        // Formatear el número redondeado con punto para decimales y coma para separar miles
-                        var formattedNumber = new Intl.NumberFormat('es-ES', {
-                            style: 'currency',
-                            currency: 'HNL', // Utilizar la moneda HNL (Lempira hondureño)
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }).format(roundedNumber).replace(',', '.');
-
-                        // Separar miles con coma
-                        formattedNumber = formattedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-                        return '<span style="color:' + color + '">' + formattedNumber + '</span>';
+                        return '<span style="color:' + color + '">' + number + '</span>';
                     }
 
                     return number;
@@ -160,21 +132,7 @@ var listar_reporte_ventas = function() {
                             color = 'red';
                         }
 
-                        // Aplicar el redondeo personalizado a 'data' antes de mostrarlo
-                        var roundedNumber = customRound(parseFloat(data));
-
-                        // Formatear el número redondeado con punto para decimales y coma para separar miles
-                        var formattedNumber = new Intl.NumberFormat('es-ES', {
-                            style: 'currency',
-                            currency: 'HNL', // Utilizar la moneda HNL (Lempira hondureño)
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }).format(roundedNumber).replace(',', '.');
-
-                        // Separar miles con coma
-                        formattedNumber = formattedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-                        return '<span style="color:' + color + '">' + formattedNumber + '</span>';
+                        return '<span style="color:' + color + '">' + number + '</span>';
                     }
 
                     return number;
@@ -193,21 +151,7 @@ var listar_reporte_ventas = function() {
                             color = 'red';
                         }
 
-                        // Aplicar el redondeo personalizado a 'data' antes de mostrarlo
-                        var roundedNumber = customRound(parseFloat(data));
-
-                        // Formatear el número redondeado con punto para decimales y coma para separar miles
-                        var formattedNumber = new Intl.NumberFormat('es-ES', {
-                            style: 'currency',
-                            currency: 'HNL', // Utilizar la moneda HNL (Lempira hondureño)
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }).format(roundedNumber).replace(',', '.');
-
-                        // Separar miles con coma
-                        formattedNumber = formattedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-                        return '<span style="color:' + color + '">' + formattedNumber + '</span>';
+                        return '<span style="color:' + color + '">' + number + '</span>';
                     }
 
                     return number;
@@ -226,21 +170,7 @@ var listar_reporte_ventas = function() {
                             color = 'red';
                         }
 
-                        // Aplicar el redondeo personalizado a 'data' antes de mostrarlo
-                        var roundedNumber = customRound(parseFloat(data));
-
-                        // Formatear el número redondeado con punto para decimales y coma para separar miles
-                        var formattedNumber = new Intl.NumberFormat('es-ES', {
-                            style: 'currency',
-                            currency: 'HNL', // Utilizar la moneda HNL (Lempira hondureño)
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }).format(roundedNumber).replace(',', '.');
-
-                        // Separar miles con coma
-                        formattedNumber = formattedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-                        return '<span style="color:' + color + '">' + formattedNumber + '</span>';
+                        return '<span style="color:' + color + '">' + number + '</span>';
                     }
 
                     return number;
