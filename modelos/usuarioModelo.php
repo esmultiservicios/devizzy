@@ -94,6 +94,17 @@
 			$result = mainModel::getEmpresaFacturaCorreo($usuario);
 			
 			return $result;			
-		}		
+		}	
+		
+		protected function getCorrreosAdmin(){
+			$query = "SELECT users.email, CONCAT(colaboradores.nombre, ' ', colaboradores.apellido) AS nombre_completo
+			FROM colaboradores
+			INNER JOIN users ON colaboradores.colaboradores_id = users.colaboradores_id
+			WHERE users.privilegio_id IN(1,2) AND users.estado = 1";
+			
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;			
+		}	
     }
 ?>

@@ -131,10 +131,10 @@ $(document).ready(function() {
                     });
                 } else if (datos[1] === "ErrorP") {
                     swal({
-                        title: "Error",
-                        text: "No es posible acceder al sistema en este momento, Por favor pongase en contacto con nuestra area de recaudacion para el procesamiento y renovacion de su servicio, puede llamarnos o escribirnos al +504 3227-3380, donde gustosamente se le atendera.",
-                        type: "error",
-                        confirmButtonClass: 'btn-danger'
+                        title: "¡Problemas con el Pago!",
+                        text: "¡Oops! Parece que hay un problema con su acceso al sistema debido a un inconveniente con el pago. No se preocupe, solo necesita ponerse en contacto con nuestro equipo de recaudación de pagos para arreglarlo. Puede escribirnos al +504 3227-3380, ¡y con gusto le ayudaremos!",
+                        type: "warning",
+                        confirmButtonClass: 'btn-warning'
                     });
                 } else if (datos[1] === "ErrorVacio") {
                     swal({

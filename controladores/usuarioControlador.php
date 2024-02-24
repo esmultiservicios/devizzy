@@ -42,7 +42,7 @@
 			$condicionesColaboradores = ["colaboradores_id" => $colaborador_id];
 			$orderBy = "";
 			$tablaJoin = "";
-			$condicionesJoin = [];
+			$condicionesJoin = [""];
 			$resultadoColaboradores = $database->consultarTabla($tablaColaboradores, $camposColaboradores, $condicionesColaboradores, $orderBy, $tablaJoin, $condicionesJoin);
 
 			$nombre_colaborador = "";
@@ -72,15 +72,16 @@
 			
 			if($GLOBALS['db'] !== $GLOBALS['DB_MAIN']) {
 				//GUARDAMOS EL USUARIO EN LA TABLA COLABORADORES DE LA DB PRINCIPAL
-				$colaboradores_id_consulta = mainModel::correlativoLogin("colaboradores_id  ", "colaboradores");
+				$colaboradores_id_consulta = mainModel::correlativoLogin("colaboradores_id", "colaboradores");
 				$puestos_id_defualt = 5; //CLIENTES
 				$insertDBMainColaboradores = "INSERT INTO `colaboradores`(`colaboradores_id`, `puestos_id`, `nombre`, `apellido`, `identidad`, `estado`, `telefono`, `empresa_id`, `fecha_registro`, `fecha_ingreso`, `fecha_egreso`) VALUES ('$colaboradores_id_consulta','$puestos_id_defualt','$nombre_colaborador','$apellido_colaborador','$identidad_colaborador','1','$telefono_colaborador','1','$fecha_registro','$fecha_registro','')";
 				
 				mainModel::connectionLogin()->query($insertDBMainColaboradores);
 
 				//GUARDAMOS LOS DATOS DEL CLIENTE EN LA DB PRINCIPAL
+				$privilegio_id_default = 4; //CLIENES
 				$users_id_consulta = mainModel::correlativoLogin("users_id ", "users");
-				$insertDBMainUsers = "INSERT INTO `users`(`users_id`, `colaboradores_id`, `privilegio_id`, `username`, `password`, `email`, `tipo_user_id`, `estado`, `fecha_registro`, `empresa_id`, `server_customers_id`) VALUES ('$users_id_consulta','$colaboradores_id_consulta','$privilegio_id','','$contraseña_generada','$correo_usuario','$tipo_user','1','$fecha_registro','1','$server_customers_id')";
+				$insertDBMainUsers = "INSERT INTO `users`(`users_id`, `colaboradores_id`, `privilegio_id`, `username`, `password`, `email`, `tipo_user_id`, `estado`, `fecha_registro`, `empresa_id`, `server_customers_id`) VALUES ('$users_id_consulta','$colaboradores_id_consulta','$privilegio_id_default','','$contraseña_generada','$correo_usuario','$tipo_user','1','$fecha_registro','1','$server_customers_id')";
 
 				mainModel::connectionLogin()->query($insertDBMainUsers);
 			}
@@ -112,7 +113,7 @@
 							$condicionesColaborador = ["colaboradores_id" => $usuario_sistema];
 							$orderBy = "";
 							$tablaJoin = "";
-							$condicionesJoin = [];
+							$condicionesJoin = [""];
 							$resultadoColaborador = $database->consultarTabla($tablaColaborador, $camposColaborador, $condicionesColaborador, $orderBy, $tablaJoin, $condicionesJoin);
 				
 							$colaborador_nombre = "";
@@ -127,7 +128,7 @@
 							$condicionesPrivilegio = ["privilegio_id" => $privilegio_id];
 							$orderBy = "";
 							$tablaJoin = "";
-							$condicionesJoin = [];
+							$condicionesJoin = [""];
 							$resultadoPrivilegio = $database->consultarTabla($tablaPrivilegio, $camposPrivilegio, $condicionesPrivilegio, $orderBy, $tablaJoin, $condicionesJoin);
 				
 							$privilegio_nombre = "";
@@ -143,7 +144,7 @@
 							$condicionesEmpresa = ["empresa_id" => $empresa_id_sesion];
 							$orderBy = "";
 							$tablaJoin = "";
-							$condicionesJoin = [];
+							$condicionesJoin = [""];
 							$resultadoEmpresa = $database->consultarTabla($tablaEmpresa, $camposEmpresa, $condicionesEmpresa, $orderBy, $tablaJoin, $condicionesJoin);
 						
 							$empresa_nombre = "";
@@ -157,13 +158,7 @@
 
 							// Destinatarios en copia oculta (Bcc)
 							//OBTENEMOS LOS CORREOS DE LOS ADMINISTRADORES
-							$tablaColaboradores = "colaboradores";
-							$camposColaboradores = ["users.email", "CONCAT(colaboradores.nombre, ' ', colaboradores.apellido) AS nombre_completo"];
-							$condicionesColaboradores = ["users.privilegio_id" => ["1", "2"], "users.estado" => 1]; // Usar un array para las condiciones
-							$orderBy = "";
-							$tablaJoin = "users";
-							$condicionesJoin = ["colaboradores_id" => "colaboradores_id"];
-							$resultadoColaboradores = $database->consultarTabla($tablaColaboradores, $camposColaboradores, $condicionesColaboradores, $orderBy, $tablaJoin, $condicionesJoin);
+							$result_correos_administradores = usuarioModelo::getCorrreosAdmin();
 							
 							//OBTENEMOS EL CORREO DEL REVENDEDOR privilegio_id => 3 ES EL REVENDEDOR
 							$tablaUsers = "users";
@@ -171,7 +166,7 @@
 							$condicionesUsers = ["users_id" => $users_id, "privilegio_id" => 3];
 							$orderBy = "";
 							$tablaJoin = "";
-							$condicionesJoin = [];
+							$condicionesJoin = [""];
 							$resultadoUsers = $database->consultarTabla($tablaUsers, $camposUsers, $condicionesUsers, $orderBy, $tablaJoin, $condicionesJoin);
 
 							$correo_revendedor = "";
@@ -188,7 +183,7 @@
 							$condicionesColaboradoresRevendedores = ["colaboradores_id" => $colaboradores_id_revendedor];
 							$orderBy = "";
 							$tablaJoin = "";
-							$condicionesJoin = [];
+							$condicionesJoin = [""];
 							$resultadoColaboradoresRevendedores = $database->consultarTabla($tablaColaboradoresRevendedores, $camposColaboradoresRevendedores, $condicionesColaboradoresRevendedores, $orderBy, $tablaJoin, $condicionesJoin);
 
 							$nombre_revendedor = "";
@@ -200,13 +195,18 @@
 							$bccDestinatarios = [];
 
 							// Recorre los resultados de la consulta
-							foreach ($resultadoColaboradores as $row) {
-								// Obtén el correo electrónico y el nombre completo
-								$correo = $row["email"];
-								$nombreCompleto = $row["nombre_completo"];
+							if ($result_correos_administradores->num_rows > 0) {
+								// Recorrer los resultados obtenidos
+								while ($row = $result_correos_administradores->fetch_assoc()) {
+									$correo = $row["email"];
+									$nombreCompleto = $row["nombre_completo"];
 								
-								// Agrega el correo y el nombre completo al array $bccDestinatarios
-								$bccDestinatarios[$correo] = $nombreCompleto;
+									// Verificar si la dirección de correo electrónico no está vacía
+									if (!empty($correo)) {
+										// Agregar el correo y el nombre completo al array $bccDestinatarios
+										$bccDestinatarios[$correo] = $nombreCompleto;
+									}
+								}
 							}
 
 							if($correo_revendedor !== "") {

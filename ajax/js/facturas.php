@@ -1043,7 +1043,7 @@ $(document).ready(function() {
     });
 });
 
-function calculateTotalFacturas() {
+function calculateTotalFacturas(){
     var totalAmount = 0;
     var totalAmountGeneral = 0;
     var totalDiscount = 0;
@@ -1079,6 +1079,8 @@ function calculateTotalFacturas() {
 
         totalDiscount += parseFloat(discount);
     });
+    console.log("" + totalAmount);
+    console.log("" + totalISV);
     $('#subTotal').val(parseFloat(totalAmount).toFixed(2));
     $('#subTotalFooter').val(parseFloat(totalAmount).toFixed(2));
     $('#taxDescuento').val(parseFloat(totalDiscount).toFixed(2));

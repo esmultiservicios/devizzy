@@ -179,7 +179,7 @@
                             <label for="colaborador_id_usuario">Colaboradores <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="colaborador_id_usuario" name="colaborador_id_usuario" data-width="100%"
-                                    class="selectpicker" data-live-search="true" title="Colaboradores">
+                                    class="selectpicker" data-live-search="true" data-size="7" title="Colaboradores">
                                 </select>
                             </div>
                         </div>
@@ -239,6 +239,10 @@
                     </div>
                     <div class="RespuestaAjax"></div>
                 </form>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
             </div>
             <div class="modal-footer">
                 <button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_usuario"
@@ -1915,7 +1919,7 @@
                         <div class="col-md-6 mb-3">
                             <label for="cliente_codigo_colaborador">Código Cliente</label>
                             <input type="text" class="form-control" id="cliente_codigo_colaborador"
-                                name="nombre_colaborador" placeholder="Código Cliente" readonly data-toggle="tooltip"
+                                name="cliente_codigo_colaborador" placeholder="Código Cliente" readonly data-toggle="tooltip"
                                 data-placement="top"
                                 title="Este código es exclusivo para su cuenta y será necesario proporcionarlo cada vez que necesite asistencia técnica">
                         </div>

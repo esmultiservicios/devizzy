@@ -1765,16 +1765,16 @@
 		}
 
 		public function insertarPinServerP($datos){
-			$pin_id = self::correlativo("pin_id", "pin");
+			$pin_id = self::correlativoDBPrincipal("pin_id", "pin");
 			$server_customers_id = $datos['server_customers_id'];
 			$codigo_cliente = $datos['codigo_cliente'];
 			$pin = $datos['pin'];
 			$fecha_hora_inicio = $datos['fecha_hora_inicio'];
 			$fecha_hora_fin = $datos['fecha_hora_fin'];
 
-			$update = "INSERT INTO `pin`(`pin_id`, `server_customers_id`, `codigo_cliente`, `pin`, `fecha_hora_inicio`, `fecha_hora_fin`) VALUES ('$pin_id','$server_customers_id','$codigo_cliente','$pin','$fecha_hora_inicio','$fecha_hora_fin')";
+			$insert = "INSERT INTO `pin`(`pin_id`, `server_customers_id`, `codigo_cliente`, `pin`, `fecha_hora_inicio`, `fecha_hora_fin`) VALUES ('$pin_id','$server_customers_id','$codigo_cliente','$pin','$fecha_hora_inicio','$fecha_hora_fin')";
 
-			$result = self::connectionDBLocal(DB_MAIN)->query($update);
+			$result = self::connectionDBLocal(DB_MAIN)->query($insert);
 
 			return $result;
 		}
@@ -4225,7 +4225,7 @@
 				FROM compras AS c
 				INNER JOIN proveedores AS p
 				ON c.proveedores_id = p.proveedores_id
-				INNER JOIN cuentas AS ct ON c.cuentas_id = ct.cuentas_id
+				LEFT JOIN cuentas AS ct ON c.cuentas_id = ct.cuentas_id
 				".$where;
 
 			$result = self::connection()->query($query);

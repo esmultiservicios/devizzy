@@ -443,7 +443,7 @@
 		protected function agregar_movimientos_contabilidad_modelo($datos){
 			$movimientos_cuentas_id = mainModel::correlativo("movimientos_cuentas_id", "movimientos_cuentas");
 			$insert = "INSERT INTO movimientos_cuentas VALUES('$movimientos_cuentas_id','".$datos['cuentas_id']."','".$datos['empresa_id']."','".$datos['fecha']."','".$datos['ingreso']."','".$datos['egreso']."','".$datos['saldo']."','".$datos['colaboradores_id']."','".$datos['fecha_registro']."')";
-						
+								
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			
 			return $sql;			

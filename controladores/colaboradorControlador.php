@@ -36,7 +36,7 @@
 				"fecha_ingreso" => $fecha_ingreso,	
 				"fecha_egreso" => $fecha_egreso				
 			];
-			
+
 			$result = colaboradorModelo::valid_colaborador_modelo($identidad);
 			
 			if($result->num_rows==0){

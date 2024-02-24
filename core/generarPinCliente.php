@@ -62,7 +62,7 @@
 
             // Actualiza la fecha y hora de finalización del PIN anterior para que sea anterior a la fecha y hora actual
             $datosActualizacion = [
-                "fecha_hora_fin" => $fechaHoraActual
+                "fecha_hora_fin" => $fechaHoraActual,
             ];
 
             $condicionesActualizacion = [
@@ -113,7 +113,7 @@
                     "codigo_cliente" => $codigoCliente,
                     "pin" => $pin,
                     "fecha_hora_inicio" => $fechaHoraInicio,
-                    "fecha_hora_fin" => $fechaHoraFin				
+                    "fecha_hora_fin" => $fechaHoraFin
                 ];
                 
                 $insMainModel->insertarPinServerP($datos); 

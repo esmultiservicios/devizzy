@@ -43,8 +43,8 @@
 		
 				$mysqliPin = mainModel::connectionDBLocal(DB_MAIN);
 		
-				$query = "SELECT pin FROM pin WHERE codigo_cliente = '$codigoCliente' AND fecha_hora_fin > NOW()";
-			
+				$query = "SELECT pin FROM pin WHERE codigo_cliente = '$codigoCliente' AND pin = '$inputPin' AND fecha_hora_fin > NOW()";
+
 				$resultPin = $mysqliPin->query($query) or die($mysqliPin->error);
 		
 				if ($resultPin->num_rows > 0) {
@@ -138,7 +138,7 @@
 
 							//CONSULTAMOS EL PLAN ACTIVO DEL CLIENTE
 							$resultPlanSistema = mainModel::getPlanSistema()->fetch_assoc();
-							$_SESSION['planes_id'] = $resultPlanSistema['planes_id'];
+							$_SESSION['planes_id'] = $resultPlanSistema['plan_id'];
 
 							if ($mantenimiento) {
 								$_SESSION['modo_soporte'] = "SI";
@@ -262,7 +262,7 @@
 			$mes = date("m");
 	
 			$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-01"));
-			$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-10"));
+			$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-15"));
 	
 			//SI NOS ESTAMOS CONECTANDO AL SISTEMA PRINCIPAL, SIMPLEMENTE ENTRAMOS SIN PROBLEMA
 			if($GLOBALS['db'] == DB_MAIN_LOGIN_CONTROLADOR){

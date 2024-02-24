@@ -840,7 +840,7 @@ function calculateTotalCompras() {
         var quantity = $('#quantityPurchase_' + id).val();
         var isv = $('#isvPurchaseWrite_' + id).val();
 
-        console.log(isv);
+        console.log(isv + "<br/>");
 
         if (!discount) {
             discount = 0;
@@ -863,7 +863,10 @@ function calculateTotalCompras() {
         $('#totalPurchase_' + id).val(parseFloat(total));
         totalAmount += total1;
         totalGeneral += (price * quantity);
-        totalISV += parseFloat(isv).toFixed(2);
+        totalISV += parseFloat(isv);
+
+        console.log(totalISV + "<br/>");
+
         totalDiscount += parseFloat(discount);
     });
 
