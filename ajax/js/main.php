@@ -3502,18 +3502,18 @@ function pago(facturas_id, tipoPago) {
             $('#formEfectivoBill .border-right a:eq(0) a').tab('show');
             $("#customer-name-bill").html("<b>Cliente:</b> " + datos[0]);
             $("#customer_bill_pay").val(datos[6]);
-            $('#bill-pay').html("L. " + customRound(parseFloat(datos[6])));
+            $('#bill-pay').html("L. " + parseFloat(datos[6]));
 
             //EFECTIVO
             $('#formEfectivoBill')[0].reset();
-            $('#formEfectivoBill #monto_efectivo').val(customRound(parseFloat(datos[6])));
+            $('#formEfectivoBill #monto_efectivo').val(parseFloat(datos[6]));
 
             $('#formEfectivoBill #factura_id_efectivo').val(facturas_id);
             $('#formEfectivoBill #tipo_factura').val(tipoPago);
             $('#formEfectivoBill #pago_efectivo').attr('disabled', true);
 
             if (tipoPago == 2) {
-                $('#bill-pay').html("L. " + customRound(parseFloat(datos[6])));
+                $('#bill-pay').html("L. " + parseFloat(datos[6]));
                 $('#tab5').hide();
                 $("#formEfectivoBill #tipo_factura_efectivo").val(tipoPago);
 
@@ -3525,22 +3525,22 @@ function pago(facturas_id, tipoPago) {
 
             //TARJETA
             $('#formTarjetaBill')[0].reset();
-            $('#formTarjetaBill #monto_efectivo').val(customRound(parseFloat(datos[6])));
-            $('#formTarjetaBill #importe_tarjeta').val(customRound(parseFloat(datos[6])));
+            $('#formTarjetaBill #monto_efectivo').val(parseFloat(datos[6]));
+            $('#formTarjetaBill #importe_tarjeta').val(parseFloat(datos[6]));
             $('#formTarjetaBill #factura_id_tarjeta').val(facturas_id);
             $('#formTarjetaBill #tipo_factura').val(tipoPago);
             $('#formTarjetaBill #pago_efectivo').attr('disabled', true);
 
             //TRANSFERENCIA
             $('#formTransferenciaBill')[0].reset();
-            $('#formTransferenciaBill #monto_efectivo').val(customRound(parseFloat(datos[6])));
+            $('#formTransferenciaBill #monto_efectivo').val(parseFloat(datos[6]));
             $('#formTransferenciaBill #factura_id_transferencia').val(facturas_id);
             $('#formTransferenciaBill #tipo_factura_transferencia').val(tipoPago);
             $('#formTransferenciaBill #pago_efectivo').attr('disabled', true);
 
             //CHEQUES
             $('#formChequeBill')[0].reset();
-            $('#formChequeBill #monto_efectivo').val(customRound(parseFloat(datos[6])));
+            $('#formChequeBill #monto_efectivo').val(parseFloat(datos[6]));
             $('#formChequeBill #factura_id_cheque').val(facturas_id);
             $('#formChequeBill #pago_efectivo').attr('disabled', true);
             $('#formChequeBill #tipo_factura_cheque').val(tipoPago);
