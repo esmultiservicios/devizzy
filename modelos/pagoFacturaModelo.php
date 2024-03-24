@@ -174,6 +174,16 @@
 
 			return $result;				
 		}	
+
+		protected function actualizar_estado_factura_proforma_pagos_modelo($facturas_id){
+			$update = "UPDATE facturas_proforma
+				SET
+					estado = '1'
+				WHERE facturas_id = '$facturas_id'";
+			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);	
+
+			return $result;				
+		}	
 		
 		protected function actualizar_factura($datos){
 			$update = "UPDATE facturas
@@ -186,6 +196,18 @@
 
 			return $result;					
 		}
+
+		protected function actualizar_Secuenciafactura_PagoModelo($datos){
+			$update = "UPDATE facturas
+			SET
+				secuencia_facturacion_id = '".$datos['secuencia_facturacion_id']."',
+				number = '".$datos['number']."'
+			WHERE facturas_id = '".$datos['facturas_id']."'";
+
+			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);	
+
+			return $result;					
+		}		
 		
 	    //METODO QUE PERMITE AGREGAR EL INGRESO DEL PAGO DEL CLIENTE
 		protected function agregar_ingresos_contabilidad_pagos_modelo($datos){	
@@ -225,8 +247,25 @@
 			return $sql;				
 		}
 
+		protected function consultar_factura_proforma_pagos_modelo($facturas_id){
+			$result = mainModel::getConsultaFacturaProforma($facturas_id);
+			
+			return $result;			
+		}		
+
 		//funcion para realizar todos lo pagos de factura
 		protected function agregar_pago_factura_base($res){	
+			$existeProforma = 0;
+			$proformaNombre = "Factura Electronica";			
+
+			//CONSULTAMOS SI EXISTE FACTURA PROFORMA
+			$resultTotalPadre = pagoFacturaModelo::consultar_factura_proforma_pagos_modelo($res['facturas_id']);
+
+			if($resultTotalPadre->num_rows>0) {
+				$existeProforma = 1;
+				$proformaNombre = "Factura Proforma";
+			}
+
 			//SI EL PAGO QUE SE ESTA REALIZANDO ES DE UN DOCUMENTO AL CREDITO
 			if($res['estado_factura'] == 2 || $res['multiple_pago'] == 1){//SI ES CREDITO ESTO ES UN ABONO A LA FACTURA
 				$saldo_credito = 0;
@@ -349,11 +388,11 @@
 						
 						$get_cobrar_cliente = pagoFacturaModelo::consultar_factura_cuentas_por_cobrar($res['facturas_id']);
 						$saldo_nuevo = 0;
-							if($get_cobrar_cliente->num_rows > 0){
-								$rec = $get_cobrar_cliente->fetch_assoc();
-								$saldo_nuevo = $rec['saldo'];
-								$saldo_nuevo = intval($saldo_nuevo);
-							}
+						if($get_cobrar_cliente->num_rows > 0){
+							$rec = $get_cobrar_cliente->fetch_assoc();
+							$saldo_nuevo = $rec['saldo'];
+							$saldo_nuevo = intval($saldo_nuevo);
+						}
 						
 						if($res['multiple_pago'] == 1 && $saldo_nuevo > 0){
 							$datos = [
@@ -381,7 +420,7 @@
 							];
 
 							//OBTENEMOS EL DOCUMENTO ID DE LA FACTURACION
-							$consultaDocumento = mainModel::getDocumentoSecuenciaFacturacion("Factura Electronica")->fetch_assoc();
+							$consultaDocumento = mainModel::getDocumentoSecuenciaFacturacion($proformaNombre)->fetch_assoc();
 							$documento_id = $consultaDocumento['documento_id'];	
 
 							//VALIDAMOS SI LA FACTURA YA TIENE ASIGNADO UN NUMERO CORRELATIVO, DE NO TENERLO NO HACEMOS NADA
@@ -398,7 +437,8 @@
 								}else{
 									$secuenciaFacturacion = pagoFacturaModelo::consultar_numero_factura($res['facturas_id'])->fetch_assoc();
 									$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
-									$numero = $secuenciaFacturacion['number'];				
+									$numero = $secuenciaFacturacion['number'];	
+									$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);			
 								}
 								
 								//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
@@ -411,6 +451,48 @@
 								pagoFacturaModelo::actualizar_factura($datos_update_factura);
 							}
 						}else{
+							// Convertimos $saldo_nuevo a un entero para asegurarnos de que estamos comparando números
+							$saldo_nuevo = intval($saldo_nuevo);
+
+							// Envía el valor de $saldo_nuevo al navegador utilizando JavaScript
+							echo '<script>';
+							echo 'console.log("Saldo nuevo: ' . $saldo_nuevo . '");';
+							echo '</script>';
+
+							$accion = "";
+							//SI SE TERMINO DE HAER TODO EL ABONO A LA FACTURA ACTUALIZAMOS LA SECUENCIA DE LA FACTURA Y ACTUALIZAMOS EL ESTADO DE LA PROFORMA
+							if($saldo_nuevo === 0){
+								echo '<script>';
+								echo 'console.log("Entramos aqui");';
+								echo '</script>';
+
+								//OBTENEMOS EL DOCUMENTO ID DE LA FACTURACION
+								$consultaDocumento = mainModel::getDocumentoSecuenciaFacturacion("Factura Electronica")->fetch_assoc();
+								$documento_id = $consultaDocumento['documento_id'];	
+
+								//OBTENEMOS EL DOCUMENTO ID DE LA FACTURACION
+								$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($res['empresa'], $documento_id)->fetch_assoc();
+								$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+								$numero = $secuenciaFacturacion['numero'];
+								$incremento = $secuenciaFacturacion['incremento'];	
+								
+								$numero += $incremento;
+								pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);
+
+								//ACTUALIZAMOS EL NUMERO Y LA SECUENCIA DE LA FACTURA
+								$datosFactura = [
+									"secuencia_facturacion_id" => $secuencia_facturacion_id,
+									"number" => $numero,
+									"facturas_id" => $res['facturas_id']
+								];
+								pagoFacturaModelo::actualizar_Secuenciafactura_PagoModelo($datosFactura);
+
+								//ACTUALIZAMOS EL ESTADO DE LA FACTURA PROFORMA
+								pagoFacturaModelo::actualizar_estado_factura_proforma_pagos_modelo($res['facturas_id']);
+
+								$accion = "printBill({$res['facturas_id']})";
+							}
+
 							$datos = [
 								"modulo" => 'Pagos',
 								"colaboradores_id" => $_SESSION['colaborador_id_sd'],		
@@ -431,7 +513,7 @@
 								"form" => "formEfectivoBill",
 								"id" => "proceso_pagos",
 								"valor" => "Registro",	
-								"funcion" => "listar_cuentas_por_cobrar_clientes();getCollaboradoresModalPagoFacturas();",
+								"funcion" => "listar_cuentas_por_cobrar_clientes();getCollaboradoresModalPagoFacturas();".$accion,
 								"modal" => "modal_pagos",													
 							];
 						}
@@ -490,7 +572,7 @@
 						pagoFacturaModelo::update_status_factura_cuentas_por_cobrar($res['facturas_id'],2,0);
 						
 						//OBTENEMOS EL DOCUMENTO ID DE LA FACTURACION
-						$consultaDocumento = mainModel::getDocumentoSecuenciaFacturacion("Factura Electronica")->fetch_assoc();
+						$consultaDocumento = mainModel::getDocumentoSecuenciaFacturacion($proformaNombre)->fetch_assoc();
 						$documento_id = $consultaDocumento['documento_id'];	
 
 						//VALIDAMOS EL TIPO DE FACTURA, SI ES AL CONTADO, VERIFICAMOS EL NUMERO DE FACTURA QUE SIGUE, SI ES AL CREDITO, SOLO CONSULTAMOS EL ULTIMO NUMERO ALMACENADO PARA QUE NO PASE AL SIGUIENTE

@@ -202,8 +202,8 @@
 		}
 
 		public function eliminar_bitacora($user_id){
-			$delte = "DELETE FROM bitacora WHERE user_id = '$user_id'";
-			$result = self::connection()->query($update);
+			$delete = "DELETE FROM bitacora WHERE user_id = '$user_id'";
+			$result = self::connection()->query($delete);
 
 			return $result;
 		}
@@ -3137,6 +3137,26 @@
 			return $result;
 		}
 
+		public function getConsultaFacturaProforma($facturas_id){
+			// Escapar el valor de $facturas_id para prevenir inyecciones SQL
+			$facturas_id = self::connection()->real_escape_string($facturas_id);
+		
+			$query = "SELECT
+						facturas_proforma_id
+					  FROM
+						facturas_proforma
+					  WHERE
+						facturas_id = '$facturas_id' AND estado = 0";
+		
+			$result = self::connection()->query($query);
+		
+			if (!$result) {
+				die("Error en la consulta: " . self::connection()->error);
+			}
+		
+			return $result;
+		}		
+
 		public function getMontoAperturaCaja($apertura_id){
 			$query = "SELECT
 					apertura
@@ -3149,7 +3169,6 @@
 
 			return $result;
 		}
-
 
 		public function getFacturasCaja($apertura_id){
 			$query = "SELECT 
@@ -3222,27 +3241,29 @@
 
 		public function getDetalleFactura($noFactura){
 			$query = "SELECT
-			p.barCode AS 'barCode',
-			p.nombre AS 'producto',
-			p.precio_compra AS costo,
-			p.precio_venta AS precio_venta,
-			p.cantidad_mayoreo AS cantidad_mayoreo,
-			p.precio_mayoreo AS precio_mayoreo,
-			p.isv_venta AS 'isv_venta',
-			p.almacen_id AS 'almacen_id',
-			p.medida_id AS 'medida_id',
-			fd.facturas_detalle_id,
-			fd.cantidad AS 'cantidad',
-			fd.precio AS 'precio',
-			fd.descuento AS 'descuento',
-			fd.productos_id AS 'productos_id',
-			fd.isv_valor AS 'isv_valor',
-			med.nombre As 'medida'
-				FROM
-			facturas_detalles AS fd
-				INNER JOIN productos AS p ON fd.productos_id = p.productos_id
-				INNER JOIN medida as med ON p.medida_id = med.medida_id
-				WHERE fd.facturas_id = '$noFactura'";
+				p.barCode AS 'barCode',
+				p.nombre AS 'producto',
+				p.precio_compra AS costo,
+				p.precio_venta AS precio_venta,
+				p.cantidad_mayoreo AS cantidad_mayoreo,
+				p.precio_mayoreo AS precio_mayoreo,
+				p.isv_venta AS 'isv_venta',
+				p.almacen_id AS 'almacen_id',
+				p.medida_id AS 'medida_id',
+				fd.facturas_detalle_id,
+				SUM(fd.cantidad) AS 'cantidad',
+				fd.precio AS 'precio',
+				SUM(fd.descuento) AS 'descuento',
+				fd.productos_id AS 'productos_id',
+				SUM(fd.isv_valor) AS 'isv_valor',
+				med.nombre As 'medida'
+			FROM
+				facturas_detalles AS fd
+			INNER JOIN productos AS p ON fd.productos_id = p.productos_id
+			INNER JOIN medida as med ON p.medida_id = med.medida_id
+			WHERE fd.facturas_id = '$noFactura'
+			GROUP BY fd.productos_id
+			";
 
 			$result = self::connection()->query($query);
 
@@ -3544,15 +3565,26 @@
 
 
 		public function getDetalleCotizaciones($noCotizacion){
-			$query = "SELECT p.barCode AS 'barCode', p.nombre AS 'producto',
-				 cd.cantidad As 'cantidad', cd.precio AS 'precio', cd.descuento AS 'descuento',
-				  cd.productos_id  AS 'productos_id', cd.isv_valor AS 'isv_valor',med.nombre AS 'medida'
-				FROM cotizacion_detalles AS cd
-				INNER JOIN productos AS p
-				ON cd.productos_id = p.productos_id
-				INNER JOIN medida as med ON p.medida_id = med.medida_id
-				WHERE cd.cotizacion_id = '$noCotizacion'
-				";
+			$query = "SELECT 
+				p.barCode AS 'barCode', 
+				p.nombre AS 'producto',
+				SUM(cd.cantidad) AS 'cantidad',
+				cd.precio AS 'precio',
+				SUM(cd.descuento) AS 'descuento',
+				cd.productos_id AS 'productos_id',
+				SUM(cd.isv_valor) AS 'isv_valor',
+				med.nombre AS 'medida'
+			FROM 
+				cotizacion_detalles AS cd
+			INNER JOIN 
+				productos AS p ON cd.productos_id = p.productos_id
+			INNER JOIN 
+				medida as med ON p.medida_id = med.medida_id
+			WHERE 
+				cd.cotizacion_id = '$noCotizacion'
+			GROUP BY 
+				cd.productos_id
+			";
 
 			$result = self::connection()->query($query);
 
@@ -4599,93 +4631,49 @@
 
 
 		public function getTotalBills(){
-
 			$fecha = date("Y-m-d");
-
 			$año = date("Y", strtotime($fecha));
-
 			$mes = date("m", strtotime($fecha));
-
 			$dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
-
-
-
 			$dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
-
 			$dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
-
-
-
 			$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
-
 			$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));
-
-
 
 			$query = "SELECT SUM(importe) AS 'total'
-
 				FROM facturas
-
 				WHERE fecha BETWEEN '$fecha_inicial' AND '$fecha_final'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
-
-
 
 		public function nombremes($mes){
-			setlocale(LC_TIME, 'spanish');
-			$nombre=strftime("%B",mktime(0, 0, 0, $mes, 1, 2000));
+			$locale = 'es_ES'; // Establece el locale español
+			$formatter = new \IntlDateFormatter($locale, \IntlDateFormatter::LONG, \IntlDateFormatter::NONE);
+			$fecha = strtotime('2000-' . $mes . '-01'); // Obtiene la marca de tiempo del primer día del mes
+			$nombre = $formatter->format($fecha); // Formatea la fecha utilizando el locale establecido
 			return $nombre;
-		}
-
-
+		}				
 
 		public function getTotalPurchases(){
-
 			$fecha = date("Y-m-d");
-
 			$año = date("Y", strtotime($fecha));
-
 			$mes = date("m", strtotime($fecha));
-
 			$dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
-
-
-
 			$dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
-
 			$dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
-
-
-
 			$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
-
 			$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));
-
-
-
+			
 			$query = "SELECT sum(importe) AS 'total'
-
 				FROM compras
-
 				WHERE fecha BETWEEN '$fecha_inicial' AND '$fecha_final'";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
 		public function getTotalCustomers(){
@@ -4719,56 +4707,32 @@
 		}		
 		
 		public function getTotalSuppliers(){
-
 			$query = "SELECT COUNT(proveedores_id) AS 'total'
-
 				FROM proveedores
-
 				WHERE estado = 1";
-
-
 
 			$result = self::connection()->query($query);
 
-
-
 			return $result;
-
 		}
 
-
-
 		function getTheDay($date, $hora){
-
 			if($date !=""){
-
 				$curr_date=strtotime(date("Y-m-d H:i:s"));
-
 				$the_date=strtotime($date);
-
 				$diff=floor(($curr_date-$the_date)/(60*60*24));
-
-
-
 				switch($diff){
-
 					case 0:
-
 						return "Hoy ".$hora;
-
-						break;
-
 					case 1:
 						return "Ayer ".$hora;
-						break;
 					default:
 						return " Hace ".$diff." Días";
 				}
 			}else{
 				return "No se encontraron actualizaciones";
 			}
-		}
-
+		}		
 
 		function getUserSistema($colaboradores_id){
 			$query = "SELECT colaboradores_id, CONCAT(nombre, ' ', apellido) AS 'colaborador'

@@ -133,7 +133,7 @@ var edit_categorias_productos_dataTable = function(tbody, table) {
 
                 //HABILITAR OBJETOS
                 $('#formCategoriaProductos #categoria_productos').attr('readonly', false);
-                $('#formCategoriaProductos #categoria_producto_activo').attr('disabled', true);
+                $('#formCategoriaProductos #categoria_producto_activo').attr('disabled', false);
                 $('#formCategoriaProductos #estado_categoria_productos').show();
 
                 $('#modalcategoria_productos').modal({

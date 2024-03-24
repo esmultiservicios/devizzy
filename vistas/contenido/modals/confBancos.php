@@ -32,7 +32,8 @@
 						</div>
 					</div>				
 				</div>
-				<div class="form-group" id="estado_bancos">				  
+				<div class="form-group" id="estado_bancos">	
+				 <span class="mr-2">Estado:</span>				
 				  <div class="col-md-12">			
 						<label class="switch">
 							<input type="checkbox" id="confbanco_activo" name="confbanco_activo" value="1" checked>

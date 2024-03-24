@@ -33,12 +33,13 @@
                     <div class="bill">
                         <div class="form-group row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <!-- Botones -->
                                 <button class="btn btn-secondary" type="submit" id="help_factura" form="invoice-form"
                                     data-toggle="tooltip" data-placement="top" title="Ayuda">
                                     <div class="sb-nav-link-icon"></div><i class="fas fa-question-circle fa-lg"></i>
                                     [F1] Ayuda
                                 </button>
-                                <button class="btn btn-secondary" type="submit" id="guardar_factura"
+                                <button class="btn btn-secondary" type="submit" id="guardar_factura" style="display: none;"
                                     data-toggle="tooltip" data-placement="top" title="Guardar">
                                     <div class="sb-nav-link-icon"></div><i class="fas fa-save fa-lg"></i> [F2] Guardar
                                 </button>
@@ -67,13 +68,27 @@
                                     <div class="sb-nav-link-icon"></div><i class="fas fa-cash-register fa-lg"></i> [F11]
                                     Cerrar
                                 </button>
+                                 <!-- Otros botones aquí -->
+
+                                 <!-- Texto antes del primer checkbox -->
+                                <label class="col-form-label mr-2" for="facturas_activo">Tipo:</label>
+                                <!-- Primer checkbox -->
                                 <label class="switch mb-2" data-toggle="tooltip" data-placement="top"
                                     title="Tipo de Factura, Contado o Crédito">
-                                    <input type="checkbox" id="facturas_activo" name="facturas_activo" value="1"
-                                        checked>
+                                    <input type="checkbox" id="facturas_activo" name="facturas_activo" value="1" checked>
                                     <div class="slider round"></div>
                                 </label>
                                 <span class="question mb-2" id="label_facturas_activo"></span>
+
+                                <span id="facturas_proforma_container" sytle="display:none;">
+                                    <label class="col-form-label mr-2" for="facturas_proforma">Proforma:</label>
+                                    <!-- Segundo checkbox -->
+                                    <label class="switch mb-2" data-toggle="tooltip" data-placement="top" title="Factura Proforma">
+                                        <input type="checkbox" id="facturas_proforma" name="facturas_proforma" value="1">
+                                        <div class="slider round"></div>
+                                    </label>
+                                    <span class="question mb-2" id="label_facturas_proforma"></span>
+                                </span>                             
                             </div>
                         </div>
 

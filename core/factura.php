@@ -47,23 +47,26 @@
                 </td>
                 <td class="info_factura">
                     <div class="round">
-                        <span class="h3">Factura</span>
-                        <p><b>N° Factura:</b>
-                            <?php echo $consulta_registro['prefijo'].''.str_pad($consulta_registro['numero_factura'], $consulta_registro['relleno'], "0", STR_PAD_LEFT); ?>
-                        </p>
-                        <p><b>Fecha:</b>
-                            <?php echo $consulta_registro['fecha'].' '.date('g:i a',strtotime($consulta_registro['hora'])); ?>
-                        </p>
-                        <p><b>CAI:</b> <?php echo $consulta_registro['cai']; ?></p>
-                        <p><b>RTN:</b> <?php echo $consulta_registro['rtn_empresa']; ?></p>
-                        <p><b>Desde:</b>
-                            </b><?php echo $consulta_registro['prefijo'].''.$consulta_registro['rango_inicial']; ?>
-                            <b>Hasta:</b>
-                            <?php echo $consulta_registro['prefijo'].''.$consulta_registro['rango_final']; ?>
-                        </p>
-                        <p><b>Fecha de Activación:</b> <?php echo $consulta_registro['fecha_activacion']; ?></p>
-                        <p><b>Fecha Limite de Emisión:</b> <?php echo $consulta_registro['fecha_limite']; ?></p>
-                        <p><b>Factura:</b> <?php echo $consulta_registro['tipo_documento']; ?></p>
+                        <span class="h3"><?php echo $facturaTitle;?></span>
+                        <?php
+                            // Ahora puedes integrar tu código HTML dentro de PHP
+                            echo '<p><b>N° Factura:</b> ' . $consulta_registro['prefijo'] . str_pad($consulta_registro['numero_factura'], $consulta_registro['relleno'], "0", STR_PAD_LEFT) . '</p>';
+                            echo '<p><b>Fecha:</b> ' . $consulta_registro['fecha'] . ' ' . date('g:i a', strtotime($consulta_registro['hora'])) . '</p>';
+
+                            if($proformaUso === 0){
+                                echo '<p><b>CAI:</b> ' . $consulta_registro['cai'] . '</p>';
+                            }
+                            
+                            echo '<p><b>RTN:</b> ' . $consulta_registro['rtn_empresa'] . '</p>';
+
+                            if($proformaUso === 0){
+                                echo '<p><b>Desde:</b> ' . $consulta_registro['prefijo'] . $consulta_registro['rango_inicial'] . ' <b>Hasta:</b> ' . $consulta_registro['prefijo'] . $consulta_registro['rango_final'] . '</p>';
+                                echo '<p><b>Fecha de Activación:</b> ' . $consulta_registro['fecha_activacion'] . '</p>';
+                                echo '<p><b>Fecha Limite de Emisión:</b> ' . $consulta_registro['fecha_limite'] . '</p>';
+                            }
+
+                            echo '<p><b>Factura:</b> ' . $consulta_registro['tipo_documento'] . '</p>';
+                        ?>
                     </div>
                 </td>
             </tr>

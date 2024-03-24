@@ -816,4 +816,15 @@ $(document).ready(function(){
 });	
 /*FIN FORMULARIO PRIVILEGIOS*/
 
+$('#formPrivilegios #label_privilegio_activo').html("Activo");
+
+$('#formPrivilegios .switch').change(function() {
+	if ($('input[name=privilegio_activo]').is(':checked')) {
+		$('#formPrivilegios #label_privilegio_activo').html("Activo");
+		return true;
+	} else {
+		$('#formPrivilegios #label_privilegio_activo').html("Inactivo");
+		return false;
+	}
+});
 </script>

@@ -27,7 +27,8 @@
 					  <input type="text" class="form-control" id="puesto" name="puesto" placeholder="Puesto" required>		  
 					</div>		
 				</div>
-				<div class="form-group" id="estado_puestos">				  
+				<div class="form-group" id="estado_puestos">
+				  <span class="mr-2">Estado:</span>			
 				  <div class="col-md-12">			
 						<label class="switch">
 							<input type="checkbox" id="puestos_activo" name="puestos_activo" value="1" checked>

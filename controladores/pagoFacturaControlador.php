@@ -24,7 +24,7 @@
 			$colaboradores_id = $_SESSION['colaborador_id_sd'];	
 			$tipo_pago_id = 1;//EFECTIVO		
 			$banco_id = 0;//SIN BANCO
-			$tipo_pago = $_POST['tipo_factura'];//1. CONTADO 2. CRÉDITO
+			$tipo_pago = $_POST['tipo_factura'];//1. SIN ABONO 2. CON ABONO
 			$referencia_pago1 = "";
 			$referencia_pago2 = "";//DESCRIPCION ADICIONAL QUE SE ESCRIBE EN EL MODAL
 			$referencia_pago3 = "";

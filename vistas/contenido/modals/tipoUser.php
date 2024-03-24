@@ -42,6 +42,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="estado_tipo_usuario">
+						<span class="mr-2">Estado:</span>					
                         <div class="col-md-12">
                             <label class="switch">
                                 <input type="checkbox" id="tipo_usuario_activo" name="tipo_usuario_activo" value="1"

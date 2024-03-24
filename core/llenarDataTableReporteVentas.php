@@ -35,10 +35,7 @@
 			$isv += $row1['isv_valor'];
 			$descuento += $row1['descuento'];
 	   }
-	   
-	   $subtotal = $subtotal;
-	   $isv = $isv;
-	   $descuento = $descuento;
+	
 	   $total = $row['total'];
 
 	   $ganancia = doubleval($subtotal) - doubleval($subCosto) - doubleval($isv) - doubleval($descuento);	
@@ -84,4 +81,3 @@
 	);
 
 	echo json_encode($arreglo);	
-?>

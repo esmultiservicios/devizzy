@@ -789,16 +789,17 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
   
     DROP TABLE IF EXISTS `documento`;
     CREATE TABLE IF NOT EXISTS `documento` (
-      `documento_id` int NOT NULL,
-      `nombre` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `estado` int NOT NULL,
+      `documento_id` int(11) NOT NULL,
+      `nombre` char(35) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `estado` int(11) NOT NULL,
       PRIMARY KEY (`documento_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
     INSERT INTO `documento` (`documento_id`, `nombre`, `estado`) VALUES
     (1, 'Factura Electronica', 1),
-    (2, 'Nota de Credito', 1),
-    (3, 'Nota de Debito', 4);
+    (2, 'Nota de Credito', 0),
+    (3, 'Nota de Debito', 0),
+    (4, 'Factura Proforma', 1);
   
     DROP TABLE IF EXISTS `egresos`;
     CREATE TABLE IF NOT EXISTS `egresos` (
@@ -884,6 +885,21 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       PRIMARY KEY (`facturas_detalle_id`),
       KEY `productos_id` (`productos_id`),
       KEY `facturas_id` (`facturas_id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+    DROP TABLE IF EXISTS `facturas_proforma`;
+    CREATE TABLE IF NOT EXISTS `facturas_proforma` (
+      `facturas_proforma_id` int(11) NOT NULL,
+      `facturas_id` int(11) NOT NULL,
+      `clientes_id` int(11) NOT NULL,
+      `secuencia_facturacion_id` int(11) NOT NULL,
+      `numero` int(11) NOT NULL,
+      `importe` float(12,2) NOT NULL,
+      `usuario` int(11) NOT NULL,
+      `empresa_id` int(11) NOT NULL,
+      `estado` int(11) NOT NULL COMMENT '0. Pendiente 1. Pagada',
+      `fecha_creacion` datetime NOT NULL,
+      PRIMARY KEY (`facturas_proforma_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
     DROP TABLE IF EXISTS `vale`;
@@ -2459,4 +2475,3 @@ function encryptionScript($string){
 
   return $output;
 }
-?>

@@ -229,6 +229,7 @@
                     </div>
 
                     <div class="form-group" id="estado_usuarios">
+						<span class="mr-2">Estado:</span>					
                         <div class="col-md-12">
                             <label class="switch">
                                 <input type="checkbox" id="usuarios_activo" name="usuarios_activo" value="1" checked>
@@ -1530,6 +1531,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="estado_clientes">
+						<span class="mr-2">Estado:</span>
                         <div class="col-md-12">
                             <label class="switch">
                                 <input type="checkbox" id="clientes_activo" name="clientes_activo" value="1" checked>
@@ -1666,6 +1668,7 @@
                     </div>
 
                     <div class="form-group" id="estado_proveedores">
+						<span class="mr-2">Estado:</span>					
                         <div class="col-md-12">
                             <label class="switch">
                                 <input type="checkbox" id="proveedores_activo" name="proveedores_activo" value="1"
@@ -1998,6 +2001,7 @@
                     </div>
 
                     <div class="form-group" id="estado_colaboradores">
+						<span class="mr-2">Estado:</span>					
                         <div class="col-md-12">
                             <label class="switch">
                                 <input type="checkbox" id="colaboradores_activo" name="colaboradores_activo" value="1"
@@ -2305,6 +2309,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="estado_empresa">
+						<span class="mr-2">Estado:</span>					
                         <div class="col-md-12">
                             <label class="switch">
                                 <input type="checkbox" id="empresa_activo" name="empresa_activo" value="1" checked>
@@ -2661,6 +2666,7 @@
                     </div>
 
                     <div class="form-group custom-control custom-checkbox custom-control-inline">
+						<span class="mr-2">Estado:</span>					
                         <div class="col-md-12" id="estado_producto">
                             <label class="switch">
                                 <input type="checkbox" id="producto_activo" name="producto_activo" value="1" checked>

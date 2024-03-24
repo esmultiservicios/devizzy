@@ -3502,7 +3502,7 @@ function pago(facturas_id, tipoPago) {
             $('#formEfectivoBill .border-right a:eq(0) a').tab('show');
             $("#customer-name-bill").html("<b>Cliente:</b> " + datos[0]);
             $("#customer_bill_pay").val(datos[6]);
-            $('#bill-pay').html("L. " + parseFloat(datos[6]));
+            $('#bill-pay').html("L. " + parseFloat(datos[6]).toFixed(2));
 
             //EFECTIVO
             $('#formEfectivoBill')[0].reset();
@@ -3617,8 +3617,10 @@ $(document).ready(function() {
         } else {
             $('#formEfectivoBill #cambio_efectivo').val(parseFloat(0).toFixed(2));
             $('#formEfectivoBill #pago_efectivo').attr('disabled', true);
-
-
+        }
+		
+		if (parseFloat(efectivo) > parseFloat(monto)) {
+            $('#formEfectivoBill #pago_efectivo').attr('disabled', true);
         }
     });
 });

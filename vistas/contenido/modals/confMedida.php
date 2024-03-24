@@ -31,7 +31,8 @@
 					  <input type="text" required id="descripcion_medidas" name="descripcion_medidas" placeholder="Descripción" class="form-control"  maxlength="30" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
 					</div>					
 				</div>
-				<div class="form-group" id="estado_medidas">				  
+				<div class="form-group" id="estado_medidas">
+				 <span class="mr-2">Estado:</span>
 				  <div class="col-md-12">			
 						<label class="switch">
 							<input type="checkbox" id="medidas_activo" name="medidas_activo" value="1" checked>

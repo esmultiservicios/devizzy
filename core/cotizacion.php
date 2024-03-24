@@ -146,7 +146,7 @@ use LDAP\Result;
 						echo '
 						  <tr>
 							<td>'.$i.'</td>
-							<td>'.$producto_name.'</td>
+							<td>'.$registro_detalles["producto"].'</td>
 							<td align="center">'.$registro_detalles["cantidad"].'</td>
 							<td align="center">'.$registro_detalles["medida"].'</td>
 							<td class="textright">L. '.number_format($registro_detalles["precio"],2).'</td>
@@ -269,13 +269,14 @@ use LDAP\Result;
 				if($firma_documento !== "") {
 		?>
             <p class="nota">
-                <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $firma_documento; ?>"
-                        width="150px" height="130px">
+                <!--<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $firma_documento; ?>"
+                        width="150px" height="130px">-->
             </p>
             <?php
 				}
 			}
 		?>
+            <br/><br/>
             <p class="nota">
                 <center><b>__________________________</center>
             </p>

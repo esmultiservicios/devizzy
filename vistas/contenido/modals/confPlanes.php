@@ -27,7 +27,8 @@
 					  <input type="text" class="form-control" id="plan" name="plan" placeholder="Plan" required>		  
 					</div>		
 				</div>
-				<div class="form-group" id="estado_planes">				  
+				<div class="form-group" id="estado_planes">
+				  <span class="mr-2">Estado:</span>				
 				  <div class="col-md-12">			
 						<label class="switch">
 							<input type="checkbox" id="plan_activo" name="plan_activo" value="1" checked>

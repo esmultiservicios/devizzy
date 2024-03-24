@@ -232,11 +232,11 @@ var listar_reporte_ventas = function() {
                 minimumFractionDigits: 2,
             });
 
-            var totalSubtotalFormatted = "L. " + formatter.format(totalSubtotal);
-            var totalIsvFormatted = "L. " + formatter.format(totalIsv);
-            var totalDescuentoFormatted = "L. " + formatter.format(totalDescuento);
-            var totalVentasFormatted = "L. " + formatter.format(totalVentas);
-            var totalGananciaFormatted = "L. " + formatter.format(totalGanancia);
+            var totalSubtotalFormatted = formatter.format(totalSubtotal);
+            var totalIsvFormatted = formatter.format(totalIsv);
+            var totalDescuentoFormatted = formatter.format(totalDescuento);
+            var totalVentasFormatted = formatter.format(totalVentas);
+            var totalGananciaFormatted = formatter.format(totalGanancia);
 
             // Asignar los totales a los elementos HTML en el footer
             $('#subtotal-i').html(totalSubtotalFormatted);

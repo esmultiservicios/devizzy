@@ -46,12 +46,11 @@
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="prefijo">CAI <span class="priority">*<span /></label>
+                            <label for="prefijo">CAI</label>
                             <div class="input-group mb-3">
                                 <input type="text" name="cai_secuencia" id="cai_secuencia" class="form-control"
                                     placeholder="CAI" maxlength="37"
-                                    oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                    required>
+                                    oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <div class="sb-nav-link-icon"></div><i class="far fa-id-card"></i>
@@ -62,10 +61,10 @@
                     </div>
                     <div class="form-row">
                         <div class="col-md-3 mb-3">
-                            <label for="prefijo">Prefijo <span class="priority">*<span /></label>
+                            <label for="prefijo">Prefijo</label>
                             <div class="input-group mb-3">
                                 <input type="text" name="prefijo_secuencia" id="prefijo_secuencia" class="form-control"
-                                    placeholder="Prefijo" required>
+                                    placeholder="Prefijo">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <div class="sb-nav-link-icon"></div><i class="fab fa-autoprefixer fa-lg"></i>
@@ -153,6 +152,7 @@
                     </div>
 
                     <div class="form-group" id="estado_secuencia">
+                        <span class="mr-2">Estado:</span>
                         <div class="col-md-12">
                             <label class="switch">
                                 <input type="checkbox" id="estado_secuencia" name="estado_secuencia" value="1" checked>

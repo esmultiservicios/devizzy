@@ -17,19 +17,18 @@
 			//ENCABEZADO DE FACTURA
 			$clientes_id = $_POST['cliente_id'];
 			$colaborador_id = $_POST['colaborador_id'];			
+			$tipo_factura = $_POST['facturas_activo'] ?? 2; //1. CONTADO, 2. CREDITO
+			$tipo_documento = $_POST['facturas_proforma'] ?? 0; //0. FACTURA ELECTRONICA, 1. FACTURA PROFORMA
 
-			if(isset($_POST['facturas_activo'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
-				if($_POST['facturas_activo'] == ""){
-					$tipo_factura = 2;//CREDITO 					
-				}else{
-					$tipo_factura = $_POST['facturas_activo'];
-				}
-			}else{
-				$tipo_factura = 2;
-			}
+			$documento_id = "1";
+			$documento_nombre = "Factura Electronica";
+
+			if($tipo_documento === "1"){
+				$documento_id = "4";
+				$documento_nombre = "Factura Proforma";
+			}		
 			
-			$numero  = 0;
-			$documento_id = "1";//FACTURA ELECTRONICA
+			$numero = 0;
 			$secuenciaFacturacion = facturasModelo::secuencia_facturacion_modelo($empresa_id, $documento_id)->fetch_assoc();
 
 			if ($secuenciaFacturacion !== null) {
@@ -52,12 +51,8 @@
 					$facturas_id = mainModel::correlativo("facturas_id", "facturas");
 				}					
 	
-				if($tipo_factura == 1){
-					$estado = 1;//BORRADOR
-				}else{
-					$estado = 3;//CRÉDITO
-				}	
-	
+				$estado = ($tipo_factura == 1) ? 1 : 3;
+		
 				//CONSULTAMOS LA APERTURA
 				$datos_apertura = [
 					"colaboradores_id" => $usuario,
@@ -81,9 +76,8 @@
 					}				
 	
 					//SI EXITE VALORES EN LA TABLA, PROCEDEMOS ALMACENAR LA FACTURA Y EL DETALLE DE ESTA
-					if($tamano_tabla > 0){
-						//INICIO FACTURA CONTADO
-						if($tipo_factura == 1){	
+					if($tamano_tabla > 0){						
+						if($tipo_factura == 1){	//INICIO FACTURA CONTADO
 							if($fac_guardada === false) {//NO SE HA GUARDADO LA FACTURA
 								$datos = [
 									"facturas_id" => $facturas_id,
@@ -124,7 +118,7 @@
 										$price_anterior = $_POST['precio_real'][$i];
 										$price = $_POST['price'][$i];
 										$bodega = $_POST['bodega'][$i];
-		
+	
 		
 										if($_POST['discount'][$i] != "" || $_POST['discount'][$i] != null){
 											$discount = $_POST['discount'][$i];
@@ -152,8 +146,7 @@
 											$descuentos += $discount;
 											$isv_neto += $isv_valor;									
 											
-											//INSERTAMOS LOS DE PRODUCTOS EN EL DETALLE DE LA FACTURA
-		
+											//INSERTAMOS LOS DE PRODUCTOS EN EL DETALLE DE LA FACTURA		
 											facturasModelo::agregar_detalle_facturas_modelo($datos_detalles_facturas);
 		
 											//OBTENEMOS LA CATEOGRIA DEL PRODUCTO PARA EVALUAR SI ES UN PRODUCTO, AGREGAR LA SALIDA DE ESTE
@@ -237,8 +230,7 @@
 																										
 																facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);							
 															}
-														}
-		
+														}		
 													}else{//ES UN PRODUCTO HIJO
 														//CONSULTAMOS EL PADRE ASOCIADO AL PRODUCTO HIJO
 														$resultTotalPadre = facturasModelo::cantidad_producto_modelo($productos_id);
@@ -450,7 +442,6 @@
 									$price = $_POST['price'][$i];
 									$bodega = $_POST['bodega'][$i];
 	
-	
 									if($_POST['discount'][$i] != "" || $_POST['discount'][$i] != null){
 										$discount = $_POST['discount'][$i];
 									}								
@@ -638,7 +629,7 @@
 								$total_despues_isv = ($total_valor + $isv_neto) - $descuentos;
 	
 								//OBTENEMOS EL DOCUMENTO ID DE LA FACTURACION
-								$consultaDocumento = mainModel::getDocumentoSecuenciaFacturacion("Factura Electronica")->fetch_assoc();
+								$consultaDocumento = mainModel::getDocumentoSecuenciaFacturacion($documento_nombre)->fetch_assoc();
 								$documento_id = $consultaDocumento['documento_id'];							
 								
 								//ACTUALIZAMOS EL NUMERO SIGUIENTE DE LA SECUENCIA PARA LA FACTURACION
@@ -660,6 +651,23 @@
 								
 								facturasModelo::actualizar_factura_importe($datos_factura);						
 	
+								//AGREGAMOS LA FACTURA PROFORMA
+								$datos_proforma = [
+									"facturas_id" => $facturas_id,
+									"clientes_id" => $clientes_id,
+									"secuencia_facturacion_id" => $secuencia_facturacion_id,				
+									"numero" => $numero,									
+									"importe" => $total_despues_isv,	
+									"usuario" => $colaborador_id,
+									"empresa_id" => $empresa_id,	
+									"estado" => 0,
+									"fecha_creacion" => $fecha_registro
+								];	
+
+								if($documento_nombre === "Factura Proforma"){
+									facturasModelo::agregar_facturas_proforma_modelo($datos_proforma);
+								}															
+
 								//AGREGAMOS LA CUENTA POR COBRAR CLIENTES
 								$estado_cuenta_cobrar = 1;//CRÉDITO						
 	

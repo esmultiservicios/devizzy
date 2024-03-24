@@ -27,6 +27,17 @@
 	//OBTENEMOS LOS DATOS DEL DETALLE DE FACTURA
 	$result_factura_detalle = $insMainModel->getDetalleFactura($noFactura);								
 
+	//CONSULTAMOS SI LA FACTURA ESTA EN PROFORMA
+	$facturaTitle = "Factura";
+	$proformaUso = 0;
+
+	$resultProforma = $insMainModel->getConsultaFacturaProforma($noFactura);	
+	if($resultProforma->num_rows>0){
+		$consultaProforma = $resultProforma->fetch_assoc();
+		$facturaTitle = "Factura Profomra";
+		$proformaUso = 1;
+	}
+
 	if($result->num_rows>0){
 		$consulta_registro = $result->fetch_assoc();	
 		
@@ -47,7 +58,7 @@
 		
 		$dompdf->set_option('isRemoteEnabled', true);
 
-		$dompdf->loadHtml(utf8_decode(utf8_encode($html)));
+		$dompdf->loadHtml($html);
 		// (Optional) Setup the paper size and orientation
 		$dompdf->setPaper('letter', 'portrait');
 		// Render the HTML as PDF

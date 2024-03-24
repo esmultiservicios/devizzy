@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-md-12 mb-3">
+                        <div class="col-md-12 mb-3">							
                             <label>Cuenta <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <select id="confCuenta" name="confCuenta" class="selectpicker" data-width="100%"
