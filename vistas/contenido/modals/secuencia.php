@@ -151,7 +151,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group" id="estado_secuencia">
+                    <div class="form-group" id="estado_secuencia_container" style="display:none;">
                         <span class="mr-2">Estado:</span>
                         <div class="col-md-12">
                             <label class="switch">

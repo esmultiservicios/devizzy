@@ -205,6 +205,8 @@ var editar_secuencia_facturacion_dataTable = function(tbody, table) {
                 $('#formSecuencia #fecha_activacion_secuencia').attr('readonly', true);
                 $('#formSecuencia #fecha_limite_secuencia').attr('readonly', true);
 
+                $('#formSecuencia #estado_secuencia_container').show();
+
                 //HABILITAR OBJETOS
                 $('#formSecuencia #siguiente_secuencia').attr('readonly', false);
                 $('#formSecuencia #estado_secuencia').attr('disabled', false);
@@ -276,6 +278,8 @@ var eliminar_secuencia_facturacion_dataTable = function(tbody, table) {
                 $('#formSecuencia #fecha_activacion_secuencia').attr('readonly', true);
                 $('#formSecuencia #fecha_limite_secuencia').attr('readonly', true);
                 $('#formSecuencia #estado_secuencia').attr('disabled', true);
+
+                $('#formSecuencia #estado_secuencia_container').hide();
 
                 $('#formSecuencia #proceso_secuencia_facturacion').val("Eliminar");
                 $('#modal_registrar_secuencias').modal({

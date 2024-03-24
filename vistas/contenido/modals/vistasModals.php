@@ -2665,9 +2665,9 @@
                         </div>
                     </div>
 
-                    <div class="form-group custom-control custom-checkbox custom-control-inline">
-						<span class="mr-2">Estado:</span>					
+                    <div class="form-group custom-control custom-checkbox custom-control-inline">				
                         <div class="col-md-12" id="estado_producto">
+							<span class="mr-2">Estado:</span>
                             <label class="switch">
                                 <input type="checkbox" id="producto_activo" name="producto_activo" value="1" checked>
                                 <div class="slider round"></div>
