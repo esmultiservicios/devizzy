@@ -63,9 +63,8 @@
                                 echo '<p><b>Desde:</b> ' . $consulta_registro['prefijo'] . $consulta_registro['rango_inicial'] . ' <b>Hasta:</b> ' . $consulta_registro['prefijo'] . $consulta_registro['rango_final'] . '</p>';
                                 echo '<p><b>Fecha de Activación:</b> ' . $consulta_registro['fecha_activacion'] . '</p>';
                                 echo '<p><b>Fecha Limite de Emisión:</b> ' . $consulta_registro['fecha_limite'] . '</p>';
-                            }
-
-                            echo '<p><b>Factura:</b> ' . $consulta_registro['tipo_documento'] . '</p>';
+                                echo '<p><b>Factura:</b> ' . $consulta_registro['tipo_documento'] . '</p>';
+                            }                            
                         ?>
                     </div>
                 </td>

@@ -104,56 +104,75 @@
             <tr class="">
                 <td class="textcenter">
                     <span>
-                        <h2>Factura</h2>
+                        <?php echo "<h2>".$facturaTitle."</h2>";?>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>N° Factura:</b>
-                        <b><?php echo $consulta_registro['prefijo'].''.str_pad($consulta_registro['numero_factura'], $consulta_registro['relleno'], "0", STR_PAD_LEFT); ?></b>
-                    </p>
+                    <?php
+                        echo '<p><b>N° Factura:</b> <b>' . $consulta_registro['prefijo'] . '' . str_pad($consulta_registro['numero_factura'], $consulta_registro['relleno'], "0", STR_PAD_LEFT) . '</b></p>';
+                    ?>
+
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>Fecha:</b>
-                        <b><?php echo $consulta_registro['fecha'].' '.date('g:i a',strtotime($consulta_registro['hora'])); ?></b>
-                    </p>
+                    <?php
+                        echo '<p><b>Fecha:</b> <b>' . $consulta_registro['fecha'] . ' ' . date('g:i a', strtotime($consulta_registro['hora'])) . '</b></p>';
+                    ?>
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>CAI:</b> <b><?php echo $consulta_registro['cai']; ?></b></p>
+                    <?php
+                        if($proformaUso === 0){
+                            echo '<p><b>CAI:</b> <b>' . $consulta_registro['cai'] . '</b></p>'; 
+                        }
+                    ?>
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>RTN:</b> <b><?php echo $consulta_registro['rtn_empresa']; ?></b></p>
+                    <?php
+                        echo '<p><b>RTN:</b> <b>' . $consulta_registro['rtn_empresa'] . '</b></p>';
+                    ?>
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>Desde:</b>
-                        <b><?php echo $consulta_registro['prefijo'].''.$consulta_registro['rango_inicial']; ?></b>
-                        <b>Hasta:</b>
-                        <b><?php echo $consulta_registro['prefijo'].''.$consulta_registro['rango_final']; ?></b>
-                    </p>
+                    <?php
+                        if($proformaUso === 0){
+                            echo '<p><b>Desde:</b> <b>' . $consulta_registro['prefijo'] . '' . $consulta_registro['rango_inicial'] . '</b><b>Hasta:</b> <b>' . $consulta_registro['prefijo'] . '' . $consulta_registro['rango_final'] . '</b></p>'; 
+                        }                        
+                    ?>
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>Fecha de Activación:</b> <b><?php echo $consulta_registro['fecha_activacion']; ?></b></p>
+                    <?php
+                        if($proformaUso === 0){
+                            echo '<p><b>Fecha de Activación:</b> <b>' . $consulta_registro['fecha_activacion'] . '</b></p>';
+                        }                                            
+                    ?>
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>Fecha Limite de Emisión:</b> <b><?php echo $consulta_registro['fecha_limite']; ?></b></p>
+                    <?php
+                        if($proformaUso === 0){
+                            echo '<p><b>Fecha Limite de Emisión:</b> <b>' . $consulta_registro['fecha_limite'] . '</b></p>';   
+                        }                        
+                    ?>
                 </td>
             </tr>
             <tr>
                 <td class="textcenter">
-                    <p><b>Factura:</b> <b><?php echo $consulta_registro['tipo_documento']; ?></b></p>
+                    <?php
+                        if($proformaUso === 0){
+                            echo '<p><b>Factura:</b> <b>' . $consulta_registro['tipo_documento'] . '</b></p>';
+                        }
+                    ?>
                 </td>
             </tr>
         </table>

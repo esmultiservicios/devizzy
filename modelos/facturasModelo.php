@@ -171,38 +171,7 @@
 			
 			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
 			return $result;                
-		}   			
-		
-		/*protected function agregar_facturas_proforma_modelo($datos){
-			$facturas_proforma_id = mainModel::correlativo("facturas_proforma_id", "facturas_proforma");
-			$insert = "INSERT INTO facturas_proforma (
-							facturas_proforma_id,
-							facturas_id,
-							clientes_id,
-							secuencia_facturacion_id,
-							numero,
-							importe,
-							usuario,
-							empresa_id,
-							estado,
-							fecha_creacion
-						) VALUES (
-							'".$facturas_proforma_id."',
-							'".$datos['facturas_id']."',
-							'".$datos['clientes_id']."',
-							'".$datos['secuencia_facturacion_id']."',
-							'".$datos['numero']."',
-							'".$datos['importe']."',
-							'".$datos['usuario']."',
-							'".$datos['empresa_id']."',
-							'".$datos['estado']."',
-							'".$datos['fecha_creacion']."'
-						)";
-			
-			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-		
-			return $result;            
-		}*/	
+		} 
 		
 		protected function agregar_facturas_proforma_modelo($datos){
 			$facturas_proforma_id = mainModel::correlativo("facturas_proforma_id", "facturas_proforma");

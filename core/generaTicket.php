@@ -27,6 +27,17 @@
 	//OBTENEMOS LAS FORMAS DE PAGO
 	$result_metodos_pago = $insMainModel->getMetodoPagoFactura($noFactura);	
 
+	//CONSULTAMOS SI LA FACTURA ESTA EN PROFORMA
+	$facturaTitle = "Factura";
+	$proformaUso = 0;
+
+	$resultProforma = $insMainModel->getConsultaFacturaProforma($noFactura);	
+	if($resultProforma->num_rows>0){
+		$consultaProforma = $resultProforma->fetch_assoc();
+		$facturaTitle = "Factura Profomra";
+		$proformaUso = 1;
+	}
+		
 	if($result->num_rows>0){
 		$consulta_registro = $result->fetch_assoc();	
 		
