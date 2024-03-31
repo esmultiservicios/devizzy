@@ -3,6 +3,7 @@ $(document).ready(function() {
     getReporteFactura();
     getFacturador();
     getVendedores();
+    GetProductos();
     listar_reporte_ventas();
     $('#form_main_ventas #tipo_factura_reporte').val(1);
     $('#form_main_ventas #tipo_factura_reporte').selectpicker('refresh');
@@ -255,6 +256,14 @@ var listar_reporte_ventas = function() {
                 }
             },
             {
+                text: '<i class="fas fa-search fa-lg crear"></i> Detalle Ventas',
+                titleAttr: 'Detalle Ventas',
+                className: 'table_crear btn btn-primary ocultar',
+                action: function() {
+                    modal_detalles();
+                }
+            },            
+            {
                 extend: 'excelHtml5',
                 footer: true,
                 text: '<i class="fas fa-file-excel fa-lg"></i> Excel',
@@ -447,12 +456,232 @@ function getVendedores() {
         url: url,
         async: true,
         success: function(data) {
-
             $('#form_main_ventas #vendedor').html("");
             $('#form_main_ventas #vendedor').html(data);
             $('#form_main_ventas #vendedor').selectpicker('refresh');
+
+            $('#FormDetalleVentas #DetalleVendedores').html("");
+            $('#FormDetalleVentas #DetalleVendedores').html(data);
+            $('#FormDetalleVentas #DetalleVendedores').selectpicker('refresh');            
+        }
+    });
+}
+
+function GetProductos() {
+    var url = '<?php echo SERVERURL;?>core/getProductos.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(data) {
+            $('#FormDetalleVentas #DetallesProductos').html("");
+            $('#FormDetalleVentas #DetallesProductos').html(data);
+            $('#FormDetalleVentas #DetallesProductos').selectpicker('refresh');            
         }
     });
 }
 //FIN REPORTE DE VENTAS
+
+function modal_detalles(){
+    getVendedores();
+    GetProductos();
+    ListarDetalleVenas();
+    $('#ModalDetalleVentas').modal({
+        show: true,
+        keyboard: false,
+        backdrop: 'static'
+    });    
+}
+
+var ListarDetalleVenas = function(){
+    var fechai = $("#FormDetalleVentas #DetallesFechai").val();
+    var fechaf = $("#FormDetalleVentas #DetallesFechaf").val();
+    var productos_id = $("#FormDetalleVentas #DetallesProductos").val();
+    var colaboradores_id = $("#FormDetalleVentas #DetalleVendedores").val();
+
+	var table_puestos  = $("#DatatableDetalleVentas").DataTable({
+		"destroy":true,
+		"ajax":{
+			"method":"POST",
+			"url":"<?php echo SERVERURL;?>core/llenarDataTableDetalleVentas.php",
+            "data": {
+                "fechai": fechai,
+                "fechaf": fechaf,
+                "productos_id": productos_id,
+                "colaboradores_id": colaboradores_id
+            }
+		},
+		"columns":[
+			{"data":"Producto"},
+			{"data":"numero"},
+			{
+                "data":"Precio",
+                render: function(data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        }
+
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+
+                    return number;
+                },
+            },            
+			{"data":"Cantidad"},
+            {
+                "data":"ISV",
+                render: function(data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        }
+
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+
+                    return number;
+                },
+            },
+            {
+                "data":"Descuento",
+                render: function(data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        }
+
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+
+                    return number;
+                },
+            },
+            {
+                "data":"Total",
+                render: function(data, type) {
+                    var number = $.fn.dataTable.render
+                        .number(',', '.', 2, 'L ')
+                        .display(data);
+
+                    if (type === 'display') {
+                        let color = 'green';
+                        if (data < 0) {
+                            color = 'red';
+                        }
+
+                        return '<span style="color:' + color + '">' + number + '</span>';
+                    }
+
+                    return number;
+                },
+            },
+            {"data":"Vendedor"}
+		],
+        "lengthMenu": lengthMenu,
+		"stateSave": true,
+		"bDestroy": true,
+		"language": idioma_español,
+		"dom": dom,
+        "footerCallback": function(row, data, start, end, display) {
+            // Calcular los totales
+            var totalPrecio = 0;
+            var totalCantidad = 0;
+            var totalISV = 0;
+            var totalDescuento = 0;
+            var totalTotal = 0;
+
+            data.forEach(function(row) {
+                totalPrecio += parseFloat(row.Precio) || 0;
+                totalCantidad += parseFloat(row.Cantidad) || 0;
+                totalISV += parseFloat(row.ISV) || 0;
+                totalDescuento += parseFloat(row.Descuento) || 0;
+                totalTotal += parseFloat(row.Total) || 0;
+            });
+
+            // Formatear los totales
+            var formatter = new Intl.NumberFormat('es-HN', {
+                style: 'currency',
+                currency: 'HNL',
+                minimumFractionDigits: 2,
+            });
+
+            var totalPrecioFormatted = formatter.format(totalPrecio);
+            var totalCantidadFormatted = formatter.format(totalCantidad);
+            var totalISVFormatted = formatter.format(totalISV);
+            var totalDescuentoFormatted = formatter.format(totalDescuento);
+            var totalTotalFormatted = formatter.format(totalTotal);
+
+            // Actualizar los elementos HTML en el footer con los totales calculados
+            $('#total-precio').html(totalPrecioFormatted);
+            $('#total-cantidad').html(totalCantidadFormatted);
+            $('#total-isv').html(totalISVFormatted);
+            $('#total-descuento').html(totalDescuentoFormatted);
+            $('#total-total').html(totalTotalFormatted);
+        },
+		"columnDefs": [
+		  { width: "5%", targets: 0 },
+		  { width: "85%", targets: 1 },
+		  { width: "5%", targets: 2 },
+		  { width: "5%", targets: 3 }
+		],
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Puestos',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
+					ListarDetalleVenas();
+				}
+			},
+			{
+				extend:    'excelHtml5',
+				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
+				titleAttr: 'Excel',
+				title: 'Reporte Detalle de Ventas',
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'table_reportes btn btn-success ocultar',					
+			},
+			{
+				extend:    'pdf',
+                orientation: 'landscape',
+				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+				titleAttr: 'PDF',
+                title: 'Reporte Detalle de Ventas', // Título en negrita
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'table_reportes btn btn-danger ocultar',			
+				customize: function ( doc ) {
+					doc.content.splice( 1, 0, {
+						margin: [ 0, 0, 0, 12 ],
+						alignment: 'left',
+						image: imagen,
+						width:100,
+                        height:45
+					} );
+				}
+			}
+		],
+		"drawCallback": function( settings ) {
+        	getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+    	}
+	});
+	table_puestos.search('').draw();
+	$('#buscar').focus();
+}
 </script>

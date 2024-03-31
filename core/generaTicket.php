@@ -34,7 +34,7 @@
 	$resultProforma = $insMainModel->getConsultaFacturaProforma($noFactura);	
 	if($resultProforma->num_rows>0){
 		$consultaProforma = $resultProforma->fetch_assoc();
-		$facturaTitle = "Factura Profomra";
+		$facturaTitle = "Factura Proforma";
 		$proformaUso = 1;
 	}
 		

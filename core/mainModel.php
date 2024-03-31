@@ -505,118 +505,81 @@
 
 
          /*Funcion que permite limpiar valores de los string (Inyección SQL)*/
-        protected function cleanString($string){
-            //Limpia espacios al inicio y al final
-			$string =  trim($string);
+		protected function cleanString($string){
+			// Limpia espacios al inicio y al final
+			$string = trim($string);
 
-            //Quita las barras de un string con comillas escapadas
-            $string = stripslashes($string);
+			// Elimina barras de un string con comillas escapadas
+			$string = stripslashes($string);
 
-            //Limpiar etiquetas de JavaScript o Instrucciones SQL entre otros
-            $string = str_ireplace("<script>", "", $string);
-            $string = str_ireplace("</script>", "", $string);
-            $string = str_ireplace("<script src>", "", $string);
-            $string = str_ireplace("<script type>", "", $string);
-            $string = str_ireplace("SELECT * FROM", "", $string);
-            $string = str_ireplace("DELETE FROM", "", $string);
-            $string = str_ireplace("INSERT INTO", "", $string);
-            $string = str_ireplace("UPDATE", "", $string);
-            $string = str_ireplace("--", "", $string);
-            $string = str_ireplace("^", "", $string);
-            $string = str_ireplace("]", "", $string);
-            $string = str_ireplace("[", "", $string);
-            $string = str_ireplace("{", "", $string);
-            $string = str_ireplace("}", "", $string);
-            $string = str_ireplace("==", "", $string);
-			$string = str_ireplace("'", "", $string);
+			// Escapa caracteres especiales de HTML
+			$string = htmlspecialchars($string);
 
-            return $string;
-        }
+			// Eliminar etiquetas HTML y JavaScript
+			$string = strip_tags($string);
+
+			// Elimina caracteres peligrosos específicos de SQL
+			$string = str_ireplace(array(';', '--', '^', ']', '[', '{', '}', '=='), '', $string);
+
+			return $string;
+		}
 
         protected function cleanStringStrtolower($string){
-            //Limpia espacios al inicio y al final
-			$string =  strtolower(trim($string));
+			// Limpia espacios al inicio y al final, y convierte a minúsculas
+			$string = strtolower(trim($string));
 
-            //Quita las barras de un string con comillas escapadas
-            $string = stripslashes($string);
+			// Elimina barras de un string con comillas escapadas
+			$string = stripslashes($string);
 
-            //Limpiar etiquetas de JavaScript o Instrucciones SQL entre otros
-            $string = str_ireplace("<script>", "", $string);
-            $string = str_ireplace("</script>", "", $string);
-            $string = str_ireplace("<script src>", "", $string);
-            $string = str_ireplace("<script type>", "", $string);
-            $string = str_ireplace("SELECT * FROM", "", $string);
-            $string = str_ireplace("DELETE FROM", "", $string);
-            $string = str_ireplace("INSERT INTO", "", $string);
-            $string = str_ireplace("UPDATE", "", $string);
-            $string = str_ireplace("--", "", $string);
-            $string = str_ireplace("^", "", $string);
-            $string = str_ireplace("]", "", $string);
-            $string = str_ireplace("[", "", $string);
-            $string = str_ireplace("{", "", $string);
-            $string = str_ireplace("}", "", $string);
-            $string = str_ireplace("==", "", $string);
-			$string = str_ireplace("'", "", $string);
+			// Escapa caracteres especiales de HTML
+			$string = htmlspecialchars($string);
 
-            return $string;
-        }
+			// Eliminar etiquetas HTML y JavaScript
+			$string = strip_tags($string);			
 
-        protected function cleanStringStrtoupper($string){
-            //Limpia espacios al inicio y al final
+			// Elimina caracteres peligrosos específicos de SQL
+			$string = str_ireplace(array(';', '--', '^', ']', '[', '{', '}', '=='), '', $string);
 
-			$string =  strtoupper(trim($string));
+			return $string;
+		}
 
-            //Quita las barras de un string con comillas escapadas
-            $string = stripslashes($string);
+		protected function cleanStringStrtoupper($string){
+			// Limpia espacios al inicio y al final, y convierte a mayúsculas
+			$string = strtoupper(trim($string));
 
-            //Limpiar etiquetas de JavaScript o Instrucciones SQL entre otros
-            $string = str_ireplace("<script>", "", $string);
-            $string = str_ireplace("</script>", "", $string);
-            $string = str_ireplace("<script src>", "", $string);
-            $string = str_ireplace("<script type>", "", $string);
-            $string = str_ireplace("SELECT * FROM", "", $string);
-            $string = str_ireplace("DELETE FROM", "", $string);
-            $string = str_ireplace("INSERT INTO", "", $string);
-            $string = str_ireplace("UPDATE", "", $string);
-            $string = str_ireplace("--", "", $string);
-            $string = str_ireplace("^", "", $string);
-            $string = str_ireplace("]", "", $string);
-            $string = str_ireplace("[", "", $string);
-            $string = str_ireplace("{", "", $string);
-            $string = str_ireplace("}", "", $string);
-            $string = str_ireplace("==", "", $string);
-			$string = str_ireplace("'", "", $string);
+			// Escapa caracteres especiales de HTML
+			$string = htmlspecialchars($string);
 
-            return $string;
-        }
+			// Elimina barras de un string con comillas escapadas
+			$string = stripslashes($string);
 
-        protected function cleanStringConverterCase($string){
-            //Limpia espacios al inicio y al final
-			$string =  trim($string);
+			// Eliminar etiquetas HTML y JavaScript
+			$string = strip_tags($string);			
 
-            //Quita las barras de un string con comillas escapadas
-            $string = stripslashes($string);
+			// Elimina caracteres peligrosos específicos de SQL
+			$string = str_ireplace(array(';', '--', '^', '\]', '\[', '{', '}', '=='), '', $string);
 
-            //Limpiar etiquetas de JavaScript o Instrucciones SQL entre otros
-            $string = str_ireplace("<script>", "", $string);
-            $string = str_ireplace("</script>", "", $string);
-            $string = str_ireplace("<script src>", "", $string);
-            $string = str_ireplace("<script type>", "", $string);
-            $string = str_ireplace("SELECT * FROM", "", $string);
-            $string = str_ireplace("DELETE FROM", "", $string);
-            $string = str_ireplace("INSERT INTO", "", $string);
-            $string = str_ireplace("UPDATE", "", $string);
-            $string = str_ireplace("--", "", $string);
-            $string = str_ireplace("^", "", $string);
-            $string = str_ireplace("]", "", $string);
-            $string = str_ireplace("[", "", $string);
-            $string = str_ireplace("{", "", $string);
-            $string = str_ireplace("}", "", $string);
-            $string = str_ireplace("==", "", $string);
-			$string = str_ireplace("'", "", $string);
+			return $string;
+		}
 
-            return $string;
-        }
+		protected function cleanStringConverterCase($string){
+			// Limpia espacios al inicio y al final
+			$string = trim($string);
+
+			// Quita las barras de un string con comillas escapadas
+			$string = stripslashes($string);
+
+			// Escapa caracteres especiales de HTML
+			$string = htmlspecialchars($string);
+
+			// Eliminar etiquetas HTML y JavaScript
+			$string = strip_tags($string);
+
+			// Eliminar caracteres peligrosos específicos de SQL
+			$string = str_ireplace(array(';', '--', '^', ']', '[', '{', '}', '==', "'"), '', $string);
+
+			return $string;
+		}
 
         protected function sweetAlert($datos){
             if($datos['alert'] == "simple"){
@@ -1143,6 +1106,7 @@
 			INNER JOIN puestos AS p ON c.puestos_id = p.puestos_id
 			".$where."
 			ORDER BY c.nombre;";
+
 			$result = self::connection()->query($query);
 
 			return $result;
@@ -1673,6 +1637,73 @@
 
 			return $result;
 		}
+
+		public function GetDetalleVentas($datos){
+			// Construir la consulta base
+			$query = "SELECT 
+				CASE 
+					WHEN sf.documento_id = 4 THEN CONCAT('PROFORMA-', sf.prefijo, '', LPAD(f.number, sf.relleno, 0))
+					ELSE CONCAT(sf.prefijo, '', LPAD(f.number, sf.relleno, 0))
+				END AS numero,
+				p.nombre AS Producto,
+				fd.precio AS Precio,
+				fd.cantidad AS Cantidad,
+				fd.isv_valor AS ISV,
+				fd.descuento AS Descuento,
+				(fd.precio * fd.cantidad + fd.isv_valor - fd.descuento) AS Total,
+				CONCAT(c.nombre, ' ', c.apellido) AS Vendedor
+			FROM 
+				facturas_detalles fd
+				INNER JOIN productos p ON fd.productos_id = p.productos_id              
+				INNER JOIN facturas f ON fd.facturas_id = f.facturas_id
+				INNER JOIN colaboradores c ON f.colaboradores_id = c.colaboradores_id
+				INNER JOIN secuencia_facturacion sf ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
+				INNER JOIN documento AS d ON sf.documento_id = d.documento_id
+			";
+		
+			// Construir la cláusula WHERE
+			$whereClause = [];
+		
+			// Verificar si se ha definido un rango de fechas
+			if (!empty($datos['fechai']) && !empty($datos['fechaf'])) {
+				$whereClause[] = "f.fecha BETWEEN '{$datos['fechai']}' AND '{$datos['fechaf']}'";
+			}
+		
+			// Verificar si se ha definido un producto específico
+			if (!empty($datos['productos_id'])) {
+				$whereClause[] = "p.productos_id = '{$datos['productos_id']}'";
+			}
+		
+			// Verificar si se ha definido un colaborador específico
+			if (!empty($datos['colaboradores_id'])) {
+				$whereClause[] = "c.colaboradores_id = '{$datos['colaboradores_id']}'";
+			}
+		
+			// Si no se ha definido un producto ni un colaborador, mostrar el rango de fechas
+			if (empty($datos['productos_id']) && empty($datos['colaboradores_id'])) {
+				if (!empty($datos['fechai']) && !empty($datos['fechaf'])) {
+					$whereClause[] = "f.fecha BETWEEN '{$datos['fechai']}' AND '{$datos['fechaf']}'";
+				}
+			}
+		
+			// Si hay condiciones, agregarlas a la consulta
+			if (!empty($whereClause)) {
+				$query .= " WHERE " . implode(" AND ", $whereClause);
+			}
+		
+			// Ejecutar la consulta
+			$result = self::connection()->query($query);
+		
+			// Verificar si se obtuvieron resultados
+			if ($result === false) {
+				// Manejar el error, por ejemplo, imprimir el mensaje de error y salir
+				echo "Error al ejecutar la consulta: " . self::connection()->error;
+				exit;
+			}
+		
+			// Retornar los resultados
+			return $result;
+		}			
 
 		public function getTipoContrato(){
 			$query = "SELECT *
@@ -5494,20 +5525,12 @@
 
 		}
 
-
-
 		function convertir($numero){
-
 			$num = str_replace(",","",$numero);
-
 			$num = number_format($num,2,'.','');
-
 			$cents = substr($num,strlen($num)-2,strlen($num)-1);
-
 			$num = (int)$num;
-
 			$numf = self::milmillon($num);
-
 
 			return $numf." CON ".$cents."/100";
 		}
