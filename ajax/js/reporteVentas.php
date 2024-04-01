@@ -29,6 +29,10 @@ $('#form_main_ventas #fechaf').on("change", function(e) {
     listar_reporte_ventas();
 });
 
+$('#form_main_ventas #factura_reporte').on("change", function(e) {
+    listar_reporte_ventas();
+});
+
 function customRound(number) {
     var truncated = Math.floor(number * 100) / 100; // Trunca a dos decimales
     var secondDecimal = Math.floor((number * 100) % 10); // Obtiene el segundo decimal
@@ -42,14 +46,11 @@ function customRound(number) {
 
 //INICIO REPORTE DE VENTAS
 var listar_reporte_ventas = function() {
-    var tipo_factura_reporte = 1;
+    let tipo_factura_reporte = $("#form_main_ventas #tipo_factura_reporte").val();
+    tipo_factura_reporte = tipo_factura_reporte ? tipo_factura_reporte : 1;
 
-    if ($("#form_main_ventas #tipo_factura_reporte").val() == null || $("#form_main_ventas #tipo_factura_reporte")
-        .val() == "") {
-        tipo_factura_reporte = 1;
-    } else {
-        tipo_factura_reporte = $("#form_main_ventas #tipo_factura_reporte").val();
-    }
+    let factura = $("#form_main_ventas #factura_reporte").val();
+    factura = factura ? factura : 1;
 
     var fechai = $("#form_main_ventas #fechai").val();
     var fechaf = $("#form_main_ventas #fechaf").val();
@@ -67,7 +68,8 @@ var listar_reporte_ventas = function() {
                 "facturador": facturador,
                 "vendedor": vendedor,
                 "fechai": fechai,
-                "fechaf": fechaf
+                "fechaf": fechaf,
+                "factura": factura
             }
         },
         "columns": [{

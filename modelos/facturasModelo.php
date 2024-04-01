@@ -257,6 +257,16 @@
 			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);
 			return $result;                
 		}
+
+		protected function actualizar_estado_factura_modelo($facturas_id){
+			$update = "UPDATE facturas
+				SET
+					estado = '2'
+				WHERE facturas_id = '$facturas_id'";
+			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);	
+
+			return $result;				
+		}			
 						
 		protected function actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero){
 			$update = "UPDATE secuencia_facturacion
@@ -298,6 +308,16 @@
 			
 			return $result;            
 		}
+
+		protected function validar_cobrarClientes_modelo($facturas_id){
+			$query = "SELECT cobrar_clientes_id
+					FROM cobrar_clientes
+					WHERE facturas_id = '$facturas_id'";
+			
+			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $result;            
+		}		
 	
 		protected function valid_cambio_dolar_modelo($fecha){
 			$query = "SELECT cambio_dolar_id

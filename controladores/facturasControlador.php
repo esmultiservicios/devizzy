@@ -33,6 +33,8 @@
 
 			if ($secuenciaFacturacion !== null) {
 				$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
+				$numero = $secuenciaFacturacion['numero'];
+				$incremento = $secuenciaFacturacion['incremento'];
 
 				$notas = mainModel::cleanString($_POST['notesBill']);
 				$fecha = $_POST['fecha'];
@@ -360,8 +362,67 @@
 										"valor" => "Registro",
 										"funcion" => "limpiarTablaFactura();pago(".$facturas_id.");getCajero();getConsumidorFinal();getEstadoFactura();cleanFooterValueBill();resetRow();",
 										"modal" => "",
-									];			
+									];	
+
+									if($documento_nombre === "Factura Proforma"){
+										$alert = [
+											"alert" => "save_simple",
+											"title" => "Registro almacenado",
+											"text" => "El registro se ha almacenado correctamente",
+											"type" => "success",
+											"btn-class" => "btn-primary",
+											"btn-text" => "¡Bien Hecho!",
+											"form" => "invoice-form",	
+											"id" => "proceso_factura",
+											"valor" => "Registro",
+											"funcion" => "limpiarTablaFactura();getCajero();printBill(".$facturas_id.");getConsumidorFinal();getEstadoFactura();cleanFooterValueBill();resetRow();",
+											"modal" => "",
+										];	
+
+										//AGREGAMOS LA FACTURA PROFORMA
+										$datos_proforma = [
+											"facturas_id" => $facturas_id,
+											"clientes_id" => $clientes_id,
+											"secuencia_facturacion_id" => $secuencia_facturacion_id,				
+											"numero" => $numero,									
+											"importe" => $total_despues_isv,	
+											"usuario" => $colaborador_id,
+											"empresa_id" => $empresa_id,	
+											"estado" => 0,
+											"fecha_creacion" => $fecha_registro
+										];	
+
+										if($documento_nombre === "Factura Proforma"){
+											facturasModelo::agregar_facturas_proforma_modelo($datos_proforma);
+										}		
+										
+										//ACTUALIZAMOS EL ESTADO DE LA FACTURA
+										facturasModelo::actualizar_estado_factura_modelo($facturas_id);										
+									}	
 									
+									$numero += $incremento;
+									facturasModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);
+
+									//AGREGAMOS LA CUENTA POR COBRAR CLIENTES
+									$estado_cuenta_cobrar = 1;//CRÉDITO						
+		
+									$datos_cobrar_clientes = [
+										"clientes_id" => $clientes_id,
+										"facturas_id" => $facturas_id,
+										"fecha" => $fecha,				
+										"saldo" => $total_despues_isv,
+										"estado" => $estado_cuenta_cobrar,
+										"usuario" => $usuario,
+										"fecha_registro" => $fecha_registro,
+										"empresa" => $empresa_id
+									];		
+									
+									//VERIFICAMOS SI EXISTE EL REGISTRO ANTES DE GUARDARLO
+									$resultCobrarClientes = facturasModelo::validar_cobrarClientes_modelo($facturas_id);
+
+									if($resultCobrarClientes->num_rows==0){
+										facturasModelo::agregar_cuenta_por_cobrar_clientes($datos_cobrar_clientes);	
+									}																	
 								}else{
 									$alert = [
 										"alert" => "simple",
@@ -386,7 +447,12 @@
 									"empresa" => $empresa_id
 								];		
 								
-								facturasModelo::agregar_cuenta_por_cobrar_clientes($datos_cobrar_clientes);
+								//VERIFICAMOS SI EXISTE EL REGISTRO ANTES DE GUARDARLO
+								$resultCobrarClientes = facturasModelo::validar_cobrarClientes_modelo($facturas_id);
+
+								if($resultCobrarClientes->num_rows==0){
+									facturasModelo::agregar_cuenta_por_cobrar_clientes($datos_cobrar_clientes);	
+								}
 							}else{//YA SE GUARDO LA FACTURA
 								$alert = [
 									"alert" => "simple",
@@ -399,8 +465,6 @@
 						//FIN FACTURA CONTADO
 						}else{//INICIO FACTURA CRÉDITO
 							//SI LA FACTURA ES AL CRÉDITO ALMACENAMOS LOS DATOS DE LA FACTURA PERO NO REGISTRAMOS EL PAGO, SIMPLEMENTE DEJAMOS LA CUENTA POR COBRAR A LOS CLIENTES						
-							$numero = $secuenciaFacturacion['numero'];
-							$incremento = $secuenciaFacturacion['incremento'];	
 	
 							$datos = [
 								"facturas_id" => $facturas_id,
@@ -682,7 +746,12 @@
 									"empresa" => $empresa_id
 								];		
 								
-								facturasModelo::agregar_cuenta_por_cobrar_clientes($datos_cobrar_clientes);
+								//VERIFICAMOS SI EXISTE EL REGISTRO ANTES DE GUARDARLO
+								$resultCobrarClientes = facturasModelo::validar_cobrarClientes_modelo($facturas_id);
+
+								if($resultCobrarClientes->num_rows==0){
+									facturasModelo::agregar_cuenta_por_cobrar_clientes($datos_cobrar_clientes);	
+								}
 								
 								//GUARDAR HISTORIAL
 								$campos = ['nombre', 'rtn'];
@@ -1083,7 +1152,6 @@
 						}
 
 					}//FIN CICLO FOR
-
 					$total_despues_isv = ($total_valor + $isv_neto) - $descuentos;
 				
 					//ACTUALIZAMOS EL IMPORTE EN LA FACTURA
@@ -1120,7 +1188,12 @@
 						"empresa" => $empresa_id
 					];		
 					
-					facturasModelo::agregar_cuenta_por_cobrar_clientes($datos_cobrar_clientes);
+					//VERIFICAMOS SI EXISTE EL REGISTRO ANTES DE GUARDARLO
+					$resultCobrarClientes = facturasModelo::validar_cobrarClientes_modelo($facturas_id);
+
+					if($resultCobrarClientes->num_rows==0){
+						facturasModelo::agregar_cuenta_por_cobrar_clientes($datos_cobrar_clientes);	
+					}
 				}else{
 					$alert = [
 						"alert" => "simple",

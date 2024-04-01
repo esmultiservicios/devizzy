@@ -18,7 +18,7 @@ $(document).ready(function() {
     getClientesFacturasCXC();
 
     // Al cargar la página, verificar el estado del primer checkbox
-    if ($('#invoice-form #facturas_activo').is(':checked')) {
+    /*if ($('#invoice-form #facturas_activo').is(':checked')) {
         $('#invoice-form #facturas_proforma_container').hide(); // Ocultar el segundo checkbox
         $('#invoice-form #facturas_proforma').prop('checked', false); // Deseleccionar el segundo checkbox
     }  
@@ -31,7 +31,7 @@ $(document).ready(function() {
         } else {
             $('#invoice-form #facturas_proforma_container').show(); // Mostrar el segundo checkbox
         }
-    });    
+    });  */  
 });
 
 function getClientesFacturasCXC() {

@@ -80,7 +80,7 @@
                                 </label>
                                 <span class="question mb-2" id="label_facturas_activo"></span>
 
-                                <span id="facturas_proforma_container" sytle="display:none;">
+                                <span id="facturas_proforma_container">
                                     <label class="col-form-label mr-2" for="facturas_proforma">Proforma:</label>
                                     <!-- Segundo checkbox -->
                                     <label class="switch mb-2" data-toggle="tooltip" data-placement="top" title="Factura Proforma">

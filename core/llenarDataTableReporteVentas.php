@@ -11,6 +11,7 @@
 		"fechaf" => $_POST['fechaf'],		
 		"facturador" => $_POST['facturador'],
 		"vendedor" => $_POST['vendedor'],
+		"factura" => $_POST['factura'],
 	];	
 	
 	$result = $insMainModel->consultaVentas($datos);
