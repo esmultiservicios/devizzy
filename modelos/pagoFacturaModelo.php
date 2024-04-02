@@ -326,7 +326,6 @@
 						$result_valid_pagos_detalles_facturas = pagoFacturaModelo::valid_pagos_detalles_facturas($pagos_id, $res['tipo_pago_id']);
 						
 						pagoFacturaModelo::agregar_pago_detalles_factura_modelo($datos_pago_detalle);
-
 						/**###########################################################################################################*/
 						//INGRESAMOS LOS DATOS DEL PAGO EN LA TABLA ingresos
 						//CONSULTAMOS LA CUENTA DONDE SE ENLZARA CON EL PAGO
@@ -448,7 +447,7 @@
 									$numero = $secuenciaFacturacion['number'];	
 									$no_factura = $secuenciaFacturacion['prefijo']."".str_pad($secuenciaFacturacion['numero'], $secuenciaFacturacion['relleno'], "0", STR_PAD_LEFT);			
 								}
-								
+
 								//ACTUALIZAMOS EL ESTADO DE LA FACTURA Y EL NUMERO DE FACTURACION
 								$datos_update_factura = [
 									"facturas_id" => $res['facturas_id'],
@@ -468,13 +467,19 @@
 								//OBTENEMOS EL DOCUMENTO ID DE LA FACTURACION
 								$consultaDocumento = mainModel::getDocumentoSecuenciaFacturacion("Factura Electronica")->fetch_assoc();
 								$documento_id = $consultaDocumento['documento_id'];	
-
+								
 								//OBTENEMOS EL DOCUMENTO ID DE LA FACTURACION
 								$secuenciaFacturacion = pagoFacturaModelo::secuencia_facturacion_modelo($res['empresa'], $documento_id)->fetch_assoc();
 								$secuencia_facturacion_id = $secuenciaFacturacion['secuencia_facturacion_id'];
 								$numero = $secuenciaFacturacion['numero'];
 								$incremento = $secuenciaFacturacion['incremento'];	
-																														
+																					
+								if($proformaNombre === "Factura Electronica"){
+									//CONSULTAMOS EL NUMERO ACTUAL DE LA FACTURA
+									$numeroFactura = pagoFacturaModelo::consultar_numero_factura_pago_modelo($res['facturas_id'])->fetch_assoc();
+									$numero = $numeroFactura['number'];
+								}
+
 								//ACTUALIZAMOS EL NUMERO Y LA SECUENCIA DE LA FACTURA								
 								$datosFactura = [
 									"secuencia_facturacion_id" => $secuencia_facturacion_id,
@@ -483,8 +488,10 @@
 								];
 								pagoFacturaModelo::actualizar_Secuenciafactura_PagoModelo($datosFactura);								
 								
-								$numero += $incremento;
-								pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);
+								if($proformaNombre === "Factura Proforma"){
+									$numero += $incremento;
+									pagoFacturaModelo::actualizar_secuencia_facturacion_modelo($secuencia_facturacion_id, $numero);
+								}
 
 								//ACTUALIZAMOS EL ESTADO DE LA FACTURA PROFORMA
 								pagoFacturaModelo::actualizar_estado_factura_proforma_pagos_modelo($res['facturas_id']);

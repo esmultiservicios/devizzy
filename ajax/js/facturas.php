@@ -2321,60 +2321,6 @@ function getTotalFacturasDisponibles() {
             if (getConsultarAperturaCaja() == 1) {
                 var valores = eval(registro);
                 var mensaje = "";
-                var alertClass = "";
-
-                if (valores[0] >= 10 && valores[0] <= 30) {
-                    alertClass = "alert-warning";
-                } else if (valores[0] >= 0 && valores[0] <= 9) {
-                    alertClass = "alert-danger";
-                } else {
-                    alertClass = "alert-danger";
-                    mensaje = "";
-                    $("#invoice-form #reg_factura").attr("disabled", false);
-                }
-
-                if (valores[0] == 0) {
-                    mensaje = "Solo esta factura puede realizar";
-                    alertClass = "alert-danger";
-                    $("#invoice-form #reg_factura").attr("disabled", false);
-                } else if (valores[0] < 0) {
-                    mensaje = "No puede seguir facturando";
-                    alertClass = "alert-danger";
-                    $("#invoice-form #reg_factura").attr("disabled", true);
-                }
-
-                if (valores[1] == 1) {
-                    mensaje += "<br/>Su fecha límite es: " + valores[2] + "<br/>Le queda un día más, para seguir facturando";
-                    alertClass = "alert-warning";
-                    $("#invoice-form #reg_factura").attr("disabled", false);
-                } else if (valores[1] == 0) {
-                    mensaje += "<br/>Su fecha límite de facturación es hoy";
-                    alertClass = "alert-danger";
-                } else if (valores[1] < 0) {
-                    mensaje += "<br/>Ya alcanzó su fecha límite";
-                    alertClass = "alert-danger";
-                    $("#invoice-form #reg_factura").attr("disabled", true);
-                }
-
-                $("#mensajeFacturas").html("Total Facturas disponibles: " + valores[0] + "<br/>" + mensaje).addClass(alertClass);
-                $("#mensajeFacturas").removeClass(alertClass === "alert-warning" ? "alert-danger" : "alert-warning");
-                $("#mensajeFacturas").attr("disabled", valores[0] <= 0);
-            }
-        }
-    });
-}
-
-/*function getTotalFacturasDisponibles() {
-    var url = '<?php echo SERVERURL; ?>core/getTotalFacturasDisponibles.php';
-
-    $.ajax({
-        type: 'POST',
-        url: url,
-        async: false,
-        success: function(registro) {
-            if (getConsultarAperturaCaja() == 1) {
-                var valores = eval(registro);
-                var mensaje = "";
                 if (valores[0] >= 10 && valores[0] <= 30) {
                     mensaje = "Total Facturas disponibles: " + valores[0];
 
@@ -2437,9 +2383,9 @@ function getTotalFacturasDisponibles() {
             }
         }
     });
-}*/
+}
 
-//setInterval('getTotalFacturasDisponibles()',1000);
+setInterval('getTotalFacturasDisponibles()',1000);
 
 function getReporteCotizacion() {
     var url = '<?php echo SERVERURL;?>core/getTipoFacturaReporte.php';
