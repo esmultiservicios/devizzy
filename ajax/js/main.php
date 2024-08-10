@@ -3496,9 +3496,17 @@ function pago(facturas_id, tipoPago) {
     $.ajax({
         type: 'POST',
         url: url,
-        data: 'facturas_id=' + facturas_id,
-        success: function(valores) {
-            var datos = eval(valores);
+        data: {
+            facturas_id: facturas_id
+        },
+        dataType: 'json', // Asegúrate de que el servidor devuelve JSON
+        success: function(datos) {
+            // Verifica que datos sea un array o un objeto
+            if (!Array.isArray(datos)) {
+                console.error('Formato de datos inesperado:', datos);
+                return;
+            }
+
             $('#formEfectivoBill .border-right a:eq(0) a').tab('show');
             $("#customer-name-bill").html("<b>Cliente:</b> " + datos[0]);
             $("#customer_bill_pay").val(datos[6]);
@@ -3518,8 +3526,8 @@ function pago(facturas_id, tipoPago) {
                 $("#formEfectivoBill #tipo_factura_efectivo").val(tipoPago);
 
                 $('#formTarjetaBill #monto_efectivo_tarjeta').show();
-                $('#formTransferenciaBill #importe_transferencia').show()
-                $('#formChequeBill #importe_cheque').show()
+                $('#formTransferenciaBill #importe_transferencia').show();
+                $('#formChequeBill #importe_cheque').show();
                 $("#formEfectivoBill #grupo_cambio_efectivo").hide();
             }
 
@@ -3550,8 +3558,9 @@ function pago(facturas_id, tipoPago) {
                 keyboard: false,
                 backdrop: 'static'
             });
-
-            return false;
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al realizar la solicitud:', status, error);
         }
     });
 }
@@ -3618,8 +3627,8 @@ $(document).ready(function() {
             $('#formEfectivoBill #cambio_efectivo').val(parseFloat(0).toFixed(2));
             $('#formEfectivoBill #pago_efectivo').attr('disabled', true);
         }
-		
-		if (parseFloat(efectivo) > parseFloat(monto)) {
+
+        if (parseFloat(efectivo) > parseFloat(monto)) {
             $('#formEfectivoBill #pago_efectivo').attr('disabled', true);
         }
     });

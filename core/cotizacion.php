@@ -264,19 +264,22 @@ use LDAP\Result;
             <p class="nota"><br /><br /><br /><br /></p>
             <h4 class="label_gracias"><?php  echo nl2br($consulta_registro["eslogan"]); ?></h4>
             <p class="nota"><br /><br /><br /><br /></p>
+
             <?php
+            if($consulta_registro["MostrarFirma"] == 1) {
 			if($consulta_registro["estado"] == 1){
 				if($firma_documento !== "") {
 		?>
             <p class="nota">
-                <!--<center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $firma_documento; ?>"
-                        width="150px" height="130px">-->
+                <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $firma_documento; ?>"
+                        width="150px" height="130px">
             </p>
             <?php
 				}
 			}
+        }
 		?>
-            <br/><br/>
+            <br /><br />
             <p class="nota">
                 <center><b>__________________________</center>
             </p>

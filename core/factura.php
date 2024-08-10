@@ -176,11 +176,11 @@
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>Importe</span></td>
-                    <td class="textright"><span>L. <?php echo number_format($total,2);?></span></td>                  
+                    <td class="textright"><span>L. <?php echo number_format($total,2);?></span></td>
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>Descuentos y Rebajas Otorgados</span></td>
-                    <td class="textright"><span>L. <?php echo number_format($descuentos_neto,2);?></span></td>                    
+                    <td class="textright"><span>L. <?php echo number_format($descuentos_neto,2);?></span></td>
                 </tr>
                 <tr>
                     <td colspan="6" class="textright"><span>Sub-Total</span></td>
@@ -228,7 +228,7 @@
                 <?php                     
                     echo $insMainModel->convertir($total_despues_isv) . ' LEMPIRAS';
                 ?>
-            <br>
+                <br>
             <p class="nota textcenter">
                 <?php 
 				/*
@@ -303,17 +303,19 @@
             <p class="nota">N° identificativo del registro de la SAG __________________</p>
 
             <?php
-			if($consulta_registro["estado"] == 2){
-				if($firma_documento !== "") {
-		?>
+            if($consulta_registro["MostrarFirma"] == 1) {
+                if($consulta_registro["estado"] == 2){
+                    if($firma_documento !== "") {
+            ?>
             <p class="nota">
                 <center><img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php echo $firma_documento; ?>"
                         width="150px" height="130px">
             </p>
             <?php
-				}
-			}
-		?>
+                    }
+                }
+            }
+                ?>
 
             <p class="nota textcenter"><b>Original:</b> Cliente</p>
             <p class="nota textcenter"><b>Copia:</b> Emisor</p>

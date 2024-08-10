@@ -94,7 +94,8 @@
 				"horario" => $horario,
 				"facebook" => $facebook,
 				"sitioweb" => $sitioweb,
-				"fecha_registro" => $fecha_registro				
+				"fecha_registro" => $fecha_registro,			
+				"MostrarFirma" => 1,
 			];
 			
 			$resultEmpresa = empresaModelo::valid_empresa_modelo($rtn);

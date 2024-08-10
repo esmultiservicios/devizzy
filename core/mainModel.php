@@ -581,7 +581,7 @@
 			return $string;
 		}
 
-        protected function sweetAlert($datos){
+        public function sweetAlert($datos){
             if($datos['alert'] == "simple"){
                 $alerta = "
                     <script>
@@ -965,7 +965,8 @@
 		
 				$where = "WHERE estado = 1";
 			} else {
-				$where = "WHERE estado = 1 AND empresa_id = '".$datos['empresa_id']."'";
+				//$where = "WHERE estado = 1 AND empresa_id = '".$datos['empresa_id']."'";
+				$where = "WHERE estado = 1";
 			}
 		
 			$query = "SELECT *
@@ -974,6 +975,7 @@
 				ORDER BY nombre";
 		
 			$result = self::connection()->query($query);
+
 		
 			return $result;
 		}
@@ -988,7 +990,7 @@
 						
 			$query = "SELECT *
 				FROM empresa
-				WHERE estado = 1 AND empresa_id = '".$datos['empresa_id']."'
+				WHERE estado = 1
 				ORDER BY nombre";
 
 			$result = self::connection()->query($query);
@@ -1641,24 +1643,24 @@
 		public function GetDetalleVentas($datos){
 			// Construir la consulta base
 			$query = "SELECT 
-				CASE 
-					WHEN sf.documento_id = 4 THEN CONCAT('PROFORMA-', sf.prefijo, '', LPAD(f.number, sf.relleno, 0))
-					ELSE CONCAT(sf.prefijo, '', LPAD(f.number, sf.relleno, 0))
-				END AS numero,
-				p.nombre AS Producto,
-				fd.precio AS Precio,
-				fd.cantidad AS Cantidad,
-				fd.isv_valor AS ISV,
-				fd.descuento AS Descuento,
-				(fd.precio * fd.cantidad + fd.isv_valor - fd.descuento) AS Total,
-				CONCAT(c.nombre, ' ', c.apellido) AS Vendedor
-			FROM 
-				facturas_detalles fd
-				INNER JOIN productos p ON fd.productos_id = p.productos_id              
-				INNER JOIN facturas f ON fd.facturas_id = f.facturas_id
-				INNER JOIN colaboradores c ON f.colaboradores_id = c.colaboradores_id
-				INNER JOIN secuencia_facturacion sf ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-				INNER JOIN documento AS d ON sf.documento_id = d.documento_id
+					CASE 
+						WHEN sf.documento_id = 4 THEN CONCAT('PROFORMA-', sf.prefijo, '', LPAD(f.number, sf.relleno, 0))
+						ELSE CONCAT(sf.prefijo, '', LPAD(f.number, sf.relleno, 0))
+					END AS numero,
+					p.nombre AS Producto,
+					fd.precio AS Precio,
+					fd.cantidad AS Cantidad,
+					fd.isv_valor AS ISV,
+					fd.descuento AS Descuento,
+					(fd.precio * fd.cantidad + fd.isv_valor - fd.descuento) AS Total,
+					CONCAT(c.nombre, ' ', c.apellido) AS Vendedor
+				FROM 
+					facturas_detalles fd
+					INNER JOIN productos p ON fd.productos_id = p.productos_id              
+					INNER JOIN facturas f ON fd.facturas_id = f.facturas_id
+					INNER JOIN colaboradores c ON f.colaboradores_id = c.colaboradores_id
+					INNER JOIN secuencia_facturacion sf ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
+					INNER JOIN documento AS d ON sf.documento_id = d.documento_id
 			";
 		
 			// Construir la cláusula WHERE
@@ -1666,23 +1668,23 @@
 		
 			// Verificar si se ha definido un rango de fechas
 			if (!empty($datos['fechai']) && !empty($datos['fechaf'])) {
-				$whereClause[] = "f.fecha BETWEEN '{$datos['fechai']}' AND '{$datos['fechaf']}'";
+				$whereClause[] = "f.fecha BETWEEN '{$datos['fechai']}' AND '{$datos['fechaf']}' AND f.estado IN(2,3)";
 			}
 		
 			// Verificar si se ha definido un producto específico
 			if (!empty($datos['productos_id'])) {
-				$whereClause[] = "p.productos_id = '{$datos['productos_id']}'";
+				$whereClause[] = "p.productos_id = '{$datos['productos_id']}' AND f.estado IN(2,3)";
 			}
 		
 			// Verificar si se ha definido un colaborador específico
 			if (!empty($datos['colaboradores_id'])) {
-				$whereClause[] = "c.colaboradores_id = '{$datos['colaboradores_id']}'";
+				$whereClause[] = "c.colaboradores_id = '{$datos['colaboradores_id']}' AND f.estado IN(2,3)";
 			}
 		
 			// Si no se ha definido un producto ni un colaborador, mostrar el rango de fechas
 			if (empty($datos['productos_id']) && empty($datos['colaboradores_id'])) {
 				if (!empty($datos['fechai']) && !empty($datos['fechaf'])) {
-					$whereClause[] = "f.fecha BETWEEN '{$datos['fechai']}' AND '{$datos['fechaf']}'";
+					$whereClause[] = "f.fecha BETWEEN '{$datos['fechai']}' AND '{$datos['fechaf']}' AND f.estado IN(2,3)";
 				}
 			}
 		
@@ -3106,7 +3108,7 @@
 		}
 
 		public function getFactura($noFactura){
-			$query = "SELECT c.clientes_id As 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn_cliente', c.telefono AS 'telefono', c.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn_empresa', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn', f.fecha_dolar AS 'fecha_dolar', e.logotipo AS 'logotipo', e.firma_documento AS 'firma_documento'
+			$query = "SELECT c.clientes_id As 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn_cliente', c.telefono AS 'telefono', c.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn_empresa', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn', f.fecha_dolar AS 'fecha_dolar', e.logotipo AS 'logotipo', e.firma_documento AS 'firma_documento', e.MostrarFirma
 				FROM facturas AS f
 				INNER JOIN clientes AS c
 				ON f.clientes_id = c.clientes_id
@@ -3235,7 +3237,7 @@
 			 e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular',
 			  e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido',
 			   DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', c.fecha_dolar,
-			    time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito'END) AS 'tipo_documento', vg.valor AS 'vigencia_cotizacion', e.rtn AS 'rtn_empresa', e.logotipo AS 'logotipo', e.firma_documento AS 'firma_documento'
+			    time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito'END) AS 'tipo_documento', vg.valor AS 'vigencia_cotizacion', e.rtn AS 'rtn_empresa', e.logotipo AS 'logotipo', e.firma_documento AS 'firma_documento', e.MostrarFirma
 				FROM cotizacion AS c
 				INNER JOIN clientes AS cl
 				ON c.clientes_id = cl.clientes_id
@@ -4437,10 +4439,10 @@
 				f.facturas_id = '$facturas_id'";
 
 			$result = self::connection()->query($query);
-
+			
 			return $result;
 		}
-
+		
 		public function getDetalleProductosFactura($facturas_id){
 			$query = "SELECT fd.productos_id AS 'productos_id', p.nombre AS 'producto', fd.cantidad AS 'cantidad', fd.precio AS 'precio', fd.isv_valor AS 'isv_valor', fd.descuento AS 'descuento'
 				FROM facturas_detalles AS fd

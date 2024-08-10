@@ -32,22 +32,26 @@
 
 	$result_factura = $insMainModel->getDetalleProductosFactura($facturas_id);
 
-	while($registro2 = $result_factura->fetch_assoc()){
-		$cantidad = $registro2['cantidad'];
-		$precio = $registro2['precio'];
-		$descuento = $registro2['descuento'];
-		$isv_valor = $registro2['isv_valor'];
-		$importe += (($cantidad * $precio) - $descuento) + $isv_valor;
-	}	
+	$importe = 0; // Reiniciar $importe
 
+	while ($registro2 = $result_factura->fetch_assoc()) {
+		$cantidad = floatval($registro2['cantidad']); // Convertir a float
+		$precio = floatval($registro2['precio']); // Convertir a float
+		$descuento = floatval($registro2['descuento']); // Convertir a float
+		$isv_valor = floatval($registro2['isv_valor']); // Convertir a float
+	
+		// Calcular el importe total
+		$importe += ($cantidad * $precio) - $descuento + $isv_valor;
+	}
+	
 	$datos = array(
-		 0 => $cliente,
-		 1 => $clientes_id,		 
-		 2 => $fecha_factura, 
-		 3 => $importe,
-		 4 => $facturas_id,	
-		 5 => $estado,
-		 6 => $saldo
-	);	
+		0 => $cliente,
+		1 => $clientes_id,
+		2 => $fecha_factura,
+		3 => $importe,
+		4 => $facturas_id,
+		5 => $estado,
+		6 => $saldo
+	);
+	
 	echo json_encode($datos);
-?>

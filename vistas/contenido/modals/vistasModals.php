@@ -229,7 +229,7 @@
                     </div>
 
                     <div class="form-group" id="estado_usuarios">
-						<span class="mr-2">Estado:</span>					
+                        <span class="mr-2">Estado:</span>
                         <div class="col-md-12">
                             <label class="switch">
                                 <input type="checkbox" id="usuarios_activo" name="usuarios_activo" value="1" checked>
@@ -240,10 +240,10 @@
                     </div>
                     <div class="RespuestaAjax"></div>
                 </form>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
+                <br />
+                <br />
+                <br />
+                <br />
             </div>
             <div class="modal-footer">
                 <button class="guardar btn btn-primary ml-2" type="submit" style="display: none;" id="reg_usuario"
@@ -1531,7 +1531,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="estado_clientes">
-						<span class="mr-2">Estado:</span>
+                        <span class="mr-2">Estado:</span>
                         <div class="col-md-12">
                             <label class="switch">
                                 <input type="checkbox" id="clientes_activo" name="clientes_activo" value="1" checked>
@@ -1668,7 +1668,7 @@
                     </div>
 
                     <div class="form-group" id="estado_proveedores">
-						<span class="mr-2">Estado:</span>					
+                        <span class="mr-2">Estado:</span>
                         <div class="col-md-12">
                             <label class="switch">
                                 <input type="checkbox" id="proveedores_activo" name="proveedores_activo" value="1"
@@ -1922,8 +1922,8 @@
                         <div class="col-md-6 mb-3">
                             <label for="cliente_codigo_colaborador">Código Cliente</label>
                             <input type="text" class="form-control" id="cliente_codigo_colaborador"
-                                name="cliente_codigo_colaborador" placeholder="Código Cliente" readonly data-toggle="tooltip"
-                                data-placement="top"
+                                name="cliente_codigo_colaborador" placeholder="Código Cliente" readonly
+                                data-toggle="tooltip" data-placement="top"
                                 title="Este código es exclusivo para su cuenta y será necesario proporcionarlo cada vez que necesite asistencia técnica">
                         </div>
                         <div class="col-md-4 mb-3">
@@ -2001,7 +2001,7 @@
                     </div>
 
                     <div class="form-group" id="estado_colaboradores">
-						<span class="mr-2">Estado:</span>					
+                        <span class="mr-2">Estado:</span>
                         <div class="col-md-12">
                             <label class="switch">
                                 <input type="checkbox" id="colaboradores_activo" name="colaboradores_activo" value="1"
@@ -2214,6 +2214,9 @@
                                         <div class="sb-nav-link-icon"></div><i class="fa fa-image"></i>
                                     </span>
                                 </div>
+                                <button id="toggle-firma" class="btn btn-primary">
+                                    <!-- El ícono y texto del botón se ajustarán con JS -->
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -2309,7 +2312,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="estado_empresa">
-						<span class="mr-2">Estado:</span>					
+                        <span class="mr-2">Estado:</span>
                         <div class="col-md-12">
                             <label class="switch">
                                 <input type="checkbox" id="empresa_activo" name="empresa_activo" value="1" checked>
@@ -2665,9 +2668,9 @@
                         </div>
                     </div>
 
-                    <div class="form-group custom-control custom-checkbox custom-control-inline">				
+                    <div class="form-group custom-control custom-checkbox custom-control-inline">
                         <div class="col-md-12" id="estado_producto">
-							<span class="mr-2">Estado:</span>
+                            <span class="mr-2">Estado:</span>
                             <label class="switch">
                                 <input type="checkbox" id="producto_activo" name="producto_activo" value="1" checked>
                                 <div class="slider round"></div>

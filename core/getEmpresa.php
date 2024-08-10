@@ -6,7 +6,8 @@
 	$insMainModel = new mainModel();
 	
 	$datos = [	
-		"empresa_id" => $_SESSION['empresa_id_sd']	
+		"empresa_id" => $_SESSION['empresa_id_sd']	,
+		"privilegio_colaborador" => $_SESSION['privilegio_sd']
 	];
 
 	$result = $insMainModel->getEmpresaSelect($datos);
@@ -18,4 +19,3 @@
 	}else{
 		echo '<option value="">No hay datos que mostrar</option>';
 	}
-?>

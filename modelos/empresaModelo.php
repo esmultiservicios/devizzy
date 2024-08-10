@@ -8,16 +8,26 @@
 	class empresaModelo extends mainModel{
 		protected function agregar_empresa_modelo($datos){
 			$empresa_id = mainModel::correlativo("empresa_id", "empresa");
+		
 			$insert = "INSERT INTO empresa 
-				VALUES (
-					'$empresa_id','".$datos['razon_social']."','".$datos['empresa']."','".$datos['otra_informacion']."',
-					'".$datos['eslogan']."','".$datos['celular']."','".$datos['telefono']."','".$datos['correo']."','".$datos['logotipo']."',
-					'".$datos['rtn']."','".$datos['ubicacion']."','".$datos['facebook']."','".$datos['sitioweb']."','".$datos['horario']."','".$datos['estado']."','".$datos['usuario']."','".$datos['fecha_registro']."','".$datos['firma_documento']."')";
-			
+						(
+							empresa_id, razon_social, nombre, otra_informacion, eslogan, celular, telefono, correo, 
+							logotipo, rtn, ubicacion, facebook, sitioweb, horario, estado, colaboradores_id, 
+							fecha_registro, firma_documento, MostrarFirma
+						) 
+						VALUES (
+							'$empresa_id', '".$datos['razon_social']."', '".$datos['empresa']."', '".$datos['otra_informacion']."',
+							'".$datos['eslogan']."', '".$datos['celular']."', '".$datos['telefono']."', '".$datos['correo']."', 
+							'".$datos['logotipo']."', '".$datos['rtn']."', '".$datos['ubicacion']."', '".$datos['facebook']."', 
+							'".$datos['sitioweb']."', '".$datos['horario']."', '".$datos['estado']."', '".$datos['usuario']."',
+							'".$datos['fecha_registro']."', '".$datos['firma_documento']."', '".$datos['MostrarFirma']."'
+						)";
+		
 			$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-			
-			return $sql;			
+		
+			return $sql;            
 		}
+		
 		
 		protected function valid_empresa_modelo($rtn){
 			$query = "SELECT empresa_id FROM empresa WHERE rtn = '$rtn'";
