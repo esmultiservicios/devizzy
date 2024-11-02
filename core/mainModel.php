@@ -2457,8 +2457,8 @@ class mainModel
 	}
 
 	public function getProductos($datos)
-		{
-			$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', p.precio_compra AS 'precio_compra', p.precio_venta AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
+	{
+		$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', p.precio_compra AS 'precio_compra', p.precio_venta AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
 				(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', (CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
 				tp.tipo_producto_id AS 'tipo_producto_id', tp.nombre AS 'categoria', (CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END) AS 'isv_venta', (CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END) AS 'isv_compra', p.file_name AS 'image', p.porcentaje_venta
 					FROM productos AS p
@@ -2472,11 +2472,11 @@ class mainModel
 					ON u.empresa_id = e.empresa_id
 					INNER JOIN tipo_producto AS tp
 					ON p.tipo_producto_id = tp.tipo_producto_id
-					WHERE p.empresa_id = '" . $datos['empresa_id_sd'] . "' AND p.estado = '" . $datos['estado'] . "'";
+					WHERE p.estado = '" . $datos['estado'] . "'";
 
-			$result = self::connection()->query($query);
+		$result = self::connection()->query($query);
 
-			return $result;
+		return $result;
 	}
 
 	public function getProductosCantidad($datos)
@@ -2642,7 +2642,7 @@ class mainModel
 				GROUP BY
 					p.productos_id
 				ORDER BY
-					p.fecha_registro ASC";					
+					p.fecha_registro ASC";
 
 		$result = self::connection()->query($query);
 
@@ -4191,7 +4191,7 @@ class mainModel
 				INNER JOIN almacen AS bo
 				on p.almacen_id = bo.almacen_id
 				LEFT JOIN clientes AS cl ON cl.clientes_id = m.clientes_id
-				WHERE p.estado = 1
+				WHERE p.empresa_id = '" . $datos['empresa_id_sd'] . "' AND p.estado = 1
 				$fecha
 				$bodega
 				$producto
