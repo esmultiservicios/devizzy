@@ -3,10 +3,20 @@
 	require_once "configGenerales.php";
 	require_once "mainModel.php";
 	
+	if(!isset($_SESSION['user_sd'])){ 
+		session_start(['name'=>'SD']); 
+	}
+	
 	$insMainModel = new mainModel();
 	
 	$estado = isset($_POST['estado']) ? $_POST['estado'] : 1;
-	$result = $insMainModel->getProductos($estado);
+	
+	$datos = [
+		"estado" => $estado,	
+		"empresa_id_sd" => $_SESSION['empresa_id_sd']
+	];
+	
+	$result = $insMainModel->getProductos($datos);
 	
 	$arreglo = array();
 	$data = array();

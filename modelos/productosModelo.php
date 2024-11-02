@@ -35,16 +35,16 @@
 			return $result;			
 		}
 		
-		protected function valid_bar_code_productos_modelo($bar_code_product){
-			$query = "SELECT productos_id FROM productos WHERE barCode = '$bar_code_product'";
+		protected function valid_bar_code_productos_modelo($bar_code_product, $empresa){
+			$query = "SELECT productos_id FROM productos WHERE barCode = '$bar_code_product' AND empresa_id = '$empresa'";
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;
 		}	
 
-		protected function valid_nombre_producto_modelo($nombre){
-			$query = "SELECT productos_id FROM productos WHERE nombre = '$nombre'";
+		protected function valid_nombre_producto_modelo($nombre, $empresa){
+			$query = "SELECT productos_id FROM productos WHERE nombre = '$nombre' AND empresa_id = '$empresa'";
 
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			

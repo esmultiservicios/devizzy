@@ -3,12 +3,17 @@
 	require_once "configGenerales.php";
 	require_once "mainModel.php";
 	
+	if(!isset($_SESSION['user_sd'])){ 
+		session_start(['name'=>'SD']); 
+	}
+		
 	$insMainModel = new mainModel();
 
 	$datos = [
 		"tipo_producto_id" => $_POST['tipo_producto_id'],
 		"bodega" => $_POST['bodega'],
-		"productos_id" => $_POST['productos_id'] 
+		"productos_id" => $_POST['productos_id'],
+		"empresa_id_sd" => $_SESSION['empresa_id_sd']
 	];	
 	
 	$result = $insMainModel->getTranferenciaProductos($datos);

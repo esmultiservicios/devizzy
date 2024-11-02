@@ -3,13 +3,18 @@
 	require_once "configGenerales.php";
 	require_once "mainModel.php";
 	
+	if(!isset($_SESSION['user_sd'])){ 
+		session_start(['name'=>'SD']); 
+	}
+	
 	$insMainModel = new mainModel();
 	
 	$datos = [
 		"estado" => $_POST['estado'],
 		"clientes_id" => $_POST['clientes_id'],
 		"fechai" => $_POST['fechai'],
-		"fechaf" => $_POST['fechaf'],		
+		"fechaf" => $_POST['fechaf'],
+		"empresa_id_sd" => $_SESSION['empresa_id_sd'],		
 	];	
 
 	$result = $insMainModel->getCuentasporCobrarClientes($datos);

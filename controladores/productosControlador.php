@@ -133,11 +133,11 @@
 			//EVALUAMOS QUE LA VARIABLE DEL ARCHIVO ESTE EN FALSE PARA ALMACENAR EL REGISTRO
 			if($file_exist == 0){
 				//VALIDAMOS QUE NO EXISTA EL CODIGO DE BARRA
-				$result = productosModelo::valid_bar_code_productos_modelo($bar_code_product);
+				$result = productosModelo::valid_bar_code_productos_modelo($bar_code_product, $empresa);
 				
 				if($result->num_rows==0){
 					//VALIDAMOS QUE NO EXISTA EL NOMBRE DEL PRODUCTO
-					$result_nombre = productosModelo::valid_nombre_producto_modelo($nombre);
+					$result_nombre = productosModelo::valid_nombre_producto_modelo($nombre, $empresa);
 
 					if($result_nombre->num_rows==0){
 						$query = productosModelo::agregar_productos_modelo($datos);							

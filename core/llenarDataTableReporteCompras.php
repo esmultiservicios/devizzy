@@ -3,12 +3,17 @@
 	require_once "configGenerales.php";
 	require_once "mainModel.php";
 	
+	if(!isset($_SESSION['user_sd'])){ 
+		session_start(['name'=>'SD']); 
+	}
+	
 	$insMainModel = new mainModel();
 
 	$datos = [
 		"tipo_compra_reporte" => $_POST['tipo_compra_reporte'],
 		"fechai" => $_POST['fechai'],
-		"fechaf" => $_POST['fechaf'],		
+		"fechaf" => $_POST['fechaf'],	
+		"empresa_id_sd" => $_SESSION['empresa_id_sd'],		
 	];	
 	
 	$result = $insMainModel->consultaCompras($datos);

@@ -3,11 +3,20 @@
 	require_once "configGenerales.php";
 	require_once "mainModel.php";
 	
+	if(!isset($_SESSION['user_sd'])){ 
+		session_start(['name'=>'SD']); 
+	}
+	
 	$insMainModel = new mainModel();
 	
 	$categoria = $_POST['categoria'];
 	
-	$result = $insMainModel->getProductosMovimientos($categoria);
+	$datos = [
+		"categoria" => $categoria,
+		"empresa_id_sd" => $_SESSION['empresa_id_sd']	
+	];
+	
+	$result = $insMainModel->getProductosMovimientos($datos);
 	
 	$arreglo = array();
 	$data = array();

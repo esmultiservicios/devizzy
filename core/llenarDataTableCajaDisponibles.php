@@ -3,6 +3,10 @@ $peticionAjax = true;
 require_once "configGenerales.php";
 require_once "mainModel.php";
 
+if(!isset($_SESSION['user_sd'])){ 
+	session_start(['name'=>'SD']); 
+}
+	
 $insMainModel = new mainModel();
 
 if (!isset($_SESSION['user_sd'])) {
@@ -15,6 +19,7 @@ $datos = [
     "estado" => $_POST['estado'],
     "privilegio_id" => $_SESSION['privilegio_sd'],
     "colaborador_id" => $_SESSION['colaborador_id_sd'],
+	"empresa_id_sd" => $_SESSION['empresa_id_sd'],
 ];
 
 $result = $insMainModel->getCajas($datos);

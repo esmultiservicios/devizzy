@@ -289,13 +289,29 @@
 			return $result;            
 		}
 	
-		protected function secuencia_facturacion_modelo($empresa_id, $documento_id){
-			$query = "SELECT secuencia_facturacion_id, prefijo, siguiente AS 'numero', rango_final, fecha_limite, incremento, relleno
-					FROM secuencia_facturacion
-					WHERE activo = '1' AND empresa_id = '$empresa_id' AND documento_id = '$documento_id'";
-		
-			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
-		
+		protected function secuencia_facturacion_modelo($empresa_id, $documento_id) {
+			// Consulta SQL para obtener la secuencia de facturación
+			$query = "
+				SELECT 
+					secuencia_facturacion_id, 
+					prefijo, 
+					siguiente AS 'numero', 
+					rango_final, 
+					fecha_limite, 
+					incremento, 
+					relleno
+				FROM 
+					secuencia_facturacion
+				WHERE 
+					activo = '1' 
+					AND empresa_id = '$empresa_id' 
+					AND documento_id = '$documento_id'
+			";
+
+			// Ejecuta la consulta y maneja errores
+			$result = mainModel::connection()->query($query) 
+				or die(mainModel::connection()->error);
+
 			return $result;
 		}
 		

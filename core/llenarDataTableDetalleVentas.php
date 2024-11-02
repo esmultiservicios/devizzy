@@ -3,6 +3,10 @@
 	require_once "configGenerales.php";
 	require_once "mainModel.php";
 	
+	if(!isset($_SESSION['user_sd'])){ 
+		session_start(['name'=>'SD']); 
+	}
+			
 	$insMainModel = new mainModel();
 	
 	$datos = [
@@ -10,6 +14,7 @@
 		"fechaf" => $_POST['fechaf'],		
 		"productos_id" => $_POST['productos_id'],
 		"colaboradores_id" => $_POST['colaboradores_id'],
+		"empresa_id_sd" => $_SESSION['empresa_id_sd'],
 	];	
 
 	$result = $insMainModel->GetDetalleVentas($datos);

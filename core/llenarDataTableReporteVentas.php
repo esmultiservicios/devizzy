@@ -3,6 +3,10 @@
 	require_once "configGenerales.php";
 	require_once "mainModel.php";
 	
+	if(!isset($_SESSION['user_sd'])){ 
+		session_start(['name'=>'SD']); 
+	}
+			
 	$insMainModel = new mainModel();
 
 	$datos = [
@@ -12,6 +16,7 @@
 		"facturador" => $_POST['facturador'],
 		"vendedor" => $_POST['vendedor'],
 		"factura" => $_POST['factura'],
+		"empresa_id_sd" => $_SESSION['empresa_id_sd'],
 	];	
 	
 	$result = $insMainModel->consultaVentas($datos);

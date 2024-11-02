@@ -1,3 +1,7 @@
+####30/10/2024####
+tabla => apertura
+empresa_id		int se agrego despúes de fecha_registro
+
 ####16/01/2024####
 tabla => menu_plan
 menu_plan_id	 	int

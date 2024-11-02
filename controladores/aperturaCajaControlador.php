@@ -6,7 +6,11 @@
     }
 	
 	class aperturaCajaControlador extends aperturaCajaModelo{
-		public function agregar_apertura_caja_controlador(){	
+		public function agregar_apertura_caja_controlador(){
+			if(!isset($_SESSION['user_sd'])){ 
+				session_start(['name'=>'SD']); 
+			}
+	
 			$colaboradores_id_apertura = $_POST['colaboradores_id_apertura'];	
 			$monto_apertura = $_POST['monto_apertura'];		
 			$fecha_apertura = $_POST['fecha_apertura'];
@@ -24,8 +28,9 @@
 				"monto" => $monto_apertura,
 				"neto" => $neto,				
 				"estado" => $estado,
-				"fecha_registro" => $fecha_registro,				
-			];
+				"fecha_registro" => $fecha_registro,
+				"empresa_id_sd" => $_SESSION['empresa_id_sd'],				
+			];			
 						
 			//VAIDAR CONFIG APERTURA
 			$configApertura = aperturaCajaModelo::valid_config_apertura_modelo("Validar Apertura Caja")->fetch_assoc();

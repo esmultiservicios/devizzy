@@ -3,6 +3,10 @@
 	require_once "configGenerales.php";
 	require_once "mainModel.php";
 	
+	if(!isset($_SESSION['user_sd'])){ 
+		session_start(['name'=>'SD']); 
+	}
+	
 	$insMainModel = new mainModel();
 
 	$bodega = '';
@@ -14,6 +18,7 @@
 	$datos = [
 		"bodega" => $bodega,
 		"barcode" => '',	
+		"empresa_id_sd" => $_SESSION['empresa_id_sd']
 	];
 	
 	$result = $insMainModel->getProductosCantidadCompras($datos);

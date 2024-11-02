@@ -6,7 +6,12 @@
 	$insMainModel = new mainModel();
 	$estado = 1;
 
-	$result = $insMainModel->getProductos($estado);
+	$datos = [
+		"estado" => $estado,	
+		"empresa_id_sd" => $_SESSION['empresa_id_sd']
+	];
+	
+	$result = $insMainModel->getProductos($datos);
 	
 	if($result->num_rows>0){
 		echo '<option value="0">Todo</option>';
