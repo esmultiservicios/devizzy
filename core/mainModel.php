@@ -1703,6 +1703,30 @@ class mainModel
 		return $result;
 	}
 
+	public function getColaboradoresTabla($datos)
+	{
+		$where = '';
+
+		if ($GLOBALS['db'] === DB_MAIN) {
+			$where = 'WHERE c.estado = 1';
+		} else {
+			$where = "WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1) AND p.nombre NOT IN('Reseller', 'Clientes') AND e.empresa_id = '" . $datos['empresa_id'] . "'";
+		}
+
+		$query = "SELECT c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', c.identidad AS 'identidad',
+				CASE WHEN c.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado', c.telefono AS 'telefono', e.nombre AS 'empresa', p.nombre AS 'puesto'
+				FROM colaboradores AS c
+				INNER JOIN empresa AS e
+				ON c.empresa_id = e.empresa_id
+				INNER JOIN puestos AS p
+				ON c.puestos_id = p.puestos_id
+				" . $where . "
+				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
+
+		$result = self::connection()->query($query);
+		return $result;
+	}
+
 	public function getColaboradoresFactura()
 	{
 		$query = "SELECT c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', c.identidad AS 'identidad',
@@ -2232,7 +2256,7 @@ class mainModel
 		if ($datos['db_cliente'] === 'clinicarehn_clientes_clinicare') {
 			$where = 'WHERE u.estado = 1';
 		} else {
-			if ($datos['privilegio_colaborador'] === 'Super Administrador' && $datos['privilegio_colaborador'] === 'Administrador') {
+			if ($datos['privilegio_colaborador'] === 'Super Administrador' || $datos['privilegio_colaborador'] === 'Administrador') {
 				$where = 'WHERE u.estado = 1';
 			} else {
 				$where = "WHERE u.estado = 1 AND u.privilegio_id NOT IN(1) AND u.empresa_id = '" . $datos['empresa_id'] . "'";
@@ -2243,14 +2267,10 @@ class mainModel
 				CASE WHEN u.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado',
 				e.nombre AS 'empresa', u.server_customers_id, p.nombre AS 'privilegio'
 				FROM users AS u
-				INNER JOIN colaboradores AS c
-				ON u.colaboradores_id = c.colaboradores_id
-				INNER JOIN tipo_user AS tp
-				ON u.tipo_user_id = tp.tipo_user_id
-				INNER JOIN privilegio AS p
-				ON u.privilegio_id = p.privilegio_id
-				INNER JOIN empresa AS e
-				ON u.empresa_id = e.empresa_id
+				INNER JOIN colaboradores AS c ON u.colaboradores_id = c.colaboradores_id
+				INNER JOIN tipo_user AS tp ON u.tipo_user_id = tp.tipo_user_id
+				INNER JOIN privilegio AS p ON u.privilegio_id = p.privilegio_id
+				INNER JOIN empresa AS e ON u.empresa_id = e.empresa_id
 				" . $where . "
 				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
 
@@ -2261,21 +2281,26 @@ class mainModel
 
 	public function getSecuenciaFacturacion($datos)
 	{
-		if ($datos['privilegio_colaborador'] === 'Super Administrador' && $datos['privilegio_colaborador'] === 'Administrador') {
-			$where = 'WHERE sf.activo = 1';
-		} else {
-			$where = "WHERE sf.activo = 1 AND e.empresa_id = '" . $datos['empresa_id'] . "'";
+		$privilegio = $datos['privilegio_colaborador'];
+		$empresaId = $datos['empresa_id'];
+
+		$query = "
+			SELECT sf.secuencia_facturacion_id AS 'secuencia_facturacion_id', sf.cai AS 'cai', 
+			\t   sf.prefijo AS 'prefijo', sf.relleno AS 'relleno', sf.incremento AS 'incremento', 
+			\t   sf.siguiente AS 'siguiente', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', 
+			\t   DATE_FORMAT(sf.fecha_activacion, '%d/%m/%Y') AS 'fecha_activacion', 
+			\t   DATE_FORMAT(sf.fecha_registro, '%d/%m/%Y') AS 'fecha_registro', 
+			\t   e.nombre AS 'empresa', 
+			\t   DATE_FORMAT(sf.fecha_limite, '%d/%m/%Y') AS 'fecha_limite', 
+			\t   d.nombre AS 'documento'
+			FROM secuencia_facturacion AS sf
+			INNER JOIN empresa AS e ON sf.empresa_id = e.empresa_id
+			INNER JOIN documento AS d ON sf.documento_id = d.documento_id
+			WHERE sf.activo = 1";
+
+		if ($privilegio !== 'Administrador' && $privilegio !== 'Super Administrador') {
+			$query .= " AND e.empresa_id = '$empresaId'";
 		}
-
-		$query = "SELECT sf.secuencia_facturacion_id AS 'secuencia_facturacion_id', sf.cai AS 'cai', sf.prefijo AS 'prefijo', sf.relleno AS 'relleno', sf.incremento AS 'incremento', sf.siguiente AS 'siguiente', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', DATE_FORMAT(sf.fecha_activacion, '%d/%m/%Y') AS 'fecha_activacion', DATE_FORMAT(sf.fecha_registro, '%d/%m/%Y') AS 'fecha_registro', e.nombre AS 'empresa', DATE_FORMAT(sf.fecha_limite, '%d/%m/%Y') AS 'fecha_limite', d.nombre AS 'documento'
-				FROM secuencia_facturacion AS sf
-				INNER JOIN empresa AS e
-				ON sf.empresa_id = e.empresa_id
-				INNER JOIN documento as d
-				ON sf.documento_id = d.documento_id
-				" . $where . '
-				ORDER BY sf.fecha_registro';
-
 		$result = self::connection()->query($query);
 
 		return $result;

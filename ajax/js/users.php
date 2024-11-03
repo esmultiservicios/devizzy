@@ -14,7 +14,7 @@ var listar_usuarios = function() {
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableUsuarios.php"
+            "url": "<?php echo SERVERURL; ?>core/llenarDataTableUsuarios.php"
         },
         "columns": [{
                 "data": "colaborador"
@@ -169,7 +169,7 @@ var editar_usuarios_dataTable = function(tbody, table) {
     $(tbody).off("click", "button.table_editar");
     $(tbody).on("click", "button.table_editar", function() {
         var data = table.row($(this).parents("tr")).data();
-        var url = '<?php echo SERVERURL;?>core/editarUsuarios.php';
+        var url = '<?php echo SERVERURL; ?>core/editarUsuarios.php';
         $('#formUsers #usuarios_id').val(data.users_id);
 
         $.ajax({
@@ -182,7 +182,7 @@ var editar_usuarios_dataTable = function(tbody, table) {
                     'data-form': 'update'
                 });
                 $('#formUsers').attr({
-                    'action': '<?php echo SERVERURL;?>ajax/modificarUsersAjax.php'
+                    'action': '<?php echo SERVERURL; ?>ajax/modificarUsersAjax.php'
                 });
                 $('#formUsers')[0].reset();
                 $('#reg_usuario').hide();
@@ -211,7 +211,7 @@ var editar_usuarios_dataTable = function(tbody, table) {
                 //HABILITAR OBJETOS
                 $('#formUsers #pass').attr('readonly', false);
                 $('#formUsers #correo_usuario').attr('readonly', false);
-                $('#formUsers #empresa_usuario').attr('disabled', true);
+                $('#formUsers #empresa_usuario').attr('disabled', false);
                 $('#formUsers #tipo_user').attr('disabled', false);
                 $('#formUsers #estado_usuario').attr('disabled', false);
                 $('#formUsers #privilegio_id').attr('disabled', false);
@@ -238,7 +238,7 @@ var eliminar_usuarios_dataTable = function(tbody, table) {
     $(tbody).off("click", "button.table_eliminar");
     $(tbody).on("click", "button.table_eliminar", function() {
         var data = table.row($(this).parents("tr")).data();
-        var url = '<?php echo SERVERURL;?>core/editarUsuarios.php';
+        var url = '<?php echo SERVERURL; ?>core/editarUsuarios.php';
         $('#formUsers #usuarios_id').val(data.users_id);
 
         $.ajax({
@@ -251,7 +251,7 @@ var eliminar_usuarios_dataTable = function(tbody, table) {
                     'data-form': 'delete'
                 });
                 $('#formUsers').attr({
-                    'action': '<?php echo SERVERURL;?>ajax/eliminarUsersAjax.php'
+                    'action': '<?php echo SERVERURL; ?>ajax/eliminarUsersAjax.php'
                 });
                 $('#formUsers')[0].reset();
                 $('#reg_usuario').hide();
@@ -308,7 +308,7 @@ function modal_usuarios() {
         'data-form': 'save'
     });
     $('#formUsers').attr({
-        'action': '<?php echo SERVERURL;?>ajax/agregarUsuarioAjax.php'
+        'action': '<?php echo SERVERURL; ?>ajax/agregarUsuarioAjax.php'
     });
     $('#formUsers')[0].reset();
     $('#reg_usuario').show();
@@ -354,7 +354,7 @@ function consultarNombre(users_id) {
 }
 
 function getTipoUsuario() {
-    var url = '<?php echo SERVERURL;?>core/getTipoUsuario.php';
+    var url = '<?php echo SERVERURL; ?>core/getTipoUsuario.php';
 
     $.ajax({
         type: "POST",
@@ -369,7 +369,7 @@ function getTipoUsuario() {
 }
 
 function getPrivilegio() {
-    var url = '<?php echo SERVERURL;?>core/getPrivilegio.php';
+    var url = '<?php echo SERVERURL; ?>core/getPrivilegio.php';
 
     $.ajax({
         type: "POST",
@@ -384,7 +384,7 @@ function getPrivilegio() {
 }
 
 function getEmpresaUsers() {
-    var url = '<?php echo SERVERURL;?>core/getEmpresa.php';
+    var url = '<?php echo SERVERURL; ?>core/getEmpresa.php';
 
     $.ajax({
         type: "POST",
@@ -399,7 +399,7 @@ function getEmpresaUsers() {
 }
 
 function getColaboradoresUsuario() {
-    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+    var url = '<?php echo SERVERURL; ?>core/getColaboradores.php';
 
     $.ajax({
         type: "POST",
