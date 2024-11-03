@@ -102,6 +102,27 @@ class empresaControlador extends empresaModelo
 
 		$resultEmpresa = empresaModelo::valid_empresa_modelo($rtn);
 
+		// Obtén el límite de perfiles permitidos según el plan de la empresa
+		$cantidadPerfilesPlan = empresaModelo::cantidad_perfiles_modelo()->fetch_assoc();
+		$cantidadPerfilesPermitidos = isset($cantidadPerfilesPlan['perfiles']) ? $cantidadPerfilesPlan['perfiles'] : 1;
+
+		// Obtén el número total de perfiles registrados actualmente
+		$cantidadPerfilesRegistradosData = empresaModelo::getTotalEmpresasRegistradas()->fetch_assoc();
+		$cantidadPerfilesRegistrados = isset($cantidadPerfilesRegistradosData['total']) ? $cantidadPerfilesRegistradosData['total'] : 0;
+
+		// Verifica si el límite ha sido alcanzado y retorna una alerta si es el caso
+		if ($cantidadPerfilesRegistrados >= $cantidadPerfilesPermitidos) {
+			$alert = [
+				'alert' => 'simple',
+				'title' => 'Registro ya existe',
+				'text' => "Lo sentimos, no puede registrar más perfiles, su plan solo permite el registro de: $cantidadPerfilesPermitidos",
+				'type' => 'error',
+				'btn-class' => 'btn-danger',
+			];
+
+			return $alert;
+		}
+
 		if ($resultEmpresa->num_rows == 0) {
 			$query = empresaModelo::agregar_empresa_modelo($datos);
 
@@ -356,4 +377,3 @@ class empresaControlador extends empresaModelo
 		return mainModel::sweetAlert($alert);
 	}
 }
-?>

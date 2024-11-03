@@ -2251,6 +2251,14 @@ class mainModel
 		return $result;
 	}
 
+	// Método para obtener los datos del plan
+
+	public function getCantidadPerfilesPlan()
+	{
+		$query = 'SELECT perfiles FROM plan';
+		return self::connection()->query($query);
+	}
+
 	public function getUsuarios($datos)
 	{
 		if ($datos['db_cliente'] === 'clinicarehn_clientes_clinicare') {
