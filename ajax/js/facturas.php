@@ -1669,7 +1669,7 @@ $("#reg_modificar_precio_fact").on("click", function(e) {
 //FIN CAMBIAR PRECIO A PRODUCTO EN FACTURACION
 //FIN FACTURAS
 
-function validarAperturaCajaUsuario() {
+function validarAperturaCajaUsuario(){
     if (getConsultarAperturaCaja() == 2) {
         $("#invoice-form #reg_factura").attr("disabled", true);
         $("#invoice-form #guardar_factura").attr("disabled", true);
@@ -2318,72 +2318,86 @@ function getTotalFacturasDisponibles() {
         url: url,
         async: false,
         success: function(registro) {
-            if (getConsultarAperturaCaja() == 1) {
-                var valores = eval(registro);
+                var datos = JSON.parse(registro);  // Parseamos el JSON recibido
                 var mensaje = "";
-                if (valores[0] >= 10 && valores[0] <= 30) {
-                    mensaje = "Total Facturas disponibles: " + valores[0];
+                var facturasDisponibles = datos.facturasPendientes;
+                var diasTranscurridos = datos.contador;
+                var fechaLimite = datos.fechaLimite;
 
+                // Habilitar/deshabilitar el botón de facturación según el número de facturas
+                if (facturasDisponibles >= 10 && facturasDisponibles <= 30) {
+                    mensaje = "Total Facturas disponibles: " + facturasDisponibles;
                     $("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
-                    $("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");
-
+                    $("#mensajeFacturas").removeClass("alert alert-danger");
                     $("#mensajeFacturas").attr("disabled", true);
-                    $("#invoice-form #reg_factura").attr("disabled", false);
-                } else if (valores[0] >= 0 && valores[0] <= 9) {
-                    mensaje = "Total Facturas disponibles: " + valores[0];
+                    //$("#invoice-form #reg_factura").attr("disabled", false);
+                } else if (facturasDisponibles >= 0 && facturasDisponibles <= 9) {
+                    mensaje = "Total Facturas disponibles: " + facturasDisponibles;
                     $("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-                    $("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+                    $("#mensajeFacturas").removeClass("alert alert-warning");
                     $("#mensajeFacturas").attr("disabled", true);
                     $("#invoice-form #reg_factura").attr("disabled", false);
                 } else {
                     mensaje = "";
-
-                    $("#invoice-form #reg_factura").attr("disabled", false);
+                    //$("#invoice-form #reg_factura").attr("disabled", false);
                     $("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-                    $("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+                    $("#mensajeFacturas").removeClass("alert alert-warning");
                 }
 
-                if (valores[0] == 0) {
-                    mensaje = "Total Facturas disponibles: " + valores[0];
+                if (facturasDisponibles == 0) {
+                    mensaje = "Total Facturas disponibles: " + facturasDisponibles;
                     mensaje += "<br/>Solo esta factura puede realizar";
                     $("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-                    $("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+                    $("#mensajeFacturas").removeClass("alert alert-warning");
                     $("#mensajeFacturas").attr("disabled", true);
-                    $("#invoice-form #reg_factura").attr("disabled", false);
+                    //$("#invoice-form #reg_factura").attr("disabled", false);
                 }
 
-                if (valores[0] < 0) {
-                    mensaje = "No puede seguir facturando";
-
+                if (facturasDisponibles < 0) {
+                    mensaje = "No puede seguir facturando. La secuencia de facturación proporcionada por la SAR no ha sido habilitada aún.";
                     $("#invoice-form #reg_factura").attr("disabled", true);
                     $("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-                    $("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+                    $("#mensajeFacturas").removeClass("alert alert-warning");
                 }
 
-                if (valores[1] == 1) {
-                    mensaje += "<br/>Su fecha límite es: " + valores[2];
-                    mensaje += "<br/>Le queda un día más, para seguir facturando";
-                    $("#invoice-form #reg_factura").attr("disabled", false);
-                    $("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
-                    $("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");
-                }
+				// Si la fecha límite no está definida, deshabilitamos ambos botones (facturación y apertura)
+				if (fechaLimite.trim() !== "Sin definir") {
+					// Procesamiento si fechaLimite tiene un valor definido
+					if (diasTranscurridos == 1) {
+						mensaje += "<br/>Su fecha límite es: " + fechaLimite;
+						mensaje += "<br/>Le queda un día más, para seguir facturando";
+						//$("#invoice-form #reg_factura").attr("disabled", false);
+						$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
+						$("#mensajeFacturas").removeClass("alert alert-danger");
+					} else if (diasTranscurridos === 0) {
+						mensaje += "<br/>Su fecha limite de facturación es hoy";
+						$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
+						$("#mensajeFacturas").removeClass("alert alert-warning");
+					} else if (diasTranscurridos < 0) {
+						mensaje += "<br/>Ya alcanzó su fecha límite de facturación.";
+						//$("#invoice-form #reg_factura").attr("disabled", true);
+						$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
+						$("#mensajeFacturas").removeClass("alert alert-warning");
+					}
+				} else {
+					// En caso de que la fecha límite esté como 'Sin definir'
+					mensaje = "La secuencia de facturación y la fecha límite de facturación no están definidas. Dirígete al módulo de configuración de <a href='" + "<?php echo SERVERURL; ?>" + "secuencia/' target='_blank' class='no-hover-link'>Secuencias</a> para completar la configuración necesaria.";
+					$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
+					$("#mensajeFacturas").removeClass("alert alert-danger");
 
-                if (valores[1] == 0) {
-                    mensaje += "<br/>Su fecha limite de facturación es hoy";
-                    $("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-                    $("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
-                }
+					// Bloqueamos el botón de facturación y apertura
+					$("#invoice-form #reg_factura").attr("disabled", true);
+					$("#invoice-form #btn_apertura").attr("disabled", true);
+				}
 
-                if (valores[1] < 0) {
-                    mensaje += "<br/>Ya alcanzo su fecha límite";
-                    $("#invoice-form #reg_factura").attr("disabled", true);
-                    $("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-                    $("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+                // Si ya hay facturas disponibles, habilitar el botón de apertura
+                if (facturasDisponibles > 0) {
+                    $("#invoice-form #btn_apertura").attr("disabled", false);
                 }
-            }
         }
     });
 }
+
 
 setInterval('getTotalFacturasDisponibles()',1000);
 
@@ -2704,6 +2718,26 @@ $("#BillReports").on("click", function(e) {
     });
 });
 
+function getTipoDocumento() {
+    var url = '<?php echo SERVERURL; ?>core/getTipoDocumento.php';
+	var Documento;
+    $.ajax({
+        type: 'POST',
+        url: url,
+        async: false,
+        success: function(response) {
+			var datos = eval(response);
+	
+			Documento = datos[0];				
+        },
+        error: function(xhr, status, error) {
+            console.error("Error en la solicitud:", error);
+        }
+    });
+	
+	return Documento;
+}
+
 var listar_busqueda_bill = function() {
     var tipo_factura_reporte = 1;
     if ($("#formulario_bill #tipo_factura_reporte").val() == null || $("#formulario_bill #tipo_factura_reporte")
@@ -2717,7 +2751,18 @@ var listar_busqueda_bill = function() {
     var fechaf = $("#formulario_bill #fechaf").val();
     var facturador = $("#formulario_bill #facturador").val();
     var vendedor = $("#formulario_bill #vendedor").val();
-
+	var factura = getTipoDocumento();
+	
+    if (factura === "No hay datos que mostrar" || factura === "Error en la solicitud") {
+        swal({
+            title: "Error",
+            text: "Lo sentimos, hubo un error al obtener la información de la factura.",
+            type: "error",
+            confirmButtonClass: "btn-danger",
+        });
+        return;
+    }
+	
     var table_busqueda_bill = $("#DatatableBusquedaBill").DataTable({
         "destroy": true,
         "ajax": {
@@ -2727,6 +2772,7 @@ var listar_busqueda_bill = function() {
                 "tipo_factura_reporte": tipo_factura_reporte,
                 "facturador": facturador,
                 "vendedor": vendedor,
+				"factura": factura,
                 "fechai": fechai,
                 "fechaf": fechaf
             }

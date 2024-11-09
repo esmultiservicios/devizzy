@@ -54,7 +54,7 @@ $("#inputEmail, #inputPassword").on("input blur", function() {
 
     timeout = setTimeout(function() {
             if (email !== "" && password !== "") {
-                var url = '<?php echo SERVERURL;?>core/getValidUserSesion.php';
+                var url = '<?php echo SERVERURL; ?>core/getValidUserSesion.php';
 
                 $.ajax({
                     type: 'POST',
@@ -101,7 +101,7 @@ $(document).ready(function() {
     $("#loginform").submit(function(e) {
         e.preventDefault();
 
-        var url = '<?php echo SERVERURL;?>ajax/iniciarSesionAjax.php';
+        var url = '<?php echo SERVERURL; ?>ajax/iniciarSesionAjax.php';
 
         $.ajax({
             type: 'POST',
@@ -111,7 +111,7 @@ $(document).ready(function() {
                 swal({
                     title: "",
                     text: "Por favor espere...",
-                    imageUrl: '<?php echo SERVERURL;?>vistas/plantilla/img/gif-load.gif',
+                    imageUrl: '<?php echo SERVERURL; ?>vistas/plantilla/img/gif-load.gif',
                     closeOnConfirm: false,
                     showConfirmButton: false,
                     imageSize: '150x150',
@@ -242,7 +242,7 @@ $(document).ready(function() {
     $("#forgot_form").submit(function(e) {
         e.preventDefault();
 
-        var url = '<?php echo SERVERURL;?>ajax/resetearContrasenaLoginAjax.php';
+        var url = '<?php echo SERVERURL; ?>ajax/resetearContrasenaLoginAjax.php';
 
         $.ajax({
             type: 'POST',
@@ -252,7 +252,7 @@ $(document).ready(function() {
                 swal({
                     title: "",
                     text: "Por favor espere...",
-                    imageUrl: '<?php echo SERVERURL;?>vistas/plantilla/img/gif-load.gif',
+                    imageUrl: '<?php echo SERVERURL; ?>vistas/plantilla/img/gif-load.gif',
                     closeOnConfirm: false,
                     showConfirmButton: false,
                     imageSize: '150x150',

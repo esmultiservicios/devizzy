@@ -12208,3 +12208,13 @@ input:checked+.slider:before {
   display: flex !important;
   align-items: center !important;
 }
+
+.no-hover-link {
+    color: blue;
+    text-decoration: none;
+}
+
+.no-hover-link:hover {
+    color: #0056b3; /* Azul más oscuro */
+    opacity: 1;
+}

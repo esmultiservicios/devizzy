@@ -39,8 +39,8 @@
                                     <div class="sb-nav-link-icon"></div><i class="fas fa-question-circle fa-lg"></i>
                                     [F1] Ayuda
                                 </button>
-                                <button class="btn btn-secondary" type="submit" id="guardar_factura" style="display: none;"
-                                    data-toggle="tooltip" data-placement="top" title="Guardar">
+                                <button class="btn btn-secondary" type="submit" id="guardar_factura"
+                                    style="display: none;" data-toggle="tooltip" data-placement="top" title="Guardar">
                                     <div class="sb-nav-link-icon"></div><i class="fas fa-save fa-lg"></i> [F2] Guardar
                                 </button>
                                 <button class="btn btn-secondary" type="submit" id="reg_factura" data-toggle="tooltip"
@@ -68,14 +68,15 @@
                                     <div class="sb-nav-link-icon"></div><i class="fas fa-cash-register fa-lg"></i> [F11]
                                     Cerrar
                                 </button>
-                                 <!-- Otros botones aquí -->
+                                <!-- Otros botones aquí -->
 
-                                 <!-- Texto antes del primer checkbox -->
+                                <!-- Texto antes del primer checkbox -->
                                 <label class="col-form-label mr-2" for="facturas_activo">Tipo:</label>
                                 <!-- Primer checkbox -->
                                 <label class="switch mb-2" data-toggle="tooltip" data-placement="top"
                                     title="Tipo de Factura, Contado o Crédito">
-                                    <input type="checkbox" id="facturas_activo" name="facturas_activo" value="1" checked>
+                                    <input type="checkbox" id="facturas_activo" name="facturas_activo" value="1"
+                                        checked>
                                     <div class="slider round"></div>
                                 </label>
                                 <span class="question mb-2" id="label_facturas_activo"></span>
@@ -83,12 +84,14 @@
                                 <span id="facturas_proforma_container">
                                     <label class="col-form-label mr-2" for="facturas_proforma">Proforma:</label>
                                     <!-- Segundo checkbox -->
-                                    <label class="switch mb-2" data-toggle="tooltip" data-placement="top" title="Factura Proforma">
-                                        <input type="checkbox" id="facturas_proforma" name="facturas_proforma" value="1">
+                                    <label class="switch mb-2" data-toggle="tooltip" data-placement="top"
+                                        title="Factura Proforma">
+                                        <input type="checkbox" id="facturas_proforma" name="facturas_proforma"
+                                            value="1">
                                         <div class="slider round"></div>
                                     </label>
                                     <span class="question mb-2" id="label_facturas_proforma"></span>
-                                </span>                             
+                                </span>
                             </div>
                         </div>
 
@@ -121,7 +124,7 @@
                             <label for="inputFecha" class="col-sm-1 col-form-label-md">Fecha <span
                                     class="priority">*<span /></label>
                             <div class="col-sm-3">
-                                <input type="date" class="form-control" value="<?php echo date('Y-m-d');?>" required
+                                <input type="date" class="form-control" value="<?php echo date('Y-m-d'); ?>" required
                                     id="fecha" name="fecha" data-toggle="tooltip" data-placement="top"
                                     title="Fecha de Facturación" style="width:165px">
                             </div>
@@ -317,7 +320,7 @@
                                                         </span>
                                                     </div>
                                                     <input type="date" class="form-control" id="fecha_dolar"
-                                                        name="fecha_dolar" value="<?php echo date('Y-m-d');?>">
+                                                        name="fecha_dolar" value="<?php echo date('Y-m-d'); ?>">
                                                 </div>
                                             </div>
 
@@ -417,28 +420,28 @@
             </div>
             <div class="card-footer small text-muted">
                 <?php
-					require_once "./core/mainModel.php";
-					
-					$insMainModel = new mainModel();
-					$entidad = "facturas";
-					
-					if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
-						$consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();
-						$fecha_registro = htmlspecialchars($consulta_last_update['fecha_registro'], ENT_QUOTES, 'UTF-8');
-						$hora = htmlspecialchars(date('g:i:s a', strtotime($fecha_registro)), ENT_QUOTES, 'UTF-8');
-						echo "Última Actualización ".htmlspecialchars($insMainModel->getTheDay($fecha_registro, $hora), ENT_QUOTES, 'UTF-8');
-					} else {
-						echo "No se encontraron registros ";
-					}				
-				?>
+                    require_once './core/mainModel.php';
+
+                    $insMainModel = new mainModel();
+                    $entidad = 'facturas';
+
+                    if ($insMainModel->getlastUpdate($entidad)->num_rows > 0) {
+                        $consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();
+                        $fecha_registro = htmlspecialchars($consulta_last_update['fecha_registro'], ENT_QUOTES, 'UTF-8');
+                        $hora = htmlspecialchars(date('g:i:s a', strtotime($fecha_registro)), ENT_QUOTES, 'UTF-8');
+                        echo 'Última Actualización ' . htmlspecialchars($insMainModel->getTheDay($fecha_registro, $hora), ENT_QUOTES, 'UTF-8');
+                    } else {
+                        echo 'No se encontraron registros ';
+                    }
+                ?>
             </div>
         </div>
     </div>
 </body>
 
 <?php
-	require_once "./core/mainModel.php";
-	
-	$insMainModel = new mainModel();				
-	$insMainModel->guardar_historial_accesos("Ingreso al modulo Facturas");
+require_once './core/mainModel.php';
+
+$insMainModel = new mainModel();
+$insMainModel->guardar_historial_accesos('Ingreso al modulo Facturas');
 ?>

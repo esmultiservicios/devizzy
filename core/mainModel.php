@@ -2514,6 +2514,77 @@ class mainModel
 
 	public function getProductosCantidad($datos)
 	{
+		$bodega = '';
+		$barCode = '';
+
+		// Condición para filtrar por bodega
+		if ($datos['bodega'] != '') {
+			$bodega = "AND m.almacen_id = '" . $datos['bodega'] . "'";
+		}
+		if ($datos['bodega'] == '0') {
+			$bodega = ''; // Si la bodega es 0, se ignora el filtro de bodega
+		}
+
+		// Condición para filtrar por código de barras
+		if ($datos['barcode'] != '') {
+			$barCode = "AND p.barCode = '" . $datos['barcode'] . "'";
+		}
+
+		// Consulta ajustada con filtros dinámicos para bodega y código de barras
+		$query = "
+			SELECT
+				m.almacen_id,
+				m.movimientos_id AS 'movimientos_id',
+				p.barCode AS 'barCode',
+				p.nombre AS 'nombre',
+				me.nombre AS 'medida',
+				IFNULL(SUM(m.cantidad_entrada), 0) AS 'entrada',
+				IFNULL(SUM(m.cantidad_salida), 0) AS 'salida',
+				IFNULL((SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)), 0) AS 'cantidad',
+				bo.nombre AS 'almacen',
+				DATE_FORMAT(m.fecha_registro, '%d/%m/%Y %H:%i:%s') AS 'fecha_registro',
+				p.productos_id AS 'productos_id',
+				p.id_producto_superior,
+				p.precio_compra AS 'precio_compra',
+				p.precio_venta,
+				p.precio_mayoreo,
+				p.cantidad_mayoreo,
+				p.isv_venta AS 'impuesto_venta',
+				p.isv_compra AS 'isv_compra',
+				p.file_name AS 'image',
+				tp.tipo_producto_id AS 'tipo_producto_id',
+				tp.nombre AS 'tipo_producto',
+				CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END AS 'estado',
+				CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END AS 'isv',
+				tp.nombre AS 'tipo_producto_nombre',
+				CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END AS 'isv_venta',
+				CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END AS 'isv_compra'
+			FROM
+				productos AS p
+			LEFT JOIN movimientos AS m ON m.productos_id = p.productos_id 
+				AND m.empresa_id = '" . $datos['empresa_id_sd'] . "' 
+				$bodega
+			LEFT JOIN medida AS me ON p.medida_id = me.medida_id
+			LEFT JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
+			INNER JOIN tipo_producto AS tp ON p.tipo_producto_id = tp.tipo_producto_id
+			WHERE
+				p.estado = 1
+				AND tp.tipo_producto_id IN (1, 2) -- Ajusta según los tipos de productos y servicios
+				$barCode
+				$bodega
+			GROUP BY
+				p.productos_id, m.almacen_id
+			ORDER BY
+				p.fecha_registro ASC;
+		";
+
+		$result = self::connection()->query($query);
+
+		return $result;
+	}
+
+	/*public function getProductosCantidad($datos)
+	{
 		if ($datos['bodega'] == 1) {
 			$bodega = '';
 			$barCode = '';
@@ -2658,7 +2729,7 @@ class mainModel
 		$result = self::connection()->query($query);
 
 		return $result;
-	}
+	}*/
 
 	public function getProductosCantidadCompras($datos)
 	{
@@ -4172,9 +4243,7 @@ class mainModel
 		}
 
 		if ($datos['bodega'] != '') {
-			$bodega = "AND bo.almacen_id = '" . $datos['bodega'] . "'";
-		} else {
-			$bodega = '';
+			$bodega = "AND a.almacen_id = '" . $datos['bodega'] . "'";
 		}
 
 		if ($datos['bodega'] == '0') {
@@ -4194,43 +4263,39 @@ class mainModel
 		}
 
 		$query = "
-					SELECT
-					cl.nombre as cliente,
-					m.comentario,
-					m.movimientos_id AS 'movimientos_id',
-					p.barCode AS 'barCode',
-					p.nombre AS 'producto',
-					me.nombre AS 'medida',
-					m.cantidad_entrada AS 'entrada',
-					m.cantidad_salida AS 'salida',
-					m.saldo AS 'saldo',
-					bo.nombre AS 'bodega',
-					p.file_name AS 'image',
-					bo.almacen_id,
-					DATE_FORMAT(
-						m.fecha_registro,
-						'%d/%m/%Y %H:%i:%s'
-					) AS 'fecha_registro',
-					m.documento AS 'documento',
-					p.productos_id AS 'productos_id'
-				FROM
-					movimientos AS m
-				INNER JOIN productos AS p
-				ON
-					m.productos_id = p.productos_id
-				INNER JOIN medida AS me
-				ON
-					p.medida_id = me.medida_id
-				INNER JOIN almacen AS bo
-				on p.almacen_id = bo.almacen_id
-				LEFT JOIN clientes AS cl ON cl.clientes_id = m.clientes_id
-				WHERE p.empresa_id = '" . $datos['empresa_id_sd'] . "' AND p.estado = 1
-				$fecha
-				$bodega
-				$producto
-				$cliente
-				$tipo
-				ORDER BY m.fecha_registro DESC";
+		SELECT 
+			m.movimientos_id,
+			m.documento,
+			m.cantidad_entrada,
+			m.cantidad_salida,
+			m.saldo,
+			m.fecha_registro,
+			p.nombre AS producto_nombre,
+			c.nombre AS cliente,
+			a.nombre AS almacen_nombre,
+            p.barCode As 'barCode',
+            m.comentario,
+            p.nombre AS 'producto',
+            md.nombre AS 'medida',
+            m.cantidad_entrada AS 'entrada',
+            m.cantidad_salida AS 'salida',
+            a.nombre AS 'bodega',
+            a.almacen_id,
+            p.productos_id,
+            p.file_name AS 'image'
+		FROM 
+			movimientos m
+		LEFT JOIN 
+			productos p ON m.productos_id = p.productos_id
+		LEFT JOIN 
+			clientes c ON m.clientes_id = c.clientes_id
+		LEFT JOIN 
+			almacen a ON m.almacen_id = a.almacen_id
+        LEFT JOIN 
+			medida AS md ON p.medida_id = md.medida_id
+		WHERE
+			p.estado = 1 AND m.empresa_id = '" . $datos['empresa_id_sd'] . "'
+		";
 
 		$result = self::connection()->query($query);
 
@@ -4281,10 +4346,10 @@ class mainModel
 				p.id_producto_superior
 			FROM
 				movimientos AS m
-			INNER JOIN productos AS p ON m.productos_id = p.productos_id
-			INNER JOIN medida AS me ON p.medida_id = me.medida_id
-			INNER JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
-			WHERE p.empresa_id = '" . $datos['empresa_id_sd'] . "' AND p.estado = 1
+			LEFT JOIN productos AS p ON m.productos_id = p.productos_id
+			LEFT JOIN medida AS me ON p.medida_id = me.medida_id
+			LEFT JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
+			WHERE m.empresa_id = '" . $datos['empresa_id_sd'] . "' AND p.estado = 1
 			$tipo_product
 			$bodega
 			$id_producto
@@ -4384,6 +4449,27 @@ class mainModel
 				';
 
 		$result = self::connection()->query($query);
+		return $result;
+	}
+
+	public function getTipoDocumento()
+	{
+		// Obtén el valor de empresa_id de la sesión o una fuente interna
+		$empresa_id = $_SESSION['empresa_id_sd'];  // Asume que se guarda en sesión, ajusta según sea necesario.
+
+		$query = "
+		SELECT
+			s.documento_id
+		FROM secuencia_facturacion AS s
+		INNER JOIN 
+			documento AS d ON s.documento_id = d.documento_id
+		WHERE d.nombre = 'Factura Electronica' 
+		AND s.empresa_id = $empresa_id
+		AND s.activo = 1";
+
+		// Ejecutar la consulta directamente
+		$result = self::connection()->query($query);
+
 		return $result;
 	}
 
