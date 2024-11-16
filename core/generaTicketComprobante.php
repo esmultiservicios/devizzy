@@ -7,8 +7,7 @@
 	
 	$insMainModel = new mainModel();
 
-	include_once "dompdf/autoload.inc.php";
-	require_once 'pdf/vendor/autoload.php';
+	include_once "dompdf/vendor/autoload.php";
 
 	use Dompdf\Dompdf;
 
