@@ -4899,13 +4899,16 @@ class mainModel
 		return $result;
 	}
 
-	public function nombremes($mes)
+	function nombremes($mes)
 	{
-		$locale = 'es_ES';  // Establece el locale español
-		$formatter = new \IntlDateFormatter($locale, \IntlDateFormatter::LONG, \IntlDateFormatter::NONE);
-		$fecha = strtotime('2000-' . $mes . '-01');  // Obtiene la marca de tiempo del primer día del mes
-		$nombre = $formatter->format($fecha);  // Formatea la fecha utilizando el locale establecido
-		return $nombre;
+		// Lista de nombres de meses en español
+		$meses = [
+			1 => 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+			'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+		];
+
+		// Retorna el nombre del mes si el número es válido
+		return $meses[$mes] ?? 'Mes inválido';
 	}
 
 	public function getTotalPurchases()
