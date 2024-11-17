@@ -1,5 +1,5 @@
 <?php
-const SERVERURL = 'https://izzy.fastsolutionhn.com/';
+const SERVERURL = 'http://localhost/devizzy/';
 
 // PATH IMAGES
 const PRODUCT_PATH = '/vistas/plantilla/img/products/';
