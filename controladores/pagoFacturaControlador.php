@@ -31,7 +31,7 @@ class pagoFacturaControlador extends pagoFacturaModelo
 		$referencia_pago2 = '';  // DESCRIPCION ADICIONAL QUE SE ESCRIBE EN EL MODAL
 		$referencia_pago3 = '';
 
-		$usuario = isset($_POST['usuario_efectivo']) && $_POST['usuario_efectivo'] !== '' ? (int) $_POST['usuario_efectivo'] : 0;
+		$usuario = isset($_POST['usuario_tarjeta']) && $_POST['usuario_tarjeta'] !== '' ? (int) $_POST['usuario_tarjeta'] : 0;
 
 		$fecha_registro = date('Y-m-d H:i:s');
 		$estado = 2;
@@ -161,7 +161,7 @@ class pagoFacturaControlador extends pagoFacturaModelo
 		$referencia_pago2 = '';
 		$referencia_pago3 = '';
 
-		$usuario = isset($_POST['usuario_efectivo']) && $_POST['usuario_efectivo'] !== '' ? (int) $_POST['usuario_efectivo'] : 0;
+		$usuario = isset($_POST['usuario_transferencia']) && $_POST['usuario_transferencia'] !== '' ? (int) $_POST['usuario_transferencia'] : 0;
 
 		$fecha_registro = date('Y-m-d H:i:s');
 		$estado = 2;
@@ -221,7 +221,7 @@ class pagoFacturaControlador extends pagoFacturaModelo
 		$referencia_pago2 = '';
 		$referencia_pago3 = '';
 
-		$usuario = isset($_POST['usuario_efectivo']) && $_POST['usuario_efectivo'] !== '' ? (int) $_POST['usuario_efectivo'] : 0;
+		$usuario = isset($_POST['usuario_cheque']) && $_POST['usuario_cheque'] !== '' ? (int) $_POST['usuario_cheque'] : 0;
 
 		$fecha_registro = date('Y-m-d H:i:s');
 		$estado = 2;
