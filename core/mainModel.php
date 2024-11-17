@@ -2522,7 +2522,7 @@ class mainModel
 			$bodega = "AND m.almacen_id = '" . $datos['bodega'] . "'";
 		}
 		if ($datos['bodega'] == '0') {
-			$bodega = ''; // Si la bodega es 0, se ignora el filtro de bodega
+			$bodega = '';  // Si la bodega es 0, se ignora el filtro de bodega
 		}
 
 		// Condición para filtrar por código de barras
@@ -4707,7 +4707,7 @@ class mainModel
 			$fecha = "AND cc.fecha BETWEEN '" . $datos['fechai'] . "' AND '" . $datos['fechaf'] . "'";
 		}
 
-		if ($datos['clientes_id'] != 0) {
+		if ($datos['clientes_id'] != 0 && $datos['clientes_id'] != '') {
 			$clientes_id = "AND cc.clientes_id = '" . $datos['clientes_id'] . "'";
 		}
 
