@@ -1,22 +1,23 @@
-<?php	
-	$peticionAjax = true;
-	require_once "configGenerales.php";
-	require_once "mainModel.php";
-	
-	$insMainModel = new mainModel();
-	
-	$ano = date("Y");
-	$result = $insMainModel->getComprasAnual($ano);
-	
-	$arreglo = array();
+<?php
+$peticionAjax = true;
+require_once 'configGenerales.php';
+require_once 'mainModel.php';
 
-	while( $row = $result->fetch_assoc()){
-	   $arreglo[] = array( 
-		  "mes"=>$insMainModel->nombremes(date("m", strtotime($row['fecha']))),
-		  "total"=>$row['total'],	  
-	  );	
-	}	
+$insMainModel = new mainModel();
 
-	echo json_encode($arreglo);
-?>	
-	
+$ano = date('Y');
+$result = $insMainModel->getComprasAnual($ano);
+
+$arreglo = array();
+
+while ($row = $result->fetch_assoc()) {
+	// Cambia 'm' por 'n' para obtener el mes sin ceros a la izquierda
+	$mes = (int) date('n', strtotime($row['fecha']));  // 'n' devuelve el mes sin ceros iniciales
+
+	$arreglo[] = array(
+		'mes' => $insMainModel->nombremes($mes),
+		'total' => $row['total'],
+	);
+}
+
+echo json_encode($arreglo);

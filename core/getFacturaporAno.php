@@ -1,21 +1,24 @@
-<?php	
-	$peticionAjax = true;
-	require_once "configGenerales.php";
-	require_once "mainModel.php";
-	
-	$insMainModel = new mainModel();
-	
-	$ano = date("Y");
-	$result = $insMainModel->getFacturasAnual($ano);
-	
-	$arreglo = array();
+<?php
+$peticionAjax = true;
+require_once 'configGenerales.php';
+require_once 'mainModel.php';
 
-	while( $row = $result->fetch_assoc()){	  
-	   $arreglo[] = array( 
-		  "mes"=>$insMainModel->nombremes(date("m", strtotime($row['fecha']))),
-		  "total"=>$row['total'],	  
-	  );	  
-	}	
+$insMainModel = new mainModel();
 
-	echo json_encode($arreglo);
-?>	
+$ano = date('Y');
+$result = $insMainModel->getFacturasAnual($ano);
+
+$arreglo = array();
+
+while ($row = $result->fetch_assoc()) {
+	// Obtén el mes y el año de cada registro, asegurando que $mes sea un valor entre 1 y 12
+	$mes = (int) date('n', strtotime($row['fecha']));  // 'n' devuelve el número de mes sin ceros iniciales
+	$año = (int) date('Y', strtotime($row['fecha']));
+
+	$arreglo[] = array(
+		'mes' => $insMainModel->nombremes($mes, $año),
+		'total' => $row['total'],
+	);
+}
+
+echo json_encode($arreglo);

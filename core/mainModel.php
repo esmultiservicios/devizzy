@@ -4899,7 +4899,7 @@ class mainModel
 		return $result;
 	}
 
-	function nombremes($mes)
+	public function nombremes($mes, $año = null)
 	{
 		// Lista de nombres de meses en español
 		$meses = [
@@ -4907,8 +4907,11 @@ class mainModel
 			'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
 		];
 
-		// Retorna el nombre del mes si el número es válido
-		return $meses[$mes] ?? 'Mes inválido';
+		// Si el año no se pasa como parámetro, utiliza el año actual
+		$año = $año ?? date('Y');
+
+		// Retorna el nombre del mes y el año especificado si el número de mes es válido
+		return isset($meses[$mes]) ? $meses[$mes] . ' ' . $año : 'Mes inválido';
 	}
 
 	public function getTotalPurchases()
