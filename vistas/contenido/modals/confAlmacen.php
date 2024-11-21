@@ -66,7 +66,7 @@
                             <div class="col-md-12">
                                 <p for="">Estado</p>
                                 <label class="switch">
-                                    <input type="checkbox" id="val_almacen_activo" name="almacen_activo1" value="1"
+                                    <input type="checkbox" id="val_almacen_activo" name="val_almacen_activo" value="1"
                                         checked>
                                     <div class="slider round"></div>
                                 </label>

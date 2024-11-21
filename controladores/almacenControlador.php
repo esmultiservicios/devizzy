@@ -72,7 +72,7 @@
 		public function edit_almacen_controlador(){
 			$almacen_id = $_POST['almacen_id'];
 			$almacen_almacen = mainModel::cleanStringConverterCase($_POST['almacen_almacen']);
-			$estado = $_POST['almacen_activo'];
+			$estado = $_POST['val_almacen_activo'];
 			$facturar_cero = $_POST['facturar_cero'];
 						
 			$datos = [

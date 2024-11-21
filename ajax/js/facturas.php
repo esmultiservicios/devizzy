@@ -35,7 +35,7 @@ $(document).ready(function() {
 });
 
 function getClientesFacturasCXC() {
-    var url = '<?php echo SERVERURL;?>core/getClientesCXC.php';
+    var url = '<?php echo SERVERURL; ?>core/getClientesCXC.php';
 
     $.ajax({
         type: "POST",
@@ -50,7 +50,7 @@ function getClientesFacturasCXC() {
 }
 
 function getFacturador() {
-    var url = '<?php echo SERVERURL;?>core/getFacturador.php';
+    var url = '<?php echo SERVERURL; ?>core/getFacturador.php';
 
     $.ajax({
         type: "POST",
@@ -65,7 +65,7 @@ function getFacturador() {
 }
 
 function getVendedores() {
-    var url = '<?php echo SERVERURL;?>core/getColaboradores.php';
+    var url = '<?php echo SERVERURL; ?>core/getColaboradores.php';
 
     $.ajax({
         type: "POST",
@@ -173,7 +173,7 @@ function formAperturaBill() {
         'data-form': 'save'
     });
     $('#formAperturaCaja').attr({
-        'action': '<?php echo SERVERURL;?>ajax/addAperturaCajaAjax.php'
+        'action': '<?php echo SERVERURL; ?>ajax/addAperturaCajaAjax.php'
     });
 
     $('#modal_apertura_caja').modal({
@@ -198,7 +198,7 @@ $("#guardar_factura").on("click", function(e) {
         'data-form': 'save'
     });
     $('#invoice-form').attr({
-        'action': '<?php echo SERVERURL;?>ajax/addFacturaOpenAjax.php'
+        'action': '<?php echo SERVERURL; ?>ajax/addFacturaOpenAjax.php'
     });
     $("#invoice-form").submit();
 });
@@ -219,7 +219,7 @@ function formCierreBill() {
         'data-form': 'save'
     });
     $('#formAperturaCaja').attr({
-        'action': '<?php echo SERVERURL;?>ajax/addCierreCajaAjax.php'
+        'action': '<?php echo SERVERURL; ?>ajax/addCierreCajaAjax.php'
     });
 
     $('#modal_apertura_caja').modal({
@@ -247,7 +247,7 @@ var listar_clientes_factura_buscar = function() {
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableClientes.php"
+            "url": "<?php echo SERVERURL; ?>core/llenarDataTableClientes.php"
         },
         "columns": [{
                 "defaultContent": "<button class='table_view btn btn-primary ocultar'><span class='fas fa-copy'></span></button>"
@@ -332,7 +332,7 @@ var listar_colaboradores_buscar_factura = function() {
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableColaboradoresFacturas.php"
+            "url": "<?php echo SERVERURL; ?>core/llenarDataTableColaboradoresFacturas.php"
         },
         "columns": [{
                 "defaultContent": "<button class='table_view btn btn-primary ocultar'><span class='fas fa-copy'></span></button>"
@@ -437,7 +437,7 @@ var listar_productos_factura_buscar = function() {
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableProductosFacturas.php",
+            "url": "<?php echo SERVERURL; ?>core/llenarDataTableProductosFacturas.php",
             "data": {
                 "bodega": bodega
             }
@@ -448,8 +448,8 @@ var listar_productos_factura_buscar = function() {
             {
                 "data": "image",
                 "render": function(data, type, row, meta) {
-                    var defaultImageUrl = '<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png';
-                    var imageUrl = data ? '<?php echo SERVERURL;?>vistas/plantilla/img/products/' + data : defaultImageUrl;
+                    var defaultImageUrl = '<?php echo SERVERURL; ?>vistas/plantilla/img/products/image_preview.png';
+                    var imageUrl = data ? '<?php echo SERVERURL; ?>vistas/plantilla/img/products/' + data : defaultImageUrl;
 
                     var img = new Image();
 
@@ -627,7 +627,7 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table) {
                         swal({
                             title: "Error",
                             html: true, // Habilitar HTML
-                            text: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL;?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=\"purple\"' onmouseout='this.style.color=\"blue\"' onmousedown='this.style.color=\"purple\"' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar.",
+                            text: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL; ?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=\"purple\"' onmouseout='this.style.color=\"blue\"' onmousedown='this.style.color=\"purple\"' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar.",
                             type: "error",
                             confirmButtonClass: "btn-danger"
                         });
@@ -1172,7 +1172,7 @@ function manejarPresionEnter(row_index) {
     var barcode = barCodeInput.val();
 
     if (barcode !== "") {
-        var url = '<?php echo SERVERURL;?>core/getProductoBarCode.php';
+        var url = '<?php echo SERVERURL; ?>core/getProductoBarCode.php';
         var element = barcode.split('*');
         var cantidad = element[0] || 1;
         var barcodeValue = element[1] || cantidad;
@@ -1191,7 +1191,7 @@ function manejarPresionEnter(row_index) {
                         swal({
                             title: "Error",
                             html: true, // Habilitar HTML
-                            text: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL;?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=\"purple\"' onmouseout='this.style.color=\"blue\"' onmousedown='this.style.color=\"purple\"' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar.",
+                            text: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL; ?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=\"purple\"' onmouseout='this.style.color=\"blue\"' onmousedown='this.style.color=\"purple\"' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar.",
                             type: "error",
                             confirmButtonClass: "btn-danger"
                         });
@@ -1401,7 +1401,7 @@ $("#invoice-form #addCambio").on("click", function(e) {
         'data-form': 'save'
     });
     $('#formTasaCambio').attr({
-        'action': '<?php echo SERVERURL;?>ajax/addTasaCambioAjax.php'
+        'action': '<?php echo SERVERURL; ?>ajax/addTasaCambioAjax.php'
     });
 
     $('#modalTasaCambio').modal({
@@ -1703,7 +1703,7 @@ function validarAperturaCajaUsuario(){
 }
 
 function getConsultarAperturaCaja() {
-    var url = '<?php echo SERVERURL;?>core/getAperturaCajaUsuario.php';
+    var url = '<?php echo SERVERURL; ?>core/getAperturaCajaUsuario.php';
 
     var estado_apertura;
 
@@ -1721,7 +1721,7 @@ function getConsultarAperturaCaja() {
 
 function facturarEnCeroAlmacen(almacen_id) {
 
-    var url = '<?php echo SERVERURL;?>core/getFacturarCeroAlmacen.php';
+    var url = '<?php echo SERVERURL; ?>core/getFacturarCeroAlmacen.php';
     var estado = true;
 
     $.ajax({
@@ -1880,7 +1880,7 @@ var listar_busqueda_cotizaciones = function() {
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableReporteCotizaciones.php",
+            "url": "<?php echo SERVERURL; ?>core/llenarDataTableReporteCotizaciones.php",
             "data": {
                 "tipo_cotizacion_reporte": tipo_cotizacion_reporte,
                 "fechai": fechai,
@@ -2095,7 +2095,7 @@ var listar_busqueda_cuentas_por_cobrar_clientes = function() {
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableCobrarClientes.php",
+            "url": "<?php echo SERVERURL; ?>core/llenarDataTableCobrarClientes.php",
             "data": {
                 "estado": estado,
                 "clientes_id": clientes_id,
@@ -2354,7 +2354,8 @@ function getTotalFacturasDisponibles() {
                 }
 
                 if (facturasDisponibles < 0) {
-                    mensaje = "No puede seguir facturando. La secuencia de facturación proporcionada por la SAR no ha sido habilitada aún.";
+                    mensaje = "No puede seguir facturando. La secuencia de facturación proporcionada por la SAR no ha sido habilitada aún. Dirígete al módulo de configuración de <a href='" + "<?php echo SERVERURL; ?>" + "secuencia/' target='_blank' class='no-hover-link'>Secuencias</a> para completar la configuración necesaria.";
+
                     $("#invoice-form #reg_factura").attr("disabled", true);
                     $("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
                     $("#mensajeFacturas").removeClass("alert alert-warning");
@@ -2402,7 +2403,7 @@ function getTotalFacturasDisponibles() {
 setInterval('getTotalFacturasDisponibles()',1000);
 
 function getReporteCotizacion() {
-    var url = '<?php echo SERVERURL;?>core/getTipoFacturaReporte.php';
+    var url = '<?php echo SERVERURL; ?>core/getTipoFacturaReporte.php';
 
     $.ajax({
         type: "POST",
@@ -2466,7 +2467,7 @@ var listar_busqueda_bill_draf = function() {
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableFacturasBorrador.php",
+            "url": "<?php echo SERVERURL; ?>core/llenarDataTableFacturasBorrador.php",
             "data": {
                 "fechai": fechai,
                 "fechaf": fechaf
@@ -2767,7 +2768,7 @@ var listar_busqueda_bill = function() {
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableReporteVentas.php",
+            "url": "<?php echo SERVERURL; ?>core/llenarDataTableReporteVentas.php",
             "data": {
                 "tipo_factura_reporte": tipo_factura_reporte,
                 "facturador": facturador,
@@ -3035,7 +3036,7 @@ function anular(facturas_id) {
 }
 
 function getReporteFactura() {
-    var url = '<?php echo SERVERURL;?>core/getTipoFacturaReporte.php';
+    var url = '<?php echo SERVERURL; ?>core/getTipoFacturaReporte.php';
 
     $.ajax({
         type: "POST",
@@ -3050,7 +3051,7 @@ function getReporteFactura() {
 }
 
 function getEstadoFacturaCredito() {
-    var url = '<?php echo SERVERURL;?>core/getEstadoFacturaCredito.php';
+    var url = '<?php echo SERVERURL; ?>core/getEstadoFacturaCredito.php';
 
     $.ajax({
         type: "POST",

@@ -6,6 +6,7 @@
 		require_once "../controladores/empresaControlador.php";
 		$insVarios = new empresaControlador();
 
+		var_dump($insVarios->agregar_empresa_controlador());
 		echo $insVarios->agregar_empresa_controlador();
 	}else{
 		echo "

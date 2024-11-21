@@ -1429,7 +1429,7 @@ class mainModel
 
 	public function getPrivilegio($datos)
 	{
-		if ($datos['db_cliente'] === 'clinicarehn_clientes_clinicare') {
+		if ($datos['DB_MAIN'] === 'clinicarehn_clientes_clinicare') {
 			$where = 'WHERE estado = 1';
 		} else {
 			$where = 'WHERE estado = 1 AND privilegio_id NOT IN(1)';
@@ -2086,7 +2086,7 @@ class mainModel
 		$pago_planificado_id = '';
 
 		if ($datos['pago_planificado'] != '' || $datos['pago_planificado'] != 0) {
-			$pago_planificado_id = "AND c.pago_planificado_id = '" . $datos['pago_planificado'] . "'";
+			$pago_planificado_id = "AND n.pago_planificado_id = '" . $datos['pago_planificado'] . "'";
 		}
 
 		$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id'
@@ -2256,6 +2256,7 @@ class mainModel
 	public function getCantidadPerfilesPlan()
 	{
 		$query = 'SELECT perfiles FROM plan';
+		
 		return self::connection()->query($query);
 	}
 

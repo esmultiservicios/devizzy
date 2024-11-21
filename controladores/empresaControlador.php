@@ -12,7 +12,8 @@ class empresaControlador extends empresaModelo
 		if (!isset($_SESSION['user_sd'])) {
 			session_start(['name' => 'SD']);
 		}
-
+	
+		// Asegurarse de que los valores no sean arrays antes de limpiar
 		$razon_social = mainModel::cleanString($_POST['empresa_razon_social']);
 		$empresa = mainModel::cleanString($_POST['empresa_empresa']);
 		$rtn = mainModel::cleanString($_POST['rtn_empresa']);
@@ -25,60 +26,61 @@ class empresaControlador extends empresaModelo
 		$horario = mainModel::cleanString($_POST['horario_empresa']);
 		$facebook = mainModel::cleanString($_POST['facebook_empresa']);
 		$sitioweb = mainModel::cleanString($_POST['sitioweb_empresa']);
-
+	
+		// Si alguna de las variables es un array, convertirla a cadena (por ejemplo, por un select múltiple o checkbox)
+		$empresa = is_array($_POST['empresa_empresa']) ? implode(',', $_POST['empresa_empresa']) : $_POST['empresa_empresa'];
+		$rtn = is_array($_POST['rtn_empresa']) ? implode(',', $_POST['rtn_empresa']) : $_POST['rtn_empresa'];
+		$telefono = is_array($_POST['telefono_empresa']) ? implode(',', $_POST['telefono_empresa']) : $_POST['telefono_empresa'];
+		$celular = is_array($_POST['empresa_celular']) ? implode(',', $_POST['empresa_celular']) : $_POST['empresa_celular'];
+		$ubicacion = is_array($_POST['direccion_empresa']) ? implode(',', $_POST['direccion_empresa']) : $_POST['direccion_empresa'];
+		$horario = is_array($_POST['horario_empresa']) ? implode(',', $_POST['horario_empresa']) : $_POST['horario_empresa'];
+		$facebook = is_array($_POST['facebook_empresa']) ? implode(',', $_POST['facebook_empresa']) : $_POST['facebook_empresa'];
+		$sitioweb = is_array($_POST['sitioweb_empresa']) ? implode(',', $_POST['sitioweb_empresa']) : $_POST['sitioweb_empresa'];
+	
 		$digits = 3;
 		$valor = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
-
+	
 		$imageFilename = 'image_preview.png';
-
-		if (isset($_FILES['logotipo']['tmp_name'])) {
-			if (!empty($_FILES['logotipo']['tmp_name'])) {
-				// Obtener información del archivo subido
-				$imageFilename = basename($_FILES['logotipo']['name']);
-
-				// Construir la ruta donde se guardará la imagen
-				$imageFilename = 'logo_' . $valor . '.png';
-				$directorio_destino = '../vistas/plantilla/img/logos/';
+	
+		// Manejo de la imagen de logo
+		if (isset($_FILES['logotipo']['tmp_name']) && !empty($_FILES['logotipo']['tmp_name'])) {
+			$imageFilename = basename($_FILES['logotipo']['name']);
+			$imageFilename = 'logo_' . $valor . '.png';
+			$directorio_destino = '../vistas/plantilla/img/logos/';
+			$imagePath = $directorio_destino . $imageFilename;
+	
+			while (file_exists($imagePath)) {
+				$valor = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
 				$imagePath = $directorio_destino . $imageFilename;
-
-				while (file_exists($imagePath)) {
-					$valor = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
-					$imagePath = $directorio_destino . $imageFilename;
-				}
-
-				if (!file_exists($imagePath)) {
-					move_uploaded_file($_FILES['logotipo']['tmp_name'], $imagePath);
-				}
+			}
+	
+			if (!file_exists($imagePath)) {
+				move_uploaded_file($_FILES['logotipo']['tmp_name'], $imagePath);
 			}
 		}
-
+	
+		// Manejo de la firma de documento
 		$imageFilenameFirma = '';
-
-		if (isset($_FILES['firma_documento']['tmp_name'])) {
-			if (!empty($_FILES['firma_documento']['tmp_name'])) {
-				// Obtener información del archivo subido
-				$imageFilenameFirma = basename($_FILES['firma_documento']['name']);
-
-				// Construir la ruta donde se guardará la imagen
-				$imageFilenameFirma = 'firma_' . $valor . '.png';
-				$directorio_destino = '../vistas/plantilla/img/logos/';
+		if (isset($_FILES['firma_documento']['tmp_name']) && !empty($_FILES['firma_documento']['tmp_name'])) {
+			$imageFilenameFirma = basename($_FILES['firma_documento']['name']);
+			$imageFilenameFirma = 'firma_' . $valor . '.png';
+			$directorio_destino = '../vistas/plantilla/img/logos/';
+			$imagePath = $directorio_destino . $imageFilenameFirma;
+	
+			while (file_exists($imagePath)) {
+				$valor = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
 				$imagePath = $directorio_destino . $imageFilenameFirma;
-
-				while (file_exists($imagePath)) {
-					$valor = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
-					$imagePath = $directorio_destino . $imageFilenameFirma;
-				}
-
-				if (!file_exists($imagePath)) {
-					move_uploaded_file($_FILES['firma_documento']['tmp_name'], $imagePath);
-				}
+			}
+	
+			if (!file_exists($imagePath)) {
+				move_uploaded_file($_FILES['firma_documento']['tmp_name'], $imagePath);
 			}
 		}
-
+	
 		$usuario = $_SESSION['colaborador_id_sd'];
 		$fecha_registro = date('Y-m-d H:i:s');
 		$estado = 1;
-
+	
 		$datos = [
 			'logotipo' => $imageFilename,
 			'firma_documento' => $imageFilenameFirma,
@@ -99,33 +101,42 @@ class empresaControlador extends empresaModelo
 			'fecha_registro' => $fecha_registro,
 			'MostrarFirma' => 1,
 		];
-
+	
 		$resultEmpresa = empresaModelo::valid_empresa_modelo($rtn);
-
+	
 		// Obtén el límite de perfiles permitidos según el plan de la empresa
 		$cantidadPerfilesPlan = empresaModelo::cantidad_perfiles_modelo()->fetch_assoc();
-		$cantidadPerfilesPermitidos = isset($cantidadPerfilesPlan['perfiles']) ? $cantidadPerfilesPlan['perfiles'] : 1;
+
+		$cantidadPerfilesPermitidos = 1;
+		if ($cantidadPerfilesPlan !== null) {
+			$cantidadPerfilesPermitidos = (int) $cantidadPerfilesPlan['perfiles'];
+		}
 
 		// Obtén el número total de perfiles registrados actualmente
 		$cantidadPerfilesRegistradosData = empresaModelo::getTotalEmpresasRegistradas()->fetch_assoc();
-		$cantidadPerfilesRegistrados = isset($cantidadPerfilesRegistradosData['total']) ? $cantidadPerfilesRegistradosData['total'] : 0;
+
+		$cantidadPerfilesRegistrados = 0;
+		if ($cantidadPerfilesRegistradosData !== null) {
+			$cantidadPerfilesRegistrados = (int) $cantidadPerfilesRegistradosData['total'];
+		}
+
 
 		// Verifica si el límite ha sido alcanzado y retorna una alerta si es el caso
 		if ($cantidadPerfilesRegistrados >= $cantidadPerfilesPermitidos) {
 			$alert = [
 				'alert' => 'simple',
-				'title' => 'Registro ya existe',
-				'text' => "Lo sentimos, no puede registrar más perfiles, su plan solo permite el registro de: $cantidadPerfilesPermitidos",
+				'title' => 'Registro de perfiles superado',
+				'text' => "Lo sentimos, no puede registrar más perfiles, su plan solo permite el registro de: $cantidadPerfilesPermitidos perfiles, por favor contáctese  con el ejecutivo de ventas si desea más perfiles.",
 				'type' => 'error',
 				'btn-class' => 'btn-danger',
 			];
 
-			return $alert;
+			return mainModel::sweetAlert($alert);
 		}
-
+	
 		if ($resultEmpresa->num_rows == 0) {
 			$query = empresaModelo::agregar_empresa_modelo($datos);
-
+	
 			if ($query) {
 				$alert = [
 					'alert' => 'clear',
@@ -158,10 +169,10 @@ class empresaControlador extends empresaModelo
 				'btn-class' => 'btn-danger',
 			];
 		}
-
+	
 		return mainModel::sweetAlert($alert);
 	}
-
+	
 	public function edit_empresa_controlador()
 	{
 		if (!isset($_SESSION['user_sd'])) {
@@ -304,7 +315,7 @@ class empresaControlador extends empresaModelo
 				'form' => 'formEmpresa',
 				'id' => 'proceso_empresa',
 				'valor' => 'Editar',
-				'funcion' => 'listar_empresa();getImagenHeader();',
+				'funcion' => 'listar_empresa();',
 				'modal' => '',
 			];
 		} else {

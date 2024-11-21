@@ -30,7 +30,7 @@
 		"privilegio_id" => $_SESSION['privilegio_sd'],
 		"colaborador_id" => $_SESSION['colaborador_id_sd'],
 		"privilegio_colaborador" => $privilegio_colaborador,
-		"db_cliente" => $_SESSION['db_cliente'],	
+		"DB_MAIN" => $_SESSION['db_cliente'],	
 	];	
 
 	$result = $insMainModel->getPrivilegio($datos);

@@ -31,7 +31,7 @@ class pagoFacturaControlador extends pagoFacturaModelo
 		$referencia_pago2 = '';  // DESCRIPCION ADICIONAL QUE SE ESCRIBE EN EL MODAL
 		$referencia_pago3 = '';
 
-		$usuario = isset($_POST['usuario_tarjeta']) && $_POST['usuario_tarjeta'] !== '' ? (int) $_POST['usuario_tarjeta'] : 0;
+		$usuario = isset($_POST['usuario_tarjeta']) && $_POST['usuario_tarjeta'] !== '' ? (int) $_POST['usuario_tarjeta'] : $_SESSION['users_id_sd'];
 
 		$fecha_registro = date('Y-m-d H:i:s');
 		$estado = 2;
@@ -95,7 +95,7 @@ class pagoFacturaControlador extends pagoFacturaModelo
 		$referencia_pago2 = mainModel::cleanStringConverterCase($_POST['exp']);  // FECHA DE EXPIRACION
 		$referencia_pago3 = mainModel::cleanStringConverterCase($_POST['cvcpwd']);  // NUMERO DE APROBACIÓN
 
-		$usuario = isset($_POST['usuario_efectivo']) && $_POST['usuario_efectivo'] !== '' ? (int) $_POST['usuario_efectivo'] : 0;
+		$usuario = isset($_POST['usuario_efectivo']) && $_POST['usuario_efectivo'] !== '' ? (int) $_POST['usuario_efectivo'] : $_SESSION['users_id_sd'];
 
 		$fecha_registro = date('Y-m-d H:i:s');
 		$estado = 2;
@@ -161,7 +161,7 @@ class pagoFacturaControlador extends pagoFacturaModelo
 		$referencia_pago2 = '';
 		$referencia_pago3 = '';
 
-		$usuario = isset($_POST['usuario_transferencia']) && $_POST['usuario_transferencia'] !== '' ? (int) $_POST['usuario_transferencia'] : 0;
+		$usuario = isset($_POST['usuario_transferencia']) && $_POST['usuario_transferencia'] !== '' ? (int) $_POST['usuario_transferencia'] : $_SESSION['users_id_sd'];
 
 		$fecha_registro = date('Y-m-d H:i:s');
 		$estado = 2;
@@ -221,7 +221,7 @@ class pagoFacturaControlador extends pagoFacturaModelo
 		$referencia_pago2 = '';
 		$referencia_pago3 = '';
 
-		$usuario = isset($_POST['usuario_cheque']) && $_POST['usuario_cheque'] !== '' ? (int) $_POST['usuario_cheque'] : 0;
+		$usuario = isset($_POST['usuario_cheque']) && $_POST['usuario_cheque'] !== '' ? (int) $_POST['usuario_cheque'] : $_SESSION['users_id_sd'];
 
 		$fecha_registro = date('Y-m-d H:i:s');
 		$estado = 2;

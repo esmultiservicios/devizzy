@@ -413,7 +413,7 @@
                         </div>
                     </div>
                     <input type="hidden" name="id" class="form-control" id="id"
-                        value="<?php echo $_SESSION['colaborador_id_sd'];?>">
+                        value="<?php echo $_SESSION['colaborador_id_sd']; ?>">
                     <div class="modal-footer">
                         <button class="cambiar btn btn-success ml-2" type="submit" style="display: none;"
                             id="Modalcambiarcontra_Edit">
@@ -518,7 +518,7 @@
                                                 <div class="form-card">
                                                     <h3 class="mt-0 mb-4 text-center">Ingrese detalles del Pago</h3>
                                                     <form class="FormularioAjax" id="formEfectivoPurchase"
-                                                        action="<?php echo SERVERURL;?>ajax/addPagoComprasEfectivoAjax.php"
+                                                        action="<?php echo SERVERURL; ?>ajax/addPagoComprasEfectivoAjax.php"
                                                         method="POST" data-form="save" autocomplete="off"
                                                         enctype="multipart/form-data">
                                                         <div class="row">
@@ -527,7 +527,7 @@
                                                                     <label for="fecha_compras_efectivo">Fecha</label>
                                                                     <input type="date" name="fecha_compras_efectivo"
                                                                         id="fecha_compras_efectivo" class="inputfield"
-                                                                        value="<?php echo date("Y-m-d");?>">
+                                                                        value="<?php echo date('Y-m-d'); ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-12">
@@ -604,7 +604,7 @@
                                                     </h3>
                                                     <form class="FormularioAjax" id="formTarjetaPurchase" method="POST"
                                                         data-form="save"
-                                                        action="<?php echo SERVERURL;?>ajax/addPagoComprasTarjetaAjax.php"
+                                                        action="<?php echo SERVERURL; ?>ajax/addPagoComprasTarjetaAjax.php"
                                                         autocomplete="off" enctype="multipart/form-data">
                                                         <div class="row">
                                                             <div class="col-12">
@@ -612,7 +612,7 @@
                                                                     <label for="fecha_compras_tarjeta">Fecha</label>
                                                                     <input type="date" name="fecha_compras_tarjeta"
                                                                         id="fecha_compras_tarjeta" class="inputfield"
-                                                                        value="<?php echo date("Y-m-d");?>">
+                                                                        value="<?php echo date('Y-m-d'); ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-12">
@@ -689,7 +689,7 @@
                                                         Transferencia</h3>
                                                     <form class="FormularioAjax" id="formTransferenciaPurchase"
                                                         method="POST" data-form="save"
-                                                        action="<?php echo SERVERURL;?>ajax/addPagoComprasTransferenciaAjax.php"
+                                                        action="<?php echo SERVERURL; ?>ajax/addPagoComprasTransferenciaAjax.php"
                                                         autocomplete="off" enctype="multipart/form-data">
                                                         <div class="row">
                                                             <div class="col-12">
@@ -700,7 +700,7 @@
                                                                         name="fecha_compras_transferencia"
                                                                         id="fecha_compras_transferencia"
                                                                         class="inputfield"
-                                                                        value="<?php echo date("Y-m-d");?>">
+                                                                        value="<?php echo date('Y-m-d'); ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-12">
@@ -783,7 +783,7 @@
                                                     </h3>
                                                     <form class="FormularioAjax" id="formChequePurchase" method="POST"
                                                         data-form="save"
-                                                        action="<?php echo SERVERURL;?>ajax/addPagoComprasChequeAjax.php"
+                                                        action="<?php echo SERVERURL; ?>ajax/addPagoComprasChequeAjax.php"
                                                         autocomplete="off" enctype="multipart/form-data">
                                                         <div class="row">
                                                             <div class="col-12">
@@ -791,7 +791,7 @@
                                                                     <label for="fecha_compras_cheque">Fecha</label>
                                                                     <input type="date" name="fecha_compras_cheque"
                                                                         id="fecha_compras_cheque" class="inputfield"
-                                                                        value="<?php echo date("Y-m-d");?>">
+                                                                        value="<?php echo date('Y-m-d'); ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-12">
@@ -965,7 +965,7 @@
                                                     <div class="form-card">
                                                         <h3 class="mt-0 mb-4 text-center">Ingrese detalles del Pago</h3>
                                                         <form class="FormularioAjax" id="formEfectivoBill"
-                                                            action="<?php echo SERVERURL;?>ajax/addPagoFacturasEfectivoAjax.php"
+                                                            action="<?php echo SERVERURL; ?>ajax/addPagoFacturasEfectivoAjax.php"
                                                             method="POST" data-form="save" autocomplete="off"
                                                             enctype="multipart/form-data">
                                                             <div class="row">
@@ -974,7 +974,7 @@
                                                                         <label for="fecha_efectivo">Fecha</label>
                                                                         <input type="date" name="fecha_efectivo"
                                                                             id="fecha_efectivo" class="inputfield"
-                                                                            value="<?php echo date("Y-m-d");?>">
+                                                                            value="<?php echo date('Y-m-d'); ?>">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-12">
@@ -1042,7 +1042,7 @@
                                                         </h3>
                                                         <form class="FormularioAjax" id="formTarjetaBill" method="POST"
                                                             data-form="save"
-                                                            action="<?php echo SERVERURL;?>ajax/addPagoFacturasTarjetaAjax.php"
+                                                            action="<?php echo SERVERURL; ?>ajax/addPagoFacturasTarjetaAjax.php"
                                                             autocomplete="off" enctype="multipart/form-data">
                                                             <div class="row">
                                                                 <div class="col-12">
@@ -1050,7 +1050,7 @@
                                                                         <label for="fecha_tarjeta">Fecha</label>
                                                                         <input type="date" name="fecha_tarjeta"
                                                                             id="fecha_tarjeta" class="inputfield"
-                                                                            value="<?php echo date("Y-m-d");?>">
+                                                                            value="<?php echo date('Y-m-d'); ?>">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-12">
@@ -1131,7 +1131,7 @@
                                                     <div class="form-card">
                                                         <h6 class="mt-0 mb-4 text-center">Ingrese Pago Mixto</h6>
                                                         <form class="FormularioAjax" id="formMixtoBill"
-                                                            action="<?php echo SERVERURL;?>ajax/addPagoMixtoAjax.php"
+                                                            action="<?php echo SERVERURL; ?>ajax/addPagoMixtoAjax.php"
                                                             method="POST" data-form="save" autocomplete="off"
                                                             enctype="multipart/form-data">
                                                             <div class="row">
@@ -1140,7 +1140,7 @@
                                                                         <label for="fecha_efectivo_mixto">Fecha</label>
                                                                         <input type="date" name="fecha_efectivo_mixto"
                                                                             id="fecha_efectivo_mixto" class="inputfield"
-                                                                            value="<?php echo date("Y-m-d");?>">
+                                                                            value="<?php echo date('Y-m-d'); ?>">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-12 col-md-6">
@@ -1241,7 +1241,7 @@
                                                             Transferencia</h3>
                                                         <form class="FormularioAjax" id="formTransferenciaBill"
                                                             method="POST" data-form="save"
-                                                            action="<?php echo SERVERURL;?>ajax/addPagoFacturasTransferenciaAjax.php"
+                                                            action="<?php echo SERVERURL; ?>ajax/addPagoFacturasTransferenciaAjax.php"
                                                             autocomplete="off" enctype="multipart/form-data">
                                                             <div class="row">
                                                                 <div class="col-12">
@@ -1249,7 +1249,7 @@
                                                                         <label for="fecha_transferencia">Fecha</label>
                                                                         <input type="date" name="fecha_transferencia"
                                                                             id="fecha_transferencia" class="inputfield"
-                                                                            value="<?php echo date("Y-m-d");?>">
+                                                                            value="<?php echo date('Y-m-d'); ?>">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12 mb-3">
@@ -1336,7 +1336,7 @@
                                                         </h3>
                                                         <form class="FormularioAjax" id="formChequeBill" method="POST"
                                                             data-form="save"
-                                                            action="<?php echo SERVERURL;?>ajax/addPagoFacturasChequeAjax.php"
+                                                            action="<?php echo SERVERURL; ?>ajax/addPagoFacturasChequeAjax.php"
                                                             autocomplete="off" enctype="multipart/form-data">
                                                             <div class="row">
                                                                 <div class="col-12">
@@ -1344,7 +1344,7 @@
                                                                         <label for="fecha_cheque">Fecha</label>
                                                                         <input type="date" name="fecha_cheque"
                                                                             id="fecha_cheque" class="inputfield"
-                                                                            value="<?php echo date("Y-m-d");?>">
+                                                                            value="<?php echo date('Y-m-d'); ?>">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-12">
@@ -1481,7 +1481,7 @@
                             <label for="fecha_clientes">Fecha <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <input type="date" required id="fecha_clientes" name="fecha_clientes"
-                                    value="<?php echo date ("Y-m-d");?>" class="form-control" />
+                                    value="<?php echo date('Y-m-d'); ?>" class="form-control" />
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
@@ -1618,7 +1618,7 @@
                             <label for="fecha_proveedores">Fecha <span class="priority">*<span /></label>
                             <div class="input-group mb-3">
                                 <input type="date" required id="fecha_proveedores" name="fecha_proveedores"
-                                    value="<?php echo date ("Y-m-d");?>" class="form-control" />
+                                    value="<?php echo date('Y-m-d'); ?>" class="form-control" />
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
@@ -1970,7 +1970,7 @@
                             <label for="fecha_ingreso_colaborador">Fecha Ingreso <span
                                     class="priority">*<span /></label>
                             <input type="date" class="form-control" id="fecha_ingreso_colaborador"
-                                name="fecha_ingreso_colaborador" value="<?php echo date("Y-m-d");?>"
+                                name="fecha_ingreso_colaborador" value="<?php echo date('Y-m-d'); ?>"
                                 placeholder="Fecha Ingreso" required>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -2489,7 +2489,7 @@
                         <div class="col-md-12 mb-3">
                             <label for="prefijo">Fecha</label>
                             <input type="text" name="fecha_apertura" id="fecha_apertura" class="form-control"
-                                value="<?php echo date ("Y-m-d");?>" required readonly>
+                                value="<?php echo date('Y-m-d'); ?>" required readonly>
                         </div>
                     </div>
                     <div class="RespuestaAjax"></div>
@@ -2754,23 +2754,23 @@
                             <label for="prefijo">Bodega</label>
                             <div class="input-group mb-3">
                                 <select id="id_bodega" name="id_bodega" class="selectpicker" data-live-search="true"
-                                    data-width="100%" title="Bodega">
+                                    style="width: auto;" class="form-control" title="Bodega">
                                 </select>
                                 <div class="input-group-append">
                                     <span class="input-group-text">
-                                        <div class="sb-nav-link-icon"></div><i class="fas fa-warehouse"></i>
+                                        <i class="fas fa-warehouse"></i>
                                     </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-7 mb-9">
+                        <div class="col-md-7 mb-3">
                             <label for="prefijo">Cantidad</label>
                             <div class="input-group mb-3">
                                 <input type="number" id="cantidad_movimiento" name="cantidad_movimiento"
                                     placeholder="Cantidad" class="form-control" step="0.01">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
-                                        <div class="sb-nav-link-icon"></div><i class="fas fa-sort-amount-up-alt"></i>
+                                        <i class="fas fa-sort-amount-up-alt"></i>
                                     </span>
                                 </div>
                             </div>
@@ -3153,7 +3153,7 @@
                         <div class="col-md-3 mb-3" id="fechaAsistencia">
                             <label for="fecha">Fecha <span class="priority">*<span /></label>
                             <input type="date" class="form-control" id="fecha" name="fecha"
-                                value="<?php echo date ("Y-m-d");?>" placeholder="Fecha">
+                                value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha">
                         </div>
                     </div>
                     <div class="form-row">
@@ -3164,7 +3164,7 @@
                         <div class="col-md-3 mb-3" id="grupoHorai">
                             <label for="fecha" id="registro_horai">Hora Entrada <span class="priority">*<span /></label>
                             <input type="time" class="form-control" id="horagi" name="horagi"
-                                value="<?php echo date("H:i");?>" step="any">
+                                value="<?php echo date('H:i'); ?>" step="any">
                         </div>
                         <div class="col-md-3 mb-3" id="grupoHoraf">
                             <label for="fecha">Hora Salida <span class="priority">*<span /></label>
