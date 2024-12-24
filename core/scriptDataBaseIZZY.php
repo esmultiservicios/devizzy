@@ -1,15 +1,15 @@
 <?php
 $peticionAjax = true;
 
-require_once "configAPP.php";
-require_once "configGenerales.php";
-require_once "mainModel.php";
-require_once "Database.php";
-require_once "sendEmail.php";
+require_once 'configAPP.php';
+require_once 'configGenerales.php';
+require_once 'mainModel.php';
+require_once 'Database.php';
+require_once 'sendEmail.php';
 require_once 'cPanelAPI.php';
 
-if(!isset($_SESSION['user_sd'])){ 
-  session_start(['name'=>'SD']); 
+if (!isset($_SESSION['user_sd'])) {
+  session_start(['name' => 'SD']);
 }
 
 $insMainModel = new mainModel();
@@ -17,10 +17,10 @@ $insMainModel = new mainModel();
 $database = new Database();
 $sendEmail = new sendEmail();
 
-//BASE DE DATOS SELECCIONADA
+// BASE DE DATOS SELECCIONADA
 $databaseCliente = $_POST['db'];
 
-//DATOS QUE RECIBIMOS DEL CLIENTE NUEVO
+// DATOS QUE RECIBIMOS DEL CLIENTE NUEVO
 $clientes_id = $_POST['clientes_id'];
 $validar = $_POST['validar'];
 $sistema_id = $_POST['sistema_id'];
@@ -36,96 +36,96 @@ $celular = $_POST['celular'];
 $telefono = $_POST['telefono'];
 $correo = $_POST['correo'];
 $clientes_correo = $_POST['correo'];
-$logotipo = "";
+$logotipo = '';
 $rtn = $_POST['rtn'];
 $ubicacion = $_POST['ubicacion'];
-$facebook = "";
-$sitioweb = "";
-$horario = "";
+$facebook = '';
+$sitioweb = '';
+$horario = '';
 $estado = $_POST['estado'];
-$fecha_registro = date("y-m-d H:i:s");
-$fecha_ingreso = date("y-m-d H:i:s");
-$fecha_egreso = "";
+$fecha_registro = date('y-m-d H:i:s');
+$fecha_ingreso = date('y-m-d H:i:s');
+$fecha_egreso = '';
 $pass = generar_password_complejoScript();
-$contraseña_generada =  encryptionScript($pass);
-$contraseña_generadaAdmin =  encryptionScript('C@M1Cl1n1c@r3');
-$privilegio_id = 2;//ADMINISTRADOR
-$tipo_user_id = 2;//ADMINISTRADOR
-$username = "";
+$contraseña_generada = encryptionScript($pass);
+$contraseña_generadaAdmin = encryptionScript('C@M1Cl1n1c@r3');
+$privilegio_id = 2;  // ADMINISTRADOR
+$tipo_user_id = 2;  // ADMINISTRADOR
+$username = '';
 $usuarios_extras_plan = 0;
 
-//CONSULTAMOS EL NOMBRE DEL SISTEMA QUE SELECCIONO EL CLIENTE
-$tablaSistema = "sistema";
-$camposSistema = ["nombre"];
-$condicionesSistema = ["sistema_id" => $sistema_id];
-$orderBy = "";
-$tablaJoin = "";
+// CONSULTAMOS EL NOMBRE DEL SISTEMA QUE SELECCIONO EL CLIENTE
+$tablaSistema = 'sistema';
+$camposSistema = ['nombre'];
+$condicionesSistema = ['sistema_id' => $sistema_id];
+$orderBy = '';
+$tablaJoin = '';
 $condicionesJoin = [];
 $resultadoSistema = $database->consultarTabla($tablaSistema, $camposSistema, $condicionesSistema, $orderBy, $tablaJoin, $condicionesJoin);
 
-$nombre_sistema = "";
+$nombre_sistema = '';
 
 if (!empty($resultadoSistema)) {
   $nombre_sistema = $resultadoSistema[0]['nombre'];
 }
 
-//CONSULTAMOS LOS USUARIOS DEL PLAN Y EL NOMBRE DEL PLAN QUE SELECCIONO EL CLIENTE
-$tablaPlanes = "planes";
-$camposPlanes = ["nombre", "usuarios"];
-$condicionesPlanes = ["planes_id" => $planes_id];
-$orderBy = "";
-$tablaJoin = "";
+// CONSULTAMOS LOS USUARIOS DEL PLAN Y EL NOMBRE DEL PLAN QUE SELECCIONO EL CLIENTE
+$tablaPlanes = 'planes';
+$camposPlanes = ['nombre', 'usuarios'];
+$condicionesPlanes = ['planes_id' => $planes_id];
+$orderBy = '';
+$tablaJoin = '';
 $condicionesJoin = [];
 $resultadoPlanes = $database->consultarTabla($tablaPlanes, $camposPlanes, $condicionesPlanes, $orderBy, $tablaJoin, $condicionesJoin);
 
-$nombre_plan = "";
-$usuarios_plan = "";
+$nombre_plan = '';
+$usuarios_plan = '';
 
 if (!empty($resultadoPlanes)) {
   $nombre_plan = $resultadoPlanes[0]['nombre'];
   $usuarios_plan = $resultadoPlanes[0]['usuarios'];
 }
 
-//CONSULTAMOS SI EL PLAN Y EL SISTEMA DEL CLIENTE NO ESTAN REGISTRADOS
-//CONSULTAMOS LOS USUARIOS DEL PLAN Y EL NOMBRE DEL PLAN QUE SELECCIONO EL CLIENTE
-$tablaServercustomers = "server_customers";
-$camposServercustomers = ["server_customers_id"];
-$condicionesServercustomers = ["planes_id" => $planes_id, "sistema_id" => $sistema_id, "clientes_id" => $clientes_id];
-$orderBy = "";
-$tablaJoin = "";
+// CONSULTAMOS SI EL PLAN Y EL SISTEMA DEL CLIENTE NO ESTAN REGISTRADOS
+// CONSULTAMOS LOS USUARIOS DEL PLAN Y EL NOMBRE DEL PLAN QUE SELECCIONO EL CLIENTE
+$tablaServercustomers = 'server_customers';
+$camposServercustomers = ['server_customers_id'];
+$condicionesServercustomers = ['planes_id' => $planes_id, 'sistema_id' => $sistema_id, 'clientes_id' => $clientes_id];
+$orderBy = '';
+$tablaJoin = '';
 $condicionesJoin = [];
 $resultadoServercustomers = $database->consultarTabla($tablaServercustomers, $camposServercustomers, $condicionesServercustomers, $orderBy, $tablaJoin, $condicionesJoin);
 
-//VALIDAMOS SI NO EXISTE EL CORREO DEL USUARIO
-$tablaUsers = "users";
-$camposUsers = ["users_id"];
-$condicionesUsers = ["email" => $correo];
-$orderBy = "";
-$tablaJoin = "";
+// VALIDAMOS SI NO EXISTE EL CORREO DEL USUARIO
+$tablaUsers = 'users';
+$camposUsers = ['users_id'];
+$condicionesUsers = ['email' => $correo];
+$orderBy = '';
+$tablaJoin = '';
 $condicionesJoin = [];
 $resultadoUsers = $database->consultarTabla($tablaUsers, $camposUsers, $condicionesUsers, $orderBy, $tablaJoin, $condicionesJoin);
 
-if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
-  if (empty($resultadoServercustomers)) {//BASE DE DATOS DEL CLIENTE NO EXISTE. SE PROCEDE CON EL REGISTRO
+if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
+  if (empty($resultadoServercustomers)) {  // BASE DE DATOS DEL CLIENTE NO EXISTE. SE PROCEDE CON EL REGISTRO
 
     // Crear una conexión a MySQL
     $conn = new mysqli(SERVER, USER, PASS);
-  
+
     // Verificar la conexión
     if ($conn->connect_error) {
-      echo "Error de conexión: Lo sentimos existe un error de conexión al servidor, " . $conn->connect_error;
+      echo 'Error de conexión: Lo sentimos existe un error de conexión al servidor, ' . $conn->connect_error;
     }
-  
+
     // Crear la base de datos
     $cpanel = new cPanelAPI(tokencPanel, usernamecPanel, passwordcPanel);
-    $instruction = 'create_database?name='.$databaseCliente; // Instrucción dinámica
+    $instruction = 'create_database?name=' . $databaseCliente;  // Instrucción dinámica
     $result = $cpanel->execute($instruction);
-  
+
     // Seleccionar la base de datos
     if (!$conn->select_db($databaseCliente)) {
-      echo "Error al seleccionar la base de datos: Lo sentimos existe un error al intentar seleccionar la base de datos, " . $conn->error;
+      echo 'Error al seleccionar la base de datos: Lo sentimos existe un error al intentar seleccionar la base de datos, ' . $conn->error;
     }
-  
+
     // Define el contenido del archivo SQL
     $sql = "
     DROP TABLE IF EXISTS `pin`;
@@ -195,19 +195,18 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     INSERT INTO `almacen` (`almacen_id`, `ubicacion_id`, `nombre`, `estado`, `empresa_id`, `fecha_registro`, `facturar_cero`) VALUES
     (1, 1, 'Almacén Principal', 1, 1, NOW(), 1);
   
-    DROP TABLE IF EXISTS `apertura`;
-    CREATE TABLE IF NOT EXISTS `apertura` (
-      `apertura_id` int NOT NULL,
-      `colaboradores_id` int NOT NULL,
-      `fecha` date NOT NULL,
-      `factura_inicial` char(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `factura_final` char(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `apertura` float(12,2) NOT NULL COMMENT 'Monto de Apertura',
-      `neto` float(12,2) NOT NULL,
-      `estado` int NOT NULL COMMENT '1. Activo 2. Inactivo',
-      `fecha_registro` datetime NOT NULL,
-      PRIMARY KEY (`apertura_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+  CREATE TABLE `apertura` (
+    `apertura_id` int(11) NOT NULL,
+    `colaboradores_id` int(11) NOT NULL,
+    `fecha` date NOT NULL,
+    `factura_inicial` char(20) NOT NULL,
+    `factura_final` char(20) NOT NULL,
+    `apertura` float(12,2) NOT NULL COMMENT 'Monto de Apertura',
+    `neto` float(12,2) NOT NULL,
+    `estado` int(11) NOT NULL COMMENT '1. Activo 2. Inactivo',
+    `fecha_registro` datetime NOT NULL,
+    `empresa_id` int(11) NOT NULL
+  ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
     DROP TABLE IF EXISTS `asistencia`;
     CREATE TABLE IF NOT EXISTS `asistencia` (
@@ -807,7 +806,7 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       `cuentas_id` int(11) NOT NULL,
       `proveedores_id` int(11) NOT NULL,
       `empresa_id` int(11) NOT NULL,
-      `tipo_egreso` int(11) NOT NULL COMMENT '1. Compras 2. Gastos	',
+      `tipo_egreso` int(11) NOT NULL COMMENT '1. Compras 2. Gastos\t',
       `fecha` date NOT NULL,
       `factura` char(20) COLLATE utf8mb4_spanish_ci NOT NULL,
       `subtotal` float(12,2) NOT NULL,
@@ -977,19 +976,19 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       PRIMARY KEY (`ingresos_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
-	DROP TABLE IF EXISTS `isv`;
-	CREATE TABLE IF NOT EXISTS `isv` (
-	  `isv_id` int(11) NOT NULL,
-	  `isv_tipo_id` int(11) NOT NULL,
-	  `valor` float(12,2) NOT NULL,
-	  `activar` int(11) NOT NULL COMMENT '0. No 1. Si',
-	  `fecha_registro` datetime NOT NULL,
-	  PRIMARY KEY (`isv_id`)
-	) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+\tDROP TABLE IF EXISTS `isv`;
+\tCREATE TABLE IF NOT EXISTS `isv` (
+\t  `isv_id` int(11) NOT NULL,
+\t  `isv_tipo_id` int(11) NOT NULL,
+\t  `valor` float(12,2) NOT NULL,
+\t  `activar` int(11) NOT NULL COMMENT '0. No 1. Si',
+\t  `fecha_registro` datetime NOT NULL,
+\t  PRIMARY KEY (`isv_id`)
+\t) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
-	INSERT INTO `isv` (`isv_id`, `isv_tipo_id`, `valor`, `activar`, `fecha_registro`) VALUES
-	(1, 1, 15.00, 1, '2021-11-05 18:04:31'),
-	(2, 2, 15.00, 1, '2021-11-05 18:04:31');
+\tINSERT INTO `isv` (`isv_id`, `isv_tipo_id`, `valor`, `activar`, `fecha_registro`) VALUES
+\t(1, 1, 15.00, 1, '2021-11-05 18:04:31'),
+\t(2, 2, 15.00, 1, '2021-11-05 18:04:31');
   
     DROP TABLE IF EXISTS `isv_tipo`;
     CREATE TABLE IF NOT EXISTS `isv_tipo` (
@@ -1566,7 +1565,8 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     CREATE TABLE IF NOT EXISTS `plan` (
       `plan_id` int NOT NULL,
       `planes_id` int NOT NULL,
-      `users` int NOT NULL COMMENT 'Cantidad Usuarios en el Plan\r\nSi el valor esta en 0 no hay límite de usuarios',
+      `users` int NOT NULL COMMENT 'Cantidad Usuarios en el Plan\r
+Si el valor esta en 0 no hay límite de usuarios',
       `user_extra` int NOT NULL COMMENT 'Cantidad de Usuarios Extras',
       `fecha_registro` datetime NOT NULL,
       PRIMARY KEY (`plan_id`)
@@ -1630,7 +1630,7 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
       `precio_mayoreo` float(12,2) NOT NULL,
       `cantidad_minima` int NOT NULL,
       `cantidad_maxima` int NOT NULL,
-      `estado` int NOT NULL COMMENT '1. Activo 2. Inactivo	',
+      `estado` int NOT NULL COMMENT '1. Activo 2. Inactivo\t',
       `isv_venta` int NOT NULL COMMENT '1. Sí 2. No',
       `isv_compra` int NOT NULL COMMENT '1. Sí 2. No',
       `colaborador_id` int NOT NULL,
@@ -1935,67 +1935,61 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
     (1, 'Mostrar detalle facturas - Caja', 0),
     (2, 'Validar Apertura Caja', 1);
     ";
-  
+
     // Ejecutar el script SQL
     if ($conn->multi_query($sql) === TRUE) {
-        do {
-            // Obtiene el resultado actual
-            if ($result = $conn->store_result()) {
-                // Libera el resultado
-                $result->free();
-            }
-        } while ($conn->more_results() && $conn->next_result());
-  
-        echo "Éxito: El sistema ha sido generado correctamente";
+      do {
+        // Obtiene el resultado actual
+        if ($result = $conn->store_result()) {
+          // Libera el resultado
+          $result->free();
+        }
+      } while ($conn->more_results() && $conn->next_result());
+
+      echo 'Éxito: El sistema ha sido generado correctamente';
     } else {
-        echo "Error al ejecutar el script SQL: " . $conn->error;
+      echo 'Error al ejecutar el script SQL: ' . $conn->error;
     }
-  
+
     // Agregar una pausa de 5 segundos
     sleep(5);
-      
+
     // Define los valores para inserción en diferentes tablas
-    if ($planes_id === "1") { // EMPRENDEDOR
+    if ($planes_id === '1') {  // EMPRENDEDOR
       $sqlQueries = [
-          // Menu: Ventas
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (1, 2, 2, 1, NOW());",
-          // Submenu: Clientes, Facturas
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+        // Menu: Ventas
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (1, 2, 2, 1, NOW());',
+        // Submenu: Clientes, Facturas
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
           (1, 1, 2, 1, NOW()),
-          (2, 2, 2, 1, NOW());",
-  
-          // Menu: Almacen
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (2, 4, 2, 1, NOW());",
-          // Submenu: Productos
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (3, 6, 2, 1, NOW());",
-  
-          // Menu: Reportes
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (3, 6, 2, 1, NOW());",
-          // Submenu: Ventas
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (4, 14, 2, 1, NOW());",
-          // Submenu1: Ventas
-          "INSERT INTO `acceso_submenu1` (`acceso_submenu1_id`, `submenu1_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (1, 3, 2, 1, NOW());",
-  
-          // Menu: Recursos Humanos
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (4, 7, 2, 1, NOW());",   
-          
-          // Submenu: Colaboradores
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (5, 16, 2, 1, NOW());",
-  
-          // Menu: Configuracion
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (5, 8, 2, 1, NOW());",   
-          
-          // Submenu: puestos, users, secuencia, empresa, confMedida, privilegio, tipoUser, confCategoria, confImpresora
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (2, 2, 2, 1, NOW());',
+        // Menu: Almacen
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (2, 4, 2, 1, NOW());',
+        // Submenu: Productos
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (3, 6, 2, 1, NOW());',
+        // Menu: Reportes
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (3, 6, 2, 1, NOW());',
+        // Submenu: Ventas
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (4, 14, 2, 1, NOW());',
+        // Submenu1: Ventas
+        'INSERT INTO `acceso_submenu1` (`acceso_submenu1_id`, `submenu1_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (1, 3, 2, 1, NOW());',
+        // Menu: Recursos Humanos
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (4, 7, 2, 1, NOW());',
+        // Submenu: Colaboradores
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (5, 16, 2, 1, NOW());',
+        // Menu: Configuracion
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (5, 8, 2, 1, NOW());',
+        // Submenu: puestos, users, secuencia, empresa, confMedida, privilegio, tipoUser, confCategoria, confImpresora
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
           (6, 17, 2, 1, NOW()),
           (7, 18, 2, 1, NOW()),
           (8, 19, 2, 1, NOW()),
@@ -2004,54 +1998,47 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
           (11, 24, 2, 1, NOW()),
           (12, 25, 2, 1, NOW()),
           (13, 26, 2, 1, NOW()),
-          (14, 34, 2, 1, NOW());"
+          (14, 34, 2, 1, NOW());'
       ];
-      
+
       insertarAccesoMenus($sqlQueries, $conn);
-    } else if ($planes_id === "2") { // ECONÓMICO
-        $sqlQueries = [
-          // Menu: Ventas
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (1, 2, 2, 1, NOW());",
-          // Submenu: Clientes, Facturas, Cotizaciones
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+    } else if ($planes_id === '2') {  // ECONÓMICO
+      $sqlQueries = [
+        // Menu: Ventas
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (1, 2, 2, 1, NOW());',
+        // Submenu: Clientes, Facturas, Cotizaciones
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
           (1, 1, 2, 1, NOW()),
           (2, 2, 2, 1, NOW()),
-          (3, 27, 2, 1, NOW());",
-  
-          // Menu: Almacen
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (2, 4, 2, 1, NOW());",
-          // Submenu: Productos
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (4, 6, 2, 1, NOW());",
-  
-          // Menu: Reportes
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (3, 6, 2, 1, NOW());",
-          // Submenu: Ventas
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (5, 14, 2, 1, NOW());",
-  
-          // Submenu1: Ventas, Cotizaciones
-          "INSERT INTO `acceso_submenu1` (`acceso_submenu1_id`, `submenu1_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (3, 27, 2, 1, NOW());',
+        // Menu: Almacen
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (2, 4, 2, 1, NOW());',
+        // Submenu: Productos
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (4, 6, 2, 1, NOW());',
+        // Menu: Reportes
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (3, 6, 2, 1, NOW());',
+        // Submenu: Ventas
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (5, 14, 2, 1, NOW());',
+        // Submenu1: Ventas, Cotizaciones
+        'INSERT INTO `acceso_submenu1` (`acceso_submenu1_id`, `submenu1_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
           (1, 3, 2, 1, NOW()),
-          (2, 4, 2, 1, NOW());",
-  
-          // Menu: Recursos Humanos
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (4, 7, 2, 1, NOW());",   
-          
-          // Submenu: Colaboradores
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (6, 16, 2, 1, NOW());",
-  
-          // Menu: Configuracion
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (5, 8, 2, 1, NOW());",   
-          
-          // Submenu: puestos, users, secuencia, empresa, confMedida, privilegio, tipoUser, confCategoria, confImpresora
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (2, 4, 2, 1, NOW());',
+        // Menu: Recursos Humanos
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (4, 7, 2, 1, NOW());',
+        // Submenu: Colaboradores
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (6, 16, 2, 1, NOW());',
+        // Menu: Configuracion
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (5, 8, 2, 1, NOW());',
+        // Submenu: puestos, users, secuencia, empresa, confMedida, privilegio, tipoUser, confCategoria, confImpresora
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
           (7, 17, 2, 1, NOW()),
           (8, 18, 2, 1, NOW()),
           (9, 19, 2, 1, NOW()),
@@ -2060,73 +2047,64 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
           (12, 24, 2, 1, NOW()),
           (13, 25, 2, 1, NOW()),
           (14, 26, 2, 1, NOW()),
-          (15, 34, 2, 1, NOW());" 
+          (15, 34, 2, 1, NOW());'
       ];
-      
+
       insertarAccesoMenus($sqlQueries, $conn);
-    } else if ($planes_id === "3") { // BÁSICO
-        $sqlQueries = [
-          // Menu: Ventas        
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (1, 2, 2, 1, NOW());",
-          // Submenu: Clientes, Facturas, Cotizaciones, Cajas
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+    } else if ($planes_id === '3') {  // BÁSICO
+      $sqlQueries = [
+        // Menu: Ventas
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (1, 2, 2, 1, NOW());',
+        // Submenu: Clientes, Facturas, Cotizaciones, Cajas
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
           (1, 1, 2, 1, NOW()),
           (2, 2, 2, 1, NOW()),
           (3, 27, 2, 1, NOW()),
-          (4, 3, 2, 1, NOW());",
-  
-          // Menu: Compras
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (2, 3, 2, 1, NOW());",
-          // Submenu: Proveedores, Compras
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (4, 3, 2, 1, NOW());',
+        // Menu: Compras
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (2, 3, 2, 1, NOW());',
+        // Submenu: Proveedores, Compras
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
           (5, 4, 2, 1, NOW()),
-          (6, 5, 2, 1, NOW());",
-  
-          // Menu: Almacen
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (3, 4, 2, 1, NOW());",
-          // Submenu: Productos, Inventario
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (6, 5, 2, 1, NOW());',
+        // Menu: Almacen
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (3, 4, 2, 1, NOW());',
+        // Submenu: Productos, Inventario
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
           (7, 6, 2, 1, NOW()),
-          (8, 33, 2, 1, NOW());",
-  
-          // Menu: Reportes
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (4, 6, 2, 1, NOW());",
-  
-          // Submenu: Ventas
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (9, 14, 2, 1, NOW());",
-          // Submenu1: Ventas, Cotizaciones, CXC Clientes
-          "INSERT INTO `acceso_submenu1` (`acceso_submenu1_id`, `submenu1_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (8, 33, 2, 1, NOW());',
+        // Menu: Reportes
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (4, 6, 2, 1, NOW());',
+        // Submenu: Ventas
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (9, 14, 2, 1, NOW());',
+        // Submenu1: Ventas, Cotizaciones, CXC Clientes
+        'INSERT INTO `acceso_submenu1` (`acceso_submenu1_id`, `submenu1_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
           (1, 3, 2, 1, NOW()),
           (2, 7, 2, 1, NOW()),
-          (3, 4, 2, 1, NOW());",
-  
-          // Submenu: Compras
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (10, 15, 2, 1, NOW());",
-          // Submenu1: Compras, CXP Proveedores
-          "INSERT INTO `acceso_submenu1` (`acceso_submenu1_id`, `submenu1_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (3, 4, 2, 1, NOW());',
+        // Submenu: Compras
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (10, 15, 2, 1, NOW());',
+        // Submenu1: Compras, CXP Proveedores
+        'INSERT INTO `acceso_submenu1` (`acceso_submenu1_id`, `submenu1_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
           (4, 5, 2, 1, NOW()),
-          (5, 6, 2, 1, NOW());",
-  
-          // Menu: Recursos Humanos
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (5, 7, 2, 1, NOW());",   
-          
-          // Submenu: Colaboradores
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (11, 16, 2, 1, NOW());",
-  
-          // Menu: Configuracion
-          "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
-          (6, 8, 2, 1, NOW());",   
-          
-          // Submenu: puestos, users, secuencia, empresa, confMedida, privilegio, tipoUser, confCategoria, confImpresora
-          "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (5, 6, 2, 1, NOW());',
+        // Menu: Recursos Humanos
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (5, 7, 2, 1, NOW());',
+        // Submenu: Colaboradores
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (11, 16, 2, 1, NOW());',
+        // Menu: Configuracion
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+          (6, 8, 2, 1, NOW());',
+        // Submenu: puestos, users, secuencia, empresa, confMedida, privilegio, tipoUser, confCategoria, confImpresora
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
           (12, 17, 2, 1, NOW()),
           (13, 18, 2, 1, NOW()),
           (14, 19, 2, 1, NOW()),
@@ -2135,13 +2113,13 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
           (17, 24, 2, 1, NOW()),
           (18, 25, 2, 1, NOW()),
           (19, 26, 2, 1, NOW()),
-          (20, 34, 2, 1, NOW());" 
+          (20, 34, 2, 1, NOW());'
       ];
-    
+
       insertarAccesoMenus($sqlQueries, $conn);
-    } else if ($planes_id === "4") { // PREMIUM
-        $sqlQueries = [
-            "INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+    } else if ($planes_id === '4') {  // PREMIUM
+      $sqlQueries = [
+        'INSERT INTO `acceso_menu` (`acceso_menu_id`, `menu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
             (1, 8, 2, 1, NOW()),
             (2, 5, 2, 1, NOW()),
             (3, 7, 2, 1, NOW()),
@@ -2149,9 +2127,8 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
             (5, 4, 2, 1, NOW()),
             (6, 3, 2, 1, NOW()),
             (7, 2, 2, 1, NOW()),
-            (8, 1, 2, 1, NOW());",
-  
-            "INSERT INTO `acceso_submenu1` (`acceso_submenu1_id`, `submenu1_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+            (8, 1, 2, 1, NOW());',
+        'INSERT INTO `acceso_submenu1` (`acceso_submenu1_id`, `submenu1_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
             (1, 1, 2, 1, NOW()),
             (2, 2, 2, 1, NOW()),
             (3, 3, 2, 1, NOW()),
@@ -2165,9 +2142,8 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
             (11, 7, 2, 1, NOW()),
             (12, 4, 2, 1, NOW()),
             (13, 5, 2, 1, NOW()),
-            (14, 6, 2, 1, NOW());",
-  
-            "INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
+            (14, 6, 2, 1, NOW());',
+        'INSERT INTO `acceso_submenu` (`acceso_submenu_id`, `submenu_id`, `privilegio_id`, `estado`, `fecha_registro`) VALUES
             (1, 34, 2, 1, NOW()),
             (2, 29, 2, 1, NOW()),
             (3, 26, 2, 1, NOW()),
@@ -2203,45 +2179,45 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
             (33, 27, 2, 1, NOW()),
             (34, 3, 2, 1, NOW()),
             (35, 2, 2, 1, NOW()),
-            (36, 1, 2, 1, NOW());"
-        ];
-      
-        insertarAccesoMenus($sqlQueries, $conn);
-    }
-  
-    //GUARDAMOS LOS DATOS EN EL server_customers
-    $tabla = "server_customers";
+            (36, 1, 2, 1, NOW());'
+      ];
 
-    //CONSULTAMOS EL CODIGO DEL CLIENTE ANTES DE GUARDARLO
+      insertarAccesoMenus($sqlQueries, $conn);
+    }
+
+    // GUARDAMOS LOS DATOS EN EL server_customers
+    $tabla = 'server_customers';
+
+    // CONSULTAMOS EL CODIGO DEL CLIENTE ANTES DE GUARDARLO
     $generadoCodCliente = false;
-    $codigo_cliente = "";
+    $codigo_cliente = '';
 
-    while($generadoCodCliente) {
-        // Generar un PIN aleatorio de 8 dígitos
-        $codigo_cliente = mt_rand(10000000, 999999);
+    while ($generadoCodCliente) {
+      // Generar un PIN aleatorio de 8 dígitos
+      $codigo_cliente = mt_rand(10000000, 999999);
 
-        $camposServer_customers = ["server_customers_id"];
-        $condicionesServer_customers = ["codigo_cliente" => $codigo_cliente];
-        $orderBy = "";
-        $tablaJoin = "";
-        $condicionesJoin = [];
-        $resultadoServer_customers = $database->consultarTabla($tabla, $camposServer_customers, $condicionesServer_customers, $orderBy, $tablaJoin, $condicionesJoin);
-    
-        if (empty($resultadoServer_customers)) {
-          $generadoCodCliente = true;
-          
-          break;//SALIMOS DEL CICLO
-        }else{
-          $generadoCodCliente = false;
-        }
+      $camposServer_customers = ['server_customers_id'];
+      $condicionesServer_customers = ['codigo_cliente' => $codigo_cliente];
+      $orderBy = '';
+      $tablaJoin = '';
+      $condicionesJoin = [];
+      $resultadoServer_customers = $database->consultarTabla($tabla, $camposServer_customers, $condicionesServer_customers, $orderBy, $tablaJoin, $condicionesJoin);
+
+      if (empty($resultadoServer_customers)) {
+        $generadoCodCliente = true;
+
+        break;  // SALIMOS DEL CICLO
+      } else {
+        $generadoCodCliente = false;
+      }
     }
 
-    $campos = ["server_customers_id", "clientes_id", "db", "validar", "sistema_id", "planes_id", "estado", "codigo_cliente"];
-    $campoCorrelativo = "server_customers_id";  
+    $campos = ['server_customers_id', 'clientes_id', 'db', 'validar', 'sistema_id', 'planes_id', 'estado', 'codigo_cliente'];
+    $campoCorrelativo = 'server_customers_id';
     $server_customers_id = $database->obtenerCorrelativo($tabla, $campoCorrelativo);
-  
-    $valores = [$server_customers_id, $clientes_id, $databaseCliente, $validar, $sistema_id, $planes_id, "1", $codigo_cliente];
-    $database->insertarRegistro($tabla, $campos, $valores);  
+
+    $valores = [$server_customers_id, $clientes_id, $databaseCliente, $validar, $sistema_id, $planes_id, '1', $codigo_cliente];
+    $database->insertarRegistro($tabla, $campos, $valores);
 
     // GUARDAMOS LOS DATOS EN LA TABLA DEL CLIENTE
     $sqlQueries = [
@@ -2251,224 +2227,226 @@ if (empty($resultadoUsers)) {//CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE PASO
 
     insertarAccesoMenus($sqlQueries, $conn);
 
-  
-    //GUARDAMOS LOS DATOS DEL COLABORADOR EN ESTE CASO CON UNA PUESTO O CATEGORIA CLIENTES
-    $puestos_id_defualt = 5; //CLIENTES
-    $tablarRegistroColaboradores = "colaboradores";
-    $camposRegistroColaboradores = ["colaboradores_id", "puestos_id", "nombre", "apellido", "identidad", "estado", "telefono", "empresa_id", "fecha_registro", "fecha_ingreso", "fecha_egreso"];
-    $campoCorrelativoRegistroColaboradores = "colaboradores_id";  
+    // GUARDAMOS LOS DATOS DEL COLABORADOR EN ESTE CASO CON UNA PUESTO O CATEGORIA CLIENTES
+    $puestos_id_defualt = 5;  // CLIENTES
+    $tablarRegistroColaboradores = 'colaboradores';
+    $camposRegistroColaboradores = ['colaboradores_id', 'puestos_id', 'nombre', 'apellido', 'identidad', 'estado', 'telefono', 'empresa_id', 'fecha_registro', 'fecha_ingreso', 'fecha_egreso'];
+    $campoCorrelativoRegistroColaboradores = 'colaboradores_id';
     $server_colaboradores_id = $database->obtenerCorrelativo($tablarRegistroColaboradores, $campoCorrelativoRegistroColaboradores);
-  
-    $valoresColaboradores = [$server_colaboradores_id, $puestos_id_defualt, $razon_social, "", $rtn, "1", $telefono, $empresa_id, $fecha_registro, $fecha_registro, ""];
+
+    $valoresColaboradores = [$server_colaboradores_id, $puestos_id_defualt, $razon_social, '', $rtn, '1', $telefono, $empresa_id, $fecha_registro, $fecha_registro, ''];
     $database->insertarRegistro($tablarRegistroColaboradores, $camposRegistroColaboradores, $valoresColaboradores);
-  
-    //ACTUALIZAMOS LA TABLA COLABORADORES
+
+    // ACTUALIZAMOS LA TABLA COLABORADORES
     $query_colaboradores = "UPDATE colaboradores SET colaboradores_id = '$server_colaboradores_id' WHERE identidad = '$rtn'";
     actualizarRegistros($query_colaboradores, $conn);
 
-    //ACTUALIZAMOS LA TABLA USUARIOS
+    // ACTUALIZAMOS LA TABLA USUARIOS
     $query_colaboradores = "UPDATE users SET colaboradores_id = '$server_colaboradores_id' WHERE identidad = '$rtn'";
-    actualizarRegistros($query_colaboradores, $conn);    
+    actualizarRegistros($query_colaboradores, $conn);
 
-    //GUARDAMOS LOS DATOS DEL USUARIO
-    $tablarRegistroUsers = "users";
-    $camposRegistroUsers = ["users_id", "colaboradores_id", "privilegio_id", "password", "email", "tipo_user_id", "estado", "fecha_registro", "empresa_id", "server_customers_id"];
-    $campoCorrelativoRegistroUsers = "users_id";  
+    // GUARDAMOS LOS DATOS DEL USUARIO
+    $tablarRegistroUsers = 'users';
+    $camposRegistroUsers = ['users_id', 'colaboradores_id', 'privilegio_id', 'password', 'email', 'tipo_user_id', 'estado', 'fecha_registro', 'empresa_id', 'server_customers_id'];
+    $campoCorrelativoRegistroUsers = 'users_id';
     $server_users_id = $database->obtenerCorrelativo($tablarRegistroUsers, $campoCorrelativoRegistroUsers);
 
-    //ACTUALIZAMOS LA TABLA DEL CLIENTE
+    // ACTUALIZAMOS LA TABLA DEL CLIENTE
     $query_users = "UPDATE users SET server_customers_id = '$server_customers_id', colaboradores_id = '$server_colaboradores_id' WHERE email = '$correo'";
-    actualizarRegistros($query_users, $conn);  
-    
-    $valoresUsers = [$server_users_id, $server_colaboradores_id, $privilegio_id, $contraseña_generada, $correo, $tipo_user_id, $estado, $fecha_registro, $empresa_id,  $server_customers_id];
+    actualizarRegistros($query_users, $conn);
+
+    $valoresUsers = [$server_users_id, $server_colaboradores_id, $privilegio_id, $contraseña_generada, $correo, $tipo_user_id, $estado, $fecha_registro, $empresa_id, $server_customers_id];
     $database->insertarRegistro($tablarRegistroUsers, $camposRegistroUsers, $valoresUsers);
-  
-    //MODIFICAMOS LOS DATOS DEL CLIENTE
+
+    // MODIFICAMOS LOS DATOS DEL CLIENTE
     $datos_actualizar = [
       'empresa' => $empresa,
       'eslogan' => $eslogan,
       'otra_informacion' => $otra_informacion,
       'whatsapp' => $celular
     ];
-  
+
     // Condiciones para seleccionar los registros que se actualizarán
-    $condiciones_actualizar = ["clientes_id" => $clientes_id];
-  
+    $condiciones_actualizar = ['clientes_id' => $clientes_id];
+
     // Llamar a la función para actualizar los registros
     if ($database->actualizarRegistros('clientes', $datos_actualizar, $condiciones_actualizar)) {
-      //echo "Registros actualizados correctamente.";
+      // echo "Registros actualizados correctamente.";
     } else {
-      echo "Error al actualizar registros.";
-    } 
-  
-    //OBTENEMOS EL CORREO DEL REVENDEDOR  privilegio_id => 3 ES EL REVENDEDOR
+      echo 'Error al actualizar registros.';
+    }
+
+    // OBTENEMOS EL CORREO DEL REVENDEDOR  privilegio_id => 3 ES EL REVENDEDOR
     $users_id = $_SESSION['users_id_sd'];
-    $tablaUsers = "users";
-    $camposUsers = ["email", "colaboradores_id"];
-    $condicionesUsers = ["users_id" => $users_id, "privilegio_id" => 3];
-    $orderBy = "";
-    $tablaJoin = "";
+    $tablaUsers = 'users';
+    $camposUsers = ['email', 'colaboradores_id'];
+    $condicionesUsers = ['users_id' => $users_id, 'privilegio_id' => 3];
+    $orderBy = '';
+    $tablaJoin = '';
     $condicionesJoin = [];
     $resultadoUsers = $database->consultarTabla($tablaUsers, $camposUsers, $condicionesUsers, $orderBy, $tablaJoin, $condicionesJoin);
-  
-    $correo_revendedor = "";
-    $colaboradores_id_revendedor = "";
-  
+
+    $correo_revendedor = '';
+    $colaboradores_id_revendedor = '';
+
     if (!empty($resultadoUsers)) {
       $correo_revendedor = $resultadoUsers[0]['email'];
       $colaboradores_id_revendedor = $resultadoUsers[0]['colaboradores_id'];
     }
-  
-    //OBTENEMOS EL NOMBRE DEL REVENDEDOR
-    $tablaColaboradoresRevendedores = "colaboradores";
-    $camposColaboradoresRevendedores = ["nombre", "apellido"];
-    $condicionesColaboradoresRevendedores = ["colaboradores_id" => $colaboradores_id_revendedor];
-    $orderBy = "";
-    $tablaJoin = "";
+
+    // OBTENEMOS EL NOMBRE DEL REVENDEDOR
+    $tablaColaboradoresRevendedores = 'colaboradores';
+    $camposColaboradoresRevendedores = ['nombre', 'apellido'];
+    $condicionesColaboradoresRevendedores = ['colaboradores_id' => $colaboradores_id_revendedor];
+    $orderBy = '';
+    $tablaJoin = '';
     $condicionesJoin = [];
     $resultadoColaboradoresRevendedores = $database->consultarTabla($tablaColaboradoresRevendedores, $camposColaboradoresRevendedores, $condicionesColaboradoresRevendedores, $orderBy, $tablaJoin, $condicionesJoin);
-  
-    $nombre_revendedor = "";
-  
+
+    $nombre_revendedor = '';
+
     if (!empty($resultadoColaboradoresRevendedores)) {
-      $nombre_revendedor = trim($resultadoColaboradoresRevendedores[0]['nombre'].' '.$resultadoColaboradoresRevendedores[0]['apellido']);
+      $nombre_revendedor = trim($resultadoColaboradoresRevendedores[0]['nombre'] . ' ' . $resultadoColaboradoresRevendedores[0]['apellido']);
     }
-  
-    $correo_tipo_id = "1";//Notificaciones
-    $destinatarios = array($correo => $razon_social); 
-  
+
+    $correo_tipo_id = '1';  // Notificaciones
+    $destinatarios = array($correo => $razon_social);
+
     // Destinatarios en copia oculta (Bcc)
-    //OBTENEMOS LOS CORREOS DE LOS ADMINISTRADORES
-    $tablaColaboradores = "colaboradores";
-    $camposColaboradores = ["users.email", "CONCAT(colaboradores.nombre, ' ', colaboradores.apellido) AS nombre_completo"];
-    $condicionesColaboradores = ["users.privilegio_id" => ["1", "2"], "users.estado" => 1]; // Usar un array para las condiciones
-    $orderBy = "";
-    $tablaJoin = "users";
-    $condicionesJoin = ["colaboradores_id" => "colaboradores_id"];
+    // OBTENEMOS LOS CORREOS DE LOS ADMINISTRADORES
+    $tablaColaboradores = 'colaboradores';
+    $camposColaboradores = ['users.email', "CONCAT(colaboradores.nombre, ' ', colaboradores.apellido) AS nombre_completo"];
+    $condicionesColaboradores = ['users.privilegio_id' => ['1', '2'], 'users.estado' => 1];  // Usar un array para las condiciones
+    $orderBy = '';
+    $tablaJoin = 'users';
+    $condicionesJoin = ['colaboradores_id' => 'colaboradores_id'];
     $resultadoColaboradores = $database->consultarTabla($tablaColaboradores, $camposColaboradores, $condicionesColaboradores, $orderBy, $tablaJoin, $condicionesJoin);
-  
+
     $bccDestinatarios = [];
-  
+
     // Recorre los resultados de la consulta
     foreach ($resultadoColaboradores as $row) {
-        // Obtén el correo electrónico y el nombre completo
-  
-        $correo = $row["email"];
-        $nombreCompleto = $row["nombre_completo"];
-        
-        // Agrega el correo y el nombre completo al array $bccDestinatarios
-        $bccDestinatarios[$correo] = $nombreCompleto;
+      // Obtén el correo electrónico y el nombre completo
+
+      $correo = $row['email'];
+      $nombreCompleto = $row['nombre_completo'];
+
+      // Agrega el correo y el nombre completo al array $bccDestinatarios
+      $bccDestinatarios[$correo] = $nombreCompleto;
     }
-  
-    if($correo_revendedor !== "") {
+
+    if ($correo_revendedor !== '') {
       $bccDestinatarios[$correo_revendedor] = $nombre_revendedor;
     }
-  
-    $asunto = "¡Bienvenido! Registro de Usuario Exitoso";
-  
+
+    $asunto = '¡Bienvenido! Registro de Usuario Exitoso';
+
     $mensaje = '
     <div style="padding: 20px;">
       <p style="margin-bottom: 10px;">
-        ¡Hola '.$razon_social.'!
+        ¡Hola ' . $razon_social . "!
       </p>
       
-      <p style="margin-bottom: 10px;">
+      <p style=\"margin-bottom: 10px;\">
         ¡Bienvenido a CLINICARE con IZZY! Estamos encantados de darle la bienvenida a nuestra plataforma de gestión de facturación e inventario diseñada para hacer su vida más fácil.
-      </p>								
+      </p>\t\t\t\t\t\t\t\t
       
-      <p style="margin-bottom: 10px;">
+      <p style=\"margin-bottom: 10px;\">
         Le damos las gracias por elegirnos como su solución de confianza para administrar su negocio de manera eficiente. Su registro en nuestro sistema ha sido exitoso y ahora es parte de la familia CLINICARE.
       </p>
       
-      <ul style="margin-bottom: 12px;">
-        <li><b>Empesa</b>: '.$razon_social.'</li>
-        <li><b>Usuario</b>: '.$clientes_correo.'</li>
-        <li><b>Contraseña</b>: '.$pass.'</li>
+      <ul style=\"margin-bottom: 12px;\">
+        <li><b>Empesa</b>: " . $razon_social . '</li>
+        <li><b>Usuario</b>: ' . $clientes_correo . '</li>
+        <li><b>Contraseña</b>: ' . $pass . '</li>
         <li><b>Perfil</b>: Administrador</li>
         <li><b>Nuevo Registro</b></li>
-        <li><b>Acceso al Sistema</b>:  <a href='.SERVERURL.'>Clic para Acceder a IZZY<a></li>
+        <li><b>Acceso al Sistema</b>:  <a href=' . SERVERURL . ">Clic para Acceder a IZZY<a></li>
       </ul>
       
-      <p style="margin-bottom: 10px;">
+      <p style=\"margin-bottom: 10px;\">
         Recuerde que la seguridad es una prioridad para nosotros. Por ello, le recomendamos cambiar su contraseña temporal en su primera sesión.
       </p>
       
-      <p style="margin-bottom: 10px;">
+      <p style=\"margin-bottom: 10px;\">
         Si tiene alguna pregunta o necesita ayuda en cualquier momento, no dude en ponerse en contacto con nuestro dedicado equipo de soporte. Estamos aquí para proporcionarle la asistencia que necesita.
       </p>
       
-      <p style="margin-bottom: 10px;">
+      <p style=\"margin-bottom: 10px;\">
         Le invitamos a explorar todas las características y funcionalidades que IZZY ofrece para simplificar la gestión de su negocio. Su éxito es nuestro objetivo y estamos comprometidos en ayudarle en cada paso del camino.
       </p>
   
-      <p style="margin-bottom: 10px;">
+      <p style=\"margin-bottom: 10px;\">
         ¡Empiece a explorar y a aprovechar al máximo nuestra plataforma de gestión de facturación e inventario!
-      </p>									
+      </p>\t\t\t\t\t\t\t\t\t
       
-      <p style="margin-bottom: 10px;">
+      <p style=\"margin-bottom: 10px;\">
         Gracias por unirse a CLINICARE con IZZY. Esperamos que esta plataforma sea una herramienta valiosa para su negocio.
       </p>
       
-      <p style="margin-bottom: 10px;">
+      <p style=\"margin-bottom: 10px;\">
         Saludos cordiales,
       </p>
       
       <p>
-        <b>El Equipo de '.$razon_social.'</b>
+        <b>El Equipo de " . $razon_social . '</b>
       </p>                
     </div>
     ';
-  
+
     $archivos_adjuntos = [];
-  
-    //ENVIAMOS EL CORREO DEL CLIENTE NUEVO AL RESELLER, ADMINISTRADOR, SUPER ADMINISTRADOR Y AL CLIENTE, SOBRE LA CREACIÓN DEL SISTEMA
+
+    // ENVIAMOS EL CORREO DEL CLIENTE NUEVO AL RESELLER, ADMINISTRADOR, SUPER ADMINISTRADOR Y AL CLIENTE, SOBRE LA CREACIÓN DEL SISTEMA
     $sendEmail->enviarCorreo($destinatarios, $bccDestinatarios, $asunto, $mensaje, $correo_tipo_id, $empresa_id, $archivos_adjuntos);
 
     // Cerrar la conexión a la segunda base de datos
     $conn->close();
-  }else{
+  } else {
     echo "Error Sistema Existe: Lo sentimos el sistema $nombre_sistema con el plan $nombre_plan ya esta activo para el cliente: $razon_social";
   }
-}else{
+} else {
   echo "Error Correo Existe: Lo sentimos el correo $correo ya existe en nuestros registros o pertenece a otro cliente, por favor validar en los registros de usuarios antes de continuar, o solicite ayuda con su administrador o supervisor";
 }
 
-
-function insertarAccesoMenus($sqlQueries, $conn) {
+function insertarAccesoMenus($sqlQueries, $conn)
+{
   foreach ($sqlQueries as $query) {
-      if (!$conn->query($query)) {
-          echo "Error en la inserción: " . $conn->error . "<br>";
-      } 
+    if (!$conn->query($query)) {
+      echo 'Error en la inserción: ' . $conn->error . '<br>';
+    }
 
-      // Verificar si hay más resultados disponibles antes de llamar a next_result
-      if ($conn->more_results()) {
-          $conn->next_result();
-      }
+    // Verificar si hay más resultados disponibles antes de llamar a next_result
+    if ($conn->more_results()) {
+      $conn->next_result();
+    }
   }
 }
 
-function actualizarRegistros($query, $conn){
+function actualizarRegistros($query, $conn)
+{
   if (!$conn->query($query)) {
-    echo "Error en la inserción: " . $conn->error . "<br>";
-  } 
+    echo 'Error en la inserción: ' . $conn->error . '<br>';
+  }
 }
 
-function generar_password_complejoScript(){
+function generar_password_complejoScript()
+{
   $largo = 12;
-  $cadena_base =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  $cadena_base = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   $password = '';
 
   $limite = strlen($cadena_base) - 1;
 
-  for ($i=0; $i < $largo; $i++)
+  for ($i = 0; $i < $largo; $i++)
     $password .= $cadena_base[rand(0, $limite)];
 
   return $password;
 }
 
-function encryptionScript($string){
+function encryptionScript($string)
+{
   $ouput = FALSE;
-  $key=hash('sha256', SECRET_KEY);
+  $key = hash('sha256', SECRET_KEY);
   $iv = substr(hash('sha256', SECRET_IV), 0, 16);
   $output = openssl_encrypt($string, METHOD, $key, 0, $iv);
   $output = base64_encode($output);

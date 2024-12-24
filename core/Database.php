@@ -14,17 +14,22 @@ class Database
 
     public function __construct()
     {
-        $this->conexion = new mysqli(SERVER, USER, PASS);
-
+        // Usamos conexiones persistentes con 'p:'
+        $this->conexion = new mysqli('p:' . SERVER, USER, PASS);
+    
         if ($this->conexion->connect_error) {
-            die('Error de conexión: ' . $this->conexion->connect_error);
+            throw new Exception('Error de conexión: ' . $this->conexion->connect_error);
         }
-
+    
+        // Configuramos la codificación de caracteres
+        $this->conexion->set_charset('utf8mb4');
+    
         // Intenta seleccionar la base de datos
         if (!$this->conexion->select_db($GLOBALS['db'])) {
-            die('Error al seleccionar la base de datos desde Database.php: ' . $this->conexion->error);
+            throw new Exception('Error al seleccionar la base de datos desde Database.php: ' . $this->conexion->error);
         }
     }
+    
 
     public function __destruct()
     {

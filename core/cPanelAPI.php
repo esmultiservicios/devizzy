@@ -1,18 +1,21 @@
 <?php
-class cPanelAPI {
+class cPanelAPI
+{
     private $token;
     private $url;
     private $username;
     private $password;
-    
-    public function __construct($token, $username, $password) {
+
+    public function __construct($token, $username, $password)
+    {
         $this->token = $token;
-        $this->url = "https://cpanel.clinicarehn.com:2083/cpsess$token/execute/Mysql/";
+        $this->url = "https://clinicarehn.com:2083/cpsess$token/execute/Mysql/";
         $this->username = $username;
         $this->password = $password;
     }
 
-    public function execute($instruction) {
+    public function execute($instruction)
+    {
         // Construir la URL completa con la instrucción
         $fullUrl = $this->url . $instruction;
 
@@ -36,7 +39,7 @@ class cPanelAPI {
 
             // Verificar si el campo "status" es igual a 1 (éxito)
             if (isset($responseData['status']) && $responseData['status'] == 1) {
-                return '';//'La acción se completó con éxito.';
+                return '';  // 'La acción se completó con éxito.';
             } else {
                 // Si el campo "status" no es igual a 1, verificar si hay mensajes de error
                 if (isset($responseData['errors'])) {
@@ -46,9 +49,9 @@ class cPanelAPI {
                     foreach ($responseData['errors'] as $error) {
                         // Personalizar el mensaje de error si ya existe la base de datos
                         if (strpos($error, 'already exists') !== false) {
-                            $errorMessages[] = 'Error DB: Lo sentimos, la base de datos ya existe. '.$error;
+                            $errorMessages[] = 'Error DB: Lo sentimos, la base de datos ya existe. ' . $error;
 
-                            exit(); // Esta línea detendrá la ejecución del código
+                            exit();  // Esta línea detendrá la ejecución del código
                         } else {
                             $errorMessages[] = '- ' . $error;
                         }

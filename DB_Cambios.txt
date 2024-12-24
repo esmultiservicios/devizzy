@@ -6,9 +6,8 @@ empresa_id		int se agrego despúes de fecha_registro
 tabla => menu_plan
 menu_plan_id	 	int
 planes_id		int
-planes_id		int
 
-tabla => ubmenu_plan
+tabla => submenu_plan
 submenu_plan	 	int
 submenu_id		int
 planes_id		int

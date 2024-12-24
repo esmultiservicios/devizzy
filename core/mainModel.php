@@ -14,63 +14,61 @@ class mainModel
 	/* FUNCTION QUE PERMITE REALIZAR LA CONEXIÓN A LA DB */
 	public function connection()
 	{
-		$mysqli = new mysqli(SERVER, USER, PASS);
-
+		// Usamos conexiones persistentes con 'p:'
+		$mysqli = new mysqli('p:' . SERVER, USER, PASS);
+	
 		if ($mysqli->connect_errno) {
-			echo 'Fallo al conectar a MySQL, connection: ' . $mysqli->connect_error;
-			exit;
+			throw new Exception('Fallo al conectar a MySQL, connection: ' . $mysqli->connect_error);
 		}
-
-		$mysqli->set_charset('utf8');
-
+	
+		$mysqli->set_charset('utf8mb4'); // Usamos utf8mb4 para soporte completo de caracteres
+	
 		// Intenta seleccionar la base de datos
 		if (!$mysqli->select_db($GLOBALS['db'])) {
-			echo 'Error al seleccionar la base de datos desde mainModel.php, connection: ' . $mysqli->error;
-			exit;
+			throw new Exception('Error al seleccionar la base de datos desde mainModel.php, connection: ' . $mysqli->error);
 		}
-
+	
 		return $mysqli;
 	}
-
+	
 	public function connectionLogin()
 	{
-		$mysqliLogin = new mysqli(SERVER, USER, PASS);
-
+		// Usamos conexiones persistentes con 'p:'
+		$mysqliLogin = new mysqli('p:' . SERVER, USER, PASS);
+	
 		if ($mysqliLogin->connect_errno) {
-			echo 'Fallo al conectar a MySQL, connectionLogi: ' . $mysqliLogin->connect_error;
-			exit;
+			throw new Exception('Fallo al conectar a MySQL, connectionLogin: ' . $mysqliLogin->connect_error);
 		}
-
-		$mysqliLogin->set_charset('utf8');
-
+	
+		$mysqliLogin->set_charset('utf8mb4'); // Usamos utf8mb4 para soporte completo de caracteres
+	
 		// Intenta seleccionar la base de datos
 		if (!$mysqliLogin->select_db($GLOBALS['DB_MAIN'])) {
-			echo 'Error al seleccionar la base de datos desde mainModel.php, connectionLogin: ' . $mysqliLogin->error;
-			exit;
+			throw new Exception('Error al seleccionar la base de datos desde mainModel.php, connectionLogin: ' . $mysqliLogin->error);
 		}
-
+	
 		return $mysqliLogin;
 	}
-
+	
 	public function connectionDBLocal($dblocal)
 	{
-		$mysqliDBLocal = new mysqli(SERVER, USER, PASS);
-
+		// Usamos conexiones persistentes con 'p:'
+		$mysqliDBLocal = new mysqli('p:' . SERVER, USER, PASS);
+	
 		if ($mysqliDBLocal->connect_errno) {
-			echo 'Fallo al conectar a MySQL: ' . $mysqliDBLocal->connect_error;
-			exit;
+			throw new Exception('Fallo al conectar a MySQL, connectionDBLocal: ' . $mysqliDBLocal->connect_error);
 		}
-
-		$mysqliDBLocal->set_charset('utf8');
-
+	
+		$mysqliDBLocal->set_charset('utf8mb4'); // Usamos utf8mb4 para soporte completo de caracteres
+	
 		// Intenta seleccionar la base de datos
 		if (!$mysqliDBLocal->select_db($dblocal)) {
-			echo 'Error al seleccionar la base de datos desde mainModel.php: ' . $mysqliDBLocal->error;
-			exit;
+			throw new Exception('Error al seleccionar la base de datos desde mainModel.php, connectionDBLocal: ' . $mysqliDBLocal->error);
 		}
-
+	
 		return $mysqliDBLocal;
 	}
+	
 
 	public function correlativoLogin($campo_id, $tabla)
 	{
@@ -2256,7 +2254,7 @@ class mainModel
 	public function getCantidadPerfilesPlan()
 	{
 		$query = 'SELECT perfiles FROM plan';
-		
+
 		return self::connection()->query($query);
 	}
 
@@ -3171,7 +3169,8 @@ class mainModel
 				ON e.cuentas_id = c.cuentas_id
 				INNER JOIN proveedores AS p
 				ON e.proveedores_id = p.proveedores_id
-				INNER JOIN categoria_gastos AS cg
+				LEFT
+				 JOIN categoria_gastos AS cg
 				ON e.categoria_gastos_id = cg.categoria_gastos_id
 				WHERE CAST(e.fecha_registro AS DATE) BETWEEN '" . $datos['fechai'] . "' AND '" . $datos['fechaf'] . "'
 				AND e.estado = '" . $datos['estado'] . "'
@@ -3194,7 +3193,7 @@ class mainModel
 				ON e.empresa_id = emp.empresa_id
 				INNER JOIN colaboradores AS co
 				ON e.colaboradores_id = co.colaboradores_id
-				INNER JOIN categoria_gastos AS cg
+				LEFT JOIN categoria_gastos AS cg
 				ON e.categoria_gastos_id = cg.categoria_gastos_id\t\t\t\t
 				WHERE e.egresos_id = '$egresos_id'
 				ORDER BY e.fecha_registro DESC";
@@ -5356,8 +5355,7 @@ class mainModel
 						break;
 					}
 			}
-		}
-		else
+		} else
 			$numd = self::unidad($numdero);
 
 		return $numd;
@@ -5412,8 +5410,7 @@ class mainModel
 				else
 					$numce = 'CIENTO ' . (self::decena($numc - 100));
 			}
-		}
-		else
+		} else
 			$numce = self::decena($numc);
 
 		return $numce;
