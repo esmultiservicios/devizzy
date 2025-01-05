@@ -223,6 +223,27 @@
                             <span class="question mb-2" id="label_opcion_cancelar"></span>
                         </div>
                     </div>
+                    <div class="form-group custom-control custom-checkbox custom-control-inline">
+                        <div class="col-md-7">
+                            <label
+                                for="opcion_sistema">Sistema&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <label class="switch" data-toggle="tooltip" data-placement="top"
+                                title="Permiso que facilita al administrador ver los sistemas del clietne">
+                                <input type="checkbox" id="opcion_sistema" name="opcion_sistema" value="1">
+                                <div class="slider round"></div>
+                            </label>
+                            <span class="question mb-2" id="label_opcion_sistema"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="opcion_generar">Generar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <label class="switch" data-toggle="tooltip" data-placement="top"
+                                title="Permiso que facilita al administrador generar un sistema para el cliente">
+                                <input type="checkbox" id="opcion_generar" name="opcion_generar" value="1">
+                                <div class="slider round"></div>
+                            </label>
+                            <span class="question mb-2" id="label_opcion_generar"></span>
+                        </div>
+                    </div>                    
                     <div class="RespuestaAjax"></div>
                 </form>
             </div>

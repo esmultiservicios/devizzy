@@ -1409,11 +1409,11 @@ class mainModel
 			$where = 'WHERE estado = 1 AND tipo_user_id NOT IN(1)';
 		}
 
-		/*if($datos['privilegio_id'] == 1){
+		if($datos['privilegio_id'] == 1){
 			$where = "WHERE estado = 1";
 		}else{
 			$where = "WHERE estado = 1 AND tipo_user_id NOT IN(1)";
-		}*/
+		}
 
 		$query = 'SELECT *
 				FROM tipo_user
@@ -1649,12 +1649,31 @@ class mainModel
 			$where = "WHERE c.estado = '$estado' AND c.colaboradores_id = '$colaborador_id_sd'";
 		}
 
-		$query = "SELECT c.clientes_id AS 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn' , c.localidad AS 'localidad', c.telefono AS 'telefono', c.correo AS 'correo', d.nombre AS 'departamento', m.nombre AS 'municipio', c.rtn AS 'rtn', IFNULL(s.sistema_id, '') AS sistema_id, c.eslogan, c.otra_informacion, c.whatsapp, c.empresa, s.db, s.planes_id, s.sistema_id
-				FROM clientes AS c 
-				LEFT JOIN departamentos AS d ON c.departamentos_id = d.departamentos_id 
-				LEFT JOIN municipios AS m ON c.municipios_id = m.municipios_id 
-				LEFT JOIN server_customers AS s ON c.clientes_id = s.clientes_id
-				" . $where;
+		$query = "SELECT c.clientes_id AS 'clientes_id', 
+				c.nombre AS 'cliente', 
+				c.rtn AS 'rtn', 
+				c.localidad AS 'localidad', 
+				c.telefono AS 'telefono', 
+				c.correo AS 'correo', 
+				d.nombre AS 'departamento', 
+				m.nombre AS 'municipio', 
+				c.rtn AS 'rtn', 
+				GROUP_CONCAT(s.sistema_id) AS 'sistema_ids', 
+				GROUP_CONCAT(si.nombre) AS 'db_values', 
+				c.eslogan, 
+				c.otra_informacion, 
+				c.whatsapp, 
+				c.empresa				
+		FROM clientes AS c
+			LEFT JOIN departamentos AS d ON c.departamentos_id = d.departamentos_id
+			LEFT JOIN municipios AS m ON c.municipios_id = m.municipios_id
+			JOIN server_customers AS s ON c.clientes_id = s.clientes_id
+			JOIN sistema AS si ON si.sistema_id=s.sistema_id
+		".$where."
+		GROUP BY 
+			c.clientes_id, c.nombre, c.rtn, c.localidad, c.telefono, c.correo, d.nombre, 
+			m.nombre, c.rtn, c.eslogan, c.otra_informacion, c.whatsapp, c.empresa;";
+
 
 		$result = self::connection()->query($query);
 

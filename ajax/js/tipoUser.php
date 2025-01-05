@@ -436,7 +436,33 @@ $('#formPermisos .switch').change(function(){
 		$('#formPermisos #label_opcion_cancelar').html("Desactivado");
 		return false;
 	}
-});			
+});		
+
+$('#formPermisos #label_opcion_generar').html("Desactivado");
+
+$('#formPermisos .switch').change(function(){    
+	if($('input[name=opcion_generar]').is(':checked')){
+		$('#formPermisos #label_opcion_generar').html("Activado");
+		return true;
+	}
+	else{
+		$('#formPermisos #label_opcion_generar').html("Desactivado");
+		return false;
+	}
+});	
+
+$('#formPermisos #label_opcion_sistema').html("Desactivado");
+
+$('#formPermisos .switch').change(function(){    
+	if($('input[name=opcion_sistema]').is(':checked')){
+		$('#formPermisos #label_opcion_sistema').html("Activado");
+		return true;
+	}
+	else{
+		$('#formPermisos #label_opcion_sistema').html("Desactivado");
+		return false;
+	}
+});
 //INICIO PERMISOS
 
 </script>

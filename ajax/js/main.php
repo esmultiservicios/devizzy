@@ -151,6 +151,7 @@ function getPermisosTipoUsuarioAccesosForms(privilegio_id) {
 
             try {
                 for (var i = 0; i < valores_tipoUsuarioAccesos.length; i++) {
+
                     if (valores_tipoUsuarioAccesos[i].estado == 1) {
                         $('.' + valores_tipoUsuarioAccesos[i].tipo_permiso).show();
                         $('.' + valores_tipoUsuarioAccesos[i].tipo_permiso).attr("disabled", false);
@@ -2726,10 +2727,8 @@ var listar_clientes = function(estado) {
             //Ocultamos el boton generar si el permiso no es super administrator, administrador o reseller
             if (getPrivilegioUsuario() !== 1 || getPrivilegioUsuario() !== 2 ||
                 getPrivilegioUsuario() !== 3) {
-                var db_consulta = getSessionUser() === "" ? 'clinicarehn_clientes_clinicare' :
-                    getSessionUser();
-
-                if (db_consulta === 'clinicarehn_clientes_clinicare') {
+                var db_consulta = getSessionUser() === "" ? 'clinicarehn_clinicare' : getSessionUser();
+                if (db_consulta === 'clinicarehn_clinicare') {
                     $('.generar').show();
                 } else {
                     $('.generar').hide();
