@@ -17,14 +17,14 @@
 	}
 	
 	while($row = $result->fetch_assoc()){	
-        $activo = ($row['estado'] == '1')? 'Activado': 'Desactivado';
-        
+        $activo = ($row['estado'] == '1')? 'Activado': 'Desactivado';    	
+
 		$data[] = array( 
 			"impresora_id"=>$row['impresora_id'],
 			"descripcion"=>$row['descripcion'],
 			"activo"=> $activo,
 			"estado"=> $row['estado'],
-			"tipo" => $row['tipo']			
+			"tipo" => $row['tipo']	
 		);	
 	}
 	

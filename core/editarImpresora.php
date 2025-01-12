@@ -1,25 +1,25 @@
 <?php
-	header("Content-Type: text/html;charset=utf-8");
-	
-	$peticionAjax = true;
-	require_once "configGenerales.php";
-	require_once "mainModel.php";
-	
-	if(!isset($_SESSION['user_sd'])){ 
-		session_start(['name'=>'SD']); 
-	}
+header("Content-Type: application/json;charset=utf-8");
 
-	$insMainModel = new mainModel();
+$peticionAjax = true;
+require_once "configGenerales.php";
+require_once "mainModel.php";
 
-	date_default_timezone_set('America/Tegucigalpa');
-	$id = $_POST['id'];
-    $estado = $_POST['estado'];
+if (!isset($_SESSION['user_sd'])) {
+    session_start(['name' => 'SD']);
+}
 
-	
-	$query = $insMainModel->updateImpresora($id,$estado);
+$insMainModel = new mainModel();
 
-	if($query){
-		echo true;
-	}else{
-		echo false;
-	}
+date_default_timezone_set('America/Tegucigalpa');
+$id = $_POST['id'];
+$estado = $_POST['estado'];
+
+$query = $insMainModel->updateImpresora($id, $estado);
+
+$response = [
+    "success" => $query,
+    "message" => $query ? "La operación se realizó con éxito." : "No se pudo realizar la operación, comuníquese con el administrador."
+];
+
+echo json_encode($response);

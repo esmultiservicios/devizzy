@@ -159,17 +159,20 @@ class sendEmail {
                         $mail->addAttachment($archivo);
                     }
 
-                    // Envío del correo
+                    $success = false; // Variable para almacenar el estado del envío
+
                     if ($mail->send()) {                                    
-                        return 1; // Envío exitoso
+                        $success = true; // Envío exitoso
                     } else {
                         echo 'Error al enviar el correo: ' . $mail->ErrorInfo;
-                        return 0; // Error en el envío
                     }                    
-                
-                    // Limpiar los destinatarios y adjuntos para el siguiente correo
+                    
+                    // Limpiar los destinatarios y adjuntos
                     $mail->clearAddresses();
                     $mail->ClearAttachments();
+                    
+                    // Retornar el resultado después de limpiar
+                    return $success ? 1 : 0;
                 } 
             } catch (Exception $e) {
                 //return 0; // Error en el envío
@@ -221,4 +224,3 @@ class sendEmail {
         return $htmlMensaje;
     }
 }
-?>

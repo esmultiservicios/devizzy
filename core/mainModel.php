@@ -4461,15 +4461,40 @@ class mainModel
 
 	public function consultaImpresora()
 	{
+		// Base de la consulta
 		$query = '
-				SELECT
+			SELECT
 				*
-				FROM `impresora`
-				';
-
+			FROM
+				`impresora`
+		';
+	
+		// Ejecutar la consulta
 		$result = self::connection()->query($query);
 		return $result;
-	}
+	}	
+
+	public function consultaImpresoraFormato($formato)
+	{
+		// Base de la consulta
+		$query = '
+			SELECT
+				*
+			FROM
+				`impresora`
+			WHERE
+				`estado` = 1
+		';
+	
+		// Si se especifica un formato, se agrega el filtro
+		if ($formato !== null) {
+			$query .= ' AND `descripcion` LIKE "%' . self::connection()->real_escape_string($formato) . '%"';
+		}
+		
+		// Ejecutar la consulta
+		$result = self::connection()->query($query);
+		return $result;
+	}	
 
 	public function getTipoDocumento()
 	{
@@ -4495,15 +4520,48 @@ class mainModel
 	public function updateImpresora($id, $estado)
 	{
 		$fecha_registro = date('Y-m-d H:i:s');
+		$conexion = self::connection();
+		$conexion->begin_transaction();
 
-		$update = " UPDATE impresora
-				SET
-					estado = '$estado',
-					fecha_registro = '$fecha_registro'
-				WHERE impresora_id = '$id'";
+		try {
+			// Si se intenta activar la impresora
+			if ($estado == 1) {
+				// Lista de palabras clave a verificar
+				$palabrasClave = ['Factura', 'Comprobante']; // Puedes hacer esto dinámico desde una base de datos.
 
-		$result = self::connection()->query($update);
-		return $result;
+				// Verificar si la descripción contiene alguna palabra clave
+				$queryDescripcion = "SELECT descripcion FROM impresora WHERE impresora_id = '$id'";
+				$resultDescripcion = $conexion->query($queryDescripcion);
+
+				if ($resultDescripcion->num_rows > 0) {
+					$row = $resultDescripcion->fetch_assoc();
+
+					foreach ($palabrasClave as $clave) {
+						if (strpos($row['descripcion'], $clave) !== false) {
+							// Desactivar todas las impresoras con la palabra clave
+							$desactivarImpresoras = "UPDATE impresora 
+													SET estado = 0 
+													WHERE descripcion LIKE '{$clave}%'";
+							$conexion->query($desactivarImpresoras);
+							break; // Romper el bucle una vez que se encuentra una coincidencia
+						}
+					}
+				}
+			}
+
+			// Actualizar el estado de la impresora seleccionada
+			$update = "UPDATE impresora
+					SET estado = '$estado',
+						fecha_registro = '$fecha_registro'
+					WHERE impresora_id = '$id'";
+			$conexion->query($update);
+
+			$conexion->commit();
+			return true;
+		} catch (Exception $e) {
+			$conexion->rollback();
+			return false;
+		}
 	}
 
 	public function consultaBillDraft($datos)
@@ -5130,49 +5188,25 @@ class mainModel
 		// incluyo la clase phpmailer
 
 		include_once ('phpmailer/class.phpmailer.php');
-
 		include_once ('phpmailer/class.smtp.php');
 
 		$mail = new PHPMailer();  // creo un objeto de tipo PHPMailer
-
 		$mail->SMTPDebug = 1;
-
 		$mail->IsSMTP();  // protocolo SMTP
-
 		$mail->IsHTML(true);
-
 		$mail->CharSet = $CharSet;
-
 		$mail->SMTPAuth = true;  // autenticación en el SMTP
-
 		$mail->SMTPSecure = $SMTPSecure;
-
-		$mail->SMTPOptions = array(
-			'ssl' => array(
-				'verify_peer' => false,
-				'verify_peer_name' => false,
-				'allow_self_signed' => true
-			)
-		);
-
 		$mail->Host = $servidor;  // servidor de SMTP de gmail
-
 		$mail->Port = $puerto;  // puerto seguro del servidor SMTP de gmail
-
 		$mail->From = $correo;  // Remitente del correo
-
 		$mail->FromName = $correo;  // Remitente del correo
-
 		$mail->AddAddress($correo);  // Destinatario
-
 		$mail->Username = $correo;  // Aqui pon tu correo
-
 		$mail->Password = $contraseña;  // Aqui pon tu contraseña de gmail
-
 		$mail->WordWrap = 50;  // No. de columnas
 
 		if ($mail->SmtpConnect()) {  // enviamos el correo por PHPMailer
-
 			echo 1;  // MENSAJE ENVIADO
 		} else {
 			echo 2;  // MENSAJE NO ENVIADO

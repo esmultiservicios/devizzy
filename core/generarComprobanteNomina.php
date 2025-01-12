@@ -10,6 +10,7 @@
 	include_once "dompdf/vendor/autoload.php";
 
 	use Dompdf\Dompdf;
+	use Dompdf\Options;
 
 	$nomina_id = $_GET['nomina_id'];
 
@@ -33,15 +34,19 @@
 		}
 
 		ob_start();
-		include(dirname('__FILE__').'/nominaComprobante.php');
+		include(dirname('__FILE__').'/plantilla_comprobante_nomina_carta.php');
 		$html = ob_get_clean();
 
-		// instantiate and use the dompdf class
-		$dompdf = new Dompdf();
-		
-		$dompdf->set_option('isRemoteEnabled', true);
+		// Configurar Dompdf
+		$options = new Options();
+		$options->set('isHtml5ParserEnabled', true);
+		$options->set('isRemoteEnabled', true);
 
-		$dompdf->loadHtml(utf8_decode(utf8_encode($html)));
+		// instantiate and use the dompdf class
+		$dompdf = new Dompdf($options);
+		
+		$dompdf->loadHtml($html);
+
 		// (Optional) Setup the paper size and orientation
 		$dompdf->setPaper('letter', 'portrait');
 		// Render the HTML as PDF

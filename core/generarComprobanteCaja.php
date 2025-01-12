@@ -10,6 +10,7 @@
 	include_once "dompdf/vendor/autoload.php";
 
 	use Dompdf\Dompdf;
+	use Dompdf\Options;
 
 	$apertura_id = $_GET['apertura_id'];
 
@@ -50,25 +51,26 @@
 		$consulta_empreasa_caja = $result_empesa_caja->fetch_assoc();
 
 		ob_start();
-		include(dirname('__FILE__').'/ticketCaja.php');
+		include(dirname('__FILE__').'/plantilla_comprobante_arqueo_caja_ticket.php');
 		$html = ob_get_clean();
+
+		// Configurar Dompdf
+		$options = new Options();
+		$options->set('isHtml5ParserEnabled', true);
+		$options->set('isRemoteEnabled', true);
+		$options->set('margin-bottom', 0); // Establecer margen inferior
+		$options->set('margin-left', 0);  // Establecer margen izquierdo
 
 		// instantiate and use the dompdf class
 		$dompdf = new Dompdf();
 
-		$dompdf->set_option('margin-bottom', 0);
-		$dompdf->set_option('margin-left', 0); // Ajuste para quitar el borde izquierdo
-		$dompdf->set_option('isRemoteEnabled', true);
-
-		$dompdf->loadHtml(utf8_decode(utf8_encode($html)));
+		$dompdf->loadHtml($html);
 		
 		$dompdf->setPaper(array(0, 0, 210, 300), 'portrait');
 		
 		// Render the HTML as PDF
 		$dompdf->render();
-		
-		file_put_contents(dirname('__FILE__').'/facturas/cierreCaja_'.$apertura_id.'.pdf', $dompdf->output());
-		
+			
 		// Output the generated PDF to Browser
 		$dompdf->stream('cierreCaja_'.$apertura_id.'.pdf',array('Attachment'=>0));
 		

@@ -116,28 +116,45 @@ var updateStatus = function(tbody, table){
 	})
 };
 
-function editarImpresora (id,estado){
-	var url = '<?php echo SERVERURL; ?>core/editarImpresora.php';
+function editarImpresora(id, estado) {
+    var url = '<?php echo SERVERURL; ?>core/editarImpresora.php';
 
-	$.ajax({
-		type:'POST',
-		url:url,
-		data:{
-			id: id,
-			estado:estado
-		},
-			success: function(data){
-				if(data){
-					getImpresora();
-				}else{
-					swal({
-						title: "Error",
-						text: "No se realizo la operacion, comunicarse con el administrador",
-						type: "error",
-						confirmButtonClass: "btn-danger",
-					});	
-				}
-			}
-	});	
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+            id: id,
+            estado: estado
+        },
+        success: function (response) {
+            // Convertir la respuesta en un objeto JSON si no está ya parseada
+            var data = typeof response === 'object' ? response : JSON.parse(response);
+
+            if (data.success) {
+                swal({
+                    title: "Éxito",
+                    text: data.message, // Mensaje del backend
+                    type: "success",
+                    confirmButtonClass: "btn-success",
+                });
+                getImpresora(); // Actualizar la lista de impresoras
+            } else {
+                swal({
+                    title: "Error",
+                    text: data.message, // Mensaje del backend
+                    type: "error",
+                    confirmButtonClass: "btn-danger",
+                });
+            }
+        },
+        error: function () {
+            swal({
+                title: "Error",
+                text: "Hubo un problema con la conexión al servidor. Por favor, inténtelo de nuevo.",
+                type: "error",
+                confirmButtonClass: "btn-danger",
+            });
+        }
+    });
 }
 </script>

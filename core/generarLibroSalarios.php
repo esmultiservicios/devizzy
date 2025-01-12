@@ -10,6 +10,7 @@
 	include_once "dompdf/vendor/autoload.php";
 
 	use Dompdf\Dompdf;
+	use Dompdf\Options;
 
 	$nomina_id = $_GET['nomina_id'];
 
@@ -34,12 +35,16 @@
 		include(dirname('__FILE__').'/libroSalarios.php');
 		$html = ob_get_clean();
 
-		// instantiate and use the dompdf class
-		$dompdf = new Dompdf();
-		
-		$dompdf->set_option('isRemoteEnabled', true);
+		// Configurar Dompdf
+		$options = new Options();
+		$options->set('isHtml5ParserEnabled', true);
+		$options->set('isRemoteEnabled', true);
 
-		$dompdf->loadHtml(utf8_decode(utf8_encode($html)));
+		// instantiate and use the dompdf class
+		$dompdf = new Dompdf($options);
+		
+		$dompdf->loadHtml($html);
+
 		// (Optional) Setup the paper size and orientation
 		$dompdf->setPaper('legal', 'landscape');
 		// Render the HTML as PDF

@@ -1297,51 +1297,167 @@ function printQuote(cotizacion_id) {
 }
 
 function printBill(facturas_id, $print_comprobante) {
-    var url = "<?php echo SERVERURL;?>core/llenarDataTableImpresora.php";
+    var url = "<?php echo SERVERURL;?>core/getImpresoraComprobante.php";
 
     $.ajax({
         type: 'POST',
         url: url,
         data: {
-            id: 1,
+            formato: "Factura",
         },
         success: function(data) {
-            $.each(JSON.parse(data), function() {
-                    if (this.tipo == 1 && this.estado == 1) {
-                        var url = '<?php echo SERVERURL;?>core/generaFactura.php?facturas_id=' +
-                            facturas_id;
-                        window.open(url);
-                    }
+            // Parsear el JSON
+            const impresora = JSON.parse(data)[0]; // Acceder a la primera impresora
 
-                    if (this.tipo == 2 && this.estado == 1) {
-                        var url = '<?php echo SERVERURL;?>core/generaTicket.php?facturas_id=' +
-                            facturas_id;
-                        window.open(url);
+            // Comprobar si la impresora está activa
+            if (impresora && impresora.estado == 1) {
+                var baseUrl = '<?php echo SERVERURL;?>core/';
+                var endpoint = 'generaFactura.php';
+                // Generar la URL con los parámetros de facturas_id y formato
+                var params = `?facturas_id=${facturas_id}&formato=${impresora.formato}`;
+                var type = "";
 
-                    }
-
-                    if ($print_comprobante == 1) {
-                        if (this.tipo == 3 && this.estado == 1) {
-                            var url_comprobante =
-                                '<?php echo SERVERURL;?>core/generaComprobante.php?facturas_id=' +
-                                facturas_id;
-                            window.open(url_comprobante);
-                        }
-
-                        if (this.tipo == 4 && this.estado == 1) {
-                            var url =
-                                '<?php echo SERVERURL;?>core/generaTicketComprobante.php?facturas_id=' +
-                                facturas_id;
-                            window.open(url);
-                        }
-                    }
+                if(impresora.formato === "Media Carta"){
+                    baseUrl = '<?php echo SERVERURLWINDOWS;?>';
+                    endpoint = '';
+                    type = "Factura_media";
+                    params = `?id=${facturas_id}&formato=${type}`;
                 }
 
-            )
+                // Abrir la URL generada
+                window.open(baseUrl + endpoint + params);
+            } else {
+                // Usando SweetAlert en lugar de alert
+                swal({
+                    title: "Error",
+                    text: "La impresora no está activa. Diríjase al menú de 'Configuración' > 'Impresoras' para activar la impresora. Después de activarla, podrás reimprimir la factura desde el reporte de facturación.",
+                    icon: "error",
+                    button: "Cerrar",
+                    type: "error",
+                    confirmButtonClass: 'btn-danger'
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error en la solicitud AJAX:", error);
+            swal({
+                title: "Error",
+                text: "Hubo un problema al procesar la solicitud.",
+                icon: "error",
+                button: "Cerrar",
+                type: "error",
+                confirmButtonClass: 'btn-danger'
+            });
         }
     });
 
     return false;
+}
+
+function printBillReporteVentas(facturas_id, print_comprobante) {
+    var url = "<?php echo SERVERURL;?>core/getImpresoraComprobante.php";
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+            formato: "Factura",
+        },
+        success: function(data) {
+            // Parsear el JSON
+            const impresora = JSON.parse(data)[0]; // Acceder a la primera impresora
+
+            // Comprobar si la impresora está activa
+            if (impresora && impresora.estado == 1) {
+                var baseUrl = '<?php echo SERVERURL;?>core/';
+                var endpoint = 'generaFactura.php';
+                // Generar la URL con los parámetros de facturas_id y formato
+                var params = `?facturas_id=${facturas_id}&formato=${impresora.formato}`;
+                var type = "";
+
+                if(impresora.formato === "Media Carta"){
+                    baseUrl = '<?php echo SERVERURLWINDOWS;?>';
+                    endpoint = '';
+                    type = "Factura_media";
+                    params = `?id=${facturas_id}&formato=${type}`;
+                }
+
+                // Abrir la URL generada
+                window.open(baseUrl + endpoint + params);
+            } else {
+                // Usando SweetAlert en lugar de alert
+                swal({
+                    title: "Error",
+                    text: "La impresora no está activa. Diríjase al menú de 'Configuración' > 'Impresoras' para activar la impresora. Después de activarla, podrás reimprimir la factura desde el reporte de facturación.",
+                    icon: "error",
+                    button: "Cerrar",
+                    type: "error",
+                    confirmButtonClass: 'btn-danger'
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error en la solicitud AJAX:", error);
+            swal({
+                title: "Error",
+                text: "Hubo un problema al procesar la solicitud.",
+                icon: "error",
+                button: "Cerrar",
+                type: "error",
+                confirmButtonClass: 'btn-danger'
+            });
+        }
+    });
+}
+
+function printBillComprobanteReporteVentas(facturas_id, print_comprobante) {
+    var url = "<?php echo SERVERURL;?>core/getImpresoraComprobante.php";
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+            formato: "Comprobante",
+        },
+        success: function(data) {
+            // Parsear el JSON
+            const impresora = JSON.parse(data)[0]; // Acceder a la primera impresora
+
+            // Comprobar si la impresora está activa
+            if (impresora && impresora.estado == 1) {
+                var baseUrl = '<?php echo SERVERURL;?>core/';
+                var endpoint = 'generaComprobanteEntrega.php';
+
+                // Generar la URL con los parámetros de facturas_id y formato
+                var params = `?facturas_id=${facturas_id}&formato=${impresora.formato}`;
+
+                // Abrir la URL generada
+                window.open(baseUrl + endpoint + params);
+                console.log('Comprobante Tipo:', impresora.tipo);
+            } else {
+                // Usando SweetAlert en lugar de alert
+                swal({
+                    title: "Error",
+                    text: "No hay impresoras activas o configuradas.",
+                    icon: "error",
+                    button: "Cerrar",
+                    type: "error",
+                    confirmButtonClass: 'btn-danger'
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error en la solicitud AJAX:", error);
+            swal({
+                title: "Error",
+                text: "Hubo un problema al procesar la solicitud.",
+                icon: "error",
+                button: "Cerrar",
+                type: "error",
+                confirmButtonClass: 'btn-danger'
+            });
+        }
+    });
 }
 
 function printComprobanteCajas(apertura_id) {
@@ -1354,72 +1470,8 @@ function printComprobanteCajas(apertura_id) {
             id: 1,
         },
         success: function(data) {
-            var url = '<?php echo SERVERURL;?>core/generaTicketCaja.php?apertura_id=' +
-                apertura_id;
+            var url = '<?php echo SERVERURL;?>core/generarComprobanteCaja.php?apertura_id=' + apertura_id;
             window.open(url);
-        }
-    });
-}
-
-function printBillReporteVentas(facturas_id, $print_comprobante) {
-    var url = "<?php echo SERVERURL;?>core/llenarDataTableImpresora.php";
-
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: {
-            id: 1,
-        },
-        success: function(data) {
-            $.each(JSON.parse(data), function() {
-                if (this.tipo == 1 && this.estado == 1) {
-                    var url = '<?php echo SERVERURL;?>core/generaFactura.php?facturas_id=' +
-                        facturas_id;
-                    window.open(url);
-                }
-
-                if (this.tipo == 2 && this.estado == 1) {
-                    var url = '<?php echo SERVERURL;?>core/generaTicket.php?facturas_id=' +
-                        facturas_id;
-                    window.open(url);
-                }
-            })
-        }
-    });
-}
-
-function printBillComprobanteReporteVentas(facturas_id, $print_comprobante) {
-
-    var url = "<?php echo SERVERURL;?>core/llenarDataTableImpresora.php";
-
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: {
-            id: 1,
-        },
-        success: function(data) {
-            $.each(JSON.parse(data), function() {
-                    if (this.tipo == 3 && this.estado == 1) {
-                        var url_comprobante =
-                            '<?php echo SERVERURL;?>core/generaComprobante.php?facturas_id=' +
-                            facturas_id;
-                        window.open(url_comprobante);
-                        console.log('compriante', this.tipo)
-
-                    }
-
-                    if (this.tipo == 4 && this.estado == 1) {
-                        var url =
-                            '<?php echo SERVERURL;?>core/generaTicketComprobante.php?facturas_id=' +
-                            facturas_id;
-                        window.open(url);
-
-                    }
-
-                }
-
-            )
         }
     });
 }
@@ -1432,18 +1484,18 @@ function printPurchase(compras_id) {
 //INICIO ENVIAR COTIZACION POR CORREO ELECTRONICO
 function mailQuote(cotizacion_id) {
     swal({
-            title: "¿Estas seguro?",
-            text: "¿Desea enviar la cotización: # " + getNumeroCotizacion(cotizacion_id) + "?",
-            type: "info",
-            showCancelButton: true,
-            confirmButtonClass: "btn-primary",
-            confirmButtonText: "¡Sí, enviar la cotización!",
-            cancelButtonText: "Cancelar",
-            closeOnConfirm: false
-        },
-        function() {
-            sendQuote(cotizacion_id);
-        });
+        title: "¿Estas seguro?",
+        text: "¿Desea enviar la cotización: # " + getNumeroCotizacion(cotizacion_id) + "?",
+        type: "info",
+        showCancelButton: true,
+        confirmButtonClass: "btn-primary",
+        confirmButtonText: "¡Sí, enviar la cotización!",
+        cancelButtonText: "Cancelar",
+        closeOnConfirm: false
+    },
+    function() {
+        sendQuote(cotizacion_id);
+    });
 }
 
 function sendQuote(cotizacion_id) {
