@@ -315,7 +315,7 @@ function anularCotizacion(cotizacion_id) {
     swal({
             title: "¿Estas seguro?",
             text: "¿Desea anular la cotización: # " + getNumeroCotizacion(cotizacion_id) + "?",
-            type: "info",
+            icon: "info",
             showCancelButton: true,
             confirmButtonClass: "btn-primary",
             confirmButtonText: "¡Sí, enviar anularla!",
@@ -340,14 +340,14 @@ function anular(cotizacion_id) {
                 swal({
                     title: "Success",
                     text: "La cotización ha sido anulada con éxito",
-                    type: "success",
+                    icon: "success",
                 });
                 listar_reporte_cotizaciones();
             } else {
                 swal({
                     title: "Error",
                     text: "La cotización no se pudo anular",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger",
                 });
             }

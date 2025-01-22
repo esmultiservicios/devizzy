@@ -616,7 +616,7 @@ function ValidarTipoPago(semanal) {
         swal({
             title: "Error",
             text: "Lo sentimos debe seleccionar un pago planificado antes de llenar este valor",
-            type: "error",
+            icon: "error",
             confirmButtonClass: "btn-danger"
         });
     }

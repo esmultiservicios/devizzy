@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Gastos</title>
-    <link rel="stylesheet" href="<?php echo SERVERURL; ?>vistas/plantilla/css/style_factura.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL; ?>vistas/plantilla/css/style_factura_carta.css">
     <link rel="shortcut icon" href="<?php echo SERVERURL; ?>vistas/plantilla/img/icono.png">
 </head>
 

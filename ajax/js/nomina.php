@@ -249,7 +249,7 @@ var generar_nominas_dataTable = function(tbody, table) {
             swal({
                     title: "¿Estas seguro?",
                     text: "¿Desea generar esta nomina?",
-                    type: "info",
+                    icon: "info",
                     showCancelButton: true,
                     confirmButtonClass: "btn-primary",
                     confirmButtonText: "¡Sí, generar la nomina!",
@@ -263,7 +263,7 @@ var generar_nominas_dataTable = function(tbody, table) {
             swal({
                 title: "Error",
                 text: "Lo sentimos, esta nomina ya ha sido generada",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: 'btn-danger',
                 allowEscapeKey: false,
                 allowOutsideClick: false
@@ -285,7 +285,7 @@ function genearNomina(nomina_id, empresa_id) {
                 swal({
                     title: "Success",
                     text: "La nomina se ha generado correctamente",
-                    type: "success",
+                    icon: "success",
                     timer: 3000
                 });
                 listar_nominas();
@@ -293,7 +293,7 @@ function genearNomina(nomina_id, empresa_id) {
                 swal({
                     title: "Error",
                     text: "Lo sentimos, no se pudo generar la nomina, por favor valide si existen empleados cargados antes de continuar, presione sobre el boton de más en la sección de crear",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: 'btn-danger',
                     allowEscapeKey: false,
                     allowOutsideClick: false
@@ -333,7 +333,7 @@ var voucher_nominas_dataTable = function(tbody, table) {
             swal({
                 title: "Error",
                 text: "Lo sentimos, la nomina no esta generada no se puede mostrar el reporte",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: 'btn-danger',
                 allowEscapeKey: false,
                 allowOutsideClick: false
@@ -356,7 +356,7 @@ var libro_salarios_nominas_dataTable = function(tbody, table) {
             swal({
                 title: "Error",
                 text: "Lo sentimos, la nomina no esta generada no se puede mostrar el reporte",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: 'btn-danger',
                 allowEscapeKey: false,
                 allowOutsideClick: false
@@ -653,7 +653,7 @@ function modalNominasDetalles() {
         swal({
             title: "Error",
             text: "Lo sentimos, esta nomina ya ha sido generada, no puede agregar más empleados",
-            type: "error",
+            icon: "error",
             confirmButtonClass: 'btn-danger',
             allowEscapeKey: false,
             allowOutsideClick: false

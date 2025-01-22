@@ -152,7 +152,7 @@ var actualizar_usuarios_dataTable = function(tbody, table) {
                 title: "¿Esta seguro?",
                 text: "¿Desea resetear la contraseña al usuario: " + consultarNombre(data.users_id) +
                     "?",
-                type: "warning",
+                icon: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-warning",
                 confirmButtonText: "¡Sí, modificar la contraseña!",
@@ -428,7 +428,7 @@ function resetearContra(users_id, server_customers_id) {
                 swal({
                     title: "Success",
                     text: "Contraseña cambiada correctamente",
-                    type: "success",
+                    icon: "success",
                     timer: 3000, //timeOut for auto-close					
                 });
                 return false;
@@ -436,7 +436,7 @@ function resetearContra(users_id, server_customers_id) {
                 swal({
                     title: "Error",
                     text: "Error al resetear la contraseña",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: 'btn-danger'
                 });
                 return false;

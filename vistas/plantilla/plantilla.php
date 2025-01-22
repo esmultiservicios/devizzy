@@ -30,8 +30,8 @@ if(!isset($_SESSION)){
         href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>fontawesome/css/all.min.css">
     <link rel="shortcut icon"
         href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>vistas/plantilla/img/icono.png">
-    <link href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>ajax/sweetalert/sweetalert.css"
-        rel="stylesheet" crossorigin="anonymous" />
+<!--     <link href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>ajax/sweetalert/sweetalert.css"
+        rel="stylesheet" crossorigin="anonymous" /> -->
 </head>
 
 <body class="sb-nav-fixed">

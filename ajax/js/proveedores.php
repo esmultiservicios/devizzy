@@ -319,7 +319,7 @@ function editRTNProvider(proveedores_id, rtn) {
     swal({
             title: "¿Estas seguro?",
             text: "¿Desea editar el RTN para el proveedor: " + getNombreProveedor(proveedores_id) + "?",
-            type: "info",
+            icon: "info",
             showCancelButton: true,
             cancelButtonText: "Cancdelar",
             confirmButtonColor: "#DD6B55",
@@ -344,7 +344,7 @@ function editRTNProveedor(proveedores_id, rtn) {
                 swal({
                     title: "Success",
                     text: "El RTN ha sido actualizado satisfactoriamente",
-                    type: "success",
+                    icon: "success",
                     confirmButtonClass: "btn-primary"
                 });
                 listar_proveedores();
@@ -353,14 +353,14 @@ function editRTNProveedor(proveedores_id, rtn) {
                 swal({
                     title: "Error",
                     text: "Error el RTN no se puede actualizar",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
             } else if (data == 3) {
                 swal({
                     title: "Error",
                     text: "El RTN ya existe",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
             }

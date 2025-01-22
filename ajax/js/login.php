@@ -126,84 +126,84 @@ $(document).ready(function() {
                     swal({
                         title: "Error",
                         text: "Usuario o contraseña son incorrectos por favor corregir",
-                        type: "error",
+                        icon: "error",
                         confirmButtonClass: 'btn-danger'
                     });
                 } else if (datos[1] === "ErrorP") {
                     swal({
                         title: "¡Problemas con el Pago!",
                         text: "¡Oops! Parece que hay un problema con su acceso al sistema debido a un inconveniente con el pago. No se preocupe, solo necesita ponerse en contacto con nuestro equipo de recaudación de pagos para arreglarlo. Puede escribirnos al +504 3227-3380, ¡y con gusto le ayudaremos!",
-                        type: "warning",
+                        icon: "warning",
                         confirmButtonClass: 'btn-warning'
                     });
                 } else if (datos[1] === "ErrorVacio") {
                     swal({
                         title: "Error",
                         text: "Lo sentimos, uno de los dos campos no puede ir en blanco. El sistema requiere tanto el cliente como el PIN para continuar. Si lo desea, puede dejar ambos campos en blanco, y el sistema los ignorará.",
-                        type: "error",
+                        icon: "error",
                         confirmButtonClass: 'btn-danger'
                     });
                 } else if (datos[1] === "ErrorPinInvalido") {
                     swal({
                         title: "Error",
                         text: "Lo sentimos, el código del cliente o el pin son inválidos, o el mismo ha vencido, por favor solicite otro pin al cliente.",
-                        type: "error",
+                        icon: "error",
                         confirmButtonClass: 'btn-danger'
                     });
                 } else if (datos[1] === "ErrorC") {
                     swal({
                         title: "No se encontró una cuenta asociada a este correo electrónico.",
                         text: "¿Desea registrarse o explorar nuestros productos?",
-                        type: "info",
-                        showCancelButton: true,
-                        showConfirmButton: true,
-                        confirmButtonText: "Sí, deseo registrarme!",
-                        cancelButtonText: "Explorar productos",
-                        confirmButtonClass: 'btn-primary',
-                        cancelButtonClass: 'btn-danger',
-                        closeOnConfirm: false,
-                        closeOnCancel: false, // Evita que el cuadro de diálogo se cierre automáticamente después de hacer clic en "Cancelar"
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        showLoaderOnConfirm: true // Activa el efecto de carga en el botón "Aceptar"
-                    }, function(isConfirmed) {
-                        // Esta función se ejecutará cuando se haga clic en el botón "Aceptar" o "Cancelar"
-
-                        if (isConfirmed) {
-                            // Realiza aquí las acciones que desees al confirmar
-                            // Puedes mostrar otro cuadro de diálogo, redirigir, etc.
-
-                            // Ejemplo: redirige a una página después de 2 segundos (ajusta el tiempo según tus necesidades)
-                            setTimeout(function() {
+                        icon: "info",
+                        buttons: {
+                            cancel: "Cerrar",
+                            register: {
+                                text: "Sí, registrarme!",
+                                value: "register",
+                                className: 'btn-primary'
+                            },
+                            explore: {
+                                text: "Explorar productos",
+                                value: "explore",
+                                className: 'btn-danger'
+                            }
+                        },
+                        closeOnClickOutside: false,
+                        closeOnEsc: false
+                    })
+                    .then((value) => {
+                        switch (value) {
+                            case "register":
                                 // El usuario eligió registrarse, muestra el formulario de registro.
-                                $("#form_registro").show();
-                                // También puedes desactivar el formulario de inicio de sesión si es necesario.
-                                $("#loginform").hide();
+                                setTimeout(function() {
+                                    $("#form_registro").show();
+                                    $("#loginform").hide();
+                                    swal.close();
+                                }, 1000);
+                                break;
 
+                            case "explore":
+                                // El usuario eligió explorar productos, muestra el mensaje de mantenimiento.
+                                swal({
+                                    title: "Mantenimiento en Curso",
+                                    text: "Estamos trabajando para mejorar nuestros servicios. Disculpa las molestias.",
+                                    icon: "warning",
+                                    button: "Aceptar",
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false
+                                });
+                                break;
+
+                            default:
+                                // El usuario eligió cerrar el cuadro de diálogo.
                                 swal.close();
-                            }, 1000);
-                        } else {
-                            // El usuario eligió explorar productos, puedes redirigirlo a la página de productos o a donde desees.
-                            /*window.location.href =
-                                "ruta/a/tu/pagina_de_productos.html";*/
-
-                            swal({
-                                title: "Mantenimiento en Curso",
-                                text: "Estamos trabajando para mejorar nuestros servicios. Disculpa las molestias.",
-                                type: "warning",
-                                confirmButtonClass: 'btn-warning',
-                                confirmButtonText: "Aceptar",
-                                showCloseButton: true, // Muestra un botón de cierre (X) para cerrar el cuadro de diálogo
-                                allowOutsideClick: false, // Evita que se cierre haciendo clic fuera del cuadro de diálogo
-                                allowEscapeKey: false // Evita que se cierre al presionar la tecla Esc
-                            });
                         }
                     });
                 } else {
                     swal({
                         title: "Error",
                         text: "No se enviaron los datos, favor corregir",
-                        type: "error",
+                        icon: "error",
                         confirmButtonClass: 'btn-danger'
                     });
                 }
@@ -212,7 +212,7 @@ $(document).ready(function() {
                 swal({
                     title: "Error",
                     text: "Ocurrió un error inesperado, o quizás no tenga conexión con el sistema, por favor intentar más tarde",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: 'btn-danger'
                 });
                 $("#loginform #acceso").hide();
@@ -230,7 +230,7 @@ $(document).ready(function() {
         swal({
             title: "Mantenimiento en Curso",
             text: "Estamos trabajando para mejorar nuestros servicios. Disculpa las molestias.",
-            type: "warning",
+            icon: "warning",
             confirmButtonClass: 'btn-warning',
             confirmButtonText: "Aceptar",
             showCloseButton: true, // Muestra un botón de cierre (X) para cerrar el cuadro de diálogo
@@ -264,27 +264,27 @@ $(document).ready(function() {
                     swal({
                         title: "Success",
                         text: "Contraseña reseteada, se ha enviado a su correo electrónico",
-                        type: "success",
+                        icon: "success",
                     });
                 } else if (resp == 2) {
                     swal({
                         title: "Error",
                         text: "Error al resetear la contraseña",
-                        type: "error",
+                        icon: "error",
                         confirmButtonClass: 'btn-danger'
                     });
                 } else if (resp == 3) {
                     swal({
                         title: "Error",
                         text: "El usuario ingresado no existe",
-                        type: "error",
+                        icon: "error",
                         confirmButtonClass: 'btn-danger'
                     });
                 } else {
                     swal({
                         title: "Error",
                         text: "Error al completar los datos",
-                        type: "error",
+                        icon: "error",
                         confirmButtonClass: 'btn-danger'
                     });
                 }
@@ -293,7 +293,7 @@ $(document).ready(function() {
                 swal({
                     title: "Error",
                     text: "Error al procesar su solicitud de inicio de sesión",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: 'btn-danger'
                 });
             }

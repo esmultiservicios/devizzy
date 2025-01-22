@@ -158,7 +158,7 @@ $(document).ready(function() {
 
                                 text: "Producto no encontrado, por favor corregir",
 
-                                type: "error",
+                                icon: "error",
 
                                 confirmButtonClass: 'btn-danger'
 
@@ -1057,7 +1057,7 @@ var view_productos_busqueda_cotizacion_dataTable = function(tbody, table) { //re
 
                 text: "Lo sentimos no se puede seleccionar un producto, por favor antes de continuar, verifique que los siguientes campos: clientes, vendedor no se encuentren vacíos",
 
-                type: "error",
+                icon: "error",
 
                 confirmButtonClass: "btn-danger"
 
@@ -1504,7 +1504,7 @@ function addComentarioQuote() {
 
             text: "¿Desea agregar un comentario a la factura?",
 
-            type: "input",
+            icon: "input",
 
             showCancelButton: true,
 
@@ -1908,7 +1908,7 @@ $(document).ready(function() {
 
                 text: "Lo sentimos no puede agregar más filas, debe seleccionar un cliente antes de poder continuar",
 
-                type: "error",
+                icon: "error",
 
                 confirmButtonClass: "btn-danger"
 
@@ -1944,7 +1944,7 @@ $(document).ready(function() {
 
                 text: "Lo sentimos debe seleccionar un fila antes de intentar eliminarla",
 
-                type: "error",
+                icon: "error",
 
                 confirmButtonClass: "btn-danger"
 
@@ -2211,7 +2211,7 @@ $(document).ready(function() {
             swal({
                 title: "Error",
                 text: "Debe seleccionar un cliente y un producto antes de continuar",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: "btn-danger"
             });
         }
@@ -2293,7 +2293,7 @@ $("#reg_DescuentoFacturacion").on("click", function(e) {
         swal({
             title: "warning",
             text: "El valor del descuento es mayor al precio total del artículo, por favor corregir",
-            type: "warning",
+            icon: "warning",
             confirmButtonClass: "btn-warning"
         });
     }
@@ -2336,7 +2336,7 @@ $(document).ready(function() {
             swal({
                 title: "Error",
                 text: "Debe seleccionar un cliente y un producto antes de continuar",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: "btn-danger"
             });
         }

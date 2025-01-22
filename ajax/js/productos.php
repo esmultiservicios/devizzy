@@ -456,7 +456,7 @@ function editBarCode(productos_id, barcode, producto) {
     swal({
             title: "¿Estas seguro?",
             text: "¿Desea editar el Código de Barra para el producto: " + producto + "?",
-            type: "info",
+            icon: "info",
             showCancelButton: true,
             cancelButtonText: "Cancdelar",
             confirmButtonColor: "#DD6B55",
@@ -481,7 +481,7 @@ function editarCodigoBarra(productos_id, barcode) {
                 swal({
                     title: "Success",
                     text: "El Código de Barra ha sido actualizado satisfactoriamente",
-                    type: "success",
+                    icon: "success",
                     confirmButtonClass: "btn-primary"
                 });
                 listar_productos();
@@ -490,14 +490,14 @@ function editarCodigoBarra(productos_id, barcode) {
                 swal({
                     title: "Error",
                     text: "Error el El Código de Barra no se puede actualizar",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
             } else if (data == 3) {
                 swal({
                     title: "Error",
                     text: "El El Código de Barra ya existe",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
             }

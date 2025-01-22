@@ -50,8 +50,11 @@
 		// Render the HTML as PDF
 		$dompdf->render();
 				
+		// Mostrar el PDF en el navegador
+		$dompdf->stream('ingresos_'.$no_factura.'_'.'.pdf',array('Attachment'=>0));
+
 		// Output the generated PDF to Browser
-		$dompdf->stream('ingresos_'.$no_factura.'.pdf',array('Attachment'=>0));
+		//$dompdf->stream('ingresos_'.$no_factura.'.pdf',array('Attachment'=>0));
 		
 		exit;	
 	}

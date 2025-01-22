@@ -610,7 +610,7 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table) {
             swal({
                 title: "Error",
                 text: "Lo sentimos debe aperturar la caja antes de continuar",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: "btn-danger"
             });
         } else {
@@ -628,7 +628,7 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table) {
                             title: "Error",
                             html: true, // Habilitar HTML
                             text: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL; ?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=\"purple\"' onmouseout='this.style.color=\"blue\"' onmousedown='this.style.color=\"purple\"' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar.",
-                            type: "error",
+                            icon: "error",
                             confirmButtonClass: "btn-danger"
                         });
                         return false;
@@ -640,7 +640,7 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table) {
                         swal({
                             title: "Error",
                             text: "No se puede facturar este producto inventario en cero",
-                            type: "error",
+                            icon: "error",
                             confirmButtonClass: "btn-danger"
                         });
                         return false
@@ -702,7 +702,7 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table) {
                 swal({
                     title: "Error",
                     text: "Lo sentimos no se puede seleccionar un producto, por favor antes de continuar, verifique que los siguientes campos: clientes, vendedor no se encuentren vacíos",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
             }
@@ -983,7 +983,7 @@ $(document).ready(function() {
             swal({
                 title: "Error",
                 text: "Lo sentimos no puede agregar más filas, debe seleccionar un usuario antes de poder continuar",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: "btn-danger"
             });
         }
@@ -1000,7 +1000,7 @@ $(document).ready(function() {
             swal({
                 title: "Error",
                 text: "Lo sentimos debe seleccionar un fila antes de intentar eliminarla",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: "btn-danger"
             });
         }
@@ -1192,7 +1192,7 @@ function manejarPresionEnter(row_index) {
                             title: "Error",
                             html: true, // Habilitar HTML
                             text: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL; ?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=\"purple\"' onmouseout='this.style.color=\"blue\"' onmousedown='this.style.color=\"purple\"' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar.",
-                            type: "error",
+                            icon: "error",
                             confirmButtonClass: "btn-danger"
                         });
                         return false;
@@ -1207,7 +1207,7 @@ function manejarPresionEnter(row_index) {
                             swal({
                                 title: "Error",
                                 text: "No se puede facturar este producto inventario en cero",
-                                type: "error",
+                                icon: "error",
                                 confirmButtonClass: "btn-danger"
                             });
                             return false;
@@ -1286,7 +1286,7 @@ function manejarPresionEnter(row_index) {
                     swal({
                         title: "Error",
                         text: "Producto no encontrado, por favor corregir",
-                        type: "error",
+                        icon: "error",
                         confirmButtonClass: 'btn-danger'
                     });
                     $("#invoice-form #invoiceItem #bar-code-id_" + row_index).val("");
@@ -1363,7 +1363,7 @@ $(document).ready(function() {
                 swal({
                     title: "Caja abierta",
                     text: "La caja se encuentra abierta",
-                    type: "warning",
+                    icon: "warning",
                     confirmButtonClass: "btn-warning"
                 });
             }
@@ -1377,7 +1377,7 @@ $(document).ready(function() {
                 swal({
                     title: "Caja cerrada",
                     text: "La caja se encuentra cerrada",
-                    type: "warning",
+                    icon: "warning",
                     confirmButtonClass: "btn-warning"
                 });
             }
@@ -1515,7 +1515,7 @@ $("#reg_DescuentoFacturacion").on("click", function(e) {
         swal({
             title: "warning",
             text: "El valor del descuento es mayor al precio total del artículo, por favor corregir",
-            type: "warning",
+            icon: "warning",
             confirmButtonClass: "btn-warning"
         });
     }
@@ -2278,7 +2278,7 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table) {
             swal({
                 title: 'Error',
                 text: 'No puede realizar esta accion a las facturas canceladas!',
-                type: 'error',
+                icon: 'error',
                 confirmButtonClass: 'btn-danger'
             });
         } else {
@@ -2666,7 +2666,7 @@ function deleteBillDraft(facturas_id) {
     swal({
             title: "¿Estas seguro?",
             text: "¿Desea anular la factura: # " + getNumeroFactura(facturas_id) + "?",
-            type: "info",
+            icon: "info",
             showCancelButton: true,
             confirmButtonClass: "btn-primary",
             confirmButtonText: "¡Sí, enviar anularla!",
@@ -2691,14 +2691,14 @@ function deleteBill(facturas_id) {
                 swal({
                     title: "Success",
                     text: "La factura en borrador ha sido eliminada con éxito",
-                    type: "success",
+                    icon: "success",
                 });
                 listar_busqueda_bill_draf();
             } else {
                 swal({
                     title: "Error",
                     text: "La factura no se puede eliminar",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger",
                 });
             }
@@ -2758,7 +2758,7 @@ var listar_busqueda_bill = function() {
         swal({
             title: "Error",
             text: "Lo sentimos, hubo un error al obtener la información de la factura.",
-            type: "error",
+            icon: "error",
             confirmButtonClass: "btn-danger",
         });
         return;
@@ -2995,7 +2995,7 @@ function anularFacturas(facturas_id) {
     swal({
             title: "¿Estas seguro?",
             text: "¿Desea anular la factura: # " + getNumeroFactura(facturas_id) + "?",
-            type: "info",
+            icon: "info",
             showCancelButton: true,
             confirmButtonClass: "btn-primary",
             confirmButtonText: "¡Sí, enviar anularla!",
@@ -3020,14 +3020,14 @@ function anular(facturas_id) {
                 swal({
                     title: "Success",
                     text: "La factura ha sido anulada con éxito",
-                    type: "success",
+                    icon: "success",
                 });
                 listar_busqueda_bill();
             } else {
                 swal({
                     title: "Error",
                     text: "La factura no se puede anular",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger",
                 });
             }
@@ -3109,7 +3109,7 @@ $(document).ready(function() {
             swal({
                 title: "Error",
                 text: "Debe seleccionar un cliente y un producto antes de continuar",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: "btn-danger"
             });
         }
@@ -3191,7 +3191,7 @@ $("#reg_DescuentoFacturacion").on("click", function(e) {
         swal({
             title: "warning",
             text: "El valor del descuento es mayor al precio total del artículo, por favor corregir",
-            type: "warning",
+            icon: "warning",
             confirmButtonClass: "btn-warning"
         });
     }
@@ -3233,7 +3233,7 @@ $(document).ready(function() {
             swal({
                 title: "Error",
                 text: "Debe seleccionar un cliente y un producto antes de continuar",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: "btn-danger"
             });
         }

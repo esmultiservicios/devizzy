@@ -1,4 +1,6 @@
 <script>
+var DB_MAIN = "<?php echo DB_MAIN; ?>";
+
 $(document).ready(function() {
     //LLAMAMOS LOS METODOS CORRESPONDIENTES AL LOS MENUS
     getGithubVersion();
@@ -47,7 +49,7 @@ function mostrarNotificacionRenovacion(tiempoRestante) {
         swal({
             title: "Renovar Sesión",
             text: `Tu sesión está a punto de vencer. Tiempo restante: ${tiempoRestante} minutos. ¿Deseas renovarla?`,
-            type: "info",
+            icon: "info",
             showCancelButton: true,
             confirmButtonClass: "btn-primary",
             confirmButtonText: "Renovar",
@@ -62,7 +64,7 @@ function mostrarNotificacionExpiracion() {
     swal({
         title: "Sesión Expirada",
         text: "Su sesión ha expirado. Serás redirigido a la página de inicio de sesión.",
-        type: "warning",
+        icon: "warning",
         closeOnConfirm: false
     }, function() {
         // Redirigir al usuario a la página de inicio de sesión
@@ -2779,8 +2781,8 @@ var listar_clientes = function(estado) {
             //Ocultamos el boton generar si el permiso no es super administrator, administrador o reseller
             if (getPrivilegioUsuario() !== 1 || getPrivilegioUsuario() !== 2 ||
                 getPrivilegioUsuario() !== 3) {
-                var db_consulta = getSessionUser() === "" ? 'clinicarehn_clinicare' : getSessionUser();
-                if (db_consulta === 'clinicarehn_clinicare') {
+                var db_consulta = getSessionUser() === "" ? DB_MAIN : getSessionUser();
+                if (db_consulta === DB_MAIN) {
                     $('.generar').show();
                 } else {
                     $('.generar').hide();
@@ -3168,21 +3170,21 @@ $('#formGenerarSistema #sistema').on('change', function(e) {
 
         // Verificar si hay un sistema anterior y eliminarlo
         if (sistemaSeleccionadoAnterior !== "") {
-            valorDb = valorDb.replace("clinicarehn_" + sistemaSeleccionadoAnterior, "");
+            valorDb = valorDb.replace("esmultiservicios_" + sistemaSeleccionadoAnterior, "");
         }
 
-        // Verificar si ya hay "clinicarehn_" al principio, de lo contrario, agregarlo
-        if (valorDb.indexOf("clinicarehn_") !== 0) {
-            valorDb = "clinicarehn_" + valorDb;
+        // Verificar si ya hay "esmultiservicios_" al principio, de lo contrario, agregarlo
+        if (valorDb.indexOf("esmultiservicios_") !== 0) {
+            valorDb = "esmultiservicios_" + valorDb;
         }
 
         // Concatenar el nuevo nombre de sistema seleccionado
-        valorDb = valorDb.replace("clinicarehn_" + nombreSistemaSeleccionado + "_", "");
+        valorDb = valorDb.replace("esmultiservicios_" + nombreSistemaSeleccionado + "_", "");
         valorDb = valorDb.replace(/_+/g, "_"); // Eliminar duplicaciones de guiones bajos
-        valorDb = valorDb.replace("clinicarehn_", ""); // Eliminar cualquier repetición
+        valorDb = valorDb.replace("esmultiservicios_", ""); // Eliminar cualquier repetición
 
         // Establecer el valor del campo "db" con el resultado
-        valorDb = "clinicarehn_" + nombreSistemaSeleccionado + "_" + valorDb;
+        valorDb = "esmultiservicios_" + valorDb + "_" + nombreSistemaSeleccionado;
 
         // Obtener los primeros 10 dígitos de valorDb
         var primeros10Digitos = valorDb.substring(0, 10);
@@ -3423,18 +3425,28 @@ $('#editar_rtn_clientes').on('click', function(e) {
 
 function editRTNClient(clientes_id, rtn) {
     swal({
-            title: "¿Estas seguro?",
-            text: "¿Desea editar el RTN para el cliente: " + getNombreCliente(clientes_id) + "?",
-            type: "info",
-            showCancelButton: true,
-            cancelButtonText: "Cancdelar",
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "¡Si, Deseo Editarlo!",
-            closeOnConfirm: false
+        title: "¿Estás seguro?",
+        text: "¿Desea editar el RTN para el cliente: " + getNombreCliente(clientes_id) + "?",
+        icon: "info",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                visible: true,
+                closeModal: true
+            },
+            confirm: {
+                text: "¡Sí, deseo editarlo!",
+                className: "btn-primary",
+                closeModal: false
+            }
         },
-        function() {
+        dangerMode: false
+    }).then((isConfirm) => {
+        if (isConfirm) {
             editRTNCliente(clientes_id, rtn);
-        });
+            swal("Éxito", "El RTN ha sido editado correctamente.", "success");
+        }
+    });
 }
 
 function editRTNCliente(clientes_id, rtn) {

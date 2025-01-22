@@ -299,7 +299,7 @@ var transferencia_producto_dataTable = function(tbody, table) {
             swal({
                 title: 'Error',
                 text: 'No se puede hacer transferencia de producto que depente de otro inventario',
-                type: 'error',
+                icon: 'error',
                 confirmButtonClass: 'btn-danger'
             });
             return false

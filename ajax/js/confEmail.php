@@ -190,13 +190,13 @@ function testEmail(server, correo, password, port, smtpSecure) {
                 swal({
                     title: "Success",
                     text: "Conexión realizada satisfactoriamente",
-                    type: "success",
+                    icon: "success",
                 });
             } else {
                 swal({
                     title: "Error",
                     text: "Credenciales invalidas, por favor corregir, también recuerde en su servidor de correo: Activar Aplicaciones poco seguras (SmtpClientAuthentication)",
-                    type: "error",
+                    icon: "error",
                 });
             }
         }
@@ -359,7 +359,7 @@ var eliminar_destinatarios_dataTable = function(tbody, table) {
         swal({
                 title: "¿Estas seguro?",
                 text: "¿Desea eliminar el destinatario " + data.colaborador,
-                type: "info",
+                icon: "info",
                 showCancelButton: true,
                 confirmButtonClass: "btn-primary",
                 confirmButtonText: "¡Sí, eliminar el correo!",
@@ -385,7 +385,7 @@ function elminarDestinatario(notificaciones_id) {
                 swal({
                     title: "Success",
                     text: "El destinatario ha sido eliminada correctamente",
-                    type: "success",
+                    icon: "success",
                 });
                 listar_destinatarios();
                 $('#formDestinatarios #correo').focus();
@@ -393,7 +393,7 @@ function elminarDestinatario(notificaciones_id) {
                 swal({
                     title: 'Error',
                     text: 'Lo sentimos no se puede eliminar el destinatario',
-                    type: 'error',
+                    icon: 'error',
                     confirmButtonClass: 'btn-danger'
                 });
             }

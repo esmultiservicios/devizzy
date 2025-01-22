@@ -10,23 +10,23 @@ if (!isset($_SESSION['user_sd'])) {
 
 // DATOS DE CONEXION DEL CLIENTE
 const SERVER = 'localhost';
-const USER = 'clinicarehn_clinicare';
-const PASS = 'Clin1c@r32022#';
+const USER = 'esmultiservicios_root';
+const PASS = 'o8lXA0gtIO$@';
 
 // DATOS DE CONEXION SERVIDOR PRINCIPAL
 const SERVER_MAIN = 'localhost';
-const DB_MAIN = 'clinicarehn_clinicare';
+const DB_MAIN = 'esmultiservicios_izzy';
 
 $GLOBALS['DB_MAIN'] = DB_MAIN;
 
-const USER_MAIN = 'clinicarehn_clinicare';
-const PASS_MAIN = 'Clin1c@r32022#';
+const USER_MAIN = 'esmultiservicios_root';
+const PASS_MAIN = 'o8lXA0gtIO$@';
 
 // cPanel
 // const tokencPanel = 'cpsessCPBCU71RXAL9R3908OM444JE0OECS6LM';
 const tokencPanel = '736WMD7BCNB66T7T15A67Y72WGP6VJ3S';
-const usernamecPanel = 'clinicarehn';
-const passwordcPanel = 'PX6V?RZ235,h';
+const usernamecPanel = 'esmultiservicios';
+const passwordcPanel = 'CEdwin82003%*';
 
 // BASE DE DATOS EXCEPTION LOGIN CONTROLADOR
 const DB_MAIN_LOGIN_CONTROLADOR = DB_MAIN;  // LA BASE DE DATOS QUE ESTE AQUÍ SE EXCEPTÚA EN EL LOGIN CONTROLADOR

@@ -375,7 +375,7 @@ function anularFacturas(facturas_id) {
     swal({
         title: "¿Esta seguro?",
         text: "¿Desea anular la factura: # " + getNumeroFactura(facturas_id) + "?",
-        type: "input",
+        icon: "input",
         showCancelButton: true,
         closeOnConfirm: false,
         inputPlaceholder: "Comentario",
@@ -405,14 +405,14 @@ function anular(facturas_id, comentario) {
                 swal({
                     title: "Success",
                     text: "La factura ha sido anulada con éxito",
-                    type: "success",
+                    icon: "success",
                 });
                 listar_reporte_ventas();
             } else {
                 swal({
                     title: "Error",
                     text: "La factura no se puede anular",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger",
                 });
             }

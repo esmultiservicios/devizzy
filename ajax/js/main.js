@@ -10,7 +10,7 @@ $('.FormularioAjax').submit(function (e) {
 	// Deshabilitar el botón antes de hacer la solicitud AJAX
 	form.find('button[type="submit"]').prop('disabled', true);
 
-	var msjError = "<script>swal({title: 'Ocurrió un error inesperado', text: 'Por favor, intenta de nuevo', type: 'error', confirmButtonClass: 'btn-danger', allowEscapeKey: false, allowOutsideClick: false});</script>";
+	var msjError = "<script>swal({title: 'Ocurrió un error inesperado', text: 'Por favor, intenta de nuevo', icon: 'error', confirmButtonClass: 'btn-danger', allowEscapeKey: false, allowOutsideClick: false});</script>";
 	var formdata = new FormData(this);
 
 	var textoAlerta;
@@ -19,7 +19,7 @@ $('.FormularioAjax').submit(function (e) {
 
 	if (tipo == "save") {
 		textoAlerta = "Los datos que enviarás quedarán almacenados en el sistema";
-		type = "info";
+		type = "primary";
 		classButtom = "btn-primary";
 	} else if (tipo == "delete") {
 		textoAlerta = "Los datos serán eliminados completamente del sistema";
@@ -28,70 +28,73 @@ $('.FormularioAjax').submit(function (e) {
 	} else if (tipo == "update") {
 		textoAlerta = "Los datos del sistema serán actualizados";
 		type = "info";
+		classButtom = "btn-info";
 	} else {
 		textoAlerta = "¿Quieres realizar la operación solicitada?";
-		type = "warning";
-		classButtom = "btn-primary";
+		type = "warning";		
 		classButtom = "btn-warning";
 	}
 
 	swal({
 		title: "¿Estás seguro?",
 		text: textoAlerta,
-		type: type,
-		showCancelButton: true,
-		confirmButtonClass: classButtom,
-		confirmButtonText: "Aceptar",
-		cancelButtonText: "Cancelar",
-		closeOnConfirm: false,
-		closeOnCancel: true, // Permite cerrar el swal haciendo clic en "Cancelar"
-		allowEscapeKey: false,
-		allowOutsideClick: false
-	},
-		function (isConfirm) {
-			if (isConfirm) {
-				// Dentro de la función del swal, deshabilita el botón "Aceptar" del swal
-				swal.disableButtons();
-
-				$.ajax({
-					type: method,
-					url: action,
-					data: formdata ? formdata : form.serialize(),
-					cache: false,
-					contentType: false,
-					processData: false,
-					xhr: function () {
-						var xhr = new window.XMLHttpRequest();
-						xhr.upload.addEventListener("progress", function (evt) {
-							if (evt.lengthComputable) {
-								var percentComplete = evt.loaded / evt.total;
-								percentComplete = parseInt(percentComplete * 100);
-								if (percentComplete < 100) {
-									respuesta.html('<p class="text-center">Procesado... (' + percentComplete + '%)</p><div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: ' + percentComplete + '%;"></div></div>');
-								} else {
-									respuesta.html('<p class="text-center"></p>');
-								}
-							}
-						}, false);
-						return xhr;
-					},
-					success: function (data) {
-						respuesta.html(data);
-
-						// Habilitar el botón después de completar la transacción
-						form.find('button[type="submit"]').prop('disabled', false);
-
-						return false;
-					},
-					error: function () {
-						respuesta.html(msjError);
-					}
-				});
-			} else {
-				// Si el usuario hizo clic en "Cancelar", habilita el botón del formulario
-				form.find('button[type="submit"]').prop('disabled', false);
+		icon: type,
+		buttons: {
+			cancel: {
+				text: "Cancelar",
+				visible: true,
+				closeModal: true
+			},
+			confirm: {
+				text: "Aceptar",
+				className: classButtom,
+				closeModal: false
 			}
-		});
+		},
+		dangerMode: false
+	}).then((isConfirm) => {
+		if (isConfirm) {
+			swal.stopLoading();
+			swal.close();
+	
+			$.ajax({
+				type: method,
+				url: action,
+				data: formdata ? formdata : form.serialize(),
+				cache: false,
+				contentType: false,
+				processData: false,
+				xhr: () => {
+					const xhr = new window.XMLHttpRequest();
+					xhr.upload.addEventListener("progress", (evt) => {
+						if (evt.lengthComputable) {
+							let percentComplete = parseInt((evt.loaded / evt.total) * 100);
+							if (percentComplete < 100) {
+								respuesta.html(`
+									<p class="text-center">Procesando... (${percentComplete}%)</p>
+									<div class="progress progress-striped active">
+										<div class="progress-bar progress-bar-info" style="width: ${percentComplete}%;"></div>
+									</div>
+								`);
+							} else {
+								respuesta.html('<p class="text-center"></p>');
+							}
+						}
+					}, false);
+					return xhr;
+				},
+				success: (data) => {
+					respuesta.html(data);
+					form.find('button[type="submit"]').prop('disabled', false);
+				},
+				error: () => {
+					respuesta.html(msjError);
+				}
+			});
+		} else {
+			form.find('button[type="submit"]').prop('disabled', false);
+		}
+	});
 });
 
 //FIN LOGIN FORM

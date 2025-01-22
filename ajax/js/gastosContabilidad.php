@@ -847,7 +847,7 @@ var delete_categoria_gastos_dataTable = function(tbody, table) {
         swal({
                 title: "¿Estas seguro?",
                 text: "¿Desea eliminar la categoria: " + data.nombre + "?",
-                type: "info",
+                icon: "info",
                 showCancelButton: true,
                 confirmButtonClass: "btn-primary",
                 confirmButtonText: "¡Sí, eliminar la categoria!",
@@ -876,7 +876,7 @@ function deleteCategoriaGastos(categoria_gastos_id, categoria) {
                 swal({
                     title: "Success",
                     text: "La categoria se elimino correctamente.",
-                    type: "success",
+                    icon: "success",
                     confirmButtonClass: "btn-primary",
                     timer: 3000,
                 });
@@ -886,7 +886,7 @@ function deleteCategoriaGastos(categoria_gastos_id, categoria) {
                 swal({
                     title: "Error",
                     text: "Error: " + errorMessage,
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
             } else {
@@ -894,7 +894,7 @@ function deleteCategoriaGastos(categoria_gastos_id, categoria) {
                 swal({
                     title: "Error",
                     text: "Error: " + errorMessage,
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
             }
@@ -903,7 +903,7 @@ function deleteCategoriaGastos(categoria_gastos_id, categoria) {
             swal({
                 title: "Error",
                 text: "Ha ocurrido un error en la solicitud.",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: "btn-danger"
             });
         }

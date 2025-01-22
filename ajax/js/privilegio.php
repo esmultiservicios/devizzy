@@ -158,7 +158,7 @@ function deleteMenuAcceso(menu_id, privilegio_id, menu, acceso_menu_id){
 	swal({
 	  title: "¿Estas seguro?",
 	  text: "¿Desea eliminar el menu: " + menu + "?",
-	  type: "info",
+	  icon: "info",
 	  showCancelButton: true,
 	  confirmButtonClass: "btn-primary",
 	  confirmButtonText: "!Sí, Eliminar el menu!",
@@ -183,7 +183,7 @@ function deleteMenu(menu_id, privilegio_id, acceso_menu_id){
 			swal({
 				title: "Success",
 				text: "El acceso al menu ha sido eliminado correctamente",
-				type: "success",
+				icon: "success",
 			});
 			listar_menuaccesos();
 			
@@ -191,14 +191,14 @@ function deleteMenu(menu_id, privilegio_id, acceso_menu_id){
             swal({
                 title: "Error",
                 text: "Error el acceso al menu no se puede eliminar",
-                type: "error",
+                icon: "error",
 				confirmButtonClass: "btn-danger"
             });			
 		  }else{
             swal({
                 title: "Error",
                 text: "Error no se puede eliminar este menu, ya que tiene registros en accesos del submenu",
-                type: "error",
+                icon: "error",
 				confirmButtonClass: "btn-danger"
             });
 		  }
@@ -327,7 +327,7 @@ function deleteSubMenuAcceso(submenu_id, privilegio_id, submenu, acceso_submenu_
 	swal({
 	  title: "¿Estas seguro?",
 	  text: "¿Desea eliminar el submenu: " + submenu + "?",
-	  type: "info",
+	  icon: "info",
 	  showCancelButton: true,
 	  confirmButtonClass: "btn-primary",
 	  confirmButtonText: "¡Sí, Eliminar el submenu!",
@@ -352,21 +352,21 @@ function deleteSubMenu(submenu_id, privilegio_id, acceso_submenu_id){
 			swal({
 				title: "Success",
 				text: "El acceso al menu ha sido eliminado correctamente",
-				type: "success",
+				icon: "success",
 			});
 			listar_submenuaccesos();
 		  }else if(data == 2){
             swal({
                 title: "Error",
                 text: "Error el acceso al menu no se puede eliminar",
-                type: "error",
+                icon: "error",
 				confirmButtonClass: "btn-danger"
             });			
 		  }else{
             swal({
                 title: "Error",
                 text: "Error no se puede eliminar este submenu, ya que tiene registros en accesos del submenu1",
-                type: "error",
+                icon: "error",
 				confirmButtonClass: "btn-danger"
             });
 		  }
@@ -519,7 +519,7 @@ function deleteSubMenu1Acceso(submenu_id, privilegio_id, submenu){
 	swal({
 	  title: "¿Estas seguro?",
 	  text: "¿Desea eliminar el menu: " + submenu + "?",
-	  type: "info",
+	  icon: "info",
 	  showCancelButton: true,
 	  confirmButtonClass: "btn-primary",
 	  confirmButtonText: "¡Sí, Eliminar el submenu!",
@@ -544,14 +544,14 @@ function deleteSubMenu1(submenu_id, privilegio_id){
 			swal({
 				title: "Success",
 				text: "El acceso al submenu ha sido eliminado correctamente",
-				type: "success",
+				icon: "success",
 			});
 			listar_submenu1accesos();
 		  }else{
             swal({
                 title: "Error",
                 text: "Error el acceso al submenu no se puede eliminar",
-                type: "error",
+                icon: "error",
 				confirmButtonClass: "btn-danger"
             });			
 		  }

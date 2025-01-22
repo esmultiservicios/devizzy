@@ -97,7 +97,7 @@
 		$dompdf->render();
 		
 		// Guardar el PDF en el servidor (opcional)
-		file_put_contents(dirname('__FILE__').'/facturas/factura_'.$no_factura.'.pdf', $dompdf->output());
+		//file_put_contents(dirname('__FILE__').'/facturas/factura_'.$no_factura.'.pdf', $dompdf->output());
 		
 		// Mostrar el PDF en el navegador
 		$dompdf->stream('factura_'.$no_factura.'_'.$consulta_registro['cliente'].'.pdf',array('Attachment'=>0));

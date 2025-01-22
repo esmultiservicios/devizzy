@@ -96,7 +96,7 @@ var updateStatus = function(tbody, table){
 		var data = table.row( $(this).parents("tr") ).data();	
 		swal({
 			title: "Desea Cambiar el estado?",
-			type: "warning",
+			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#DD6B55",
 			confirmButtonText: "Activado!",
@@ -134,7 +134,7 @@ function editarImpresora(id, estado) {
                 swal({
                     title: "Éxito",
                     text: data.message, // Mensaje del backend
-                    type: "success",
+                    icon: "success",
                     confirmButtonClass: "btn-success",
                 });
                 getImpresora(); // Actualizar la lista de impresoras
@@ -142,7 +142,7 @@ function editarImpresora(id, estado) {
                 swal({
                     title: "Error",
                     text: data.message, // Mensaje del backend
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger",
                 });
             }
@@ -151,7 +151,7 @@ function editarImpresora(id, estado) {
             swal({
                 title: "Error",
                 text: "Hubo un problema con la conexión al servidor. Por favor, inténtelo de nuevo.",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: "btn-danger",
             });
         }

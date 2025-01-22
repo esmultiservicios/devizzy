@@ -629,7 +629,7 @@ class mainModel
                         swal({
                             title: '" . $datos['title'] . "',
                             text: '" . $datos['text'] . "',
-                            type: '" . $datos['type'] . "',
+                            icon: '" . $datos['type'] . "',
                             confirmButtonClass: '" . $datos['btn-class'] . "',
 							allowEscapeKey: false,
 							allowOutsideClick: false
@@ -642,7 +642,7 @@ class mainModel
                         swal({
                             title: '" . $datos['title'] . "',
                             text: '" . $datos['text'] . "',
-                            type: '" . $datos['type'] . "',
+                            icon: '" . $datos['type'] . "',
                             showCancelButton: true,
 							timer: 3000,
                             confirmButtonClass: '" . $datos['btn-class'] . "',
@@ -662,7 +662,7 @@ class mainModel
                         swal({
                             title: '" . $datos['title'] . "',
                             text: '" . $datos['text'] . "',
-                            type: '" . $datos['type'] . "',
+                            icon: '" . $datos['type'] . "',
                             showCancelButton: true,
 							timer: 3000,
                             confirmButtonClass: '" . $datos['btn-class'] . "',
@@ -686,7 +686,7 @@ class mainModel
 						swal({
 							title: '" . $datos['title'] . "',
 							text: '" . $datos['text'] . "',
-							type: '" . $datos['type'] . "',
+							icon: '" . $datos['type'] . "',
 							showCancelButton: false,
 							timer: 3000,
 							confirmButtonClass: '" . $datos['btn-class'] . "',
@@ -708,7 +708,7 @@ class mainModel
 						swal({
 							title: '" . $datos['title'] . "',
 							text: '" . $datos['text'] . "',
-							type: '" . $datos['type'] . "',
+							icon: '" . $datos['type'] . "',
 							showCancelButton: false,
 							confirmButtonClass: '" . $datos['btn-class'] . "',
 							confirmButtonText: '" . $datos['btn-text'] . "',
@@ -729,7 +729,7 @@ class mainModel
 						swal({
 							title: '" . $datos['title'] . "',
 							text: '" . $datos['text'] . "',
-							type: '" . $datos['type'] . "',
+							icon: '" . $datos['type'] . "',
 							showCancelButton: false,
 							timer: 3000,
 							confirmButtonClass: '" . $datos['btn-class'] . "',
@@ -751,7 +751,7 @@ class mainModel
 						swal({
 							title: '" . $datos['title'] . "',
 							text: '" . $datos['text'] . "',
-							type: '" . $datos['type'] . "',
+							icon: '" . $datos['type'] . "',
 							showCancelButton: false,
 							timer: 3000,
 							confirmButtonClass: '" . $datos['btn-class'] . "',
@@ -773,7 +773,7 @@ class mainModel
 						swal({
 							title: '" . $datos['title'] . "',
 							text: '" . $datos['text'] . "',
-							type: '" . $datos['type'] . "',
+							icon: '" . $datos['type'] . "',
 							showCancelButton: false,
 							timer: 3000,
 							confirmButtonClass: '" . $datos['btn-class'] . "',
@@ -795,7 +795,7 @@ class mainModel
 						swal({
 							title: '" . $datos['title'] . "',
 							text: '" . $datos['text'] . "',
-							type: '" . $datos['type'] . "',
+							icon: '" . $datos['type'] . "',
 							showCancelButton: false,
 							timer: 3000,
 							confirmButtonClass: '" . $datos['btn-class'] . "',
@@ -1667,8 +1667,8 @@ class mainModel
 		FROM clientes AS c
 			LEFT JOIN departamentos AS d ON c.departamentos_id = d.departamentos_id
 			LEFT JOIN municipios AS m ON c.municipios_id = m.municipios_id
-			JOIN server_customers AS s ON c.clientes_id = s.clientes_id
-			JOIN sistema AS si ON si.sistema_id=s.sistema_id
+			LEFT JOIN server_customers AS s ON c.clientes_id = s.clientes_id
+			LEFT JOIN sistema AS si ON si.sistema_id=s.sistema_id
 		".$where."
 		GROUP BY 
 			c.clientes_id, c.nombre, c.rtn, c.localidad, c.telefono, c.correo, d.nombre, 

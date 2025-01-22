@@ -20,10 +20,10 @@ $basePath = $serverName == 'localhost' ? '/devizzy/' : '/';
 
 // Construir la URL base
 $baseURL = $protocol . $serverName . $port . $basePath;
-$urlWindows = 'https://wi.fastsolutionhn.com/Rpt/esmultiservicio.aspx';
-
-// Definir la constante SERVERURL
 define('SERVERURL', $baseURL);
+
+// Construir la URL de Windows
+$urlWindows = 'https://wi.fastsolutionhn.com/Rpt/esmultiservicio.aspx';
 define('SERVERURLWINDOWS', $urlWindows);
 
 // Otras constantes

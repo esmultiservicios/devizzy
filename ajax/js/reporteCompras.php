@@ -318,7 +318,7 @@ function anularCompra(compras_id) {
     swal({
             title: "¿Estas seguro?",
             text: "¿Desea anular la factura de compra: # " + getNumeroCompra(compras_id) + "?",
-            type: "info",
+            icon: "info",
             showCancelButton: true,
             confirmButtonClass: "btn-primary",
             confirmButtonText: "¡Sí, enviar anularla!",
@@ -343,14 +343,14 @@ function anular(compras_id) {
                 swal({
                     title: "Success",
                     text: "La factura de compra ha sido anulada con éxito",
-                    type: "success",
+                    icon: "success",
                 });
                 listar_reporte_compras();
             } else {
                 swal({
                     title: "Error",
                     text: "La factura de compra no se pudo anular",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger",
                 });
             }
