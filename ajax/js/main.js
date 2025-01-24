@@ -19,7 +19,7 @@ $('.FormularioAjax').submit(function (e) {
 
 	if (tipo == "save") {
 		textoAlerta = "Los datos que enviarás quedarán almacenados en el sistema";
-		type = "primary";
+		type = "info";
 		classButtom = "btn-primary";
 	} else if (tipo == "delete") {
 		textoAlerta = "Los datos serán eliminados completamente del sistema";

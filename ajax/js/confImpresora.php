@@ -95,23 +95,29 @@ var updateStatus = function(tbody, table){
 	$(tbody).on("click", "button.table_impresora", function(){
 		var data = table.row( $(this).parents("tr") ).data();	
 		swal({
-			title: "Desea Cambiar el estado?",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Activado!",
-			cancelButtonText: "Desactivado!",
-			closeOnConfirm: false,
-			closeOnCancel: false
-			},
-			function(isConfirm){
-				if (isConfirm) {
-					swal("Estado de Impreso","Activado", "success");
-					editarImpresora(data.impresora_id,1)
-				} else {
-					swal("Estado de Impreso","Desactivado", "success");
-					editarImpresora(data.impresora_id,0)
+			title: "¿Desea cambiar el estado?",
+			icon: "info",
+			buttons: {
+				confirm: {
+					text: "Activado!",
+					value: true,
+					visible: true
+				},
+				cancel: {
+					text: "Desactivado!",
+					value: false,
+					visible: true
 				}
+			},
+			dangerMode: false
+		}).then((isConfirm) => {
+			if (isConfirm) {
+				swal("Estado de Impreso", "Activado", "success");
+				editarImpresora(data.impresora_id, 1);
+			} else {
+				swal("Estado de Impreso", "Desactivado", "success");
+				editarImpresora(data.impresora_id, 0);
+			}
 		});
 	})
 };
