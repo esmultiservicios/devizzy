@@ -149,19 +149,25 @@ var actualizar_usuarios_dataTable = function(tbody, table) {
         var data = table.row($(this).parents("tr")).data();
 
         swal({
-                title: "¿Esta seguro?",
-                text: "¿Desea resetear la contraseña al usuario: " + consultarNombre(data.users_id) +
+            title: "¿Esta seguro?",
+            text: "¿Desea resetear la contraseña al usuario: " + consultarNombre(data.users_id) +
                     "?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-warning",
-                confirmButtonText: "¡Sí, modificar la contraseña!",
-                cancelButtonText: "Cancelar",
-                closeOnConfirm: false
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    text: "Cancelar",
+                    visible: true
+                },
+                confirm: {
+                    text: "¡Si, deseo resetear la contraseña!",
+                }
             },
-            function() {
+            closeOnClickOutside: false
+        }).then((willConfirm) => {
+            if (willConfirm === true) {
                 resetearContra(data.users_id, data.server_customers_id);
-            });
+            }
+        });
     });
 }
 

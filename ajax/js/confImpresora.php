@@ -141,7 +141,6 @@ function editarImpresora(id, estado) {
                     title: "Éxito",
                     text: data.message, // Mensaje del backend
                     icon: "success",
-                    confirmButtonClass: "btn-success",
                 });
                 getImpresora(); // Actualizar la lista de impresoras
             } else {
@@ -149,7 +148,7 @@ function editarImpresora(id, estado) {
                     title: "Error",
                     text: data.message, // Mensaje del backend
                     icon: "error",
-                    confirmButtonClass: "btn-danger",
+                    dangerMode: true
                 });
             }
         },
@@ -158,7 +157,7 @@ function editarImpresora(id, estado) {
                 title: "Error",
                 text: "Hubo un problema con la conexión al servidor. Por favor, inténtelo de nuevo.",
                 icon: "error",
-                confirmButtonClass: "btn-danger",
+                dangerMode: true
             });
         }
     });

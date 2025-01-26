@@ -316,18 +316,24 @@ var view_reporteCompras_dataTable = function(tbody, table) {
 
 function anularCompra(compras_id) {
     swal({
-            title: "¿Estas seguro?",
-            text: "¿Desea anular la factura de compra: # " + getNumeroCompra(compras_id) + "?",
-            icon: "info",
-            showCancelButton: true,
-            confirmButtonClass: "btn-primary",
-            confirmButtonText: "¡Sí, enviar anularla!",
-            cancelButtonText: "Cancelar",
-            closeOnConfirm: false
+        title: "¿Estas seguro?",
+        text: "¿Desea anular la factura de compra: # " + getNumeroCompra(compras_id) + "?",
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                visible: true
+            },
+            confirm: {
+                text: "¡Si, anular la factura de compra!",
+            }
         },
-        function() {
+        closeOnClickOutside: false
+    }).then((willConfirm) => {
+        if (willConfirm === true) {
             anular(compras_id);
-        });
+        }
+    });
 }
 
 function anular(compras_id) {

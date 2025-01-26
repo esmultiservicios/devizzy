@@ -50,12 +50,15 @@ function mostrarNotificacionRenovacion(tiempoRestante) {
             title: "Renovar Sesión",
             text: `Tu sesión está a punto de vencer. Tiempo restante: ${tiempoRestante} minutos. ¿Deseas renovarla?`,
             icon: "info",
-            showCancelButton: true,
-            confirmButtonClass: "btn-primary",
-            confirmButtonText: "Renovar",
-            cancelButtonText: "Cancelar"
-        }, function(isConfirmed) {
-            resolve(isConfirmed);
+            buttons: {
+                cancel: "Cancelar",
+                confirm: {
+                    text: "Renovar",
+                    closeModal: false,
+                },
+            },
+        }).then((value) => {
+            resolve(value);
         });
     });
 }
@@ -65,8 +68,13 @@ function mostrarNotificacionExpiracion() {
         title: "Sesión Expirada",
         text: "Su sesión ha expirado. Serás redirigido a la página de inicio de sesión.",
         icon: "warning",
-        closeOnConfirm: false
-    }, function() {
+        buttons: {
+            confirm: {
+                text: "Aceptar",
+                closeModal: false,
+            },
+        },
+    }).then(() => {
         // Redirigir al usuario a la página de inicio de sesión
         window.location.href = '<?php echo SERVERURL;?>';
     });
@@ -1055,7 +1063,7 @@ $('#form-cambiarcontra #contranaterior').on('blur', function() {
                     swal({
                         title: "Error",
                         text: "La contraseña que ingresó no coincide con la anterior",
-                        type: "error",
+                        icon: "error",
                         confirmButtonClass: "btn-danger"
                     });
                     $("#form-cambiarcontra #contranaterior").css("border-color", "red");
@@ -1334,9 +1342,12 @@ function printBill(facturas_id, $print_comprobante) {
                     title: "Error",
                     text: "La impresora no está activa. Diríjase al menú de 'Configuración' > 'Impresoras' para activar la impresora. Después de activarla, podrás reimprimir la factura desde el reporte de facturación.",
                     icon: "error",
-                    button: "Cerrar",
-                    type: "error",
-                    confirmButtonClass: 'btn-danger'
+                    buttons: {
+                        confirm: {
+                            text: "Cerrar",
+                            closeModal: true,
+                        },
+                    },
                 });
             }
         },
@@ -1346,9 +1357,12 @@ function printBill(facturas_id, $print_comprobante) {
                 title: "Error",
                 text: "Hubo un problema al procesar la solicitud.",
                 icon: "error",
-                button: "Cerrar",
-                type: "error",
-                confirmButtonClass: 'btn-danger'
+                buttons: {
+                    confirm: {
+                        text: "Cerrar",
+                        closeModal: true,
+                    },
+                },
             });
         }
     });
@@ -1392,9 +1406,12 @@ function printBillReporteVentas(facturas_id, print_comprobante) {
                     title: "Error",
                     text: "La impresora no está activa. Diríjase al menú de 'Configuración' > 'Impresoras' para activar la impresora. Después de activarla, podrás reimprimir la factura desde el reporte de facturación.",
                     icon: "error",
-                    button: "Cerrar",
-                    type: "error",
-                    confirmButtonClass: 'btn-danger'
+                    buttons: {
+                        confirm: {
+                            text: "Cerrar",
+                            closeModal: true,
+                        },
+                    },
                 });
             }
         },
@@ -1404,9 +1421,12 @@ function printBillReporteVentas(facturas_id, print_comprobante) {
                 title: "Error",
                 text: "Hubo un problema al procesar la solicitud.",
                 icon: "error",
-                button: "Cerrar",
-                type: "error",
-                confirmButtonClass: 'btn-danger'
+                buttons: {
+                    confirm: {
+                        text: "Cerrar",
+                        closeModal: true,
+                    },
+                },
             });
         }
     });
@@ -1442,9 +1462,12 @@ function printBillComprobanteReporteVentas(facturas_id, print_comprobante) {
                     title: "Error",
                     text: "No hay impresoras activas o configuradas.",
                     icon: "error",
-                    button: "Cerrar",
-                    type: "error",
-                    confirmButtonClass: 'btn-danger'
+                    buttons: {
+                        confirm: {
+                            text: "Cerrar",
+                            closeModal: true,
+                        },
+                    },
                 });
             }
         },
@@ -1454,9 +1477,12 @@ function printBillComprobanteReporteVentas(facturas_id, print_comprobante) {
                 title: "Error",
                 text: "Hubo un problema al procesar la solicitud.",
                 icon: "error",
-                button: "Cerrar",
-                type: "error",
-                confirmButtonClass: 'btn-danger'
+                buttons: {
+                    confirm: {
+                        text: "Cerrar",
+                        closeModal: true,
+                    },
+                },
             });
         }
     });
@@ -1488,15 +1514,21 @@ function mailQuote(cotizacion_id) {
     swal({
         title: "¿Estas seguro?",
         text: "¿Desea enviar la cotización: # " + getNumeroCotizacion(cotizacion_id) + "?",
-        type: "info",
-        showCancelButton: true,
-        confirmButtonClass: "btn-primary",
-        confirmButtonText: "¡Sí, enviar la cotización!",
-        cancelButtonText: "Cancelar",
-        closeOnConfirm: false
-    },
-    function() {
-        sendQuote(cotizacion_id);
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                visible: true
+            },
+            confirm: {
+                text: "¡Sí, enviar la cotización!",
+            }
+        },
+        closeOnClickOutside: false
+    }).then((willConfirm) => {
+        if (willConfirm === true) {
+            sendQuote(cotizacion_id);
+        }
     });
 }
 
@@ -1515,7 +1547,7 @@ function sendQuote(cotizacion_id) {
                 swal({
                     title: "Success",
                     text: "La cotización ha sido enviada por correo satisfactoriamente",
-                    type: "success",
+                    icon: "success",
                 });
             }
         }
@@ -1544,18 +1576,24 @@ function getNumeroCotizacion(cotizacion_id) {
 //INICIO ENVIAR FACTURA POR CORREO ELECTRONICO
 function mailBill(facturas_id) {
     swal({
-            title: "¿Estas seguro?",
-            text: "¿Desea enviar este numero de factura: # " + getNumeroFactura(facturas_id) + "?",
-            type: "info",
-            showCancelButton: true,
-            confirmButtonClass: "btn-primary",
-            confirmButtonText: "¡Sí, enviar la factura!",
-            cancelButtonText: "Cancelar",
-            closeOnConfirm: false
+        title: "¿Estas seguro?",
+        text: "¿Desea enviar este numero de factura: # " + getNumeroFactura(facturas_id) + "?",
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                visible: true
+            },
+            confirm: {
+                text: "¡Sí, enviar la factura!",
+            }
         },
-        function() {
+        closeOnClickOutside: false
+    }).then((willConfirm) => {
+        if (willConfirm === true) {
             sendMail(facturas_id);
-        });
+        }
+    });
 }
 
 function sendMail(facturas_id) {
@@ -1573,7 +1611,7 @@ function sendMail(facturas_id) {
                 swal({
                     title: "Success",
                     text: "La factura ha sido enviada por correo satisfactoriamente",
-                    type: "success",
+                    icon: "success",
                 });
             }
         }
@@ -2239,8 +2277,8 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table) {
             swal({
                 title: 'Error',
                 text: 'No puede realizar esta accion a las facturas canceladas!',
-                type: 'error',
-                confirmButtonClass: 'btn-danger'
+                icon: 'error',
+                dangerMode: true,
             });
         } else {
             $("#GrupoPagosMultiplesFacturas").hide();
@@ -2574,7 +2612,7 @@ var registrar_pago_proveedores_dataTable = function(tbody, table) {
             swal({
                 title: "Alerta",
                 text: "Esta Factura ya fue Cancelada",
-                type: "info",
+                icon: "info",
                 confirmButtonClass: "btn-primary"
             });
         } else {
@@ -2982,7 +3020,7 @@ $("#reg_generarSitema").click(function(e) {
                 swal({
                     title: "Success",
                     text: Message,
-                    type: "success",
+                    icon: "success",
                     confirmButtonClass: "btn-primary",
                     timer: 3000,
                 });
@@ -2999,7 +3037,7 @@ $("#reg_generarSitema").click(function(e) {
                 swal({
                     title: "Error",
                     text: Message,
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
 
@@ -3012,7 +3050,7 @@ $("#reg_generarSitema").click(function(e) {
                 swal({
                     title: "Error",
                     text: Message,
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
 
@@ -3025,7 +3063,7 @@ $("#reg_generarSitema").click(function(e) {
                 swal({
                     title: "Error",
                     text: Message,
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
 
@@ -3038,7 +3076,7 @@ $("#reg_generarSitema").click(function(e) {
                 swal({
                     title: "Error",
                     text: Message,
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
 
@@ -3051,7 +3089,7 @@ $("#reg_generarSitema").click(function(e) {
                 swal({
                     title: "Error",
                     text: Message,
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
 
@@ -3062,7 +3100,7 @@ $("#reg_generarSitema").click(function(e) {
                 swal({
                     title: "Error",
                     text: "Error al generar el sistema",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
 
@@ -3082,7 +3120,7 @@ $("#reg_generarSitema").click(function(e) {
             swal({
                 title: "Error",
                 text: "Error al ejecutar el sistema",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: "btn-danger"
             });
         }
@@ -3129,7 +3167,7 @@ var generar_clientes_dataTable = function(tbody, table) {
             swal({
                 title: "Error",
                 text: "Lo sentimos el cliente no tiene registrado un correo, es recomendable registrar uno, por favor diríjase al perfil del cliente y agregue el correo antes de generarle una cuenta",
-                type: "error",
+                icon: "error",
                 confirmButtonClass: "btn-danger"
             });
 
@@ -3444,7 +3482,6 @@ function editRTNClient(clientes_id, rtn) {
     }).then((isConfirm) => {
         if (isConfirm) {
             editRTNCliente(clientes_id, rtn);
-            swal("Éxito", "El RTN ha sido editado correctamente.", "success");
         }
     });
 }
@@ -3462,7 +3499,7 @@ function editRTNCliente(clientes_id, rtn) {
                 swal({
                     title: "Success",
                     text: "El RTN ha sido actualizado satisfactoriamente",
-                    type: "success",
+                    icon: "success",
                     confirmButtonClass: "btn-primary"
                 });
                 listar_clientes();
@@ -3471,14 +3508,14 @@ function editRTNCliente(clientes_id, rtn) {
                 swal({
                     title: "Error",
                     text: "Error el RTN no se puede actualizar",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
             } else if (data == 3) {
                 swal({
                     title: "Error",
                     text: "El RTN ya existe",
-                    type: "error",
+                    icon: "error",
                     confirmButtonClass: "btn-danger"
                 });
             }
@@ -4312,7 +4349,7 @@ $('input[type="file"]').change(function(e) {
         swal({
             title: "Error",
             text: "Por favor seleccione una archivo valido con el formato (JPEG/JPG/PNG)",
-            type: "error",
+            icon: "error",
             confirmButtonClass: 'btn-danger'
         });
         $("#file").val('');
@@ -4502,19 +4539,25 @@ var delete_salida_asistencia_colaboradores_dataTable = function(tbody, table) {
         var data = table.row($(this).parents("tr")).data();
 
         swal({
-                title: "¿Estas seguro?",
-                text: "¿Desea eliminar la asistencia para el colaborador: # " + data.colaborador +
+            title: "¿Estas seguro?",
+            text: "¿Desea eliminar la asistencia para el colaborador: # " + data.colaborador +
                     ", para la fecha " + data.fecha + "?",
-                type: "info",
-                showCancelButton: true,
-                confirmButtonClass: "btn-primary",
-                confirmButtonText: "¡Sí, eliminar la asistencia!",
-                cancelButtonText: "Cancelar",
-                closeOnConfirm: false
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    text: "Cancelar",
+                    visible: true
+                },
+                confirm: {
+                    text: "¡Sí, eliminar la asistencia!",
+                }
             },
-            function() {
+            closeOnClickOutside: false
+        }).then((willConfirm) => {
+            if (willConfirm === true) {
                 deleteAsistenciaMarcajeSalidaColaborador(data.asistencia_id);
-            });
+            }
+        });
     });
 }
 
@@ -4531,15 +4574,15 @@ function deleteAsistenciaMarcajeSalidaColaborador(asistencia_id) {
                 swal({
                     title: "Success",
                     text: "La asitencia ha sido eliminada correctamente",
-                    type: "success",
+                    icon: "success",
                 });
                 listar_asistencia();
             } else {
                 swal({
                     title: 'Error',
                     text: 'Lo sentimos no se puede eliminar la asistencia',
-                    type: 'error',
-                    confirmButtonClass: 'btn-danger'
+                    icon: 'error',
+                    dangerMode: true,
                 });
             }
         }
@@ -4553,19 +4596,25 @@ var delete_marcaje_asistencia_colaboradores_dataTable = function(tbody, table) {
         var data = table.row($(this).parents("tr")).data();
 
         swal({
-                title: "¿Estas seguro?",
-                text: "¿Desea eliminar el marcaje de salida para el colaborador: # " + data
+            title: "¿Estas seguro?",
+            text: "¿Desea eliminar el marcaje de salida para el colaborador: # " + data
                     .colaborador + ", para la fecha " + data.fecha + "?",
-                type: "info",
-                showCancelButton: true,
-                confirmButtonClass: "btn-primary",
-                confirmButtonText: "¡Sí, eliminar el marcaje de salida!",
-                cancelButtonText: "Cancelar",
-                closeOnConfirm: false
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    text: "Cancelar",
+                    visible: true
+                },
+                confirm: {
+                    text: "¡Sí, eliminar el marcaje de salida!",
+                }
             },
-            function() {
+            closeOnClickOutside: false
+        }).then((willConfirm) => {
+            if (willConfirm === true) {
                 deleteMarcajeSalida(data.asistencia_id);
-            });
+            }
+        });
     });
 }
 
@@ -4582,22 +4631,22 @@ function deleteMarcajeSalida(asistencia_id) {
                 swal({
                     title: "Success",
                     text: "El marcaje de salida ha sido eliminado correctamente",
-                    type: "success",
+                    icon: "success",
                 });
                 listar_asistencia();
             } else if (data == 3) {
                 swal({
                     title: 'Error',
                     text: 'No hay marcaje de salida',
-                    type: 'error',
-                    confirmButtonClass: 'btn-danger'
+                    icon: 'error',
+                    dangerMode: true,
                 });
             } else {
                 swal({
                     title: 'Error',
                     text: 'Lo sentimos no se puede eliminar el marcaje de salida',
-                    type: 'error',
-                    confirmButtonClass: 'btn-danger'
+                    icon: 'error',
+                    dangerMode: true,
                 });
             }
         }

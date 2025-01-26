@@ -127,28 +127,28 @@ $(document).ready(function() {
                         title: "Error",
                         text: "Usuario o contraseña son incorrectos por favor corregir",
                         icon: "error",
-                        confirmButtonClass: 'btn-danger'
+                        dangerMode: true
                     });
                 } else if (datos[1] === "ErrorP") {
                     swal({
                         title: "¡Problemas con el Pago!",
                         text: "¡Oops! Parece que hay un problema con su acceso al sistema debido a un inconveniente con el pago. No se preocupe, solo necesita ponerse en contacto con nuestro equipo de recaudación de pagos para arreglarlo. Puede escribirnos al +504 3227-3380, ¡y con gusto le ayudaremos!",
                         icon: "warning",
-                        confirmButtonClass: 'btn-warning'
+                        dangerMode: true
                     });
                 } else if (datos[1] === "ErrorVacio") {
                     swal({
                         title: "Error",
                         text: "Lo sentimos, uno de los dos campos no puede ir en blanco. El sistema requiere tanto el cliente como el PIN para continuar. Si lo desea, puede dejar ambos campos en blanco, y el sistema los ignorará.",
                         icon: "error",
-                        confirmButtonClass: 'btn-danger'
+                        dangerMode: true
                     });
                 } else if (datos[1] === "ErrorPinInvalido") {
                     swal({
                         title: "Error",
                         text: "Lo sentimos, el código del cliente o el pin son inválidos, o el mismo ha vencido, por favor solicite otro pin al cliente.",
                         icon: "error",
-                        confirmButtonClass: 'btn-danger'
+                        dangerMode: true
                     });
                 } else if (datos[1] === "ErrorC") {
                     swal({
@@ -159,13 +159,11 @@ $(document).ready(function() {
                             cancel: "Cerrar",
                             register: {
                                 text: "Sí, registrarme!",
-                                value: "register",
-                                className: 'btn-primary'
+                                value: "register",   
                             },
                             explore: {
                                 text: "Explorar productos",
                                 value: "explore",
-                                className: 'btn-danger'
                             }
                         },
                         closeOnClickOutside: false,
@@ -187,10 +185,13 @@ $(document).ready(function() {
                                 swal({
                                     title: "Mantenimiento en Curso",
                                     text: "Estamos trabajando para mejorar nuestros servicios. Disculpa las molestias.",
-                                    icon: "warning",
-                                    button: "Aceptar",
-                                    closeOnClickOutside: false,
-                                    closeOnEsc: false
+                                    icon: "error",
+                                    buttons: {
+                                        confirm: {
+                                            text: "Aceptar",
+                                            closeModal: true,
+                                        },
+                                    },
                                 });
                                 break;
 
@@ -204,7 +205,7 @@ $(document).ready(function() {
                         title: "Error",
                         text: "No se enviaron los datos, favor corregir",
                         icon: "error",
-                        confirmButtonClass: 'btn-danger'
+                        dangerMode: true
                     });
                 }
             },
@@ -213,7 +214,7 @@ $(document).ready(function() {
                     title: "Error",
                     text: "Ocurrió un error inesperado, o quizás no tenga conexión con el sistema, por favor intentar más tarde",
                     icon: "error",
-                    confirmButtonClass: 'btn-danger'
+                    dangerMode: true
                 });
                 $("#loginform #acceso").hide();
                 $("#loginform #acceso").html("");
@@ -230,12 +231,14 @@ $(document).ready(function() {
         swal({
             title: "Mantenimiento en Curso",
             text: "Estamos trabajando para mejorar nuestros servicios. Disculpa las molestias.",
-            icon: "warning",
-            confirmButtonClass: 'btn-warning',
-            confirmButtonText: "Aceptar",
-            showCloseButton: true, // Muestra un botón de cierre (X) para cerrar el cuadro de diálogo
-            allowOutsideClick: false, // Evita que se cierre haciendo clic fuera del cuadro de diálogo
-            allowEscapeKey: false // Evita que se cierre al presionar la tecla Esc
+            icon: "error",
+            buttons: {
+                confirm: {
+                    text: "Aceptar",
+                    closeModal: true,
+                },
+            },
+            closeOnEsc: false
         });
     });
 
@@ -271,21 +274,21 @@ $(document).ready(function() {
                         title: "Error",
                         text: "Error al resetear la contraseña",
                         icon: "error",
-                        confirmButtonClass: 'btn-danger'
+                        dangerMode: true
                     });
                 } else if (resp == 3) {
                     swal({
                         title: "Error",
                         text: "El usuario ingresado no existe",
                         icon: "error",
-                        confirmButtonClass: 'btn-danger'
+                        dangerMode: true
                     });
                 } else {
                     swal({
                         title: "Error",
                         text: "Error al completar los datos",
                         icon: "error",
-                        confirmButtonClass: 'btn-danger'
+                        dangerMode: true
                     });
                 }
             },
@@ -294,7 +297,7 @@ $(document).ready(function() {
                     title: "Error",
                     text: "Error al procesar su solicitud de inicio de sesión",
                     icon: "error",
-                    confirmButtonClass: 'btn-danger'
+                    dangerMode: true
                 });
             }
         });

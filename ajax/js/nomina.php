@@ -247,18 +247,24 @@ var generar_nominas_dataTable = function(tbody, table) {
 
         if ($('#form_main_nominas #estado_nomina').val() == 0) {
             swal({
-                    title: "¿Estas seguro?",
-                    text: "¿Desea generar esta nomina?",
-                    icon: "info",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-primary",
-                    confirmButtonText: "¡Sí, generar la nomina!",
-                    cancelButtonText: "Cancelar",
-                    closeOnConfirm: false
+                title: "¿Estas seguro?",
+                text: "¿Desea generar esta nomina?",
+                icon: "warning",
+                buttons: {
+                    cancel: {
+                        text: "Cancelar",
+                        visible: true
+                    },
+                    confirm: {
+                        text: "¡Sí, generar la nomina!",
+                    }
                 },
-                function() {
+                closeOnClickOutside: false
+            }).then((willConfirm) => {
+                if (willConfirm === true) {
                     genearNomina(data.nomina_id, data.empresa_id);
-                });
+                }
+            });
         } else {
             swal({
                 title: "Error",
@@ -2078,19 +2084,29 @@ var anular_vale_nominas_dataTable = function(tbody, table) {
         var data = table.row($(this).parents("tr")).data();
 
         swal({
-                title: "¿Estas seguro?",
-                text: "¿Desea anular este vale de <strong>" + data.empleado + "</strong>?",
-                type: "info",
-                showCancelButton: true,
-                confirmButtonClass: "btn-primary",
-                confirmButtonText: "¡Sí, anular el vale!",
-                cancelButtonText: "Cancelar",
-                closeOnConfirm: false,
-                html: true // Habilita HTML en el mensaje
+            title: "¿Estás seguro?",
+            content: {
+                element: "span",
+                attributes: {
+                    innerHTML: "¿Desea anular este vale de <strong>" + data.empleado + "</strong>?",
+                }
             },
-            function() {
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    text: "Cancelar",
+                    visible: true
+                },
+                confirm: {
+                    text: "¡Sí, anular el vale!",
+                }
+            },
+            closeOnClickOutside: false
+        }).then((willConfirm) => {
+            if (willConfirm) {
                 anularVale(data.vale_id);
-            });
+            }
+        });
     });
 }
 

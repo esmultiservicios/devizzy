@@ -454,18 +454,24 @@ $('#editar_barcode').on('click', function(e) {
 
 function editBarCode(productos_id, barcode, producto) {
     swal({
-            title: "¿Estas seguro?",
-            text: "¿Desea editar el Código de Barra para el producto: " + producto + "?",
-            icon: "info",
-            showCancelButton: true,
-            cancelButtonText: "Cancdelar",
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "¡Si, Deseo Editarlo!",
-            closeOnConfirm: false
+        title: "¿Estas seguro?",
+        text: "¿Desea editar el Código de Barra para el producto: " + producto + "?",
+        icon: "info",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                visible: true
+            },
+            confirm: {
+                text: "¡Si, Deseo Editarlo!",
+            }
         },
-        function() {
+        closeOnClickOutside: false
+    }).then((willConfirm) => {
+        if (willConfirm === true) {
             editarCodigoBarra(productos_id, barcode);
-        });
+        }
+    });
 }
 
 function editarCodigoBarra(productos_id, barcode) {

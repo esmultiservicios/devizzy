@@ -318,7 +318,7 @@ $('#toggle-firma').on('click', function(e) {
                     icon: jsonResponse.type,
                     title: jsonResponse.title,
                     text: jsonResponse.text,
-                    confirmButtonClass: jsonResponse['btn-class']
+                    className: jsonResponse['btn-class']
                 });
 
                 // Actualizar el estado del botón

@@ -153,15 +153,10 @@ $(document).ready(function() {
                         } else {
 
                             swal({
-
                                 title: "Error",
-
                                 text: "Producto no encontrado, por favor corregir",
-
                                 icon: "error",
-
-                                confirmButtonClass: 'btn-danger'
-
+                                dangerMode: true
                             });
 
                             $("#quoteForm #QuoteItem #bar-code-id_" + row_index).val("");
@@ -1054,12 +1049,9 @@ var view_productos_busqueda_cotizacion_dataTable = function(tbody, table) { //re
             swal({
 
                 title: "Error",
-
                 text: "Lo sentimos no se puede seleccionar un producto, por favor antes de continuar, verifique que los siguientes campos: clientes, vendedor no se encuentren vacíos",
-
                 icon: "error",
-
-                confirmButtonClass: "btn-danger"
+                dangerMode: true
 
             });
 
@@ -1497,56 +1489,33 @@ $(document).ready(function() {
 //INICIO COMENTARIO CONTIZACION
 
 function addComentarioQuote() {
-
     swal({
-
-            title: "¿Estas seguro?",
-
-            text: "¿Desea agregar un comentario a la factura?",
-
-            icon: "input",
-
-            showCancelButton: true,
-
-            confirmButtonClass: "btn-warning",
-
-            cancelButtonText: "Cancelar",
-
-            confirmButtonText: "¡Sí, agregar comentario!",
-
-            closeOnConfirm: false,
-
-            inputPlaceholder: "Comentario",
-
-            allowEscapeKey: false,
-
-            allowOutsideClick: false
-
+        title: "¿Estas seguro?",
+        text: "¿Desea agregar un comentario a la factura?",
+        content: {
+            element: "input",
+            attributes: {
+                placeholder: "Comentario",
+                type: "text",
+            },
         },
-
-        function(inputValue) {
-
-            if (inputValue === false) return false;
-
-            if (inputValue === "") {
-
-                swal.showInputError("Necesitas escribir algo");
-
-                return false
-
-            }
-
-            $("#quoteForm #notesQuote").val(inputValue);
-
-            $("#quoteForm #comentario-customers-quote").html("<b> Comentario:</b> " + inputValue);
-
-            swal.close();
-
-        });
-
+        icon: "warning",
+        buttons: {
+            cancel: "Cancelar",
+            confirm: {
+                text: "¡Sí, agregar comentario!",
+                closeModal: false,
+            },
+        },
+    }).then((value) => {
+        if (value === null || value.trim() === "") {
+            swal("¡Necesita escribir algo!", { icon: "error" });
+            return false;
+        }
+        $("#quoteForm #notesQuote").val(inputValue);
+        $("#quoteForm #comentario-customers-quote").html("<b> Comentario:</b> " + inputValue);
+    });
 }
-
-
 
 //INICIO ADD COMENTARIO FACTURAS
 
@@ -1901,19 +1870,12 @@ $(document).ready(function() {
             addRowQuote();
 
         } else {
-
             swal({
-
                 title: "Error",
-
                 text: "Lo sentimos no puede agregar más filas, debe seleccionar un cliente antes de poder continuar",
-
                 icon: "error",
-
-                confirmButtonClass: "btn-danger"
-
+                dangerMode: true
             });
-
         }
 
     });
@@ -1937,19 +1899,12 @@ $(document).ready(function() {
             calculateTotalQuote();
 
         } else {
-
             swal({
-
                 title: "Error",
-
                 text: "Lo sentimos debe seleccionar un fila antes de intentar eliminarla",
-
                 icon: "error",
-
-                confirmButtonClass: "btn-danger"
-
+                dangerMode: true
             });
-
         }
 
     });
@@ -2212,7 +2167,7 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Debe seleccionar un cliente y un producto antes de continuar",
                 icon: "error",
-                confirmButtonClass: "btn-danger"
+                dangerMode: true
             });
         }
     });
@@ -2294,7 +2249,6 @@ $("#reg_DescuentoFacturacion").on("click", function(e) {
             title: "warning",
             text: "El valor del descuento es mayor al precio total del artículo, por favor corregir",
             icon: "warning",
-            confirmButtonClass: "btn-warning"
         });
     }
 });
@@ -2337,7 +2291,7 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Debe seleccionar un cliente y un producto antes de continuar",
                 icon: "error",
-                confirmButtonClass: "btn-danger"
+                dangerMode: true
             });
         }
     });

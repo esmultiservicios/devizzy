@@ -317,18 +317,24 @@ $('#editar_rtn_proveedores').on('click', function(e) {
 
 function editRTNProvider(proveedores_id, rtn) {
     swal({
-            title: "¿Estas seguro?",
-            text: "¿Desea editar el RTN para el proveedor: " + getNombreProveedor(proveedores_id) + "?",
-            icon: "info",
-            showCancelButton: true,
-            cancelButtonText: "Cancdelar",
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "¡Si, Deseo Editarlo!",
-            closeOnConfirm: false
+        title: "¿Estas seguro?",
+        text: "¿Desea editar el RTN para el proveedor: " + getNombreProveedor(proveedores_id) + "?",
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                visible: true
+            },
+            confirm: {
+                text: "¡Si, Deseo Editarlo!",
+            }
         },
-        function() {
+        closeOnClickOutside: false
+    }).then((willConfirm) => {
+        if (willConfirm === true) {
             editRTNProveedor(proveedores_id, rtn);
-        });
+        }
+    });
 }
 
 function editRTNProveedor(proveedores_id, rtn) {

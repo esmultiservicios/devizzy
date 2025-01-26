@@ -611,7 +611,7 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table) {
                 title: "Error",
                 text: "Lo sentimos debe aperturar la caja antes de continuar",
                 icon: "error",
-                confirmButtonClass: "btn-danger"
+                dangerMode: true
             });
         } else {
             getTotalFacturasDisponibles();
@@ -626,10 +626,29 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table) {
                     if (data.almacen_id === null || data.almacen_id === "") {
                         swal({
                             title: "Error",
-                            html: true, // Habilitar HTML
-                            text: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL; ?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=\"purple\"' onmouseout='this.style.color=\"blue\"' onmousedown='this.style.color=\"purple\"' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar.",
-                            icon: "error",
-                            confirmButtonClass: "btn-danger"
+                            content: {
+                                element: "span",
+                                attributes: {
+                                    innerHTML: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL; ?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=`purple`' onmouseout='this.style.color=`blue`' onmousedown='this.style.color=`purple`' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar."
+                                }
+                            },
+                            icon: "warning",
+                            buttons: {
+                                cancel: {
+                                    text: "Cancelar",
+                                    visible: true,
+                                    closeModal: true
+                                },
+                                confirm: {
+                                    text: "¡Sí, deseo enviar!",
+                                    closeModal: false
+                                }
+                            },
+                            closeOnClickOutside: false
+                        }).then((willConfirm) => {
+                            if (willConfirm) {
+                                sendMultipleSMSUnDiaAntes($('#form_agenda_main #fecha').val(), $('#form_agenda_main #servicio').val());
+                            }
                         });
                         return false;
                     }
@@ -641,7 +660,7 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table) {
                             title: "Error",
                             text: "No se puede facturar este producto inventario en cero",
                             icon: "error",
-                            confirmButtonClass: "btn-danger"
+                            dangerMode: true
                         });
                         return false
                     }
@@ -703,7 +722,7 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table) {
                     title: "Error",
                     text: "Lo sentimos no se puede seleccionar un producto, por favor antes de continuar, verifique que los siguientes campos: clientes, vendedor no se encuentren vacíos",
                     icon: "error",
-                    confirmButtonClass: "btn-danger"
+                    dangerMode: true
                 });
             }
         }
@@ -984,7 +1003,7 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Lo sentimos no puede agregar más filas, debe seleccionar un usuario antes de poder continuar",
                 icon: "error",
-                confirmButtonClass: "btn-danger"
+                dangerMode: true
             });
         }
     });
@@ -1001,7 +1020,7 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Lo sentimos debe seleccionar un fila antes de intentar eliminarla",
                 icon: "error",
-                confirmButtonClass: "btn-danger"
+                dangerMode: true
             });
         }
     });
@@ -1190,11 +1209,21 @@ function manejarPresionEnter(row_index) {
                     if (valores[7] === null || valores[7] === "") {
                         swal({
                             title: "Error",
-                            html: true, // Habilitar HTML
-                            text: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL; ?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=\"purple\"' onmouseout='this.style.color=\"blue\"' onmousedown='this.style.color=\"purple\"' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar.",
+                            content: {
+                                element: "span",
+                                attributes: {
+                                    innerHTML: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL; ?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=`purple`' onmouseout='this.style.color=`blue`' onmousedown='this.style.color=`purple`' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar."
+                                }
+                            },
                             icon: "error",
-                            confirmButtonClass: "btn-danger"
+                            buttons: {
+                                confirm: {
+                                    text: "Aceptar",
+                                }
+                            },
+                            dangerMode: true
                         });
+
                         return false;
                     }
                 }
@@ -1208,7 +1237,7 @@ function manejarPresionEnter(row_index) {
                                 title: "Error",
                                 text: "No se puede facturar este producto inventario en cero",
                                 icon: "error",
-                                confirmButtonClass: "btn-danger"
+                                dangerMode: true
                             });
                             return false;
                         }
@@ -1287,7 +1316,7 @@ function manejarPresionEnter(row_index) {
                         title: "Error",
                         text: "Producto no encontrado, por favor corregir",
                         icon: "error",
-                        confirmButtonClass: 'btn-danger'
+                        dangerMode: true
                     });
                     $("#invoice-form #invoiceItem #bar-code-id_" + row_index).val("");
                 }
@@ -1364,7 +1393,7 @@ $(document).ready(function() {
                     title: "Caja abierta",
                     text: "La caja se encuentra abierta",
                     icon: "warning",
-                    confirmButtonClass: "btn-warning"
+                    dangerMode: true
                 });
             }
         }
@@ -1378,7 +1407,7 @@ $(document).ready(function() {
                     title: "Caja cerrada",
                     text: "La caja se encuentra cerrada",
                     icon: "warning",
-                    confirmButtonClass: "btn-warning"
+                    dangerMode: true
                 });
             }
         }
@@ -1515,8 +1544,7 @@ $("#reg_DescuentoFacturacion").on("click", function(e) {
         swal({
             title: "warning",
             text: "El valor del descuento es mayor al precio total del artículo, por favor corregir",
-            icon: "warning",
-            confirmButtonClass: "btn-warning"
+            icon: "warning",            
         });
     }
 });
@@ -2279,7 +2307,7 @@ var registrar_abono_cxc_clientes_dataTable = function(tbody, table) {
                 title: 'Error',
                 text: 'No puede realizar esta accion a las facturas canceladas!',
                 icon: 'error',
-                confirmButtonClass: 'btn-danger'
+                dangerMode: true
             });
         } else {
             console.log('cxc', data.facturas_id, 2)
@@ -2664,18 +2692,24 @@ var delete_bill_draft_dataTable = function(tbody, table) {
 
 function deleteBillDraft(facturas_id) {
     swal({
-            title: "¿Estas seguro?",
-            text: "¿Desea anular la factura: # " + getNumeroFactura(facturas_id) + "?",
-            icon: "info",
-            showCancelButton: true,
-            confirmButtonClass: "btn-primary",
-            confirmButtonText: "¡Sí, enviar anularla!",
-            cancelButtonText: "Cancelar",
-            closeOnConfirm: false
+        title: "¿Estas seguro?",
+        text: "¿Desea anular la factura: # " + getNumeroFactura(facturas_id) + "?",
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                visible: true
+            },
+            confirm: {
+                text: "¡Sí, anular la factura!",
+            }
         },
-        function() {
+        closeOnClickOutside: false
+    }).then((willConfirm) => {
+        if (willConfirm === true) {
             deleteBill(facturas_id);
-        });
+        }
+    });
 }
 
 function deleteBill(facturas_id) {
@@ -2699,7 +2733,7 @@ function deleteBill(facturas_id) {
                     title: "Error",
                     text: "La factura no se puede eliminar",
                     icon: "error",
-                    confirmButtonClass: "btn-danger",
+                    dangerMode: true
                 });
             }
         }
@@ -2759,7 +2793,7 @@ var listar_busqueda_bill = function() {
             title: "Error",
             text: "Lo sentimos, hubo un error al obtener la información de la factura.",
             icon: "error",
-            confirmButtonClass: "btn-danger",
+            dangerMode: true
         });
         return;
     }
@@ -2993,18 +3027,24 @@ var view_comoprobante_bill_dataTable = function(tbody, table) {
 
 function anularFacturas(facturas_id) {
     swal({
-            title: "¿Estas seguro?",
-            text: "¿Desea anular la factura: # " + getNumeroFactura(facturas_id) + "?",
-            icon: "info",
-            showCancelButton: true,
-            confirmButtonClass: "btn-primary",
-            confirmButtonText: "¡Sí, enviar anularla!",
-            cancelButtonText: "Cancelar",
-            closeOnConfirm: false
+        title: "¿Estas seguro?",
+        text: "¿Desea anular la factura: # " + getNumeroFactura(facturas_id) + "?",
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                visible: true
+            },
+            confirm: {
+                text: "¡Sí, anular la factura!",
+            }
         },
-        function() {
+        closeOnClickOutside: false
+    }).then((willConfirm) => {
+        if (willConfirm === true) {
             anular(facturas_id);
-        });
+        }
+    });
 }
 
 function anular(facturas_id) {
@@ -3028,7 +3068,7 @@ function anular(facturas_id) {
                     title: "Error",
                     text: "La factura no se puede anular",
                     icon: "error",
-                    confirmButtonClass: "btn-danger",
+                    dangerMode: true
                 });
             }
         }
@@ -3110,7 +3150,7 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Debe seleccionar un cliente y un producto antes de continuar",
                 icon: "error",
-                confirmButtonClass: "btn-danger"
+                dangerMode: true
             });
         }
     });
@@ -3192,7 +3232,6 @@ $("#reg_DescuentoFacturacion").on("click", function(e) {
             title: "warning",
             text: "El valor del descuento es mayor al precio total del artículo, por favor corregir",
             icon: "warning",
-            confirmButtonClass: "btn-warning"
         });
     }
 });
@@ -3234,7 +3273,7 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Debe seleccionar un cliente y un producto antes de continuar",
                 icon: "error",
-                confirmButtonClass: "btn-danger"
+                dangerMode: true
             });
         }
     });

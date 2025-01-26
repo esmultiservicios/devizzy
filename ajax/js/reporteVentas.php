@@ -375,20 +375,27 @@ function anularFacturas(facturas_id) {
     swal({
         title: "¿Esta seguro?",
         text: "¿Desea anular la factura: # " + getNumeroFactura(facturas_id) + "?",
-        icon: "input",
-        showCancelButton: true,
-        closeOnConfirm: false,
-        inputPlaceholder: "Comentario",
-        cancelButtonText: "Cancelar",
-        confirmButtonText: "¡Sí, cancelar la factura!",
-        confirmButtonClass: "btn-warning"
-    }, function(inputValue) {
-        if (inputValue === false) return false;
-        if (inputValue === "") {
-            swal.showInputError("¡Necesita escribir algo!");
-            return false
+        content: {
+            element: "input",
+            attributes: {
+                placeholder: "Comentario",
+                type: "text",
+            },
+        },
+        icon: "warning",
+        buttons: {
+            cancel: "Cancelar",
+            confirm: {
+                text: "¡Sí, anular la factura!",
+                closeModal: false,
+            },
+        },
+    }).then((value) => {
+        if (value === null || value.trim() === "") {
+            swal("¡Necesita escribir algo!", { icon: "error" });
+            return false;
         }
-        anular(facturas_id, inputValue);
+        anular(facturas_id, value);
     });
 }
 

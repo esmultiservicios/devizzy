@@ -313,18 +313,24 @@ var view_reporteCotizaciones_dataTable = function(tbody, table) {
 
 function anularCotizacion(cotizacion_id) {
     swal({
-            title: "¿Estas seguro?",
-            text: "¿Desea anular la cotización: # " + getNumeroCotizacion(cotizacion_id) + "?",
-            icon: "info",
-            showCancelButton: true,
-            confirmButtonClass: "btn-primary",
-            confirmButtonText: "¡Sí, enviar anularla!",
-            cancelButtonText: "Cancelar",
-            closeOnConfirm: false
+        title: "¿Estas seguro?",
+        text: "¿Desea anular la cotización: # " + getNumeroCotizacion(cotizacion_id) + "?",
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                visible: true
+            },
+            confirm: {
+                text: "¡Sí, anular la cotización!",
+            }
         },
-        function() {
+        closeOnClickOutside: false
+    }).then((willConfirm) => {
+        if (willConfirm === true) {
             anular(cotizacion_id);
-        });
+        }
+    });
 }
 
 function anular(cotizacion_id) {

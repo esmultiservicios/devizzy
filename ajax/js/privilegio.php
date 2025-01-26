@@ -156,17 +156,23 @@ var accesos_privilegio_submenu1_dataTable = function(tbody, table){
 /*INCIO MENU ACCESOS*/
 function deleteMenuAcceso(menu_id, privilegio_id, menu, acceso_menu_id){
 	swal({
-	  title: "¿Estas seguro?",
-	  text: "¿Desea eliminar el menu: " + menu + "?",
-	  icon: "info",
-	  showCancelButton: true,
-	  confirmButtonClass: "btn-primary",
-	  confirmButtonText: "!Sí, Eliminar el menu!",
-	  cancelButtonText: "Cancelar",
-	  closeOnConfirm: false
-	},
-	function(){
-		deleteMenu(menu_id, privilegio_id, acceso_menu_id);
+		title: "¿Estas seguro?",
+		text: "¿Desea eliminar el menu: " + menu + "?",
+		icon: "warning",
+		buttons: {
+			cancel: {
+				text: "Cancelar",
+				visible: true
+			},
+			confirm: {
+				text: "!Sí, Eliminar el menu!",
+			}
+		},
+		closeOnClickOutside: false
+	}).then((willConfirm) => {
+		if (willConfirm === true) {
+			deleteMenu(menu_id, privilegio_id, acceso_menu_id);
+		}
 	});
 }
 
@@ -325,17 +331,23 @@ function getMenusPrivilegios(){
 /*INCIO SUBMENU ACCESOS*/
 function deleteSubMenuAcceso(submenu_id, privilegio_id, submenu, acceso_submenu_id){
 	swal({
-	  title: "¿Estas seguro?",
-	  text: "¿Desea eliminar el submenu: " + submenu + "?",
-	  icon: "info",
-	  showCancelButton: true,
-	  confirmButtonClass: "btn-primary",
-	  confirmButtonText: "¡Sí, Eliminar el submenu!",
-	  cancelButtonText: "Cancelar",
-	  closeOnConfirm: false
-	},
-	function(){
-		deleteSubMenu(submenu_id, privilegio_id, acceso_submenu_id);
+		title: "¿Estas seguro?",
+		text: "¿Desea eliminar el submenu: " + submenu + "?",
+		icon: "warning",
+		buttons: {
+			cancel: {
+				text: "Cancelar",
+				visible: true
+			},
+			confirm: {
+				text: "¡Sí, Eliminar el submenu!",
+			}
+		},
+		closeOnClickOutside: false
+	}).then((willConfirm) => {
+		if (willConfirm === true) {
+			deleteSubMenu(submenu_id, privilegio_id, acceso_submenu_id);
+		}
 	});
 }
 
@@ -517,17 +529,23 @@ $("#formSubMenuAccesos #menus").on("change", function(){
 /*INCIO SUBMENU1 ACCESOS*/
 function deleteSubMenu1Acceso(submenu_id, privilegio_id, submenu){
 	swal({
-	  title: "¿Estas seguro?",
-	  text: "¿Desea eliminar el menu: " + submenu + "?",
-	  icon: "info",
-	  showCancelButton: true,
-	  confirmButtonClass: "btn-primary",
-	  confirmButtonText: "¡Sí, Eliminar el submenu!",
-	  cancelButtonText: "Cancelar",
-	  closeOnConfirm: false
-	},
-	function(){
-		deleteSubMenu1(submenu_id, privilegio_id);
+		title: "¿Estas seguro?",
+		text: "¿Desea eliminar el menu: " + submenu + "?",
+		icon: "warning",
+		buttons: {
+			cancel: {
+				text: "Cancelar",
+				visible: true
+			},
+			confirm: {
+				text: "¡Sí, Eliminar el submenu!",
+			}
+		},
+		closeOnClickOutside: false
+	}).then((willConfirm) => {
+		if (willConfirm === true) {
+			deleteSubMenu1(submenu_id, privilegio_id);
+		}
 	});
 }
 

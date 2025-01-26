@@ -266,7 +266,7 @@ var view_productos_busqueda_compras_dataTable = function(tbody, table) {
                 title: "Error",
                 text: "Lo sentimos no se puede seleccionar un producto, por favor antes de continuar, verifique que los siguientes campos: proveedores, usuario y número de factura no se encuentren vacíos",
                 icon: "error",
-                confirmButtonClass: "btn-danger"
+                dangerMode: true
             });
         }*/
     });
@@ -677,25 +677,15 @@ $(document).ready(function() {
     var count = $(".itemRowPurchase").length;
 
     $(document).on('click', '#addRowsPurchase', function() {
-
         if ($("#purchase-form #proveedor").val() != "") {
-
             addRowCompras();
-
         } else {
-
             swal({
-
                 title: "Error",
-
                 text: "Lo sentimos no puede agregar más filas, debe seleccionar un usuario antes de poder continuar",
-
                 icon: "error",
-
-                confirmButtonClass: "btn-danger"
-
+                dangerMode: true
             });
-
         }
 
     });
@@ -721,7 +711,7 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Lo sentimos debe seleccionar un fila antes de intentar eliminarla",
                 icon: "error",
-                confirmButtonClass: "btn-danger"
+                dangerMode: true
             });
         }
     });
@@ -1077,11 +1067,21 @@ function manejarPresionEnterCompras(row_index) {
                         if (valores[7] === null || valores[7] === "") {
                             swal({
                                 title: "Error",
-                                html: true, // Habilitar HTML
-                                text: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL;?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=\"purple\"' onmouseout='this.style.color=\"blue\"' onmousedown='this.style.color=\"purple\"' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar.",
-                                type: "error",
-                                confirmButtonClass: "btn-danger"
+                                content: {
+                                    element: "span",
+                                    attributes: {
+                                        innerHTML: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL;?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=`purple`' onmouseout='this.style.color=`blue`' onmousedown='this.style.color=`purple`' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar."
+                                    }
+                                },
+                                icon: "error",
+                                buttons: {
+                                    confirm: {
+                                        text: "Aceptar",
+                                    }
+                                },
+                                dangerMode: true
                             });
+
                             return false;
                         }
                     }
@@ -1095,7 +1095,7 @@ function manejarPresionEnterCompras(row_index) {
                                     title: "Error",
                                     text: "No se puede facturar este producto inventario en cero",
                                     type: "error",
-                                    confirmButtonClass: "btn-danger"
+                                    dangerMode: true
                                 });
                                 return false;
                             }
@@ -1178,7 +1178,7 @@ function manejarPresionEnterCompras(row_index) {
                             title: "Error",
                             text: "Producto no encontrado, por favor corregir",
                             type: "error",
-                            confirmButtonClass: 'btn-danger'
+                            dangerMode: true
                         });
                         $("#purchase-form #itemRowPurchase #bar-code-id_" + row_index).val("");
                     }

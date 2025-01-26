@@ -845,18 +845,24 @@ var delete_categoria_gastos_dataTable = function(tbody, table) {
         var data = table.row($(this).parents("tr")).data();
 
         swal({
-                title: "¿Estas seguro?",
-                text: "¿Desea eliminar la categoria: " + data.nombre + "?",
-                icon: "info",
-                showCancelButton: true,
-                confirmButtonClass: "btn-primary",
-                confirmButtonText: "¡Sí, eliminar la categoria!",
-                cancelButtonText: "Cancelar",
-                closeOnConfirm: false
+            title: "¿Estas seguro?",
+            text: "¿Desea eliminar la categoria: " + data.nombre + "?",
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    text: "Cancelar",
+                    visible: true
+                },
+                confirm: {
+                    text: "¡Sí, eliminar la categoria!",
+                }
             },
-            function() {
+            closeOnClickOutside: false
+        }).then((willConfirm) => {
+            if (willConfirm === true) {
                 deleteCategoriaGastos(data.categoria_gastos_id, data.nombre);
-            });
+            }
+        });
     });
 }
 
@@ -877,7 +883,6 @@ function deleteCategoriaGastos(categoria_gastos_id, categoria) {
                     title: "Success",
                     text: "La categoria se elimino correctamente.",
                     icon: "success",
-                    confirmButtonClass: "btn-primary",
                     timer: 3000,
                 });
                 listar_categoria_egresos();
@@ -887,7 +892,7 @@ function deleteCategoriaGastos(categoria_gastos_id, categoria) {
                     title: "Error",
                     text: "Error: " + errorMessage,
                     icon: "error",
-                    confirmButtonClass: "btn-danger"
+                    dangerMode: true
                 });
             } else {
                 var errorMessage = response.substring(7);
@@ -895,7 +900,7 @@ function deleteCategoriaGastos(categoria_gastos_id, categoria) {
                     title: "Error",
                     text: "Error: " + errorMessage,
                     icon: "error",
-                    confirmButtonClass: "btn-danger"
+                    dangerMode: true
                 });
             }
         },
@@ -904,7 +909,7 @@ function deleteCategoriaGastos(categoria_gastos_id, categoria) {
                 title: "Error",
                 text: "Ha ocurrido un error en la solicitud.",
                 icon: "error",
-                confirmButtonClass: "btn-danger"
+                dangerMode: true
             });
         }
     });
