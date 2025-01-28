@@ -63,6 +63,7 @@ $("#inputEmail, #inputPassword").on("input blur", function() {
                         email: email,
                         pass: password
                     },
+					
                     success: function(resp) {
                         if (resp === "1") {
                             $("#groupDB").show();
@@ -111,10 +112,10 @@ $(document).ready(function() {
                 swal({
                     title: "",
                     text: "Por favor espere...",
-                    imageUrl: '<?php echo SERVERURL; ?>vistas/plantilla/img/gif-load.gif',
-                    closeOnConfirm: false,
-                    showConfirmButton: false,
-                    imageSize: '150x150',
+                    icon: '<?php echo SERVERURL; ?>vistas/plantilla/img/gif-load.gif',
+                    buttons: false, // Deshabilitar botones
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false, // Prevenir que el usuario cierre el modal al hacer clic afuera
                 });
                 $("#loginform #acceso").show();
             },
@@ -127,28 +128,36 @@ $(document).ready(function() {
                         title: "Error",
                         text: "Usuario o contraseña son incorrectos por favor corregir",
                         icon: "error",
-                        dangerMode: true
+                        dangerMode: true,
+                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                     });
                 } else if (datos[1] === "ErrorP") {
                     swal({
                         title: "¡Problemas con el Pago!",
                         text: "¡Oops! Parece que hay un problema con su acceso al sistema debido a un inconveniente con el pago. No se preocupe, solo necesita ponerse en contacto con nuestro equipo de recaudación de pagos para arreglarlo. Puede escribirnos al +504 3227-3380, ¡y con gusto le ayudaremos!",
                         icon: "warning",
-                        dangerMode: true
+                        dangerMode: true,
+                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                     });
                 } else if (datos[1] === "ErrorVacio") {
                     swal({
                         title: "Error",
                         text: "Lo sentimos, uno de los dos campos no puede ir en blanco. El sistema requiere tanto el cliente como el PIN para continuar. Si lo desea, puede dejar ambos campos en blanco, y el sistema los ignorará.",
                         icon: "error",
-                        dangerMode: true
+                        dangerMode: true,
+                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                     });
                 } else if (datos[1] === "ErrorPinInvalido") {
                     swal({
                         title: "Error",
                         text: "Lo sentimos, el código del cliente o el pin son inválidos, o el mismo ha vencido, por favor solicite otro pin al cliente.",
                         icon: "error",
-                        dangerMode: true
+                        dangerMode: true,
+                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                     });
                 } else if (datos[1] === "ErrorC") {
                     swal({
@@ -192,6 +201,8 @@ $(document).ready(function() {
                                             closeModal: true,
                                         },
                                     },
+                                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                                    
                                 });
                                 break;
 
@@ -205,7 +216,9 @@ $(document).ready(function() {
                         title: "Error",
                         text: "No se enviaron los datos, favor corregir",
                         icon: "error",
-                        dangerMode: true
+                        dangerMode: true,
+                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                     });
                 }
             },
@@ -214,7 +227,9 @@ $(document).ready(function() {
                     title: "Error",
                     text: "Ocurrió un error inesperado, o quizás no tenga conexión con el sistema, por favor intentar más tarde",
                     icon: "error",
-                    dangerMode: true
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
                 $("#loginform #acceso").hide();
                 $("#loginform #acceso").html("");
@@ -238,7 +253,8 @@ $(document).ready(function() {
                     closeModal: true,
                 },
             },
-            closeOnEsc: false
+            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
         });
     });
 
@@ -258,6 +274,7 @@ $(document).ready(function() {
                     imageUrl: '<?php echo SERVERURL; ?>vistas/plantilla/img/gif-load.gif',
                     closeOnConfirm: false,
                     showConfirmButton: false,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
                     imageSize: '150x150',
                 });
                 $("#loginform #acceso").show();
@@ -268,27 +285,35 @@ $(document).ready(function() {
                         title: "Success",
                         text: "Contraseña reseteada, se ha enviado a su correo electrónico",
                         icon: "success",
+                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                        
                     });
                 } else if (resp == 2) {
                     swal({
                         title: "Error",
                         text: "Error al resetear la contraseña",
                         icon: "error",
-                        dangerMode: true
+                        dangerMode: true,
+                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                     });
                 } else if (resp == 3) {
                     swal({
                         title: "Error",
                         text: "El usuario ingresado no existe",
                         icon: "error",
-                        dangerMode: true
+                        dangerMode: true,
+                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                     });
                 } else {
                     swal({
                         title: "Error",
                         text: "Error al completar los datos",
                         icon: "error",
-                        dangerMode: true
+                        dangerMode: true,
+                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                     });
                 }
             },
@@ -297,7 +322,9 @@ $(document).ready(function() {
                     title: "Error",
                     text: "Error al procesar su solicitud de inicio de sesión",
                     icon: "error",
-                    dangerMode: true
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             }
         });

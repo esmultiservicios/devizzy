@@ -168,7 +168,9 @@ function deleteMenuAcceso(menu_id, privilegio_id, menu, acceso_menu_id){
 				text: "!Sí, Eliminar el menu!",
 			}
 		},
-		closeOnClickOutside: false
+		dangerMode: true,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 	}).then((willConfirm) => {
 		if (willConfirm === true) {
 			deleteMenu(menu_id, privilegio_id, acceso_menu_id);
@@ -190,6 +192,8 @@ function deleteMenu(menu_id, privilegio_id, acceso_menu_id){
 				title: "Success",
 				text: "El acceso al menu ha sido eliminado correctamente",
 				icon: "success",
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera				
 			});
 			listar_menuaccesos();
 			
@@ -198,14 +202,18 @@ function deleteMenu(menu_id, privilegio_id, acceso_menu_id){
                 title: "Error",
                 text: "Error el acceso al menu no se puede eliminar",
                 icon: "error",
-				confirmButtonClass: "btn-danger"
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             });			
 		  }else{
             swal({
                 title: "Error",
                 text: "Error no se puede eliminar este menu, ya que tiene registros en accesos del submenu",
                 icon: "error",
-				confirmButtonClass: "btn-danger"
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             });
 		  }
 	  }
@@ -343,7 +351,9 @@ function deleteSubMenuAcceso(submenu_id, privilegio_id, submenu, acceso_submenu_
 				text: "¡Sí, Eliminar el submenu!",
 			}
 		},
-		closeOnClickOutside: false
+		dangerMode: true,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 	}).then((willConfirm) => {
 		if (willConfirm === true) {
 			deleteSubMenu(submenu_id, privilegio_id, acceso_submenu_id);
@@ -365,6 +375,8 @@ function deleteSubMenu(submenu_id, privilegio_id, acceso_submenu_id){
 				title: "Success",
 				text: "El acceso al menu ha sido eliminado correctamente",
 				icon: "success",
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera				
 			});
 			listar_submenuaccesos();
 		  }else if(data == 2){
@@ -372,14 +384,18 @@ function deleteSubMenu(submenu_id, privilegio_id, acceso_submenu_id){
                 title: "Error",
                 text: "Error el acceso al menu no se puede eliminar",
                 icon: "error",
-				confirmButtonClass: "btn-danger"
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             });			
 		  }else{
             swal({
                 title: "Error",
                 text: "Error no se puede eliminar este submenu, ya que tiene registros en accesos del submenu1",
                 icon: "error",
-				confirmButtonClass: "btn-danger"
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             });
 		  }
 	  }
@@ -541,7 +557,9 @@ function deleteSubMenu1Acceso(submenu_id, privilegio_id, submenu){
 				text: "¡Sí, Eliminar el submenu!",
 			}
 		},
-		closeOnClickOutside: false
+		dangerMode: true,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 	}).then((willConfirm) => {
 		if (willConfirm === true) {
 			deleteSubMenu1(submenu_id, privilegio_id);
@@ -563,6 +581,8 @@ function deleteSubMenu1(submenu_id, privilegio_id){
 				title: "Success",
 				text: "El acceso al submenu ha sido eliminado correctamente",
 				icon: "success",
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera				
 			});
 			listar_submenu1accesos();
 		  }else{
@@ -570,7 +590,9 @@ function deleteSubMenu1(submenu_id, privilegio_id){
                 title: "Error",
                 text: "Error el acceso al submenu no se puede eliminar",
                 icon: "error",
-				confirmButtonClass: "btn-danger"
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             });			
 		  }
 	  }

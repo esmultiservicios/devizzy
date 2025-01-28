@@ -23,7 +23,8 @@ $baseURL = $protocol . $serverName . $port . $basePath;
 define('SERVERURL', $baseURL);
 
 // Construir la URL de Windows
-$urlWindows = 'https://wi.fastsolutionhn.com/Rpt/esmultiservicio.aspx';
+//$urlWindows = 'https://wi.fastsolutionhn.com/Rpt/esmultiservicio.aspx';
+$urlWindows = 'http://localhost:58197/esmultiservicios.aspx';
 define('SERVERURLWINDOWS', $urlWindows);
 
 // Otras constantes

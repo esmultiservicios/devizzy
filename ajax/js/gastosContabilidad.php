@@ -857,7 +857,9 @@ var delete_categoria_gastos_dataTable = function(tbody, table) {
                     text: "¡Sí, eliminar la categoria!",
                 }
             },
-            closeOnClickOutside: false
+            dangerMode: true,
+            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
         }).then((willConfirm) => {
             if (willConfirm === true) {
                 deleteCategoriaGastos(data.categoria_gastos_id, data.nombre);
@@ -884,6 +886,8 @@ function deleteCategoriaGastos(categoria_gastos_id, categoria) {
                     text: "La categoria se elimino correctamente.",
                     icon: "success",
                     timer: 3000,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                    
                 });
                 listar_categoria_egresos();
             } else if (response.startsWith("error-existe: ")) {
@@ -892,7 +896,9 @@ function deleteCategoriaGastos(categoria_gastos_id, categoria) {
                     title: "Error",
                     text: "Error: " + errorMessage,
                     icon: "error",
-                    dangerMode: true
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
                 });
             } else {
                 var errorMessage = response.substring(7);
@@ -900,7 +906,9 @@ function deleteCategoriaGastos(categoria_gastos_id, categoria) {
                     title: "Error",
                     text: "Error: " + errorMessage,
                     icon: "error",
-                    dangerMode: true
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
                 });
             }
         },
@@ -909,7 +917,9 @@ function deleteCategoriaGastos(categoria_gastos_id, categoria) {
                 title: "Error",
                 text: "Ha ocurrido un error en la solicitud.",
                 icon: "error",
-                dangerMode: true
+                dangerMode: true,
+                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
             });
         }
     });

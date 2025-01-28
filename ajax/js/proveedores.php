@@ -329,7 +329,9 @@ function editRTNProvider(proveedores_id, rtn) {
                 text: "¡Si, Deseo Editarlo!",
             }
         },
-        closeOnClickOutside: false
+        dangerMode: true,
+        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
     }).then((willConfirm) => {
         if (willConfirm === true) {
             editRTNProveedor(proveedores_id, rtn);
@@ -351,7 +353,8 @@ function editRTNProveedor(proveedores_id, rtn) {
                     title: "Success",
                     text: "El RTN ha sido actualizado satisfactoriamente",
                     icon: "success",
-                    confirmButtonClass: "btn-primary"
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
                 listar_proveedores();
                 $('#formProveedores #rtn_proveedores').val(rtn);
@@ -360,14 +363,18 @@ function editRTNProveedor(proveedores_id, rtn) {
                     title: "Error",
                     text: "Error el RTN no se puede actualizar",
                     icon: "error",
-                    confirmButtonClass: "btn-danger"
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             } else if (data == 3) {
                 swal({
                     title: "Error",
                     text: "El RTN ya existe",
                     icon: "error",
-                    confirmButtonClass: "btn-danger"
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             }
         }

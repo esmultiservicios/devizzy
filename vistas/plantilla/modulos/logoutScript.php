@@ -20,7 +20,10 @@ $('.btn-exit-system').on('click', (e) => {
             swal({
 				title: 'Tu sesión sigue activa.',
 				text: 'Sesión Inactiva',				
-				icon: 'warning'
+				icon: 'warning',
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera				
 			});
         }
     });
@@ -37,9 +40,9 @@ function salir(token){
 					title: 'Ocurrio un error inesperado', 
 					text: 'Por favor intenta de nuevo', 
 					icon: 'error', 
-					confirmButtonClass: 'btn-danger',
-					allowEscapeKey: false,
-					allowOutsideClick: false
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 				});
 			}
 		},
@@ -48,9 +51,9 @@ function salir(token){
 				title: 'Ocurrio un error inesperado', 
 				text: 'Por favor intenta de nuevo', 
 				icon: 'error', 
-				confirmButtonClass: 'btn-danger',
-				allowEscapeKey: false,
-				allowOutsideClick: false
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 			});			
 		}
 	});	

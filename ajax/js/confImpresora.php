@@ -109,7 +109,8 @@ var updateStatus = function(tbody, table){
 					visible: true
 				}
 			},
-			dangerMode: false
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
 		}).then((isConfirm) => {
 			if (isConfirm) {
 				swal("Estado de Impreso", "Activado", "success");
@@ -141,6 +142,8 @@ function editarImpresora(id, estado) {
                     title: "Éxito",
                     text: data.message, // Mensaje del backend
                     icon: "success",
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera					
                 });
                 getImpresora(); // Actualizar la lista de impresoras
             } else {
@@ -148,7 +151,9 @@ function editarImpresora(id, estado) {
                     title: "Error",
                     text: data.message, // Mensaje del backend
                     icon: "error",
-                    dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             }
         },
@@ -157,7 +162,9 @@ function editarImpresora(id, estado) {
                 title: "Error",
                 text: "Hubo un problema con la conexión al servidor. Por favor, inténtelo de nuevo.",
                 icon: "error",
-                dangerMode: true
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             });
         }
     });

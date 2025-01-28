@@ -162,7 +162,9 @@ var actualizar_usuarios_dataTable = function(tbody, table) {
                     text: "¡Si, deseo resetear la contraseña!",
                 }
             },
-            closeOnClickOutside: false
+            dangerMode: true,
+            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
         }).then((willConfirm) => {
             if (willConfirm === true) {
                 resetearContra(data.users_id, data.server_customers_id);
@@ -435,7 +437,9 @@ function resetearContra(users_id, server_customers_id) {
                     title: "Success",
                     text: "Contraseña cambiada correctamente",
                     icon: "success",
-                    timer: 3000, //timeOut for auto-close					
+                    timer: 3000, //timeOut for auto-close	
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera				
                 });
                 return false;
             } else {
@@ -443,7 +447,9 @@ function resetearContra(users_id, server_customers_id) {
                     title: "Error",
                     text: "Error al resetear la contraseña",
                     icon: "error",
-                    confirmButtonClass: 'btn-danger'
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
                 return false;
             }

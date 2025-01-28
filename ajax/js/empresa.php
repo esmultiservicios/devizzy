@@ -318,7 +318,8 @@ $('#toggle-firma').on('click', function(e) {
                     icon: jsonResponse.type,
                     title: jsonResponse.title,
                     text: jsonResponse.text,
-                    className: jsonResponse['btn-class']
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
                 });
 
                 // Actualizar el estado del botón

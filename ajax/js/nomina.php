@@ -259,7 +259,9 @@ var generar_nominas_dataTable = function(tbody, table) {
                         text: "¡Sí, generar la nomina!",
                     }
                 },
-                closeOnClickOutside: false
+                dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             }).then((willConfirm) => {
                 if (willConfirm === true) {
                     genearNomina(data.nomina_id, data.empresa_id);
@@ -270,9 +272,9 @@ var generar_nominas_dataTable = function(tbody, table) {
                 title: "Error",
                 text: "Lo sentimos, esta nomina ya ha sido generada",
                 icon: "error",
-                confirmButtonClass: 'btn-danger',
-                allowEscapeKey: false,
-                allowOutsideClick: false
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             });
         }
     });
@@ -292,7 +294,10 @@ function genearNomina(nomina_id, empresa_id) {
                     title: "Success",
                     text: "La nomina se ha generado correctamente",
                     icon: "success",
-                    timer: 3000
+                    timer: 3000,
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                    
                 });
                 listar_nominas();
             } else {
@@ -300,9 +305,9 @@ function genearNomina(nomina_id, empresa_id) {
                     title: "Error",
                     text: "Lo sentimos, no se pudo generar la nomina, por favor valide si existen empleados cargados antes de continuar, presione sobre el boton de más en la sección de crear",
                     icon: "error",
-                    confirmButtonClass: 'btn-danger',
-                    allowEscapeKey: false,
-                    allowOutsideClick: false
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             }
         }
@@ -340,9 +345,9 @@ var voucher_nominas_dataTable = function(tbody, table) {
                 title: "Error",
                 text: "Lo sentimos, la nomina no esta generada no se puede mostrar el reporte",
                 icon: "error",
-                confirmButtonClass: 'btn-danger',
-                allowEscapeKey: false,
-                allowOutsideClick: false
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             });
         } else {
             var url_comprobante = '<?php echo SERVERURL; ?>core/generarComprobanteNomina.php?nomina_id=' +
@@ -363,9 +368,9 @@ var libro_salarios_nominas_dataTable = function(tbody, table) {
                 title: "Error",
                 text: "Lo sentimos, la nomina no esta generada no se puede mostrar el reporte",
                 icon: "error",
-                confirmButtonClass: 'btn-danger',
-                allowEscapeKey: false,
-                allowOutsideClick: false
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             });
         } else {
             var url_comprobante = '<?php echo SERVERURL; ?>core/generarConsolidadoNomina.php?nomina_id=' +
@@ -660,9 +665,9 @@ function modalNominasDetalles() {
             title: "Error",
             text: "Lo sentimos, esta nomina ya ha sido generada, no puede agregar más empleados",
             icon: "error",
-            confirmButtonClass: 'btn-danger',
-            allowEscapeKey: false,
-            allowOutsideClick: false
+            dangerMode: true,
+            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
         });
     }
 }
@@ -2101,7 +2106,9 @@ var anular_vale_nominas_dataTable = function(tbody, table) {
                     text: "¡Sí, anular el vale!",
                 }
             },
-            closeOnClickOutside: false
+            dangerMode: true,
+            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
         }).then((willConfirm) => {
             if (willConfirm) {
                 anularVale(data.vale_id);
@@ -2124,7 +2131,9 @@ function anularVale(vale_id) {
                     title: "Success",
                     text: "El vale ha sido anulado correctamente",
                     type: "success",
-                    timer: 3000
+                    timer: 3000,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                    
                 });
                 listar_vales();
             } else {
@@ -2132,9 +2141,9 @@ function anularVale(vale_id) {
                     title: "Error",
                     text: "Lo sentimos, no se puede anular el vale",
                     type: "error",
-                    confirmButtonClass: 'btn-danger',
-                    allowEscapeKey: false,
-                    allowOutsideClick: false
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             }
         }

@@ -156,7 +156,9 @@ $(document).ready(function() {
                                 title: "Error",
                                 text: "Producto no encontrado, por favor corregir",
                                 icon: "error",
-                                dangerMode: true
+                                dangerMode: true,
+                                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
                             });
 
                             $("#quoteForm #QuoteItem #bar-code-id_" + row_index).val("");
@@ -1045,14 +1047,13 @@ var view_productos_busqueda_cotizacion_dataTable = function(tbody, table) { //re
             row++;
 
         } else {
-
             swal({
-
                 title: "Error",
                 text: "Lo sentimos no se puede seleccionar un producto, por favor antes de continuar, verifique que los siguientes campos: clientes, vendedor no se encuentren vacíos",
                 icon: "error",
-                dangerMode: true
-
+                dangerMode: true,
+                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
             });
 
         }
@@ -1507,6 +1508,9 @@ function addComentarioQuote() {
                 closeModal: false,
             },
         },
+        dangerMode: true,
+        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera         
     }).then((value) => {
         if (value === null || value.trim() === "") {
             swal("¡Necesita escribir algo!", { icon: "error" });
@@ -1874,7 +1878,9 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Lo sentimos no puede agregar más filas, debe seleccionar un cliente antes de poder continuar",
                 icon: "error",
-                dangerMode: true
+                dangerMode: true,
+                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
             });
         }
 
@@ -1903,7 +1909,9 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Lo sentimos debe seleccionar un fila antes de intentar eliminarla",
                 icon: "error",
-                dangerMode: true
+                dangerMode: true,
+                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
             });
         }
 
@@ -2167,7 +2175,9 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Debe seleccionar un cliente y un producto antes de continuar",
                 icon: "error",
-                dangerMode: true
+                dangerMode: true,
+                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
             });
         }
     });
@@ -2249,6 +2259,9 @@ $("#reg_DescuentoFacturacion").on("click", function(e) {
             title: "warning",
             text: "El valor del descuento es mayor al precio total del artículo, por favor corregir",
             icon: "warning",
+            dangerMode: true,
+            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera             
         });
     }
 });
@@ -2291,7 +2304,9 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Debe seleccionar un cliente y un producto antes de continuar",
                 icon: "error",
-                dangerMode: true
+                dangerMode: true,
+                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
             });
         }
     });

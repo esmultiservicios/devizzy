@@ -300,7 +300,9 @@ var transferencia_producto_dataTable = function(tbody, table) {
                 title: 'Error',
                 text: 'No se puede hacer transferencia de producto que depente de otro inventario',
                 icon: 'error',
-                confirmButtonClass: 'btn-danger'
+                dangerMode: true,
+                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             });
             return false
         }

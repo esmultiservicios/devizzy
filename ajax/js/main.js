@@ -10,7 +10,7 @@ $('.FormularioAjax').submit(function (e) {
 	// Deshabilitar el botón antes de hacer la solicitud AJAX
 	form.find('button[type="submit"]').prop('disabled', true);
 
-	var msjError = "<script>swal({title: 'Ocurrió un error inesperado', text: 'Por favor, intenta de nuevo', icon: 'error', dangerMode: true, closeOnEsc: false, allowOutsideClick: false});</script>";
+	var msjError = "<script>swal({title: 'Ocurrió un error inesperado', text: 'Por favor, intenta de nuevo', icon: 'error', dangerMode: true, closeOnEsc: false, closeOnClickOutside: false});</script>";
 	var formdata = new FormData(this);
 
 	var textoAlerta;
@@ -51,7 +51,9 @@ $('.FormularioAjax').submit(function (e) {
 				closeModal: false
 			}
 		},
-		dangerMode: false
+		dangerMode: false,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera		
 	}).then((isConfirm) => {
 		if (isConfirm) {
 			swal.stopLoading();

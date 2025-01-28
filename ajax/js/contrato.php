@@ -617,7 +617,9 @@ function ValidarTipoPago(semanal) {
             title: "Error",
             text: "Lo sentimos debe seleccionar un pago planificado antes de llenar este valor",
             icon: "error",
-            dangerMode: true
+            dangerMode: true,
+            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
         });
     }
 }

@@ -266,7 +266,9 @@ var view_productos_busqueda_compras_dataTable = function(tbody, table) {
                 title: "Error",
                 text: "Lo sentimos no se puede seleccionar un producto, por favor antes de continuar, verifique que los siguientes campos: proveedores, usuario y número de factura no se encuentren vacíos",
                 icon: "error",
-                dangerMode: true
+                dangerMode: true,
+                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
             });
         }*/
     });
@@ -684,7 +686,9 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Lo sentimos no puede agregar más filas, debe seleccionar un usuario antes de poder continuar",
                 icon: "error",
-                dangerMode: true
+                dangerMode: true,
+                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
             });
         }
 
@@ -711,7 +715,9 @@ $(document).ready(function() {
                 title: "Error",
                 text: "Lo sentimos debe seleccionar un fila antes de intentar eliminarla",
                 icon: "error",
-                dangerMode: true
+                dangerMode: true,
+                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
             });
         }
     });
@@ -1079,7 +1085,9 @@ function manejarPresionEnterCompras(row_index) {
                                         text: "Aceptar",
                                     }
                                 },
-                                dangerMode: true
+                                dangerMode: true,
+                                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
                             });
 
                             return false;
@@ -1095,7 +1103,9 @@ function manejarPresionEnterCompras(row_index) {
                                     title: "Error",
                                     text: "No se puede facturar este producto inventario en cero",
                                     type: "error",
-                                    dangerMode: true
+                                    dangerMode: true,
+                                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
                                 });
                                 return false;
                             }
@@ -1178,7 +1188,9 @@ function manejarPresionEnterCompras(row_index) {
                             title: "Error",
                             text: "Producto no encontrado, por favor corregir",
                             type: "error",
-                            dangerMode: true
+                            dangerMode: true,
+                            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
                         });
                         $("#purchase-form #itemRowPurchase #bar-code-id_" + row_index).val("");
                     }

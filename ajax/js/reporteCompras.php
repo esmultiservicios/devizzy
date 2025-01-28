@@ -328,7 +328,9 @@ function anularCompra(compras_id) {
                 text: "¡Si, anular la factura de compra!",
             }
         },
-        closeOnClickOutside: false
+        dangerMode: true,
+        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
     }).then((willConfirm) => {
         if (willConfirm === true) {
             anular(compras_id);
@@ -350,6 +352,8 @@ function anular(compras_id) {
                     title: "Success",
                     text: "La factura de compra ha sido anulada con éxito",
                     icon: "success",
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                    
                 });
                 listar_reporte_compras();
             } else {
@@ -357,7 +361,9 @@ function anular(compras_id) {
                     title: "Error",
                     text: "La factura de compra no se pudo anular",
                     icon: "error",
-                    confirmButtonClass: "btn-danger",
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             }
         }

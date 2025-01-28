@@ -325,7 +325,9 @@ function anularCotizacion(cotizacion_id) {
                 text: "¡Sí, anular la cotización!",
             }
         },
-        closeOnClickOutside: false
+        dangerMode: true,
+        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
     }).then((willConfirm) => {
         if (willConfirm === true) {
             anular(cotizacion_id);
@@ -347,6 +349,8 @@ function anular(cotizacion_id) {
                     title: "Success",
                     text: "La cotización ha sido anulada con éxito",
                     icon: "success",
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                    
                 });
                 listar_reporte_cotizaciones();
             } else {
@@ -354,7 +358,9 @@ function anular(cotizacion_id) {
                     title: "Error",
                     text: "La cotización no se pudo anular",
                     icon: "error",
-                    confirmButtonClass: "btn-danger",
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             }
         }

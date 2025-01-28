@@ -390,6 +390,9 @@ function anularFacturas(facturas_id) {
                 closeModal: false,
             },
         },
+        dangerMode: true,
+        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera        
     }).then((value) => {
         if (value === null || value.trim() === "") {
             swal("¡Necesita escribir algo!", { icon: "error" });
@@ -413,6 +416,8 @@ function anular(facturas_id, comentario) {
                     title: "Success",
                     text: "La factura ha sido anulada con éxito",
                     icon: "success",
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                    
                 });
                 listar_reporte_ventas();
             } else {
@@ -420,7 +425,9 @@ function anular(facturas_id, comentario) {
                     title: "Error",
                     text: "La factura no se puede anular",
                     icon: "error",
-                    confirmButtonClass: "btn-danger",
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             }
         }

@@ -191,13 +191,17 @@ function testEmail(server, correo, password, port, smtpSecure) {
                     title: "Success",
                     text: "Conexión realizada satisfactoriamente",
                     icon: "success",
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                    
                 });
             } else {
                 swal({
                     title: "Error",
                     text: "Credenciales invalidas, por favor corregir, también recuerde en su servidor de correo: Activar Aplicaciones poco seguras (SmtpClientAuthentication)",
                     icon: "error",
-                    dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             }
         }
@@ -370,7 +374,9 @@ var eliminar_destinatarios_dataTable = function(tbody, table) {
                     text: "¡Sí, eliminar el correo!",
                 }
             },
-            closeOnClickOutside: false
+            dangerMode: true,
+            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
         }).then((willConfirm) => {
             if (willConfirm === true) {
                 elminarDestinatario(data.notificaciones_id);
@@ -393,6 +399,8 @@ function elminarDestinatario(notificaciones_id) {
                     title: "Success",
                     text: "El destinatario ha sido eliminada correctamente",
                     icon: "success",
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                    
                 });
                 listar_destinatarios();
                 $('#formDestinatarios #correo').focus();
@@ -401,7 +409,9 @@ function elminarDestinatario(notificaciones_id) {
                     title: 'Error',
                     text: 'Lo sentimos no se puede eliminar el destinatario',
                     icon: 'error',
-                    dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             }
         }

@@ -466,7 +466,8 @@ function editBarCode(productos_id, barcode, producto) {
                 text: "¡Si, Deseo Editarlo!",
             }
         },
-        closeOnClickOutside: false
+        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
     }).then((willConfirm) => {
         if (willConfirm === true) {
             editarCodigoBarra(productos_id, barcode);
@@ -488,7 +489,9 @@ function editarCodigoBarra(productos_id, barcode) {
                     title: "Success",
                     text: "El Código de Barra ha sido actualizado satisfactoriamente",
                     icon: "success",
-                    confirmButtonClass: "btn-primary"
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
                 listar_productos();
                 $('#formProductos #bar_code_product').val(barcode);
@@ -497,14 +500,18 @@ function editarCodigoBarra(productos_id, barcode) {
                     title: "Error",
                     text: "Error el El Código de Barra no se puede actualizar",
                     icon: "error",
-                    confirmButtonClass: "btn-danger"
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             } else if (data == 3) {
                 swal({
                     title: "Error",
                     text: "El El Código de Barra ya existe",
                     icon: "error",
-                    confirmButtonClass: "btn-danger"
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             }
         }
