@@ -636,13 +636,8 @@ var view_productos_busqueda_factura_dataTable = function(tbody, table) {
                             },
                             icon: "warning",
                             buttons: {
-                                cancel: {
-                                    text: "Cancelar",
-                                    visible: true,
-                                    closeModal: true
-                                },
                                 confirm: {
-                                    text: "¡Sí, deseo enviar!",
+                                    text: "¡Cerrar el mensaje!",
                                     closeModal: false
                                 }
                             },

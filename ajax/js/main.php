@@ -1440,7 +1440,7 @@ function printBill(facturas_id, $print_comprobante) {
 
                     resp = true;
 
-                    // Manejar caso donde el formato no sea válido
+/*                     // Manejar caso donde el formato no sea válido
                     swal({
                         title: "Formato no disponible",
                         text: "Lo sentimos, la opción de Factura Media Carta está en desarrollo. Diríjase al menú de 'Configuración' > 'Impresoras' para cambiar el formato de impresión. Una vez cambiado, puede reimprimir la factura desde el menú 'Reporte de Ventas' ubicado en la parte superior izquierda del sistema, o puede ir al menú en el lado izquierdo, seleccionar 'Reportes', luego 'Ventas' y finalmente elegir 'Ventas'.",
@@ -1450,7 +1450,7 @@ function printBill(facturas_id, $print_comprobante) {
                         closeOnEsc: false, // Desactiva el cierre con la tecla Esc
                         closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                     });
-                    return; // Salir si el formato no es válido
+                    return; // Salir si el formato no es válido */
                 } else if (formato === "Ticket") {
                     params = {
                         "id": facturas_id,
@@ -1544,7 +1544,6 @@ function printBillReporteVentas(facturas_id, print_comprobante) {
             if (impresora && impresora.estado === "1") {
                 // Generar la URL con los parámetros de facturas_id y formato
                 var params;
-                var resp = false;
 
                 // Eliminar espacios adicionales del formato
                 var formato = impresora.formato.trim();                
@@ -1552,39 +1551,21 @@ function printBillReporteVentas(facturas_id, print_comprobante) {
                 if (formato === "Carta") {
                     params = {
                         "id": facturas_id,
-                        "type": "Factura_carta",
+                        "type": "Factura_carta_izzy",
                         "db": "<?php echo DB_MAIN; ?>"
                     };
-
-                    resp = false;
                 } else if (formato === "Media Carta") {
                     params = {
                         "id": facturas_id,
                         "type": "Factura_media_izzy",
                         "db": "<?php echo DB_MAIN; ?>"
                     };
-
-                    resp = true;
-
-                    // Manejar caso donde el formato no sea válido
-                    swal({
-                        title: "Formato no disponible",
-                        text: "Lo sentimos, la opción de Factura Media Carta está en desarrollo. Diríjase al menú de 'Configuración' > 'Impresoras' para cambiar el formato de impresión y reintente.",
-                        icon: "error",
-                        button: "Cerrar",
-                        dangerMode: true,
-                        closeOnEsc: false,
-                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
-                    });
-                    return; // Salir si el formato no es válido
                 } else if (formato === "Ticket") {
                     params = {
                         "id": facturas_id,
                         "type": "Factura_ticket_izzy",
                         "db": "<?php echo DB_MAIN; ?>"
-                    };
-
-                    resp = true;                  
+                    };                
                 } else {
                     // Manejar caso donde el formato no sea válido
                     swal({
@@ -1597,18 +1578,6 @@ function printBillReporteVentas(facturas_id, print_comprobante) {
                         closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                      
                     });
                     return; // Salir si el formato no es válido
-                }
-
-                var baseUrl = '<?php echo SERVERURL;?>core/';
-                var endpoint = 'generaFactura.php';
-                // Generar la URL con los parámetros de facturas_id y formato
-                var paramsLinux = `?facturas_id=${facturas_id}&formato=${impresora.formato}`;
-
-                if(resp === false) {
-                    // Abrir la URL generada
-                    window.open(baseUrl + endpoint + paramsLinux);
-
-                    return;
                 }
 
                 // Llamar a la función para mostrar el reporte
