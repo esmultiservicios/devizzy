@@ -6,7 +6,7 @@
     <div class="card mb-4">
 		<div class="card mb-4">
 			<div class="card-header">
-				<i class="fas fa-briefcasex mr-1"></i>
+				<i class="fas fa-briefcase mr-1"></i>
 				Puestos
 			</div>
 			<div class="card-body"> 

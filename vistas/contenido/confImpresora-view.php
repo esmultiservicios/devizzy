@@ -6,7 +6,7 @@
     <div class="card mb-4">
 		<div class="card mb-4">
 			<div class="card-header">
-				<i class="fab fas fa-warehouse mr-1"></i>
+				<i class="fab fas fa-print mr-1"></i>
 				Impresora
 			</div>
 			<div class="card-body"> 

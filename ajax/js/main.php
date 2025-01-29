@@ -1337,43 +1337,59 @@ function getDay() {
  * @throws {Error} Si los parámetros enviados no son un objeto válido.
  */
 function viewReport(params) {
-    // Asignar un valor vacío si SERVERURLWINDOWS no está definido
     var url = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
 
     // Verificar si la URL está vacía o no definida
     if (!url || url.trim() === "") {
         swal({
-            title: "Error",
-            text: "La URL de destino no está definida.",
+            title: "Error de conexión",
+            content: {
+                element: "p",
+                attributes: {
+                    innerHTML: "No se pudo acceder al servidor de reportes. Esto puede deberse a un problema de conexión o a que el servicio no está disponible.<br><br>📌 <b>Pasos recomendados:</b><br>1️⃣ Verifique su conexión a internet.<br>2️⃣ Intente nuevamente en unos minutos.<br>3️⃣ Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_RESPONDE</b>."
+                }
+            },
             icon: "error",
-            button: "Cerrar",
+            button: "Entendido",
             dangerMode: true,
-            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
-        });
-        return; // Salir de la función si la URL no está definida
-    }
-
-    // Crear un formulario dinámico
-    var form = document.createElement("form");
-    form.method = "POST";
-    form.action = url;
-
-    // Validar que params sea un objeto
-    if (typeof params !== "object" || params === null) {
-        swal({
-            title: "Error",
-            text: "Los parámetros enviados no son válidos.",
-            icon: "error",
-            button: "Cerrar",
-            dangerMode: true,
-            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
+            closeOnEsc: false,
+            closeOnClickOutside: false
         });
         return;
     }
 
-    // Añadir los parámetros al formulario
+	// Verificar si la URL responde antes de enviar el formulario
+	fetch(url, { method: "HEAD" })
+	.then(response => {
+		if (!response.ok) {
+			throw new Error("El servidor de reportes no está disponible.");
+		}
+		enviarFormulario(url, params);
+	})
+	.catch(error => {
+		swal({
+			title: "Error al obtener el reporte",
+			content: {
+				element: "p",
+				attributes: {
+					innerHTML: "No fue posible conectarse con el servidor de reportes.<br><br>🔍 <b>Posibles causas:</b><br>✅ El servidor puede estar en mantenimiento.<br>✅ Puede haber un problema de conexión.<br><br>📌 <b>Pasos recomendados:</b><br>1️⃣ Verifique su conexión a internet.<br>2️⃣ Intente nuevamente en unos minutos.<br>3️⃣ Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_DISPONIBLE</b>."
+				}
+			},
+			icon: "error",
+			button: "Entendido",
+			dangerMode: true,
+			closeOnEsc: false,
+			closeOnClickOutside: false
+		});
+	});
+}
+
+// 📝 Función para crear y enviar el formulario
+function enviarFormulario(url, params) {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = url;
+
     for (var key in params) {
         if (params.hasOwnProperty(key)) {
             var input = document.createElement("input");
@@ -1384,21 +1400,22 @@ function viewReport(params) {
         }
     }
 
-    // Abrir una nueva ventana
     var newWindow = window.open("", "_blank");
-
-    // Asegurarse de que la nueva ventana esté lista
     newWindow.document.body.appendChild(form);
-
-    // Enviar el formulario a la nueva ventana
     form.submit();
 }
 //FIN FUNCION PARA OBTENER REPORTES DESDE IIS
 
 //INICIO IMPRIMIR FACTURACION
 function printQuote(cotizacion_id) {
-    var url = '<?php echo SERVERURL; ?>core/generaCotizacion.php?cotizacion_id=' + cotizacion_id;
-    window.open(url);
+    params = {
+        "id": cotizacion_id,
+        "type": "Cotizacion_carta_izzy",
+        "db": "<?php echo DB_MAIN; ?>"
+    };   
+
+    // Llamar a la función para mostrar el reporte
+    viewReport(params);
 }
 
 function printBill(facturas_id, $print_comprobante) {
@@ -1418,7 +1435,6 @@ function printBill(facturas_id, $print_comprobante) {
             if (impresora && impresora.estado === "1") {
                 // Generar la URL con los parámetros de facturas_id y formato
                 var params;
-                var resp = false;
 
                 // Eliminar espacios adicionales del formato
                 var formato = impresora.formato.trim();                
@@ -1426,39 +1442,21 @@ function printBill(facturas_id, $print_comprobante) {
                 if (formato === "Carta") {
                     params = {
                         "id": facturas_id,
-                        "type": "Factura_carta",
+                        "type": "Factura_carta_izzy",
                         "db": "<?php echo DB_MAIN; ?>"
                     };
-
-                    resp = false;
                 } else if (formato === "Media Carta") {
                     params = {
                         "id": facturas_id,
                         "type": "Factura_media_izzy",
                         "db": "<?php echo DB_MAIN; ?>"
                     };
-
-                    resp = true;
-
-/*                     // Manejar caso donde el formato no sea válido
-                    swal({
-                        title: "Formato no disponible",
-                        text: "Lo sentimos, la opción de Factura Media Carta está en desarrollo. Diríjase al menú de 'Configuración' > 'Impresoras' para cambiar el formato de impresión. Una vez cambiado, puede reimprimir la factura desde el menú 'Reporte de Ventas' ubicado en la parte superior izquierda del sistema, o puede ir al menú en el lado izquierdo, seleccionar 'Reportes', luego 'Ventas' y finalmente elegir 'Ventas'.",
-                        icon: "error",
-                        button: "Cerrar",
-                        dangerMode: true,
-                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
-                    });
-                    return; // Salir si el formato no es válido */
                 } else if (formato === "Ticket") {
                     params = {
                         "id": facturas_id,
                         "type": "Factura_ticket_izzy",
                         "db": "<?php echo DB_MAIN; ?>"
-                    };
-
-                    resp = true;
+                    };                
                 } else {
                     // Manejar caso donde el formato no sea válido
                     swal({
@@ -1467,22 +1465,10 @@ function printBill(facturas_id, $print_comprobante) {
                         icon: "error",
                         button: "Cerrar",
                         dangerMode: true,
-                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
+                        closeOnEsc: false,
+                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                      
                     });
                     return; // Salir si el formato no es válido
-                }
-
-                var baseUrl = '<?php echo SERVERURL;?>core/';
-                var endpoint = 'generaFactura.php';
-                // Generar la URL con los parámetros de facturas_id y formato
-                var paramsLinux = `?facturas_id=${facturas_id}&formato=${impresora.formato}`;
-
-                if(resp === false) {
-                    // Abrir la URL generada
-                    window.open(baseUrl + endpoint + paramsLinux);
-
-                    return;
                 }
 
                 // Llamar a la función para mostrar el reporte
@@ -1500,8 +1486,8 @@ function printBill(facturas_id, $print_comprobante) {
                         },
                     },
                     dangerMode: true,
-                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                 
+                    closeOnEsc: false,
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                 });
             }
         },

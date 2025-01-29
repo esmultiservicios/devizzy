@@ -304,4 +304,3 @@
 			return mainModel::sweetAlert($alert);
 		}
 	}
-?>
