@@ -4980,16 +4980,18 @@ class mainModel
 	{
 		// Lista de nombres de meses en español
 		$meses = [
-			1 => 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-			'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+			1 => 'enero', 2 => 'febrero', 3 => 'marzo', 4 => 'abril', 
+			5 => 'mayo', 6 => 'junio', 7 => 'julio', 8 => 'agosto', 
+			9 => 'septiembre', 10 => 'octubre', 11 => 'noviembre', 12 => 'diciembre'
 		];
-
+	
 		// Si el año no se pasa como parámetro, utiliza el año actual
 		$año = $año ?? date('Y');
-
+	
 		// Retorna el nombre del mes y el año especificado si el número de mes es válido
 		return isset($meses[$mes]) ? $meses[$mes] . ' ' . $año : 'Mes inválido';
 	}
+	
 
 	public function getTotalPurchases()
 	{
