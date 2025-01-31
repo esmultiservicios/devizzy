@@ -114,9 +114,14 @@
 							session_start(['name'=>'SD']); 
 						}
 
-						$clientes_id = 2;
+						$clientes_id = 1;
 						$consulta_nombre_ingresos_contabilidad = aperturaCajaModelo::getNombreClienteModelo($clientes_id)->fetch_assoc();
-						$recibide = $consulta_nombre_ingresos_contabilidad['nombre'];
+						if ($consulta_nombre_ingresos_contabilidad) {
+							$recibide = $consulta_nombre_ingresos_contabilidad['nombre'];
+						} else {
+							// Manejar el caso cuando $consulta_nombre_ingresos_contabilidad es null
+							$recibide = '';
+						}
 
 						$nc = 0;						
 						$empresa_id = $_SESSION['empresa_id_sd'];
@@ -149,7 +154,13 @@
 
 						//CONSULTAMOS EL SALDO DISPONIBLE PARA LA CUENTA
 						$consulta_ingresos_contabilidad = aperturaCajaModelo::consultar_saldo_movimientos_cuentas_contabilidad($cuentas_id)->fetch_assoc();
-						$saldo_consulta = $consulta_ingresos_contabilidad['saldo'];	
+						if ($consulta_ingresos_contabilidad) {
+							$saldo_consulta = $consulta_ingresos_contabilidad['saldo'];
+						} else {
+							// Manejar el caso cuando $consulta_ingresos_contabilidad es null
+							$saldo_consulta = 0;
+						}
+						
 						$ingreso = $total_despues_isvMontoTipoPago;
 						$egreso = 0;
 						$saldo = $saldo_consulta + $ingreso;
@@ -204,4 +215,3 @@
 			return mainModel::sweetAlert($alert);
 		}
 	}
-?>

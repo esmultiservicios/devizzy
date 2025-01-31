@@ -2116,6 +2116,7 @@ $('#modificar_perfil_usuario_sistema').on('click', function(e) {
 });
 //FIN MODIFICAR PERFIL USUARIO SISTEMA
 
+
 function getImagenHeaderConsulta(callback) {
     var url = '<?php echo SERVERURL;?>core/get_image.php';
 
@@ -2423,13 +2424,14 @@ var listar_cuentas_por_cobrar_clientes = function() {
                     columns: [2, 3, 4, 5, 6]
                 },
                 customize: function(doc) {
-                    doc.content.splice(1, 0, {
-                        margin: [0, 0, 0, 12],
-                        alignment: 'left',
-                        image: imagen,
-                        width: 100,
-                        height: 45
-                    });
+                    if (imagen) { // Solo agrega la imagen si 'imagen' tiene contenido válido
+                        doc.content.splice(0, 0, {
+                            image: imagen,  
+                            width: 100,
+                            height: 45,
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
                 }
             }
         ],
@@ -2759,13 +2761,14 @@ var listar_cuentas_por_pagar_proveedores = function() {
                     columns: [1, 2, 3, 4, 5, 6]
                 },
                 customize: function(doc) {
-                    doc.content.splice(1, 0, {
-                        margin: [0, 0, 0, 12],
-                        alignment: 'left',
-                        image: imagen,
-                        width: 100,
-                        height: 45
-                    });
+                    if (imagen) { // Solo agrega la imagen si 'imagen' tiene contenido válido
+                        doc.content.splice(0, 0, {
+                            image: imagen,  
+                            width: 100,
+                            height: 45,
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
                 }
             }
         ],
@@ -2859,7 +2862,6 @@ $(document).ready(function() {
         $(this).find('#formClientes #nombre_clientes').focus();
     });
 });
-
 
 //INICIO ACCIONES FROMULARIO CLIENTES
 var listar_clientes = function(estado) {
@@ -2994,13 +2996,14 @@ var listar_clientes = function(estado) {
                     columns: [0, 1, 2, 3, 4, 5, 6]
                 },
                 customize: function(doc) {
-                    doc.content.splice(1, 0, {
-                        margin: [0, 0, 0, 12],
-                        alignment: 'left',
-                        image: imagen,
-                        width: 100,
-                        height: 45
-                    });
+                    if (imagen) { // Solo agrega la imagen si 'imagen' tiene contenido válido
+                        doc.content.splice(0, 0, {
+                            image: imagen,  
+                            width: 100,
+                            height: 45,
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
                 }
             }
         ],
@@ -3119,13 +3122,14 @@ var listar_generar_clientes = function() {
                     columns: [0, 1, 2, 3, 4]
                 },
                 customize: function(doc) {
-                    doc.content.splice(1, 0, {
-                        margin: [0, 0, 0, 12],
-                        alignment: 'left',
-                        image: imagen,
-                        width: 100,
-                        height: 45
-                    });
+                    if (imagen) { // Solo agrega la imagen si 'imagen' tiene contenido válido
+                        doc.content.splice(0, 0, {
+                            image: imagen,  
+                            width: 100,
+                            height: 45,
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
                 }
             }
         ],
@@ -4065,13 +4069,14 @@ var listar_AbonosCXC = function() {
                 messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
                 className: 'table_reportes btn btn-danger ocultar',
                 customize: function(doc) {
-                    doc.content.splice(1, 0, {
-                        margin: [0, 0, 0, 12],
-                        alignment: 'left',
-                        image: imagen,
-                        width: 100,
-                        height: 45
-                    });
+                    if (imagen) { // Solo agrega la imagen si 'imagen' tiene contenido válido
+                        doc.content.splice(0, 0, {
+                            image: imagen,  
+                            width: 100,
+                            height: 45,
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
                 }
             }
         ],
@@ -4217,13 +4222,14 @@ var listar_AbonosCXP = function() {
                 messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
                 className: 'table_reportes btn btn-danger ocultar',
                 customize: function(doc) {
-                    doc.content.splice(1, 0, {
-                        margin: [0, 0, 0, 12],
-                        alignment: 'left',
-                        image: imagen,
-                        width: 100,
-                        height: 45
-                    });
+                    if (imagen) { // Solo agrega la imagen si 'imagen' tiene contenido válido
+                        doc.content.splice(0, 0, {
+                            image: imagen,  
+                            width: 100,
+                            height: 45,
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
                 }
             }
         ],
@@ -4727,13 +4733,14 @@ var listar_asistencia = function() {
                     columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                 },
                 customize: function(doc) {
-                    doc.content.splice(1, 0, {
-                        margin: [0, 0, 0, 12],
-                        alignment: 'left',
-                        image: imagen,
-                        width: 100,
-                        height: 45
-                    });
+                    if (imagen) { // Solo agrega la imagen si 'imagen' tiene contenido válido
+                        doc.content.splice(0, 0, {
+                            image: imagen,  
+                            width: 100,
+                            height: 45,
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
                 }
             }
         ],
@@ -5101,5 +5108,30 @@ function getCuentasProveedores() {
             $('#modal_pagosPurchase #metodopago_efectivo_compras').selectpicker('refresh');
         }
     });
+}
+
+$(function() {
+    // Función general para contar caracteres
+    const countChars = () => {
+        $('textarea[charmax]').each(function() {
+            const maxLength = $(this).attr('charmax');  // Obtener el valor del atributo 'charmax'
+            const currentLength = $(this).val().length;  // Contar los caracteres actuales
+            const remainingChars = maxLength - currentLength;  // Calcular los caracteres restantes
+
+            // Mostrar el contador de caracteres dentro del mismo contenedor
+            const countDisplay = $(this).siblings('div.char-count');  // Buscar el div .char-count dentro del mismo contenedor
+            countDisplay.text(`${remainingChars} caracteres restantes`);  // Actualizar el texto
+        });
+    }
+
+    // Llamar la función al cargar la página para cada textarea
+    countChars();
+
+    // Llamar la función cada vez que se escriba en el textarea
+    $('textarea[charmax]').on('input', () => countChars());
+});
+
+function formatNumber(number) {
+    return $.fn.dataTable.render.number(',', '.', 2, '').display(number);
 }
 </script>

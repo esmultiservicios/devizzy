@@ -11252,6 +11252,7 @@ body {
 }
 
 .bg-color-navarlateral {
+  /*COLOR NAVBAR LATERAL Y TOP*/
   background-color: #3c4b64;
 }
 
@@ -12217,4 +12218,67 @@ input:checked+.slider:before {
 .no-hover-link:hover {
     color: #0056b3; /* Azul más oscuro */
     opacity: 1;
+}
+
+/* Contenedor del radio button y el label */
+.form-check {
+  display: flex;
+  align-items: center; /* Alinea el radio y el texto en la misma línea */
+  gap: 10px; /* Espacio entre el radio y el texto */
+}
+
+/* Estilo base del radio button */
+.form-check-input {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: #ecf0f3;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 4px 4px 6px #b0c4cc, -4px -4px 6px #ffffff;
+  transition: all 0.3s ease-in-out;
+  border: 2px solid #34A7C1;
+  margin: 0; /* Asegura que no tenga margen extra */
+  flex-shrink: 0; /* Evita que se reduzca */
+}
+
+/* Cuando está seleccionado */
+.form-check-input:checked {
+  background: #34A7C1;
+  border-color: #34A7C1;
+  box-shadow: inset 4px 4px 6px #258fa5, inset -4px -4px 6px #5ccde3;
+}
+
+/* Punto interno */
+.form-check-input:checked::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+/* Efecto hover */
+.form-check-input:hover {
+  box-shadow: 6px 6px 10px #aac8cf, -6px -6px 10px #ffffff;
+}
+
+/* Ajuste del label */
+.form-check-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+/* Cambio de color al seleccionar */
+.form-check-input:checked + .form-check-label {
+  color: #34A7C1;
 }

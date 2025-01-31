@@ -67,8 +67,7 @@ class mainModel
 		}
 	
 		return $mysqliDBLocal;
-	}
-	
+	}	
 
 	public function correlativoLogin($campo_id, $tabla)
 	{
@@ -92,8 +91,8 @@ class mainModel
 
 		return $result;
 	}
-	// FUNCION CORRELATIVO
-
+	// FUNCION CORRELATIVO	
+		
 	public function correlativo($campo_id, $tabla)
 	{
 		$query = 'SELECT MAX(' . $campo_id . ') AS max, COUNT(' . $campo_id . ') AS count FROM ' . $tabla;
@@ -639,69 +638,61 @@ class mainModel
 		} elseif ($datos['alert'] == 'reload') {
 			$alerta = "
                     <script>
-                        swal({
-                            title: '" . $datos['title'] . "',
-                            text: '" . $datos['text'] . "',
-                            icon: '" . $datos['type'] . "',
-                            showCancelButton: true,
-							timer: 3000,
-                            confirmButtonClass: '" . $datos['btn-class'] . "',
-                            confirmButtonText: '" . $datos['btn-text'] . "',
-                            closeOnConfirm: false,
-							allowEscapeKey: false,
-							allowOutsideClick: false
-                        },
-                        function(){
-                            location.reload();
-                        });
+					swal({
+						title: '" . $datos['title'] . "',
+						text: '" . $datos['text'] . "',
+						icon: '" . $datos['type'] . "',
+						buttons: true,
+						confirmButtonClass: '" . $datos['btn-class'] . "',
+						confirmButtonText: '" . $datos['btn-text'] . "',
+						timer: 3000
+					}).then((willConfirm) => {
+						if (willConfirm) {
+							location.reload();  // Recarga la página cuando se confirma
+						}
+					});
                     </script>
                 ";
 		} elseif ($datos['alert'] == 'cerrar') {
 			$alerta = "
                     <script>
-                        swal({
-                            title: '" . $datos['title'] . "',
-                            text: '" . $datos['text'] . "',
-                            icon: '" . $datos['type'] . "',
-                            showCancelButton: true,
-							timer: 3000,
-                            confirmButtonClass: '" . $datos['btn-class'] . "',
-                            confirmButtonText: '" . $datos['btn-text'] . "',
-                            closeOnConfirm: false,
-							allowEscapeKey: false,
-							allowOutsideClick: false
-                        },
-                        function(dismiss){
-                            redireccionar();
-							if(dismiss == 'cancel'){
-								redireccionar();
-							}
-                        });
+					swal({
+						title: '" . $datos['title'] . "',
+						text: '" . $datos['text'] . "',
+						icon: '" . $datos['type'] . "',
+						buttons: true,
+						dangerMode: true,  // Si quieres resaltar el botón de peligro, puedes usar esto
+						timer: 3000
+					}).then((willDelete) => {
+						if (willDelete) {
+							redireccionar(); // Redirecciona si el usuario confirma
+						} else {
+							redireccionar(); // Redirecciona si el usuario cancela
+						}
+					});
                     </script>
                 ";
 			self::cerrar_sesion();
 		} elseif ($datos['alert'] == 'clear') {
 			$alerta = "
-                    <script>
-						swal({
-							title: '" . $datos['title'] . "',
-							text: '" . $datos['text'] . "',
-							icon: '" . $datos['type'] . "',
-							showCancelButton: false,
-							timer: 3000,
-							confirmButtonClass: '" . $datos['btn-class'] . "',
-							confirmButtonText: '" . $datos['btn-text'] . "',
-							closeOnConfirm: false,
-							allowEscapeKey: false,
-							allowOutsideClick: false
-						});
-
-						\$('#" . $datos['form'] . "')[0].reset();
-						\$('#" . $datos['form'] . ' #' . $datos['id'] . "').val('" . $datos['valor'] . "');
-						" . $datos['funcion'] . ';
-						$(\'#' . $datos['modal'] . "').modal('hide');
-                    </script>
-                ";
+			<script>
+				swal({
+					title: '" . $datos['title'] . "',
+					text: '" . $datos['text'] . "',
+					icon: '" . $datos['type'] . "',
+					showCancelButton: false,
+					timer: 3000,
+					confirmButtonClass: '" . $datos['btn-class'] . "',
+					confirmButtonText: '" . $datos['btn-text'] . "',
+					closeOnConfirm: false,
+					allowEscapeKey: false,
+					allowOutsideClick: false
+				});
+		
+				$('#" . $datos['form'] . "')[0].reset();
+				$('#" . $datos['form'] . ' #' . $datos['id'] . "').val('" . $datos['valor'] . "');
+				" . $datos['funcion'] . ';
+			</script>';		
 		} elseif ($datos['alert'] == 'clear_pay') {
 			$alerta = "
                     <script>
@@ -3681,14 +3672,21 @@ class mainModel
 		return $result;
 	}
 
-	public function getProductosLike($clientes_id)
+	function getProductosLike($searchText)
 	{
-		$query = "SELECT nombre
-			FROM productos
-			WHERE nombre LIKE '%$clientes_id%'";
-
-		$result = self::connection()->query($query);
-
+		$query = "SELECT productos_id, nombre, barCode, tipo_producto_id
+				  FROM productos 
+				  WHERE barCode LIKE ? OR nombre LIKE ? 
+				  LIMIT 10";
+		$stmt = self::connection()->prepare($query);
+		$stmt->bind_param("ss", $param1, $param2);
+	
+		$param1 = "%$searchText%";
+		$param2 = "%$searchText%";
+	
+		$stmt->execute();
+		$result = $stmt->get_result();
+	
 		return $result;
 	}
 
@@ -4254,6 +4252,7 @@ class mainModel
 		$cliente = '';
 		$tipo = '';
 		$fecha = '';
+		$bodega = '';  // Asegúrate de que $bodega tenga un valor por defecto
 
 		$fecha_actual = date('Y-m-d');
 
@@ -4266,7 +4265,7 @@ class mainModel
 		}
 
 		if ($datos['bodega'] == '0') {
-			$bodega = '';
+			$bodega = '';  // Si bodega es '0', la variable debe ser vacía
 		}
 
 		if ($datos['producto'] != '') {
@@ -4292,16 +4291,26 @@ class mainModel
 			p.nombre AS producto_nombre,
 			c.nombre AS cliente,
 			a.nombre AS almacen_nombre,
-            p.barCode As 'barCode',
-            m.comentario,
-            p.nombre AS 'producto',
-            md.nombre AS 'medida',
-            m.cantidad_entrada AS 'entrada',
-            m.cantidad_salida AS 'salida',
-            a.nombre AS 'bodega',
-            a.almacen_id,
-            p.productos_id,
-            p.file_name AS 'image'
+			p.barCode AS 'barCode',
+			m.comentario,
+			p.nombre AS 'producto',
+			md.nombre AS 'medida',
+			m.cantidad_entrada AS 'entrada',
+			m.cantidad_salida AS 'salida',
+			COALESCE(  -- Usamos COALESCE para asegurarnos de que cuando sea NULL, devuelva 0
+				(SELECT SUM(CASE WHEN mm.cantidad_entrada > 0 THEN mm.cantidad_entrada ELSE 0 END) - 
+						SUM(CASE WHEN mm.cantidad_salida > 0 THEN mm.cantidad_salida ELSE 0 END)
+				FROM movimientos mm
+				WHERE mm.productos_id = m.productos_id 
+				AND mm.fecha_registro < m.fecha_registro 
+				$fecha
+				), 
+			0) AS saldo_anterior,  -- Aquí es donde usamos COALESCE para asegurar que NULL se convierta en 0
+			a.nombre AS 'bodega',
+			a.almacen_id,
+			p.productos_id,
+			p.file_name AS 'image',
+			COALESCE(l.numero_lote, '') AS 'numero_lote'
 		FROM 
 			movimientos m
 		LEFT JOIN 
@@ -4310,11 +4319,19 @@ class mainModel
 			clientes c ON m.clientes_id = c.clientes_id
 		LEFT JOIN 
 			almacen a ON m.almacen_id = a.almacen_id
-        LEFT JOIN 
+		LEFT JOIN 
 			medida AS md ON p.medida_id = md.medida_id
+		LEFT JOIN 
+			lotes l ON m.lote_id = l.lote_id
 		WHERE
-			p.estado = 1 AND m.empresa_id = '" . $datos['empresa_id_sd'] . "'
-		";
+			p.estado = 1 
+			AND m.empresa_id = '" . $datos['empresa_id_sd'] . "'
+			$fecha
+			$bodega
+			$producto
+			$cliente
+			$tipo
+		";		
 
 		$result = self::connection()->query($query);
 
@@ -4326,25 +4343,25 @@ class mainModel
 		$bodega = '';
 		$tipo_product = '';
 		$id_producto = '';
-
+	
 		if ($datos['bodega'] != '') {
 			$bodega = "AND bo.almacen_id = '" . $datos['bodega'] . "'";
 		}
-
+	
 		if ($datos['bodega'] == '0') {
 			$bodega = '';
 		}
-
+	
 		if ($datos['tipo_producto_id'] != '') {
 			$tipo_product = "AND p.tipo_producto_id = '" . $datos['tipo_producto_id'] . "'";
 		}
-
+	
 		if ($datos['productos_id'] != '' || is_null($datos['productos_id'])) {
 			$id_producto = "AND p.productos_id = '" . $datos['productos_id'] . "'";
 		}
-
+	
 		$query = "
-				SELECT
+			SELECT
 				m.almacen_id AS 'almacen_id',
 				m.movimientos_id AS 'movimientos_id',
 				p.barCode AS 'barCode',
@@ -4357,29 +4374,38 @@ class mainModel
 					SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
 				) AS 'saldo',
 				bo.nombre AS 'bodega',
-				DATE_FORMAT(
-					p.fecha_registro,
-					'%d/%m/%Y %H:%i:%s'
-				) AS 'fecha_registro',
+				DATE_FORMAT(p.fecha_registro, '%d/%m/%Y %H:%i:%s') AS 'fecha_registro',
 				p.productos_id AS 'productos_id',
-				p.id_producto_superior
+				p.id_producto_superior,
+				COALESCE(l.numero_lote, '') AS 'numero_lote',
+				
+				-- Calcular el saldo anterior sumando las entradas y salidas previas a la fecha del movimiento actual
+				COALESCE((
+					SELECT SUM(m2.cantidad_entrada) - SUM(m2.cantidad_salida)
+					FROM movimientos AS m2
+					WHERE m2.productos_id = p.productos_id
+					AND m2.almacen_id = m.almacen_id
+					AND m2.fecha_registro < p.fecha_registro
+					AND m2.empresa_id = '" . $datos['empresa_id_sd'] . "'
+				), 0) AS 'saldo_anterior'
+	
 			FROM
 				movimientos AS m
 			LEFT JOIN productos AS p ON m.productos_id = p.productos_id
 			LEFT JOIN medida AS me ON p.medida_id = me.medida_id
 			LEFT JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
+			LEFT JOIN lotes l ON m.lote_id = l.lote_id
 			WHERE m.empresa_id = '" . $datos['empresa_id_sd'] . "' AND p.estado = 1
 			$tipo_product
 			$bodega
 			$id_producto
 			GROUP BY p.productos_id, m.almacen_id
 			ORDER BY p.fecha_registro ASC";
-
+	
 		$result = self::connection()->query($query);
-		// echo 'quersdfasd  '.$query;
 		return $result;
 	}
-
+		
 	public function consultaVentas($datos)
 	{
 		$tipo_factura_reporte = '';
@@ -5155,6 +5181,7 @@ class mainModel
 
 		return $result;
 	}
+	
 
 	function getFacturasAnual($año)
 	{
@@ -5613,5 +5640,5 @@ class mainModel
 		}
 
 		return $mysqli_main;
-	}
+	}	
 }

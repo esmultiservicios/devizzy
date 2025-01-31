@@ -181,13 +181,14 @@ var listar_productos = function(estado) {
                 },
                 className: 'table_reportes btn btn-danger ocultar',
                 customize: function(doc) {
-                    doc.content.splice(1, 0, {
-                        margin: [0, 0, 0, 12],
-                        alignment: 'left',
-                        image: imagen,
-                        width: 100,
-                        height: 45
-                    });
+                    if (imagen) { // Solo agrega la imagen si 'imagen' tiene contenido válido
+                        doc.content.splice(0, 0, {
+                            image: imagen,  
+                            width: 100,
+                            height: 45,
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
                 }
             }
         ],

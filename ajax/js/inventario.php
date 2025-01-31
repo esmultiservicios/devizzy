@@ -10,7 +10,6 @@ $(document).ready(function() {
 });
 
 function funciones() {
-    getTipoProductosMovimientos();
     getTipoProductos();
     getTipoProductosModal()
     getProductoOperacion();
@@ -85,7 +84,7 @@ var listar_movimientos = function() {
                 }
             },
             {
-                "data": "image",
+                "data": "image",                
                 "render": function(data, type, row, meta) {
                     var defaultImageUrl =
                         '<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png';
@@ -117,6 +116,15 @@ var listar_movimientos = function() {
                 }
             },
             {
+                "data": "numero_lote",
+                "render": function(data, type, row) {
+                    var loteText = data ? data : 'No especificado'; // Si no hay valor, mostrar 'No especificado'
+                    var loteColor = data ? '#28a745' : '#dc3545'; // Verde para cuando tiene valor, rojo cuando no tiene
+
+                    return '<span class="numero-lote" style="border: 2px solid ' + loteColor + '; border-radius: 12px; padding: 5px 10px; color: ' + loteColor + ';">' + loteText + '</span>';
+                }
+            },
+            {
                 "data": "barCode"
             },
             {
@@ -132,45 +140,41 @@ var listar_movimientos = function() {
                 "data": "documento"
             },
             {
+                "data": "saldo_anterior",
+                "render": function(data, type, row) {
+                    var saldoAnteriorColor = data > 0 ? '#28a745' : '#ff6f61'; // Verde si es positivo, coral si es negativo
+                    var saldoAnteriorText = formatNumber(data); // Formateamos el número
+
+                    return '<span style="border: 2px solid ' + saldoAnteriorColor + '; border-radius: 12px; padding: 5px 10px; color: ' + saldoAnteriorColor + '; font-weight: bold;">' + saldoAnteriorText + '</span>';
+                }
+            },
+            {
                 "data": "entrada",
-                render: function(data, type) {
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, '')
-                        .display(data);
+                "render": function(data, type, row) {
+                    var entradaColor = data > 0 ? '#17a2b8' : '#f39c12'; // Azul claro si es positivo, amarillo si es negativo
+                    var entradaText = formatNumber(data); // Formateamos el número
 
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        }
-
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
-
-                    return number;
-                },
+                    return '<span style="border: 2px solid ' + entradaColor + '; border-radius: 12px; padding: 5px 10px; color: ' + entradaColor + '; font-weight: bold;">' + entradaText + '</span>';
+                }
             },
             {
                 "data": "salida",
-                render: function(data, type) {
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, '')
-                        .display(data);
+                "render": function(data, type, row) {
+                    var salidaColor = data > 0 ? '#ffc107' : '#dc3545'; // Amarillo si es positivo, rojo si es negativo
+                    var salidaText = formatNumber(data); // Formateamos el número
 
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        } else if (data > 0) {
-                            color = 'orange';
-                        }
-
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
-
-                    return number;
-                },
+                    return '<span style="border: 2px solid ' + salidaColor + '; border-radius: 12px; padding: 5px 10px; color: ' + salidaColor + '; font-weight: bold;">' + salidaText + '</span>';
+                }
             },
+            {
+                "data": "saldo",
+                "render": function(data, type, row) {
+                    var saldoColor = data >= 0 ? '#007bff' : '#ff6347'; // Azul si es positivo, rojo tomate si es negativo
+                    var saldoText = formatNumber(data); // Formateamos el saldo
+
+                    return '<span style="border: 2px solid ' + saldoColor + '; border-radius: 12px; padding: 5px 10px; color: ' + saldoColor + '; font-weight: bold;">' + saldoText + '</span>';
+                }
+            },          
             {
                 "data": "comentario"
             },
@@ -184,69 +188,42 @@ var listar_movimientos = function() {
         "bDestroy": true,
         "language": idioma_español, //esta se encuenta en el archivo main.js
         "dom": dom,
-        "columnDefs": [{
-                width: "13.5%",
-                targets: 0,
-                "orderable": true
-            },
-            {
-                width: "10.5%",
-                targets: 1
-            },
-            {
-                width: "20.5%",
-                targets: 2
-            },
-            {
-                width: "5.5%",
-                targets: 3
-            },
-            {
-                width: "18.5%",
-                targets: 4
-            },
-            {
-                width: "10.5%",
-                targets: 5
-            },
-            {
-                width: "10.5%",
-                targets: 6
-            },
-            {
-                width: "10.5%",
-                targets: 7
-            },
-            {
-                width: "10.5%",
-                targets: 8
-            },
-            {
-                width: "10.5%",
-                targets: 9
-            },
-            {
-                width: "10.5%",
-                targets: 10
-            },
-        ],
+		"columnDefs": [
+			{ width: "13.5%", targets: 0, "orderable": true },
+			{ width: "10.5%", targets: 1 },
+			{ width: "20.5%", targets: 2 }, // Ajusta el ancho de la columna del número de lote
+			{ width: "5.5%", targets: 3 },
+			{ width: "18.5%", targets: 4 },
+			{ width: "10.5%", targets: 5 },
+			{ width: "10.5%", targets: 6 },
+			{ width: "10.5%", targets: 7 },
+			{ width: "10.5%", targets: 8 },
+			{ width: "10.5%", targets: 9 },
+			{ width: "10.5%", targets: 10 },
+			{ width: "10.5%", targets: 11 }
+		],
         "footerCallback": function(row, data, start, end, display) {
             var api = this.api();
 
-            var totalEntrada = api.column(7, {
-                page: 'current'
-            }).data().reduce(function(a, b) {
+            // Sumar el saldo anterior (índice 8)
+            var totalSaldoAnterior = api.column(8, { page: 'current' }).data().reduce(function(a, b) {
+                return a + parseFloat(b || 0);  // Asegúrate de que la columna del saldo anterior esté correctamente indexada
+            }, 0);
+
+            // Sumar las entradas (índice 9)
+            var totalEntrada = api.column(9, { page: 'current' }).data().reduce(function(a, b) {
                 return a + parseFloat(b || 0);
             }, 0);
 
-            var totalSalida = api.column(8, {
-                page: 'current'
-            }).data().reduce(function(a, b) {
+            // Sumar las salidas (índice 10)
+            var totalSalida = api.column(10, { page: 'current' }).data().reduce(function(a, b) {
                 return a + parseFloat(b || 0);
             }, 0);
 
-            var total = totalEntrada - totalSalida;
+            var total = (totalSaldoAnterior + totalEntrada) - totalSalida;
 
+            // Mostrar los totales en el footer
+            $('#anterior-footer-movimiento').html(formatNumber(totalSaldoAnterior)); // Mostrar el saldo anterior
             $('#entrada-footer-movimiento').html(formatNumber(totalEntrada));
             $('#salida-footer-movimiento').html(formatNumber(totalSalida));
             $('#total-footer-movimiento').html(formatNumber(total));
@@ -280,7 +257,7 @@ var listar_movimientos = function() {
                 messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
                 className: 'table_reportes btn btn-success ocultar',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 11, 12, 13]
                 },
             },
             {
@@ -289,22 +266,24 @@ var listar_movimientos = function() {
                 text: '<i class="fas fa-file-pdf fa-lg"></i> PDF',
                 titleAttr: 'PDF',
                 orientation: 'landscape',
+                pageSize: 'LEGAL',  // Cambiar a 'LEGAL' para tamaño de papel legal
                 title: 'Reporte Movimientos',
                 messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' +
                     convertDateFormat(fechaf),
                 messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
                 className: 'table_reportes btn btn-danger ocultar',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                 },
                 customize: function(doc) {
-                    doc.content.splice(1, 0, {
-                        margin: [0, 0, 0, 12],
-                        alignment: 'left',
-                        image: imagen,
-                        width: 100,
-                        height: 45
-                    });
+                    if (imagen) { // Solo agrega la imagen si 'imagen' tiene contenido válido
+                        doc.content.splice(0, 0, {
+                            image: imagen,  
+                            width: 100,
+                            height: 45,
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
                 }
             }
         ],
@@ -318,244 +297,6 @@ var listar_movimientos = function() {
 
     //transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos);
 }
-
-function formatNumber(number) {
-    return $.fn.dataTable.render.number(',', '.', 2, '').display(number);
-}
-
-//INVENTARIO TRANSFERENCIA
-var inventario_transferencia = function() {
-    var tipo_producto_id;
-
-    if ($('#form_main_movimientos #inventario_tipo_productos_id').val() == "" || $(
-            '#form_main_movimientos #inventario_tipo_productos_id').val() == null) {
-        tipo_producto_id = 1;
-    } else {
-        tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
-    }
-
-    var fechai = $("#form_main_movimientos #fechai").val();
-    var fechaf = $("#form_main_movimientos #fechaf").val();
-    var bodega = $("#form_main_movimientos #almacen").val();
-
-    var table_movimientos = $("#dataTablaMovimientos").DataTable({
-        "destroy": true,
-        "ajax": {
-            "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableInventarioTransferencia.php",
-            "data": {
-                "tipo_producto_id": tipo_producto_id,
-                "fechai": fechai,
-                "fechaf": fechaf,
-                "bodega": bodega
-            }
-        },
-        "columns": [{
-                "data": "fecha_registro",
-                "render": function(data, type, row) {
-                    if (type === 'sort' || type === 'type') {
-                        return new Date(data);
-                    }
-                    // For display or other types, return the formatted date string
-                    return data;
-                }
-            },
-            {
-                "data": "barCode"
-            },
-            {
-                "data": "producto"
-            },
-            {
-                "data": "medida"
-            },
-            {
-                "data": "documento"
-            },
-            {
-                "data": "entrada",
-                render: function(data, type) {
-                    if (data == null) {
-                        data = 0;
-                    }
-
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, '')
-                        .display(data);
-
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        }
-
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
-
-                    return number;
-                },
-            },
-            {
-                "data": "salida",
-                render: function(data, type) {
-                    if (data == null) {
-                        data = 0;
-                    }
-
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, '')
-                        .display(data);
-
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        }
-
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
-
-                    return number;
-                },
-            },
-            {
-                "data": "saldo",
-                render: function(data, type) {
-                    if (data == null) {
-                        data = 0;
-                    }
-
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, '')
-                        .display(data);
-
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        }
-
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
-
-                    return number;
-                },
-            },
-            {
-                "data": "bodega"
-            },
-            {
-                "defaultContent": "<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"
-            },
-
-        ],
-        "lengthMenu": lengthMenu,
-        "stateSave": true,
-        "bDestroy": true,
-        "language": idioma_español, //esta se encuenta en el archivo main.js
-        "dom": dom,
-        "columnDefs": [{
-                width: "13.5%",
-                targets: 0,
-                "orderable": true
-            },
-            {
-                width: "10.5%",
-                targets: 1
-            },
-            {
-                width: "20.5%",
-                targets: 2
-            },
-            {
-                width: "5.5%",
-                targets: 3
-            },
-            {
-                width: "18.5%",
-                targets: 4
-            },
-            {
-                width: "10.5%",
-                targets: 5
-            },
-            {
-                width: "10.5%",
-                targets: 6
-            },
-            {
-                width: "10.5%",
-                targets: 7
-            },
-            {
-                width: "10.5%",
-                targets: 8
-            },
-            {
-                width: "10.5%",
-                targets: 9
-            },
-
-
-        ],
-        "buttons": [{
-                text: '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-                titleAttr: 'Actualizar Movimientos',
-                className: 'table_actualizar btn btn-secondary ocultar',
-                action: function() {
-                    inventario_transferencia();
-                }
-            },
-            {
-                text: '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
-                titleAttr: 'Agregar Movimientos',
-                className: 'table_crear btn btn-primary ocultar',
-                action: function() {
-                    modal_movimientos();
-                }
-            },
-            {
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel fa-lg"></i> Excel',
-                titleAttr: 'Excel',
-                title: 'Reporte Movimientos',
-                messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' +
-                    convertDateFormat(fechaf),
-                messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-                className: 'table_reportes btn btn-success ocultar'
-            },
-            {
-                extend: 'pdf',
-                text: '<i class="fas fa-file-pdf fa-lg"></i> PDF',
-                titleAttr: 'PDF',
-                orientation: 'landscape',
-                title: 'Reporte Movimientos',
-                messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' +
-                    convertDateFormat(fechaf),
-                messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
-                className: 'table_reportes btn btn-danger ocultar',
-                customize: function(doc) {
-                    doc.content.splice(1, 0, {
-                        margin: [0, 0, 0, 12],
-                        alignment: 'left',
-                        image: imagen,
-                        width: 100,
-                        height: 45
-                    });
-                }
-            }
-        ],
-        "drawCallback": function(settings) {
-            getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
-        }
-    });
-    table_movimientos.search('').draw();
-    $('#buscar').focus();
-
-    transferencia_producto_dataTable("#dataTablaMovimientos tbody", table_movimientos);
-
-}
-//FIN TRANSFERENCIA
 
 //TRANSFERIR PRODUCTO/BODEGA
 var transferencia_producto_dataTable = function(tbody, table) {
@@ -680,20 +421,6 @@ function getProductoOperacion() {
             $('#formMovimientoInventario #movimiento_producto').html("");
             $('#formMovimientoInventario #movimiento_producto').html(data);
             $('#formMovimientoInventario #movimiento_producto').selectpicker('refresh');
-        }
-    });
-}
-
-function getTipoProductosMovimientos() {
-    var url = '<?php echo SERVERURL;?>core/getTipoProductoMovimientos.php';
-
-    $.ajax({
-        type: "POST",
-        url: url,
-        success: function(data) {
-            $('#formMovimientos #movimientos_tipo_producto_id').html("");
-            $('#formMovimientos #movimientos_tipo_producto_id').html(data);
-            $('#formMovimientos #movimientos_tipo_producto_id').selectpicker('refresh');
         }
     });
 }
@@ -846,4 +573,110 @@ function registro_inventario() {
     $('#registroMovimientos').removeClass('active');
     $('#movimientos').addClass('active');
 }
+
+const BusquedaProducto = (barcode) => {
+    var url = '<?php echo SERVERURL;?>core/buscar_producto.php';
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: { 
+            barcode: 
+            barcode 
+        }, // Enviamos barcode correctamente
+        dataType: 'json', // Asegura que la respuesta se interprete como JSON
+        success: function(registro) {
+            if (registro.success) {
+                $('#formMovimientos #movimientos_tipo_producto_id').val(registro.tipo_producto_id).selectpicker('refresh');
+                $('#formMovimientos #movimiento_producto').val(registro.productos_id).selectpicker('refresh'); 
+                $('#formMovimientos #movimiento_cantidad').focus(); 
+            } else {
+                swal({
+                    title: "Error",
+                    text: registro.message,
+                    icon: "error",
+                    button: "Aceptar",
+                    dangerMode: true
+                });
+            }
+        },
+        error: function() {
+            swal({
+                title: "Error",
+                text: "Hubo un problema en la comunicación con el servidor",
+                icon: "error",
+                button: "Aceptar",
+                dangerMode: true
+            });
+        }
+    });
+};
+
+$('#formMovimientos #produto_barcode').on('keypress', (event) => {
+    if (event.which === 13) { 
+        event.preventDefault(); 
+
+        let barcode = $(event.target).val().trim();
+
+        if (barcode.length === 0) {
+            swal({
+                title: "Error",
+                text: "Lo sentimos, debe ingresar un nombre de producto, o escanear un código de barras",
+                icon: "error",
+                button: "Aceptar",
+                dangerMode: true
+            });
+
+            $('#formMovimientos #produto_barcode').focus();
+            return;
+        }
+
+        // Validar si se seleccionó algún radio button
+        if ($('input[name="movimiento_operacion"]:checked').length === 0) {
+            swal({
+                title: "Error",
+                text: "Debe seleccionar un tipo de operación (Entrada o Salida)",
+                icon: "error",
+                button: "Aceptar",
+                dangerMode: true
+            });
+
+            $('input[name="movimiento_operacion"]').first().focus();
+            return;
+        }
+
+        BusquedaProducto(barcode);
+    }
+});
+
+$("#modal_movimientos").on('shown.bs.modal', function() {
+    $(this).find('#formMovimientos #produto_barcode').focus();
+});
+
+$(function() {
+    // Función para habilitar los campos según tipo de operación seleccionado
+    $("input[name='movimiento_operacion'], label[for='entrada'], label[for='salida']").click(function() {
+        var tipoOperacion = $("input[name='movimiento_operacion']:checked").val();
+        var barcode = $('#formMovimientos #produto_barcode').val().trim(); // Obtener el código de barras
+
+        if (tipoOperacion) {
+            // Habilitar el campo Cliente solo si la operación es 'salida'
+            $('#cliente_movimientos').prop('disabled', tipoOperacion !== 'salida');
+
+            // Enfocar en el campo Producto
+            $('#produto_barcode').focus();
+
+            // Actualizar el campo proceso_movimientos
+            $('#proceso_movimientos').val(tipoOperacion === 'entrada' ? 'Operación: Entrada' : 'Operación: Salida');
+
+            // Si hay un código de barras, llamar a la función
+            if (barcode.length > 0) {
+                BusquedaProducto(barcode);
+            }
+        } else {
+            // Si no hay selección, establecer el valor predeterminado
+            $('#proceso_movimientos').val('Selecciona una operación');
+        }
+    });
+});
 </script>

@@ -8,7 +8,7 @@ $('.btn-exit-system').on('click', (e) => {
         text: "Salir del sistema",
         icon: "warning",
         buttons: true,
-        dangerMode: false,
+        dangerMode: true,
     }).then((willExit) => {
         if (willExit) {
             swal("¡Has salido del sistema!", "Salió con éxito", {

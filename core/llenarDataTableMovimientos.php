@@ -37,9 +37,11 @@ while ($row = $result->fetch_assoc()) {
 		'entrada' => $row['entrada'],
 		'salida' => $row['salida'],
 		'saldo' => $row['saldo'],
+		'saldo_anterior' => $row['saldo_anterior'],
 		'bodega' => $row['bodega'],
 		'id_bodega' => $row['almacen_id'],
 		'productos_id' => $row['productos_id'],
+		'numero_lote' => $row['numero_lote'],
 		'image' => $row['image']
 	);
 }
@@ -52,4 +54,3 @@ $arreglo = array(
 );
 
 echo json_encode($arreglo);
-?>

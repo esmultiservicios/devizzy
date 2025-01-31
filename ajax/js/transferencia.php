@@ -33,260 +33,170 @@ $('#form_main_movimientos #search').on("click", function(e) {
 
 //INVENTARIO TRANSFERENCIA
 var inventario_transferencia = function() {
-    var tipo_producto_id;
-
-    if ($('#form_main_movimientos #inventario_tipo_productos_id').val() == "" || $(
-            '#form_main_movimientos #inventario_tipo_productos_id').val() == null) {
-        tipo_producto_id = '';
-    } else {
-        tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
-    }
-
-    var fechai = $("#form_main_movimientos #fechai").val();
-    var fechaf = $("#form_main_movimientos #fechaf").val();
-    var productos_id = $("#form_main_movimientos #inventario_productos_id").val();
-    var bodega = $("#form_main_movimientos #almacen").val();
+    var form = $("#form_main_movimientos");
+    var tipo_producto_id = form.find("#inventario_tipo_productos_id").val() || '';
+    var fechai = form.find("#fechai").val();
+    var fechaf = form.find("#fechaf").val();
+    var productos_id = form.find("#inventario_productos_id").val();
+    var bodega = form.find("#almacen").val();
 
     var table_movimientos = $("#dataTablaMovimientos").DataTable({
-        "destroy": true,
-        "ajax": {
-            "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableInvetarioTransferencia.php",
-            "data": {
-                "tipo_producto_id": tipo_producto_id,
-                "fechai": fechai,
-                "fechaf": fechaf,
-                "bodega": bodega,
-                "productos_id": productos_id
+        destroy: true,
+        ajax: {
+            method: "POST",
+            url: "<?php echo SERVERURL;?>core/llenarDataTableInvetarioTransferencia.php",
+            data: {
+                tipo_producto_id: tipo_producto_id,
+                fechai: fechai,
+                fechaf: fechaf,
+                bodega: bodega,
+                productos_id: productos_id
             }
         },
-        "columns": [{
-                "data": "fecha_registro",
+        columns: [
+            { data: "fecha_registro" },
+            { 
+                data: "image", 
+                render: function(data) {
+                    var defaultImageUrl = '<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png';
+                    var imageUrl = data ? '<?php echo SERVERURL;?>vistas/plantilla/img/products/' + data : defaultImageUrl;
+                    return `<img class="table-image" src="${imageUrl}" alt="Image Preview" height="100px" width="100px"/>`;
+                } 
+            },
+            {
+                "data": "numero_lote",
                 "render": function(data, type, row) {
-                    if (type === 'sort' || type === 'type') {
-                        return new Date(data);
-                    }
-                    // For display or other types, return the formatted date string
-                    return data;
+                    var loteText = data ? data : 'No especificado'; // Si no hay valor, mostrar 'No especificado'
+                    var loteColor = data ? '#28a745' : '#dc3545'; // Verde para cuando tiene valor, rojo cuando no tiene
+
+                    return '<span class="numero-lote" style="border: 2px solid ' + loteColor + '; border-radius: 12px; padding: 5px 10px; color: ' + loteColor + ';">' + loteText + '</span>';
                 }
-            },
+            },            
+            { data: "barCode" },
+            { data: "producto" },
+            { data: "medida" },
             {
-                "data": "image",
-                "render": function(data, type, row, meta) {
-                    var defaultImageUrl =
-                        '<?php echo SERVERURL;?>vistas/plantilla/img/products/image_preview.png';
-                    var imageUrl = data ? '<?php echo SERVERURL;?>vistas/plantilla/img/products/' +
-                        data : defaultImageUrl;
+                "data": "saldo_anterior",
+                "render": function(data, type, row) {
+                    var saldoAnteriorColor = data > 0 ? '#28a745' : '#ff6f61'; // Verde si es positivo, coral si es negativo
+                    var saldoAnteriorText = formatNumber(data); // Formateamos el número
 
-                    var imageHtml = '<img class="table-image" src="' + imageUrl +
-                        '" alt="Image Preview" height="100px" width="100px"/>';
-
-                    var cell = $('td:eq(' + meta.col + ')', meta.settings.oInstance.api().row(meta
-                        .row).node());
-
-                    var img = new Image();
-
-                    img.onload = function() {
-                        // La imagen se cargó correctamente, actualizar la imagen en la celda
-                        $('.table-image', cell).attr('src', imageUrl);
-                    };
-
-                    img.onerror = function() {
-                        // La imagen no se pudo cargar, usar la imagen de vista previa
-                        $('.table-image', cell).attr('src', defaultImageUrl);
-                    };
-
-                    // Establecer la fuente de la imagen
-                    img.src = imageUrl;
-
-                    return imageHtml;
+                    return '<span style="border: 2px solid ' + saldoAnteriorColor + '; border-radius: 12px; padding: 5px 10px; color: ' + saldoAnteriorColor + '; font-weight: bold;">' + saldoAnteriorText + '</span>';
                 }
-            },
-            {
-                "data": "barCode"
-            },
-            {
-                "data": "producto"
-            },
-            {
-                "data": "medida"
             },
             {
                 "data": "entrada",
-                render: function(data, type) {
-                    if (data == null) {
-                        data = 0;
-                    }
+                "render": function(data, type, row) {
+                    var entradaColor = data > 0 ? '#17a2b8' : '#f39c12'; // Azul claro si es positivo, amarillo si es negativo
+                    var entradaText = formatNumber(data); // Formateamos el número
 
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, '')
-                        .display(data);
-
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        }
-
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
-
-                    return number;
-                },
+                    return '<span style="border: 2px solid ' + entradaColor + '; border-radius: 12px; padding: 5px 10px; color: ' + entradaColor + '; font-weight: bold;">' + entradaText + '</span>';
+                }
             },
             {
                 "data": "salida",
-                render: function(data, type) {
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, '')
-                        .display(data);
+                "render": function(data, type, row) {
+                    var salidaColor = data > 0 ? '#ffc107' : '#dc3545'; // Amarillo si es positivo, rojo si es negativo
+                    var salidaText = formatNumber(data); // Formateamos el número
 
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        } else if (data > 0) {
-                            color = 'orange';
-                        }
-
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
-
-                    return number;
-                },
+                    return '<span style="border: 2px solid ' + salidaColor + '; border-radius: 12px; padding: 5px 10px; color: ' + salidaColor + '; font-weight: bold;">' + salidaText + '</span>';
+                }
             },
             {
                 "data": "saldo",
-                render: function(data, type) {
-                    if (data == null) {
-                        data = 0;
-                    }
+                "render": function(data, type, row) {
+                    var saldoColor = data >= 0 ? '#007bff' : '#ff6347'; // Azul si es positivo, rojo tomate si es negativo
+                    var saldoText = formatNumber(data); // Formateamos el saldo
 
-                    var number = $.fn.dataTable.render
-                        .number(',', '.', 2, '')
-                        .display(data);
-
-                    if (type === 'display') {
-                        let color = 'green';
-                        if (data < 0) {
-                            color = 'red';
-                        }
-
-                        return '<span style="color:' + color + '">' + number + '</span>';
-                    }
-
-                    return number;
-                },
-            },
-            {
-                "data": "bodega"
-            },
-            {
-                "defaultContent": "<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>"
-            },
-
+                    return '<span style="border: 2px solid ' + saldoColor + '; border-radius: 12px; padding: 5px 10px; color: ' + saldoColor + '; font-weight: bold;">' + saldoText + '</span>';
+                }
+            },  
+            { data: "bodega" },
+            { defaultContent: "<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>" }
         ],
-        "lengthMenu": lengthMenu10,
-        "stateSave": true,
-        "bDestroy": true,
-        "language": idioma_español, //esta se encuenta en el archivo main.js
-        "dom": dom,
-        "columnDefs": [{
-                width: "13.5%",
-                targets: 0,
-                "orderable": true
-            },
-            {
-                width: "10.5%",
-                targets: 1
-            },
-            {
-                width: "20.5%",
-                targets: 2
-            },
-            {
-                width: "5.5%",
-                targets: 3
-            },
-            {
-                width: "18.5%",
-                targets: 4
-            },
-            {
-                width: "10.5%",
-                targets: 5
-            },
-            {
-                width: "10.5%",
-                targets: 6
-            },
-            {
-                width: "10.5%",
-                targets: 7
-            },
-            {
-                width: "10.5%",
-                targets: 8
-            },
-            {
-                width: "10.5%",
-                targets: 9
-            },
+        lengthMenu: lengthMenu10,
+        stateSave: true,
+        language: idioma_español,
+        dom: dom,
+        columnDefs: [
+            { width: "13.5%", targets: 0, orderable: true },
+            { width: "10.5%", targets: 1 },
+            { width: "20.5%", targets: 2 },
+            { width: "5.5%", targets: 3 },
+            { width: "18.5%", targets: 4 },
+            { width: "10.5%", targets: 5 },
+            { width: "10.5%", targets: 6 },
+            { width: "10.5%", targets: 7 },
+            { width: "10.5%", targets: 8 },
+            { width: "10.5%", targets: 9 }
         ],
-        "buttons": [{
+        buttons: [
+            {
                 text: '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
                 titleAttr: 'Actualizar Movimientos',
                 className: 'table_actualizar btn btn-secondary ocultar',
-                action: function() {
-                    inventario_transferencia();
-                }
+                action: function() { inventario_transferencia(); }
             },
             {
                 extend: 'excelHtml5',
                 text: '<i class="fas fa-file-excel fa-lg"></i> Excel',
-                titleAttr: 'Excel',
+                titleAttr: 'Exportar a Excel',
                 title: 'Reporte Movimientos',
-                messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' +
-                    convertDateFormat(fechaf),
-                messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
                 className: 'table_reportes btn btn-success ocultar',
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
-                },
+                exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
             },
             {
-                extend: 'pdf',
+                extend: 'pdfHtml5',
                 text: '<i class="fas fa-file-pdf fa-lg"></i> PDF',
-                titleAttr: 'PDF',
+                titleAttr: 'Exportar a PDF',
                 orientation: 'landscape',
                 title: 'Reporte Movimientos',
-                messageTop: 'Fecha desde: ' + convertDateFormat(fechai) + ' Fecha hasta: ' +
-                    convertDateFormat(fechaf),
-                messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
                 className: 'table_reportes btn btn-danger ocultar',
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
-                },
+                exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
                 customize: function(doc) {
-                    doc.content.splice(1, 0, {
-                        margin: [0, 0, 0, 12],
-                        alignment: 'left',
-                        image: imagen,
-                        width: 100,
-                        height: 45
-                    });
-                }
+                    if (imagen) { // Solo agrega la imagen si 'imagen' tiene contenido válido
+                        doc.content.splice(0, 0, {
+                            image: imagen,  
+                            width: 100,
+                            height: 45,
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
+                }                
             }
         ],
-        "drawCallback": function(settings) {
-            getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
+        "footerCallback": function(row, data, start, end, display) {
+            var api = this.api();
+
+            // Sumar el saldo anterior (índice 8)
+            var totalSaldoAnterior = api.column(6, { page: 'current' }).data().reduce(function(a, b) {
+                return a + parseFloat(b || 0);
+            }, 0);
+
+            // Sumar las entradas (índice 9)
+            var totalEntrada = api.column(7, { page: 'current' }).data().reduce(function(a, b) {
+                return a + parseFloat(b || 0);
+            }, 0);
+
+            // Sumar las salidas (índice 10)
+            var totalSalida = api.column(8, { page: 'current' }).data().reduce(function(a, b) {
+                return a + parseFloat(b || 0);
+            }, 0);
+
+            // Calcular el total
+            var total = (totalEntrada + totalSaldoAnterior) - totalSalida;
+
+            // Mostrar los totales en el footer
+            $('#anterior-footer-movimiento').html(formatNumber(totalSaldoAnterior));
+            $('#entrada-footer-movimiento').html(formatNumber(totalEntrada));
+            $('#salida-footer-movimiento').html(formatNumber(totalSalida));
+            $('#total-footer-movimiento').html(formatNumber(total));
         }
     });
-    table_movimientos.search('').draw();
-    $('#buscar').focus();
 
-    transferencia_producto_dataTable("#dataTablaMovimientos tbody", table_movimientos);
-}
+    transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos);
+};
+
 //FIN TRANSFERENCIA
 
 //TRANSFERIR PRODUCTO/BODEGA

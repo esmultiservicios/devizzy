@@ -45,11 +45,13 @@
 					"entrada"=>$row['entrada'],
 					"salida"=>$row['salida'],
 					"saldo"=>$row['saldo'],
+					'saldo_anterior' => $row['saldo_anterior'],
 					"bodega"=>$bodega,
 					"id_bodega"=>$row['almacen_id'],
 					"productos_id"=>$row['productos_id'],
 					"superior"=>$row['id_producto_superior'],			
-					"image"=>$row['image']
+					"image"=>$row['image'],
+					'numero_lote' => $row['numero_lote']
 				);
 			}
 		}	

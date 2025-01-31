@@ -1,36 +1,45 @@
 <?php
-	$peticionAjax = true;
-	require_once "configGenerales.php";
-	require_once "mainModel.php";
-    require_once "Database.php";
+$peticionAjax = true;
+require_once "configGenerales.php";
+require_once "mainModel.php";
+require_once "Database.php";
 
-    $database = new Database();
-	
-	$insMainModel = new mainModel();
+$database = new Database();
+$insMainModel = new mainModel();
 
-    if(!isset($_SESSION['user_sd'])){ 
-        session_start(['name'=>'SD']); 
-    }
+if (!isset($_SESSION['user_sd'])) {
+    session_start(['name' => 'SD']);
+}
 
-    $empresa_id = $_SESSION['empresa_id_sd'];
+$empresa_id = $_SESSION['empresa_id_sd'];
 
-    $tablaEmpresa = "empresa";
-    $camposEpresa = ["logotipo"];
-    $condiciones = ["empresa_id" => $empresa_id];
-    $orderBy = "";
-    $resultadoClientes = $database->consultarTabla($tablaEmpresa, $camposEpresa, $condiciones, $orderBy);
+$tablaEmpresa = "empresa";
+$camposEpresa = ["logotipo"];
+$condiciones = ["empresa_id" => $empresa_id];
+$orderBy = "";
+$resultadoClientes = $database->consultarTabla($tablaEmpresa, $camposEpresa, $condiciones, $orderBy);
 
-    if (!empty($resultadoClientes)) {
-        $image = $resultadoClientes[0]['logotipo'];
+if (!empty($resultadoClientes)) {
+    // Obtiene el nombre de la imagen de la base de datos
+    $image = $resultadoClientes[0]['logotipo'];
+} else {
+    $image = "logo.png";  // Imagen predeterminada si no se encuentra en la base de datos
+}
+
+// Construye la URL completa para la imagen (puedes usar la URL externa aquí)
+$imageUrl = "https://wi.fastsolutionhn.com/files/" . $image;
+
+if (filter_var($imageUrl, FILTER_VALIDATE_URL)) {
+    // Si la URL es válida, obtenemos el contenido de la imagen desde la URL externa
+    $imagenData = file_get_contents($imageUrl);  // Usamos file_get_contents para obtener los datos de la imagen
+    
+    if ($imagenData !== false) {
+        // Codificamos la imagen en Base64
+        $base64 = base64_encode($imagenData);
+        echo "data:image/png;base64," . $base64;  // Devolvemos el Base64 para usarlo en JavaScript
     } else {
-        $image = "logo.png";
+        echo "ERROR";  // Si no se puede obtener la imagen, devolvemos un error
     }
-    
-    $imageVersion = time(); // Generar un valor de tiempo único
-    $imageNombre = $image ? $image . "?v=$imageVersion" : "logo.png?v=$imageVersion";
-    
-    // Devolver la URL completa de la imagen
-    $imageUrl = SERVERURL."vistas/plantilla/img/logos/".$imageNombre;
-    
-    echo $imageUrl;
-?>
+} else {
+    echo "ERROR";  // Si la URL no es válida, devolvemos un error
+}

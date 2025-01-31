@@ -48,52 +48,63 @@
             </form>
         </div>
     </div>
+
     <div class="card mb-4">
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fab fa-servicestack mr-1"></i>
-                Inventario
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="dataTablaMovimientos" class="table table-striped table-condensed table-hover"
-                        style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Imagen</th>
-                                <th>Bar Code</th>
-                                <th>Producto</th>
-                                <th>Medida</th>
-                                <th>Entrada</th>
-                                <th>Salida</th>
-                                <th>Saldo</th>
-                                <th>Bodega</th>
-                                <th>Transferencia</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-            <div class="card-footer small text-muted">
-                <?php
-					require_once "./core/mainModel.php";
-					
-					$insMainModel = new mainModel();
-					$entidad = "productos";
-					
-                    if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
-                        $consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();
-						$fecha_registro = htmlspecialchars($consulta_last_update['fecha_registro'], ENT_QUOTES, 'UTF-8');
-                        $hora = htmlspecialchars(date('g:i:s a', strtotime($fecha_registro)), ENT_QUOTES, 'UTF-8');
-                        echo "Última Actualización ".htmlspecialchars($insMainModel->getTheDay($fecha_registro, $hora), ENT_QUOTES, 'UTF-8');
-                    } else {
-                        echo "No se encontraron registros ";
-                    }			
-				?>
+        <div class="card-header">
+            <i class="fab fa-servicestack mr-1"></i> Inventario
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTablaMovimientos" class="table table-striped table-condensed table-hover" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Imagen</th>
+                            <th>Número de Lote</th>
+                            <th>Bar Code</th>
+                            <th>Producto</th>
+                            <th>Medida</th>
+                            <th>Anterior</th>
+                            <th>Entrada</th>
+                            <th>Salida</th>
+                            <th>Saldo</th>
+                            <th>Bodega</th>
+                            <th>Transferencia</th>
+                        </tr>
+                    </thead>
+                    <tfoot class="bg-info text-white font-weight-bold">
+                        <tr>
+                            <td colspan="5"></td>
+                            <td colspan='1' class="text-center">Total</td> 
+                            <td id="anterior-footer-movimiento"></td> 
+                            <td id="entrada-footer-movimiento"></td>
+                            <td id="salida-footer-movimiento"></td>
+                            <td id="total-footer-movimiento"></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
+        <div class="card-footer small text-muted">
+            <?php
+                require_once "./core/mainModel.php";
+                $insMainModel = new mainModel();
+                $entidad = "productos";
+                $consulta_last_update = $insMainModel->getlastUpdate($entidad);
+
+                if ($consulta_last_update->num_rows > 0) {
+                    $row = $consulta_last_update->fetch_assoc();
+                    $fecha_registro = htmlspecialchars($row['fecha_registro'], ENT_QUOTES, 'UTF-8');
+                    $hora = date('g:i:s a', strtotime($fecha_registro));
+                    echo "Última Actualización " . htmlspecialchars($insMainModel->getTheDay($fecha_registro, $hora), ENT_QUOTES, 'UTF-8');
+                } else {
+                    echo "No se encontraron registros";
+                }
+            ?>
+        </div>
     </div>
+
     <?php
 	$insMainModel->guardar_historial_accesos("Ingreso al modulo Inventario");
 ?>

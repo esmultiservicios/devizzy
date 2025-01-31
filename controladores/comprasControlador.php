@@ -18,7 +18,7 @@
 			$proveedor = $_POST['proveedor'];
 			$colaboradores_id = $_POST['colaborador_id'];	
 			$recordatorio = $_POST['recordatorio'] ?? 0;//EVALUAMOS SI EL VALOR NO ES NULO O ESTA DEFINIDO DE LO CONTRARIO DEVOLVEMOS CERO
-			$tipoPurchase = $_POST['tipoPurchase'] ?? 2;	
+			$tipoPurchase = $_POST['tipoPurchase'] ?? 2;
 			
 			if($tipoPurchase === "1"){
 				$recordatorio = 0;
@@ -41,7 +41,6 @@
 				"proveedores_id" => $proveedores_id,
 				"number" => $number,
 				"tipoPurchase" => $tipoPurchase,				
-				"number" => $number,
 				"colaboradores_id" => $colaboradores_id,
 				"importe" => 0,
 				"notas" => $notas,
@@ -84,6 +83,7 @@
 								$discount = 0;
 								$isv_valor = 0;
 								$valor = 0;
+								$fecha_vencimiento = "";
 								
 								for ($i = 0; $i < count( $_POST['productNamePurchase']); $i++){//INICIO CICLO FOR
 									$productos_id = $_POST['productos_idPurchase'][$i];
@@ -92,6 +92,7 @@
 									$price = $_POST['pricePurchase'][$i];
 									$medida= $_POST['medidaPurchase'][$i];
 									$bodega = $_POST['almacenPurchase'][$i] === "" ? 0 : $_POST['almacenPurchase'][$i];
+									$fecha_vencimiento = $_POST['fecha_vencimiento'][$i] === "" ? null : $_POST['fecha_vencimiento'][$i];
 
 									if($_POST['discountPurchase'][$i] != "" || $_POST['discountPurchase'][$i] != null){
 										$discount = $_POST['discountPurchase'][$i];	
@@ -134,28 +135,15 @@
 											//SI LA CATEGORIA ES PRODUCTO PROCEDEMOS A RALIZAR LA SALIDA Y ACTUALIZAMOS LA NUEVA CANTIDAD DEL PRODUCTO, AGREGANDO TAMBIÉN EL MOVIMIENTO DE ESTE
 											if($categoria_producto == "Producto" || $categoria_producto == "Insumos"){	
 												//ALMACENAMOS EL PRODUCTO TAL CUAL SE FACTURA
-												$documento = "Compra ".$no_factura."_".$valor;	
-																
-												//OTENEMOS EL SALDO DEL PRODCUTO
-												$consultaSaldoProductoPrincipal = comprasModelo::saldo_productos_movimientos_modelo($productos_id)->fetch_assoc();
-												$saldoProductoPrincipal = doubleval($consultaSaldoProductoPrincipal['saldo']);											
 
-												$saldoNuevoPrincipal = $saldoProductoPrincipal + doubleval($quantity);
-
-												$datos_movimientos_productos = [
-													"productos_id" => $productos_id,
-													"documento" => $documento,
-													"cantidad_entrada" => $quantity,				
-													"cantidad_salida" => 0,
-													"saldo" => $saldoNuevoPrincipal,
-													"fecha_registro" => $fecha_registro,
-													"empresa" => $empresa_id === "" ? 1 : $empresa_id,
-													"clientes_id" => 0,
-													"comentario"  => '',
-													"almacen_id" => $bodega
-												];	
-
-												comprasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
+												comprasModelo::registrar_entrada_por_lote(
+													$productos_id,                      // ID del producto
+													$quantity,                           // Cantidad de entrada
+													$fecha_vencimiento,                  // Fecha de vencimiento (si aplica)
+													$bodega,                             // ID del almacén
+													$empresa_id === "" ? 1 : $empresa_id, // Si no se especifica empresa, asigna 1 por defecto
+													"Compra " . $no_factura             // Asignación correcta del documento con el número de factura
+												);											
 
 												$medidaName = strtolower($medida);
 
@@ -180,34 +168,21 @@
 															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
 																$quantity = $quantity / 2204.623;
 															}														
-															
-															$documento = "Compra ".$no_factura."_".$valor;	
-		
-															//OTENEMOS EL SALDO DEL PRODCUTO
-															$consultaSaldoHijos = comprasModelo::saldo_productos_movimientos_modelo($producto_id_hijo)->fetch_assoc();
-															$saldoProductoHijos = doubleval($consultaSaldoHijos['saldo']);
-		
-															$saldoNuevoHijos = $saldoProductoHijos + doubleval($quantity);
-		
-															$datos_movimientos_productos = [
-																"productos_id" => $producto_id_hijo,
-																"documento" => $documento,
-																"cantidad_entrada" => $quantity,				
-																"cantidad_salida" => 0,
-																"saldo" => $saldoNuevoHijos,
-																"fecha_registro" => $fecha_registro,
-																"empresa" => $empresa_id === "" ? 1 : $empresa_id,
-																"clientes_id" => 0,
-																"almacen_id" => $bodega,
-															];	
-																									
-															comprasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+																
+															comprasModelo::registrar_entrada_por_lote(
+																$producto_id_hijo,                      // ID del producto
+																$quantity,                           // Cantidad de entrada
+																$fecha_vencimiento,                  // Fecha de vencimiento (si aplica)
+																$bodega,                             // ID del almacén
+																$empresa_id === "" ? 1 : $empresa_id, // Si no se especifica empresa, asigna 1 por defecto
+																"Compra " . $no_factura             // Asignación correcta del documento con el número de factura
+															);																					
 														}
 													}
 
 												}else{//ES UN PRODUCTO HIJO
 													//CONSULTAMOS EL PADRE ASOCIADO AL PRODUCTO HIJO
-													$resultTotalPadre = comprasModelo::cantidad_producto_modelo($productos_id);
+									    			$resultTotalPadre = comprasModelo::cantidad_producto_modelo($productos_id);
 
 													if($resultTotalPadre->num_rows>0){
 														
@@ -222,27 +197,15 @@
 																$quantity = $quantity / 2204.623;
 															}														
 															
-															$documento = "Compra ".$compras_id."_".$valor;	
-		
-															//OTENEMOS EL SALDO DEL PRODCUTO
-															$consultaSaldoPadre = comprasModelo::saldo_productos_movimientos_modelo($producto_id_padre)->fetch_assoc();
-															$saldoProductoPadre = doubleval($consultaSaldoPadre['saldo']);
-		
-															$saldoNuevoPadre = $saldoProductoPadre + doubleval($quantity);
-		
-															$datos_movimientos_productos = [
-																"productos_id" => $producto_id_padre,
-																"documento" => $documento,
-																"cantidad_entrada" => $quantity,				
-																"cantidad_salida" => 0,
-																"saldo" => $saldoNuevoPadre,
-																"fecha_registro" => $fecha_registro,
-																"empresa" => $empresa_id === "" ? 1 : $empresa,
-																"clientes_id" => 0,
-																"almacen_id" => $bodega,
-															];	
-																									
-															comprasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+															// Llamamos a la función para registrar la entrada por lote
+															comprasModelo::registrar_entrada_por_lote(
+																$producto_id_padre,                      // ID del producto
+																$quantity,                           // Cantidad de entrada
+																$fecha_vencimiento,                  // Fecha de vencimiento (si aplica)
+																$bodega,                             // ID del almacén
+																$empresa_id === "" ? 1 : $empresa_id, // Si no se especifica empresa, asigna 1 por defecto
+																"Compra " . $no_factura             // Asignación correcta del documento con el número de factura
+															);																						
 														}
 													}
 												}																						
@@ -346,6 +309,7 @@
 									$medida= $_POST['medidaPurchase'][$i];
 									$price = $_POST['pricePurchase'][$i];
 									$bodega = $_POST['almacenPurchase'][$i] === "" ? 0 : $_POST['almacenPurchase'][$i];
+									$fecha_vencimiento = $_POST['fecha_vencimiento'][$i] === "" ? null : $_POST['fecha_vencimiento'][$i];
 
 									if($_POST['discountPurchase'][$i] != "" || $_POST['discountPurchase'][$i] != null){
 										$discount = $_POST['discountPurchase'][$i];	
@@ -394,31 +358,19 @@
 											
 											//SI LA CATEGORIA ES PRODUCTO PROCEDEMOS A RALIZAR LA SALIDA Y ACTUALIZAMOS LA NUEVA CANTIDAD DEL PRODUCTO, AGREGANDO TAMBIÉN EL MOVIMIENTO DE ESTE
 											if($tipo_producto == "Producto" || $tipo_producto == "Insumos"){
-												//ALMACENAMOS EL PRODUCTO TAL CUAL SE FACTURA
-												$documento = "Compra ".$no_factura;		
-															
-												//OTENEMOS EL SALDO DEL PRODCUTO
-												$consultaSaldoProductoPrincipal = comprasModelo::saldo_productos_movimientos_modelo($productos_id)->fetch_assoc();
-												$saldoProductoPrincipal = doubleval($consultaSaldoProductoPrincipal['saldo']);											
-
-												$saldoNuevoPrincipal = $saldoProductoPrincipal + doubleval($quantity);
-
-												$datos_movimientos_productos = [
-													"productos_id" => $productos_id,
-													"documento" => $documento,
-													"cantidad_entrada" => $quantity,				
-													"cantidad_salida" => 0,
-													"saldo" => $saldoNuevoPrincipal,
-													"fecha_registro" => $fecha_registro,
-													"empresa" => $empresa_id === "" ? 1: $empresa_id,
-													"clientes_id" => 0,
-													"comentario"  => 'Ingreso por Compra',
-													"almacen_id" => $bodega
-												];	
-
-												comprasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
-
-												$medidaName = strtolower($medida);
+												//ALMACENAMOS EL PRODUCTO TAL CUAL SE FACTURA												
+														
+												// Llamamos a la función para registrar la entrada por lote
+												comprasModelo::registrar_entrada_por_lote(
+													$productos_id,                      // ID del producto
+													$quantity,                           // Cantidad de entrada
+													$fecha_vencimiento,                  // Fecha de vencimiento (si aplica)
+													$bodega,                             // ID del almacén
+													$empresa_id === "" ? 1 : $empresa_id, // Si no se especifica empresa, asigna 1 por defecto
+													"Compra " . $no_factura             // Asignación correcta del documento con el número de factura
+												);
+																								
+										$medidaName = strtolower($medida);
 
 												//CONSULTAMOS SI EL PRODUCTO ES UN PADRE
 												$producto_padre = comprasModelo::cantidad_producto_modelo($productos_id)->fetch_assoc();
@@ -441,28 +393,17 @@
 															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
 																$quantity = $quantity / 2204.623;
 															}														
-															
-															$documento = "Compra ".$no_factura."_".$valor;	
-		
-															//OTENEMOS EL SALDO DEL PRODCUTO
-															$consultaSaldoHijos = comprasModelo::saldo_productos_movimientos_modelo($producto_id_hijo)->fetch_assoc();
-															$saldoProductoHijos = doubleval($consultaSaldoHijos['saldo']);
-		
-															$saldoNuevoHijos = $saldoProductoHijos + doubleval($quantity);
-		
-															$datos_movimientos_productos = [
-																"productos_id" => $producto_id_hijo,
-																"documento" => $documento,
-																"cantidad_entrada" => $quantity,				
-																"cantidad_salida" => 0,
-																"saldo" => $saldoNuevoHijos,
-																"fecha_registro" => $fecha_registro,
-																"empresa" => $empresa_id === "" ? 1 : $empresa,
-																"clientes_id" => 0,
-																"almacen_id" => $bodega,
-															];	
+
+															// Llamamos a la función para registrar la entrada por lote
+															comprasModelo::registrar_entrada_por_lote(
+																$producto_id_hijo,                      // ID del producto
+																$quantity,                           // Cantidad de entrada
+																$fecha_vencimiento,                  // Fecha de vencimiento (si aplica)
+																$bodega,                             // ID del almacén
+																$empresa_id === "" ? 1 : $empresa_id, // Si no se especifica empresa, asigna 1 por defecto
+																"Compra " . $no_factura             // Asignación correcta del documento con el número de factura
+															);
 																									
-															comprasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
 														}
 													}
 
@@ -481,29 +422,17 @@
 															
 															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
 																$quantity = $quantity / 2204.623;
-															}														
-															
-															$documento = "Compra ".$compras_id."_".$valor;	
-		
-															//OTENEMOS EL SALDO DEL PRODCUTO
-															$consultaSaldoPadre = comprasModelo::saldo_productos_movimientos_modelo($producto_id_padre)->fetch_assoc();
-															$saldoProductoPadre = doubleval($consultaSaldoPadre['saldo']);
-		
-															$saldoNuevoPadre = $saldoProductoPadre + doubleval($quantity);
-		
-															$datos_movimientos_productos = [
-																"productos_id" => $producto_id_padre,
-																"documento" => $documento,
-																"cantidad_entrada" => $quantity,				
-																"cantidad_salida" => 0,
-																"saldo" => $saldoNuevoPadre,
-																"fecha_registro" => $fecha_registro,
-																"empresa" => $empresa_id === "" ? 1 : $empresa_id,
-																"clientes_id" => 0,
-																"almacen_id" => $bodega,
-															];	
-																									
-															comprasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+															}																
+
+															// Llamamos a la función para registrar la entrada por lote
+															comprasModelo::registrar_entrada_por_lote(
+																$producto_id_padre,                      // ID del producto
+																$quantity,                           // Cantidad de entrada
+																$fecha_vencimiento,                  // Fecha de vencimiento (si aplica)
+																$bodega,                             // ID del almacén
+																$empresa_id === "" ? 1 : $empresa_id, // Si no se especifica empresa, asigna 1 por defecto
+																"Compra " . $no_factura             // Asignación correcta del documento con el número de factura
+															);										
 														}
 													}
 												}

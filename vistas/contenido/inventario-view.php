@@ -117,24 +117,28 @@
                                 <tr>
                                     <th>Fecha</th>
                                     <th>Imagen</th>
+                                    <th>Número de Lote</th>
                                     <th>Bar Code</th>
                                     <th>Cliente</th>
                                     <th>Producto</th>
                                     <th>Medida</th>
                                     <th>Documento</th>
+                                    <th>Anterior</th>
                                     <th>Entrada</th>
                                     <th>Salida</th>
+                                    <th>Saldo</th>
                                     <th>Comentario</th>
                                     <th>Bodega</th>
                                 </tr>
                             </thead>
                             <tfoot class="bg-info text-white font-weight-bold">
                                 <tr>
-                                    <td colspan='1' class="text-center">Total</td>
-                                    <td colspan="5"></td>
+                                    <td colspan="7"></td>
+                                    <td colspan='1' class="text-center">Total</td> 
+                                    <td id="anterior-footer-movimiento"></td>                                   
                                     <td id="entrada-footer-movimiento"></td>
                                     <td id='salida-footer-movimiento'></td>
-                                    <td id='total-footer-movimiento'></td>
+                                    <td id="total-footer-movimiento"></td>
                                     <td colspan="2"></td>
                                 </tr>
                             </tfoot>
@@ -143,22 +147,22 @@
                 </div>
                 <div class="card-footer small text-muted">
                     <?php
-				require_once "./core/mainModel.php";
-				
-				$insMainModel = new mainModel();
-				$entidad = "movimientos";
-				
-				if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
-					$consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();
-					
-					$fecha_registro = $consulta_last_update['fecha_registro'];
-					$hora = date('g:i:s a',strtotime($fecha_registro));
-									
-					echo "Última Actualización ".$insMainModel->getTheDay($fecha_registro, $hora);						
-				}else{
-					echo "No se encontraron registros ";
-				}				
-			?>
+                        require_once "./core/mainModel.php";
+                        
+                        $insMainModel = new mainModel();
+                        $entidad = "movimientos";
+                        
+                        if($insMainModel->getlastUpdate($entidad)->num_rows > 0){
+                            $consulta_last_update = $insMainModel->getlastUpdate($entidad)->fetch_assoc();
+                            
+                            $fecha_registro = $consulta_last_update['fecha_registro'];
+                            $hora = date('g:i:s a',strtotime($fecha_registro));
+                                            
+                            echo "Última Actualización ".$insMainModel->getTheDay($fecha_registro, $hora);						
+                        }else{
+                            echo "No se encontraron registros ";
+                        }				
+                    ?>
                 </div>
             </div>
         </div>

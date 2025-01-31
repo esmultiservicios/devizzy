@@ -377,7 +377,7 @@ class productosControlador extends productosModelo
 					$medidaName = strtolower(mainModel::getMedidaProductoPadre($productos_id)->fetch_assoc());
 
 					if ($medidaName == 'ton') {  // Medida en Toneladas DEL HIJO
-						$quantity = $quantity * 2204.623;
+						$quantity = $cantidad * 2204.623;
 
 						// OTENEMOS EL SALDO DEL PRODCUTO HIJO
 						$consultaSaldoProductoHijo = mainModel::getSaldoProductosMovimientosBodega($productos_id, $bodega_actual)->fetch_assoc();

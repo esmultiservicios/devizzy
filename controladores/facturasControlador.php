@@ -164,27 +164,20 @@
 												//SI EL TIPO DE PRODUCTO, ES UN PRODUCTO PROCEDEMOS A REALIZAR LA SALIDA Y ACTUALIZAMOS LA NUEVA CANTIDAD DEL PRODUCTO, AGREGANDO TAMBIÉN EL MOVIMIENTO DE ESTE
 												if($tipo_producto == "Producto"){
 													//ALMACENAMOS EL PRODUCTO TAL CUAL SE FACTURA
-													$documento = "Factura ".$facturas_id;	
-													
-													//OTENEMOS EL SALDO DEL PRODCUTO
-													$consultaSaldoProductoPrincipal = facturasModelo::saldo_productos_movimientos_modelo($productos_id)->fetch_assoc();
-													$saldoProductoPrincipal = doubleval($consultaSaldoProductoPrincipal['saldo']);											
-		
-													$saldoNuevoPricipal = $saldoProductoPrincipal - doubleval($quantity);
-		
-													$datos_movimientos_productos = [
+													$documento = "Factura ".$facturas_id;													
+
+													$datos = [
 														"productos_id" => $productos_id,
-														"documento" => $documento,
-														"cantidad_entrada" => 0,				
-														"cantidad_salida" => $quantity,
-														"saldo" => $saldoNuevoPricipal,
-														"fecha_registro" => $fecha_registro,
 														"empresa" => $empresa_id,
-														"clientes_id" => $clientes_id,
-														"almacen_id" => $bodega,
-													];	
-																							
-													facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
+														"clientes_id" => $clientes_id ?: 0,
+														"comentario" => "Salida de inventario por venta",
+														"almacen_id" => $bodega ?: 0,
+														"cantidad" => $quantity,
+														"empresa_id" => $empresa_id,
+														"documento" => $documento
+													];
+										
+													facturasModelo::registrar_salida_lote_modelo($datos);													
 		
 													$medidaName = strtolower($medida);
 		
@@ -210,67 +203,53 @@
 																	$quantity = $quantity / 2204.623;
 																}														
 																
-																$documento = "Factura ".$facturas_id."_".$valor;	
-			
-																//OTENEMOS EL SALDO DEL PRODCUTO
-																$consultaSaldoHijos = facturasModelo::saldo_productos_movimientos_modelo($producto_id_hijo)->fetch_assoc();
-																$saldoProductoHijos = doubleval($consultaSaldoHijos['saldo']);
-			
-																$saldoNuevoHijos = $saldoProductoHijos - doubleval($quantity);
-			
-																$datos_movimientos_productos = [
+																$documento = "Factura ".$facturas_id."_".$valor;
+																
+																$datos = [
 																	"productos_id" => $producto_id_hijo,
-																	"documento" => $documento,
-																	"cantidad_entrada" => 0,				
-																	"cantidad_salida" => $quantity,
-																	"saldo" => $saldoNuevoHijos,
-																	"fecha_registro" => $fecha_registro,
 																	"empresa" => $empresa_id,
-																	"clientes_id" => $clientes_id,
-																	"almacen_id" => $bodega,
-																];	
-																										
-																facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);							
+																	"clientes_id" => $clientes_id ?: 0,
+																	"comentario" => "Salida de inventario por venta",
+																	"almacen_id" => $bodega ?: 0,
+																	"cantidad" => $quantity,
+																	"empresa_id" => $empresa_id,
+																	"documento" => $documento
+																];
+													
+																facturasModelo::registrar_salida_lote_modelo($datos);																
 															}
 														}		
 													}else{//ES UN PRODUCTO HIJO
 														//CONSULTAMOS EL PADRE ASOCIADO AL PRODUCTO HIJO
 														$resultTotalPadre = facturasModelo::cantidad_producto_modelo($productos_id);
-		
-														if($resultTotalPadre->num_rows>0){
+
+														if($resultTotalPadre->num_rows > 0){
 															$valor = 0;
 															while($consultaTotalPadre = $resultTotalPadre->fetch_assoc()){
 																$producto_id_padre = intval($consultaTotalPadre['id_producto_superior']);
 																
 																if($medidaName == "ton"){ // MEDIDA EN TON DEL PADRE
 																	$quantity = $quantity * 2204.623;
-																}	
-																
+																}    
+
 																if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
 																	$quantity = $quantity / 2204.623;
-																}														
+																}                                                         
 																
-																$documento = "Factura ".$facturas_id."_".$valor;	
-			
-																//OTENEMOS EL SALDO DEL PRODCUTO
-																$consultaSaldoPadre = facturasModelo::saldo_productos_movimientos_modelo($producto_id_padre)->fetch_assoc();
-																$saldoProductoPadre = doubleval($consultaSaldoPadre['saldo']);
-			
-																$saldoNuevoPadre = $saldoProductoPadre - doubleval($quantity);
-			
-																$datos_movimientos_productos = [
+																$documento = "Factura ".$facturas_id."_".$valor;
+
+																$datos = [
 																	"productos_id" => $producto_id_padre,
-																	"documento" => $documento,
-																	"cantidad_entrada" => 0,				
-																	"cantidad_salida" => $quantity,
-																	"saldo" => $saldoNuevoPadre,
-																	"fecha_registro" => $fecha_registro,
 																	"empresa" => $empresa_id,
-																	"clientes_id" => $clientes_id,
-																	"almacen_id" => $bodega,
-																];	
-																										
-																facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);								
+																	"clientes_id" => $clientes_id ?: 0,
+																	"comentario" => "Salida de inventario por venta",
+																	"almacen_id" => $bodega ?: 0,
+																	"cantidad" => $quantity,
+																	"empresa_id" => $empresa_id,
+																	"documento" => $documento
+																];
+													
+																facturasModelo::registrar_salida_lote_modelo($datos);																
 															}
 														}
 													}
@@ -281,8 +260,7 @@
 													//DEVUELVE id_producto_superior SI ES UN HIJO EL QUE TIENE ASIGNADO UN PADRE
 													$valor = 1;
 													if($resultTotalHijos->num_rows>0){
-														//RECORREMOS LA CONSULTA
-																											
+														//RECORREMOS LA CONSULTA																											
 													}												
 												}
 											}
@@ -553,28 +531,21 @@
 											//SI LA CATEGORIA ES PRODUCTO PROCEDEMOS A REALIZAR LA SALIDA Y ACTUALIZAMOS LA NUEVA CANTIDAD DEL PRODUCTO, AGREGANDO TAMBIÉN EL MOVIMIENTO DE ESTE
 											if($categoria_producto == "Producto"){
 												//ALMACENAMOS EL PRODUCTO TAL CUAL SE FACTURA
-												$documento = "Factura ".$facturas_id;	
-												
-												//OTENEMOS EL SALDO DEL PRODCUTO
-												$consultaSaldoProductoPrincipal = facturasModelo::saldo_productos_movimientos_modelo($productos_id)->fetch_assoc();
-												$saldoProductoPrincipal = doubleval($consultaSaldoProductoPrincipal['saldo']);											
+												$documento = "Factura ".$facturas_id;											
 	
-												$saldoNuevoPricipal = $saldoProductoPrincipal - doubleval($quantity);
-	
-												$datos_movimientos_productos = [
+												$datos = [
 													"productos_id" => $productos_id,
-													"documento" => $documento,
-													"cantidad_entrada" => 0,				
-													"cantidad_salida" => $quantity,
-													"saldo" => $saldoNuevoPricipal,
-													"fecha_registro" => $fecha_registro,
 													"empresa" => $empresa_id,
-													"clientes_id" => $clientes_id,
-													"almacen_id" => $bodega,
-												];	
-																						
-												facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
-	
+													"clientes_id" => $clientes_id ?: 0,
+													"comentario" => "Salida de inventario por venta",
+													"almacen_id" => $bodega ?: 0,
+													"cantidad" => $quantity,
+													"empresa_id" => $empresa_id,
+													"documento" => $documento
+												];
+									
+												facturasModelo::registrar_salida_lote_modelo($datos);
+
 												$medidaName = strtolower($medida);
 	
 												//CONSULTAMOS SI EL PRODUCTO ES UN PADRE
@@ -600,26 +571,19 @@
 															}														
 															
 															$documento = "Factura ".$facturas_id."_".$valor;	
-		
-															//OTENEMOS EL SALDO DEL PRODCUTO
-															$consultaSaldoHijos = facturasModelo::saldo_productos_movimientos_modelo($producto_id_hijo)->fetch_assoc();
-															$saldoProductoHijos = doubleval($consultaSaldoHijos['saldo']);
-		
-															$saldoNuevoHijos = $saldoProductoHijos - doubleval($quantity);
-		
-															$datos_movimientos_productos = [
+															
+															$datos = [
 																"productos_id" => $producto_id_hijo,
-																"documento" => $documento,
-																"cantidad_entrada" => 0,				
-																"cantidad_salida" => $quantity,
-																"saldo" => $saldoNuevoHijos,
-																"fecha_registro" => $fecha_registro,
 																"empresa" => $empresa_id,
-																"clientes_id" => $clientes_id,
-																"almacen_id" => $bodega,
-															];	
-																									
-															facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+																"clientes_id" => $clientes_id ?: 0,
+																"comentario" => "Salida de inventario por venta",
+																"almacen_id" => $bodega ?: 0,
+																"cantidad" => $quantity,
+																"empresa_id" => $empresa_id,
+																"documento" => $documento
+															];
+												
+															facturasModelo::registrar_salida_lote_modelo($datos);															
 														}
 													}
 	
@@ -640,27 +604,20 @@
 																$quantity = $quantity / 2204.623;
 															}														
 															
-															$documento = "Factura ".$facturas_id."_".$valor;	
-		
-															//OTENEMOS EL SALDO DEL PRODCUTO
-															$consultaSaldoPadre = facturasModelo::saldo_productos_movimientos_modelo($producto_id_padre)->fetch_assoc();
-															$saldoProductoPadre = doubleval($consultaSaldoPadre['saldo']);
-		
-															$saldoNuevoPadre = $saldoProductoPadre - doubleval($quantity);
-		
-															$datos_movimientos_productos = [
+															$documento = "Factura ".$facturas_id."_".$valor;
+															
+															$datos = [
 																"productos_id" => $producto_id_padre,
-																"documento" => $documento,
-																"cantidad_entrada" => 0,				
-																"cantidad_salida" => $quantity,
-																"saldo" => $saldoNuevoPadre,
-																"fecha_registro" => $fecha_registro,
 																"empresa" => $empresa_id,
-																"clientes_id" => $clientes_id,
-																"almacen_id" => $bodega,
-															];	
-																									
-															facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+																"clientes_id" => $clientes_id ?: 0,
+																"comentario" => "Salida de inventario por venta",
+																"almacen_id" => $bodega ?: 0,
+																"cantidad" => $quantity,
+																"empresa_id" => $empresa_id,
+																"documento" => $documento
+															];
+												
+															facturasModelo::registrar_salida_lote_modelo($datos);															
 														}
 													}
 												}
@@ -1011,23 +968,39 @@
 									$saldoNuevoPricipal = $saldoProductoPrincipal - doubleval($quantity);
 
 									$datos_movimientos_productos = [
-										"productos_id" => $productos_id,
-										"documento" => $documento,
-										"cantidad_entrada" => 0,				
-										"cantidad_salida" => $quantity,
-										"saldo" => $saldoNuevoPricipal,
+										"facturas_id" => $facturas_id,
+										"clientes_id" => $clientes_id,
+										"secuencia_facturacion_id" => $secuencia_facturacion_id,
+										"apertura_id" => $apertura_id,				
+										"tipo_factura" => $tipo_factura,				
+										"numero" => $numero,
+										"colaboradores_id" => $colaborador_id,
+										"importe" => 0,
+										"notas" => $notas,
+										"fecha" => $fecha,				
+										"estado" => $estado,
+										"usuario" => $usuario,
 										"fecha_registro" => $fecha_registro,
 										"empresa" => $empresa_id,
-										"clientes_id" => $clientes_id,
-										"almacen_id" => $bodega,
+										"fecha_dolar" => $fecha_dolar
 									];	
 										
-									if($Existe == false){										
-										facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);
+									if($Existe == false){														
+										$datos = [
+											"productos_id" => $productos_id,
+											"empresa" => $empresa_id,
+											"clientes_id" => $clientes_id ?: 0,
+											"comentario" => "Salida de inventario por venta",
+											"almacen_id" => $bodega ?: 0,
+											"cantidad" => $quantity,
+											"empresa_id" => $empresa_id,
+											"documento" => $documento
+										];
+							
+										facturasModelo::registrar_salida_lote_modelo($datos);											
 									}else{
-										facturasModelo::actualizar_factura_importe($datos);
+										facturasModelo::actualizar_factura_importe($datos_movimientos_productos);
 									}
-
 
 									$medidaName = strtolower($medida);
 
@@ -1053,27 +1026,20 @@
 													$quantity = $quantity / 2204.623;
 												}														
 												
-												$documento = "Factura ".$facturas_id."_".$valor;	
-
-												//OTENEMOS EL SALDO DEL PRODCUTO
-												$consultaSaldoHijos = facturasModelo::saldo_productos_movimientos_modelo($producto_id_hijo)->fetch_assoc();
-												$saldoProductoHijos = doubleval($consultaSaldoHijos['saldo']);
-
-												$saldoNuevoHijos = $saldoProductoHijos - doubleval($quantity);
-
-												$datos_movimientos_productos = [
+												$documento = "Factura ".$facturas_id."_".$valor;
+												
+												$datos = [
 													"productos_id" => $producto_id_hijo,
-													"documento" => $documento,
-													"cantidad_entrada" => 0,				
-													"cantidad_salida" => $quantity,
-													"saldo" => $saldoNuevoHijos,
-													"fecha_registro" => $fecha_registro,
 													"empresa" => $empresa_id,
-													"clientes_id" => $clientes_id,
-													"almacen_id" => $bodega,
-												];	
-																						
-												facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+													"clientes_id" => $clientes_id ?: 0,
+													"comentario" => "Salida de inventario por venta",
+													"almacen_id" => $bodega ?: 0,
+													"cantidad" => $quantity,
+													"empresa_id" => $empresa_id,
+													"documento" => $documento
+												];
+									
+												facturasModelo::registrar_salida_lote_modelo($datos);												
 											}
 										}
 
@@ -1094,27 +1060,20 @@
 													$quantity = $quantity / 2204.623;
 												}														
 												
-												$documento = "Factura ".$facturas_id."_".$valor;	
-
-												//OTENEMOS EL SALDO DEL PRODCUTO
-												$consultaSaldoPadre = facturasModelo::saldo_productos_movimientos_modelo($producto_id_padre)->fetch_assoc();
-												$saldoProductoPadre = doubleval($consultaSaldoPadre['saldo']);
-
-												$saldoNuevoPadre = $saldoProductoPadre - doubleval($quantity);
-
-												$datos_movimientos_productos = [
+												$documento = "Factura ".$facturas_id."_".$valor;
+												
+												$datos = [
 													"productos_id" => $producto_id_padre,
-													"documento" => $documento,
-													"cantidad_entrada" => 0,				
-													"cantidad_salida" => $quantity,
-													"saldo" => $saldoNuevoPadre,
-													"fecha_registro" => $fecha_registro,
 													"empresa" => $empresa_id,
-													"clientes_id" => $clientes_id,
-													"almacen_id" => $bodega,
-												];	
-																						
-												facturasModelo::agregar_movimientos_productos_modelo($datos_movimientos_productos);											
+													"clientes_id" => $clientes_id ?: 0,
+													"comentario" => "Salida de inventario por venta",
+													"almacen_id" => $bodega ?: 0,
+													"cantidad" => $quantity,
+													"empresa_id" => $empresa_id,
+													"documento" => $documento
+												];
+									
+												facturasModelo::registrar_salida_lote_modelo($datos);												
 											}
 										}
 									}
