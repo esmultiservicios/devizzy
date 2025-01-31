@@ -118,10 +118,10 @@ var listar_movimientos = function() {
             {
                 "data": "numero_lote",
                 "render": function(data, type, row) {
-                    var loteText = data ? data : 'No especificado'; // Si no hay valor, mostrar 'No especificado'
-                    var loteColor = data ? '#28a745' : '#dc3545'; // Verde para cuando tiene valor, rojo cuando no tiene
+                    var loteText = data ? data : 'No especificado'; 
+                    var loteColor = data ? '#28a745' : '#dc3545'; 
 
-                    return '<span class="numero-lote" style="border: 2px solid ' + loteColor + '; border-radius: 12px; padding: 5px 10px; color: ' + loteColor + ';">' + loteText + '</span>';
+                    return '<span class="numero-lote" style="border: 2px solid ' + loteColor + '; border-radius: 12px; padding: 5px 10px; color: ' + loteColor + '; display: inline-block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + loteText + '</span>';
                 }
             },
             {
