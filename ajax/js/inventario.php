@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 function funciones() {
     getTipoProductos();
-    getTipoProductosModal()
+    getTipoProductosModal();
     getProductoOperacion();
     getClientes();
     getClientesModal();
@@ -50,8 +50,7 @@ $('#inventario_tipo_productos_id').on('change', function() {
 
 //INICIO MOVIMIENTOS
 var listar_movimientos = function() {
-    var tipo_producto_id;
-    tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
+    var tipo_producto_id = $('#form_main_movimientos #inventario_tipo_productos_id').val();
     var fechai = $("#form_main_movimientos #fechai").val();
     var fechaf = $("#form_main_movimientos #fechaf").val();
     var bodega = $("#form_main_movimientos #almacen").val();
@@ -589,6 +588,7 @@ const BusquedaProducto = (barcode) => {
             if (registro.success) {
                 $('#formMovimientos #movimientos_tipo_producto_id').val(registro.tipo_producto_id).selectpicker('refresh');
                 $('#formMovimientos #movimiento_producto').val(registro.productos_id).selectpicker('refresh'); 
+                $('#formMovimientos #almacen_modal').val('').selectpicker('refresh')
                 $('#formMovimientos #movimiento_cantidad').focus(); 
             } else {
                 swal({

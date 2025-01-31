@@ -61,42 +61,6 @@
 			return $query->num_rows > 0; // Retorna true si existe, false si no
 		}
 		
-		protected function registrar_lote_modelo($datos) {
-			$mysqli = mainModel::connection();
-			
-			do {
-				$fechaHora = date("YmdHis");
-				$contador = rand(100, 999);
-				$numero_lote = "LOT{$datos['productos_id']}{$fechaHora}{$contador}";
-		
-				// Verificamos si el número de lote ya existe
-				$checkQuery = $mysqli->prepare("SELECT numero_lote FROM lotes WHERE numero_lote = ?");
-				$checkQuery->bind_param("s", $numero_lote);
-				$checkQuery->execute();
-				$result = $checkQuery->get_result();
-			} while ($result->num_rows > 0); 
-		
-			// Insertamos el lote
-			$insertQuery = "INSERT INTO lotes (numero_lote, productos_id, cantidad, fecha_vencimiento, fecha_ingreso, almacen_id, empresa_id, estado) 
-							VALUES (?, ?, ?, ?, NOW(), ?, ?, 'Activo')";
-		
-			$stmt = $mysqli->prepare($insertQuery);
-			$stmt->bind_param("siisii", 
-				$numero_lote, 
-				$datos['productos_id'], 
-				$datos['cantidad'], 
-				$datos['fecha_vencimiento'], 
-				$datos['almacen_id'], 
-				$datos['empresa_id']
-			);
-		
-			if ($stmt->execute()) {
-				return $mysqli->insert_id; // Retornamos el ID del lote insertado
-			} else {
-				return false; // Retornamos false si hubo un error
-			}
-		}
-		
 		public function getSaldoProductosMovimientos($productos_id)
 		{
 			$mysqli = self::connection();

@@ -59,7 +59,7 @@ class movimientoProductosControlador extends movimientoProductosModelo
                     "form" => "formMovimientos",
                     "id" => "proceso_movimientos",
                     "valor" => "Registro",
-                    "funcion" => "listar_movimientos();",
+                    "funcion" => "listar_movimientos();funciones();",
                     "modal" => "modal_movimientos", 
                 ]);
             } else {

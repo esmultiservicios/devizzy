@@ -1704,6 +1704,7 @@ function mailQuote(cotizacion_id) {
                 text: "¡Sí, enviar la cotización!",
             }
         },
+        timer: 3000,
         dangerMode: true,
         closeOnEsc: false,
         closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
@@ -1772,6 +1773,7 @@ function mailBill(facturas_id) {
                 text: "¡Sí, enviar la factura!",
             }
         },
+        timer: 3000,
         dangerMode: true,
         closeOnEsc: false, // Desactiva el cierre con la tecla Esc
         closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 

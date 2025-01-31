@@ -2578,7 +2578,7 @@ class mainModel
 			INNER JOIN tipo_producto AS tp ON p.tipo_producto_id = tp.tipo_producto_id
 			WHERE
 				p.estado = 1
-				AND tp.tipo_producto_id IN (1, 2) -- Ajusta según los tipos de productos y servicios
+				AND tp.tipo_producto_id IN (1, 2)
 				$barCode
 				$bodega
 			GROUP BY
@@ -3672,24 +3672,61 @@ class mainModel
 		return $result;
 	}
 
-	function getProductosLike($searchText)
+	public function getSaldoPorLote($productos_id, $lote_id)
 	{
-		$query = "SELECT productos_id, nombre, barCode, tipo_producto_id
-				  FROM productos 
-				  WHERE barCode LIKE ? OR nombre LIKE ? 
-				  LIMIT 10";
-		$stmt = self::connection()->prepare($query);
-		$stmt->bind_param("ss", $param1, $param2);
-	
-		$param1 = "%$searchText%";
-		$param2 = "%$searchText%";
-	
+		// Obtenemos la conexión a la base de datos
+		$conexion = mainModel::connection();
+
+		// Consulta SQL para obtener el saldo del producto en el lote específico
+		$query = "SELECT saldo 
+				FROM movimientos 
+				WHERE productos_id = ? AND lote_id = ? 
+				ORDER BY fecha_registro DESC LIMIT 1"; // FIFO (First In, First Out)
+
+		// Preparamos la consulta
+		$stmt = $conexion->prepare($query);
+		
+		// Vinculamos los parámetros (producto_id y lote_id)
+		$stmt->bind_param("ii", $producto_id, $lote_id);
+		
+		// Ejecutamos la consulta
 		$stmt->execute();
+		
+		// Obtenemos el resultado
 		$result = $stmt->get_result();
-	
-		return $result;
+		
+		// Verificamos si existe un saldo para este producto en el lote especificado
+		if ($result->num_rows > 0) {
+			$row = $result->fetch_assoc();
+			return $row['saldo']; // Devolvemos el saldo
+		} else {
+			return 0; // Si no se encuentra el saldo, devolvemos 0 en lugar de null
+		}
 	}
 
+	function getProductosLike($searchText)
+	{
+		$query = "
+			SELECT p.productos_id, p.nombre, p.barCode, p.tipo_producto_id				   
+			FROM productos p
+			WHERE p.barCode LIKE ? OR p.nombre LIKE ?
+			GROUP BY p.productos_id
+			LIMIT 10";
+		
+		$stmt = self::connection()->prepare($query);
+		$stmt->bind_param("ss", $param1, $param2);  // Solo se usan los parámetros de búsqueda
+		
+		// Prepara los parámetros de búsqueda
+		$param1 = "%$searchText%";
+		$param2 = "%$searchText%";
+		
+		// Ejecuta la consulta
+		$stmt->execute();
+		$result = $stmt->get_result();
+		
+		return $result;
+	}
+	
 	public function getNombreClienteFactura($factura_id)
 	{
 		$query = "SELECT c.nombre 'nombre'
