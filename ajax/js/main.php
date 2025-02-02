@@ -1411,7 +1411,7 @@ function printQuote(cotizacion_id) {
     params = {
         "id": cotizacion_id,
         "type": "Cotizacion_carta_izzy",
-        "db": "<?php echo DB_MAIN; ?>"
+        "db": "<?php echo $GLOBALS['db']; ?>"
     };   
 
     // Llamar a la función para mostrar el reporte
