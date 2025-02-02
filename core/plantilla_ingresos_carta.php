@@ -27,9 +27,9 @@
                     <img src="<?php 
                         echo SERVERURLLOGO; 
                         if (SISTEMA_PRUEBA === "SI") {
-                            echo "logo_prueba.jpg"; 
+                            echo "esmultiservicios_logo.png"; 
                         } else {
-                            echo isset($logotipo) ? $logotipo : 'logo_default.jpg'; // Asegura que si no existe $logotipo, se use un logo por defecto
+                            echo isset($logotipo) ? $logotipo : 'esmultiservicios_logo.png'; // Asegura que si no existe $logotipo, se use un logo por defecto
                         }   
                     ?>" width="150px" height="95px">
                 </div>
