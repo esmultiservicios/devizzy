@@ -25,15 +25,16 @@
         <table id="factura_head">
             <tr>
                 <td class="logo_factura">
-                    <div>
-                        <img src="<?php echo SERVERURL; ?>vistas/plantilla/img/logos/<?php 
-                            if (SISTEMA_PRUEBA === "SI"){
-                                echo "logo_prueba.jpg"; 
-                            }else{
-                                echo $logotipo; 
-                            }   
-                        ?>" width="150px" height="95px">
-                    </div>
+                <div>
+                    <img src="<?php 
+                        echo SERVERURLLOGO; 
+                        if (SISTEMA_PRUEBA === "SI") {
+                            echo "logo_prueba.jpg"; 
+                        } else {
+                            echo isset($logotipo) ? $logotipo : 'logo_default.jpg'; // Asegura que si no existe $logotipo, se use un logo por defecto
+                        }   
+                    ?>" width="150px" height="95px">
+                </div>
                 </td>
                 <td class="info_empresa">
                     <div>
