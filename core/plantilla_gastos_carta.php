@@ -25,7 +25,7 @@
         <table id="factura_head">
             <tr>
                 <td class="logo_factura">
-                <div>
+                    <div>
                     <img src="<?php 
                         echo SERVERURLLOGO; 
                         if (SISTEMA_PRUEBA === "SI") {
