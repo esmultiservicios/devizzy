@@ -94,18 +94,27 @@
 			return $sql;
 		}		
 
-		protected function valid_nomina_detalles_modelo($nomina_id){
-			$query = "SELECT nomina_detalles_id FROM nomina_detalles WHERE estado = 0 AND nomina_id = '".$nomina_id."'";
+		protected function valid_nomina_detalles_modelo($nomina_id, $colaboradores_id){
+			$query = "SELECT nomina_detalles_id FROM nomina_detalles WHERE estado = 0 AND nomina_id = '".$nomina_id."' and colaboradores_id = '".$colaboradores_id."'";
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;
 		}
+
+		protected function valid_nomina_detalles_delete_modelo($nomina_detalles_id){
+			$query = "SELECT nomina_detalles_id FROM nomina_detalles WHERE estado = 0 AND nomina_detalles_id  = '".$nomina_detalles_id."'";
+
+			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
+			
+			return $sql;
+		}		
 		
 		protected function edit_nomina_detalles_modelo($datos){
 			$update = "UPDATE nomina_detalles
 			SET 
 				dias_trabajados = '".$datos['dias_trabajados']."',
 				dias_trabajados = '".$datos['dias_trabajados']."',
+				hrse25 = '".$datos['hrse25']."',
 				hrse50 = '".$datos['hrse50']."',
 				hrse75 = '".$datos['hrse75']."',
 				hrse100 = '".$datos['hrse100']."',

@@ -122,7 +122,7 @@
 						"form" => "formVales",
 						"id" => "proceso_vale",
 						"valor" => "Registro",	
-						"funcion" => "getEmpleadoVales();",
+						"funcion" => "getEmpleadoVales();listar_vales();",
 						"modal" => "",
 					];
 				}else{
@@ -190,7 +190,7 @@
 
 			$usuario = $_SESSION['colaborador_id_sd'];
 			$estado = 0;//SIN GENERAR
-			$notas = mainModel::cleanString($_POST['nomina_notas']);
+			$notas = mainModel::cleanString($_POST['nomina_detalles_notas']);
 			$fecha_registro = date("Y-m-d H:i:s");	
 
 			$datos = [
@@ -226,7 +226,7 @@
 				"salario" => $salario
 			];
 			
-			$resultNominaEmpleados = nominaModelo::valid_nomina_detalles_modelo($nomina_id);
+			$resultNominaEmpleados = nominaModelo::valid_nomina_detalles_modelo($nomina_id, $colaboradores_id);
 			
 			if($resultNominaEmpleados->num_rows==0){
 				$query = nominaModelo::agregar_nomina_detalles_modelo($datos);
@@ -314,10 +314,11 @@
 			$colaboradores_id = mainModel::cleanString($_POST['colaboradores_id']);
 			$salario = mainModel::cleanString($_POST['nominad_salario']);	
 			$nomina_detalles_id = mainModel::cleanString($_POST['nomina_detalles_id']);					
-			
+		
 			//INGRESOS
 			$dias_trabajados = mainModel::cleanString($_POST['nominad_diast']);
 			$hrse25 = mainModel::cleanString($_POST['nominad_horas25']);
+
 			$hrse50 = mainModel::cleanString($_POST['nominad_horas50']);			
 			$hrse75 = mainModel::cleanString($_POST['nominad_horas75']);
 			$hrse100 = mainModel::cleanString($_POST['nominad_horas100']);						
@@ -339,36 +340,45 @@
 			$neto_egresos = mainModel::cleanString($_POST['nominad_neto_egreso']);
 			$neto = mainModel::cleanString($_POST['nominad_neto']);
 
+			$hrse25_valor = mainModel::cleanString($_POST['hrse25_valor']);
+			$hrse50_valor = mainModel::cleanString($_POST['hrse50_valor']);
+			$hrse75_valor = mainModel::cleanString($_POST['hrse75_valor']);
+			$hrse100_valor = mainModel::cleanString($_POST['hrse100_valor']);			
+
 			$estado = 1;//ACTIVAS
-			$notas = mainModel::cleanString($_POST['nomina_notas']);
+			$notas = mainModel::cleanString($_POST['nomina_detalles_notas']);
 			$fecha_registro = date("Y-m-d H:i:s");	
 
 			$datos = [
-				"nomina_id" => $nomina_id,
-				"colaboradores_id" => $colaboradores_id,
-				"salario" => $salario,
-				"hrse25" => $hrse25,
-				"hrse50" => $hrse50,
-				"hrse75" => $hrse75,
-				"hrse100" => $hrse100,
-				"retroactivo" => $retroactivo,
-				"bono" => $bono,
-				"otros_ingresos" => $otros_ingresos,
-				"deducciones" => $deducciones,
-				"prestamo" => $prestamo,
-				"rap" => $rap,
-				"ihss" => $ihss,
-				"isr" => $isr,
-				"vales" => $vales,
-				"incapacidad_ihss" => $incapacidad_ihss,
-				"neto_ingresos" => $neto_ingresos,
-				"neto_egresos" => $neto_egresos,
-				"neto" => $neto,					
-				"estado" => $estado,
+				"nomina_id" => $nomina_id ?? 0,
+				"colaboradores_id" => $colaboradores_id ?? 0,
+				"salario" => $salario ?? 0,
+				"hrse25" => $hrse25  ?? 0,
+				"hrse50" => $hrse50 ?? 0,
+				"hrse75" => $hrse75 ?? 0,
+				"hrse100" => $hrse100 ?? 0,
+				"retroactivo" => $retroactivo ?? 0,
+				"bono" => $bono ?? 0,
+				"otros_ingresos" => $otros_ingresos ?? 0,
+				"deducciones" => $deducciones ?? 0,
+				"prestamo" => $prestamo ?? 0,
+				"rap" => $rap ?? 0,
+				"ihss" => $ihss ?? 0,
+				"isr" => $isr ?? 0,
+				"vales" => $vales ?? 0,
+				"incapacidad_ihss" => $incapacidad_ihss ?? 0,
+				"neto_ingresos" => $neto_ingresos ?? 0,
+				"neto_egresos" => $neto_egresos ?? 0,
+				"neto" => $neto ?? 0,					
+				"estado" => $estado ?? 0,
 				"notas" => $notas,
 				"fecha_registro" => $fecha_registro,				
-				"dias_trabajados" => $dias_trabajados,
-				"nomina_detalles_id" => $nomina_detalles_id
+				"dias_trabajados" => $dias_trabajados ?? 0,
+				"nomina_detalles_id" => $nomina_detalles_id ?? 0,
+				"hrse25_valor" => $hrse25_valor,
+				"hrse50_valor" => $hrse50_valor,
+				"hrse75_valor" => $hrse75_valor,
+				"hrse100_valor" => $hrse100_valor,
 			];	
 
 			$query = nominaModelo::edit_nomina_detalles_modelo($datos);
@@ -403,7 +413,7 @@
 		public function delete_nomina_controlador(){
 			$nomina_id = $_POST['nomina_id'];
 			
-			$result_valid_momina_modelo = nominaModelo::valid_nomina_detalles_modelo($nomina_id);
+			$result_valid_momina_modelo = nominaModelo::valid_nomina_detalles_delete_modelo($nomina_id);
 			
 			if($result_valid_momina_modelo->num_rows==0 ){
 				$query = nominaModelo::delete_nomina_modelo($nomina_id);
@@ -445,9 +455,9 @@
 		}
 
 		public function delete_nomina_detalles_controlador(){
-			$nomina_id = $_POST['nomina_id'];
+			$nomina_detalles_id = $_POST['nomina_detalles_id'];
 			
-			$query = nominaModelo::delete_nomina_detalles_modelo($nomina_id);
+			$query = nominaModelo::delete_nomina_detalles_modelo($nomina_detalles_id);
 							
 			if($query){
 				$alert = [

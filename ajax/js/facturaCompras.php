@@ -206,6 +206,7 @@ var listar_productos_compras_buscar = function() {
 
 function resetRowPurchase() {
     row = 0;
+    $("#purchase-form #pucharse_row").val(0);
 }
 
 var row = 0;
@@ -562,9 +563,7 @@ function limpiarTablaCompras() {
     htmlRows += '<td><input class="itemRowPurchase" type="checkbox"></td>';
 
     htmlRows +=
-        '<td><div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_0"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos_purchase"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-idPurchase[]" id="bar-code-idPurchase_' +
-        count +
-        '" class="form-control product-bar-codePurchase inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
+        '<td><div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_0"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos_purchase"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-idPurchase[]" id="bar-code-idPurchase_' + count + '" class="form-control product-bar-codePurchase inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
 
     htmlRows += '<td><div class="input-group mb-3"><input type="hidden" name="isvPurchase[]" id="isvPurchase_' + count +
         '" class="form-control" autocomplete="off"><input type="hidden" name="valor_isvPurchase[]" id="valor_isvPurchase_' +
@@ -577,14 +576,15 @@ function limpiarTablaCompras() {
     htmlRows += '<td><input type="number" name="quantityPurchase[]" id="quantityPurchase_' + count +
         '" class="buscar_cantidad_purchase form-control" autocomplete="off" step="0.01"></td>';
 
-    htmlRows += '<td><select id="almacenPurchase_' + count +
-        '" name="almacenPurchase[]" class="selectpicker" title="Almacén" data-live-search="true" required data-size="5">' +
-        '</select></td>';
+    htmlRows += '<td><select id="almacenPurchase_' + count + '" name="almacenPurchase[]" class="selectpicker" required title="Almacén" data-live-search="true" required data-size="5"> </select> </td>' ;
 
-    htmlRows += '<td><input type="text" name="medidaPurchase[]" id="medidaPurchase_' + count +
+    htmlRows += '<td style="display: none;"><input type="hidden" name="medidaPurchase[]" id="medidaPurchase_' + count +
         '" readonly class="form-control buscar_medida_purchase" autocomplete="off"><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_' +
         count + '"  class="buscar_bodega_purchase form-control" ></td>';
 
+    htmlRows += '<td><input type="date" name="vencimientoPurchase[]" id="vencimientoPurchase_' + count +
+    '" class="form-control buscar_medida_purchase" autocomplete="off"><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_' +
+    count + '"  class="buscar_bodega_purchase form-control" ></td>';        
 
     htmlRows += '<td><input type="number" name="pricePurchase[]" id="pricePurchase_' + count +
         '" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
@@ -605,7 +605,114 @@ function limpiarTablaCompras() {
 }
 
 function addRowCompras() {
-    var count = row + 1;
+    var count = parseInt($("#purchase-form #pucharse_row").val()) + 1;
+    var htmlRows = '';
+
+    htmlRows += '<tr>';
+    htmlRows += '<td><input class="itemRowPurchase" type="checkbox"></td>';
+
+    // Código del producto
+    htmlRows += '<td>' +
+            '<div class="input-group mb-3">' +
+                '<div class="input-group-append">' +
+                    '<span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_' + count + '">' +
+                        '<a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos_purchase">' +
+                            '<div class="sb-nav-link-icon"></div>' +
+                            '<i class="fas fa-search fa-lg icon-color"></i>' +
+                        '</a>' +
+                    '</span>' +
+                    '<input type="text" name="bar-code-idPurchase[]" id="bar-code-idPurchase_' + count + 
+                    '" class="form-control product-bar-codePurchase inputfield-details1" placeholder="Código del Producto" autocomplete="off">' +
+                '</div>' +
+            '</div>' +
+        '</td>';
+
+    // Campos ocultos
+    htmlRows += '<td>' +
+            '<div class="input-group mb-3">' +
+                '<input type="hidden" name="isvPurchase[]" id="isvPurchase_' + count + '" class="form-control" autocomplete="off">' +
+                '<input type="hidden" name="valor_isvPurchase[]" id="valor_isvPurchase_' + count + '" class="form-control" autocomplete="off">' +
+                '<input type="hidden" name="productos_idPurchase[]" id="productos_idPurchase_' + count + '" class="form-control" autocomplete="off">' +
+                '<input type="text" name="productNamePurchase[]" id="productNamePurchase_' + count + '" class="form-control" autocomplete="off">' +
+            '</div>' +
+        '</td>';
+
+    // Cantidad
+    htmlRows += '<td><input type="number" name="quantityPurchase[]" id="quantityPurchase_' + count + 
+                '" class="buscar_cantidad_purchase form-control" autocomplete="off" step="0.01"></td>';
+
+    // Almacén (select)
+    htmlRows += '<td><select id="almacenPurchase_' + count + '" name="almacenPurchase[]" class="selectpicker form-control" ' +
+                'title="Almacén" data-live-search="true" data-size="5">' +
+                '</select></td>';
+
+    // Vencimiento
+    htmlRows += '<td>' +
+            '<input type="hidden" name="medidaPurchase[]" id="medidaPurchase_' + count + '" readonly class="form-control buscar_medida_purchase" autocomplete="off">' +
+            '<input type="date" name="vencimientoPurchase[]" id="vencimientoPurchase_' + count + '" class="form-control buscar_vencimiento_purchase" autocomplete="off">' +
+            '<input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_' + count + '" readonly class="form-control buscar_bodega_purchase" autocomplete="off">' +
+        '</td>';
+
+    // Precio unitario
+    htmlRows += '<td><input type="number" name="pricePurchase[]" id="pricePurchase_' + count + 
+                '" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
+
+    // ISV
+    htmlRows += '<td><input type="number" name="isvPurchaseWrite[]" id="isvPurchaseWrite_' + count +
+    '" class=" form-control" autocomplete="off" step="0.01"></td>';
+
+    // Descuento
+    htmlRows += '<td><input type="number" name="discountPurchase[]" id="discountPurchase_' + count +
+        '" class="form-control" autocomplete="off" step="0.01"></td>';
+
+    // Total
+    htmlRows += '<td><input type="number" name="totalPurchase[]" id="totalPurchase_' + count + 
+                '" class="form-control total" readonly autocomplete="off" step="0.01"></td>';
+
+    htmlRows += '</tr>';
+
+    $('#purchaseItem').append(htmlRows);
+
+    // MOVER SCROLL FACTURA AL FINAL
+    $("#purchase-form .tableFixHead").scrollTop($(document).height());
+    $("#purchase-form #purchaseItem #bar-code-idPurchase_" + count).focus();
+
+    if (count > 0) {
+        var icon_search = count - 1;
+    }
+
+    $("#purchase-form #purchaseItem #icon-search-bar_" + icon_search).hide();
+    $("#purchase-form #purchaseItem #icon-search-bar_" + icon_search).hide();
+
+    $("#purchase-form #pucharse_row").val(count);
+
+    getMedida(count);
+    getAlmacenProductos(count);
+
+    // Asignar el evento 'input' dinámicamente
+    $("#bar-code-idPurchase_" + count).on("input", function() {
+        checkBarcode(count);
+    });
+}
+
+// Función para manejar el cambio en el código de barras y habilitar/inhabilitar el campo 'Almacén'
+function checkBarcode(count) {
+    var barcodeInput = $("#bar-code-idPurchase_" + count).val();
+    var almacenSelect = $("#almacenPurchase_" + count);
+
+    if (barcodeInput.trim() !== "") {
+        // Si el código de barras tiene algún valor, hacemos el campo 'Almacén' obligatorio
+        almacenSelect.attr('required', true);
+    } else {
+        // Si el código de barras está vacío, quitamos la obligación del campo 'Almacén'
+        almacenSelect.removeAttr('required');
+    }
+}
+
+/*
+function addRowCompras() {
+    //var count = row + 1;
+    var count = parseInt($("#purchase-form #pucharse_row").val()) + 1;
     var htmlRows = '';
 
     htmlRows += '<tr>';
@@ -613,9 +720,7 @@ function addRowCompras() {
     htmlRows += '<td><input class="itemRowPurchase" type="checkbox"></td>';
 
     htmlRows +=
-        '<td><div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_0"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos_purchase"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-idPurchase[]" id="bar-code-idPurchase_' +
-        count +
-        '" class="form-control product-bar-codePurchase inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
+        '<td><div class="input-group mb-3"><div class="input-group-append"><span data-toggle="tooltip" data-placement="top" title="Búsqueda de Productos" id="icon-search-bar_0"><a data-toggle="modal" href="#" class="btn btn-link form-control buscar_productos_purchase"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg icon-color"></i></a></span><input type="text" name="bar-code-idPurchase[]" id="bar-code-idPurchase_' + count + '" class="form-control product-bar-codePurchase inputfield-details1" placeholder="Código del Producto" autocomplete="off"></div></div></td>';
 
     htmlRows += '<td><div class="input-group mb-3"><input type="hidden" name="isvPurchase[]" id="isvPurchase_' + count +
         '" class="form-control" autocomplete="off"><input type="hidden" name="valor_isvPurchase[]" id="valor_isvPurchase_' +
@@ -628,12 +733,16 @@ function addRowCompras() {
     htmlRows += '<td><input type="number" name="quantityPurchase[]" id="quantityPurchase_' + count +
         '" class="buscar_cantidad_purchase form-control" autocomplete="off" step="0.01"></td>';
 
-    htmlRows += '<td><select id="almacenPurchase_' + count +
-        '" name="almacenPurchase[]" class="selectpicker" title="Almacén" data-live-search="true" data-size="5"></select></td>';
+    htmlRows += '<td><select id="almacenPurchase_' + count + '" name="almacenPurchase[]" class="selectpicker" title="Almacén" data-live-search="true" required data-size="5"> </select> </td>' ;
 
-    htmlRows += '<td><input type="text" name="medidaPurchase[]" id="medidaPurchase_' + count +
+    htmlRows += '<td style="display: none;"><input type="hidden" name="medidaPurchase[]" id="medidaPurchase_' + count +
         '" readonly class="form-control buscar_medida_purchase" autocomplete="off"><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_' +
         count + '" class="buscar_bodega_purchase form-control"></td>';
+
+    htmlRows += '<td><input type="date" name="vencimientoPurchase[]" id="vencimientoPurchase_' + count +
+    '" class="form-control buscar_medida_purchase" autocomplete="off"><input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_' +
+    count + '" class="buscar_bodega_purchase form-control"></td>';        
+    
 
     htmlRows += '<td><input type="number" name="pricePurchase[]" id="pricePurchase_' + count +
         '" class="buscar_price_purchase form-control" autocomplete="off" step="0.01"></td>';
@@ -650,9 +759,15 @@ function addRowCompras() {
     htmlRows += '</tr>';
 
     $('#purchaseItem').append(htmlRows);
+
+    $("#purchase-form #invoiceItem #icon-search-bar_" + icon_search).hide();
+    $("#purchase-form #invoiceItem #icon-search-bar_" + icon_search).hide();
+
+    $("#purchase-form #pucharse_row").val(count);
+
     getMedida(count);
     getAlmacenProductos(count);
-}
+}*/
 
 $(document).ready(function() {
 
@@ -796,25 +911,15 @@ $(document).ready(function() {
                     id: id,
                     action: 'delete_invoice'
                 },
-
                 success: function(response) {
-
                     if (response.status == 1) {
-
                         $('#' + id).closest("tr").remove();
-
                     }
-
                 }
-
             });
-
         } else {
-
             return false;
-
         }
-
     });
 
 });
@@ -927,8 +1032,6 @@ $('#purchase-form #notesPurchase').keyup(function() {
 
 });
 
-
-
 function caracteresNotasCompras() {
     var max_chars = 2000;
     var chars = $('#purchase-form #notesPurchase').val().length;
@@ -1026,7 +1129,7 @@ $("#purchase-form #colaborador").on('change', function() {
 
 //INICIO INGRESO POR ESCANER
 $(document).ready(function() {
-    $("#purchase-form").on('keydown', '.product-bar-codePurchase', function(event) {
+    $("#purchase-form #purchaseItem").on('keydown', '.product-bar-codePurchase', function(event) {
 
         var row_index = $(this).closest("tr").index();
 
@@ -1041,167 +1144,128 @@ $(document).ready(function() {
 });
 
 function manejarPresionEnterCompras(row_index) {
-    alert(row_index);
     event.preventDefault();
-    alert("Estas aqui");
 
     $(".product-bar-codePurchase").focus();
 
-    var barCodeInput = $("#purchase-form #itemRowPurchase #bar-code-idPurchase_" + row_index);
+    var barCodeInput = $("#purchase-form #purchaseItem #bar-code-idPurchase_" + row_index);
+    var barcode = barCodeInput.val();
 
-    // Verificar si el elemento existe
-    if (barCodeInput.length > 0) {
-        var barcode = barCodeInput.val();
-        console.log(barcode);
+    if (barcode !== "") {
+        var url = '<?php echo SERVERURL;?>core/getProductoBarCode.php';
+        var element = barcode.split('*');
+        var cantidad = element[0] || 1;
+        var barcodeValue = element[1] || cantidad;
 
-        if (barcode !== "") {
-            var url = '<?php echo SERVERURL;?>core/getProductoBarCode.php';
-            var element = barcode.split('*');
-            var cantidad = element[0] || 1;
-            var barcodeValue = element[1] || cantidad;
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: 'barcode=' + barcodeValue,
+            async: false,
+            success: function(registro) {
+                var valores = eval(registro);
 
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: 'barcode=' + barcodeValue,
-                async: false,
-                success: function(registro) {
-                    getTotalFacturasDisponibles();
-                    var valores = eval(registro);
+                if (valores[0]) {
+                    $("#purchase-form #purchaseItem #bar-code-idPurchase_" + row_index).val(barcode);
 
-                    if (valores[9] !== "2") {
-                        if (valores[7] === null || valores[7] === "") {
-                            swal({
-                                title: "Error",
-                                content: {
-                                    element: "span",
-                                    attributes: {
-                                        innerHTML: "Lo sentimos, el producto no está asignado a una bodega. Por favor, <a href='<?php echo SERVERURL;?>inventario/' style='color: blue; text-decoration: none;' onmouseover='this.style.color=`purple`' onmouseout='this.style.color=`blue`' onmousedown='this.style.color=`purple`' target='_blank'>ingrese el movimiento</a> de este registro antes de continuar."
-                                    }
-                                },
-                                icon: "error",
-                                buttons: {
-                                    confirm: {
-                                        text: "Aceptar",
-                                    }
-                                },
-                                dangerMode: true,
-                                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
-                            });
+                    // Verificar si el valor ingresado contiene un '*'
+                    if (barcode.includes('*')) {
+                        var parts = barcode.split('*');
+                        var cantidad = parseFloat(parts[0]) || 1;
+                        var nuevoBarcode = parts[1];
 
-                            return false;
-                        }
-                    }
-
-                    if (valores[0]) {
-                        var facturar_cero = facturarEnCeroAlmacen(valores[7]);
-
-                        if (valores[6] <= 0) {
-                            if (facturar_cero == 'false') {
-                                swal({
-                                    title: "Error",
-                                    text: "No se puede facturar este producto inventario en cero",
-                                    type: "error",
-                                    dangerMode: true,
-                                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
-                                });
-                                return false;
-                            }
-                        }
-
-                        $("#purchase-form #itemRowPurchase #bar-code-id_" + row_index).val(barcode);
-
-                        // Verificar si el valor ingresado contiene un '*'
-                        if (barcode.includes('*')) {
-                            var parts = barcode.split('*');
-                            var cantidad = parseFloat(parts[0]) || 1;
-                            var nuevoBarcode = parts[1];
-
-                            // Asignar la cantidad y el código del producto a los campos correspondientes
-                            $("#purchase-form #itemRowPurchase #quantity_" + row_index).val(cantidad);
-                            $("#purchase-form #itemRowPurchase #bar-code-id_" + row_index).val(
-                            nuevoBarcode);
-                        } else {
-                            // Si no hay '*', asumir que la cantidad es 1 y el código es el valor ingresado
-                            $("#purchase-form #itemRowPurchase #quantity_" + row_index).val(1);
-                            $("#purchase-form #itemRowPurchase #bar-code-id_" + row_index).val(barcode);
-                        }
-
-                        $("#purchase-form #itemRowPurchase #productName_" + row_index).val(valores[0]);
-                        $("#purchase-form #itemRowPurchase #price_" + row_index).val(valores[1]);
-                        $("#purchase-form #itemRowPurchase #precio_real_" + row_index).val(valores[1]);
-                        $("#purchase-form #itemRowPurchase #productos_id_" + row_index).val(valores[2]);
-                        $("#purchase-form #itemRowPurchase #isv_" + row_index).val(valores[3]);
-                        $("#purchase-form #itemRowPurchase #cantidad_mayoreo_" + row_index).val(valores[4]);
-                        $("#purchase-form #itemRowPurchase #precio_mayoreo_" + row_index).val(valores[5]);
-                        $('#purchase-form #itemRowPurchase #bodega_' + row_index).val(valores[7]);
-                        $('#purchase-form #itemRowPurchase #medida_' + row_index).val(valores[8]);
-
-                        var impuesto_venta = parseFloat($('#purchase-form #itemRowPurchase #isv_' +
-                            row_index).val());
-                        var cantidad1 = parseFloat($('#purchase-form #itemRowPurchase #quantity_' +
-                            row_index).val());
-                        var precio = parseFloat($('#purchase-form #itemRowPurchase #price_' + row_index)
-                            .val());
-                        var total = parseFloat($('#purchase-form #itemRowPurchase #total_' + row_index)
-                        .val());
-
-                        var isv = 0;
-                        var isv_total = 0;
-                        var porcentaje_isv = 0;
-                        var porcentaje_calculo = 0;
-                        var isv_neto = 0;
-
-                        if (impuesto_venta == 1) {
-                            porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
-
-                            if (total == "" || total == 0) {
-                                porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad1) *
-                                    porcentaje_isv).toFixed(2);
-                                isv_neto = parseFloat(porcentaje_calculo).toFixed(2);
-                                $('#purchase-form #itemRowPurchase #valor_isv_' + row_index).val(
-                                    porcentaje_calculo);
-                            } else {
-                                isv_total = parseFloat($('#purchase-form #taxAmount').val());
-                                porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad1) *
-                                    porcentaje_isv).toFixed(2);
-                                isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
-                                $('#purchase-form #itemRowPurchase #valor_isv_' + row_index).val(
-                                    porcentaje_calculo);
-                            }
-                        }
-
-                        addRowCompras();
-
-                        if (row_index > 0) {
-                            var icon_search = row_index - 1;
-                        }
-
-                        $("#purchase-form #itemRowPurchase #icon-search-bar_" + row_index).hide();
-                        $("#purchase-form #itemRowPurchase #icon-search-bar_" + icon_search).hide();
-
-                        calculateTotalCompras();
+                        // Asignar la cantidad y el código del producto a los campos correspondientes
+                        $("#purchase-form #purchaseItem #quantityPurchase_" + row_index).val(cantidad);
+                        $("#purchase-form #purchaseItem #bar-code-idPurchase_" + row_index).val(nuevoBarcode);
                     } else {
-                        swal({
-                            title: "Error",
-                            text: "Producto no encontrado, por favor corregir",
-                            type: "error",
-                            dangerMode: true,
-                            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
-                        });
-                        $("#purchase-form #itemRowPurchase #bar-code-id_" + row_index).val("");
+                        // Si no hay '*', asumir que la cantidad es 1 y el código es el valor ingresado
+                        $("#purchase-form #purchaseItem #quantityPurchase_" + row_index).val(1);
+                        $("#purchase-form #purchaseItem #bar-code-idPurchase_" + row_index).val(barcode);
                     }
+
+                    $("#purchase-form #purchaseItem #productNamePurchase_" + row_index).val(valores[0]);
+                    $("#purchase-form #purchaseItem #pricePurchase_" + row_index).val(valores[1]);
+                    $("#purchase-form #purchaseItem #precio_real_" + row_index).val(valores[1]);
+                    $("#purchase-form #purchaseItem #productos_id_" + row_index).val(valores[2]);
+                    $("#purchase-form #purchaseItem #isvPurchaseWrite_" + row_index).val(valores[3]);
+                    $('#purchase-form #purchaseItem #medidaPurchase_' + row_index).val(valores[8]);
+
+                    var impuesto_venta = parseFloat($('#purchase-form #purchaseItem #isvPurchaseWrite_' +
+                        row_index).val());
+                    var cantidad1 = parseFloat($('#purchase-form #purchaseItem #quantityPurchase_' +
+                        row_index).val());
+                    var precio = parseFloat($('#purchase-form #purchaseItem #pricePurchase_' + row_index)
+                        .val());
+                    var total = parseFloat($('#purchase-form #purchaseItem #totalPurchase_' + row_index)
+                    .val());
+
+                    var isv = 0;
+                    var isv_total = 0;
+                    var porcentaje_isv = 0;
+                    var porcentaje_calculo = 0;
+                    var isv_neto = 0;
+
+                    if (impuesto_venta == 1) {
+                        porcentaje_isv = parseFloat(getPorcentajeISV("Compras") / 100);
+
+                        if (total == "" || total == 0) {
+                            porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad1) *
+                                porcentaje_isv).toFixed(2);
+                            isv_neto = parseFloat(porcentaje_calculo).toFixed(2);
+                            $('#purchase-form #purchaseItem #isvPurchaseWrite_' + row_index).val(
+                                porcentaje_calculo);
+                        } else {
+                            isv_total = parseFloat($('#purchaseItem-form #taxAmount').val());
+                            porcentaje_calculo = (parseFloat(precio) * parseFloat(cantidad1) *
+                                porcentaje_isv).toFixed(2);
+                            isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
+                            $('#purchase-form #purchaseItem #isvPurchaseWrite_' + row_index).val(
+                                porcentaje_calculo);
+                        }
+                    }
+
+                    addRowCompras();
+
+                    if (row_index > 0) {
+                        var icon_search = row_index - 1;
+                    }
+
+                    $("#purchase-form #purchaseItem #icon-search-bar_" + row_index).hide();
+                    $("#purchase-form #purchaseItem #icon-search-bar_" + icon_search).hide();
+
+                    calculateTotalCompras();
+                } else {
+                    swal({
+                        title: "Error",
+                        text: "Producto no encontrado, por favor corregir",
+                        type: "error",
+                        dangerMode: true,
+                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
+                    });
+                    $("#purchase-form #purchaseItem #bar-code-id_" + row_index).val("");
                 }
-            });
-        }
-    } else {
-        console.log("El elemento barCodeInput no se encontró en el DOM.");
+            }
+        });
     }
 }
 
+function facturarEnCeroAlmacen(almacen_id) {
+
+var url = '<?php echo SERVERURL; ?>core/getFacturarCeroAlmacen.php';
+var estado = true;
+
+$.ajax({
+    type: 'POST',
+    url: url,
+    data: 'almacen_id=' + almacen_id,
+    async: false,
+    success: function(res) {
+        estado = res;
+    }
+});
+return estado;
+}
 
 function manejarPresionTeclaMasMenosCompras(codigoTecla, row_index) {
     event.preventDefault();

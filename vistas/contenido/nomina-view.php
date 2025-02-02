@@ -14,7 +14,7 @@
                                 <span class="input-group-text">
                                     <div class="sb-nav-link-icon"></div>Estado
                                 </span>
-                                <select id="estado_nomina" class="selectpicker" data-live-search="true" title="Estado">
+                                <select id="estado_nomina" class="selectpicker" name="estado_nomina" data-live-search="true" title="Estado">
                                     <option value="0">Sin Generar</option>
                                     <option value="1">Generada</option>
                                 </select>

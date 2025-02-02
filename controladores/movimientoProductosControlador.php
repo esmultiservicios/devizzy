@@ -37,7 +37,6 @@ class movimientoProductosControlador extends movimientoProductosModelo
         if ($movimiento_operacion == "entrada") { // ENTRADA
             $datos = [
                 "productos_id" => $movimiento_producto,
-                "empresa" => $empresa_id,
                 "clientes_id" => $cliente_movimientos ?: 0,
                 "comentario" => $movimiento_comentario,
                 "almacen_id" => $almacen ?: 0,
@@ -76,7 +75,6 @@ class movimientoProductosControlador extends movimientoProductosModelo
         if ($movimiento_operacion == "salida") { // SALIDA
             $datos = [
                 "productos_id" => $movimiento_producto,
-                "empresa" => $empresa_id,
                 "clientes_id" => $cliente_movimientos ?: 0,
                 "comentario" => $movimiento_comentario,
                 "almacen_id" => $almacen ?: 0,

@@ -348,7 +348,7 @@ class mainModel
 	public function anular_vale($vale_id)
 	{
 		$update = "UPDATE vale 
-				\t   SET estado = 3 
+				\t   SET estado = 2
 				\t   WHERE vale_id = '$vale_id' 
 				\t   AND estado = 0";
 
@@ -2090,24 +2090,37 @@ class mainModel
 
 	public function getNomina($datos)
 	{
-		$estado = '';
-		$pago_planificado_id = '';
-
-		if ($datos['pago_planificado'] != '' || $datos['pago_planificado'] != 0) {
-			$pago_planificado_id = "AND n.pago_planificado_id = '" . $datos['pago_planificado'] . "'";
+		$pago_planificado_id = '';  // Variable inicializada vacía
+	
+		// Comprobamos si 'pago_planificado' tiene un valor válido diferente a vacío o 0
+		if (isset($datos['tipo_contrato_id']) && $datos['tipo_contrato_id'] != '' && $datos['tipo_contrato_id'] != 0) {
+			// Si tiene valor, se agrega la condición para filtrar por 'pago_planificado_id'
+			$pago_planificado_id = "AND n.tipo_contrato_id = '" . $datos['tipo_contrato_id'] . "'";
 		}
+	
+		// Creamos la consulta SQL con el filtro de estado y la posible condición de 'pago_planificado_id'
+		$query = "SELECT n.nomina_id AS 'nomina_id', 
+						 e.nombre AS 'empresa', 
+						 n.fecha_inicio AS 'fecha_inicio', 
+						 n.fecha_fin AS 'fecha_fin', 
+						 n.importe AS 'importe', 
+						 n.notas AS 'notas', 
+						 (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', 
+						 n.estado AS 'estado', 
+						 n.empresa_id AS 'empresa_id', 
+						 n.detalle AS 'detalle', 
+						 n.pago_planificado_id AS 'pago_planificado_id'
+				  FROM nomina AS n
+				  INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
+				  WHERE n.estado = '" . $datos['estado'] . "' 
+				  $pago_planificado_id
+				  ORDER BY n.fecha_registro DESC";
 
-		$query = "SELECT n.nomina_id AS 'nomina_id', e.nombre AS 'empresa', n.fecha_inicio AS 'fecha_inicio', n.fecha_fin AS 'fecha_fin', n.importe AS 'importe', n.notas AS 'notas', (CASE WHEN n.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', n.estado AS 'estado', n.empresa_id AS 'empresa_id', n.detalle AS 'detalle', n.pago_planificado_id AS 'pago_planificado_id', n.pago_planificado_id AS 'pago_planificado_id'
-			FROM nomina AS n
-			INNER JOIN empresa AS e ON n.empresa_id = e.empresa_id
-			WHERE n.estado = '" . $datos['estado'] . "'
-			$pago_planificado_id
-			ORDER BY n.fecha_registro DESC";
-
+		// Ejecutamos la consulta y retornamos el resultado
 		$result = self::connection()->query($query);
-
+	
 		return $result;
-	}
+	}	
 
 	public function getImporteNominaDetalles($nomina_id)
 	{
@@ -2135,14 +2148,13 @@ class mainModel
 
 	public function getNominaDetalles($datos)
 	{
-		$estado = '';
 		$empleado = '';
 
-		if ($datos['empleado'] != '' || $datos['empleado'] != 0) {
+		if ($datos['empleado'] != '' && $datos['empleado'] != 0) {
 			$empleado = "AND c.colaboradores_id = '" . $datos['empleado'] . "'";
-		}
+		}		
 
-		$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.fecha_inicio, n.fecha_fin
+		$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_detalles_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.fecha_inicio, n.fecha_fin
 				FROM nomina_detalles AS nd
 				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
 				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id

@@ -125,26 +125,76 @@ $(document).ready(function() {
                     setTimeout(window.location = datos[0], 1200);
                 } else if (datos[1] === "ErrorS") {
                     swal({
-                        title: "Error",
-                        text: "Usuario o contraseña son incorrectos por favor corregir",
-                        icon: "error",
-                        dangerMode: true,
-                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
-                    });
+                    content: {
+                        element: "div",
+                        attributes: {
+                            innerHTML: `
+                                <h2 style="color: #d9534f; font-size: 22px; margin-bottom: 15px;">
+                                    ⚠️ Error de Autenticación
+                                </h2>
+                                <p style="font-size: 16px; color: #555;">
+                                    <strong>Usuario o contraseña incorrectos.</strong> Por favor, verifique los datos ingresados.
+                                </p>
+                                <p style="font-size: 16px; color: #555;">
+                                    🔑 Asegúrese de que el nombre de usuario y la contraseña sean correctos.
+                                </p>
+                            `
+                        }
+                    },
+                    icon: "error",
+                    dangerMode: true,
+                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
+                });
                 } else if (datos[1] === "ErrorP") {
                     swal({
-                        title: "¡Problemas con el Pago!",
-                        text: "¡Oops! Parece que hay un problema con su acceso al sistema debido a un inconveniente con el pago. No se preocupe, solo necesita ponerse en contacto con nuestro equipo de recaudación de pagos para arreglarlo. Puede escribirnos al +504 3227-3380, ¡y con gusto le ayudaremos!",
+                        content: {
+                            element: "div",
+                            attributes: {
+                                innerHTML: `
+                                    <h2 style="color: #d9534f; font-size: 22px; margin-bottom: 10px;">
+                                        ⚠️ ¡Problemas con el Pago!
+                                    </h2>
+                                    <p style="font-size: 16px; color: #555;">
+                                        😕 <strong>¡Oops!</strong> Parece que hay un problema con su acceso al sistema debido a un inconveniente con el pago.
+                                    </p>
+                                    <p style="font-size: 16px; color: #555;">
+                                        No se preocupe, solo necesita ponerse en contacto con nuestro equipo de recaudación de pagos para arreglarlo. 
+                                    </p>
+                                    <p style="font-size: 16px; color: #555;">
+                                        💬 Puede escribirnos al 
+                                        <a href="tel:+50489136844" style="color: #0275d8; font-weight: bold;">📞 +504 8913-6844</a>, ¡y con gusto le ayudaremos! 😊
+                                    </p>
+                                `
+                            }
+                        },
                         icon: "warning",
                         dangerMode: true,
-                        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
+                        closeOnEsc: false,
+                        closeOnClickOutside: false
                     });
                 } else if (datos[1] === "ErrorVacio") {
                     swal({
-                        title: "Error",
-                        text: "Lo sentimos, uno de los dos campos no puede ir en blanco. El sistema requiere tanto el cliente como el PIN para continuar. Si lo desea, puede dejar ambos campos en blanco, y el sistema los ignorará.",
+                        content: {
+                            element: "div",
+                            attributes: {
+                                innerHTML: `
+                                    <h2 style="color: #d9534f; font-size: 22px; margin-bottom: 15px;">
+                                        ⚠️ Error
+                                    </h2>
+                                    <p style="font-size: 16px; color: #555;">
+                                        <strong>Lo sentimos</strong>, uno de los dos campos no puede ir en blanco. El sistema requiere tanto el cliente como el PIN para continuar.
+                                    </p>
+                                    <p style="font-size: 16px; color: #555;">
+                                        Si lo desea, puede dejar ambos campos en blanco, y el sistema los ignorará.
+                                        <span style="color: #5bc0de;">Por favor, complete los campos para continuar.</span>
+                                    </p>
+                                    <p style="font-size: 16px; color: #555;">
+                                        😓 Lamentamos el inconveniente, y agradecemos su comprensión. 🙏
+                                    </p>
+                                `
+                            }
+                        },
                         icon: "error",
                         dangerMode: true,
                         closeOnEsc: false, // Desactiva el cierre con la tecla Esc
@@ -152,8 +202,26 @@ $(document).ready(function() {
                     });
                 } else if (datos[1] === "ErrorPinInvalido") {
                     swal({
-                        title: "Error",
-                        text: "Lo sentimos, el código del cliente o el pin son inválidos, o el mismo ha vencido, por favor solicite otro pin al cliente.",
+                        content: {
+                            element: "div",
+                            attributes: {
+                                innerHTML: `
+                                    <h2 style="color: #d9534f; font-size: 22px; margin-bottom: 15px;">
+                                        ⚠️ Error
+                                    </h2>
+                                    <p style="font-size: 16px; color: #555;">
+                                        <strong>Lo sentimos</strong>, el código del cliente o el PIN son inválidos, o el mismo ha vencido. 
+                                    </p>
+                                    <p style="font-size: 16px; color: #555;">
+                                        Por favor, solicite un nuevo PIN al cliente para continuar con el proceso.
+                                        <span style="color: #5bc0de;">Agradecemos su comprensión.</span>
+                                    </p>
+                                    <p style="font-size: 16px; color: #555;">
+                                        😔 Si necesita asistencia adicional, no dude en ponerse en contacto con nuestro soporte. 🙏
+                                    </p>
+                                `
+                            }
+                        },
                         icon: "error",
                         dangerMode: true,
                         closeOnEsc: false, // Desactiva el cierre con la tecla Esc
@@ -161,14 +229,25 @@ $(document).ready(function() {
                     });
                 } else if (datos[1] === "ErrorC") {
                     swal({
-                        title: "No se encontró una cuenta asociada a este correo electrónico.",
-                        text: "¿Desea registrarse o explorar nuestros productos?",
+                        content: {
+                            element: "div",
+                            attributes: {
+                                innerHTML: `
+                                    <h2 style="color: #5bc0de; font-size: 22px; margin-bottom: 15px;">
+                                        📧 No se encontró una cuenta asociada a este correo electrónico
+                                    </h2>
+                                    <p style="font-size: 16px; color: #555;">
+                                        <strong>¿Desea registrarse o explorar nuestros productos?</strong>
+                                    </p>
+                                `
+                            }
+                        },
                         icon: "info",
                         buttons: {
                             cancel: "Cerrar",
                             register: {
                                 text: "Sí, registrarme!",
-                                value: "register",   
+                                value: "register",
                             },
                             explore: {
                                 text: "Explorar productos",
@@ -192,17 +271,31 @@ $(document).ready(function() {
                             case "explore":
                                 // El usuario eligió explorar productos, muestra el mensaje de mantenimiento.
                                 swal({
-                                    title: "Mantenimiento en Curso",
-                                    text: "Estamos trabajando para mejorar nuestros servicios. Disculpa las molestias.",
+                                    content: {
+                                        element: "div",
+                                        attributes: {
+                                            innerHTML: `
+                                                <h2 style="color: #f0ad4e; font-size: 22px; margin-bottom: 15px;">
+                                                    🔧 Mantenimiento en Curso
+                                                </h2>
+                                                <p style="font-size: 16px; color: #555;">
+                                                    Estamos trabajando para mejorar nuestros servicios. <strong>Disculpa las molestias.</strong>
+                                                </p>
+                                                <p style="font-size: 16px; color: #555;">
+                                                    ⚙️ Agradecemos tu paciencia. ¡Pronto estaremos de vuelta!
+                                                </p>
+                                            `
+                                        }
+                                    },
                                     icon: "error",
                                     buttons: {
                                         confirm: {
                                             text: "Aceptar",
                                             closeModal: true,
-                                        },
+                                        }
                                     },
                                     closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                                    
+                                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                                 });
                                 break;
 
@@ -213,8 +306,22 @@ $(document).ready(function() {
                     });
                 } else {
                     swal({
-                        title: "Error",
-                        text: "No se enviaron los datos, favor corregir",
+                        content: {
+                            element: "div",
+                            attributes: {
+                                innerHTML: `
+                                    <h2 style="color: #d9534f; font-size: 22px; margin-bottom: 15px;">
+                                        ❌ Error
+                                    </h2>
+                                    <p style="font-size: 16px; color: #555;">
+                                        <strong>No se enviaron los datos</strong>, por favor, corrija los errores y vuelva a intentar.
+                                    </p>
+                                    <p style="font-size: 16px; color: #555;">
+                                        ⚠️ Asegúrese de verificar los campos obligatorios y los datos ingresados.
+                                    </p>
+                                `
+                            }
+                        },
                         icon: "error",
                         dangerMode: true,
                         closeOnEsc: false, // Desactiva el cierre con la tecla Esc
@@ -224,8 +331,22 @@ $(document).ready(function() {
             },
             error: function() {
                 swal({
-                    title: "Error",
-                    text: "Ocurrió un error inesperado, o quizás no tenga conexión con el sistema, por favor intentar más tarde",
+                    content: {
+                        element: "div",
+                        attributes: {
+                            innerHTML: `
+                                <h2 style="color: #d9534f; font-size: 22px; margin-bottom: 15px;">
+                                    ❗ Error Inesperado
+                                </h2>
+                                <p style="font-size: 16px; color: #555;">
+                                    <strong>Ocurrió un error inesperado</strong>, o tal vez no tenga conexión con el sistema.
+                                </p>
+                                <p style="font-size: 16px; color: #555;">
+                                    🚧 Por favor, intente nuevamente más tarde.
+                                </p>
+                            `
+                        }
+                    },
                     icon: "error",
                     dangerMode: true,
                     closeOnEsc: false, // Desactiva el cierre con la tecla Esc
@@ -244,14 +365,28 @@ $(document).ready(function() {
         e.preventDefault();
 
         swal({
-            title: "Mantenimiento en Curso",
-            text: "Estamos trabajando para mejorar nuestros servicios. Disculpa las molestias.",
+            content: {
+                element: "div",
+                attributes: {
+                    innerHTML: `
+                        <h2 style="color: #f0ad4e; font-size: 22px; margin-bottom: 15px;">
+                            🔧 Mantenimiento en Curso
+                        </h2>
+                        <p style="font-size: 16px; color: #555;">
+                            Estamos trabajando para mejorar nuestros servicios. <strong>Disculpa las molestias.</strong>
+                        </p>
+                        <p style="font-size: 16px; color: #555;">
+                            ⚙️ Pronto estará disponible nuevamente. ¡Gracias por tu comprensión!
+                        </p>
+                    `
+                }
+            },
             icon: "error",
             buttons: {
                 confirm: {
                     text: "Aceptar",
                     closeModal: true,
-                },
+                }
             },
             closeOnEsc: false, // Desactiva el cierre con la tecla Esc
             closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
@@ -271,7 +406,7 @@ $(document).ready(function() {
                 swal({
                     title: "",
                     text: "Por favor espere...",
-                    imageUrl: '<?php echo SERVERURL; ?>vistas/plantilla/img/gif-load.gif',
+                    icon: '<?php echo SERVERURL; ?>vistas/plantilla/img/gif-load.gif',
                     closeOnConfirm: false,
                     showConfirmButton: false,
                     closeOnEsc: false, // Desactiva el cierre con la tecla Esc
@@ -282,16 +417,44 @@ $(document).ready(function() {
             success: function(resp) {
                 if (resp == 1) {
                     swal({
-                        title: "Success",
-                        text: "Contraseña reseteada, se ha enviado a su correo electrónico",
+                        content: {
+                            element: "div",
+                            attributes: {
+                                innerHTML: `
+                                    <h2 style="color: #28a745; font-size: 22px; margin-bottom: 15px;">
+                                        ✅ ¡Éxito!
+                                    </h2>
+                                    <p style="font-size: 16px; color: #555;">
+                                        Tu <strong>contraseña</strong> ha sido reseteada exitosamente. 🎉
+                                    </p>
+                                    <p style="font-size: 16px; color: #555;">
+                                        Un correo electrónico ha sido enviado con los detalles para que puedas acceder nuevamente. 📧
+                                    </p>
+                                `
+                            }
+                        },
                         icon: "success",
                         closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                        
+                        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
                     });
                 } else if (resp == 2) {
                     swal({
-                        title: "Error",
-                        text: "Error al resetear la contraseña",
+                        content: {
+                            element: "div",
+                            attributes: {
+                                innerHTML: `
+                                    <h2 style="color: #dc3545; font-size: 22px; margin-bottom: 15px;">
+                                        ❌ Error
+                                    </h2>
+                                    <p style="font-size: 16px; color: #555;">
+                                        Lamentablemente, hubo un problema al resetear tu <strong>contraseña</strong>. 😔
+                                    </p>
+                                    <p style="font-size: 16px; color: #555;">
+                                        Por favor, intenta nuevamente más tarde o contacta con nuestro soporte. 📞
+                                    </p>
+                                `
+                            }
+                        },
                         icon: "error",
                         dangerMode: true,
                         closeOnEsc: false, // Desactiva el cierre con la tecla Esc
@@ -299,8 +462,22 @@ $(document).ready(function() {
                     });
                 } else if (resp == 3) {
                     swal({
-                        title: "Error",
-                        text: "El usuario ingresado no existe",
+                        content: {
+                            element: "div",
+                            attributes: {
+                                innerHTML: `
+                                    <h2 style="color: #dc3545; font-size: 22px; margin-bottom: 15px;">
+                                        ❌ Error
+                                    </h2>
+                                    <p style="font-size: 16px; color: #555;">
+                                        El <strong>usuario</strong> ingresado no existe. 😕
+                                    </p>
+                                    <p style="font-size: 16px; color: #555;">
+                                        Verifica si el nombre de usuario está escrito correctamente o si aún no estás registrado. 📲
+                                    </p>
+                                `
+                            }
+                        },
                         icon: "error",
                         dangerMode: true,
                         closeOnEsc: false, // Desactiva el cierre con la tecla Esc
@@ -308,8 +485,22 @@ $(document).ready(function() {
                     });
                 } else {
                     swal({
-                        title: "Error",
-                        text: "Error al completar los datos",
+                        content: {
+                            element: "div",
+                            attributes: {
+                                innerHTML: `
+                                    <h2 style="color: #dc3545; font-size: 22px; margin-bottom: 15px;">
+                                        ❌ Error
+                                    </h2>
+                                    <p style="font-size: 16px; color: #555;">
+                                        Hubo un problema al completar los datos. 😓
+                                    </p>
+                                    <p style="font-size: 16px; color: #555;">
+                                        Verifica que todos los campos estén correctamente llenos. Si el problema persiste, inténtalo de nuevo. 🔄
+                                    </p>
+                                `
+                            }
+                        },
                         icon: "error",
                         dangerMode: true,
                         closeOnEsc: false, // Desactiva el cierre con la tecla Esc
@@ -319,8 +510,22 @@ $(document).ready(function() {
             },
             error: function() {
                 swal({
-                    title: "Error",
-                    text: "Error al procesar su solicitud de inicio de sesión",
+                    content: {
+                        element: "div",
+                        attributes: {
+                            innerHTML: `
+                                <h2 style="color: #dc3545; font-size: 22px; margin-bottom: 15px;">
+                                    ❌ Error de Inicio de Sesión
+                                </h2>
+                                <p style="font-size: 16px; color: #555;">
+                                    Oops! 😕 Hubo un problema al procesar su solicitud de inicio de sesión.
+                                </p>
+                                <p style="font-size: 16px; color: #555;">
+                                    Verifique sus credenciales o intente nuevamente en unos minutos. 🔄
+                                </p>
+                            `
+                        }
+                    },
                     icon: "error",
                     dangerMode: true,
                     closeOnEsc: false, // Desactiva el cierre con la tecla Esc

@@ -1165,6 +1165,17 @@ function cleanFooterValueBill() {
 
 /*INICIO BARCODE*/
 //INICIO FACTURAS
+function redondearEnteroCercano(numero) {
+    var entero = Math.floor(numero); // Obtenemos la parte entera del número
+    var decimal = numero - entero; // Obtenemos la parte decimal
+
+    if (decimal < 0.5) {
+        return entero; // Redondeamos hacia abajo si la parte decimal es menor que 0.5
+    } else {
+        return entero + 1; // Redondeamos hacia arriba si la parte decimal es mayor o igual a 0.5
+    }
+}
+
 $(document).ready(function() {
     $("#invoice-form #invoiceItem").on('keypress', '.product-bar-code', function(event) {
         var row_index = $(this).closest("tr").index();
@@ -1178,17 +1189,6 @@ $(document).ready(function() {
         }
     });
 });
-
-function redondearEnteroCercano(numero) {
-    var entero = Math.floor(numero); // Obtenemos la parte entera del número
-    var decimal = numero - entero; // Obtenemos la parte decimal
-
-    if (decimal < 0.5) {
-        return entero; // Redondeamos hacia abajo si la parte decimal es menor que 0.5
-    } else {
-        return entero + 1; // Redondeamos hacia arriba si la parte decimal es mayor o igual a 0.5
-    }
-}
 
 function manejarPresionEnter(row_index) {
     event.preventDefault();

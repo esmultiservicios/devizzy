@@ -92,6 +92,8 @@
 				$checkLoteQuery->bind_param("is", $datos['productos_id'], $datos['fecha_vencimiento']);
 				$checkLoteQuery->execute();
 				$resultLote = $checkLoteQuery->get_result();
+
+				$nuevoSaldo = 0;
 		
 				if ($resultLote->num_rows > 0) {
 					$lote = $resultLote->fetch_assoc();
@@ -134,7 +136,7 @@
 		
 					if ($stmt->execute()) {
 						$lote_id = $mysqli->insert_id;
-						$saldo = $datos['cantidad'];  // El saldo inicial es igual a la cantidad
+						$nuevoSaldo = $datos['cantidad'];  // El saldo inicial es igual a la cantidad
 					} else {
 						return false;
 					}
@@ -142,11 +144,11 @@
 			} else {
 				// Si no hay fecha de vencimiento, el lote no se maneja, obtener saldo desde movimientos
 				$saldo = $this->getSaldoProductosMovimientos($datos['productos_id']);
+				$nuevoSaldo = $saldo + $datos['cantidad'];
 				$lote_id = 0;  // No hay lote asociado
 			}
 		
 			// Asegúrate de que siempre haya un saldo válido
-			$nuevoSaldo = isset($nuevoSaldo) ? $nuevoSaldo : $saldo;  // Aseguramos que nunca sea NULL
 			$cantidadSalida = 0;
 			$documento = "";
 		

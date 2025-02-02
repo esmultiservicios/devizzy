@@ -6,12 +6,12 @@ $(document).ready(function() {
     getPagoPlanificado();
     getTipoEmpleado();
     getEmpresa();
-    getEmpleado();
-    listar_nominas();
+    getEmpleado();    
     getTipoNomina();
     getCuentaNominas();
     getEmpleadoVales();
     listar_vales();
+    listar_nominas();
     $('#form_main_nominas #estado_nomina').val(0);
     $('#form_main_nominas #estado_nomina').selectpicker('refresh');
 });
@@ -47,9 +47,9 @@ $('#form_main_nominas_detalles #detalle_nomina_empleado').on("change", function(
 
 //INICIO ACCIONES FROMULARIO NOMINAS
 var listar_nominas = function() {
-    var estado = $("#form_main_nominas #estado_nomina").val();
-    var pago_planificado = $("#form_main_nominas #pago_planificado_nomina").val();
-
+    var estado = $("#form_main_nominas #estado_nomina").val() || 0; 
+    var tipo_contrato_id = $("#form_main_nominas #tipo_contrato_nomina").val() || 0;
+    
     var table_nominas = $("#dataTableNomina").DataTable({
         "destroy": true,
         "ajax": {
@@ -57,7 +57,7 @@ var listar_nominas = function() {
             "url": "<?php echo SERVERURL;?>core/llenarDataTableNomina.php",
             "data": {
                 "estado": estado,
-                "pago_planificado": pago_planificado
+                "tipo_contrato_id": tipo_contrato_id
             }
         },
         "columns": [{
@@ -98,7 +98,7 @@ var listar_nominas = function() {
                 "data": "notas"
             },
             {
-                "defaultContent": "<div class='btn-group'><button type='button' class='btn btn-dark table_editar ocultar dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><i class='fas fa-users-cog'></i> Aciones</button><div class='dropdown-menu'><a class='dropdown-item nomina_generar' href='#'>Generar Nomina</a><div class='dropdown-divider'></div><a class='dropdown-item voucher_pago' href='#'>Voucher de Pago</a><a class='dropdown-item consolidado' href='#'>Consolidado</a></div></div>"
+                "defaultContent": "<div class='btn-group'><button type='button' class='btn btn-dark table_editar ocultar dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><i class='fas fa-users-cog'></i> Aciones</button><div class='dropdown-menu'><a class='dropdown-item nomina_generar' href='#'>Generar Nomina</a><div class='dropdown-divider'></div><a class='dropdown-item voucher_pago' href='#'>Voucher de Pago</a><a class='dropdown-item consolidado' href='#'>Libro de Salarios</a></div></div>"
             },
             {
                 "defaultContent": "<button class='table_editar nomina_agregar btn btn-dark ocultar'><span class='fas fa-folder-plus fa-lg'></span></button>"
@@ -282,35 +282,41 @@ var generar_nominas_dataTable = function(tbody, table) {
 }
 
 function genearNomina(nomina_id, empresa_id) {
-    var url = '<?php echo SERVERURL;?>core/generarNomina.php';
+    var url = '<?php echo SERVERURL; ?>core/generarNomina.php';
 
     $.ajax({
         type: "POST",
         url: url,
         async: true,
-        data: 'nomina_id=' + nomina_id + '&empresa_id=' + empresa_id,
+        data: { nomina_id: nomina_id, empresa_id: empresa_id },
+        dataType: 'json',  // Asegura que la respuesta sea interpretada como JSON
         success: function(data) {
-            if (data == 1) {
+            if (data.status === 1) {
                 swal({
                     title: "Success",
-                    text: "La nomina se ha generado correctamente",
+                    text: data.message,  // Mostrar mensaje del servidor
                     icon: "success",
                     timer: 3000,
-                    dangerMode: true,
-                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera                    
+                    closeOnEsc: false,
+                    closeOnClickOutside: false
+                }).then(() => {  // Espera hasta que el swal se cierre para continuar
+                    listar_nominas();
+                    PrintLibroSalarios(data.nomina_id);
+                    PrintVoucherPago(data.nomina_id);
                 });
-                listar_nominas();
             } else {
                 swal({
                     title: "Error",
-                    text: "Lo sentimos, no se pudo generar la nomina, por favor valide si existen empleados cargados antes de continuar, presione sobre el boton de más en la sección de crear",
+                    text: data.message,  // Mostrar mensaje del servidor
                     icon: "error",
                     dangerMode: true,
-                    closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                    closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
+                    closeOnEsc: false,
+                    closeOnClickOutside: false
                 });
             }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error en la solicitud AJAX:', error);
         }
     });
 }
@@ -341,6 +347,7 @@ var voucher_nominas_dataTable = function(tbody, table) {
     $(tbody).off("click", "a.voucher_pago");
     $(tbody).on("click", "a.voucher_pago", function() {
         var data = table.row($(this).parents("tr")).data();
+
         if (data.estado == 0) {
             swal({
                 title: "Error",
@@ -351,10 +358,7 @@ var voucher_nominas_dataTable = function(tbody, table) {
 				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             });
         } else {
-            var url_comprobante = '<?php echo SERVERURL; ?>core/generarComprobanteNomina.php?nomina_id=' +
-                data
-                .nomina_id;
-            window.open(url_comprobante);
+            PrintVoucherPago(data.nomina_id);
         }
     });
 }
@@ -374,11 +378,31 @@ var libro_salarios_nominas_dataTable = function(tbody, table) {
 				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
             });
         } else {
-            var url_comprobante = '<?php echo SERVERURL; ?>core/generarConsolidadoNomina.php?nomina_id=' +
-                data.nomina_id;
-            window.open(url_comprobante);
+            PrintLibroSalarios(data.nomina_id);
         }
     });
+}
+
+function PrintVoucherPago(nomina_id){
+    params = {
+        "id": nomina_id,
+        "type": "Voucher_izzy",
+        "db": "<?php echo $GLOBALS['db']; ?>"
+    }; 
+
+    // Llamar a la función para mostrar el reporte
+    viewReport(params);   
+}
+
+function PrintLibroSalarios(nomina_id){
+    params = {
+        "id": nomina_id,
+        "type": "Libro_salario_izzy",
+        "db": "<?php echo $GLOBALS['db']; ?>"
+    }; 
+
+    // Llamar a la función para mostrar el reporte
+    viewReport(params);
 }
 
 var editar_nominas_dataTable = function(tbody, table) {
@@ -1014,9 +1038,9 @@ $("#volver_nomina").on("click", function(e) {
 
 //INICO DETALLE DE NOMINAS
 var listar_nominas_detalles = function() {
-    var estado = $("#form_main_nominas_detalles #estado_nomina_detalles").val();
-    var empleado = $("#form_main_nominas_detalles #detalle_nomina_empleado").val();
-    var nomina_id = $("#form_main_nominas_detalles #nomina_id").val();
+    var estado = $("#form_main_nominas_detalles #estado_nomina_detalles").val() || 0;
+    var empleado = $("#form_main_nominas_detalles #detalle_nomina_empleado").val() || 0;
+    var nomina_id = $("#form_main_nominas_detalles #nomina_id").val() || 0;
     $("#nominad_neto_ingreso1").val("");
     $("#nominad_neto_egreso1").val("");
     $("#nominad_neto1").val("");
@@ -1368,8 +1392,9 @@ var eliminar_nominas_detalles_dataTable = function(tbody, table) {
             type: 'POST',
             url: url,
             data: $('#formNominaDetalles').serialize(),
-            success: function(registro) {
+            success: function(registro) {                
                 var valores = eval(registro);
+
                 $('#formNominaDetalles').attr({
                     'data-form': 'delete'
                 });
@@ -1416,9 +1441,9 @@ var eliminar_nominas_detalles_dataTable = function(tbody, table) {
                 $('#formNominaDetalles #nominad_isr').val(valores[22]);
                 $('#formNominaDetalles #nominad_vales').val(valores[30]);
                 $('#formNominaDetalles #nominad_incapacidad_ihss').val(valores[23]);
-                $('#formNominaDetalles #nominad_neto_ingreso').val(valores[24].toFixed(2));
-                $('#formNominaDetalles #nominad_neto_egreso').val(valores[25].toFixed(2));
-                $('#formNominaDetalles #nominad_neto').val(valores[26].toFixed(2));
+                $('#formNominaDetalles #nominad_neto_ingreso').val(parseFloat(valores[24]).toFixed(2));
+                $('#formNominaDetalles #nominad_neto_egreso').val(parseFloat(valores[25]).toFixed(2));
+                $('#formNominaDetalles #nominad_neto').val(parseFloat(valores[26]).toFixed(2));
                 $('#formNominaDetalles #nominad_detalle').val(valores[27]);
                 $('#formNominaDetalles #nomina_detalles_notas').val(valores[28]);
 

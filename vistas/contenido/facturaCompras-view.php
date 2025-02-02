@@ -36,6 +36,8 @@
                                     name="proceso_Purchase" readonly>
                                 <input type="hidden" class="form-control" placeholder="Compra" id="compras_id"
                                     name="compras_id" readonly>
+                                <input type="hidden" class="form-control" placeholder="row" id="pucharse_row"
+                                    name="pucharse_row" readonly value="0">                                    
                                 <input type="hidden" class="form-control" placeholder="Proveedor" id="proveedores_id"
                                     name="proveedores_id" required>
                                 <select id="proveedor" name="proveedor" required class="selectpicker col-12"
@@ -97,7 +99,7 @@
                                         <th width="17%">Nombre Producto</th>
                                         <th width="6%">Cantidad</th>
                                         <th width="7%">Almacén</th>
-                                        <th width="10%">Medida</th>
+                                        <th width="10%">Vencimiento</th>
                                         <th width="10%">Precio</th>
                                         <th width="10%">ISV</th>
                                         <th width="10%">Descuento</th>
@@ -142,11 +144,13 @@
                                                 step="0.01"></td>
                                         <td><select id="almacenPurchase_0" name="almacenPurchase[]" class="selectpicker"
                                                 title="Almacén" data-live-search="true" required data-size="5">
-                                            </select></td>
+                                            </select>
+                                        </td>
                                         <td>
-
-                                            <input type="text" name="medidaPurchase[]" id="medidaPurchase_0" readonly
+                                            <input type="hidden" name="medidaPurchase[]" id="medidaPurchase_0" readonly
                                                 class="form-control buscar_medida_purchase" autocomplete="off">
+                                            <input type="date" name="vencimientoPurchase[]" id="vencimientoPurchase_0"
+                                                class="form-control buscar_vencimiento_purchase" autocomplete="off">                                                
                                             <input type="hidden" name="bodegaPurchase[]" id="bodegaPurchase_0" readonly
                                                 class="form-control buscar_bodega_purchase" autocomplete="off">
                                         </td>

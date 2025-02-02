@@ -315,6 +315,25 @@
 			return true; // Retorna true si la entrada fue registrada correctamente
 		}	
 		
+		protected function getSaldoProductosMovimientosModelo($productos_id)
+		{
+			$mysqli = self::connection();
+		
+			// Consulta preparada para evitar inyecciones SQL
+			$query = "SELECT COALESCE(SUM(m.cantidad_entrada), 0) - COALESCE(SUM(m.cantidad_salida), 0) AS saldo 
+					  FROM movimientos AS m
+					  INNER JOIN productos AS p ON m.productos_id = p.productos_id 
+					  WHERE p.estado = 1 AND p.productos_id = ?";
+		
+			// Preparar y ejecutar la consulta
+			$stmt = $mysqli->prepare($query);
+			$stmt->bind_param("i", $productos_id);  // Bind para el parámetro del producto
+			$stmt->execute();
+		
+			// Obtener el resultado y devolver el saldo
+			$result = $stmt->get_result();
+			return ($result && $row = $result->fetch_assoc()) ? $row['saldo'] : 0;
+		}	
 		
 		protected function registrar_entrada_lote_modelo($datos) {
 			$mysqli = mainModel::connection();
@@ -327,6 +346,8 @@
 				$checkLoteQuery->bind_param("is", $datos['productos_id'], $datos['fecha_vencimiento']);
 				$checkLoteQuery->execute();
 				$resultLote = $checkLoteQuery->get_result();
+
+				$nuevoSaldo = 0;
 		
 				if ($resultLote->num_rows > 0) {
 					$lote = $resultLote->fetch_assoc();
@@ -369,20 +390,21 @@
 		
 					if ($stmt->execute()) {
 						$lote_id = $mysqli->insert_id;
-						$saldo = $datos['cantidad'];  // El saldo inicial es igual a la cantidad
+						$nuevoSaldo = $datos['cantidad'];  // El saldo inicial es igual a la cantidad
 					} else {
 						return false;
 					}
 				}
 			} else {
 				// Si no hay fecha de vencimiento, el lote no se maneja, obtener saldo desde movimientos
-				$saldo = $this->getSaldoProductosMovimientosModelo($datos['productos_id']);
+				$saldo = $this->getSaldoProductosMovimientos($datos['productos_id']);
+				$nuevoSaldo = $saldo + $datos['cantidad'];
 				$lote_id = 0;  // No hay lote asociado
 			}
 		
 			// Asegúrate de que siempre haya un saldo válido
-			$nuevoSaldo = isset($nuevoSaldo) ? $nuevoSaldo : $saldo;  // Aseguramos que nunca sea NULL
 			$cantidadSalida = 0;
+			$documento = "";
 		
 			// Insertar movimiento
 			$insertMovimiento = "INSERT INTO movimientos (productos_id, cantidad_entrada, cantidad_salida, saldo, empresa_id, fecha_registro, almacen_id, lote_id, clientes_id, documento, comentario) 
@@ -398,36 +420,22 @@
 				$datos['almacen_id'],
 				$lote_id,
 				$datos['clientes_id'],
-				$datos['documento'],
+				$documento,
 				$datos['comentario']
 			);
 		
 			if ($stmtMovimiento->execute()) {
 				$movimientos_id = $mysqli->insert_id; // Obtener ID del movimiento insertado
+		
+				// Actualizar el campo documento con "Movimiento" + id del movimiento
+				$nuevo_documento = "Movimiento " . $movimientos_id;
+				$updateDocumento = $mysqli->prepare("UPDATE movimientos SET documento = ? WHERE movimientos_id = ?");
+				$updateDocumento->bind_param("si", $nuevo_documento, $movimientos_id);
+				$updateDocumento->execute();
 				
 				return ["success" => true, "message" => "Entrada registrada correctamente.", "movimientos_id" => $movimientos_id];
 			} else {
 				return ["success" => false, "message" => "Error al registrar el movimiento de entrada."];
 			}
-		}	
-		
-		protected function getSaldoProductosMovimientosModelo($productos_id)
-		{
-			$mysqli = self::connection();
-		
-			// Consulta preparada para evitar inyecciones SQL
-			$query = "SELECT COALESCE(SUM(m.cantidad_entrada), 0) - COALESCE(SUM(m.cantidad_salida), 0) AS saldo 
-					  FROM movimientos AS m
-					  INNER JOIN productos AS p ON m.productos_id = p.productos_id 
-					  WHERE p.estado = 1 AND p.productos_id = ?";
-		
-			// Preparar y ejecutar la consulta
-			$stmt = $mysqli->prepare($query);
-			$stmt->bind_param("i", $productos_id);  // Bind para el parámetro del producto
-			$stmt->execute();
-		
-			// Obtener el resultado y devolver el saldo
-			$result = $stmt->get_result();
-			return ($result && $row = $result->fetch_assoc()) ? $row['saldo'] : 0;
 		}		
 	}

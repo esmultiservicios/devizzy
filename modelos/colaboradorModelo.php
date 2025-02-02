@@ -68,5 +68,5 @@
 			$sql = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 			
 			return $sql;			
-		}
+		}			
     }

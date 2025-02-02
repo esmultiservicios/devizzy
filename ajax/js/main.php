@@ -1443,19 +1443,19 @@ function printBill(facturas_id, $print_comprobante) {
                     params = {
                         "id": facturas_id,
                         "type": "Factura_carta_izzy",
-                        "db": "<?php echo DB_MAIN; ?>"
+                        "db": "<?php echo $GLOBALS['db']; ?>"
                     };
                 } else if (formato === "Media Carta") {
                     params = {
                         "id": facturas_id,
                         "type": "Factura_media_izzy",
-                        "db": "<?php echo DB_MAIN; ?>"
+                        "db": "<?php echo $GLOBALS['db']; ?>"
                     };
                 } else if (formato === "Ticket") {
                     params = {
                         "id": facturas_id,
                         "type": "Factura_ticket_izzy",
-                        "db": "<?php echo DB_MAIN; ?>"
+                        "db": "<?php echo $GLOBALS['db']; ?>"
                     };                
                 } else {
                     // Manejar caso donde el formato no sea válido
@@ -1538,19 +1538,19 @@ function printBillReporteVentas(facturas_id, print_comprobante) {
                     params = {
                         "id": facturas_id,
                         "type": "Factura_carta_izzy",
-                        "db": "<?php echo DB_MAIN; ?>"
+                        "db": "<?php echo $GLOBALS['db']; ?>"
                     };
                 } else if (formato === "Media Carta") {
                     params = {
                         "id": facturas_id,
                         "type": "Factura_media_izzy",
-                        "db": "<?php echo DB_MAIN; ?>"
+                        "db": "<?php echo $GLOBALS['db']; ?>"
                     };
                 } else if (formato === "Ticket") {
                     params = {
                         "id": facturas_id,
                         "type": "Factura_ticket_izzy",
-                        "db": "<?php echo DB_MAIN; ?>"
+                        "db": "<?php echo $GLOBALS['db']; ?>"
                     };                
                 } else {
                     // Manejar caso donde el formato no sea válido

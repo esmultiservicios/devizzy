@@ -13,9 +13,14 @@
 
 	//CONSULTAR SI EL EMPLEADO TIENE VALES
 	$resultVales = $insMainModel->getConsultaValesEmpleado($colaboradores_id);
-	$valores2Vales = $result->fetch_assoc();
-	$valores2Vales = $resultVales->fetch_assoc();
-	$vales = isset($valores2Vales['monto']) ? $valores2Vales['monto'] : 0;
+
+	$vales = 0;
+
+	if($result->num_rows > 0) {
+		$valores2Vales = $result->fetch_assoc();
+		$valores2Vales = $resultVales->fetch_assoc();
+		$vales = isset($valores2Vales['monto']) ? $valores2Vales['monto'] : 0;
+	}
 
 	$datos = array(
 		0 => $valores2['puesto'],

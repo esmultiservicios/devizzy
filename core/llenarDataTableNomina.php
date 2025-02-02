@@ -7,7 +7,7 @@
 	
 	$datos = [
 		"estado" => $_POST['estado'],	
-		"pago_planificado" => $_POST['pago_planificado'],
+		"tipo_contrato_id" => $_POST['tipo_contrato_id'],
 	];	
 
 	$result = $insMainModel->getNomina($datos);

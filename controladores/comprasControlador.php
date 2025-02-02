@@ -92,7 +92,7 @@
 									$price = $_POST['pricePurchase'][$i];
 									$medida= $_POST['medidaPurchase'][$i];
 									$bodega = $_POST['almacenPurchase'][$i] === "" ? 0 : $_POST['almacenPurchase'][$i];
-									$fecha_vencimiento = $_POST['fecha_vencimiento'][$i] === "" ? null : $_POST['fecha_vencimiento'][$i];
+									$fecha_vencimiento = $_POST['vencimientoPurchase'][$i] === "" ? null : $_POST['vencimientoPurchase'][$i];
 
 									if($_POST['discountPurchase'][$i] != "" || $_POST['discountPurchase'][$i] != null){
 										$discount = $_POST['discountPurchase'][$i];	
@@ -135,15 +135,19 @@
 											//SI LA CATEGORIA ES PRODUCTO PROCEDEMOS A RALIZAR LA SALIDA Y ACTUALIZAMOS LA NUEVA CANTIDAD DEL PRODUCTO, AGREGANDO TAMBIÉN EL MOVIMIENTO DE ESTE
 											if($categoria_producto == "Producto" || $categoria_producto == "Insumos"){	
 												//ALMACENAMOS EL PRODUCTO TAL CUAL SE FACTURA
-
-												comprasModelo::registrar_entrada_por_lote(
-													$productos_id,                      // ID del producto
-													$quantity,                           // Cantidad de entrada
-													$fecha_vencimiento,                  // Fecha de vencimiento (si aplica)
-													$bodega,                             // ID del almacén
-													$empresa_id === "" ? 1 : $empresa_id, // Si no se especifica empresa, asigna 1 por defecto
-													"Compra " . $no_factura             // Asignación correcta del documento con el número de factura
-												);											
+												
+												// Llamamos a la función para registrar la entrada por lote
+												$datos = [
+													"productos_id" => $productos_id,
+													"clientes_id" => $proveedores_id ?: 0,
+													"comentario" => "Entrada inventario por compras",
+													"almacen_id" => $bodega ?: 0,
+													"fecha_vencimiento" => $fecha_vencimiento,
+													"cantidad" => $quantity,
+													"empresa_id" => $empresa_id === "" ? 1 : $empresa_id,
+												];
+									
+												comprasModelo::registrar_entrada_lote_modelo($datos);												
 
 												$medidaName = strtolower($medida);
 
@@ -167,16 +171,20 @@
 															
 															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
 																$quantity = $quantity / 2204.623;
-															}														
-																
-															comprasModelo::registrar_entrada_por_lote(
-																$producto_id_hijo,                      // ID del producto
-																$quantity,                           // Cantidad de entrada
-																$fecha_vencimiento,                  // Fecha de vencimiento (si aplica)
-																$bodega,                             // ID del almacén
-																$empresa_id === "" ? 1 : $empresa_id, // Si no se especifica empresa, asigna 1 por defecto
-																"Compra " . $no_factura             // Asignación correcta del documento con el número de factura
-															);																					
+															}																													
+															
+															// Llamamos a la función para registrar la entrada por lote
+															$datos = [
+																"productos_id" => $producto_id_hijo,
+																"clientes_id" => $proveedores_id ?: 0,
+																"comentario" => "Entrada inventario por compras",
+																"almacen_id" => $bodega ?: 0,
+																"fecha_vencimiento" => $fecha_vencimiento,
+																"cantidad" => $quantity,
+																"empresa_id" => $empresa_id === "" ? 1 : $empresa_id,
+															];
+												
+															comprasModelo::registrar_entrada_lote_modelo($datos);															
 														}
 													}
 
@@ -195,17 +203,20 @@
 															
 															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
 																$quantity = $quantity / 2204.623;
-															}														
+															}																												
 															
 															// Llamamos a la función para registrar la entrada por lote
-															comprasModelo::registrar_entrada_por_lote(
-																$producto_id_padre,                      // ID del producto
-																$quantity,                           // Cantidad de entrada
-																$fecha_vencimiento,                  // Fecha de vencimiento (si aplica)
-																$bodega,                             // ID del almacén
-																$empresa_id === "" ? 1 : $empresa_id, // Si no se especifica empresa, asigna 1 por defecto
-																"Compra " . $no_factura             // Asignación correcta del documento con el número de factura
-															);																						
+															$datos = [
+																"productos_id" => $producto_id_padre,
+																"clientes_id" => $proveedores_id ?: 0,
+																"comentario" => "Entrada inventario por compras",
+																"almacen_id" => $bodega ?: 0,
+																"fecha_vencimiento" => $fecha_vencimiento,
+																"cantidad" => $quantity,
+																"empresa_id" => $empresa_id === "" ? 1 : $empresa_id,
+															];
+												
+															comprasModelo::registrar_entrada_lote_modelo($datos);															
 														}
 													}
 												}																						
@@ -309,7 +320,7 @@
 									$medida= $_POST['medidaPurchase'][$i];
 									$price = $_POST['pricePurchase'][$i];
 									$bodega = $_POST['almacenPurchase'][$i] === "" ? 0 : $_POST['almacenPurchase'][$i];
-									$fecha_vencimiento = $_POST['fecha_vencimiento'][$i] === "" ? null : $_POST['fecha_vencimiento'][$i];
+									$fecha_vencimiento = $_POST['vencimientoPurchase'][$i] === "" ? null : $_POST['vencimientoPurchase'][$i];
 
 									if($_POST['discountPurchase'][$i] != "" || $_POST['discountPurchase'][$i] != null){
 										$discount = $_POST['discountPurchase'][$i];	
@@ -358,19 +369,22 @@
 											
 											//SI LA CATEGORIA ES PRODUCTO PROCEDEMOS A RALIZAR LA SALIDA Y ACTUALIZAMOS LA NUEVA CANTIDAD DEL PRODUCTO, AGREGANDO TAMBIÉN EL MOVIMIENTO DE ESTE
 											if($tipo_producto == "Producto" || $tipo_producto == "Insumos"){
-												//ALMACENAMOS EL PRODUCTO TAL CUAL SE FACTURA												
-														
+												//ALMACENAMOS EL PRODUCTO TAL CUAL SE FACTURA																										
+													
 												// Llamamos a la función para registrar la entrada por lote
-												comprasModelo::registrar_entrada_por_lote(
-													$productos_id,                      // ID del producto
-													$quantity,                           // Cantidad de entrada
-													$fecha_vencimiento,                  // Fecha de vencimiento (si aplica)
-													$bodega,                             // ID del almacén
-													$empresa_id === "" ? 1 : $empresa_id, // Si no se especifica empresa, asigna 1 por defecto
-													"Compra " . $no_factura             // Asignación correcta del documento con el número de factura
-												);
-																								
-										$medidaName = strtolower($medida);
+												$datos = [
+													"productos_id" => $productos_id,
+													"clientes_id" => $proveedores_id ?: 0,
+													"comentario" => "Entrada inventario por compras",
+													"almacen_id" => $bodega ?: 0,
+													"fecha_vencimiento" => $fecha_vencimiento,
+													"cantidad" => $quantity,
+													"empresa_id" => $empresa_id === "" ? 1 : $empresa_id,
+												];
+									
+												comprasModelo::registrar_entrada_lote_modelo($datos);
+
+												$medidaName = strtolower($medida);
 
 												//CONSULTAMOS SI EL PRODUCTO ES UN PADRE
 												$producto_padre = comprasModelo::cantidad_producto_modelo($productos_id)->fetch_assoc();
@@ -395,14 +409,17 @@
 															}														
 
 															// Llamamos a la función para registrar la entrada por lote
-															comprasModelo::registrar_entrada_por_lote(
-																$producto_id_hijo,                      // ID del producto
-																$quantity,                           // Cantidad de entrada
-																$fecha_vencimiento,                  // Fecha de vencimiento (si aplica)
-																$bodega,                             // ID del almacén
-																$empresa_id === "" ? 1 : $empresa_id, // Si no se especifica empresa, asigna 1 por defecto
-																"Compra " . $no_factura             // Asignación correcta del documento con el número de factura
-															);
+															$datos = [
+																"productos_id" => $producto_id_hijo,
+																"clientes_id" => $proveedores_id ?: 0,
+																"comentario" => "Entrada inventario por compras",
+																"almacen_id" => $bodega ?: 0,
+																"fecha_vencimiento" => $fecha_vencimiento,
+																"cantidad" => $quantity,
+																"empresa_id" => $empresa_id === "" ? 1 : $empresa_id,
+															];
+												
+															comprasModelo::registrar_entrada_lote_modelo($datos);															
 																									
 														}
 													}
@@ -423,16 +440,19 @@
 															if($medidaName == "lbs"){ // MEDIDA EN LBS DEL PADRE
 																$quantity = $quantity / 2204.623;
 															}																
-
+															
 															// Llamamos a la función para registrar la entrada por lote
-															comprasModelo::registrar_entrada_por_lote(
-																$producto_id_padre,                      // ID del producto
-																$quantity,                           // Cantidad de entrada
-																$fecha_vencimiento,                  // Fecha de vencimiento (si aplica)
-																$bodega,                             // ID del almacén
-																$empresa_id === "" ? 1 : $empresa_id, // Si no se especifica empresa, asigna 1 por defecto
-																"Compra " . $no_factura             // Asignación correcta del documento con el número de factura
-															);										
+															$datos = [
+																"productos_id" => $producto_id_padre,
+																"clientes_id" => $proveedores_id ?: 0,
+																"comentario" => "Entrada inventario por compras",
+																"almacen_id" => $bodega ?: 0,
+																"fecha_vencimiento" => $fecha_vencimiento,
+																"cantidad" => $quantity,
+																"empresa_id" => $empresa_id === "" ? 1 : $empresa_id,
+															];
+												
+															comprasModelo::registrar_entrada_lote_modelo($datos);															
 														}
 													}
 												}
