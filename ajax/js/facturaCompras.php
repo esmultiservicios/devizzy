@@ -1186,9 +1186,10 @@ function manejarPresionEnterCompras(row_index) {
                     $("#purchase-form #purchaseItem #productNamePurchase_" + row_index).val(valores[0]);
                     $("#purchase-form #purchaseItem #pricePurchase_" + row_index).val(valores[1]);
                     $("#purchase-form #purchaseItem #precio_real_" + row_index).val(valores[1]);
-                    $("#purchase-form #purchaseItem #productos_id_" + row_index).val(valores[2]);
+                    $("#purchase-form #purchaseItem #productos_idPurchase_" + row_index).val(valores[2]);
                     $("#purchase-form #purchaseItem #isvPurchaseWrite_" + row_index).val(valores[3]);
                     $('#purchase-form #purchaseItem #medidaPurchase_' + row_index).val(valores[8]);
+                    $('#purchase-form #purchaseItem #discountPurchase_' + row_index).val(0);
 
                     var impuesto_venta = parseFloat($('#purchase-form #purchaseItem #isvPurchaseWrite_' +
                         row_index).val());

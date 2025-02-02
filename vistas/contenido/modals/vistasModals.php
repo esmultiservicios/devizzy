@@ -537,7 +537,7 @@
                                                                         name="metodopago_efectivo_compras"
                                                                         class="selectpicker col-12" data-size="5"
                                                                         data-width="100%" data-live-search="true"
-                                                                        title="Método de Pago">
+                                                                        title="Método de Pago" required>
                                                                     </select>
                                                                 </div>
                                                             </div>

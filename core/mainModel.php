@@ -645,7 +645,8 @@ class mainModel
 						buttons: true,
 						confirmButtonClass: '" . $datos['btn-class'] . "',
 						confirmButtonText: '" . $datos['btn-text'] . "',
-						timer: 3000
+						timer: 3000,
+						allowOutsideClick: false
 					}).then((willConfirm) => {
 						if (willConfirm) {
 							location.reload();  // Recarga la página cuando se confirma
@@ -662,7 +663,8 @@ class mainModel
 						icon: '" . $datos['type'] . "',
 						buttons: true,
 						dangerMode: true,  // Si quieres resaltar el botón de peligro, puedes usar esto
-						timer: 3000
+						timer: 3000,
+						allowOutsideClick: false
 					}).then((willDelete) => {
 						if (willDelete) {
 							redireccionar(); // Redirecciona si el usuario confirma
