@@ -210,7 +210,8 @@
 			$update = "UPDATE facturas
 			SET
 				secuencia_facturacion_id = '".$datos['secuencia_facturacion_id']."',
-				number = '".$datos['number']."'
+				number = '".$datos['number']."',
+				fecha = CURDATE()
 			WHERE facturas_id = '".$datos['facturas_id']."'";
 
 			$result = mainModel::connection()->query($update) or die(mainModel::connection()->error);	

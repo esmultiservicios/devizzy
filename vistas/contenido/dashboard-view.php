@@ -66,7 +66,7 @@
 			<i class="fab fa-sellsy mr-1"></i>
 			Gráficos
 		</div>
-		<div class="card-body"> 
+		<divdivass="card-body"> 
 			<div class="row">
 				<div class="col-md-12 col-xl-6">
 					<a href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>reporteVentas/" style="color: #3366BB;">
@@ -91,6 +91,19 @@
 						</div>
 					</a>
 				</div>
+				
+				<div class="col-md-12">
+					<div class="stati card mb-4">
+						<div class="card-header">
+							<i class="fas fa-chart-bar mr-1"></i>
+							Top 5 Productos Más Vendidos en 3 Meses
+						</div>
+						<div class="card-body">
+							<canvas id="graphTopProductosporAno" width="100%" height="30%"></canvas>
+						</div>
+					</div>
+				</div>					
+
 			</div>             
 		</div>
 	</div>	

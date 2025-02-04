@@ -2460,6 +2460,12 @@ class mainModel
 		return $result;
 	}
 
+	public function ejecutarConsultaSimple($query){
+		$result = self::connection()->query($query);
+
+		return $result;
+	}
+
 	public function getSaldoProductosMovimientos($productos_id)
 	{
 		$query = "SELECT

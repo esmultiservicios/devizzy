@@ -61,9 +61,9 @@ function setTotalPurchases() {
 }
 
 $(document).ready(function() {
-    //DASHBOARD
+    // DASHBOARD
     setTotalCustomers();
-    setTotalSuppliers()
+    setTotalSuppliers();
     setTotalBills();
     setTotalPurchases();
     getMesFacturaCompra();
@@ -75,7 +75,8 @@ $(document).ready(function() {
     setInterval('setTotalBills()', 120000);
     setInterval('setTotalPurchases()', 120000);
 
-    //GRAPHICS
+    // GRAPHICS
+    showTopProductosTresMeses();
     showVentasAnuales();
     showComprasAnuales();
 
@@ -83,8 +84,72 @@ $(document).ready(function() {
     setInterval('showComprasAnuales()', 120000);
 });
 
-//GRAFICAS
-// ...
+// GRAFICAS
+function showTopProductosTresMeses() {
+    var url = '<?php echo SERVERURL; ?>core/getTopProductosTresMeses.php';
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        success: function(data) {
+            var datos = JSON.parse(data);
+            var meses = [];
+            var productos = {};
+
+            datos.forEach(function(item) {
+                if (!meses.includes(item.mes)) {
+                    meses.push(item.mes);
+                }
+                if (!productos[item.producto]) {
+                    productos[item.producto] = new Array(meses.length).fill(0);
+                }
+                productos[item.producto][meses.indexOf(item.mes)] = item.total_vendido || 0;
+            });
+
+            var datasets = Object.keys(productos).map(function(producto, index) {
+                var colores = ['#4099ff', '#FF6384', '#FFCE56', '#4BC0C0', '#9966FF'];
+                return {
+                    label: producto,
+                    backgroundColor: colores[index % colores.length],
+                    borderColor: colores[index % colores.length],
+                    borderWidth: 1,
+                    data: productos[producto]
+                };
+            });
+
+            var ctx = document.getElementById('graphTopProductosporAno').getContext('2d');
+
+            if (window.chartTopProductosAnoActual) {
+                window.chartTopProductosAnoActual.destroy();
+            }
+
+            window.chartTopProductosAnoActual = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: meses,
+                    datasets: datasets
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    });
+}
 
 function showVentasAnuales() {
     var url = '<?php echo SERVERURL;?>core/getFacturaporAno.php';
