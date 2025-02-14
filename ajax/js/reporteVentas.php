@@ -47,7 +47,7 @@ function customRound(number) {
 //INICIO REPORTE DE VENTAS
 var listar_reporte_ventas = function() {
     let tipo_factura_reporte = $("#form_main_ventas #tipo_factura_reporte").val();
-    tipo_factura_reporte = tipo_factura_reporte ? tipo_factura_reporte : 1;
+    tipo_factura_reporte = tipo_factura_reporte ? tipo_factura_reporte : 1; //estdo
 
     let factura = $("#form_main_ventas #factura_reporte").val();
     factura = factura ? factura : 1;

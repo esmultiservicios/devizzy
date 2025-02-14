@@ -40,7 +40,7 @@
                                     [F1] Ayuda
                                 </button>
                                 <button class="btn btn-secondary" type="submit" id="guardar_factura"
-                                    style="display: none;" data-toggle="tooltip" data-placement="top" title="Guardar">
+                                    data-toggle="tooltip" data-placement="top" title="Guardar">
                                     <div class="sb-nav-link-icon"></div><i class="fas fa-save fa-lg"></i> [F2] Guardar
                                 </button>
                                 <button class="btn btn-secondary" type="submit" id="reg_factura" data-toggle="tooltip"

@@ -6,8 +6,34 @@
     }
 
 	class facturasModelo extends mainModel{		
-		protected function agregar_facturas_modelo($datos){
-			$insert = "INSERT INTO facturas (
+		protected function guardar_facturas_modelo($datos) {
+			// Verificar si ya existe un registro con el mismo facturas_id
+			$check = "SELECT COUNT(*) as count FROM facturas 
+					  WHERE facturas_id = '".$datos['facturas_id']."'";
+			$result_check = mainModel::connection()->query($check) or die(mainModel::connection()->error);
+			$row = $result_check->fetch_assoc();
+		
+			if ($row['count'] > 0) {
+				// Si existe, realizar un UPDATE
+				$query = "UPDATE facturas SET
+							`clientes_id` = '".$datos['clientes_id']."',
+							`secuencia_facturacion_id` = '".$datos['secuencia_facturacion_id']."',
+							`apertura_id` = '".$datos['apertura_id']."',
+							`number` = '".$datos['numero']."',
+							`tipo_factura` = '".$datos['tipo_factura']."',
+							`colaboradores_id` = '".$datos['colaboradores_id']."',
+							`importe` = '".$datos['importe']."',
+							`notas` = '".$datos['notas']."',
+							`fecha` = '".$datos['fecha']."',
+							`estado` = '".$datos['estado']."',
+							`usuario` = '".$datos['usuario']."',
+							`empresa_id` = '".$datos['empresa']."',
+							`fecha_registro` = '".$datos['fecha_registro']."',
+							`fecha_dolar` = '".$datos['fecha_dolar']."'
+						WHERE `facturas_id` = '".$datos['facturas_id']."'";
+			} else {
+				// Si no existe, realizar un INSERT
+				$query = "INSERT INTO facturas (
 							`facturas_id`, 
 							`clientes_id`, 
 							`secuencia_facturacion_id`, 
@@ -41,37 +67,62 @@
 							'".$datos['fecha_registro']."',
 							'".$datos['fecha_dolar']."'
 						)";
+			}
 		
-			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
+			$result = mainModel::connection()->query($query) or die(mainModel::connection()->error);
 		
-			return $result;			
-		}		
-
-		protected function agregar_detalle_facturas_modelo($datos){
-			$facturas_detalle_id = mainModel::correlativo("facturas_detalle_id", "facturas_detalles");
-			$insert = "INSERT INTO facturas_detalles (
-							`facturas_detalle_id`, 
-							`facturas_id`, 
-							`productos_id`, 
-							`cantidad`, 
-							`precio`, 
-							`isv_valor`, 
-							`descuento`, 
-							`medida`
-						)
-						VALUES (
-							'$facturas_detalle_id',
-							'".$datos['facturas_id']."',
-							'".$datos['productos_id']."',
-							'".$datos['cantidad']."',
-							'".$datos['precio']."',
-							'".$datos['isv_valor']."',
-							'".$datos['descuento']."',
-							'".$datos['medida']."'
-						)";
-			$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-			return $result;			
-		}		
+			// Devolver true si la consulta fue exitosa, false en caso contrario
+			return $result ? true : false;
+		}
+		
+		protected function agregar_detalle_facturas_modelo($datos) {
+			// Verificar si ya existe un registro con el mismo facturas_id y productos_id
+			$check = "SELECT COUNT(*) as count FROM facturas_detalles 
+					  WHERE facturas_id = '".$datos['facturas_id']."' 
+					  AND productos_id = '".$datos['productos_id']."'";
+			$result_check = mainModel::connection()->query($check) or die(mainModel::connection()->error);
+			$row = $result_check->fetch_assoc();
+		
+			if ($row['count'] > 0) {
+				// Si existe, realizar un UPDATE
+				$update = "UPDATE facturas_detalles SET
+							`cantidad` = '".$datos['cantidad']."',
+							`precio` = '".$datos['precio']."',
+							`isv_valor` = '".$datos['isv_valor']."',
+							`descuento` = '".$datos['descuento']."',
+							`medida` = '".$datos['medida']."'
+						WHERE `facturas_id` = '".$datos['facturas_id']."' 
+						AND `productos_id` = '".$datos['productos_id']."'";
+				$result = mainModel::connection()->query($update);
+			} else {
+				// Si no existe, realizar un INSERT
+				$facturas_detalle_id = mainModel::correlativo("facturas_detalle_id", "facturas_detalles");
+				$insert = "INSERT INTO facturas_detalles (
+								`facturas_detalle_id`, 
+								`facturas_id`, 
+								`productos_id`, 
+								`cantidad`, 
+								`precio`, 
+								`isv_valor`, 
+								`descuento`, 
+								`medida`
+							)
+							VALUES (
+								'$facturas_detalle_id',
+								'".$datos['facturas_id']."',
+								'".$datos['productos_id']."',
+								'".$datos['cantidad']."',
+								'".$datos['precio']."',
+								'".$datos['isv_valor']."',
+								'".$datos['descuento']."',
+								'".$datos['medida']."'
+							)";
+				$result = mainModel::connection()->query($insert);
+			}
+		
+			// Devolver true si la consulta fue exitosa, false en caso contrario
+			return $result ? true : false;
+		}	
 		
 		protected function agregar_cambio_dolar_modelo($datos){
 			$insert = "INSERT INTO cambio_dolar 

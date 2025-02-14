@@ -41,7 +41,7 @@
 				$fecha_dolar = $_POST['fecha_dolar'];
 				$fecha_registro = date("Y-m-d H:i:s");
 				$fac_guardada = false;
-	
+
 				if (isset($_POST['facturas_id'])){
 					if($_POST['facturas_id'] != "") {
 						$facturas_id = $_POST['facturas_id'];
@@ -80,7 +80,7 @@
 					//SI EXITE VALORES EN LA TABLA, PROCEDEMOS ALMACENAR LA FACTURA Y EL DETALLE DE ESTA
 					if($tamano_tabla > 0){						
 						if($tipo_factura == 1){	//INICIO FACTURA CONTADO
-							if($fac_guardada === false) {//NO SE HA GUARDADO LA FACTURA
+							//if($fac_guardada === false) {//NO SE HA GUARDADO LA FACTURA
 								$datos = [
 									"facturas_id" => $facturas_id,
 									"clientes_id" => $clientes_id,
@@ -99,7 +99,7 @@
 									"fecha_dolar" => $fecha_dolar
 								];							
 								
-								$query = facturasModelo::agregar_facturas_modelo($datos);
+								$query = facturasModelo::guardar_facturas_modelo($datos);
 	
 								if($query){
 									//ALMACENAMOS LOS DETALLES DE LA FACTURA
@@ -431,7 +431,7 @@
 								if($resultCobrarClientes->num_rows==0){
 									facturasModelo::agregar_cuenta_por_cobrar_clientes($datos_cobrar_clientes);	
 								}
-							}else{//YA SE GUARDO LA FACTURA
+							/*}else{//YA SE GUARDO LA FACTURA
 								$alert = [
 									"alert" => "simple",
 									"title" => "Opción en desarrollo",
@@ -439,7 +439,7 @@
 									"type" => "warning",
 									"btn-class" => "btn-warning",					
 								];	
-							}
+							}*/
 						//FIN FACTURA CONTADO
 						}else{//INICIO FACTURA CRÉDITO
 							//SI LA FACTURA ES AL CRÉDITO ALMACENAMOS LOS DATOS DE LA FACTURA PERO NO REGISTRAMOS EL PAGO, SIMPLEMENTE DEJAMOS LA CUENTA POR COBRAR A LOS CLIENTES						
@@ -462,7 +462,7 @@
 								"fecha_dolar" => $fecha_dolar
 							];	
 													
-							$query = facturasModelo::agregar_facturas_modelo($datos);
+							$query = facturasModelo::guardar_facturas_modelo($datos);
 	
 							if($query){
 								//ALMACENAMOS LOS DETALLES DE LA FACTURA							
@@ -884,7 +884,7 @@
 					];	
 										
 					if($Existe == false){										
-						facturasModelo::agregar_facturas_modelo($datos);
+						facturasModelo::guardar_facturas_modelo($datos);
 					}else{
 						facturasModelo::actualizar_factura_importe($datos);
 					}

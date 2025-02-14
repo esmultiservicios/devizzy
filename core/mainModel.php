@@ -3568,8 +3568,7 @@ class mainModel
 			INNER JOIN productos AS p ON fd.productos_id = p.productos_id
 			INNER JOIN medida as med ON p.medida_id = med.medida_id
 			WHERE fd.facturas_id = '$noFactura'
-			GROUP BY fd.productos_id
-			";
+			GROUP BY fd.productos_id";
 
 		$result = self::connection()->query($query);
 
@@ -4655,7 +4654,7 @@ class mainModel
 				ON f.clientes_id = c.clientes_id
 				INNER JOIN secuencia_facturacion AS sf
 				ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-				WHERE f.fecha BETWEEN '" . $datos['fechai'] . "' AND '" . $datos['fechaf'] . "' AND f.estado = 1";
+				WHERE f.fecha BETWEEN '" . $datos['fechai'] . "' AND '" . $datos['fechaf'] . "' AND f.estado = 1 AND f.number = 0";
 
 		$result = self::connection()->query($query);
 

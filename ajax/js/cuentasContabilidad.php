@@ -191,7 +191,7 @@ var listar_cuentas_contabilidad = function() {
                     convertDateFormat(fechaf),
                 messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6]
+                    columns: [0, 1, 2, 3, 4, 5]
                 },
                 className: 'table_reportes btn btn-success ocultar'
             },
@@ -206,7 +206,7 @@ var listar_cuentas_contabilidad = function() {
                 messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
                 className: 'table_reportes btn btn-danger ocultar',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6]
+                    columns: [0, 1, 2, 3, 4, 5]
                 },
                 customize: function(doc) {
                     if (imagen) { // Solo agrega la imagen si 'imagen' tiene contenido válido

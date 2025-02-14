@@ -204,14 +204,7 @@
 				$saldo = $lote['cantidad'];
 			} else {
 				// Si no hay fecha de vencimiento, el lote no se maneja, obtener saldo desde movimientos
-				$resultSaldo = $this->getSaldoProductosMovimientos($datos['productos_id']);
-
-				if ($resultSaldo->num_rows > 0) {
-					$consulta = $resultSaldo->fetch_assoc();  // Accede a los resultados correctamente
-					$saldo = $consulta['saldo'];  // Obtén el saldo desde la consulta
-				} else {
-					$saldo = 0;  // Si no hay resultados, asigna 0 al saldo
-				}
+				$saldo = $this->getSaldoProductosMovimientos($datos['productos_id']);
 
 				$nuevoSaldo = $saldo + $datos['cantidad'];
 				$lote_id = 0;  // No hay lote asociado
