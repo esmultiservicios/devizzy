@@ -49,7 +49,7 @@
 		if($row['estado'] == 2){
 			$estadoColor = 'bg-c-green';
 		}else{
-			$estadoColor = 'bg-warning';
+			$estadoColor = 'bg-c-yellow';
 		}
 
 		$data[] = array( 

@@ -51,7 +51,7 @@
 			if($result_cxpFacturaCompraPago->num_rows>0){
 				$color = 'bg-c-green';
 			}else{
-				$color = 'bg-warning';
+				$color = 'bg-c-yellow';
 			}			
 	   }	   
 

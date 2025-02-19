@@ -60,7 +60,8 @@
 		"estado" => $estado,
 		"usuario" => $usuario,
 		"fecha_registro" => $fecha_registro,
-		"empresa" => $empresa_id
+		"fecha_dolar" => $fecha_registro,
+		"empresa_id" => $empresa_id
 	];		
 
 	$query = $insMainModel->agregar_facturas($datos);
@@ -75,6 +76,15 @@
 			$price = $registro_detalles['precio'];
 			$isv_valor = $registro_detalles['isv_valor'];
 			$discount = $registro_detalles['descuento'];
+			$medida = "";
+			
+			//CONSULTAR LA MEDIDA DEL PRODUCTO
+			$result_medida = $insMainModel->getMedidaProductoPadre($productos_id);
+
+			if ($result_medida->num_rows > 0) {
+				$row = $result_medida->fetch_assoc(); // ✅ Extraer la fila
+				$medida = $row['medida']; // ✅ Obtener el valor correcto
+			}			
 			
 			$datos_detalles_facturas = [
 				"facturas_id" => $facturas_id,
@@ -83,6 +93,7 @@
 				"precio" => $price,
 				"isv_valor" => $isv_valor,
 				"descuento" => $discount,	
+				"medida" => $discount,
 			];
 			
 			$insMainModel->agregar_detalle_facturas($datos_detalles_facturas);
@@ -104,5 +115,3 @@
 	}
 
 	echo json_encode($datos);
-	
-?>

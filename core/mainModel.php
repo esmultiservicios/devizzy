@@ -911,6 +911,8 @@ class mainModel
 		return $result;
 	}
 
+	
+
 	function consultarDBClientes()
 	{
 		$query = "SELECT db
@@ -938,23 +940,75 @@ class mainModel
 
 	public function agregar_facturas($datos)
 	{
-		$insert = "INSERT INTO facturas
-				VALUES('" . $datos['facturas_id'] . "','" . $datos['clientes_id'] . "','" . $datos['secuencia_facturacion_id'] . "','" . $datos['apertura_id'] . "','" . $datos['numero'] . "','" . $datos['tipo_factura'] . "','" . $datos['colaboradores_id'] . "','" . $datos['importe'] . "','" . $datos['notas'] . "','" . $datos['fecha'] . "','" . $datos['estado'] . "','" . $datos['usuario'] . "','" . $datos['empresa'] . "','" . $datos['fecha_registro'] . "')";
-
-		$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-
+		$insert = "INSERT INTO facturas (
+			`facturas_id`, 
+			`clientes_id`, 
+			`secuencia_facturacion_id`, 
+			`apertura_id`, 
+			`number`, 
+			`tipo_factura`, 
+			`colaboradores_id`, 
+			`importe`, 
+			`notas`, 
+			`fecha`, 
+			`estado`, 
+			`usuario`, 
+			`empresa_id`, 
+			`fecha_registro`, 
+			`fecha_dolar`
+		) VALUES (
+			'" . $datos['facturas_id'] . "', 
+			'" . $datos['clientes_id'] . "', 
+			'" . $datos['secuencia_facturacion_id'] . "', 
+			'" . $datos['apertura_id'] . "', 
+			'" . $datos['numero'] . "', 
+			'" . $datos['tipo_factura'] . "', 
+			'" . $datos['colaboradores_id'] . "', 
+			'" . $datos['importe'] . "', 
+			'" . $datos['notas'] . "', 
+			'" . $datos['fecha'] . "', 
+			'" . $datos['estado'] . "', 
+			'" . $datos['usuario'] . "', 
+			'" . $datos['empresa_id'] . "', 
+			'" . $datos['fecha_registro'] . "', 
+			'" . $datos['fecha_dolar'] . "'
+		)";
+	
+		$result = mainModel::connection()->query($insert) 
+			or die(mainModel::connection()->error);
+	
 		return $result;
-	}
+	}		
 
 	public function agregar_detalle_facturas($datos)
 	{
 		$facturas_detalle_id = mainModel::correlativo('facturas_detalle_id', 'facturas_detalles');
-		$insert = "INSERT INTO facturas_detalles
-				VALUES('$facturas_detalle_id','" . $datos['facturas_id'] . "','" . $datos['productos_id'] . "','" . $datos['cantidad'] . "','" . $datos['precio'] . "','" . $datos['isv_valor'] . "','" . $datos['descuento'] . "')";
-		$result = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-
+		
+		$insert = "INSERT INTO facturas_detalles (
+			`facturas_detalle_id`, 
+			`facturas_id`, 
+			`productos_id`, 
+			`cantidad`, 
+			`precio`, 
+			`isv_valor`, 
+			`descuento`, 
+			`medida`
+		) VALUES (
+			'$facturas_detalle_id',
+			'" . $datos['facturas_id'] . "',
+			'" . $datos['productos_id'] . "',
+			'" . $datos['cantidad'] . "',
+			'" . $datos['precio'] . "',
+			'" . $datos['isv_valor'] . "',
+			'" . $datos['descuento'] . "',
+			'" . $datos['medida'] . "'
+		)";
+		
+		$result = mainModel::connection()->query($insert) 
+			or die(mainModel::connection()->error);
+	
 		return $result;
-	}
+	}	
 
 	public function getAperturaID($datos)
 	{
