@@ -53,8 +53,13 @@ var inventario_transferencia = function() {
                 productos_id: productos_id
             }
         },
-        columns: [
-            { data: "fecha_registro" },
+        columns: [ 
+            { 
+                defaultContent: "<button data-toggle='tooltip' data-placement='top' title='Actualizar la fecha de vencimiento' class='table_change_date btn btn-dark'><span class='fa-solid fa-calendar-days fa-lg'></span></button>" 
+            },                    
+            { 
+                data: "fecha_registro" 
+            },
             { 
                 data: "image", 
                 render: function(data) {
@@ -111,8 +116,12 @@ var inventario_transferencia = function() {
                     return '<span style="border: 2px solid ' + saldoColor + '; border-radius: 12px; padding: 5px 10px; color: ' + saldoColor + '; font-weight: bold;">' + saldoText + '</span>';
                 }
             },  
-            { data: "bodega" },
-            { defaultContent: "<button class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>" }
+            { 
+                data: "bodega" 
+            },
+            { 
+                defaultContent: "<button data-toggle='tooltip' data-placement='top' title='Permite mover o transferir un producto de una bodega a otra' class='table_transferencia btn btn-dark'><span class='fa fa-exchange-alt fa-lg'></span></button>" 
+            }
         ],
         lengthMenu: lengthMenu10,
         stateSave: true,
@@ -194,7 +203,13 @@ var inventario_transferencia = function() {
         }
     });
 
+        // Inicializar tooltips después de cada redibujado de la tabla
+	$('#dataTablaMovimientos').on('draw.dt', function() {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+
     transferencia_producto_dataTable("#dataTablaMovimientos tbody",table_movimientos);
+    cambiarVencimientoProducto_dataTable("#dataTablaMovimientos tbody",table_movimientos);
 };
 
 //FIN TRANSFERENCIA
@@ -218,7 +233,7 @@ var transferencia_producto_dataTable = function(tbody, table) {
         }
 
         $('#formTransferencia #productos_id').val(data.productos_id);
-        $('#formTransferencia #nameProduct').html(data.producto);
+        $('#formTransferencia #nameProduct').html("<b style='color: #007bff; font-size: 16px; text-transform: uppercase;'>Producto:</b> " + data.producto);
         $('#formTransferencia #id_bodega_actual').val(data.id_bodega);
 
         $('#modal_transferencia_producto').modal({
@@ -230,28 +245,93 @@ var transferencia_producto_dataTable = function(tbody, table) {
 };
 
 $('#putEditarBodega').on('click', function(e) {
-    event.preventDefault();
+    e.preventDefault(); // Evita la acción por defecto del botón
+    
     var form = $("#formTransferencia");
     var respuesta = form.children('.RespuestaAjax');
-    var url = '<?php echo SERVERURL;?>ajax/modificarBodegaProductosAjax.php';
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: $('#formTransferencia').serialize(),
-        beforeSend: function() {
-            $('#modal_transferencia_producto').modal({
-                show: false,
-                keyboard: false,
-                backdrop: 'static'
-            });
-        },
-        success: function(data) {
-            $('#modal_transferencia_producto').modal('toggle');
-            respuesta.html(data);
-        }
-    });
+    
+    // Verificar si el formulario es válido antes de hacer la petición AJAX
+    if (form[0].checkValidity()) {
+        var url = '<?php echo SERVERURL;?>ajax/modificarBodegaProductosAjax.php';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: form.serialize(),
+            beforeSend: function() {
+                $('#modal_transferencia_producto').modal({
+                    show: false,
+                    keyboard: false,
+                    backdrop: 'static'
+                });
+            },
+            success: function(data) {
+                respuesta.html(data);
+            }
+        });
+    } else {
+        // Si no es válido, activar los mensajes de validación de HTML5
+        form[0].reportValidity();
+    }
 });
+
 //TRANSFERIR PRODUCTO/BODEGA
+
+//CAMBIAR FECHA DE CADUCICAD PRODUCTOS
+var cambiarVencimientoProducto_dataTable = function(tbody, table) {
+    $(tbody).off("click", "button.table_change_date");
+    $(tbody).on("click", "button.table_change_date", function() {
+        var data = table.row($(this).parents("tr")).data();
+        $('#formTransferenciaCambiarFecha')[0].reset();
+        $('#formTransferenciaCambiarFecha #productos_id').val(data.productos_id);
+        $('#formTransferenciaCambiarFecha #nameProduct').html("<b style='color: #007bff; font-size: 16px; text-transform: uppercase;'>Producto:</b> " + data.producto);
+        $('#formTransferenciaCambiarFecha #id_bodega_actual').val(data.id_bodega);
+        $('#formTransferenciaCambiarFecha #cantidad_productos').val(data.saldo);
+        $('#formTransferenciaCambiarFecha #empresa_id_productos').val(data.empresa_id);
+        $('#formTransferenciaCambiarFecha #lote_id_productos').val(data.lote_id);
+
+        $('#modalCambiarFechaProducto').modal({
+            show: true,
+            keyboard: false,
+            backdrop: 'static'
+        });
+    })
+};
+
+$('#EditarFechaVencimiento').on('click', function(e) {
+    e.preventDefault(); // Evita la acción por defecto (en este caso, el submit del botón)
+    
+    var form = $("#formTransferenciaCambiarFecha");
+    var respuesta = form.children('.RespuestaAjax');
+    
+    // Verificar si el formulario es válido antes de hacer la petición AJAX
+    if (form[0].checkValidity()) {
+        // Verificar el valor de la fecha antes de enviarla
+        var fechaCaducidad = $('#fecha_caducidad').val();
+        console.log('Fecha Caducidad:', fechaCaducidad); // Verifica la fecha capturada
+
+        var url = '<?php echo SERVERURL;?>ajax/modificarFechaVencimientoProductosAjax.php';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: form.serialize(),
+            beforeSend: function() {
+                $('#modalCambiarFechaProducto').modal({
+                    show: false,
+                    keyboard: false,
+                    backdrop: 'static'
+                });
+            },
+            success: function(data) {
+                console.log("Respuesta del servidor:", data); // Verifica lo que llega
+                respuesta.html(data);
+            }
+        });
+    } else {
+        // Si no es válido, activar los mensajes de validación de HTML5
+        form[0].reportValidity();
+    }
+});
+//CAMBIAR FECHA DE CADUCICAD PRODUCTOS
 
 //INIICO OBTENER EL TIPO DE PRODUCTO
 function getTipoProductos() {

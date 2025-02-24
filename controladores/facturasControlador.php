@@ -53,7 +53,8 @@
 					$facturas_id = mainModel::correlativo("facturas_id", "facturas");
 				}					
 	
-				$estado = ($tipo_factura == 1) ? 1 : 3;
+				//$estado = ($tipo_factura == 1) ? 1 : 3;
+				$estado = 2;
 		
 				//CONSULTAMOS LA APERTURA
 				$datos_apertura = [

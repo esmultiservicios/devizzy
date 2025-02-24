@@ -34,6 +34,9 @@ $(document).ready(function() {
     getProveedoresCXP();
     $('.selectpicker').selectpicker();
 
+    // Inicializar tooltips en las opciones del selectpicker después de la creación
+    $('[data-toggle="tooltip"]').tooltip();    
+
     $('#form_main_pagar_proveedores #pagar_proveedores_estado').val(1);
     $('#form_main_pagar_proveedores #pagar_proveedores_estado').selectpicker('refresh');
 

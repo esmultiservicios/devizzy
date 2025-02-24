@@ -58,6 +58,7 @@
                 <table id="dataTablaMovimientos" class="table table-striped table-condensed table-hover" style="width:100%">
                     <thead>
                         <tr>
+                            <th>Cambiar Vencimiento</th>
                             <th>Fecha</th>
                             <th>Imagen</th>
                             <th>Número de Lote</th>
@@ -74,7 +75,7 @@
                     </thead>
                     <tfoot class="bg-info text-white font-weight-bold">
                         <tr>
-                            <td colspan="5"></td>
+                            <td colspan="6"></td>
                             <td colspan='1' class="text-center">Total</td> 
                             <td id="anterior-footer-movimiento"></td> 
                             <td id="entrada-footer-movimiento"></td>

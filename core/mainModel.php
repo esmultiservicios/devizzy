@@ -4454,13 +4454,7 @@ class mainModel
 		$tipo_product = '';
 		$id_producto = '';
 	
-		if ($datos['bodega'] != '') {
-			$bodega = "AND bo.almacen_id = '" . $datos['bodega'] . "'";
-		}
-	
-		if ($datos['bodega'] == '0') {
-			$bodega = '';
-		}
+		$bodega = ($datos['bodega'] && $datos['bodega'] !== '0') ? "AND bo.almacen_id = '" . $datos['bodega'] . "'" : '';
 	
 		if ($datos['tipo_producto_id'] != '') {
 			$tipo_product = "AND p.tipo_producto_id = '" . $datos['tipo_producto_id'] . "'";
@@ -4474,6 +4468,7 @@ class mainModel
 			SELECT
 				m.almacen_id AS 'almacen_id',
 				m.movimientos_id AS 'movimientos_id',
+				m.empresa_id,
 				p.barCode AS 'barCode',
 				p.nombre AS 'producto',
 				me.nombre AS 'medida',
@@ -4488,8 +4483,7 @@ class mainModel
 				p.productos_id AS 'productos_id',
 				p.id_producto_superior,
 				COALESCE(l.numero_lote, '') AS 'numero_lote',
-				
-				-- Calcular el saldo anterior sumando las entradas y salidas previas a la fecha del movimiento actual
+				COALESCE(l.lote_id, 0) AS 'lote_id',
 				COALESCE((
 					SELECT SUM(m2.cantidad_entrada) - SUM(m2.cantidad_salida)
 					FROM movimientos AS m2

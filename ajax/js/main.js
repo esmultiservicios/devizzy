@@ -197,8 +197,8 @@ $('#invoice-form #notes').keyup(function () {
 $(function () {
 	$('[data-toggle="tooltip"]').tooltip({
 		trigger: "hover"
-	})
-});
+	});
+  });
 
 //INICIO MENU FORM PAGOS FACTURAS
 $(document).ready(function () {

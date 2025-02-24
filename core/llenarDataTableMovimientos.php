@@ -25,6 +25,13 @@ $arreglo = array();
 $data = array();
 
 while ($row = $result->fetch_assoc()) {
+
+	if($row['almacen_id'] == 0 || $row['almacen_id'] == null){
+		$bodega = "Sin bodega";
+	}else{
+		$bodega = $row['bodega'];
+	}
+
 	$data[] = array(
 		'cliente' => $row['cliente'],
 		'comentario' => $row['comentario'],
@@ -38,7 +45,7 @@ while ($row = $result->fetch_assoc()) {
 		'salida' => $row['salida'],
 		'saldo' => $row['saldo'],
 		'saldo_anterior' => $row['saldo_anterior'],
-		'bodega' => $row['bodega'],
+		'bodega' => $bodega,
 		'id_bodega' => $row['almacen_id'],
 		'productos_id' => $row['productos_id'],
 		'numero_lote' => $row['numero_lote'],

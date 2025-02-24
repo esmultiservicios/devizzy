@@ -51,7 +51,9 @@
 					"productos_id"=>$row['productos_id'],
 					"superior"=>$row['id_producto_superior'],			
 					"image"=>$row['image'],
-					'numero_lote' => $row['numero_lote']
+					'numero_lote' => $row['numero_lote'],
+					'empresa_id' => $row['empresa_id'],
+					'lote_id' => $row['lote_id']
 				);
 			}
 		}	
@@ -65,4 +67,3 @@
 	);
 
 	echo json_encode($arreglo);
-?>

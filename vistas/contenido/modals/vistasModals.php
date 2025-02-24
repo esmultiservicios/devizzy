@@ -2730,7 +2730,6 @@
 <!--FIN MODAL PRODUCTOS-->
 
 <!--Modal Transferencia de Producto / Bodega-->
-
 <div class="modal fade" tabindex="-1" role="dialog" id="modal_transferencia_producto">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
@@ -2744,17 +2743,17 @@
                 <form class="" id="formTransferencia" action="" method="POST" data-form="" autocomplete="off"
                     enctype="multipart/form-data">
                     <div class="form-group text-center">
-                        <input type="hidden" value="" id="productos_id" name="productos_id">
-                        <input type="hidden" value="" id="id_bodega_actual" name="id_bodega_actual">
+                        <input type="hidden" id="productos_id" name="productos_id">
+                        <input type="hidden" id="id_bodega_actual" name="id_bodega_actual">
                         <label class="modal-title" id="nameProduct" class="col-form-label"></label>
+                        <input type="hidden" required readonly id="pro_trasferencia" name="pro_trasferencia" class="form-control" />
                     </div>
 
                     <div class="form-row">
                         <div class="col-md-5 mb-3">
-                            <label for="prefijo">Bodega</label>
+                            <label for="id_bodega">Bodega <span class="priority">*</span></label>
                             <div class="input-group mb-3">
-                                <select id="id_bodega" name="id_bodega" class="selectpicker" data-live-search="true"
-                                    style="width: auto;" class="form-control" title="Bodega">
+                                <select id="id_bodega" name="id_bodega" class="selectpicker" data-live-search="true" style="width: auto;" class="form-control" title="Bodega" required>
                                 </select>
                                 <div class="input-group-append">
                                     <span class="input-group-text">
@@ -2764,10 +2763,9 @@
                             </div>
                         </div>
                         <div class="col-md-7 mb-3">
-                            <label for="prefijo">Cantidad</label>
+                            <label for="cantidad_movimiento">Cantidad <span class="priority">*</span></label>
                             <div class="input-group mb-3">
-                                <input type="number" id="cantidad_movimiento" name="cantidad_movimiento"
-                                    placeholder="Cantidad" class="form-control" step="0.01">
+                                <input type="number" id="cantidad_movimiento" name="cantidad_movimiento" placeholder="Cantidad" class="form-control" step="0.01" requiered>
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="fas fa-sort-amount-up-alt"></i>
@@ -2794,8 +2792,60 @@
         </div>
     </div>
 </div>
-
 <!--FN Modal Transferencia de Producto / Bodega-->
+
+<!--Modal Cambiar Fecha de Cadudicad-->
+<div class="modal fade" tabindex="-1" role="dialog" id="modalCambiarFechaProducto">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cambiar Fecha de Caducidad Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="" id="formTransferenciaCambiarFecha" action="" method="POST" data-form="" autocomplete="off"
+                    enctype="multipart/form-data">
+                    <div class="form-group text-center">
+                        <input type="hidden" id="productos_id" name="productos_id" class="form-control">
+                        <input type="hidden" value="" id="id_bodega_actual" name="id_bodega_actual" class="form-control">
+                        <label class="modal-title" id="nameProduct" class="col-form-label"></label>
+                        <input type="hidden" id="cantidad_productos" name="cantidad_productos" class="form-control">
+                        <input type="hidden" id="empresa_id_productos" name="empresa_id_productos" class="form-control">
+                        <input type="hidden" id="lote_id_productos" name="lote_id_productos" class="form-control">
+                        <input type="hidden" required readonly id="pro_cambiar_fecha" name="pro_cambiar_fecha" class="form-control" />
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-12 mb-4">
+                            <label for="fecha_caducidad">Fecha Caducidad <span class="priority">*</span></label>
+                            <div class="input-group mb-3">
+                                <input type="date" id="fecha_caducidad" name="fecha_caducidad" placeholder="Cantidad" class="form-control" required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-calendar-day"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <div class="RespuestaAjax"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary ml-2" type="submit" id="EditarFechaVencimiento">
+                    <div class="sb-nav-link-icon"></div><i class="fa-solid fa-floppy-disk fa-lg"></i> Registrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--FN Modal Cambiar Fecha de Cadudicad-->
 
 <!-- modal de abonos cxc -->
 <div class="modal fade" id="ver_abono_cxc">
@@ -2929,7 +2979,7 @@
                     </div>
                     <div class="form-row">
                         <div class="col-md-12 mb-3">
-                            <label for="cuenta_nombre">Cliente <span class="priority">*<span /></label>
+                            <label for="cuenta_nombre">Cliente <span class="priority">*</span></label>
                             <input type="text" required id="cliente" name="cliente" placeholder="Cliente" readonly
                                 class="form-control" />
                         </div>

@@ -72,7 +72,8 @@ var listar_movimientos = function() {
                 "cliente": cliente,
             }
         },
-        "columns": [{
+        "columns": [
+            {
                 "data": "fecha_registro",
                 "render": function(data, type, row) {
                     if (type === 'sort' || type === 'type') {
@@ -290,6 +291,12 @@ var listar_movimientos = function() {
             getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
         }
     });
+
+    // Inicializar tooltips después de cada redibujado de la tabla
+	$('#dataTablaMovimientos').on('draw.dt', function() {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+
     table_movimientos.search('').draw();
     table_movimientos.order([0, 'desc'])
     $('#buscar').focus();
@@ -385,7 +392,6 @@ function getTipoProductos() {
             $('#form_main_movimientos #inventario_tipo_productos_id').html("");
             $('#form_main_movimientos #inventario_tipo_productos_id').html(data);
             $('#form_main_movimientos #inventario_tipo_productos_id').selectpicker('refresh');
-
         }
     });
 }

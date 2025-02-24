@@ -17,7 +17,7 @@
                                         <div class="sb-nav-link-icon"></div>Categoría
                                     </span>
                                     <select id="inventario_tipo_productos_id" name="inventario_tipo_productos_id"
-                                        class="selectpicker" data-live-search="true" title="Categoría de Productos">
+                                        class="selectpicker" data-live-search="true" data-toggle='tooltip' data-placement='top' title="Categoría de Productos">
                                     </select>
                                 </div>
                             </div>
@@ -114,7 +114,7 @@
                         <table id="dataTablaMovimientos" class="table table-striped table-condensed table-hover"
                             style="width:100%">
                             <thead>
-                                <tr>
+                                <tr>                                    
                                     <th>Fecha</th>
                                     <th>Imagen</th>
                                     <th>Número de Lote</th>
