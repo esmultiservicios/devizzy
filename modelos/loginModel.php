@@ -258,17 +258,21 @@
 		protected function validar_cliente_pagos_vencidos_main_server_modelo(){
 			$mysqli_main = mainModel::connect_mysqli_main_server();
 		
-			// Estado a validar
+			// Estado pendiente
 			$estado = 1;
 		
 			// Preparar la consulta con parámetros
-			$query = "SELECT sc.clientes_id AS 'clientes_id'
+			$query = "SELECT DISTINCT sc.clientes_id AS 'clientes_id'
 				FROM server_customers AS sc
-				INNER JOIN clientes AS c
-				ON sc.clientes_id = c.clientes_id
-				LEFT JOIN cobrar_clientes AS cc
-				ON cc.clientes_id = sc.clientes_id
-				WHERE cc.estado = ? AND sc.db = ? AND MONTH(cc.fecha) < MONTH(CURDATE())";
+				INNER JOIN clientes AS c ON sc.clientes_id = c.clientes_id
+				LEFT JOIN cobrar_clientes AS cc ON cc.clientes_id = sc.clientes_id
+				WHERE cc.estado = ? 
+				AND sc.db = ? 
+				AND (
+					(cc.fecha < DATE_FORMAT(CURDATE(), '%Y-%m-01')) -- Facturas de meses anteriores
+					OR 
+					(DAY(CURDATE()) >= 16 AND MONTH(cc.fecha) = MONTH(CURDATE()) AND YEAR(cc.fecha) = YEAR(CURDATE())) -- Facturas del mes actual vencidas
+				)";
 		
 			// Preparar la declaración
 			$stmt = $mysqli_main->prepare($query);
@@ -286,5 +290,5 @@
 			$stmt->close();
 		
 			return $result;
-		}					
+		}						
 	}

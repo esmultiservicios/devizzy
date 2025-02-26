@@ -2560,17 +2560,57 @@ class mainModel
 	{
 		$movimientos_id = mainModel::correlativo('movimientos_id', 'movimientos');
 		$documento = 'Entrada Movimientos ' . $movimientos_id;
-		isset($datos['almacen_id']) ? $bodega = $datos['almacen_id'] : $bodega = '';
-		$insert = "INSERT INTO movimientos
-				VALUES('$movimientos_id','" . $datos['productos_id'] . "','$documento','" . $datos['cantidad_entrada'] . "',
-				'" . $datos['cantidad_salida'] . "','" . $datos['saldo'] . "','" . $datos['empresa'] . "','" . $datos['fecha_registro'] . "',
-				'" . $datos['clientes_id'] . "','" . $datos['comentario'] . "', '$bodega'
-				)";
-
-		$sql = mainModel::connection()->query($insert) or die(mainModel::connection()->error);
-
-		return $sql;
-	}
+	
+		// Manejar valores opcionales
+		$almacen_id = isset($datos['almacen_id']) ? $datos['almacen_id'] : 0;
+		$lote_id = isset($datos['lote_id']) ? $datos['lote_id'] : 0;
+	
+		// Conexión a la base de datos
+		$conn = mainModel::connection();
+		
+		// Sentencia preparada
+		$query = "INSERT INTO movimientos (
+			movimientos_id, 
+			productos_id, 
+			documento, 
+			cantidad_entrada, 
+			cantidad_salida, 
+			saldo, 
+			empresa_id, 
+			fecha_registro, 
+			clientes_id, 
+			comentario, 
+			almacen_id, 
+			lote_id
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	
+		if ($stmt = $conn->prepare($query)) {
+			// Asociar los parámetros
+			$stmt->bind_param(
+				"iisiiiisisii",
+				$movimientos_id, 
+				$datos['productos_id'], 
+				$documento, 
+				$datos['cantidad_entrada'], 
+				$datos['cantidad_salida'], 
+				$datos['saldo'], 
+				$datos['empresa'], 
+				$datos['fecha_registro'], 
+				$datos['clientes_id'], 
+				$datos['comentario'], 
+				$almacen_id, 
+				$lote_id
+			);
+	
+			// Ejecutar y cerrar
+			$stmt->execute();
+			$stmt->close();
+			
+			return true;
+		} else {
+			return false;
+		}
+	}	
 
 	public function getProductos($datos)
 	{
@@ -4412,7 +4452,9 @@ class mainModel
 						SUM(CASE WHEN mm.cantidad_salida > 0 THEN mm.cantidad_salida ELSE 0 END)
 				FROM movimientos mm
 				WHERE mm.productos_id = m.productos_id 
+				AND mm.almacen_id = m.almacen_id  -- Se filtra por la bodega específica
 				AND mm.fecha_registro < m.fecha_registro 
+				AND mm.empresa_id = '" . $datos['empresa_id_sd'] . "' 
 				$fecha
 				), 
 			0) AS saldo_anterior,  -- Aquí es donde usamos COALESCE para asegurar que NULL se convierta en 0
@@ -4441,7 +4483,7 @@ class mainModel
 			$producto
 			$cliente
 			$tipo
-		";		
+		";        
 
 		$result = self::connection()->query($query);
 
@@ -4453,17 +4495,18 @@ class mainModel
 		$bodega = '';
 		$tipo_product = '';
 		$id_producto = '';
-	
-		$bodega = ($datos['bodega'] && $datos['bodega'] !== '0') ? "AND bo.almacen_id = '" . $datos['bodega'] . "'" : '';
-	
-		if ($datos['tipo_producto_id'] != '') {
+		
+		// Validación mejorada para la bodega
+		$bodega = (!empty($datos['bodega']) && $datos['bodega'] != '0') ? "AND bo.almacen_id = '" . $datos['bodega'] . "'" : '';
+		
+		if (!empty($datos['tipo_producto_id'])) {
 			$tipo_product = "AND p.tipo_producto_id = '" . $datos['tipo_producto_id'] . "'";
 		}
-	
-		if ($datos['productos_id'] != '' || is_null($datos['productos_id'])) {
+		
+		if (!empty($datos['productos_id'])) {
 			$id_producto = "AND p.productos_id = '" . $datos['productos_id'] . "'";
 		}
-	
+		
 		$query = "
 			SELECT
 				m.almacen_id AS 'almacen_id',
@@ -4479,36 +4522,36 @@ class mainModel
 					SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
 				) AS 'saldo',
 				bo.nombre AS 'bodega',
-				DATE_FORMAT(p.fecha_registro, '%d/%m/%Y %H:%i:%s') AS 'fecha_registro',
+				DATE_FORMAT(m.fecha_registro, '%d/%m/%Y %H:%i:%s') AS 'fecha_registro',
 				p.productos_id AS 'productos_id',
 				p.id_producto_superior,
 				COALESCE(l.numero_lote, '') AS 'numero_lote',
 				COALESCE(l.lote_id, 0) AS 'lote_id',
 				COALESCE((
-					SELECT SUM(m2.cantidad_entrada) - SUM(m2.cantidad_salida)
+					SELECT IFNULL(SUM(m2.cantidad_entrada) - SUM(m2.cantidad_salida), 0)
 					FROM movimientos AS m2
 					WHERE m2.productos_id = p.productos_id
 					AND m2.almacen_id = m.almacen_id
-					AND m2.fecha_registro < p.fecha_registro
+					AND m2.fecha_registro < m.fecha_registro
 					AND m2.empresa_id = '" . $datos['empresa_id_sd'] . "'
 				), 0) AS 'saldo_anterior'
-	
 			FROM
 				movimientos AS m
 			LEFT JOIN productos AS p ON m.productos_id = p.productos_id
 			LEFT JOIN medida AS me ON p.medida_id = me.medida_id
 			LEFT JOIN almacen AS bo ON m.almacen_id = bo.almacen_id
 			LEFT JOIN lotes l ON m.lote_id = l.lote_id
-			WHERE m.empresa_id = '" . $datos['empresa_id_sd'] . "' AND p.estado = 1
+			WHERE m.empresa_id = '" . $datos['empresa_id_sd'] . "' 
+			AND p.estado = 1
 			$tipo_product
 			$bodega
 			$id_producto
-			GROUP BY p.productos_id, m.almacen_id
+			GROUP BY p.productos_id, m.almacen_id, p.nombre, me.nombre, p.file_name, bo.nombre, p.fecha_registro, p.id_producto_superior, l.numero_lote, l.lote_id
 			ORDER BY p.fecha_registro ASC";
-	
+		
 		$result = self::connection()->query($query);
 		return $result;
-	}
+	}	
 		
 	public function consultaVentas($datos)
 	{

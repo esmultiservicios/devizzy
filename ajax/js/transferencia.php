@@ -233,8 +233,10 @@ var transferencia_producto_dataTable = function(tbody, table) {
         }
 
         $('#formTransferencia #productos_id').val(data.productos_id);
-        $('#formTransferencia #nameProduct').html("<b style='color: #007bff; font-size: 16px; text-transform: uppercase;'>Producto:</b> " + data.producto);
+        $('#formTransferencia #nameProduct').html("<b style='color: #007bff; font-size: 16px; text-transform: uppercase;'>Producto:</b> " + data.producto)
         $('#formTransferencia #id_bodega_actual').val(data.id_bodega);
+        $('#formTransferencia #lote_id_productos').val(data.lote_id);
+        $('#formTransferencia #empresa_id_productos').val(data.empresa_id);
 
         $('#modal_transferencia_producto').modal({
             show: true,

@@ -2747,6 +2747,8 @@
                         <input type="hidden" id="id_bodega_actual" name="id_bodega_actual">
                         <label class="modal-title" id="nameProduct" class="col-form-label"></label>
                         <input type="hidden" required readonly id="pro_trasferencia" name="pro_trasferencia" class="form-control" />
+                        <input type="hidden" id="lote_id_productos" name="lote_id_productos" class="form-control">
+                        <input type="hidden" id="empresa_id_productos" name="empresa_id_productos" class="form-control">
                     </div>
 
                     <div class="form-row">
@@ -2774,6 +2776,16 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Comentarios -->
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="movimiento_comentario">Comentario</label>
+                            <textarea id="movimiento_comentario" name="movimiento_comentario" class="form-control" rows="4" charmax="254" ></textarea>
+                            <div class="char-count"></div>
+                        </div>
+                    </div>
+                    
                     <br />
                     <br />
                     <br />

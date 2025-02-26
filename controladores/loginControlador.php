@@ -254,8 +254,27 @@
 		}	
 		
 		public function validar_pago_pendiente_main_server_controlador(){
+			$username = mainModel::cleanString($_POST['inputEmail']);
+			$password = mainModel::encryption($_POST['inputPassword']);
+			
+			$query_server = "SELECT COALESCE(s.server_customers_id, '0') AS server_customers_id, COALESCE(s.db, '" . DB_MAIN . "') AS db, codigo_cliente
+								FROM users AS u
+								LEFT JOIN server_customers AS s ON u.server_customers_id = s.server_customers_id
+								WHERE (BINARY u.email = '$username' OR BINARY u.username = '$username')";
+			
+			
+			//echo $query_server."***";
+			$resultServerUser = mainModel::connectionLogin()->query($query_server);
+					
+			if ($resultServerUser->num_rows > 0) {
+				$consultaServeruser = $resultServerUser->fetch_assoc();
+				$GLOBALS['db'] = $consultaServeruser['db'] === "" ? $GLOBALS['DB_MAIN'] : $consultaServeruser['db'];
+			}	
+
+
 			$result = loginModel::validar_pago_pendiente_main_server_modelo();
 			$result_validar_cliente = loginModel::validar_cliente_server_modelo();
+				
 			
 			$date = date("Y-m-d");
 			$año = date("Y");
@@ -274,12 +293,13 @@
 
 				//EVALUAMOS QUE LA VARIABLE VALIDAR NO VENGA VACIA O NULA
 				$validar = $row['validar'] ?? 0;
-
+				
 				//CONSULTAMOS SI ES NECESARIO VALIDAR EL CLIENTE, SI NO LO ES, LO DEJAMOS INICIAR SESION CORRECTAMENTE
 				if($validar==0){
 					$datos = 1;
 				}else{
 					//VALIDAMOS SI EL CLIENTE TIENE PAGOS VENCIDOS
+					//echo "El valor que se recibe es: ".$result_pagoVencido->num_rows."***";
 					if($result_pagoVencido->num_rows >= 1){
 						$datos = array(
 							0 => "",

@@ -340,6 +340,9 @@ class productosControlador extends productosModelo
 		$bodega_actual = mainModel::cleanString($_POST['id_bodega_actual']);
 		$bodega = mainModel::cleanString($_POST['id_bodega']);
 		$cantidad = mainModel::cleanString($_POST['cantidad_movimiento']);
+		$lote_id = mainModel::cleanString($_POST['lote_id_productos']);
+		$empresa_id = mainModel::cleanString($_POST['empresa_id_productos']);
+
 		$saldoProducto = 0;
 
 		if (isset($_POST['movimiento_comentario'])) {
@@ -348,11 +351,7 @@ class productosControlador extends productosModelo
 			$comentario = '';
 		}
 
-		if (isset($_POST['movimiento_comentario'])) {
-			$clientes_id = mainModel::cleanString($_POST['cliente_movimientos']);
-		} else {
-			$clientes_id = 0;
-		}
+		$clientes_id = 0;
 
 		$datos = [
 			'productos_id' => $productos_id,
@@ -360,7 +359,6 @@ class productosControlador extends productosModelo
 			'cantidad' => $cantidad
 		];
 
-		$empresa_id = $_SESSION['empresa_id_sd'];
 		$fecha_registro = date('Y-m-d H:i:s');
 		$saldo = 0;
 
@@ -394,7 +392,8 @@ class productosControlador extends productosModelo
 							'empresa' => $empresa_id,
 							'comentario' => $comentario,
 							'clientes_id' => $clientes_id,
-							'almacen_id' => $bodega
+							'almacen_id' => $bodega,
+							'lote_id' => $lote_id
 						];
 
 						$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datosHijo);
@@ -422,7 +421,8 @@ class productosControlador extends productosModelo
 			'empresa' => $empresa_id,
 			'comentario' => $comentario,
 			'clientes_id' => $clientes_id,
-			'almacen_id' => $bodega
+			'almacen_id' => $bodega,
+			'lote_id' => $lote_id
 		];
 
 		$queryIngreso = mainModel::agregar_movimiento_productos_modelo($datos);
@@ -441,7 +441,8 @@ class productosControlador extends productosModelo
 			'empresa' => $empresa_id,
 			'comentario' => $comentario,
 			'clientes_id' => $clientes_id,
-			'almacen_id' => $bodega_actual
+			'almacen_id' => $bodega_actual,
+			'lote_id' => $lote_id
 		];
 
 		$queryEgreso = mainModel::agregar_movimiento_productos_modelo($datosEgreso);
