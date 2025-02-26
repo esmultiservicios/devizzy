@@ -152,18 +152,20 @@ $(document).ready(function() {
                             element: "div",
                             attributes: {
                                 innerHTML: `
-                                    <h2 style="color: #d9534f; font-size: 22px; margin-bottom: 10px;">
+                                    <h2 style="color: #f0ad4e; font-size: 22px; margin-bottom: 15px;">
                                         ⚠️ ¡Problemas con el Pago!
                                     </h2>
                                     <p style="font-size: 16px; color: #555;">
-                                        😕 <strong>¡Oops!</strong> Parece que hay un problema con su acceso al sistema debido a un inconveniente con el pago.
+                                        😕 ¡Oops! Parece que hay un problema con su acceso al sistema debido a un inconveniente con el pago.
                                     </p>
                                     <p style="font-size: 16px; color: #555;">
-                                        No se preocupe, solo necesita ponerse en contacto con nuestro equipo de recaudación de pagos para arreglarlo. 
+                                        📅 <strong>Fecha máxima de pago:</strong> El pago debe realizarse antes del <strong>día 15 de cada mes</strong>. A partir del <strong>día 16</strong>, su acceso podría verse restringido si la factura sigue pendiente.
                                     </p>
                                     <p style="font-size: 16px; color: #555;">
-                                        💬 Puede escribirnos al 
-                                        <a href="tel:+50489136844" style="color: #0275d8; font-weight: bold;">📞 +504 8913-6844</a>, ¡y con gusto le ayudaremos! 😊
+                                        No se preocupe, solo necesita ponerse en contacto con nuestro equipo de recaudación de pagos para arreglarlo.
+                                    </p>
+                                    <p style="font-size: 16px; color: #555;">
+                                        💬 Puede escribirnos al 📞 <strong>+504 8913-6844</strong>, ¡y con gusto le ayudaremos! 😊
                                     </p>
                                 `
                             }
@@ -370,19 +372,13 @@ $(document).ready(function() {
                 attributes: {
                     innerHTML: `
                         <h2 style="color: #f0ad4e; font-size: 22px; margin-bottom: 15px;">
-                            ⚠️ ¡Problemas con el Pago!
+                            🔧 Mantenimiento en Curso
                         </h2>
                         <p style="font-size: 16px; color: #555;">
-                            😕 ¡Oops! Parece que hay un problema con su acceso al sistema debido a un inconveniente con el pago.
+                            Estamos trabajando para mejorar nuestros servicios. <strong>Disculpa las molestias.</strong>
                         </p>
                         <p style="font-size: 16px; color: #555;">
-                            📅 <strong>Fecha máxima de pago:</strong> El pago debe realizarse antes del <strong>día 15 de cada mes</strong>. A partir del <strong>día 16</strong>, su acceso podría verse restringido si la factura sigue pendiente.
-                        </p>
-                        <p style="font-size: 16px; color: #555;">
-                            No se preocupe, solo necesita ponerse en contacto con nuestro equipo de recaudación de pagos para arreglarlo.
-                        </p>
-                        <p style="font-size: 16px; color: #555;">
-                            💬 Puede escribirnos al 📞 <strong>+504 8913-6844</strong>, ¡y con gusto le ayudaremos! 😊
+                            ⚙️ Pronto estará disponible nuevamente. ¡Gracias por tu comprensión!
                         </p>
                     `
                 }
@@ -393,7 +389,7 @@ $(document).ready(function() {
                     text: "Aceptar",
                     closeModal: true,
                 }
-            }, 
+            },
             closeOnEsc: false, // Desactiva el cierre con la tecla Esc
             closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
         });
