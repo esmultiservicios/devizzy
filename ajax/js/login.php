@@ -370,13 +370,19 @@ $(document).ready(function() {
                 attributes: {
                     innerHTML: `
                         <h2 style="color: #f0ad4e; font-size: 22px; margin-bottom: 15px;">
-                            🔧 Mantenimiento en Curso
+                            ⚠️ ¡Problemas con el Pago!
                         </h2>
                         <p style="font-size: 16px; color: #555;">
-                            Estamos trabajando para mejorar nuestros servicios. <strong>Disculpa las molestias.</strong>
+                            😕 ¡Oops! Parece que hay un problema con su acceso al sistema debido a un inconveniente con el pago.
                         </p>
                         <p style="font-size: 16px; color: #555;">
-                            ⚙️ Pronto estará disponible nuevamente. ¡Gracias por tu comprensión!
+                            📅 <strong>Fecha máxima de pago:</strong> El pago debe realizarse antes del <strong>día 15 de cada mes</strong>. A partir del <strong>día 16</strong>, su acceso podría verse restringido si la factura sigue pendiente.
+                        </p>
+                        <p style="font-size: 16px; color: #555;">
+                            No se preocupe, solo necesita ponerse en contacto con nuestro equipo de recaudación de pagos para arreglarlo.
+                        </p>
+                        <p style="font-size: 16px; color: #555;">
+                            💬 Puede escribirnos al 📞 <strong>+504 8913-6844</strong>, ¡y con gusto le ayudaremos! 😊
                         </p>
                     `
                 }
@@ -387,7 +393,7 @@ $(document).ready(function() {
                     text: "Aceptar",
                     closeModal: true,
                 }
-            },
+            }, 
             closeOnEsc: false, // Desactiva el cierre con la tecla Esc
             closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
         });
