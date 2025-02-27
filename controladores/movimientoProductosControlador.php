@@ -20,6 +20,7 @@ class movimientoProductosControlador extends movimientoProductosModelo
         $cliente_movimientos = $_POST['cliente_movimientos'] ?? 0;
         $almacen = $_POST['almacen_modal'];
         $empresa_id = $_SESSION['empresa_id_sd'];
+        $movimiento_lote = $_POST['movimiento_lote'] ?? null; // Captura el lote seleccionado si existe
         $fecha_vencimiento = !empty($_POST['movimiento_fecha_vencimiento']) ? $_POST['movimiento_fecha_vencimiento'] : null;
 
         // Validar empresa
@@ -33,6 +34,11 @@ class movimientoProductosControlador extends movimientoProductosModelo
             ]);
         }
 
+        // Si tiene un lote, se ignora la fecha de vencimiento
+        if (!empty($movimiento_lote)) {
+            $fecha_vencimiento = null;
+        }
+
         // Calcular nuevo saldo según operación
         if ($movimiento_operacion == "entrada") { // ENTRADA
             $datos = [
@@ -43,6 +49,7 @@ class movimientoProductosControlador extends movimientoProductosModelo
                 "fecha_vencimiento" => $fecha_vencimiento,
                 "cantidad" => $movimiento_cantidad,
                 "empresa_id" => $empresa_id,
+                "movimiento_lote" => $movimiento_lote
             ];
 
             $resultado = movimientoProductosModelo::registrar_entrada_lote_modelo($datos);
@@ -79,7 +86,8 @@ class movimientoProductosControlador extends movimientoProductosModelo
                 "comentario" => $movimiento_comentario,
                 "almacen_id" => $almacen ?: 0,
                 "cantidad" => $movimiento_cantidad,
-                "empresa_id" => $empresa_id
+                "empresa_id" => $empresa_id,
+                "movimiento_lote" => $movimiento_lote
             ];
 
             $resultado = movimientoProductosModelo::registrar_salida_lote_modelo($datos);

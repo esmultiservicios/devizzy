@@ -21,8 +21,14 @@
 			$result = mainModel::getCantidadProductos($productos_id);
 			
 			return $result;			
-		}	
+		}
+				
 
+		public function verificar_empresa($empresa_id) {
+			$query = mainModel::connection()->query("SELECT empresa_id FROM empresa WHERE empresa_id = '$empresa_id'");
+			return $query->num_rows > 0; // Retorna true si existe, false si no
+		}
+		
 		public function getSaldoPorLote($productos_id, $lote_id)
 		{
 			// Obtenemos la conexión a la base de datos
@@ -38,7 +44,7 @@
 			$stmt = $conexion->prepare($query);
 			
 			// Vinculamos los parámetros (producto_id y lote_id)
-			$stmt->bind_param("ii", $producto_id, $lote_id);
+			$stmt->bind_param("ii", $productos_id, $lote_id);
 			
 			// Ejecutamos la consulta
 			$stmt->execute();
@@ -54,13 +60,7 @@
 				return 0; // Si no se encuentra el saldo, devolvemos 0 en lugar de null
 			}
 		}
-				
 
-		public function verificar_empresa($empresa_id) {
-			$query = mainModel::connection()->query("SELECT empresa_id FROM empresa WHERE empresa_id = '$empresa_id'");
-			return $query->num_rows > 0; // Retorna true si existe, false si no
-		}
-		
 		public function getSaldoProductosMovimientos($productos_id)
 		{
 			$mysqli = self::connection();
@@ -83,7 +83,7 @@
 
 		protected function registrar_entrada_lote_modelo($datos) {
 			$mysqli = mainModel::connection();
-		
+
 			// Verificar si la fecha de vencimiento está presente
 			if (isset($datos['fecha_vencimiento']) && $datos['fecha_vencimiento'] !== null) {
 				// Verificar si existe un lote con la fecha de vencimiento para el producto
@@ -93,7 +93,7 @@
 				$checkLoteQuery->execute();
 				$resultLote = $checkLoteQuery->get_result();
 
-				$nuevoSaldo = 0;
+				$nuevoSaldo = 0;				
 		
 				if ($resultLote->num_rows > 0) {
 					$lote = $resultLote->fetch_assoc();
@@ -108,45 +108,67 @@
 					$updateLoteQuery->bind_param("ii", $nuevoSaldo, $lote_id);
 					$updateLoteQuery->execute();
 				} else {
-					// Generar número de lote único
-					do {
-						$fechaHora = date("YmdHis");
-						$contador = rand(100, 999);
-						$numero_lote = "LOT{$datos['productos_id']}{$fechaHora}{$contador}";
-		
-						$checkQuery = $mysqli->prepare("SELECT numero_lote FROM lotes WHERE numero_lote = ?");
-						$checkQuery->bind_param("s", $numero_lote);
-						$checkQuery->execute();
-						$result = $checkQuery->get_result();
-					} while ($result->num_rows > 0);
-		
-					// Insertar el nuevo lote
-					$insertQuery = "INSERT INTO lotes (numero_lote, productos_id, cantidad, fecha_vencimiento, fecha_ingreso, almacen_id, empresa_id, estado) 
-									VALUES (?, ?, ?, ?, NOW(), ?, ?, 'Activo')";
-		
-					$stmt = $mysqli->prepare($insertQuery);
-					$stmt->bind_param("siisii", 
-						$numero_lote, 
-						$datos['productos_id'], 
-						$datos['cantidad'], 
-						$datos['fecha_vencimiento'], 
-						$datos['almacen_id'], 
-						$datos['empresa_id']
-					);
-		
-					if ($stmt->execute()) {
-						$lote_id = $mysqli->insert_id;
-						$nuevoSaldo = $datos['cantidad'];  // El saldo inicial es igual a la cantidad
-					} else {
-						return false;
+					// VERIFICAMOS SI EL NUMERO DE LOTE NO ESTÁ PRESENTE
+					if (!isset($datos['movimiento_lote']) || empty(trim($datos['movimiento_lote']) || $datos['movimiento_lote'] == 0)) {
+						// Generar número de lote único
+						do {
+							$fechaHora = date("YmdHis");
+							$contador = rand(100, 999);
+							$numero_lote = "LOT{$datos['productos_id']}{$fechaHora}{$contador}";
+			
+							$checkQuery = $mysqli->prepare("SELECT numero_lote FROM lotes WHERE numero_lote = ?");
+							$checkQuery->bind_param("s", $numero_lote);
+							$checkQuery->execute();
+							$result = $checkQuery->get_result();
+						} while ($result->num_rows > 0);
+			
+						// Insertar el nuevo lote
+						$insertQuery = "INSERT INTO lotes (numero_lote, productos_id, cantidad, fecha_vencimiento, fecha_ingreso, almacen_id, empresa_id, estado) 
+										VALUES (?, ?, ?, ?, NOW(), ?, ?, 'Activo')";
+			
+						$stmt = $mysqli->prepare($insertQuery);
+						$stmt->bind_param("siisii", 
+							$numero_lote, 
+							$datos['productos_id'], 
+							$datos['cantidad'], 
+							$datos['fecha_vencimiento'], 
+							$datos['almacen_id'], 
+							$datos['empresa_id']
+						);
+			
+						if ($stmt->execute()) {
+							$lote_id = $mysqli->insert_id;
+							$nuevoSaldo = $datos['cantidad'];  // El saldo inicial es igual a la cantidad
+						} else {
+							return false;
+						}
 					}
 				}
 			} else {
+				$lote_id = $datos['movimiento_lote'] ?? 0;
+
 				// Si no hay fecha de vencimiento, el lote no se maneja, obtener saldo desde movimientos
 				$saldo = $this->getSaldoProductosMovimientos($datos['productos_id']);  // Ahora devuelve directamente el saldo
+				$nuevoSaldo = $saldo + $datos['cantidad'];		
+				
+				if($lote_id != 0 ){							
+					// Obtenemos el saldo actual del lote y producto
+					$saldo = $this->getSaldoPorLote($datos['productos_id'], $lote_id);
 
-				$nuevoSaldo = $saldo + $datos['cantidad'];
-				$lote_id = 0;  // No hay lote asociado
+					// Calculamos el nuevo saldo
+					$nuevoSaldo = $saldo + $datos['cantidad'];
+
+					// Realizamos el UPDATE para actualizar el saldo en la tabla 'lotes'
+					$updateQuery = "UPDATE lotes 
+									SET cantidad = ? 
+									WHERE productos_id = ? AND lote_id = ?";
+					// Preparamos la consulta
+					$stmt = $mysqli->prepare($updateQuery);
+
+					// Vinculamos los parámetros: nuevo saldo, productos_id y numero_lote
+					$stmt->bind_param("iii", $nuevoSaldo, $datos['productos_id'], $lote_id);
+					$stmt->execute();
+				}
 			}
 		
 			// Asegúrate de que siempre haya un saldo válido
@@ -179,7 +201,7 @@
 				$updateDocumento = $mysqli->prepare("UPDATE movimientos SET documento = ? WHERE movimientos_id = ?");
 				$updateDocumento->bind_param("si", $nuevo_documento, $movimientos_id);
 				$updateDocumento->execute();
-				
+
 				return ["success" => true, "message" => "Entrada registrada correctamente.", "movimientos_id" => $movimientos_id];
 			} else {
 				return ["success" => false, "message" => "Error al registrar el movimiento de entrada."];
@@ -188,40 +210,52 @@
 		
 		protected function registrar_salida_lote_modelo($datos) {
 			$mysqli = mainModel::connection();
-			
-			// Verificar si existe un lote activo para el producto
-			$checkLoteQuery = $mysqli->prepare("SELECT lote_id, cantidad FROM lotes 
-												WHERE productos_id = ? AND estado = 'Activo' 
-												ORDER BY fecha_vencimiento ASC LIMIT 1");
-			$checkLoteQuery->bind_param("i", $datos['productos_id']);
-			$checkLoteQuery->execute();
-			$resultLote = $checkLoteQuery->get_result();
 		
-			if ($resultLote->num_rows > 0) {
-				// Si hay lote, tomamos su saldo
-				$lote = $resultLote->fetch_assoc();
-				$lote_id = $lote['lote_id'];
-				$saldo = $lote['cantidad'];
+			if (!empty($datos['movimiento_lote']) && $datos['movimiento_lote'] != 0) {
+				// Si se envía un lote específico, usarlo
+				$lote_id = $datos['movimiento_lote'];
+				$checkLoteQuery = $mysqli->prepare("SELECT cantidad FROM lotes WHERE lote_id = ? AND estado = 'Activo'");
+				$checkLoteQuery->bind_param("i", $lote_id);
+				$checkLoteQuery->execute();
+				$resultLote = $checkLoteQuery->get_result();
+		
+				if ($resultLote->num_rows > 0) {
+					$lote = $resultLote->fetch_assoc();
+					$saldo = $lote['cantidad'];
+				} else {
+					return ["status" => "error", "message" => "El lote especificado no es válido o está inactivo"];
+				}
 			} else {
-				// Si no hay fecha de vencimiento, el lote no se maneja, obtener saldo desde movimientos
-				$saldo = $this->getSaldoProductosMovimientos($datos['productos_id']);
-
-				$nuevoSaldo = $saldo + $datos['cantidad'];
-				$lote_id = 0;  // No hay lote asociado
+				// Si no se envía lote, usar el más antiguo
+				$checkLoteQuery = $mysqli->prepare("SELECT lote_id, cantidad FROM lotes 
+													WHERE productos_id = ? AND estado = 'Activo' 
+													ORDER BY fecha_vencimiento ASC LIMIT 1");
+				$checkLoteQuery->bind_param("i", $datos['productos_id']);
+				$checkLoteQuery->execute();
+				$resultLote = $checkLoteQuery->get_result();
+		
+				if ($resultLote->num_rows > 0) {
+					$lote = $resultLote->fetch_assoc();
+					$lote_id = $lote['lote_id'];
+					$saldo = $lote['cantidad'];
+				} else {
+					// No hay lote, obtener saldo de movimientos
+					$saldo = $this->getSaldoProductosMovimientos($datos['productos_id']);
+					$lote_id = 0;
+				}
 			}
 		
-			// Verificamos si hay saldo suficiente para la salida
+			// Verificar si hay saldo suficiente para la salida
 			if ($saldo >= $datos['cantidad']) {
 				$cantidad_salida = $datos['cantidad'];
 				$nuevo_saldo = $saldo - $datos['cantidad'];
 		
-				// Insertar el movimiento de salida
+				// Insertar movimiento de salida
 				$insertMovimiento = "INSERT INTO movimientos (productos_id, cantidad_entrada, cantidad_salida, saldo, empresa_id, fecha_registro, almacen_id, lote_id, clientes_id, documento, comentario) 
 									 VALUES (?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?, ?)";
-		
 				$cantidadEntrada = 0;
 				$documento = "";
-
+		
 				$stmtMovimiento = $mysqli->prepare($insertMovimiento);
 				$stmtMovimiento->bind_param("iiiiiiiiss", 
 					$datos['productos_id'], 
@@ -237,29 +271,26 @@
 				);
 		
 				if ($stmtMovimiento->execute()) {
-					$movimientos_id = $mysqli->insert_id; // Obtener ID del movimiento insertado
-		
-					// Actualizar el campo documento con "Movimiento" + id del movimiento
+					$movimientos_id = $mysqli->insert_id;
 					$nuevo_documento = "Movimiento " . $movimientos_id;
 					$updateDocumento = $mysqli->prepare("UPDATE movimientos SET documento = ? WHERE movimientos_id = ?");
 					$updateDocumento->bind_param("si", $nuevo_documento, $movimientos_id);
 					$updateDocumento->execute();
 		
-					// Actualizar el saldo del lote si se utilizó un lote
+					// Si se usó un lote, actualizar su saldo
 					if ($lote_id > 0) {
-						// Actualizar el lote con el nuevo saldo
 						$updateLote = $mysqli->prepare("UPDATE lotes SET cantidad = ? WHERE lote_id = ?");
 						$updateLote->bind_param("ii", $nuevo_saldo, $lote_id);
 						$updateLote->execute();
 		
-						// Si el saldo del lote es 0, marcar el lote como inactivo
+						// Si el saldo del lote es 0, marcarlo como inactivo
 						if ($nuevo_saldo == 0) {
 							$updateEstadoLote = $mysqli->prepare("UPDATE lotes SET estado = 'Inactivo' WHERE lote_id = ?");
 							$updateEstadoLote->bind_param("i", $lote_id);
 							$updateEstadoLote->execute();
 						}
-					}
-		
+					}	
+
 					return ["status" => "success", "message" => "Movimiento registrado con éxito", "movimientos_id" => $movimientos_id];
 				} else {
 					return ["status" => "error", "message" => "Error al registrar el movimiento: " . $stmtMovimiento->error];
@@ -267,5 +298,5 @@
 			} else {
 				return ["status" => "error", "message" => "Saldo insuficiente para la salida"];
 			}
-		}		
+		}			
 	}

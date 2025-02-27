@@ -380,6 +380,28 @@ function getAlmacenModal() {
     });
 }
 
+// Llamar a la función cuando cambie el producto seleccionado
+$('#formMovimientos #movimiento_producto').change(function() {
+    var producto_id = $(this).val();
+    getLotesProductos(producto_id);
+});
+
+function getLotesProductos(producto_id) {
+    var url = '<?php echo SERVERURL;?>core/getLotesProductos.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: { producto_id: producto_id }, // Enviar el producto seleccionado
+        async: true,
+        success: function(data) {
+            $('#formMovimientos #movimiento_lote').html("");
+            $('#formMovimientos #movimiento_lote').html(data);
+            $('#formMovimientos #movimiento_lote').selectpicker('refresh');
+        }
+    });
+}
+
 //INIICO OBTENER EL TIPO DE PRODUCTO
 function getTipoProductos() {
     var url = '<?php echo SERVERURL;?>core/getTipoProductoMovimientos.php';

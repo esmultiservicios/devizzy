@@ -2,7 +2,7 @@
     <ol class="breadcrumb mt-2 mb-4">
 		<li class="breadcrumb-item"><a class="breadcrumb-link" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>dashboard/">Dashboard</a></li>
         <li class="breadcrumb-item" id="movimientos">Novimientos</li>
-        <li class="breadcrumb-item active" id="registroMovimientos">Registro Novimiento de Productos</li>
+        <li class="breadcrumb-item active" id="registroMovimientos">Registro Movimiento de Productos</li>
     </ol>
 
     <div id="main_inventario">

@@ -43,7 +43,7 @@
                     <div class="form-row">
                         <div class="col-md-3 mb-3">
                             <label for="produto_barcode">Producto</label>
-                            <input type="text" required id="produto_barcode" name="produto_barcode" class="form-control" data-toggle="tooltip" data-placement="top"
+                            <input type="text" id="produto_barcode" name="produto_barcode" class="form-control" data-toggle="tooltip" data-placement="top"
                                 title="Escanea el código de barras del producto para autocompletar los campos. También puedes ingresar manualmente seleccionando el tipo y nombre del producto.">
                         </div>
 
@@ -73,8 +73,13 @@
                         </div>                                               
                     </div>            
 
-                    <!-- Cantidad, Bodega y Fechas -->
+                    <!-- Lote, Cantidad, Bodega y Fechas -->
                     <div class="form-row">
+                        <div class="col-md-3 mb-3">
+                            <label for="movimiento_lote">Lote</label>
+                            <select id="movimiento_lote" name="movimiento_lote" class="selectpicker" data-width="100%" data-live-search="true" title="Seleccionar Lote">
+                            </select>
+                        </div>                        
                         <div class="col-md-3 mb-3">
                             <label for="movimiento_cantidad">Cantidad <span class="priority">*</span></label>
                             <input type="number" required id="movimiento_cantidad" name="movimiento_cantidad" class="form-control" step="0.01" >
