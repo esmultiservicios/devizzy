@@ -6,7 +6,7 @@
     <div class="card mb-4">
 		<div class="card mb-4">
 			<div class="card-header">
-				<i class="fab fas fa-warehouse mr-1"></i>
+				<i class="fa-solid fa-warehouse mr-1"></i>
 				Almacén
 			</div>
 			<div class="card-body"> 

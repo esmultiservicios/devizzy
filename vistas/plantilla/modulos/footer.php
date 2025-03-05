@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-11 text-left">
                     <center>
-                        <img src="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>vistas/plantilla/img/icono-clinicare.png"
+                        <img src="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>vistas/plantilla/img/icono.png"
                             style="max-width: 100%; max-height: 100%;">
                     </center>
                 </div>

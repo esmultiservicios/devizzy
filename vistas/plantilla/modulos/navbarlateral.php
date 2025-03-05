@@ -248,11 +248,11 @@
                     </a>
                     <a class="nav-link link" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>confAlmacen/" id="confAlmacen"
                         style="display:none">
-                        <div class="sb-nav-link-icon"><i class="fab fas fa-warehouse"></i></div>Almacén
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-warehouse"></i></div>Almacén
                     </a>
                     <a class="nav-link link" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>confImpresora/" id="confImpresora"
                         style="display:none">
-                        <div class="sb-nav-link-icon"><i class="fab fas fa-print"></i></div>Impresora
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-print"></i></div>Impresora
                     </a>
                     <a class="nav-link link" href="<?php echo htmlspecialchars(SERVERURL, ENT_QUOTES, 'UTF-8'); ?>confUbicacion/" id="confUbicacion"
                         style="display:none">
