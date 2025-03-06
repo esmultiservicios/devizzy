@@ -1,24 +1,21 @@
 <script>
 var DB_MAIN = "<?php echo DB_MAIN; ?>";
 
-$(document).ready(function() {
-    //LLAMAMOS LOS METODOS CORRESPONDIENTES AL LOS MENUS
+function init() {
+    // LLAMAMOS LOS MÉTODOS CORRESPONDIENTES A LOS MENÚS
     getGithubVersion();
-    //getImagenHeader();
+    // getImagenHeader();
     getPlanes();
     getSistemas();
-    getMenu(getPrivilegioUsuario());
-    getSubMenu(getPrivilegioUsuario());
-    getSubMenu1(getPrivilegioUsuario());
 
     validarAperturaCajaUsuario();
     getCollaboradoresModalPagoFacturas();
 
-    //LLAMAMOS LOS METODOS QUE OBTIENEN LOS PERMISOS DE LOS USUARIOS PARA LOS ACCESOS
+    // LLAMAMOS LOS MÉTODOS QUE OBTIENEN LOS PERMISOS DE LOS USUARIOS PARA LOS ACCESOS
     getPermisosTipoUsuarioAccesosForms(getPrivilegioTipoUsuario());
     getPermisosTipoUsuarioAccesosTable(getPrivilegioTipoUsuario());
 
-    //LLAMAMOS EL METODO QUE IDENTIFICA EL USUARIO QUE HA INICIADO SESION
+    // LLAMAMOS EL MÉTODO QUE IDENTIFICA EL USUARIO QUE HA INICIADO SESIÓN
     getUserSessionStart();
 
     getAlmacen();
@@ -32,17 +29,33 @@ $(document).ready(function() {
     getCollaboradoresModalPagoFacturasCompras();
     getClientesCXC();
     getProveedoresCXP();
-    $('.selectpicker').selectpicker();
+    document.querySelectorAll('.selectpicker').forEach(el => $(el).selectpicker());
 
     // Inicializar tooltips en las opciones del selectpicker después de la creación
-    $('[data-toggle="tooltip"]').tooltip();    
+    document.querySelectorAll('[data-toggle="tooltip"]').forEach(el => $(el).tooltip());
 
-    $('#form_main_pagar_proveedores #pagar_proveedores_estado').val(1);
+    document.querySelector('#form_main_pagar_proveedores #pagar_proveedores_estado').value = 1;
     $('#form_main_pagar_proveedores #pagar_proveedores_estado').selectpicker('refresh');
 
-    $('#form_main_cobrar_clientes #cobrar_clientes_estado').val(1);
+    document.querySelector('#form_main_cobrar_clientes #cobrar_clientes_estado').value = 1;
     $('#form_main_cobrar_clientes #cobrar_clientes_estado').selectpicker('refresh');
-});
+}
+
+// Ejecutar cuando la página ha cargado completamente
+window.addEventListener('DOMContentLoaded', init);
+
+function actualizarPermisos() {
+    const privilegio_id = getPrivilegioUsuario();
+    getMenu(privilegio_id);
+    getSubMenu(privilegio_id);
+    getSubMenu1(privilegio_id);
+}
+
+// Ejecutar al cargar
+actualizarPermisos();
+
+// Actualizar permisos cada 5 minutos
+setInterval(actualizarPermisos, 300000); // 300000 ms = 5 minutos
 
 let renovar = false;
 let tiempoRestante = 0;
@@ -301,18 +314,58 @@ function getSubMenu1(privilegio_id) {
 
 function getPrivilegioUsuario() {
     var url = '<?php echo SERVERURL;?>core/getPrivilegioUsuario.php';
-    var privilegio;
+    var privilegio = null;
 
     $.ajax({
         type: 'POST',
         url: url,
-        async: false,
+        async: false, // ⚠️ Bloquea la ejecución hasta recibir la respuesta
         success: function(valores) {
-            var datos = eval(valores);
-            privilegio = datos[0];
+            var datos = JSON.parse(valores); // Asegurar que se parsea correctamente
+
+            if (datos.error === "session_expired") {
+                swal({
+                    title: "⏳ Sesión Expirada",
+                    text: "😞 ¡Oh no! Tu sesión ha expirado. Por favor, inicia sesión nuevamente. 🔐",
+                    icon: "warning",
+                    buttons: {
+                        confirm: {
+                            text: "🔄 Iniciar Sesión",
+                            closeModal: true,
+                        },
+                    },
+                    dangerMode: true,
+                    closeOnEsc: false,
+                    closeOnClickOutside: false
+                }).then(() => {
+                    window.location.href = "<?php echo SERVERURL;?>login/";
+                });
+
+                return;
+            }
+
+            privilegio = datos[0]; // Asigna el privilegio
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al obtener privilegio:", error);
+            swal({
+                title: "❌ ¡Error Detectado!",
+                text: "😵‍💫 Algo salió mal al procesar la solicitud. Inténtalo de nuevo más tarde. 🛠️",
+                icon: "error",
+                buttons: {
+                    confirm: {
+                        text: "😓 Cerrar",
+                        closeModal: true,
+                    },
+                },
+                dangerMode: true,
+                closeOnEsc: false,
+                closeOnClickOutside: false
+            });
         }
     });
-    return privilegio;
+
+    return privilegio; // Devuelve el privilegio directamente
 }
 
 function getSessionUser() {
