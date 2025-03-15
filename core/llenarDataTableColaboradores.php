@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_sd'])) {
 $insMainModel = new mainModel();
 
 $datos = [
-	'empresa_id_sd' => $_SESSION['empresa_id_sd']
+	'empresa_id' => $_SESSION['empresa_id_sd']
 ];
 
 $result = $insMainModel->getColaboradoresTabla($datos);

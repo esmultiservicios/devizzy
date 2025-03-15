@@ -32,13 +32,17 @@ function init() {
     document.querySelectorAll('.selectpicker').forEach(el => $(el).selectpicker());
 
     // Inicializar tooltips en las opciones del selectpicker después de la creación
-    document.querySelectorAll('[data-toggle="tooltip"]').forEach(el => $(el).tooltip());
+    document.querySelectorAll('[data-toggle="tooltip"]').forEach(el => $(el).tooltip());      
 
-    document.querySelector('#form_main_pagar_proveedores #pagar_proveedores_estado').value = 1;
-    $('#form_main_pagar_proveedores #pagar_proveedores_estado').selectpicker('refresh');
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('#form_main_pagar_proveedores #pagar_proveedores_estado').value = 1;
+        $('#form_main_pagar_proveedores #pagar_proveedores_estado').selectpicker('refresh');
+    });
 
-    document.querySelector('#form_main_cobrar_clientes #cobrar_clientes_estado').value = 1;
-    $('#form_main_cobrar_clientes #cobrar_clientes_estado').selectpicker('refresh');
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('#form_main_cobrar_clientes #cobrar_clientes_estado').value = 1;
+        $('#form_main_cobrar_clientes #cobrar_clientes_estado').selectpicker('refresh');
+    });    
 }
 
 // Ejecutar cuando la página ha cargado completamente

@@ -32,6 +32,7 @@
 				apellido = '".$datos['apellido']."',
 				estado = '".$datos['estado']."',
 				telefono = '".$datos['telefono']."',
+				empresa_id = '".$datos['empresa_id']."',
 				fecha_ingreso = '".$datos['fecha_ingreso']."',
 				fecha_egreso = '".$datos['fecha_egreso']."'
 			WHERE colaboradores_id  = '".$datos['colaborador_id']."'";

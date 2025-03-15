@@ -329,6 +329,7 @@
 			$correo = mainModel::cleanStringStrtolower($_POST['correo_usuario']);
 			$tipo_user = mainModel::cleanString($_POST['tipo_user']);
 			$privilegio_id = mainModel::cleanString($_POST['privilegio_id']);
+			$empresa_usuario = mainModel::cleanString($_POST['empresa_usuario']);
 			$server_customers_id = $_POST['server_customers_id'];			
 
 			if (isset($_POST['usuarios_activo'])){
@@ -341,7 +342,8 @@
 				"usuarios_id" => $usuarios_id,				
 				"correo" => $correo,				
 				"tipo_user" => $tipo_user,	
-				"privilegio_id" => $privilegio_id,					
+				"privilegio_id" => $privilegio_id,	
+				"empresa_id" => $empresa_usuario,
 				"estado" => $estado,				
 			];
 			

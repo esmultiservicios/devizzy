@@ -34,6 +34,7 @@
 			SET 
 				tipo_user_id = '".$datos['tipo_user']."',
 				privilegio_id = '".$datos['privilegio_id']."',
+				empresa_id = '".$datos['empresa_id']."',
 				estado = '".$datos['estado']."'
 			WHERE users_id = '".$datos['usuarios_id']."'";
 

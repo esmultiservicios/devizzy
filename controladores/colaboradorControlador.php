@@ -86,6 +86,7 @@
 			$fecha_ingreso = mainModel::cleanString($_POST['fecha_ingreso_colaborador']);
 			$fecha_egreso = mainModel::cleanString($_POST['fecha_egreso_colaborador']);
 			$identidad = mainModel::cleanString($_POST['identidad_colaborador']);
+			$colaborador_empresa_id = mainModel::cleanString($_POST['colaborador_empresa_id']);
 
 			if(isset($_POST['puesto_colaborador'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
 				if($_POST['puesto_colaborador'] == ""){
@@ -112,6 +113,7 @@
 				"telefono" => $telefono,				
 				"puesto" => $puesto,				
 				"estado" => $estado,
+				"empresa_id" => $colaborador_empresa_id,
 				"fecha_ingreso" => $fecha_ingreso,	
 				"fecha_egreso" => $fecha_egreso		
 			];
@@ -243,4 +245,3 @@
 			return mainModel::sweetAlert($alert);			
 		}
     }
-?>
