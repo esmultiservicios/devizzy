@@ -1177,7 +1177,7 @@ class mainModel
 		$valores = "'Reseller', 'Clientes'";
 
 		if ($GLOBALS['db'] === DB_MAIN) {			
-			$where = "WHERE c.estado = 1 AND p.nombre NOT IN($valores)";
+			$where = "WHERE c.estado = 1 ";
 		} else {
 			$where = "WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1) AND p.nombre NOT IN($valores)";
 		}
@@ -1935,10 +1935,13 @@ class mainModel
 
 	public function getEmpleadoContrato()
 	{
-		$query = "SELECT colaboradores_id aS 'colaborador_id', CONCAT(nombre, ' ', apellido) AS 'nombre', c.identidad AS 'identidad'
+		$valores = "'Reseller', 'Clientes'";
+
+		$query = "SELECT colaboradores_id aS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'nombre', c.identidad AS 'identidad'
 				FROM colaboradores AS c
-				WHERE estado = 1 AND colaboradores_id NOT IN(1)
-				ORDER BY Nombre";
+				INNER JOIN puestos AS p ON c.puestos_id = p.puestos_id
+				WHERE c.estado = 1 AND colaboradores_id NOT IN(1) AND p.nombre NOT IN($valores) 
+				ORDER BY c.nombre";
 
 		$result = self::connection()->query($query);
 
