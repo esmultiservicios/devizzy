@@ -1174,11 +1174,12 @@ class mainModel
 	public function getColaboradoresConsulta()
 	{
 		$where = '';
+		$valores = "'Reseller', 'Clientes'";
 
-		if ($GLOBALS['db'] === DB_MAIN) {
-			$where = 'WHERE c.estado = 1';
+		if ($GLOBALS['db'] === DB_MAIN) {			
+			$where = "WHERE c.estado = 1 AND p.nombre NOT IN($valores)";
 		} else {
-			$where = "WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1) AND p.nombre NOT IN('Reseller', 'Clientes')";
+			$where = "WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1) AND p.nombre NOT IN($valores)";
 		}
 
 		$query = "SELECT c.colaboradores_id, CONCAT(c.nombre, ' ', c.apellido) AS 'nombre'
