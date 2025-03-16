@@ -14,7 +14,11 @@ var listar_usuarios = function() {
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL; ?>core/llenarDataTableUsuarios.php"
+            "url": "<?php echo SERVERURL; ?>core/llenarDataTableUsuarios.php",
+            "dataSrc": function(json) {
+                console.log(json); // Verifica los datos en la consola
+                return json.data;
+            }
         },
         "columns": [{
                 "data": "colaborador"
