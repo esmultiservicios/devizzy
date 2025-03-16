@@ -2563,7 +2563,7 @@
                             </div>
                         </div>
                         <div class="col-md-8 mb-3">
-                            <label for="producto">Producto <span class="priority">*<span /></label>
+                            <label for="producto">Producto <span class="priority">*</span></label>
                             <input type="text" class="form-control" id="producto" name="producto" maxlength="50"
                                 oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                 placeholder="Producto" required data-toggle="tooltip" data-placement="top">
@@ -2572,7 +2572,7 @@
 
                     <div class="form-row">
                         <div class="col-md-3 mb-3" style="display: none;">
-                            <label for="producto_empresa_id">Empresa <span class="priority">*<span /></label>
+                            <label for="producto_empresa_id">Empresa <span class="priority">*</span></label>
                             <div class="input-group mb-3">
                                 <select id="producto_empresa_id" name="producto_empresa_id" data-width="100%"
                                     class="selectpicker" data-size="7" data-live-search="true" title="Empresa">
@@ -2589,7 +2589,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="tipo_producto">Tipo Producto <span class="priority">*<span /></label>
+                            <label for="tipo_producto">Tipo Producto <span class="priority">*</span></label>
                             <select id="tipo_producto" name="tipo_producto" required class="selectpicker" data-size="7"
                                 data-width="100%" data-live-search="true" title="Tipo Producto">
                             </select>
@@ -2611,7 +2611,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="medida">Medida <span class="priority">*<span /></label>
+                            <label for="medida">Medida <span class="priority">*</span></label>
                             <select id="medida" name="medida" required class="selectpicker" data-size="7"
                                 data-width="100%" data-live-search="true" title="Medida">
                             </select>
@@ -2625,7 +2625,7 @@
                                 placeholder="Precio Compra" step="0.00001">
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="precio_venta">Precio Venta</label>
+                            <label for="precio_venta">Precio Venta <span class="priority">*</span></label>
                             <input type="number" class="form-control" id="precio_venta" name="precio_venta"
                                 placeholder="Precio Venta" step="0.00001">
                         </div>

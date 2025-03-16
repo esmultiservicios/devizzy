@@ -1,5 +1,5 @@
 <?php	
-	$peticionAjax = true;
+ 	$peticionAjax = true;
 	require_once "configGenerales.php";
 	require_once "mainModel.php";
 	
@@ -51,5 +51,4 @@
 		"data" => $data
 	);
 
-	echo json_encode($arreglo);
-?>
+	echo json_encode($arreglo); 

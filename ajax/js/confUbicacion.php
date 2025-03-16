@@ -38,7 +38,7 @@ var listar_ubicacion = function(){
 				}
 			},
 			{
-				text:      '<i class="fas fa-search-location fa-lg"></i> Ingresar',
+				text:      '<i class="fas fas fa-plus fa-lg"></i> Ingresar',
 				titleAttr: 'Agregar Ubicación',
 				className: 'table_crear btn btn-primary ocultar',
 				action: 	function(){

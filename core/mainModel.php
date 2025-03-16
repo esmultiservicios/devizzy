@@ -1693,8 +1693,9 @@ class mainModel
 
 		$where = "WHERE c.estado = '$estado'";
 
-		if ($privilegio_sd === '3') {
-			$where = "WHERE c.estado = '$estado' AND c.colaboradores_id = '$colaborador_id_sd'";
+
+		if ($privilegio_sd === 3) {
+			$where = "WHERE c.estado = '$estado' AND usr.privilegio_id = '$privilegio_sd'";
 		}
 
 		$query = "SELECT c.clientes_id AS 'clientes_id', 
@@ -1711,12 +1712,14 @@ class mainModel
 				c.eslogan, 
 				c.otra_informacion, 
 				c.whatsapp, 
-				c.empresa				
+				c.empresa,
+				c.colaboradores_id			
 		FROM clientes AS c
 			LEFT JOIN departamentos AS d ON c.departamentos_id = d.departamentos_id
 			LEFT JOIN municipios AS m ON c.municipios_id = m.municipios_id
 			LEFT JOIN server_customers AS s ON c.clientes_id = s.clientes_id
 			LEFT JOIN sistema AS si ON si.sistema_id=s.sistema_id
+			INNER JOIN users AS usr ON c.colaboradores_id = usr.colaboradores_id
 		".$where."
 		GROUP BY 
 			c.clientes_id, c.nombre, c.rtn, c.localidad, c.telefono, c.correo, d.nombre, 
@@ -2342,30 +2345,85 @@ class mainModel
 
 	public function getUsuarios($datos)
 	{
-		if ($datos['db_cliente'] === 'clinicarehn_clientes_clinicare') {
+		// Consulta para obtener el privilegio del colaborador
+		$privilegioQuery = "SELECT nombre FROM privilegio WHERE privilegio_id = '" . $datos['privilegio_id'] . "'";
+		$privilegioResult = self::connection()->query($privilegioQuery);
+	
+		$privilegio_colaborador = "";
+	
+		if ($privilegioResult && $privilegioResult->num_rows > 0) {
+			$row = $privilegioResult->fetch_assoc();
+			$privilegio_colaborador = $row['nombre'];
+		}
+	
+		// Construir la consulta principal de usuarios
+		if ($datos['db_cliente'] === $GLOBALS['DB_MAIN']) {
 			$where = 'WHERE u.estado = 1';
 		} else {
-			if ($datos['privilegio_colaborador'] === 'Super Administrador' || $datos['privilegio_colaborador'] === 'Administrador') {
+			if ($privilegio_colaborador === 'Super Administrador' ) {
 				$where = 'WHERE u.estado = 1';
+			} else if ($privilegio_colaborador === 'Administrador') {
+				$where = 'WHERE u.estado = 1 AND u.privilegio_id NOT IN(1)';
 			} else {
 				$where = "WHERE u.estado = 1 AND u.privilegio_id NOT IN(1) AND u.empresa_id = '" . $datos['empresa_id'] . "'";
 			}
 		}
-
-		$query = "SELECT u.users_id AS 'users_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', u.username AS 'username', u.email AS 'correo', tp.nombre AS 'tipo_usuario',
-				CASE WHEN u.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado',
-				e.nombre AS 'empresa', u.server_customers_id, p.nombre AS 'privilegio'
-				FROM users AS u
-				INNER JOIN colaboradores AS c ON u.colaboradores_id = c.colaboradores_id
-				INNER JOIN tipo_user AS tp ON u.tipo_user_id = tp.tipo_user_id
-				INNER JOIN privilegio AS p ON u.privilegio_id = p.privilegio_id
-				INNER JOIN empresa AS e ON u.empresa_id = e.empresa_id
-				" . $where . "
-				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
-
+	
+		// Consulta principal sin la lógica de empresa dinámica
+		$query = "SELECT u.users_id AS 'users_id', 
+						 CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', 
+						 u.username AS 'username', 
+						 u.email AS 'correo', 
+						 tp.nombre AS 'tipo_usuario',
+						 e.nombre AS 'empresa',						 
+						 CASE WHEN u.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado',
+						 u.server_customers_id, 
+						 p.nombre AS 'privilegio'
+				  FROM users AS u
+				  INNER JOIN colaboradores AS c ON u.colaboradores_id = c.colaboradores_id
+				  INNER JOIN tipo_user AS tp ON u.tipo_user_id = tp.tipo_user_id
+				  INNER JOIN privilegio AS p ON u.privilegio_id = p.privilegio_id
+				  INNER JOIN empresa AS e ON u.empresa_id = e.empresa_id
+				  " . $where . "
+				  ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
+	
 		$result = self::connection()->query($query);
-
-		return $result;
+	
+		// Procesar los resultados para obtener el nombre de la empresa dinámica
+		$usuarios = [];
+		while ($row = $result->fetch_assoc()) {
+			// Si server_customers_id no es 0, obtener el nombre de la empresa desde la base de datos correspondiente
+			if ($row['server_customers_id'] != 0) {
+				// Consulta para obtener el nombre de la base de datos desde server_customers
+				$query_db = "SELECT db FROM server_customers WHERE server_customers_id = " . $row['server_customers_id'];
+				$result_db = self::connection()->query($query_db);
+	
+				if ($result_db && $result_db->num_rows > 0) {
+					$db_row = $result_db->fetch_assoc();
+					$db_name = $db_row['db'];
+	
+					// Verificar que el nombre de la base de datos no esté vacío y sea válido
+					if (!empty($db_name)) {
+						// Escapar el nombre de la base de datos para evitar problemas de sintaxis
+						$db_name = self::connection()->real_escape_string($db_name);
+	
+						// Consulta para obtener el nombre de la empresa desde la base de datos especificada
+						$query_empresa = "SELECT nombre FROM `" . $db_name . "`.empresa WHERE empresa_id = 1";
+						$result_empresa = self::connection()->query($query_empresa);
+	
+						if ($result_empresa && $result_empresa->num_rows > 0) {
+							$empresa_row = $result_empresa->fetch_assoc();
+							// Convertir el nombre de la empresa a mayúsculas
+							$row['empresa'] = strtoupper($empresa_row['nombre']); // Convertir a mayúsculas
+						}
+					}
+				}
+			}
+	
+			$usuarios[] = $row;
+		}
+	
+		return $usuarios;
 	}
 
 	public function getSecuenciaFacturacion($datos)
@@ -2460,17 +2518,6 @@ class mainModel
 		return $result;
 	}
 
-	public function getCantidadProductos($productos_id)
-	{
-		$query = "SELECT id_producto_superior
-				FROM productos
-				WHERE productos_id = '$productos_id'";
-
-		$result = self::connection()->query($query);
-
-		return $result;
-	}
-
 	public function getTotalHijosporPadre($productos_id)
 	{
 		$query = "SELECT productos_id
@@ -2524,18 +2571,42 @@ class mainModel
 		return $result;
 	}
 
-	public function getSaldoProductosMovimientos($productos_id)
+	public function getProductosUnificado($datos)
 	{
-		$query = "SELECT
-						SUM(m.cantidad_entrada) AS 'entrada',
-						SUM(m.cantidad_salida) AS 'salida',
-						(
-							SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
-						) AS 'saldo'
-					FROM
-						movimientos AS m
-					INNER JOIN productos AS p ON m.productos_id = p.productos_id
-					WHERE p.estado = 1 AND p.productos_id = '$productos_id'";
+		$empresa_id = $datos['empresa_id_sd'];
+		$estado = $datos['estado'];
+
+		$query = "SELECT 
+					p.barCode AS 'barCode', 
+					p.productos_id AS 'productos_id', 
+					p.nombre AS 'nombre', 
+					p.descripcion AS 'descripcion', 
+					p.precio_compra AS 'precio_compra', 
+					p.precio_venta AS 'precio_venta', 
+					m.nombre AS 'medida', 
+					a.nombre AS 'almacen', 
+					u.nombre AS 'ubicacion', 
+					e.nombre AS 'empresa',
+					(CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', 
+					(CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END) AS 'isv',
+					tp.tipo_producto_id AS 'tipo_producto_id', 
+					tp.nombre AS 'categoria', 
+					(CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END) AS 'isv_venta', 
+					(CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END) AS 'isv_compra', 
+					p.file_name AS 'image', 
+					p.porcentaje_venta,
+					COALESCE(SUM(mov.cantidad_entrada) - SUM(mov.cantidad_salida), 0) AS 'saldo'
+				FROM productos AS p
+				INNER JOIN medida AS m ON p.medida_id = m.medida_id
+				INNER JOIN almacen AS a ON p.almacen_id = a.almacen_id
+				INNER JOIN ubicacion AS u ON a.ubicacion_id = u.ubicacion_id
+				INNER JOIN empresa AS e ON u.empresa_id = e.empresa_id
+				INNER JOIN tipo_producto AS tp ON p.tipo_producto_id = tp.tipo_producto_id
+				LEFT JOIN movimientos AS mov ON p.productos_id = mov.productos_id
+				WHERE p.estado = '$estado'
+					AND e.empresa_id = '$empresa_id'
+				GROUP BY p.productos_id
+				HAVING (tp.tipo_producto_id = 2 OR saldo > 0)";
 
 		$result = self::connection()->query($query);
 
@@ -2616,6 +2687,24 @@ class mainModel
 		}
 	}	
 
+	public function getSaldoProductosMovimientos($productos_id)
+	{
+		$query = "SELECT
+						SUM(m.cantidad_entrada) AS 'entrada',
+						SUM(m.cantidad_salida) AS 'salida',
+						(
+							SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)
+						) AS 'saldo'
+					FROM
+						movimientos AS m
+					INNER JOIN productos AS p ON m.productos_id = p.productos_id
+					WHERE p.estado = 1 AND p.productos_id = '$productos_id'";
+
+		$result = self::connection()->query($query);
+
+		return $result;
+	}
+
 	public function getProductos($datos)
 	{
 		$query = "SELECT p.barCode AS 'barCode', p.productos_id AS 'productos_id', p.nombre AS 'nombre', p.descripcion AS 'descripcion', p.precio_compra AS 'precio_compra', p.precio_venta AS 'precio_venta',m.nombre AS 'medida', a.nombre AS 'almacen', u.nombre AS 'ubicacion', e.nombre AS 'empresa',
@@ -2636,6 +2725,134 @@ class mainModel
 
 		$result = self::connection()->query($query);
 
+		return $result;
+	}
+
+	public function getCantidadProductos($productos_id)
+	{
+		$query = "SELECT id_producto_superior
+				FROM productos
+				WHERE productos_id = '$productos_id'";
+
+		$result = self::connection()->query($query);
+
+		return $result;
+	}
+
+	public function getProductosConInventarioYServicios($datos)
+	{
+		$bodega = '';
+		$barCode = '';
+	
+		// Filtro por bodega (solo para productos, no para servicios)
+		if ($datos['bodega'] != '' && $datos['bodega'] != '0') {
+			$bodega = "AND m.almacen_id = '" . $datos['bodega'] . "'";
+		}
+	
+		// Filtro por código de barras
+		if ($datos['barcode'] != '') {
+			$barCode = "AND p.barCode = '" . $datos['barcode'] . "'";
+		}
+	
+		// Consulta unificada
+		$query = "
+			-- Consulta para productos con inventario
+			SELECT
+				m.almacen_id,
+				m.movimientos_id AS 'movimientos_id',
+				p.barCode AS 'barCode',
+				p.nombre AS 'nombre',
+				me.nombre AS 'medida',
+				IFNULL(SUM(m.cantidad_entrada), 0) AS 'entrada',
+				IFNULL(SUM(m.cantidad_salida), 0) AS 'salida',
+				IFNULL((SUM(m.cantidad_entrada) - SUM(m.cantidad_salida)), 0) AS 'cantidad',
+				bo.nombre AS 'almacen',
+				DATE_FORMAT(m.fecha_registro, '%d/%m/%Y %H:%i:%s') AS 'fecha_registro',
+				p.productos_id AS 'productos_id',
+				p.id_producto_superior,
+				p.precio_compra AS 'precio_compra',
+				p.precio_venta,
+				p.precio_mayoreo,
+				p.cantidad_mayoreo,
+				p.isv_venta AS 'impuesto_venta',
+				p.isv_compra AS 'isv_compra',
+				p.file_name AS 'image',
+				tp.tipo_producto_id AS 'tipo_producto_id',
+				tp.nombre AS 'tipo_producto',
+				CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END AS 'estado',
+				CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END AS 'isv',
+				tp.nombre AS 'tipo_producto_nombre',
+				CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END AS 'isv_venta',
+				CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END AS 'isv_compra',
+				(SELECT id_producto_superior FROM productos WHERE productos_id = p.productos_id) AS 'id_producto_superior'
+			FROM
+				productos AS p
+			LEFT JOIN movimientos AS m 
+				ON m.productos_id = p.productos_id 
+				AND m.empresa_id = '" . $datos['empresa_id_sd'] . "'
+			LEFT JOIN medida AS me 
+				ON p.medida_id = me.medida_id
+			LEFT JOIN almacen AS bo 
+				ON m.almacen_id = bo.almacen_id
+			INNER JOIN tipo_producto AS tp 
+				ON p.tipo_producto_id = tp.tipo_producto_id
+			WHERE
+				p.estado = 1
+				AND tp.tipo_producto_id = 1  -- Solo productos
+				$barCode
+				$bodega
+			GROUP BY
+				p.productos_id, m.almacen_id
+			HAVING
+				SUM(m.cantidad_entrada) - SUM(m.cantidad_salida) > 0
+	
+			UNION ALL
+	
+			-- Consulta para servicios
+			SELECT
+				NULL AS 'almacen_id',
+				NULL AS 'movimientos_id',
+				p.barCode AS 'barCode',
+				p.nombre AS 'nombre',
+				me.nombre AS 'medida',
+				0 AS 'entrada',
+				0 AS 'salida',
+				0 AS 'cantidad',
+				NULL AS 'almacen',
+				NULL AS 'fecha_registro',
+				p.productos_id AS 'productos_id',
+				p.id_producto_superior,
+				p.precio_compra AS 'precio_compra',
+				p.precio_venta,
+				p.precio_mayoreo,
+				p.cantidad_mayoreo,
+				p.isv_venta AS 'impuesto_venta',
+				p.isv_compra AS 'isv_compra',
+				p.file_name AS 'image',
+				tp.tipo_producto_id AS 'tipo_producto_id',
+				tp.nombre AS 'tipo_producto',
+				CASE WHEN p.estado = '1' THEN 'Activo' ELSE 'Inactivo' END AS 'estado',
+				CASE WHEN p.isv_venta = '1' THEN 'Sí' ELSE 'No' END AS 'isv',
+				tp.nombre AS 'tipo_producto_nombre',
+				CASE WHEN p.isv_venta = '1' THEN 'Si' ELSE 'No' END AS 'isv_venta',
+				CASE WHEN p.isv_compra = '1' THEN 'Si' ELSE 'No' END AS 'isv_compra',
+				(SELECT id_producto_superior FROM productos WHERE productos_id = p.productos_id) AS 'id_producto_superior'
+			FROM
+				productos AS p
+			LEFT JOIN medida AS me 
+				ON p.medida_id = me.medida_id
+			INNER JOIN tipo_producto AS tp 
+				ON p.tipo_producto_id = tp.tipo_producto_id
+			WHERE
+				p.estado = 1
+				AND tp.tipo_producto_id = 2  -- Solo servicios
+				$barCode
+			ORDER BY
+				tipo_producto_id ASC, nombre ASC;
+		";
+	
+		$result = self::connection()->query($query);
+	
 		return $result;
 	}
 

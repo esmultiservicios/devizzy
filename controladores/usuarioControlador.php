@@ -80,8 +80,9 @@
 
 				//GUARDAMOS LOS DATOS DEL CLIENTE EN LA DB PRINCIPAL
 				$privilegio_id_default = 4; //CLIENES
+				$tipo_user_default = 4; //CLIENES
 				$users_id_consulta = mainModel::correlativoLogin("users_id ", "users");
-				$insertDBMainUsers = "INSERT INTO `users`(`users_id`, `colaboradores_id`, `privilegio_id`, `username`, `password`, `email`, `tipo_user_id`, `estado`, `fecha_registro`, `empresa_id`, `server_customers_id`) VALUES ('$users_id_consulta','$colaboradores_id_consulta','$privilegio_id_default','','$contraseña_generada','$correo_usuario','$tipo_user','1','$fecha_registro','1','$server_customers_id')";
+				$insertDBMainUsers = "INSERT INTO `users`(`users_id`, `colaboradores_id`, `privilegio_id`, `username`, `password`, `email`, `tipo_user_id`, `estado`, `fecha_registro`, `empresa_id`, `server_customers_id`) VALUES ('$users_id_consulta','$colaboradores_id_consulta','$privilegio_id_default','','$contraseña_generada','$correo_usuario','$tipo_user_default','1','$fecha_registro','1','$server_customers_id')";
 
 				mainModel::connectionLogin()->query($insertDBMainUsers);
 			}
@@ -438,4 +439,3 @@
 			return mainModel::sweetAlert($alert);
 		}
     }
-?>
