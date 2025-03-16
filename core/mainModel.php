@@ -1451,16 +1451,10 @@ class mainModel
 
 	public function getTipoUsuario($datos)
 	{
-		if ($datos['db_cliente'] === 'clinicarehn_clientes_clinicare') {
+		if ($datos['db_cliente'] === $GLOBALS['DB_MAIN']) {
 			$where = 'WHERE estado = 1';
 		} else {
-			$where = 'WHERE estado = 1 AND tipo_user_id NOT IN(1)';
-		}
-
-		if($datos['privilegio_id'] == 1){
-			$where = "WHERE estado = 1";
-		}else{
-			$where = "WHERE estado = 1 AND tipo_user_id NOT IN(1)";
+			$where = 'WHERE estado = 1 AND tipo_user_id NOT IN(1,3)';
 		}
 
 		$query = 'SELECT *
@@ -1475,10 +1469,10 @@ class mainModel
 
 	public function getPrivilegio($datos)
 	{
-		if ($datos['DB_MAIN'] === 'clinicarehn_clientes_clinicare') {
+		if ($datos['DB_MAIN'] === $GLOBALS['DB_MAIN']) {
 			$where = 'WHERE estado = 1';
 		} else {
-			$where = 'WHERE estado = 1 AND privilegio_id NOT IN(1)';
+			$where = 'WHERE estado = 1 AND privilegio_id NOT IN(1,3)';
 		}
 
 		/*if($datos['privilegio_colaborador'] !== "Super Administrador"){//SUPER ADMINISTRADOR
@@ -2386,7 +2380,7 @@ class mainModel
 				  INNER JOIN empresa AS e ON u.empresa_id = e.empresa_id
 				  " . $where . "
 				  ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
-	
+
 		$result = self::connection()->query($query);
 	
 		// Procesar los resultados para obtener el nombre de la empresa dinámica
