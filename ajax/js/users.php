@@ -15,10 +15,6 @@ var listar_usuarios = function() {
         "ajax": {
             "method": "POST",
             "url": "<?php echo SERVERURL; ?>core/llenarDataTableUsuarios.php",
-            "dataSrc": function(json) {
-                console.log(json); // Verifica los datos en la consola
-                return json.data;
-            }
         },
         "columns": [{
                 "data": "colaborador"
