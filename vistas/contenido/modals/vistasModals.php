@@ -586,7 +586,7 @@
                                                             <div class="col-md-12">
                                                                 <input type="submit" value="Efectuar Pago"
                                                                     id="pago_efectivo"
-                                                                    class="mt-3 pay btn btn-info placeicon"
+                                                                    class="mt-3 btn btn-info placeicon"
                                                                     form="formEfectivoPurchase">
                                                             </div>
                                                         </div>
@@ -671,7 +671,7 @@
                                                             <div class="col-md-12">
                                                                 <input type="submit" value="Efectuar Pago"
                                                                     id="pago_tarjeta"
-                                                                    class="mt-3 pay btn btn-info placeicon"
+                                                                    class="mt-3 btn btn-info placeicon"
                                                                     form="formTarjetaPurchase">
                                                             </div>
                                                         </div>
@@ -764,7 +764,7 @@
                                                             <div class="col-md-12">
                                                                 <input type="submit" value="Efectuar Pago"
                                                                     id="pago_transferencia"
-                                                                    class="mt-3 pay btn btn-info placeicon"
+                                                                    class="mt-3 btn btn-info placeicon"
                                                                     form="formTransferenciaPurchase">
                                                             </div>
                                                         </div>
@@ -845,7 +845,7 @@
                                                             <div class="col-md-12">
                                                                 <input type="submit" value="Efectuar Pago"
                                                                     id="pago_transferencia"
-                                                                    class="mt-3 pay btn btn-info placeicon"
+                                                                    class="mt-3 btn btn-info placeicon"
                                                                     form="formChequePurchase">
                                                             </div>
                                                         </div>
@@ -1024,7 +1024,7 @@
                                                                 <div class="col-md-12">
                                                                     <input type="submit" value="Efectuar Pago"
                                                                         id="pago_efectivo"
-                                                                        class="mt-3 pay btn btn-info placeicon"
+                                                                        class="mt-3 btn btn-info placeicon"
                                                                         form="formEfectivoBill">
                                                                 </div>
                                                             </div>
@@ -1115,7 +1115,7 @@
                                                                 <div class="col-md-12">
                                                                     <input type="submit" value="Efectuar Pago"
                                                                         id="pago_tarjeta"
-                                                                        class="mt-3 pay btn btn-info placeicon"
+                                                                        class="mt-3 btn btn-info placeicon"
                                                                         form="formTarjetaBill">
                                                                 </div>
                                                             </div>
@@ -1223,7 +1223,7 @@
                                                                 <div class="col-md-12">
                                                                     <input type="submit" value="Efectuar Pago"
                                                                         id="pago_efectivo_mixto"
-                                                                        class="mt-3 pay btn btn-info placeicon"
+                                                                        class="mt-3 btn btn-info placeicon"
                                                                         form="formMixtoBill">
                                                                 </div>
                                                             </div>
@@ -1317,7 +1317,7 @@
                                                                 <div class="col-md-12">
                                                                     <input type="submit" value="Efectuar Pago"
                                                                         id="pago_transferencia"
-                                                                        class="mt-3 pay btn btn-info placeicon"
+                                                                        class="mt-3 btn btn-info placeicon"
                                                                         form="formTransferenciaBill">
                                                                 </div>
                                                             </div>
@@ -1402,7 +1402,7 @@
                                                                 <div class="col-md-12">
                                                                     <input type="submit" value="Efectuar Pago"
                                                                         id="pago_transferencia"
-                                                                        class="mt-3 pay btn btn-info placeicon"
+                                                                        class="mt-3 btn btn-info placeicon"
                                                                         form="formChequeBill">
                                                                 </div>
                                                             </div>
@@ -1418,8 +1418,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>

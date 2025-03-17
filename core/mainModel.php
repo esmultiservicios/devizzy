@@ -1687,8 +1687,17 @@ class mainModel
 
 		$where = "WHERE c.estado = '$estado'";
 
+		//CONSULTAMOS EL NOMBRE DEL PRIVILEGIO
+		$query_privilegio = "SELECT nombre FROM privilegio WHERE privilegio_id = $privilegio_sd ";
+		$result_privilegio = self::connection()->query($query_privilegio);
+		$privilegio_name = "";
 
-		if ($privilegio_sd === 3) {
+		if($result_privilegio->num_rows > 0 ){
+			$row = $result_privilegio->fetch_assoc();
+			$privilegio_name  = $row['nombre'];
+		}
+
+		if ($privilegio_name === 'Reseller') {
 			$where = "WHERE c.estado = '$estado' AND usr.privilegio_id = '$privilegio_sd'";
 		}
 
