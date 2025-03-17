@@ -128,15 +128,6 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
 
     // Define el contenido del archivo SQL
     $sql = "
-    DROP TABLE IF EXISTS `pin`;
-    CREATE TABLE IF NOT EXISTS `pin` (
-      `pin_id` int NOT NULL,
-      `server_customers_id` int NOT NULL,
-      `codigo_cliente` int NOT NULL,
-      `pin` int NOT NULL,
-      `fecha_hora_inicio` datetime NOT NULL,
-      `fecha_hora_fin` datetime NOT NULL
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
     DROP TABLE IF EXISTS `acceso_menu`;
     CREATE TABLE IF NOT EXISTS `acceso_menu` (
@@ -168,17 +159,6 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
       PRIMARY KEY (`acceso_submenu1_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
-    DROP TABLE IF EXISTS `categoria_gastos`;
-    CREATE TABLE IF NOT EXISTS `categoria_gastos` (
-      `categoria_gastos_id` int(11) NOT NULL,
-      `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
-      `estado` int(1) NOT NULL COMMENT '0 Inactivo 1. Activo',
-      `usuario` int(11) NOT NULL,
-      `date_write` datetime NOT NULL,
-      PRIMARY KEY (`categoria_gastos_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-    COMMIT;
-  
     DROP TABLE IF EXISTS `almacen`;
     CREATE TABLE IF NOT EXISTS `almacen` (
       `almacen_id` int NOT NULL,
@@ -206,8 +186,8 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
     `estado` int(11) NOT NULL COMMENT '1. Activo 2. Inactivo',
     `fecha_registro` datetime NOT NULL,
     `empresa_id` int(11) NOT NULL
-  ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-  
+  ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;  
+   
     DROP TABLE IF EXISTS `asistencia`;
     CREATE TABLE IF NOT EXISTS `asistencia` (
       `asistencia_id` int NOT NULL,
@@ -268,8 +248,19 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
     INSERT INTO `categoria` (`categoria_id`, `nombre`, `estado`, `fecha_registro`) VALUES
-    (1, 'Prueba', 1, NOW());
-  
+    (1, 'Prueba', 1, NOW());  
+
+    DROP TABLE IF EXISTS `categoria_gastos`;
+    CREATE TABLE IF NOT EXISTS `categoria_gastos` (
+      `categoria_gastos_id` int(11) NOT NULL,
+      `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `estado` int(1) NOT NULL COMMENT '0 Inactivo 1. Activo',
+      `usuario` int(11) NOT NULL,
+      `date_write` datetime NOT NULL,
+      PRIMARY KEY (`categoria_gastos_id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+    COMMIT;
+
     DROP TABLE IF EXISTS `cheque`;
     CREATE TABLE IF NOT EXISTS `cheque` (
       `cheque_id` int NOT NULL,
@@ -311,19 +302,6 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
     INSERT INTO `clientes` (`clientes_id`, `nombre`, `rtn`, `fecha`, `departamentos_id`, `municipios_id`, `localidad`, `telefono`, `correo`, `estado`, `colaboradores_id`, `fecha_registro`, `empresa`, `eslogan`, `otra_informacion`, `whatsapp`) VALUES
     (1, 'Consumidor Final', '999999999', CAST(NOW() AS DATE), 18, 295, '.', '0', 'alguien@algo.com', 1, 1, NOW(), '$empresa', '$eslogan', '$otra_informacion', '$celular');
 
-    DROP TABLE IF EXISTS `server_customers`;
-    CREATE TABLE IF NOT EXISTS `server_customers` (
-      `server_customers_id` int NOT NULL,
-      `clientes_id` int NOT NULL,
-      `codigo_cliente` int NOT NULL,
-      `db` char(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `planes_id` int NOT NULL,
-      `sistema_id` int NOT NULL,
-      `validar` int NOT NULL COMMENT '1 Sí 2. No',
-      `estado` int NOT NULL,
-      PRIMARY KEY (`server_customers_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;    
-  
     DROP TABLE IF EXISTS `cobrar_clientes`;
     CREATE TABLE IF NOT EXISTS `cobrar_clientes` (
       `cobrar_clientes_id` int NOT NULL,
@@ -337,7 +315,7 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
       `fecha_registro` datetime NOT NULL,
       PRIMARY KEY (`cobrar_clientes_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-  
+
     DROP TABLE IF EXISTS `colaboradores`;
     CREATE TABLE IF NOT EXISTS `colaboradores` (
       `colaboradores_id` int NOT NULL,
@@ -389,254 +367,19 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
       `descuento` float(12,2) NOT NULL,
       `medida` char(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
       PRIMARY KEY (`compras_detalles_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-  
-    DROP TABLE IF EXISTS `menu_plan`;
-    CREATE TABLE `menu_plan` (
-      `menu_plan_id` int NOT NULL,
-      `menu_id` int NOT NULL,
-      `planes_id` int NOT NULL
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-    
-    INSERT INTO `menu_plan` (`menu_plan_id`, `menu_id`, `planes_id`) VALUES
-    (1, 7, 1),
-    (2, 2, 1),
-    (4, 6, 1),
-    (6, 8, 1),
-    (7, 1, 2),
-    (8, 2, 2),
-    (9, 3, 2),
-    (10, 4, 2),
-    (11, 6, 2),
-    (12, 7, 2),
-    (13, 8, 2),
-    (14, 1, 3),
-    (15, 2, 3),
-    (16, 3, 3),
-    (17, 4, 3),
-    (18, 5, 3),
-    (19, 6, 3),
-    (20, 7, 3),
-    (21, 8, 3),
-    (22, 1, 4),
-    (23, 2, 4),
-    (24, 3, 4),
-    (25, 4, 4),
-    (26, 5, 4),
-    (27, 6, 4),
-    (28, 7, 4),
-    (29, 8, 4),
-    (30, 1, 5),
-    (31, 2, 5),
-    (32, 3, 5),
-    (33, 4, 5),
-    (34, 5, 5),
-    (35, 6, 5),
-    (36, 7, 5),
-    (37, 8, 5); 
-    
-    DROP TABLE IF EXISTS `submenu_plan`;
-    CREATE TABLE `submenu_plan` (
-      `submenu_plan_id` int NOT NULL,
-      `submenu_id` int NOT NULL,
-      `planes_id` int NOT NULL
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-    
-    INSERT INTO `submenu_plan` (`submenu_plan_id`, `submenu_id`, `planes_id`) VALUES
-    (1, 1, 1),
-    (2, 2, 1),
-    (3, 6, 1),
-    (4, 14, 1),
-    (5, 16, 1),
-    (6, 17, 1),
-    (7, 18, 1),
-    (8, 19, 1),
-    (9, 20, 1),
-    (10, 23, 1),
-    (11, 24, 1),
-    (12, 25, 1),
-    (13, 34, 1),
-    (14, 1, 2),
-    (15, 2, 2),
-    (16, 3, 2),
-    (17, 4, 2),
-    (18, 5, 2),
-    (19, 6, 2),
-    (20, 7, 2),
-    (21, 33, 2),
-    (22, 14, 2),
-    (23, 15, 2),
-    (24, 16, 2),
-    (25, 17, 2),
-    (26, 18, 2),
-    (27, 19, 2),
-    (28, 20, 2),
-    (29, 21, 2),
-    (30, 22, 2),
-    (31, 23, 2),
-    (32, 24, 2),
-    (33, 25, 2),
-    (34, 26, 2),
-    (35, 29, 2),
-    (36, 34, 2),
-    (37, 1, 3),
-    (38, 2, 3),
-    (39, 3, 3),
-    (40, 4, 3),
-    (41, 5, 3),
-    (42, 6, 3),
-    (43, 7, 3),
-    (44, 11, 3),
-    (45, 33, 3),
-    (46, 14, 3),
-    (47, 15, 3),
-    (48, 16, 3),
-    (49, 17, 3),
-    (50, 18, 3),
-    (51, 19, 3),
-    (52, 20, 3),
-    (53, 21, 3),
-    (54, 22, 3),
-    (55, 23, 3),
-    (56, 24, 3),
-    (57, 25, 3),
-    (58, 26, 3),
-    (59, 29, 3),
-    (60, 34, 3),
-    (61, 1, 4),
-    (62, 2, 4),
-    (63, 27, 4),
-    (64, 3, 4),
-    (65, 4, 4),
-    (66, 5, 4),
-    (67, 6, 4),
-    (68, 7, 4),
-    (69, 8, 4),
-    (70, 9, 4),
-    (71, 10, 4),
-    (72, 11, 4),
-    (73, 31, 4),
-    (74, 33, 4),
-    (75, 14, 4),
-    (76, 15, 4),
-    (77, 16, 4),
-    (78, 17, 4),
-    (79, 18, 4),
-    (80, 19, 4),
-    (81, 20, 4),
-    (82, 21, 4),
-    (83, 22, 4),
-    (84, 23, 4),
-    (85, 24, 4),
-    (86, 25, 4),
-    (87, 26, 4),
-    (88, 29, 4),
-    (89, 34, 4),
-    (90, 36, 4),
-    (91, 37, 4),
-    (92, 1, 4),
-    (93, 2, 4),
-    (94, 27, 4),
-    (95, 3, 4),
-    (96, 4, 4),
-    (97, 5, 4),
-    (98, 6, 4),
-    (99, 7, 4),
-    (100, 8, 4),
-    (101, 9, 4),
-    (102, 10, 4),
-    (103, 11, 4),
-    (104, 31, 4),
-    (105, 33, 4),
-    (106, 14, 4),
-    (107, 15, 4),
-    (108, 16, 4),
-    (109, 35, 4),
-    (110, 36, 4),
-    (111, 37, 4),
-    (112, 17, 4),
-    (113, 18, 4),
-    (114, 19, 4),
-    (115, 20, 4),
-    (116, 21, 4),
-    (117, 22, 4),
-    (118, 23, 4),
-    (119, 24, 4),
-    (120, 25, 4),
-    (121, 26, 4),
-    (122, 29, 4),
-    (123, 34, 4),
-    (124, 1, 5),
-    (125, 2, 5),
-    (126, 3, 5),
-    (127, 4, 5),
-    (128, 5, 5),
-    (129, 6, 5),
-    (130, 7, 5),
-    (131, 8, 5),
-    (132, 9, 5),
-    (133, 10, 5),
-    (134, 11, 5),
-    (135, 12, 5),
-    (136, 13, 5),
-    (137, 14, 5),
-    (138, 15, 5),
-    (139, 16, 5),
-    (140, 17, 5),
-    (141, 18, 5),
-    (142, 19, 5),
-    (143, 20, 5),
-    (144, 21, 5),
-    (145, 22, 5),
-    (146, 23, 5),
-    (147, 24, 5),
-    (148, 25, 5),
-    (149, 26, 5),
-    (150, 27, 5),
-    (151, 28, 5),
-    (152, 29, 5),
-    (153, 30, 5),
-    (154, 31, 5),
-    (155, 32, 5),
-    (156, 33, 5),
-    (157, 34, 5),
-    (158, 35, 5),
-    (159, 36, 5);
-    
-    DROP TABLE IF EXISTS `submenu1_plan`;
-    CREATE TABLE `submenu1_plan` (
-      `submenu1_plan_id` int NOT NULL,
-      `submenu1_id` int NOT NULL,
-      `planes_id` int NOT NULL
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;    
+
+    DROP TABLE IF EXISTS `config`;
+    CREATE TABLE IF NOT EXISTS `config` (
+      `config_id` int(11) NOT NULL,
+      `accion` char(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `activar` int(11) NOT NULL COMMENT '1. Si 0.No',
+      PRIMARY KEY (`config_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
-    INSERT INTO `submenu1_plan` (`submenu1_plan_id`, `submenu1_id`, `planes_id`) VALUES
-    (2, 3, 2),
-    (1, 3, 1),
-    (3, 4, 2),
-    (4, 7, 2),
-    (5, 5, 2),
-    (6, 3, 3),
-    (7, 4, 3),
-    (8, 7, 3),
-    (9, 5, 3),
-    (10, 3, 4),
-    (11, 4, 4),
-    (12, 7, 4),
-    (13, 5, 4),
-    (14, 3, 2),
-    (15, 4, 2),
-    (16, 7, 2),
-    (17, 5, 2),
-    (18, 1, 5),
-    (19, 2, 5),
-    (20, 3, 5),
-    (21, 4, 5),
-    (22, 5, 5),
-    (23, 6, 5),
-    (24, 7, 5),
-    (25, 6, 4);
-
+    INSERT INTO `config` (`config_id`, `accion`, `activar`) VALUES
+    (1, 'Mostrar detalle facturas - Caja', 0),
+    (2, 'Validar Apertura Caja', 1);
 
     DROP TABLE IF EXISTS `contrato`;
     CREATE TABLE IF NOT EXISTS `contrato` (
@@ -725,7 +468,7 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
       KEY `productos_id` (`productos_id`),
       KEY `facturas_id` (`cotizacion_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-  
+
     DROP TABLE IF EXISTS `cuentas`;
     CREATE TABLE IF NOT EXISTS `cuentas` (
       `cuentas_id` int NOT NULL,
@@ -743,7 +486,7 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
     (4, '1013', 'CxC Clientes', 1, NOW()),
     (5, '1014', 'CxP Proveedores', 1, NOW()),
     (6, '1015', 'CxP Socios', 1, NOW());
-  
+
     DROP TABLE IF EXISTS `departamentos`;
     CREATE TABLE IF NOT EXISTS `departamentos` (
       `departamentos_id` int NOT NULL,
@@ -823,32 +566,32 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
     DROP TABLE IF EXISTS `empresa`;
-    CREATE TABLE IF NOT EXISTS `empresa` (
+    CREATE TABLE `empresa` (
       `empresa_id` int NOT NULL,
-      `razon_social` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `nombre` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `otra_informacion` char(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `eslogan` char(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `celular` char(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `telefono` char(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `correo` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `logotipo` char(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `rtn` char(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `ubicacion` char(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `facebook` char(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `sitioweb` char(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `horario` char(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+      `razon_social` char(50) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `nombre` char(50) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `otra_informacion` char(150) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `eslogan` char(150) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `celular` char(8) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `telefono` char(8) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `correo` char(50) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `logotipo` char(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `rtn` char(14) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `ubicacion` char(150) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `facebook` char(150) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `sitioweb` char(150) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `horario` char(100) COLLATE utf8mb4_spanish_ci NOT NULL,
       `estado` int NOT NULL,
       `colaboradores_id` int NOT NULL,
       `fecha_registro` datetime NOT NULL,
       `firma_documento` char(40) COLLATE utf8mb4_spanish_ci NOT NULL,
-      PRIMARY KEY (`empresa_id`)
+      `MostrarFirma` int NOT NULL COMMENT '0. No 1. Si'
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
-    INSERT INTO `empresa`(`empresa_id`, `razon_social`, `nombre`, `otra_informacion`, `eslogan`, `celular`, `telefono`, `correo`, `logotipo`, `rtn`, `ubicacion`, `facebook`, `sitioweb`, `horario`, `estado`, `colaboradores_id`, `fecha_registro`) VALUES ('$empresa_id','$razon_social','$empresa','$otra_informacion','$eslogan','$celular','$telefono','$correo','$logotipo','$rtn','$ubicacion','$facebook','$sitioweb','$horario','$estado','$colaboradores_id','$fecha_registro','');
+    INSERT INTO `empresa`(`empresa_id`, `razon_social`, `nombre`, `otra_informacion`, `eslogan`, `celular`, `telefono`, `correo`, `logotipo`, `rtn`, `ubicacion`, `facebook`, `sitioweb`, `horario`, `estado`, `colaboradores_id`, `fecha_registro`) VALUES ('$empresa_id','$razon_social','$empresa','$otra_informacion','$eslogan','$celular','$telefono','$correo','$logotipo','$rtn','$ubicacion','$facebook','$sitioweb','$horario','$estado','$colaboradores_id','$fecha_registro','','0');
   
     DROP TABLE IF EXISTS `facturas`;
-    CREATE TABLE IF NOT EXISTS `facturas` (
+    CREATE TABLE `facturas` (
       `facturas_id` int NOT NULL,
       `clientes_id` int NOT NULL,
       `secuencia_facturacion_id` int NOT NULL,
@@ -856,20 +599,23 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
       `number` int NOT NULL,
       `tipo_factura` int NOT NULL COMMENT '1. Contado 2. Crédito',
       `colaboradores_id` int NOT NULL,
-      `importe` float(12,4) NOT NULL,
-      `notas` char(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+      `importe` float(12,2) NOT NULL,
+      `notas` char(255) COLLATE utf8mb4_spanish_ci NOT NULL,
       `fecha` date NOT NULL,
       `estado` int NOT NULL COMMENT '1. Borrador 2. Pagada 3. Crédito 4. Cancelada',
       `usuario` int NOT NULL,
       `empresa_id` int NOT NULL,
       `fecha_registro` datetime NOT NULL,
-      `fecha_dolar` date NOT NULL,
-      PRIMARY KEY (`facturas_id`),
-      KEY `clientes_id` (`clientes_id`),
-      KEY `colaborador_id` (`colaboradores_id`),
-      KEY `secuencia_facturacion_id` (`secuencia_facturacion_id`),
-      KEY `usuario` (`usuario`)
+      `fecha_dolar` date NOT NULL
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+    ALTER TABLE `facturas`
+      ADD PRIMARY KEY (`facturas_id`),
+      ADD KEY `clientes_id` (`clientes_id`),
+      ADD KEY `colaborador_id` (`colaboradores_id`),
+      ADD KEY `secuencia_facturacion_id` (`secuencia_facturacion_id`),
+      ADD KEY `usuario` (`usuario`);
+    COMMIT;    
   
     DROP TABLE IF EXISTS `facturas_detalles`;
     CREATE TABLE IF NOT EXISTS `facturas_detalles` (
@@ -901,22 +647,6 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
       PRIMARY KEY (`facturas_proforma_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
-    DROP TABLE IF EXISTS `vale`;
-    CREATE TABLE IF NOT EXISTS `vale` (
-      `vale_id` int(11) NOT NULL,
-      `nomina_id` int(11) NOT NULL,
-      `colaboradores_id` int(11) NOT NULL,
-      `monto` decimal(12,2) NOT NULL,
-      `fecha` date NOT NULL,
-      `nota` varchar(254) COLLATE utf8mb4_spanish_ci NOT NULL,
-      `usuario` int(11) NOT NULL,
-      `estado` int(11) NOT NULL COMMENT '0. Pendiente 1. Pagado 2. Anulado',
-      `empresa_id` int(11) NOT NULL,
-      `fecha_registro` datetime NOT NULL,
-      PRIMARY KEY (`vale_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-    COMMIT;
-  
     DROP TABLE IF EXISTS `historial`;
     CREATE TABLE IF NOT EXISTS `historial` (
       `historial_id` int NOT NULL,
@@ -950,11 +680,12 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
     INSERT INTO `impresora` (`impresora_id`, `descripcion`, `estado`, `tipo`, `fecha_registro`) VALUES
-    (0, 'Comprobante Carta', 1, 3, NOW()),
+    (0, 'Comprobante Carta', 0, 3, NOW()),
     (1, 'Factura Carta', 1, 1, NOW()),
     (2, 'Factura Ticket', 0, 2, NOW()),
-    (3, 'Comprobante Ticket', 0, 4, NOW());
-  
+    (3, 'Comprobante Ticket', 1, 4, NOW()),
+    (4, 'Factura Media Carta', 0, 5, NOW());
+
     DROP TABLE IF EXISTS `ingresos`;
     CREATE TABLE IF NOT EXISTS `ingresos` (
       `ingresos_id` int NOT NULL,
@@ -975,20 +706,20 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
       `fecha_registro` datetime NOT NULL,
       PRIMARY KEY (`ingresos_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-  
-\tDROP TABLE IF EXISTS `isv`;
-\tCREATE TABLE IF NOT EXISTS `isv` (
-\t  `isv_id` int(11) NOT NULL,
-\t  `isv_tipo_id` int(11) NOT NULL,
-\t  `valor` float(12,2) NOT NULL,
-\t  `activar` int(11) NOT NULL COMMENT '0. No 1. Si',
-\t  `fecha_registro` datetime NOT NULL,
-\t  PRIMARY KEY (`isv_id`)
-\t) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
-\tINSERT INTO `isv` (`isv_id`, `isv_tipo_id`, `valor`, `activar`, `fecha_registro`) VALUES
-\t(1, 1, 15.00, 1, '2021-11-05 18:04:31'),
-\t(2, 2, 15.00, 1, '2021-11-05 18:04:31');
+    DROP TABLE IF EXISTS `isv`;
+    CREATE TABLE IF NOT EXISTS `isv` (
+      `isv_id` int(11) NOT NULL,
+      `isv_tipo_id` int(11) NOT NULL,
+      `valor` float(12,2) NOT NULL,
+      `activar` int(11) NOT NULL COMMENT '0. No 1. Si',
+      `fecha_registro` datetime NOT NULL,
+      PRIMARY KEY (`isv_id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+    INSERT INTO `isv` (`isv_id`, `isv_tipo_id`, `valor`, `activar`, `fecha_registro`) VALUES
+    (1, 1, 15.00, 1, NOW()),
+    (2, 2, 15.00, 1, NOW());
   
     DROP TABLE IF EXISTS `isv_tipo`;
     CREATE TABLE IF NOT EXISTS `isv_tipo` (
@@ -1000,7 +731,30 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
     INSERT INTO `isv_tipo` (`isv_tipo_id`, `nombre`) VALUES
     (1, 'Facturas'),
     (2, 'Compras');
-  
+
+    CREATE TABLE `lotes` (
+      `lote_id` int NOT NULL,
+      `numero_lote` varchar(50) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `productos_id` int NOT NULL,
+      `cantidad` int NOT NULL,
+      `fecha_vencimiento` date DEFAULT NULL,
+      `fecha_ingreso` datetime NOT NULL,
+      `almacen_id` int NOT NULL,
+      `empresa_id` int NOT NULL,
+      `estado` varchar(50) COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT 'Activo'
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;  
+    
+    ALTER TABLE `lotes`
+      ADD PRIMARY KEY (`lote_id`),
+      ADD UNIQUE KEY `numero_lote` (`numero_lote`),
+      ADD KEY `productos_id` (`productos_id`),
+      ADD KEY `almacen_id` (`almacen_id`),
+      ADD KEY `fk_empresa_lotes` (`empresa_id`);
+    --
+    ALTER TABLE `lotes`
+      MODIFY `lote_id` int NOT NULL AUTO_INCREMENT;
+    COMMIT;  
+
     DROP TABLE IF EXISTS `medida`;
     CREATE TABLE IF NOT EXISTS `medida` (
       `medida_id` int NOT NULL,
@@ -1031,8 +785,52 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
     (6, 'reportes'),
     (7, 'configuracion'),
     (5, 'contabilidad'),
-    (8, 'recursosHumanos');
-  
+    (8, 'recursosHumanos');  
+
+    DROP TABLE IF EXISTS `menu_plan`;
+    CREATE TABLE `menu_plan` (
+      `menu_plan_id` int NOT NULL,
+      `menu_id` int NOT NULL,
+      `planes_id` int NOT NULL
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+    
+    INSERT INTO `menu_plan` (`menu_plan_id`, `menu_id`, `planes_id`) VALUES
+    (1, 7, 1),
+    (2, 2, 1),
+    (4, 6, 1),
+    (6, 8, 1),
+    (7, 1, 2),
+    (8, 2, 2),
+    (9, 3, 2),
+    (10, 4, 2),
+    (11, 6, 2),
+    (12, 7, 2),
+    (13, 8, 2),
+    (14, 1, 3),
+    (15, 2, 3),
+    (16, 3, 3),
+    (17, 4, 3),
+    (18, 5, 3),
+    (19, 6, 3),
+    (20, 7, 3),
+    (21, 8, 3),
+    (22, 1, 4),
+    (23, 2, 4),
+    (24, 3, 4),
+    (25, 4, 4),
+    (26, 5, 4),
+    (27, 6, 4),
+    (28, 7, 4),
+    (29, 8, 4),
+    (30, 1, 5),
+    (31, 2, 5),
+    (32, 3, 5),
+    (33, 4, 5),
+    (34, 5, 5),
+    (35, 6, 5),
+    (36, 7, 5),
+    (37, 8, 5); 
+
     DROP TABLE IF EXISTS `movimientos`;
     CREATE TABLE IF NOT EXISTS `movimientos` (
       `movimientos_id` int NOT NULL,
@@ -1046,6 +844,7 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
       `clientes_id` int NOT NULL,
       `comentario` char(254) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
       `almacen_id` int NOT NULL,
+      `lote_id` int NOT NULL
       PRIMARY KEY (`movimientos_id`),
       KEY `productos_id` (`productos_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -1429,7 +1228,17 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
       `salario` decimal(12,2) NOT NULL,
       PRIMARY KEY (`nomina_detalles_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-  
+
+    CREATE TABLE `notificaciones` (
+      `notificaciones_id` int NOT NULL,
+      `correo` char(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `nombre` char(100) COLLATE utf8mb4_spanish_ci NOT NULL
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+    ALTER TABLE `notificaciones`
+      ADD PRIMARY KEY (`notificaciones_id`);
+    COMMIT;
+
     DROP TABLE IF EXISTS `pagar_proveedores`;
     CREATE TABLE IF NOT EXISTS `pagar_proveedores` (
       `pagar_proveedores_id` int NOT NULL,
@@ -1544,7 +1353,30 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
     (6, 2, 'crear', 1, NOW()),
     (7, 2, 'reportes', 1, NOW()),
     (8, 2, 'actualizar', 1, NOW());
+
+    DROP TABLE IF EXISTS `pin`;
+    CREATE TABLE IF NOT EXISTS `pin` (
+      `pin_id` int NOT NULL,
+      `server_customers_id` int NOT NULL,
+      `codigo_cliente` int NOT NULL,
+      `pin` int NOT NULL,
+      `fecha_hora_inicio` datetime NOT NULL,
+      `fecha_hora_fin` datetime NOT NULL
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+DROP TABLE IF EXISTS `plan`;
+    CREATE TABLE IF NOT EXISTS `plan` (
+      `plan_id` int NOT NULL,
+      `planes_id` int NOT NULL,
+      `users` int NOT NULL COMMENT 'Cantidad Usuarios en el Plan Si el valor esta en 0 no hay límite de usuarios',
+      `user_extra` int NOT NULL COMMENT 'Cantidad de Usuarios Extras',
+      `fecha_registro` datetime NOT NULL,
+      PRIMARY KEY (`plan_id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
+    INSERT INTO `plan`(`plan_id`, `planes_id`, `users`, `user_extra`, `fecha_registro`) VALUES 
+    (1,'$planes_id','$usuarios_plan','$usuarios_extras_plan',NOW());
+
     DROP TABLE IF EXISTS `planes`;
     CREATE TABLE `planes` (
       `planes_id` int NOT NULL,
@@ -1555,25 +1387,11 @@ if (empty($resultadoUsers)) {  // CORREO NO EXISTE SE PROCEDE CON EL SIGUIENTE P
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
     
     INSERT INTO `planes` (`planes_id`, `nombre`, `usuarios`, `estado`, `fecha_registro`) VALUES
-    (1, 'Emprendedor', 2, 1, '2023-09-15 16:36:14'),
-    (2, 'Básico', 3, 1, '2023-09-15 16:36:14'),
-    (3, 'Regular', 4, 1, '2023-09-15 16:36:45'),
-    (4, 'Estandar', 6, 1, '2023-09-15 16:36:57'),
-    (5, 'Premium', 10, 1, '2024-01-12 02:51:07');
-
-    DROP TABLE IF EXISTS `plan`;
-    CREATE TABLE IF NOT EXISTS `plan` (
-      `plan_id` int NOT NULL,
-      `planes_id` int NOT NULL,
-      `users` int NOT NULL COMMENT 'Cantidad Usuarios en el Plan\r
-Si el valor esta en 0 no hay límite de usuarios',
-      `user_extra` int NOT NULL COMMENT 'Cantidad de Usuarios Extras',
-      `fecha_registro` datetime NOT NULL,
-      PRIMARY KEY (`plan_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-  
-    INSERT INTO `plan`(`plan_id`, `planes_id`, `users`, `user_extra`, `fecha_registro`) VALUES 
-    (1,'$planes_id','$usuarios_plan','$usuarios_extras_plan',NOW());
+    (1, 'Emprendedor', 2, 1, NOW()),
+    (2, 'Básico', 3, 1, NOW()),
+    (3, 'Regular', 4, 1, NOW()),
+    (4, 'Estandar', 6, 1, NOW()),
+    (5, 'Premium', 10, 1, NOW());    
   
     DROP TABLE IF EXISTS `precio_factura`;
     CREATE TABLE IF NOT EXISTS `precio_factura` (
@@ -1611,8 +1429,9 @@ Si el valor esta en 0 no hay límite de usuarios',
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
   
     INSERT INTO `privilegio` (`privilegio_id`, `nombre`, `estado`, `fecha_registro`) VALUES
+    (1, 'Super Administrador', 1, NOW()),
     (2, 'Administrador', 1, NOW());
-  
+
     DROP TABLE IF EXISTS `productos`;
     CREATE TABLE IF NOT EXISTS `productos` (
       `productos_id` int NOT NULL,
@@ -1674,8 +1493,8 @@ Si el valor esta en 0 no hay límite de usuarios',
   
     INSERT INTO `puestos` (`puestos_id`, `nombre`, `estado`, `fecha_registro`) VALUES
     (1, 'Administrador', 1, NOW());
-  
-    DROP TABLE IF EXISTS `secuencia_facturacion`;
+
+DROP TABLE IF EXISTS `secuencia_facturacion`;
     CREATE TABLE IF NOT EXISTS `secuencia_facturacion` (
       `secuencia_facturacion_id` int NOT NULL,
       `empresa_id` int NOT NULL,
@@ -1696,8 +1515,34 @@ Si el valor esta en 0 no hay límite de usuarios',
       PRIMARY KEY (`secuencia_facturacion_id`),
       KEY `FK_empresa_id` (`empresa_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-  
-    DROP TABLE IF EXISTS `submenu`;
+
+    DROP TABLE IF EXISTS `server_customers`;
+    CREATE TABLE IF NOT EXISTS `server_customers` (
+      `server_customers_id` int NOT NULL,
+      `clientes_id` int NOT NULL,
+      `codigo_cliente` int NOT NULL,
+      `db` char(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+      `planes_id` int NOT NULL,
+      `sistema_id` int NOT NULL,
+      `validar` int NOT NULL COMMENT '1 Sí 2. No',
+      `estado` int NOT NULL,
+      PRIMARY KEY (`server_customers_id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;  
+
+    DROP TABLE IF EXISTS `sistema`;
+    CREATE TABLE IF NOT EXISTS `sistema` (
+      `sistema_id` int NOT NULL,
+      `nombre` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+      `estado` int NOT NULL,
+      PRIMARY KEY (`sistema_id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+        
+    INSERT INTO `sistema` (`sistema_id`, `nombre`, `estado`) VALUES
+    (1, 'IZZY', 1),
+    (2, 'CAMI', 1),
+    (3, 'Monitoring', 1);  
+
+DROP TABLE IF EXISTS `submenu`;
     CREATE TABLE IF NOT EXISTS `submenu` (
       `submenu_id` int NOT NULL,
       `menu_id` int NOT NULL,
@@ -1760,7 +1605,209 @@ Si el valor esta en 0 no hay límite de usuarios',
     (5, 15, 'reporteCompras'),
     (6, 15, 'pagarProveedores'),
     (7, 14, 'reporteCotizacion');
-  
+
+    DROP TABLE IF EXISTS `submenu1_plan`;
+    CREATE TABLE `submenu1_plan` (
+      `submenu1_plan_id` int NOT NULL,
+      `submenu1_id` int NOT NULL,
+      `planes_id` int NOT NULL
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+    INSERT INTO `submenu1_plan` (`submenu1_plan_id`, `submenu1_id`, `planes_id`) VALUES
+    (2, 3, 2),
+    (1, 3, 1),
+    (3, 4, 2),
+    (4, 7, 2),
+    (5, 5, 2),
+    (6, 3, 3),
+    (7, 4, 3),
+    (8, 7, 3),
+    (9, 5, 3),
+    (10, 3, 4),
+    (11, 4, 4),
+    (12, 7, 4),
+    (13, 5, 4),
+    (14, 3, 2),
+    (15, 4, 2),
+    (16, 7, 2),
+    (17, 5, 2),
+    (18, 1, 5),
+    (19, 2, 5),
+    (20, 3, 5),
+    (21, 4, 5),
+    (22, 5, 5),
+    (23, 6, 5),
+    (24, 7, 5),
+    (25, 6, 4);
+
+    DROP TABLE IF EXISTS `submenu_plan`;
+    CREATE TABLE `submenu_plan` (
+      `submenu_plan_id` int NOT NULL,
+      `submenu_id` int NOT NULL,
+      `planes_id` int NOT NULL
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+    
+    INSERT INTO `submenu_plan` (`submenu_plan_id`, `submenu_id`, `planes_id`) VALUES
+    (1, 1, 1),
+    (2, 2, 1),
+    (3, 6, 1),
+    (4, 14, 1),
+    (5, 16, 1),
+    (6, 17, 1),
+    (7, 18, 1),
+    (8, 19, 1),
+    (9, 20, 1),
+    (10, 23, 1),
+    (11, 24, 1),
+    (12, 25, 1),
+    (13, 34, 1),
+    (14, 1, 2),
+    (15, 2, 2),
+    (16, 3, 2),
+    (17, 4, 2),
+    (18, 5, 2),
+    (19, 6, 2),
+    (20, 7, 2),
+    (21, 33, 2),
+    (22, 14, 2),
+    (23, 15, 2),
+    (24, 16, 2),
+    (25, 17, 2),
+    (26, 18, 2),
+    (27, 19, 2),
+    (28, 20, 2),
+    (29, 21, 2),
+    (30, 22, 2),
+    (31, 23, 2),
+    (32, 24, 2),
+    (33, 25, 2),
+    (34, 26, 2),
+    (35, 29, 2),
+    (36, 34, 2),
+    (37, 1, 3),
+    (38, 2, 3),
+    (39, 3, 3),
+    (40, 4, 3),
+    (41, 5, 3),
+    (42, 6, 3),
+    (43, 7, 3),
+    (44, 11, 3),
+    (45, 33, 3),
+    (46, 14, 3),
+    (47, 15, 3),
+    (48, 16, 3),
+    (49, 17, 3),
+    (50, 18, 3),
+    (51, 19, 3),
+    (52, 20, 3),
+    (53, 21, 3),
+    (54, 22, 3),
+    (55, 23, 3),
+    (56, 24, 3),
+    (57, 25, 3),
+    (58, 26, 3),
+    (59, 29, 3),
+    (60, 34, 3),
+    (61, 1, 4),
+    (62, 2, 4),
+    (63, 27, 4),
+    (64, 3, 4),
+    (65, 4, 4),
+    (66, 5, 4),
+    (67, 6, 4),
+    (68, 7, 4),
+    (69, 8, 4),
+    (70, 9, 4),
+    (71, 10, 4),
+    (72, 11, 4),
+    (73, 31, 4),
+    (74, 33, 4),
+    (75, 14, 4),
+    (76, 15, 4),
+    (77, 16, 4),
+    (78, 17, 4),
+    (79, 18, 4),
+    (80, 19, 4),
+    (81, 20, 4),
+    (82, 21, 4),
+    (83, 22, 4),
+    (84, 23, 4),
+    (85, 24, 4),
+    (86, 25, 4),
+    (87, 26, 4),
+    (88, 29, 4),
+    (89, 34, 4),
+    (90, 36, 4),
+    (91, 37, 4),
+    (92, 1, 4),
+    (93, 2, 4),
+    (94, 27, 4),
+    (95, 3, 4),
+    (96, 4, 4),
+    (97, 5, 4),
+    (98, 6, 4),
+    (99, 7, 4),
+    (100, 8, 4),
+    (101, 9, 4),
+    (102, 10, 4),
+    (103, 11, 4),
+    (104, 31, 4),
+    (105, 33, 4),
+    (106, 14, 4),
+    (107, 15, 4),
+    (108, 16, 4),
+    (109, 35, 4),
+    (110, 36, 4),
+    (111, 37, 4),
+    (112, 17, 4),
+    (113, 18, 4),
+    (114, 19, 4),
+    (115, 20, 4),
+    (116, 21, 4),
+    (117, 22, 4),
+    (118, 23, 4),
+    (119, 24, 4),
+    (120, 25, 4),
+    (121, 26, 4),
+    (122, 29, 4),
+    (123, 34, 4),
+    (124, 1, 5),
+    (125, 2, 5),
+    (126, 3, 5),
+    (127, 4, 5),
+    (128, 5, 5),
+    (129, 6, 5),
+    (130, 7, 5),
+    (131, 8, 5),
+    (132, 9, 5),
+    (133, 10, 5),
+    (134, 11, 5),
+    (135, 12, 5),
+    (136, 13, 5),
+    (137, 14, 5),
+    (138, 15, 5),
+    (139, 16, 5),
+    (140, 17, 5),
+    (141, 18, 5),
+    (142, 19, 5),
+    (143, 20, 5),
+    (144, 21, 5),
+    (145, 22, 5),
+    (146, 23, 5),
+    (147, 24, 5),
+    (148, 25, 5),
+    (149, 26, 5),
+    (150, 27, 5),
+    (151, 28, 5),
+    (152, 29, 5),
+    (153, 30, 5),
+    (154, 31, 5),
+    (155, 32, 5),
+    (156, 33, 5),
+    (157, 34, 5),
+    (158, 35, 5),
+    (159, 36, 5);
+
     DROP TABLE IF EXISTS `tipo_contrato`;
     CREATE TABLE IF NOT EXISTS `tipo_contrato` (
       `tipo_contrato_id` int NOT NULL,
@@ -1863,7 +1910,7 @@ Si el valor esta en 0 no hay límite de usuarios',
   
     INSERT INTO `ubicacion` (`ubicacion_id`, `empresa_id`, `nombre`, `estado`, `fecha_registro`) VALUES
     (1, 1, 'San Pedro Sula', 1, NOW());
-  
+
     DROP TABLE IF EXISTS `users`;
     CREATE TABLE IF NOT EXISTS `users` (
       `users_id` int NOT NULL,
@@ -1886,6 +1933,22 @@ Si el valor esta en 0 no hay límite de usuarios',
     INSERT INTO `users` (`users_id`, `colaboradores_id`, `privilegio_id`, `username`, `password`, `email`, `tipo_user_id`, `estado`, `fecha_registro`, `empresa_id`, `server_customers_id`) VALUES 
     ('1', '1', '1', 'admin', '$contraseña_generadaAdmin', '', 1, '1', '$fecha_registro', $empresa_id, '0'),
     ('2', '2', '1', '$username', '$contraseña_generada', '$correo', '1', '$estado', '$fecha_registro', $empresa_id, '0');
+  
+    DROP TABLE IF EXISTS `vale`;
+    CREATE TABLE IF NOT EXISTS `vale` (
+      `vale_id` int(11) NOT NULL,
+      `nomina_id` int(11) NOT NULL,
+      `colaboradores_id` int(11) NOT NULL,
+      `monto` decimal(12,2) NOT NULL,
+      `fecha` date NOT NULL,
+      `nota` varchar(254) COLLATE utf8mb4_spanish_ci NOT NULL,
+      `usuario` int(11) NOT NULL,
+      `estado` int(11) NOT NULL COMMENT '0. Pendiente 1. Pagado 2. Anulado',
+      `empresa_id` int(11) NOT NULL,
+      `fecha_registro` datetime NOT NULL,
+      PRIMARY KEY (`vale_id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+    COMMIT;      
   
     DROP TABLE IF EXISTS `vigencia_cotizacion`;
     CREATE TABLE IF NOT EXISTS `vigencia_cotizacion` (
@@ -1910,30 +1973,6 @@ Si el valor esta en 0 no hay límite de usuarios',
     (10, '50 Días', NOW()),
     (11, '55 Días', NOW());
 
-    DROP TABLE IF EXISTS `sistema`;
-    CREATE TABLE IF NOT EXISTS `sistema` (
-      `sistema_id` int NOT NULL,
-      `nombre` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-      `estado` int NOT NULL,
-      PRIMARY KEY (`sistema_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-        
-    INSERT INTO `sistema` (`sistema_id`, `nombre`, `estado`) VALUES
-    (1, 'IZZY', 1),
-    (2, 'CAMI', 1),
-    (3, 'Monitoring', 1);  
-    
-    DROP TABLE IF EXISTS `config`;
-    CREATE TABLE IF NOT EXISTS `config` (
-      `config_id` int(11) NOT NULL,
-      `accion` char(40) COLLATE utf8mb4_spanish_ci NOT NULL,
-      `activar` int(11) NOT NULL COMMENT '1. Si 0.No',
-      PRIMARY KEY (`config_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
-    INSERT INTO `config` (`config_id`, `accion`, `activar`) VALUES
-    (1, 'Mostrar detalle facturas - Caja', 0),
-    (2, 'Validar Apertura Caja', 1);
     ";
 
     // Ejecutar el script SQL
@@ -2348,11 +2387,11 @@ Si el valor esta en 0 no hay límite de usuarios',
       </p>
       
       <p style=\"margin-bottom: 10px;\">
-        ¡Bienvenido a CLINICARE con IZZY! Estamos encantados de darle la bienvenida a nuestra plataforma de gestión de facturación e inventario diseñada para hacer su vida más fácil.
-      </p>\t\t\t\t\t\t\t\t
+        ¡Bienvenido a <b>ES MULTISERVICIOS</b> con <b>IZZY</b>! Estamos encantados de darle la bienvenida a nuestra plataforma de gestión de facturación e inventario diseñada para hacer su vida más fácil.
+      </p>
       
       <p style=\"margin-bottom: 10px;\">
-        Le damos las gracias por elegirnos como su solución de confianza para administrar su negocio de manera eficiente. Su registro en nuestro sistema ha sido exitoso y ahora es parte de la familia CLINICARE.
+        Le damos las gracias por elegirnos como su solución de confianza para administrar su negocio de manera eficiente. Su registro en nuestro sistema ha sido exitoso y ahora es parte de la familia <b>ES MULTISERVICIOS</b>.
       </p>
       
       <ul style=\"margin-bottom: 12px;\">
@@ -2378,10 +2417,10 @@ Si el valor esta en 0 no hay límite de usuarios',
   
       <p style=\"margin-bottom: 10px;\">
         ¡Empiece a explorar y a aprovechar al máximo nuestra plataforma de gestión de facturación e inventario!
-      </p>\t\t\t\t\t\t\t\t\t
+      </p>
       
       <p style=\"margin-bottom: 10px;\">
-        Gracias por unirse a CLINICARE con IZZY. Esperamos que esta plataforma sea una herramienta valiosa para su negocio.
+        Gracias por unirse a <b>ES MULTISERVICIOS</b> con IZZY. Esperamos que esta plataforma sea una herramienta valiosa para su negocio.
       </p>
       
       <p style=\"margin-bottom: 10px;\">
