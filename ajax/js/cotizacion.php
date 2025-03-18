@@ -760,7 +760,7 @@ var listar_productos_cotizacion_buscar = function() {
         "destroy": true,
         "ajax": {
             "method": "POST",
-            "url": "<?php echo SERVERURL;?>core/llenarDataTableProductosFacturas.php",
+            "url": "<?php echo SERVERURL;?>core/llenarDataTableProductosCotizacion.php",
             "data": {
                 "bodega": bodega
             }
