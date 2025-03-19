@@ -1738,8 +1738,14 @@ function printComprobanteCajas(apertura_id) {
             id: 1,
         },
         success: function(data) {
-            var url = '<?php echo SERVERURL;?>core/generarComprobanteCaja.php?apertura_id=' + apertura_id;
-            window.open(url);
+            params = {
+                "id": apertura_id,
+                "type": "Comprobante_caja_izzy",
+                "db": "<?php echo $GLOBALS['db']; ?>"
+            };   
+
+            // Llamar a la función para mostrar el reporte
+            viewReport(params);
         }
     });
 }
