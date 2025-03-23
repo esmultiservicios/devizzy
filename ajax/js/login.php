@@ -538,6 +538,7 @@ $(document).ready(function() {
         return false;
     });
 });
+
 $(function() {
     $('#inicio_sesion').click(function(e) {
         $("#loginform").delay(100).fadeIn(100);

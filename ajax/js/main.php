@@ -1399,7 +1399,6 @@ function getDay() {
 function viewReport(params) {
     var url = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
 
-    // Verificar si la URL está vacía o no definida
     if (!url || url.trim() === "") {
         swal({
             title: "Error de conexión",
@@ -1418,30 +1417,53 @@ function viewReport(params) {
         return;
     }
 
-	// Verificar si la URL responde antes de enviar el formulario
-	fetch(url, { method: "GET" })
-	.then(response => {
-		if (!response.ok) {
-			throw new Error("El servidor de reportes no está disponible.");
-		}
-		enviarFormulario(url, params);
-	})
-	.catch(error => {
-		swal({
-			title: "Error al obtener el reporte",
-			content: {
-				element: "p",
-				attributes: {
-					innerHTML: "No fue posible conectarse con el servidor de reportes.<br><br>🔍 <b>Posibles causas:</b><br>✅ El servidor puede estar en mantenimiento.<br>✅ Puede haber un problema de conexión.<br><br>📌 <b>Pasos recomendados:</b><br>1️⃣ Verifique su conexión a internet.<br>2️⃣ Intente nuevamente en unos minutos.<br>3️⃣ Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_DISPONIBLE</b>."
-				}
-			},
-			icon: "error",
-			button: "Entendido",
-			dangerMode: true,
-			closeOnEsc: false,
-			closeOnClickOutside: false
-		});
-	});
+    let intentos = 0;
+    const maxIntentos = 5;
+
+    function intentarConexion() {
+        intentos++;
+
+        swal({
+            title: "Conectando...",
+            text: `Intento ${intentos} de ${maxIntentos}`,
+            icon: "info",
+            buttons: false,
+            closeOnEsc: false,
+            closeOnClickOutside: false
+        });
+
+        fetch(url, { method: "GET" })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("El servidor de reportes no está disponible.");
+                }
+                swal.close();
+                enviarFormulario(url, params);
+            })
+            .catch(error => {
+                if (intentos < maxIntentos) {
+                    console.log(`Intento ${intentos} fallido. Reintentando en ${intentos * 3} segundos...`);
+                    setTimeout(intentarConexion, intentos * 3000);
+                } else {
+                    swal({
+                        title: "Error al obtener el reporte",
+                        content: {
+                            element: "p",
+                            attributes: {
+                                innerHTML: "No fue posible conectarse con el servidor de reportes.<br><br>🔍 <b>Posibles causas:</b><br>✅ El servidor puede estar en mantenimiento.<br>✅ Puede haber un problema de conexión.<br><br>📌 <b>Pasos recomendados:</b><br>✅ Verifique su conexión a internet.<br>✅ Intente nuevamente en unos minutos.<br>✅Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_DISPONIBLE</b>."
+                            }
+                        },
+                        icon: "error",
+                        button: "Entendido",
+                        dangerMode: true,
+                        closeOnEsc: false,
+                        closeOnClickOutside: false
+                    });
+                }
+            });
+    }
+
+    intentarConexion();
 }
 
 // 📝 Función para crear y enviar el formulario
