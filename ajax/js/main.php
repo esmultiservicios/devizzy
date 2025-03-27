@@ -1404,7 +1404,69 @@ function abrirReporte(document_id, type, db) {
  * @throws {Error} Si la URL del servidor no está definida o es inválida.
  * @throws {Error} Si los parámetros enviados no son un objeto válido.
  */
+function viewReport(params) {
+    var url = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
 
+    if (!url || url.trim() === "") {
+        swal({
+            title: "Error de conexión",
+            content: {
+                element: "p",
+                attributes: {
+                    innerHTML: "No se pudo acceder al servidor de reportes. Esto puede deberse a un problema de conexión o a que el servicio no está disponible.<br><br>📌 <b>Pasos recomendados:</b><br>1️⃣ Verifique su conexión a internet.<br>2️⃣ Intente nuevamente en unos minutos.<br>3️⃣ Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_RESPONDE</b>."
+                }
+            },
+            icon: "error",
+            button: "Entendido",
+            dangerMode: true,
+            closeOnEsc: false,
+            closeOnClickOutside: false
+        });
+        return;
+    }
+
+    // 📌 Intentar abrir la ventana emergente antes de la redirección para evitar bloqueos
+    var reporteWindow = window.open("", "_blank");
+
+    if (!reporteWindow || reporteWindow.closed || typeof reporteWindow.closed === "undefined") {
+        swal({
+            title: "⚠️ Ventana emergente bloqueada",
+            content: {
+                element: "p",
+                attributes: {
+                    innerHTML: "Tu navegador ha bloqueado la ventana emergente del reporte.<br><br>📌 <b>Cómo permitir ventanas emergentes:</b><br>🔹 <b>Google Chrome (Windows/Mac):</b> Haz clic en el ícono de la barra de direcciones (🔕 con una X), selecciona <b>Permitir siempre</b> y recarga la página.<br>🔹 <b>Microsoft Edge:</b> Ve a <b>Configuración > Cookies y permisos del sitio > Ventanas emergentes y redirecciones</b> y permite este sitio.<br>🔹 <b>Mozilla Firefox:</b> Ve a <b>Configuración > Privacidad y seguridad</b>, busca <b>Permitir ventanas emergentes</b> y agrégalo.<br>🔹 <b>Safari en iPhone:</b> Ve a <b>Ajustes > Safari</b> y desactiva <b>Bloquear emergentes, o bloquear ventanas emergentes</b>. Luego, selecciona <b>Permitir</b> cuando Safari pregunte <b>El sitio Web esta intentando abrir una vewntana emergente o algo parecido</b>.<br>🔹 <b>Safari en Mac:</b> Ve a <b>Safari > Configuración > Sitios web > Ventanas emergentes</b> y permite las ventanas para este sitio.<br>🔹 <b>Android (Chrome/Edge):</b> Ve a <b>Configuración > Configuración del sitio > Ventanas emergentes y redirecciones</b> y permite este sitio."
+                }
+            },
+            icon: "warning",
+            button: "OK",
+            closeOnEsc: false,
+            closeOnClickOutside: false
+        });
+        return;
+    }
+
+    // 📌 Redirigir a la URL del reporte
+    reporteWindow.location.href = url + "?" + new URLSearchParams(params).toString();
+}
+
+function enviarFormulario(url, params, ventana) {
+    let form = document.createElement("form");
+    form.method = "POST";
+    form.action = url;
+    form.target = ventana ? ventana.name : "_blank";
+
+    for (let key in params) {
+        let input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = params[key];
+        form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+}
 
 //FIN FUNCION PARA OBTENER REPORTES DESDE IIS
 
