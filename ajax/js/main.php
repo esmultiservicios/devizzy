@@ -1466,19 +1466,19 @@ function viewReport(params) {
     intentarConexion();
 }
 
-function abrirReporte(document_id, type, db) { 
+function abrirReporte(document_id, type, db) {
     var urlWindows = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
-
-    var url = urlWindows+"?id=" + document_id + 
+    var url = urlWindows + "?id=" + encodeURIComponent(document_id) + 
               "&type=" + encodeURIComponent(type) + 
               "&db=" + encodeURIComponent(db);
 
-    var enlace = $("<a>").attr({
-        href: url,
-        target: "_blank"
-    })[0];
-
+    var enlace = document.createElement("a");
+    enlace.href = url;
+    enlace.target = "_blank";
+    enlace.rel = "noopener noreferrer"; // Ayuda a evitar bloqueos en algunos navegadores
+    document.body.appendChild(enlace); // Añadirlo al DOM momentáneamente
     enlace.click();
+    document.body.removeChild(enlace); // Eliminarlo después del clic
 }
 
 // 📝 Función para crear y enviar el formulario
