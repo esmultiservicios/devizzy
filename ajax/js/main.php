@@ -1425,74 +1425,47 @@ function viewReport(params) {
         return;
     }
 
-    let intentos = 0;
-    const maxIntentos = 5;
+    // 📌 Abrir la ventana emergente antes de la solicitud para evitar bloqueos
+    var reporteWindow = window.open("", "_blank");
 
-    function intentarConexion() {
-        intentos++;
-
+    if (!reporteWindow || reporteWindow.closed || typeof reporteWindow.closed === "undefined") {
         swal({
-            title: "Conectando...",
-            text: `Intento ${intentos} de ${maxIntentos}`,
-            icon: "info",
-            buttons: false,
+            title: "⚠️ Ventana emergente bloqueada",
+            content: {
+                element: "p",
+                attributes: {
+                    innerHTML: "Parece que tu navegador ha bloqueado la ventana emergente del reporte.<br><br>📌 <b>Cómo permitir ventanas emergentes:</b><br>🔹 <b>iPhone (Safari):</b> Ve a <b>Ajustes > Safari</b> y desactiva <b>Bloquear ventanas emergentes</b>.<br>🔹 <b>MacBook (Safari):</b> Ve a <b>Safari > Configuración > Sitios web > Ventanas emergentes</b> y permite las ventanas para este sitio."
+                }
+            },
+            icon: "warning",
+            button: "OK",
             closeOnEsc: false,
             closeOnClickOutside: false
         });
-
-        fetch(url, { method: "GET" })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("El servidor de reportes no está disponible.");
-                }
-                swal.close();
-                enviarFormulario(url, params);
-            })
-            .catch(error => {
-                if (intentos < maxIntentos) {
-                    console.log(`Intento ${intentos} fallido. Reintentando en ${intentos * 3} segundos...`);
-                    setTimeout(intentarConexion, intentos * 3000);
-                } else {
-                    swal({
-                        title: "Error al obtener el reporte",
-                        content: {
-                            element: "p",
-                            attributes: {
-                                innerHTML: "No fue posible conectarse con el servidor de reportes.<br><br>🔍 <b>Posibles causas:</b><br>✅ El servidor puede estar en mantenimiento.<br>✅ Puede haber un problema de conexión.<br><br>📌 <b>Pasos recomendados:</b><br>✅ Verifique su conexión a internet.<br>✅ Intente nuevamente en unos minutos.<br>✅Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_DISPONIBLE</b>."
-                            }
-                        },
-                        icon: "error",
-                        button: "Entendido",
-                        dangerMode: true,
-                        closeOnEsc: false,
-                        closeOnClickOutside: false
-                    });
-                }
-            });
+        return;
     }
 
-    intentarConexion();
+    // 📌 Redirigir a la URL del reporte
+    reporteWindow.location.href = url + "?" + new URLSearchParams(params).toString();
 }
 
-// 📝 Función para crear y enviar el formulario
-function enviarFormulario(url, params) {
-    var form = document.createElement("form");
+function enviarFormulario(url, params, ventana) {
+    let form = document.createElement("form");
     form.method = "POST";
     form.action = url;
+    form.target = ventana ? ventana.name : "_blank";
 
-    for (var key in params) {
-        if (params.hasOwnProperty(key)) {
-            var input = document.createElement("input");
-            input.type = "hidden";
-            input.name = key;
-            input.value = params[key];
-            form.appendChild(input);
-        }
+    for (let key in params) {
+        let input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = params[key];
+        form.appendChild(input);
     }
 
-    var newWindow = window.open("", "_blank");
-    newWindow.document.body.appendChild(form);
+    document.body.appendChild(form);
     form.submit();
+    document.body.removeChild(form);
 }
 //FIN FUNCION PARA OBTENER REPORTES DESDE IIS
 
