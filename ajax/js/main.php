@@ -1405,66 +1405,47 @@ function viewReport(params) {
             content: {
                 element: "p",
                 attributes: {
-                    innerHTML: "No se pudo acceder al servidor de reportes. Esto puede deberse a un problema de conexión o a que el servicio no está disponible.<br><br>📌 <b>Pasos recomendados:</b><br>1️⃣ Verifique su conexión a internet.<br>2️⃣ Intente nuevamente en unos minutos.<br>3️⃣ Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_RESPONDE</b>."
+                    innerHTML: "No se pudo acceder al servidor de reportes. <br><br>📌 <b>Pasos recomendados:</b><br>✅ Verifique su conexión a internet.<br>✅ Intente nuevamente.<br>✅ Si el problema persiste, contacte a soporte."
                 }
             },
             icon: "error",
             button: "Entendido",
-            dangerMode: true,
-            closeOnEsc: false,
-            closeOnClickOutside: false
+            dangerMode: true
         });
         return;
     }
 
-    let intentos = 0;
-    const maxIntentos = 5;
+    // ✅ Abre la ventana primero antes de cualquier `fetch()`
+    var nuevaVentana = window.open("", "_blank");
 
-    function intentarConexion() {
-        intentos++;
-
+    if (!nuevaVentana) {
         swal({
-            title: "Conectando...",
-            text: `Intento ${intentos} de ${maxIntentos}`,
-            icon: "info",
-            buttons: false,
-            closeOnEsc: false,
-            closeOnClickOutside: false
+            title: "⚠️ Bloqueo de ventana emergente",
+            text: "Safari ha bloqueado la apertura del reporte. Activa las ventanas emergentes en la configuración del navegador.",
+            icon: "warning",
+            button: "Entendido"
         });
-
-        fetch(url, { method: "GET" })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("El servidor de reportes no está disponible.");
-                }
-                swal.close();
-                enviarFormulario(url, params);
-            })
-            .catch(error => {
-                if (intentos < maxIntentos) {
-                    console.log(`Intento ${intentos} fallido. Reintentando en ${intentos * 3} segundos...`);
-                    setTimeout(intentarConexion, intentos * 3000);
-                } else {
-                    swal({
-                        title: "Error al obtener el reporte",
-                        content: {
-                            element: "p",
-                            attributes: {
-                                innerHTML: "No fue posible conectarse con el servidor de reportes.<br><br>🔍 <b>Posibles causas:</b><br>✅ El servidor puede estar en mantenimiento.<br>✅ Puede haber un problema de conexión.<br><br>📌 <b>Pasos recomendados:</b><br>✅ Verifique su conexión a internet.<br>✅ Intente nuevamente en unos minutos.<br>✅Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_DISPONIBLE</b>."
-                            }
-                        },
-                        icon: "error",
-                        button: "Entendido",
-                        dangerMode: true,
-                        closeOnEsc: false,
-                        closeOnClickOutside: false
-                    });
-                }
-            });
+        return;
     }
 
-    intentarConexion();
+    fetch(url, { method: "GET" })
+        .then(response => {
+            if (!response.ok) throw new Error("El servidor de reportes no está disponible.");
+            
+            // ✅ Redirige la nueva ventana al reporte una vez confirmada la conexión
+            nuevaVentana.location.href = url + "?" + new URLSearchParams(params).toString();
+        })
+        .catch(error => {
+            nuevaVentana.close(); // ❌ Si falla, cierra la ventana abierta
+            swal({
+                title: "Error al obtener el reporte",
+                text: "No fue posible conectarse con el servidor de reportes.",
+                icon: "error",
+                button: "Entendido"
+            });
+        });
 }
+
 
 function abrirReporte(document_id, type, db) {
     var urlWindows = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
