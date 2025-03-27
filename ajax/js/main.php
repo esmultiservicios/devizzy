@@ -1425,7 +1425,7 @@ function viewReport(params) {
         return;
     }
 
-    // 📌 Abrir la ventana emergente antes de la solicitud para evitar bloqueos
+    // 📌 Intentar abrir la ventana emergente antes de la redirección para evitar bloqueos
     var reporteWindow = window.open("", "_blank");
 
     if (!reporteWindow || reporteWindow.closed || typeof reporteWindow.closed === "undefined") {
@@ -1434,7 +1434,7 @@ function viewReport(params) {
             content: {
                 element: "p",
                 attributes: {
-                    innerHTML: "Parece que tu navegador ha bloqueado la ventana emergente del reporte.<br><br>📌 <b>Cómo permitir ventanas emergentes:</b><br>🔹 <b>iPhone (Safari):</b> Ve a <b>Ajustes > Safari</b> y desactiva <b>Bloquear ventanas emergentes</b>.<br>🔹 <b>MacBook (Safari):</b> Ve a <b>Safari > Configuración > Sitios web > Ventanas emergentes</b> y permite las ventanas para este sitio."
+                    innerHTML: "Tu navegador ha bloqueado la ventana emergente del reporte.<br><br>📌 <b>Cómo permitir ventanas emergentes:</b><br>🔹 <b>Google Chrome (Windows/Mac):</b> Haz clic en el ícono de la barra de direcciones (🔕 con una X), selecciona <b>Permitir siempre</b> y recarga la página.<br>🔹 <b>Microsoft Edge:</b> Ve a <b>Configuración > Cookies y permisos del sitio > Ventanas emergentes y redirecciones</b> y permite este sitio.<br>🔹 <b>Mozilla Firefox:</b> Ve a <b>Configuración > Privacidad y seguridad</b>, busca "Permitir ventanas emergentes" y agrégalo.<br>🔹 <b>Safari en iPhone:</b> Ve a <b>Ajustes > Safari</b> y desactiva <b>Bloquear emergentes</b>. Luego, selecciona <b>Permitir</b> cuando Safari pregunte.<br>🔹 <b>Safari en Mac:</b> Ve a <b>Safari > Configuración > Sitios web > Ventanas emergentes</b> y permite las ventanas para este sitio.<br>🔹 <b>Android (Chrome/Edge):</b> Ve a <b>Configuración > Configuración del sitio > Ventanas emergentes y redirecciones</b> y permite este sitio."
                 }
             },
             icon: "warning",
