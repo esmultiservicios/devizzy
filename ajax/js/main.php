@@ -1367,6 +1367,14 @@ function getDay() {
 }
 //FIN FUNCIONES ADICIONALES
 
+function abrirReporte(document_id, type, db) {
+    // Construir la URL directamente con los parámetros
+    var url = "https://wi.fastsolutionhn.com/Rpt/esmultiservicios.aspx?id=" + document_id + "&type=" + type + "&db=" + db;
+
+    // Abrir la URL en una nueva ventana
+    window.open(url, "_blank");
+}
+
 //INICIO FUNCION PARA OBTENER REPORTES DESDE IIS
 /**
  * viewReport
@@ -1405,61 +1413,65 @@ function viewReport(params) {
             content: {
                 element: "p",
                 attributes: {
-                    innerHTML: "No se pudo acceder al servidor de reportes. <br><br>📌 <b>Pasos recomendados:</b><br>✅ Verifique su conexión a internet.<br>✅ Intente nuevamente.<br>✅ Si el problema persiste, contacte a soporte."
+                    innerHTML: "No se pudo acceder al servidor de reportes. Esto puede deberse a un problema de conexión o a que el servicio no está disponible.<br><br>📌 <b>Pasos recomendados:</b><br>1️⃣ Verifique su conexión a internet.<br>2️⃣ Intente nuevamente en unos minutos.<br>3️⃣ Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_RESPONDE</b>."
                 }
             },
             icon: "error",
             button: "Entendido",
-            dangerMode: true
+            dangerMode: true,
+            closeOnEsc: false,
+            closeOnClickOutside: false
         });
         return;
     }
 
-    // ✅ Abre la ventana primero antes de cualquier `fetch()`
-    var nuevaVentana = window.open("", "_blank");
+    let intentos = 0;
+    const maxIntentos = 5;
 
-    if (!nuevaVentana) {
+    function intentarConexion() {
+        intentos++;
+
         swal({
-            title: "⚠️ Bloqueo de ventana emergente",
-            text: "Safari ha bloqueado la apertura del reporte. Activa las ventanas emergentes en la configuración del navegador.",
-            icon: "warning",
-            button: "Entendido"
+            title: "Conectando...",
+            text: `Intento ${intentos} de ${maxIntentos}`,
+            icon: "info",
+            buttons: false,
+            closeOnEsc: false,
+            closeOnClickOutside: false
         });
-        return;
+
+        fetch(url, { method: "GET" })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("El servidor de reportes no está disponible.");
+                }
+                swal.close();
+                enviarFormulario(url, params);
+            })
+            .catch(error => {
+                if (intentos < maxIntentos) {
+                    console.log(`Intento ${intentos} fallido. Reintentando en ${intentos * 3} segundos...`);
+                    setTimeout(intentarConexion, intentos * 3000);
+                } else {
+                    swal({
+                        title: "Error al obtener el reporte",
+                        content: {
+                            element: "p",
+                            attributes: {
+                                innerHTML: "No fue posible conectarse con el servidor de reportes.<br><br>🔍 <b>Posibles causas:</b><br>✅ El servidor puede estar en mantenimiento.<br>✅ Puede haber un problema de conexión.<br><br>📌 <b>Pasos recomendados:</b><br>✅ Verifique su conexión a internet.<br>✅ Intente nuevamente en unos minutos.<br>✅Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_DISPONIBLE</b>."
+                            }
+                        },
+                        icon: "error",
+                        button: "Entendido",
+                        dangerMode: true,
+                        closeOnEsc: false,
+                        closeOnClickOutside: false
+                    });
+                }
+            });
     }
 
-    fetch(url, { method: "GET" })
-        .then(response => {
-            if (!response.ok) throw new Error("El servidor de reportes no está disponible.");
-            
-            // ✅ Redirige la nueva ventana al reporte una vez confirmada la conexión
-            nuevaVentana.location.href = url + "?" + new URLSearchParams(params).toString();
-        })
-        .catch(error => {
-            nuevaVentana.close(); // ❌ Si falla, cierra la ventana abierta
-            swal({
-                title: "Error al obtener el reporte",
-                text: "No fue posible conectarse con el servidor de reportes.",
-                icon: "error",
-                button: "Entendido"
-            });
-        });
-}
-
-
-function abrirReporte(document_id, type, db) {
-    var urlWindows = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
-    var url = urlWindows + "?id=" + encodeURIComponent(document_id) + 
-              "&type=" + encodeURIComponent(type) + 
-              "&db=" + encodeURIComponent(db);
-
-    var enlace = document.createElement("a");
-    enlace.href = url;
-    enlace.target = "_blank";
-    enlace.rel = "noopener noreferrer"; // Ayuda a evitar bloqueos en algunos navegadores
-    document.body.appendChild(enlace); // Añadirlo al DOM momentáneamente
-    enlace.click();
-    document.body.removeChild(enlace); // Eliminarlo después del clic
+    intentarConexion();
 }
 
 // 📝 Función para crear y enviar el formulario
@@ -1551,9 +1563,6 @@ function printBill(facturas_id, $print_comprobante) {
 
                 // Llamar a la función para mostrar el reporte
                 viewReport(params);
-
-                // Llamar a la función pasando los valores del objeto
-                //abrirReporte(params.id, params.type, params.db);
             } else {
                 // Usando SweetAlert en lugar de alert
                 swal({
@@ -1649,9 +1658,6 @@ function printBillReporteVentas(facturas_id, print_comprobante) {
 
                 // Llamar a la función para mostrar el reporte
                 viewReport(params);
-
-                // Llamar a la función pasando los valores del objeto
-                //abrirReporte(params.id, params.type, params.db);
             } else {
                 // Usando SweetAlert en lugar de alert
                 swal({
