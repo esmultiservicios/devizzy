@@ -4896,58 +4896,64 @@ class mainModel
 	{
 		$tipo_factura_reporte = '';
 		$facturador = '';
-		$fecha = '';
 		$vendedor = '';
-
+	
 		if ($datos['tipo_factura_reporte'] == 1) {
 			$tipo_factura_reporte = 'AND f.estado IN(2,3)';
 		}
-
+	
 		if ($datos['tipo_factura_reporte'] == 2) {
 			$tipo_factura_reporte = 'AND f.estado = 4';
 		}
-
+	
 		if ($datos['facturador'] != '') {
 			$facturador = "AND f.usuario = '" . $datos['facturador'] . "'";
 		}
-
+	
 		if ($datos['vendedor'] != '') {
 			$vendedor = "AND f.colaboradores_id = '" . $datos['vendedor'] . "'";
 		}
-
+	
 		$query = "
-				SELECT 
-					f.facturas_id AS 'facturas_id', 
-					DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', 
-					c.nombre AS 'cliente',
-					CASE 
-						WHEN d.documento_id = 4 THEN CONCAT('PROFORMA-', sf.prefijo, LPAD(f.number, sf.relleno, 0)) 
-						ELSE CONCAT(sf.prefijo, '', LPAD(f.number, sf.relleno, 0))
-					END AS 'numero', 
-					f.importe AS 'total',
-					CASE 
-						WHEN f.tipo_factura = 1 THEN 'Contado' 
-						ELSE 'Crédito' 
-					END AS 'tipo_documento', 
-					CONCAT(co.nombre, ' ', co.apellido) AS 'vendedor', 
-					CONCAT(co1.nombre, ' ', co1.apellido) AS 'facturador'
-				FROM 
-					facturas AS f
-					INNER JOIN clientes AS c ON f.clientes_id = c.clientes_id
-					INNER JOIN colaboradores AS co ON f.colaboradores_id = co.colaboradores_id
-					INNER JOIN colaboradores AS co1 ON f.usuario = co1.colaboradores_id
-					INNER JOIN secuencia_facturacion AS sf ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
-					INNER JOIN documento AS d ON sf.documento_id = d.documento_id
-				WHERE 
-					f.empresa_id = '" . $datos['empresa_id_sd'] . "' 
-					AND f.fecha BETWEEN '" . $datos['fechai'] . "' AND '" . $datos['fechaf'] . "' 
-					AND sf.documento_id = '" . $datos['factura'] . "' 
-					$tipo_factura_reporte
-					$facturador
-					$vendedor
-				ORDER BY 
-					f.number DESC";
-
+			SELECT 
+				f.facturas_id AS 'facturas_id', 
+				DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', 
+				c.nombre AS 'cliente',
+				CASE 
+					WHEN d.documento_id = 4 THEN CONCAT('PROFORMA-', sf.prefijo, LPAD(f.number, sf.relleno, 0)) 
+					ELSE CONCAT(sf.prefijo, '', LPAD(f.number, sf.relleno, 0))
+				END AS 'numero', 
+				f.importe AS 'total',
+				CASE 
+					WHEN f.tipo_factura = 1 THEN 'Contado' 
+					ELSE 'Crédito' 
+				END AS 'tipo_documento', 
+				CONCAT(co.nombre, ' ', co.apellido) AS 'vendedor', 
+				CONCAT(co1.nombre, ' ', co1.apellido) AS 'facturador',
+				-- Cálculo de subtotal, ISV, costo y descuento en una sola consulta
+				(SELECT SUM(fd.cantidad * fd.precio) FROM facturas_detalles AS fd WHERE fd.facturas_id = f.facturas_id) AS 'subtotal',
+				(SELECT SUM(fd.cantidad * p.precio_compra) FROM facturas_detalles AS fd INNER JOIN productos AS p ON fd.productos_id = p.productos_id WHERE fd.facturas_id = f.facturas_id) AS 'subCosto',
+				(SELECT SUM(fd.isv_valor) FROM facturas_detalles AS fd WHERE fd.facturas_id = f.facturas_id) AS 'isv',
+				(SELECT SUM(fd.descuento) FROM facturas_detalles AS fd WHERE fd.facturas_id = f.facturas_id) AS 'descuento',
+				-- Determinar si la factura tiene pagos pendientes
+				(SELECT COUNT(*) FROM cobrar_clientes WHERE facturas_id = f.facturas_id AND estado = 2) AS 'pagos_realizados'
+			FROM 
+				facturas AS f
+				INNER JOIN clientes AS c ON f.clientes_id = c.clientes_id
+				INNER JOIN colaboradores AS co ON f.colaboradores_id = co.colaboradores_id
+				INNER JOIN colaboradores AS co1 ON f.usuario = co1.colaboradores_id
+				INNER JOIN secuencia_facturacion AS sf ON f.secuencia_facturacion_id = sf.secuencia_facturacion_id
+				INNER JOIN documento AS d ON sf.documento_id = d.documento_id
+			WHERE 
+				f.empresa_id = '" . $datos['empresa_id_sd'] . "' 
+				AND f.fecha BETWEEN '" . $datos['fechai'] . "' AND '" . $datos['fechaf'] . "' 
+				AND sf.documento_id = '" . $datos['factura'] . "' 
+				$tipo_factura_reporte
+				$facturador
+				$vendedor
+			ORDER BY 
+				f.number DESC";
+	
 		$result = self::connection()->query($query);
 		if (!$result) {
 			die('Error en la consulta SQL: ' . self::connection()->error);

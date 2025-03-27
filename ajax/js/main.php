@@ -1367,6 +1367,14 @@ function getDay() {
 }
 //FIN FUNCIONES ADICIONALES
 
+function abrirReporte(cotizacion_id, type, db) {
+    // Construir la URL directamente con los parámetros
+    var url = "https://wi.fastsolutionhn.com/Rpt/esmultiservicios.aspx?id=" + cotizacion_id + "&type=" + type + "&db=" + db;
+
+    // Abrir la URL en una nueva ventana
+    window.open(url, "_blank");
+}
+
 //INICIO FUNCION PARA OBTENER REPORTES DESDE IIS
 /**
  * viewReport
@@ -1522,23 +1530,35 @@ function printBill(facturas_id, $print_comprobante) {
                 var formato = impresora.formato.trim();                
 
                 if (formato === "Carta") {
-                    params = {
+/*                     params = {
                         "id": facturas_id,
                         "type": "Factura_carta_izzy",
                         "db": "<?php echo $GLOBALS['db']; ?>"
-                    };
+                    }; */
+                
+                    var cotizacion_id = facturas_id; // Aquí va el valor de cotizacion_id
+                    var type = "Factura_carta_izzy"; // Aquí va el valor de type
+                    var db = "<?php echo $GLOBALS['db']; ?>"; // Esta es la variable PHP que se pasa al JavaScript                    
                 } else if (formato === "Media Carta") {
-                    params = {
+                    /* params = {
                         "id": facturas_id,
                         "type": "Factura_media_izzy",
                         "db": "<?php echo $GLOBALS['db']; ?>"
-                    };
+                    }; */
+
+                    var cotizacion_id = facturas_id; // Aquí va el valor de cotizacion_id
+                    var type = "Factura_media_izzy"; // Aquí va el valor de type
+                    var db = "<?php echo $GLOBALS['db']; ?>"; // Esta es la variable PHP que se pasa al JavaScript  
                 } else if (formato === "Ticket") {
-                    params = {
+/*                     params = {
                         "id": facturas_id,
                         "type": "Factura_ticket_izzy",
                         "db": "<?php echo $GLOBALS['db']; ?>"
-                    };                
+                    };     */
+                    
+                    var cotizacion_id = facturas_id; // Aquí va el valor de cotizacion_id
+                    var type = "Factura_ticket_izzy"; // Aquí va el valor de type
+                    var db = "<?php echo $GLOBALS['db']; ?>"; // Esta es la variable PHP que se pasa al JavaScript 
                 } else {
                     // Manejar caso donde el formato no sea válido
                     swal({
@@ -1554,7 +1574,9 @@ function printBill(facturas_id, $print_comprobante) {
                 }
 
                 // Llamar a la función para mostrar el reporte
-                viewReport(params);
+                /* viewReport(params); */
+
+                abrirReporte(cotizacion_id, type, db);
             } else {
                 // Usando SweetAlert en lugar de alert
                 swal({
