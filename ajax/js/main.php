@@ -1550,10 +1550,10 @@ function printBill(facturas_id, $print_comprobante) {
                 }
 
                 // Llamar a la función para mostrar el reporte
-                //viewReport(params);
+                viewReport(params);
 
                 // Llamar a la función pasando los valores del objeto
-                abrirReporte(params.id, params.type, params.db);
+                //abrirReporte(params.id, params.type, params.db);
             } else {
                 // Usando SweetAlert en lugar de alert
                 swal({
@@ -1648,10 +1648,10 @@ function printBillReporteVentas(facturas_id, print_comprobante) {
                 }
 
                 // Llamar a la función para mostrar el reporte
-                //viewReport(params);
+                viewReport(params);
 
                 // Llamar a la función pasando los valores del objeto
-                abrirReporte(params.id, params.type, params.db);
+                //abrirReporte(params.id, params.type, params.db);
             } else {
                 // Usando SweetAlert en lugar de alert
                 swal({
