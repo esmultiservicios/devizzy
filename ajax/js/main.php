@@ -1404,7 +1404,7 @@ function abrirReporte(document_id, type, db) {
  * @throws {Error} Si la URL del servidor no está definida o es inválida.
  * @throws {Error} Si los parámetros enviados no son un objeto válido.
  */
-function viewReport(params) {
+/*function viewReport(params) {
     var url = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
 
     if (!url || url.trim() === "") {
@@ -1466,8 +1466,77 @@ function enviarFormulario(url, params, ventana) {
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
-}
+}*/
 //FIN FUNCION PARA OBTENER REPORTES DESDE IIS
+
+function viewReport(params) {
+    var url = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
+
+    // Verificar si la URL está vacía o no definida
+    if (!url || url.trim() === "") {
+        swal({
+            title: "Error de conexión",
+            content: {
+                element: "p",
+                attributes: {
+                    innerHTML: "No se pudo acceder al servidor de reportes. Esto puede deberse a un problema de conexión o a que el servicio no está disponible.<br><br>📌 <b>Pasos recomendados:</b><br>1️⃣ Verifique su conexión a internet.<br>2️⃣ Intente nuevamente en unos minutos.<br>3️⃣ Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_RESPONDE</b>."
+                }
+            },
+            icon: "error",
+            button: "Entendido",
+            dangerMode: true,
+            closeOnEsc: false,
+            closeOnClickOutside: false
+        });
+        return;
+    }
+
+	// Verificar si la URL responde antes de enviar el formulario
+	fetch(url, { method: "GET" })
+	.then(response => {
+		if (!response.ok) {
+			throw new Error("El servidor de reportes no está disponible.");
+		}
+		enviarFormulario(url, params);
+	})
+	.catch(error => {
+		swal({
+			title: "Error al obtener el reporte",
+			content: {
+				element: "p",
+				attributes: {
+					innerHTML: "No fue posible conectarse con el servidor de reportes.<br><br>🔍 <b>Posibles causas:</b><br>✅ El servidor puede estar en mantenimiento.<br>✅ Puede haber un problema de conexión.<br><br>📌 <b>Pasos recomendados:</b><br>1️⃣ Verifique su conexión a internet.<br>2️⃣ Intente nuevamente en unos minutos.<br>3️⃣ Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_DISPONIBLE</b>."
+				}
+			},
+			icon: "error",
+			button: "Entendido",
+			dangerMode: true,
+			closeOnEsc: false,
+			closeOnClickOutside: false
+		});
+	});
+}
+
+// 📝 Función para crear y enviar el formulario
+function enviarFormulario(url, params) {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = url;
+
+    for (var key in params) {
+        if (params.hasOwnProperty(key)) {
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+    }
+
+    var newWindow = window.open("", "_blank");
+    newWindow.document.body.appendChild(form);
+    form.submit();
+}
 
 //INICIO IMPRIMIR FACTURACION
 function printQuote(cotizacion_id) {
