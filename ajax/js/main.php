@@ -1404,7 +1404,7 @@ function abrirReporte(document_id, type, db) {
  * @throws {Error} Si la URL del servidor no está definida o es inválida.
  * @throws {Error} Si los parámetros enviados no son un objeto válido.
  */
-/*function viewReport(params) {
+function viewReport(params) {
     var url = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
 
     if (!url || url.trim() === "") {
@@ -1466,10 +1466,10 @@ function enviarFormulario(url, params, ventana) {
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
-}*/
+}
 //FIN FUNCION PARA OBTENER REPORTES DESDE IIS
 
-function viewReport(params) {
+/*function viewReport(params) {
     var url = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
 
     // Verificar si la URL está vacía o no definida
@@ -1536,7 +1536,7 @@ function enviarFormulario(url, params) {
     var newWindow = window.open("", "_blank");
     newWindow.document.body.appendChild(form);
     form.submit();
-}
+}*/
 
 //INICIO IMPRIMIR FACTURACION
 function printQuote(cotizacion_id) {
