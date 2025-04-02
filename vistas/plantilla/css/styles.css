@@ -12282,3 +12282,212 @@ input:checked+.slider:before {
 .form-check-input:checked + .form-check-label {
   color: #34A7C1;
 }
+
+
+/* Estilo mejorado para el promo en navbar #3c4c64 con colores que resaltan */
+.izzy-promo {
+  position: relative;
+  background: #f8f9fa; /* Fondo claro para máximo contraste */
+  border-radius: 8px;
+  margin: 8px 10px;
+  padding: 8px 12px !important;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 2px solid #ff9f43 !important; /* Borde naranja que resalta */
+  display: flex;
+  align-items: center;
+  text-decoration: none !important; /* Forzar sin subrayado */
+  width: auto;
+  max-width: 100%;
+  outline: none !important; /* Eliminar outline por defecto */
+}
+
+.izzy-promo:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(255, 159, 67, 0.4);
+}
+
+/* Estado activo (cuando se hace clic) */
+.izzy-promo:active {
+  transform: translateY(0);
+  background: #fff4e6 !important; /* Fondo naranja muy claro al hacer clic */
+  box-shadow: 0 1px 4px rgba(255, 159, 67, 0.6);
+  border-color: #ff7e2e !important; /* Borde naranja más oscuro */
+  opacity: 1 !important; /* Asegurar que no haya transparencia */
+}
+
+/* Estado focus (después de hacer clic) */
+.izzy-promo:focus {
+  background: #f8f9fa !important; /* Volver al color original */
+  border: 2px solid #ff9f43 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  opacity: 1 !important;
+  transform: translateY(0);
+  outline: none !important;
+}
+
+/* Asegurar que cualquier otro estado que pueda causar transparencia sea bloqueado */
+.izzy-promo:visited, 
+.izzy-promo:link,
+.izzy-promo:focus-visible,
+.izzy-promo:focus-within {
+  text-decoration: none !important;
+  background: #f8f9fa !important;
+  opacity: 1 !important;
+  color: inherit !important;
+}
+
+.izzy-promo .sb-nav-link-icon {
+  color: #ff9f43; /* Color naranja brillante para el ícono */
+  font-size: 1.2rem; /* Ligeramente más grande */
+  margin-right: 10px;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.izzy-promo:hover .sb-nav-link-icon {
+  color: #ff7e2e; /* Naranja más intenso al pasar el ratón */
+  transform: rotate(5deg);
+}
+
+/* Asegurar que el ícono siempre sea visible */
+.izzy-promo:active .sb-nav-link-icon,
+.izzy-promo:focus .sb-nav-link-icon {
+  color: #ff9f43 !important;
+  opacity: 1 !important;
+}
+
+.izzy-promo-content {
+  display: flex;
+  flex-direction: column; /* Cambio a columna para permitir wrap */
+  justify-content: center;
+  width: 100%;
+}
+
+.izzy-promo-text {
+  font-weight: 700;
+  color: #2d3748; /* Color oscuro para el texto */
+  font-size: 12px; /* Texto ligeramente más grande */
+  line-height: 1.2;
+  margin-bottom: 6px; /* Espacio adicional antes del badge */
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* Asegurar que el texto siempre sea visible */
+.izzy-promo:active .izzy-promo-text,
+.izzy-promo:focus .izzy-promo-text {
+  color: #2d3748 !important;
+  opacity: 1 !important;
+}
+
+.izzy-promo-badge-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.izzy-promo-badge {
+  position: relative;
+  height: 26px; /* Altura incrementada */
+  min-width: 95px; /* Ancho mínimo aumentado para "LANZAMIENTO" */
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 2px 4px;
+}
+
+.badge-text, .soon-text {
+  position: absolute;
+  width: 100%;
+  padding: 5px; /* Padding incrementado */
+  font-size: 11px; /* Texto ligeramente más grande */
+  font-weight: 700;
+  text-align: center;
+  transition: all 0.3s ease;
+  left: 0;
+  line-height: 1.1; /* Línea ligeramente más alta */
+}
+
+.badge-text {
+  top: 0;
+  background: linear-gradient(135deg, #4a6cf7, #5a7cff);
+  color: white;
+  z-index: 2;
+}
+
+.soon-text {
+  top: 100%;
+  background: linear-gradient(135deg, #ff6b81, #ff4757);
+  color: white;
+  z-index: 3;
+}
+
+.izzy-promo:hover .badge-text {
+  top: -100%;
+}
+
+.izzy-promo:hover .soon-text {
+  top: 0;
+}
+
+/* Mantener la animación en estado focus (después de clic) */
+.izzy-promo:focus .badge-text {
+  top: 0 !important;
+  opacity: 1 !important;
+}
+
+.izzy-promo:focus .soon-text {
+  top: 100% !important;
+  opacity: 1 !important;
+}
+
+/* Indicador de nuevo mejorado */
+.izzy-promo:after {
+  content: 'NUEVO';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #ff4757;
+  color: white;
+  font-size: 10px; /* Texto ligeramente más grande */
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 12px;
+  z-index: 4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Asegurar que la etiqueta NUEVO siempre sea visible */
+.izzy-promo:active:after,
+.izzy-promo:focus:after {
+  opacity: 1 !important;
+}
+
+/* Añadir animación sutil al hacer hover para toda la promo */
+@keyframes pulse {
+  0% { transform: translateY(-2px); }
+  50% { transform: translateY(-3px); }
+  100% { transform: translateY(-2px); }
+}
+
+.izzy-promo:hover {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Media queries para mejorar responsividad */
+@media (max-width: 768px) {
+  .izzy-promo {
+    margin: 6px;
+    padding: 6px 8px !important;
+  }
+  
+  .izzy-promo-text {
+    font-size: 11px;
+  }
+  
+  .izzy-promo-badge {
+    min-width: 85px; /* Ajustado para pantallas pequeñas */
+    height: 24px;
+  }
+}
