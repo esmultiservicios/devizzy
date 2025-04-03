@@ -4614,7 +4614,7 @@ class mainModel
 
 				FROM secuencia_facturacion
 
-				WHERE activo = 1 AND empresa_id = '$empresa_id'
+				WHERE activo = 1 AND empresa_id = '$empresa_id' AND documento_id = 1
 
 				ORDER BY siguiente DESC LIMIT 1";
 
@@ -4629,7 +4629,7 @@ class mainModel
 
 				FROM secuencia_facturacion
 
-				WHERE activo = 1 AND empresa_id = '$empresa_id'";
+				WHERE activo = 1 AND empresa_id = '$empresa_id' AND documento_id = 1";
 
 		$result = self::connection()->query($query);
 
@@ -4642,7 +4642,7 @@ class mainModel
 
 				FROM secuencia_facturacion
 
-				WHERE activo = 1 AND empresa_id = '$empresa_id'";
+				WHERE activo = 1 AND empresa_id = '$empresa_id' AND documento_id = 1";
 
 		$result = self::connection()->query($query);
 
