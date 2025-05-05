@@ -179,65 +179,68 @@ var editar_usuarios_dataTable = function(tbody, table) {
     $(tbody).on("click", "button.table_editar", function() {
         var data = table.row($(this).parents("tr")).data();
         var url = '<?php echo SERVERURL; ?>core/editarUsuarios.php';
-        $('#formUsers #usuarios_id').val(data.users_id);
-
+        $('#formUsers #usuarios_id').val(data.users_id);        
         $.ajax({
             type: 'POST',
             url: url,
             data: $('#formUsers').serialize(),
-            success: function(registro) {
-                var valores = eval(registro);
-                $('#formUsers').attr({
-                    'data-form': 'update'
-                });
-                $('#formUsers').attr({
-                    'action': '<?php echo SERVERURL; ?>ajax/modificarUsersAjax.php'
-                });
-                $('#formUsers')[0].reset();
-                $('#reg_usuario').hide();
-                $('#edi_usuario').show();
-                $('#delete_usuario').hide();
-                $('#formUsers #usuarios_colaborador_id').val(valores[0]);
-                $('#formUsers #colaborador_id_usuario').val(valores[0]);
-                $('#formUsers #colaborador_id_usuario').selectpicker('refresh');
-                $('#formUsers #nickname').val(valores[2]);
-                $('#formUsers #pass').attr('disabled', true);
-                $('#formUsers #correo_usuario').val(valores[3]);
-                $('#formUsers #empresa_usuario').val(valores[4]);
-                $('#formUsers #empresa_usuario').selectpicker('refresh');
-                $('#formUsers #tipo_user').val(valores[5]);
-                $('#formUsers #tipo_user').selectpicker('refresh');
-                $('#formUsers #privilegio_id').val(valores[7]);
-                $('#formUsers #server_customers_id').val(valores[8]);
-                $('#formUsers #privilegio_id').selectpicker('refresh');
+            dataType: 'json',
+            success: function(response) {
+                if(response.success) {
+                    $('#formUsers').attr({
+                        'data-form': 'update'
+                    });
+                    $('#formUsers').attr({
+                        'action': '<?php echo SERVERURL; ?>ajax/modificarUsersAjax.php'
+                    });
+                    $('#formUsers')[0].reset();
 
-                if (valores[6] == 1) {
-                    $('#formUsers #usuarios_activo').attr('checked', true);
-                } else {
-                    $('#formUsers #usuarios_activo').attr('checked', false);
+                    $('#reg_usuario').hide();
+                    $('#edi_usuario').show();
+                    $('#delete_usuario').hide();
+
+                    $('#formUsers #usuarios_colaborador_id').val(response.data.colaboradores_id);
+                    $('#formUsers #colaborador_id_usuario').val(response.data.colaboradores_id);
+                    $('#formUsers #colaborador_id_usuario').selectpicker('refresh');
+                    $('#formUsers #pass').attr('disabled', true);
+
+                    $('#formUsers #correo_usuario').val(response.data.correo);
+                    $('#formUsers #empresa_usuario').val(response.data.empresa_id);
+                    $('#formUsers #empresa_usuario').selectpicker('refresh');
+                    $('#formUsers #tipo_user').val(response.data.tipo_user_id);
+                    $('#formUsers #tipo_user').selectpicker('refresh');
+                    $('#formUsers #privilegio_id').val(response.data.privilegio_id);
+                    $('#formUsers #privilegio_id').selectpicker('refresh');
+                    $('#formUsers #server_customers_id').val(response.data.server_customers_id);
+
+                    if (response.data.estado == 1) {
+                        $('#formUsers #usuarios_activo').attr('checked', true);
+                    } else {
+                        $('#formUsers #usuarios_activo').attr('checked', false);
+                    }
+
+                    //HABILITAR OBJETOS
+                    $('#formUsers #pass').attr('readonly', false);
+                    $('#formUsers #correo_usuario').attr('readonly', false);
+                    $('#formUsers #empresa_usuario').attr('disabled', false);
+                    $('#formUsers #tipo_user').attr('disabled', false);
+                    $('#formUsers #estado_usuario').attr('disabled', false);
+                    $('#formUsers #privilegio_id').attr('disabled', false);
+                    $('#formUsers #usuarios_activo').attr('disabled', false);
+                    $('#formUsers #estado_usuarios').show();
+
+                    //DESHABILITAR OBJETOS
+                    $('#formUsers #nickname').attr('readonly', true);
+                    $('#formUsers #correo_usuario').attr('readonly', true);
+
+                    $('#formUsers #proceso_usuarios').val("Editar");
+                    $('#formUsers #grupo_buscar_colaboradores').attr('disabled', true);
+                    $('#modal_registrar_usuarios').modal({
+                        show: true,
+                        keyboard: false,
+                        backdrop: 'static'
+                    });
                 }
-
-                //HABILITAR OBJETOS
-                $('#formUsers #pass').attr('readonly', false);
-                $('#formUsers #correo_usuario').attr('readonly', false);
-                $('#formUsers #empresa_usuario').attr('disabled', false);
-                $('#formUsers #tipo_user').attr('disabled', false);
-                $('#formUsers #estado_usuario').attr('disabled', false);
-                $('#formUsers #privilegio_id').attr('disabled', false);
-                $('#formUsers #usuarios_activo').attr('disabled', false);
-                $('#formUsers #estado_usuarios').show();
-
-                //DESHABILITAR OBJETOS
-                $('#formUsers #nickname').attr('readonly', true);
-                $('#formUsers #correo_usuario').attr('readonly', true);
-
-                $('#formUsers #proceso_usuarios').val("Editar");
-                $('#formUsers #grupo_buscar_colaboradores').attr('disabled', true);
-                $('#modal_registrar_usuarios').modal({
-                    show: true,
-                    keyboard: false,
-                    backdrop: 'static'
-                });
             }
         });
     });
@@ -250,59 +253,64 @@ var eliminar_usuarios_dataTable = function(tbody, table) {
         var url = '<?php echo SERVERURL; ?>core/editarUsuarios.php';
         $('#formUsers #usuarios_id').val(data.users_id);
 
+        alert('Eliminando');
         $.ajax({
             type: 'POST',
             url: url,
+            dataType: 'json',
             data: $('#formUsers').serialize(),
-            success: function(registro) {
-                var valores = eval(registro);
-                $('#formUsers').attr({
-                    'data-form': 'delete'
-                });
-                $('#formUsers').attr({
-                    'action': '<?php echo SERVERURL; ?>ajax/eliminarUsersAjax.php'
-                });
-                $('#formUsers')[0].reset();
-                $('#reg_usuario').hide();
-                $('#edi_usuario').hide();
-                $('#delete_usuario').show();
-                $('#formUsers #usuarios_colaborador_id').val(valores[0]);
-                $('#formUsers #colaborador_id_usuario').val(valores[1]);
-                $('#formUsers #empresa_uscolaborador_id_usuariouario').selectpicker('refresh');
-                $('#formUsers #nickname').val(valores[2]);
-                $('#formUsers #pass').attr('disabled', true);
-                $('#formUsers #correo_usuario').val(valores[3]);
-                $('#formUsers #empresa_usuario').val(valores[4]);
-                $('#formUsers #empresa_usuario').selectpicker('refresh');
-                $('#formUsers #tipo_user').val(valores[5]);
-                $('#formUsers #tipo_user').selectpicker('refresh');
-                $('#formUsers #privilegio_id').val(valores[7]);
-                $('#formUsers #privilegio_id').selectpicker('refresh');
+            success: function(response) {                
+                if(response.success) {
+                    $('#formUsers').attr({
+                        'data-form': 'delete'
+                    });
+                    $('#formUsers').attr({
+                        'action': '<?php echo SERVERURL; ?>ajax/eliminarUsersAjax.php'
+                    });
+                    $('#formUsers')[0].reset();
+                    $('#reg_usuario').hide();
+                    $('#edi_usuario').hide();
+                    $('#delete_usuario').show();
+                    $('#formUsers #usuarios_colaborador_id').val(response.data.colaboradores_id);
+                    $('#formUsers #colaborador_id_usuario').val(response.data.nombre_completo);
+                    $('#formUsers #empresa_uscolaborador_id_usuariouario').selectpicker('refresh');
+                    $('#formUsers #pass').attr('disabled', true);
 
-                if (valores[6] == 1) {
-                    $('#formUsers #usuarios_activo').attr('checked', true);
-                } else {
-                    $('#formUsers #usuarios_activo').attr('checked', false);
-                }
+                    // Llenar datos del usuario
+                    $('#formUsers #correo_usuario').val(response.data.correo);
+                    $('#formUsers #empresa_usuario').val(response.data.empresa_id);
+                    $('#formUsers #empresa_usuario').selectpicker('refresh');
+                    $('#formUsers #tipo_user').val(response.data.tipo_user_id);
+                    $('#formUsers #tipo_user').selectpicker('refresh');
+                    $('#formUsers #privilegio_id').val(response.data.privilegio_id);
+                    $('#formUsers #privilegio_id').selectpicker('refresh');
+                    $('#formUsers #server_customers_id').val(response.data.server_customers_id);
 
-                //DESHABILITAR OBJETOS
-                $('#formUsers #nickname').attr('readonly', true);
-                $('#formUsers #pass').attr('readonly', true);
-                $('#formUsers #correo_usuario').attr('readonly', true);
-                $('#formUsers #empresa_usuario').attr('disabled', true);
-                $('#formUsers #tipo_user').attr('disabled', true);
-                $('#formUsers #estado_usuario').attr('disabled', true);
-                $('#formUsers #privilegio_id').attr('disabled', true);
-                $('#formUsers #usuarios_activo').attr('disabled', true);
-                $('#formUsers #estado_usuarios').hide();
+                    if (response.data.estado == 1) {
+                        $('#formUsers #usuarios_activo').attr('checked', true);
+                    } else {
+                        $('#formUsers #usuarios_activo').attr('checked', false);
+                    }
 
-                $('#formUsers #proceso_usuarios').val("Eliminar");
-                $('#formUsers #grupo_buscar_colaboradores').attr('disabled', true);
-                $('#modal_registrar_usuarios').modal({
-                    show: true,
-                    keyboard: false,
-                    backdrop: 'static'
-                });
+                    //DESHABILITAR OBJETOS
+                    $('#formUsers #nickname').attr('readonly', true);
+                    $('#formUsers #pass').attr('readonly', true);
+                    $('#formUsers #correo_usuario').attr('readonly', true);
+                    $('#formUsers #empresa_usuario').attr('disabled', true);
+                    $('#formUsers #tipo_user').attr('disabled', true);
+                    $('#formUsers #estado_usuario').attr('disabled', true);
+                    $('#formUsers #privilegio_id').attr('disabled', true);
+                    $('#formUsers #usuarios_activo').attr('disabled', true);
+                    $('#formUsers #estado_usuarios').hide();
+
+                    $('#formUsers #proceso_usuarios').val("Eliminar");
+                    $('#formUsers #grupo_buscar_colaboradores').attr('disabled', true);
+                    $('#modal_registrar_usuarios').modal({
+                        show: true,
+                        keyboard: false,
+                        backdrop: 'static'
+                    });
+                }                
             }
         });
     });

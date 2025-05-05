@@ -146,54 +146,57 @@ var editar_colaboradores_dataTable = function(tbody, table) {
             type: 'POST',
             url: url,
             data: $('#formColaboradores').serialize(),
-            success: function(registro) {
-                var valores = eval(registro);
-                $('#formColaboradores').attr({
-                    'data-form': 'update'
-                });
-                $('#formColaboradores').attr({
-                    'action': '<?php echo SERVERURL;?>ajax/modificarColaboradorAjax.php'
-                });
-                $('#reg_colaborador').hide();
-                $('#edi_colaborador').show();
-                $('#delete_colaborador').hide();
-                $('#formColaboradores #nombre_colaborador').val(valores[0]);
-                $('#formColaboradores #apellido_colaborador').val(valores[1]);
-                $('#formColaboradores #identidad_colaborador').val(valores[2]);
-                $('#formColaboradores #telefono_colaborador').val(valores[3]);
-                $('#formColaboradores #puesto_colaborador').val(valores[4]);
-                $('#formColaboradores #puesto_colaborador').selectpicker('refresh');
-                $('#formColaboradores #colaborador_empresa_id').val(valores[6]);
-                $('#formColaboradores #colaborador_empresa_id').selectpicker('refresh');
-                $('#formColaboradores #fecha_ingreso_colaborador').val(valores[8]);
-                $('#formColaboradores #fecha_egreso_colaborador').val(valores[9]);
+            dataType: 'json',
+            success: function(response) {
+                if(response.success) {
+                    var colaborador = response.data;
+                    
+                    $('#formColaboradores').attr({
+                        'data-form': 'update'
+                    });
+                    $('#formColaboradores').attr({
+                        'action': '<?php echo SERVERURL;?>ajax/modificarColaboradorAjax.php'
+                    });
+                    
+                    $('#reg_colaborador').hide();
+                    $('#edi_colaborador').show();
+                    $('#delete_colaborador').hide();
+                    
+                    // Llenar los campos del formulario
+                    $('#formColaboradores #nombre_colaborador').val(colaborador.nombre);
+                    $('#formColaboradores #apellido_colaborador').val(colaborador.apellido);
+                    $('#formColaboradores #identidad_colaborador').val(colaborador.identidad);
+                    $('#formColaboradores #telefono_colaborador').val(colaborador.telefono);
+                    $('#formColaboradores #puesto_colaborador').val(colaborador.puestos_id);
+                    $('#formColaboradores #puesto_colaborador').selectpicker('refresh');
+                    $('#formColaboradores #colaborador_empresa_id').val(colaborador.empresa_id);
+                    $('#formColaboradores #colaborador_empresa_id').selectpicker('refresh');
+                    $('#formColaboradores #fecha_ingreso_colaborador').val(colaborador.fecha_ingreso);
+                    $('#formColaboradores #fecha_egreso_colaborador').val(colaborador.fecha_egreso);
 
-                if (valores[5] == 1) {
-                    $('#formColaboradores #colaboradores_activo').attr('checked', true);
-                } else {
-                    $('#formColaboradores #colaboradores_activo').attr('checked', false);
+                    // Manejar el estado (activo/inactivo)
+                    $('#formColaboradores #colaboradores_activo').prop('checked', colaborador.estado == 1);
+
+                    // Habilitar campos
+                    $('#formColaboradores #nombre_colaborador').prop('readonly', false);
+                    $('#formColaboradores #apellido_colaborador').prop('readonly', false);
+                    $('#formColaboradores #identidad_colaborador').prop('readonly', false);
+                    $('#formColaboradores #telefono_colaborador').prop('readonly', false);
+                    $('#formColaboradores #estado_colaborador').prop('disabled', false);
+                    $('#formColaboradores #colaboradores_activo').prop('disabled', false);
+                    $('#formColaboradores #fecha_ingreso_colaborador').prop('disabled', false);
+                    $('#formColaboradores #fecha_egreso_colaborador').prop('disabled', false);
+                    $('#formColaboradores #puesto_colaborador').prop('disabled', false);
+                    $('#formColaboradores #colaborador_empresa_id').prop('disabled', false);
+                    $('#formColaboradores #estado_colaboradores').show();
+
+                    $('#formColaboradores #proceso_colaboradores').val("Editar");
+                    $('#modal_registrar_colaboradores').modal({
+                        show: true,
+                        keyboard: false,
+                        backdrop: 'static'
+                    });
                 }
-
-                //HABILITAR OBJETOS
-                $('#formColaboradores #nombre_colaborador').attr('readonly', false);
-                $('#formColaboradores #apellido_colaborador').attr('readonly', false);
-                $('#formColaboradores #identidad_colaborador').attr('readonly', false);
-                $('#formColaboradores #telefono_colaborador').attr('readonly', false);
-                $('#formColaboradores #estado_colaborador').attr('disabled', false);
-                $('#formColaboradores #colaboradores_activo').attr('disabled', false);
-                $('#formColaboradores #fecha_ingreso_colaborador').attr('disabled', false);
-                $('#formColaboradores #fecha_egreso_colaborador').attr('disabled', false);
-
-                $('#formColaboradores #puesto_colaborador').attr('disabled', false);
-                $('#formColaboradores #colaborador_empresa_id').attr('disabled', false);
-                $('#formColaboradores #estado_colaboradores').show();
-
-                $('#formColaboradores #proceso_colaboradores').val("Editar");
-                $('#modal_registrar_colaboradores').modal({
-                    show: true,
-                    keyboard: false,
-                    backdrop: 'static'
-                });
             }
         });
     });
@@ -211,55 +214,57 @@ var eliminar_colaboradores_dataTable = function(tbody, table) {
             type: 'POST',
             url: url,
             data: $('#formColaboradores').serialize(),
-            success: function(registro) {
-                var valores = eval(registro);
-                $('#formColaboradores').attr({
-                    'data-form': 'delete'
-                });
-                $('#formColaboradores').attr({
-                    'action': '<?php echo SERVERURL;?>ajax/eliminarColaboradorAjax.php'
-                });
-                $('#reg_colaborador').hide();
-                $('#edi_colaborador').hide();
-                $('#delete_colaborador').show();
-                $('#formColaboradores #nombre_colaborador').val(valores[0]);
-                $('#formColaboradores #apellido_colaborador').val(valores[1]);
-                $('#formColaboradores #identidad_colaborador').val(valores[2]);
-                $('#formColaboradores #telefono_colaborador').val(valores[3]);
-                $('#formColaboradores #puesto_colaborador').val(valores[4]);
-                $('#formColaboradores #puesto_colaborador').selectpicker('refresh');
-                $('#formColaboradores #colaborador_empresa_id').val(valores[6]);
-                $('#formColaboradores #colaborador_empresa_id').selectpicker('refresh');
-                $('#formColaboradores #fecha_ingreso_colaborador').val(valores[8]);
-                $('#formColaboradores #fecha_egreso_colaborador').val(valores[9]);
+            dataType: 'json',
+            success: function(response) {
+                if(response.success) {
+                    var colaborador = response.data;
+                    
+                    $('#formColaboradores').attr({
+                        'data-form': 'delete'
+                    });
+                    $('#formColaboradores').attr({
+                        'action': '<?php echo SERVERURL;?>ajax/eliminarColaboradorAjax.php'
+                    });
+                    
+                    $('#reg_colaborador').hide();
+                    $('#edi_colaborador').hide();
+                    $('#delete_colaborador').show();
+                    
+                    // Llenar los campos del formulario
+                    $('#formColaboradores #nombre_colaborador').val(colaborador.nombre);
+                    $('#formColaboradores #apellido_colaborador').val(colaborador.apellido);
+                    $('#formColaboradores #identidad_colaborador').val(colaborador.identidad);
+                    $('#formColaboradores #telefono_colaborador').val(colaborador.telefono);
+                    $('#formColaboradores #puesto_colaborador').val(colaborador.puestos_id);
+                    $('#formColaboradores #puesto_colaborador').selectpicker('refresh');
+                    $('#formColaboradores #colaborador_empresa_id').val(colaborador.empresa_id);
+                    $('#formColaboradores #colaborador_empresa_id').selectpicker('refresh');
+                    $('#formColaboradores #fecha_ingreso_colaborador').val(colaborador.fecha_ingreso);
+                    $('#formColaboradores #fecha_egreso_colaborador').val(colaborador.fecha_egreso);
 
-                if (valores[5] == 1) {
-                    $('#formColaboradores #colaboradores_activo').attr('checked', true);
-                } else {
-                    $('#formColaboradores #colaboradores_activo').attr('checked', false);
+                    // Manejar el estado (activo/inactivo)
+                    $('#formColaboradores #colaboradores_activo').prop('checked', colaborador.estado == 1);
+
+                    // Deshabilitar campos
+                    $('#formColaboradores #nombre_colaborador').prop('readonly', true);
+                    $('#formColaboradores #apellido_colaborador').prop('readonly', true);
+                    $('#formColaboradores #identidad_colaborador').prop('readonly', true);
+                    $('#formColaboradores #telefono_colaborador').prop('readonly', true);
+                    $('#formColaboradores #estado_colaborador').prop('disabled', true);
+                    $('#formColaboradores #colaboradores_activo').prop('disabled', true);
+                    $('#formColaboradores #puesto_colaborador').prop('disabled', true);
+                    $('#formColaboradores #colaborador_empresa_id').prop('disabled', true);
+                    $('#formColaboradores #fecha_ingreso_colaborador').prop('disabled', true);
+                    $('#formColaboradores #fecha_egreso_colaborador').prop('disabled', true);
+                    $('#formColaboradores #estado_colaboradores').hide();
+
+                    $('#formColaboradores #proceso_colaboradores').val("Eliminar");
+                    $('#modal_registrar_colaboradores').modal({
+                        show: true,
+                        keyboard: false,
+                        backdrop: 'static'
+                    });
                 }
-
-                //DESHABILITAR OBJETOS
-                $('#formColaboradores #nombre_colaborador').attr('readonly', true);
-                $('#formColaboradores #apellido_colaborador').attr('readonly', true);
-                $('#formColaboradores #identidad_colaborador').attr('readonly', true);
-                $('#formColaboradores #telefono_colaborador').attr('readonly', true);
-                $('#formColaboradores #estado_colaborador').attr('disabled', true);
-                $('#formColaboradores #colaboradores_activo').attr('disabled', true);
-
-                $('#formColaboradores #puesto_colaborador').attr('disabled', true);
-                $('#formColaboradores #colaborador_empresa_id').attr('disabled', true);
-
-                $('#formColaboradores #fecha_ingreso_colaborador').attr('disabled', true);
-                $('#formColaboradores #fecha_egreso_colaborador').attr('disabled', true);
-                $('#formColaboradores #estado_colaboradores').hide();
-
-                $('#formColaboradores #proceso_colaboradores').val("Eliminar");
-                $('#modal_registrar_colaboradores').modal({
-                    show: true,
-                    keyboard: false,
-                    backdrop: 'static'
-                });
             }
         });
     });

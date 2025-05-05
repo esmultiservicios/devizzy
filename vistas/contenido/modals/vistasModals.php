@@ -1936,15 +1936,10 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-3">
                             <label for="nombre">Nombre <span class="priority">*<span /></label>
                             <input type="text" class="form-control" id="nombre_colaborador" name="nombre_colaborador"
                                 placeholder="Nombre" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="apellido">Apellido <span class="priority">*<span /></label>
-                            <input type="text" class="form-control" id="apellido_colaborador"
-                                name="apellido_colaborador" placeholder="Apellido" required>
                         </div>
                     </div>
                     <div class="form-row">

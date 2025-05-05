@@ -50,6 +50,47 @@ class mainModel
 		return $mysqliLogin;
 	}
 	
+	// En tu mainModel.php agregamos:
+	public static function validarSesion() {
+		// Verificar si la sesión no está iniciada
+		if(session_status() === PHP_SESSION_NONE) {
+			session_start([
+				'name' => 'SD', 
+				'cookie_lifetime' => 86400,
+				'cookie_secure' => true,
+				'cookie_httponly' => true,
+				'cookie_samesite' => 'Lax'
+			]);
+			
+			if(!isset($_SESSION['user_sd'])) {
+				$_SESSION['user_sd'] = null;
+			}
+		}
+		
+		// Verificar si el usuario está logueado
+		if($_SESSION['user_sd'] === null) {
+			return [
+				"error" => true,
+				"mensaje" => "Debe iniciar sesión para acceder a esta función",
+				"redireccion" => SERVERURL."login/"
+			];
+		}
+		
+		// Verificar variables de sesión esenciales
+		$variablesRequeridas = ['colaborador_id_sd', 'empresa_id_sd'];
+		foreach($variablesRequeridas as $variable) {
+			if(!isset($_SESSION[$variable])) {
+				return [
+					"error" => true,
+					"mensaje" => "Faltan datos esenciales en la sesión",
+					"redireccion" => SERVERURL."login/"
+				];
+			}
+		}
+		
+		return ["error" => false];
+	}	
+	
 	public function connectionDBLocal($dblocal)
 	{
 		// Usamos conexiones persistentes con 'p:'
@@ -1182,7 +1223,7 @@ class mainModel
 			$where = "WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1) AND p.nombre NOT IN($valores)";
 		}
 
-		$query = "SELECT c.colaboradores_id, CONCAT(c.nombre, ' ', c.apellido) AS 'nombre'
+		$query = "SELECT c.colaboradores_id, c.nombre AS 'nombre'
 			FROM colaboradores AS c
 			INNER JOIN puestos AS p ON c.puestos_id = p.puestos_id
 			" . $where . '
@@ -1216,7 +1257,7 @@ class mainModel
 			$colaboradores_id = "AND s.colaboradores_id = '" . $datos['colaboradores_id'] . "'";
 		}
 
-		$query = "SELECT a.asistencia_id AS 'asistencia_id', a.colaboradores_id AS 'colaboradores_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', a.fecha AS 'fecha', a.horai AS 'hora_entrada', CONVERT(a.horaf, TIME) AS 'hora_salida', DATE_FORMAT(a.horai,'%h:%i:%s %p') AS 'horai',  DATE_FORMAT(CONVERT(a.horaf, TIME),'%h:%i:%s %p') AS 'horaf', a.comentario AS 'comentario', TIME_TO_SEC(TIMEDIFF(horaf, horai))/3600 AS 'total_horas'
+		$query = "SELECT a.asistencia_id AS 'asistencia_id', a.colaboradores_id AS 'colaboradores_id', c.nombre AS 'colaborador', a.fecha AS 'fecha', a.horai AS 'hora_entrada', CONVERT(a.horaf, TIME) AS 'hora_salida', DATE_FORMAT(a.horai,'%h:%i:%s %p') AS 'horai',  DATE_FORMAT(CONVERT(a.horaf, TIME),'%h:%i:%s %p') AS 'horaf', a.comentario AS 'comentario', TIME_TO_SEC(TIMEDIFF(horaf, horai))/3600 AS 'total_horas'
 				FROM asistencia AS a
 				INNER JOIN colaboradores AS c ON a.colaboradores_id = c.colaboradores_id
 				WHERE a.estado = 0";
@@ -1405,7 +1446,7 @@ class mainModel
 
 	public function getFacturador()
 	{
-		$query = "SELECT c.colaboradores_id AS 'colaboradores_id', CONCAT(c.nombre, ' ', c.apellido) AS 'nombre', c.identidad AS 'identidad'
+		$query = "SELECT c.colaboradores_id AS 'colaboradores_id', c.nombre AS 'nombre', c.identidad AS 'identidad'
 			FROM facturas AS f
 			INNER JOIN colaboradores AS c
 			ON f.usuario = c.colaboradores_id
@@ -1524,7 +1565,7 @@ class mainModel
 					a.factura_final AS 'factura_final', 
 					a.apertura AS 'monto_apertura', 
 					(CASE WHEN a.estado = '1' THEN 'Activa' ELSE 'Inactiva' END) AS 'caja', 
-					CONCAT(c.nombre, ' ', c.apellido) AS 'usuario', 
+					c.nombre AS 'usuario', 
 					a.colaboradores_id AS 'colaboradores_id', 
 					a.apertura_id AS 'apertura_id'
 				FROM apertura AS a
@@ -1639,7 +1680,7 @@ class mainModel
 
 	public function getUserSession($colaborador_id)
 	{
-		$query = "SELECT nombre, apellido
+		$query = "SELECT nombre
 				FROM colaboradores
 				WHERE colaboradores_id = '$colaborador_id'";
 
@@ -1650,7 +1691,7 @@ class mainModel
 
 	public function getBitacora($fechai, $fechaf)
 	{
-		$query = "SELECT b.bitacoraCodigo AS 'bitacoraCodigo', DATE_FORMAT(b.bitacoraFecha, '%d/%m/%Y') AS 'bitacoraFecha', b.bitacoraHoraInicio As 'bitacoraHoraInicio', b.bitacoraHoraFinal AS 'bitacoraHoraFinal', tu.nombre AS 'bitacoraTipo', b.bitacoraYear AS 'bitacoraYear', CONCAT(c.nombre,' ',c.apellido) AS 'colaborador'
+		$query = "SELECT b.bitacoraCodigo AS 'bitacoraCodigo', DATE_FORMAT(b.bitacoraFecha, '%d/%m/%Y') AS 'bitacoraFecha', b.bitacoraHoraInicio As 'bitacoraHoraInicio', b.bitacoraHoraFinal AS 'bitacoraHoraFinal', tu.nombre AS 'bitacoraTipo', b.bitacoraYear AS 'bitacoraYear', c.nombre AS 'colaborador'
 				FROM bitacora AS b
 				INNER JOIN tipo_user AS tu
 				ON b.bitacoraTipo = tu.tipo_user_id
@@ -1665,7 +1706,7 @@ class mainModel
 
 	public function getHistorialAccesos($fechai, $fechaf)
 	{
-		$query = "SELECT ha.historial_acceso_id AS 'historial_acceso_id', DATE_FORMAT(ha.fecha, '%d/%m/%Y %H:%i:%s') AS 'fecha', CONCAT(c.nombre, ' ', c.apellido) As 'colaborador', ha.ip AS 'ip', ha.acceso AS 'acceso'
+		$query = "SELECT ha.historial_acceso_id AS 'historial_acceso_id', DATE_FORMAT(ha.fecha, '%d/%m/%Y %H:%i:%s') AS 'fecha', c.nombre As 'colaborador', ha.ip AS 'ip', ha.acceso AS 'acceso'
 				FROM historial_acceso AS ha
 				INNER JOIN colaboradores AS c
 				ON ha.colaboradores_id = c.colaboradores_id
@@ -1760,7 +1801,7 @@ class mainModel
 			$where = "WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1) AND p.nombre NOT IN('Reseller', 'Clientes')";
 		}
 
-		$query = "SELECT c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', c.identidad AS 'identidad',
+		$query = "SELECT c.colaboradores_id AS 'colaborador_id', c.nombre AS 'colaborador', c.identidad AS 'identidad',
 				CASE WHEN c.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado', c.telefono AS 'telefono', e.nombre AS 'empresa', p.nombre AS 'puesto'
 				FROM colaboradores AS c
 				INNER JOIN empresa AS e
@@ -1768,7 +1809,7 @@ class mainModel
 				INNER JOIN puestos AS p
 				ON c.puestos_id = p.puestos_id
 				" . $where . "
-				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
+				ORDER BY c.nombre";
 
 		$result = self::connection()->query($query);
 		return $result;
@@ -1784,7 +1825,7 @@ class mainModel
 			$where = "WHERE c.estado = 1 AND c.colaboradores_id NOT IN(1) AND p.nombre NOT IN('Reseller', 'Clientes') AND e.empresa_id = '" . $datos['empresa_id'] . "'";
 		}
 
-		$query = "SELECT c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', c.identidad AS 'identidad',
+		$query = "SELECT c.colaboradores_id AS 'colaborador_id', c.nombre AS 'colaborador', c.identidad AS 'identidad',
 				CASE WHEN c.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado', c.telefono AS 'telefono', e.nombre AS 'empresa', p.nombre AS 'puesto'
 				FROM colaboradores AS c
 				INNER JOIN empresa AS e
@@ -1792,7 +1833,7 @@ class mainModel
 				INNER JOIN puestos AS p
 				ON c.puestos_id = p.puestos_id
 				" . $where . "
-				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
+				ORDER BY c.nombre";
 
 		$result = self::connection()->query($query);
 		return $result;
@@ -1800,7 +1841,7 @@ class mainModel
 
 	public function getColaboradoresFactura()
 	{
-		$query = "SELECT c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', c.identidad AS 'identidad',
+		$query = "SELECT c.colaboradores_id AS 'colaborador_id', c.nombre AS 'colaborador', c.identidad AS 'identidad',
 				CASE WHEN c.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS 'estado', c.telefono AS 'telefono', e.nombre AS 'empresa', p.nombre AS 'puesto'
 				FROM colaboradores AS c
 				INNER JOIN empresa AS e
@@ -1808,7 +1849,7 @@ class mainModel
 				INNER JOIN puestos AS p
 				ON c.puestos_id = p.puestos_id
 				WHERE c.estado = 1 AND p.nombre = 'Vendedores'
-				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
+				ORDER BY c.nombre";
 
 		$result = self::connection()->query($query);
 		return $result;
@@ -1841,7 +1882,7 @@ class mainModel
 					fd.isv_valor AS ISV,
 					fd.descuento AS Descuento,
 					(fd.precio * fd.cantidad + fd.isv_valor - fd.descuento) AS Total,
-					CONCAT(c.nombre, ' ', c.apellido) AS Vendedor
+					c.nombre AS Vendedor
 				FROM 
 					facturas_detalles fd
 					INNER JOIN productos p ON fd.productos_id = p.productos_id              
@@ -1943,7 +1984,7 @@ class mainModel
 	{
 		$valores = "'Reseller', 'Clientes'";
 
-		$query = "SELECT colaboradores_id aS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'nombre', c.identidad AS 'identidad'
+		$query = "SELECT colaboradores_id aS 'colaborador_id', c.nombre AS 'nombre', c.identidad AS 'identidad'
 				FROM colaboradores AS c
 				INNER JOIN puestos AS p ON c.puestos_id = p.puestos_id
 				WHERE c.estado = 1 AND colaboradores_id NOT IN(1) AND p.nombre NOT IN($valores) 
@@ -1956,7 +1997,7 @@ class mainModel
 
 	public function getEmpleadoContratoEdit($colaboradores_id)
 	{
-		$query = "SELECT c.colaborador_id AS colaborador_id, CONCAT(co.nombre, ' ', co.apellido) AS 'nombre', co.identidad AS 'identidad', p.nombre AS 'puesto', c.contrato_id AS 'contrato_id', c.salario_mensual AS 'salario_mensual', co.fecha_ingreso AS 'fecha_ingreso', c.tipo_empleado_id AS 'tipo_empleado_id', c.pago_planificado_id AS 'pago_planificado_id', c.salario, c.semanal
+		$query = "SELECT c.colaborador_id AS colaborador_id, co.nombre AS 'nombre', co.identidad AS 'identidad', p.nombre AS 'puesto', c.contrato_id AS 'contrato_id', c.salario_mensual AS 'salario_mensual', co.fecha_ingreso AS 'fecha_ingreso', c.tipo_empleado_id AS 'tipo_empleado_id', c.pago_planificado_id AS 'pago_planificado_id', c.salario, c.semanal
 				FROM contrato AS c
 				INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
 				INNER JOIN puestos AS p ON co.puestos_id = p.puestos_id
@@ -2139,7 +2180,7 @@ class mainModel
 			$filtro .= " AND c.tipo_empleado_id = '" . $datos['tipo_empleado'] . "'";
 		}
 
-		$query = "SELECT c.contrato_id AS contrato_id, CONCAT(co.nombre, ' ', co.apellido) AS 'empleado', tc.nombre AS 'tipo_contrato', pp.nombre AS 'pago_planificado', te.nombre AS 'tipo_empleado', c.fecha_inicio AS 'fecha_inicio', c.estado AS 'estado', (CASE WHEN c.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', c.salario AS 'salario', c.tipo_contrato_id AS 'tipo_contrato_id', c.pago_planificado_id AS 'pago_planificado_id', c.tipo_empleado_id AS 'tipo_empleado_id', (CASE WHEN c.fecha_fin = '' THEN 'Sin Registro' ELSE c.fecha_fin END) AS 'fecha_fin', c.notas AS 'notas'
+		$query = "SELECT c.contrato_id AS contrato_id, co.nombre AS 'empleado', tc.nombre AS 'tipo_contrato', pp.nombre AS 'pago_planificado', te.nombre AS 'tipo_empleado', c.fecha_inicio AS 'fecha_inicio', c.estado AS 'estado', (CASE WHEN c.estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', c.salario AS 'salario', c.tipo_contrato_id AS 'tipo_contrato_id', c.pago_planificado_id AS 'pago_planificado_id', c.tipo_empleado_id AS 'tipo_empleado_id', (CASE WHEN c.fecha_fin = '' THEN 'Sin Registro' ELSE c.fecha_fin END) AS 'fecha_fin', c.notas AS 'notas'
 			FROM contrato AS c
 			INNER JOIN colaboradores AS co ON c.colaborador_id = co.colaboradores_id
 			INNER JOIN tipo_contrato AS tc ON c.tipo_contrato_id = tc.tipo_contrato_id
@@ -2220,7 +2261,7 @@ class mainModel
 			$empleado = "AND c.colaboradores_id = '" . $datos['empleado'] . "'";
 		}		
 
-		$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_detalles_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.fecha_inicio, n.fecha_fin
+		$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_detalles_id AS 'nomina_detalles_id', c.nombre AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.fecha_inicio, n.fecha_fin
 				FROM nomina_detalles AS nd
 				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
 				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id
@@ -2254,7 +2295,7 @@ class mainModel
 		$query = "SELECT 
 					n.nomina_id AS 'nomina_id', 
 					nd.nomina_id AS 'nomina_detalles_id', 
-					CONCAT(c.nombre, ' ', c.apellido) AS 'empleado', 
+					c.nombre AS 'empleado', 
 					nd.salario AS 'salario', 
 					nd.hrse25,
 					nd.hrse50,
@@ -2311,7 +2352,7 @@ class mainModel
 
 	public function getNominaDetallesEdit($nomina_detalles_id)
 	{
-		$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_detalles_id AS 'nomina_detalles_id', CONCAT(c.nombre,' ' ,c.apellido) AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.pago_planificado_id AS 'pago_planificado_id', n.notas AS 'notas', c.identidad AS 'identidad', p.nombre AS 'puesto', co.contrato_id AS 'contrato_id', c.fecha_ingreso AS 'fecha_ingreso', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.isr AS 'isr', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.notas AS 'nota_detalles', nd.vales, e.logotipo, nd.hrse25_valor, nd.hrse50_valor, nd.hrse75_valor, nd.hrse100_valor, n.detalle, nd.salario_mensual, co.tipo_empleado_id
+		$query = "SELECT n.nomina_id AS 'nomina_id', nd.nomina_detalles_id AS 'nomina_detalles_id', c.nombre AS 'empleado', nd.salario AS 'salario', nd.hrse25 AS 'horas_25', nd.hrse50 As 'horas_50', nd.hrse75 AS 'horas_75', nd.hrse100 As 'horas_100', nd.retroactivo AS 'retroactivo', nd.bono AS 'bono', nd.deducciones AS 'deducciones', nd.prestamo AS 'prestamo', nd.ihss AS 'ihss', nd.rap AS 'rap', nd.estado AS 'estado', nd.estado AS 'estado', nd.nomina_detalles_id AS 'nomina_detalles_id', (CASE WHEN nd.estado = 1 THEN 'Activo' ELSE 'Inactivo' END) AS 'estado_nombre', nd.colaboradores_id AS 'colaboradores_id', nd.neto_ingresos As 'neto_ingresos', nd.neto_egresos AS 'neto_egresos', nd.neto AS 'neto', nd.notas AS 'notas', tp.nombre AS 'contrato', e.nombre AS 'empresa', n.pago_planificado_id AS 'pago_planificado_id', n.notas AS 'notas', c.identidad AS 'identidad', p.nombre AS 'puesto', co.contrato_id AS 'contrato_id', c.fecha_ingreso AS 'fecha_ingreso', nd.dias_trabajados AS 'dias_trabajados', nd.otros_ingresos AS 'otros_ingresos', nd.isr AS 'isr', nd.incapacidad_ihss AS 'incapacidad_ihss', nd.notas AS 'nota_detalles', nd.vales, e.logotipo, nd.hrse25_valor, nd.hrse50_valor, nd.hrse75_valor, nd.hrse100_valor, n.detalle, nd.salario_mensual, co.tipo_empleado_id
 				FROM nomina_detalles AS nd
 				INNER JOIN nomina AS n ON nd.nomina_id = n.nomina_id
 				INNER JOIN colaboradores AS c ON nd.colaboradores_id = c.colaboradores_id
@@ -2374,8 +2415,7 @@ class mainModel
 	
 		// Consulta principal sin la lógica de empresa dinámica
 		$query = "SELECT u.users_id AS 'users_id', 
-						 CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', 
-						 u.username AS 'username', 
+						 c.nombre AS 'colaborador', 
 						 u.email AS 'correo', 
 						 tp.nombre AS 'tipo_usuario',
 						 e.nombre AS 'empresa',						 
@@ -2388,7 +2428,7 @@ class mainModel
 				  INNER JOIN privilegio AS p ON u.privilegio_id = p.privilegio_id
 				  INNER JOIN empresa AS e ON u.empresa_id = e.empresa_id
 				  " . $where . "
-				  ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
+				  ORDER BY c.nombre";
 
 		$result = self::connection()->query($query);
 	
@@ -3646,7 +3686,7 @@ class mainModel
 
 	public function getEgresosContablesReporte($egresos_id)
 	{
-		$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', p.rtn AS 'rtn_proveedor', p.localidad AS 'localidad', p.telefono AS 'telefono', e.factura AS 'factura', e.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(e.fecha, '%d/%m/%Y') AS 'fecha', time(e.fecha_registro) AS 'hora', e.observacion AS 'observacion', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido', e.estado AS 'estado', emp.rtn AS 'rtn_empresa', e.subtotal AS 'subtotal', e.descuento AS 'descuento', e.nc AS 'nc', e.impuesto AS 'impuesto', e.total AS 'total', DATE_FORMAT(e.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta', emp.logotipo AS 'logotipo', emp.firma_documento AS 'firma_documento', cg.nombre AS 'categoria'
+		$query = "SELECT e.egresos_id AS 'egresos_id', e.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', p.nombre AS 'proveedor', p.rtn AS 'rtn_proveedor', p.localidad AS 'localidad', p.telefono AS 'telefono', e.factura AS 'factura', e.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(e.fecha, '%d/%m/%Y') AS 'fecha', time(e.fecha_registro) AS 'hora', e.observacion AS 'observacion', co.nombre AS 'colaborador_nombre', e.estado AS 'estado', emp.rtn AS 'rtn_empresa', e.subtotal AS 'subtotal', e.descuento AS 'descuento', e.nc AS 'nc', e.impuesto AS 'impuesto', e.total AS 'total', DATE_FORMAT(e.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta', emp.logotipo AS 'logotipo', emp.firma_documento AS 'firma_documento', cg.nombre AS 'categoria'
 				FROM egresos AS e
 				INNER JOIN cuentas AS c
 				ON e.cuentas_id = c.cuentas_id
@@ -3668,7 +3708,7 @@ class mainModel
 
 	public function getIngresosContablesReporte($ingresos_id)
 	{
-		$query = "SELECT i.ingresos_id AS 'ingresos_id', i.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', cl.nombre AS 'cliente', cl.rtn AS 'rtn_cliente', cl.localidad AS 'localidad', cl.telefono AS 'telefono', i.factura AS 'factura', i.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(i.fecha, '%d/%m/%Y') AS 'fecha', time(i.fecha_registro) AS 'hora', i.observacion AS 'observacion', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', i.estado AS 'estado', emp.rtn AS 'rtn_empresa', i.subtotal AS 'subtotal', i.descuento AS 'descuento', i.nc AS 'nc', i.impuesto AS 'impuesto', i.total AS 'total', DATE_FORMAT(i.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta', emp.logotipo AS 'logotipo', emp.firma_documento AS 'firma_documento'
+		$query = "SELECT i.ingresos_id AS 'ingresos_id', i.fecha AS 'fecha', c.codigo as 'codigo', c.nombre AS 'nombre', cl.nombre AS 'cliente', cl.rtn AS 'rtn_cliente', cl.localidad AS 'localidad', cl.telefono AS 'telefono', i.factura AS 'factura', i.fecha_registro As 'fecha_registro', emp.nombre AS 'empresa', emp.ubicacion AS 'direccion_empresa', emp.telefono AS 'empresa_telefono', emp.celular AS 'empresa_celular', emp.correo AS 'empresa_correo', emp.otra_informacion As 'otra_informacion', emp.eslogan AS 'eslogan', DATE_FORMAT(i.fecha, '%d/%m/%Y') AS 'fecha', time(i.fecha_registro) AS 'hora', i.observacion AS 'observacion', co.nombre AS 'colaborador_nombre', i.estado AS 'estado', emp.rtn AS 'rtn_empresa', i.subtotal AS 'subtotal', i.descuento AS 'descuento', i.nc AS 'nc', i.impuesto AS 'impuesto', i.total AS 'total', DATE_FORMAT(i.fecha_registro, '%d/%m/%Y') AS 'fecha_registro_consulta', emp.logotipo AS 'logotipo', emp.firma_documento AS 'firma_documento'
 				FROM ingresos AS i
 				INNER JOIN cuentas AS c
 				ON i.cuentas_id = c.cuentas_id
@@ -3782,12 +3822,12 @@ class mainModel
 
 	public function getUsersEdit($users_id)
 	{
-		$query = "SELECT u.users_id AS 'users_id', c.colaboradores_id AS 'colaborador_id', CONCAT(c.nombre, ' ', c.apellido) AS 'colaborador', u.username AS 'username', u.email AS 'correo', u.tipo_user_id AS 'tipo_user_id', u.estado AS 'estado', u.empresa_id AS 'empresa_id', u.privilegio_id AS 'privilegio_id', u.server_customers_id
+		$query = "SELECT u.users_id AS 'users_id', c.colaboradores_id AS 'colaborador_id', c.nombre AS 'colaborador', u.email AS 'correo', u.tipo_user_id AS 'tipo_user_id', u.estado AS 'estado', u.empresa_id AS 'empresa_id', u.privilegio_id AS 'privilegio_id', u.server_customers_id
 				FROM users AS u
 				INNER JOIN colaboradores AS c
 				ON u.colaboradores_id = c.colaboradores_id
 				WHERE u.users_id = '$users_id'
-				ORDER BY CONCAT(c.nombre, ' ', c.apellido)";
+				ORDER BY c.nombre";
 
 		$result = self::connection()->query($query);
 
@@ -3807,7 +3847,7 @@ class mainModel
 
 	public function getFactura($noFactura)
 	{
-		$query = "SELECT c.clientes_id As 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn_cliente', c.telefono AS 'telefono', c.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn_empresa', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn', f.fecha_dolar AS 'fecha_dolar', e.logotipo AS 'logotipo', e.firma_documento AS 'firma_documento', e.MostrarFirma
+		$query = "SELECT c.clientes_id As 'clientes_id', c.nombre AS 'cliente', c.rtn AS 'rtn_cliente', c.telefono AS 'telefono', c.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn_empresa', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn', f.fecha_dolar AS 'fecha_dolar', e.logotipo AS 'logotipo', e.firma_documento AS 'firma_documento', e.MostrarFirma
 				FROM facturas AS f
 				INNER JOIN clientes AS c
 				ON f.clientes_id = c.clientes_id
@@ -3941,7 +3981,7 @@ class mainModel
 	{
 		$query = "SELECT cl.nombre AS 'cliente', cl.rtn AS 'rtn_cliente', cl.telefono AS 'telefono', cl.localidad AS 'localidad',
 		\t e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular',
-		\t  e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre' , co.apellido AS 'colaborador_apellido',
+		\t  e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre',
 		\t   DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', c.fecha_dolar,
 		\t    time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito'END) AS 'tipo_documento', vg.valor AS 'vigencia_cotizacion', e.rtn AS 'rtn_empresa', e.logotipo AS 'logotipo', e.firma_documento AS 'firma_documento', e.MostrarFirma
 				FROM cotizacion AS c
@@ -3962,7 +4002,7 @@ class mainModel
 
 	public function getCompra($noCompra)
 	{
-		$query = "SELECT p.nombre AS 'proveedor', p.rtn AS 'rtn_proveedor', p.telefono AS 'telefono', p.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', co.apellido AS 'colaborador_apellido', DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_compra = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn_empresa', c.proveedores_id AS 'proveedores_id', e.logotipo AS 'logotipo', e.firma_documento AS 'firma_documento'
+		$query = "SELECT p.nombre AS 'proveedor', p.rtn AS 'rtn_proveedor', p.telefono AS 'telefono', p.localidad AS 'localidad', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.celular AS 'empresa_celular', e.correo AS 'empresa_correo', co.nombre AS 'colaborador_nombre', DATE_FORMAT(c.fecha, '%d/%m/%Y') AS 'fecha', time(c.fecha_registro) AS 'hora',  c.estado AS 'estado', c.number AS 'numero_factura', c.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', (CASE WHEN c.tipo_compra = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', e.rtn AS 'rtn_empresa', c.proveedores_id AS 'proveedores_id', e.logotipo AS 'logotipo', e.firma_documento AS 'firma_documento'
 				FROM compras AS c
 				INNER JOIN proveedores AS p
 				ON c.proveedores_id = p.proveedores_id
@@ -4513,7 +4553,7 @@ class mainModel
 
 	public function getCajasEdit($apertura_id)
 	{
-		$query = "SELECT a.fecha AS 'fecha', a.factura_inicial AS 'factura_inicial', a.factura_final AS 'factura_final', a.apertura AS 'monto_apertura', (CASE WHEN a.estado = '1' THEN 'Activa' ELSE 'Inactiva' END) AS 'caja', CONCAT(c.nombre, ' ', c.apellido) AS 'usuario', a.colaboradores_id AS 'colaboradores_id', a.apertura_id AS 'apertura_id'
+		$query = "SELECT a.fecha AS 'fecha', a.factura_inicial AS 'factura_inicial', a.factura_final AS 'factura_final', a.apertura AS 'monto_apertura', (CASE WHEN a.estado = '1' THEN 'Activa' ELSE 'Inactiva' END) AS 'caja', c.nombre AS 'usuario', a.colaboradores_id AS 'colaboradores_id', a.apertura_id AS 'apertura_id'
 
 				FROM apertura AS a
 
@@ -4610,7 +4650,7 @@ class mainModel
 
 	public function getTotalFacturasDisponiblesDB($empresa_id)
 	{
-		$query = "SELECT siguiente AS 'numero'
+		$query = "SELECT siguiente AS 'numero', rango_final, rango_inicial
 
 				FROM secuencia_facturacion
 
@@ -4625,10 +4665,8 @@ class mainModel
 
 	public function getNumeroMaximoPermitido($empresa_id)
 	{
-		$query = "SELECT rango_final AS 'numero'
-
+		$query = "SELECT rango_final AS 'numero', rango_final, rango_inicial
 				FROM secuencia_facturacion
-
 				WHERE activo = 1 AND empresa_id = '$empresa_id' AND documento_id = 1";
 
 		$result = self::connection()->query($query);
@@ -4928,8 +4966,8 @@ class mainModel
 					WHEN f.tipo_factura = 1 THEN 'Contado' 
 					ELSE 'Crédito' 
 				END AS 'tipo_documento', 
-				CONCAT(co.nombre, ' ', co.apellido) AS 'vendedor', 
-				CONCAT(co1.nombre, ' ', co1.apellido) AS 'facturador',
+				co.nombre AS 'vendedor', 
+				co1.nombre AS 'facturador',
 				-- Cálculo de subtotal, ISV, costo y descuento en una sola consulta
 				(SELECT SUM(fd.cantidad * fd.precio) FROM facturas_detalles AS fd WHERE fd.facturas_id = f.facturas_id) AS 'subtotal',
 				(SELECT SUM(fd.cantidad * p.precio_compra) FROM facturas_detalles AS fd INNER JOIN productos AS p ON fd.productos_id = p.productos_id WHERE fd.facturas_id = f.facturas_id) AS 'subCosto',
@@ -5148,7 +5186,7 @@ class mainModel
 
 	public function getValesPendientes()
 	{
-		$query = "SELECT v.vale_id, CONCAT(c.nombre, ' ', c.apellido) AS empleado, v.monto, v.nota, v.colaboradores_id
+		$query = "SELECT v.vale_id, c.nombre AS empleado, v.monto, v.nota, v.colaboradores_id
 				FROM vale AS v
 				INNER JOIN colaboradores AS c ON v.colaboradores_id = c.colaboradores_id
 				WHERE v.estado = 0;";
@@ -5318,7 +5356,7 @@ class mainModel
 					END AS 'numero', 
 					cc.estado,
 					f.importe, 
-					CONCAT(co.nombre, ' ', co.apellido) AS 'vendedor'
+					co.nombre AS 'vendedor'
 				FROM 
 					cobrar_clientes AS cc
 					INNER JOIN clientes AS c ON cc.clientes_id = c.clientes_id
@@ -5620,7 +5658,7 @@ class mainModel
 
 	function getCajero($colaborador_id_sd)
 	{
-		$query = "SELECT colaboradores_id AS 'colaboradores_id', CONCAT(nombre, ' ', apellido) AS 'colaborador'
+		$query = "SELECT colaboradores_id AS 'colaboradores_id', nombre AS 'colaborador'
 				FROM colaboradores
 				WHERE colaboradores_id = '$colaborador_id_sd'";
 
@@ -5631,7 +5669,7 @@ class mainModel
 
 	function getNombreUsuario($users_id)
 	{
-		$query = "SELECT CONCAT(c.nombre, ' ', c.apellido) AS 'usuario', c.identidad AS 'identidad'
+		$query = "SELECT c.nombre AS 'usuario', c.identidad AS 'identidad'
 				FROM users AS u
 				INNER JOIN colaboradores AS c
 				ON u.colaboradores_id = c.colaboradores_id

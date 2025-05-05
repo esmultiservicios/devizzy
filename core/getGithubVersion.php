@@ -1,22 +1,4 @@
 <?php
-$githubToken = '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';
-$repoOwner = 'clinicarehn';
-$repoName = 'devizzy';
-
-$apiUrl = "https://api.github.com/repos/$repoOwner/$repoName/releases/latest";
-
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $apiUrl);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: token $githubToken"]);
-$response = curl_exec($ch);
-curl_close($ch);
-
-$data = json_decode($response, true);
-
-if (isset($data['tag_name'])) {
-    echo $data['tag_name'];
-} else {
     // echo "No se pudo obtener la versión.";
     echo 'Versión: 4.1.0';
 
@@ -34,4 +16,3 @@ if (isset($data['tag_name'])) {
      * 10 es la versión de parche, lo que significa que se han realizado 10 correcciones de errores desde la versión 2.0.0.
      * Este enfoque permite a los usuarios del software entender rápidamente qué tipo de cambios se han realizado en una versión y si es probable que sea compatible con su uso existente. Es una práctica común en la industria del software para mantener un control claro de las versiones y comunicar los cambios a los usuarios.
      */
-}

@@ -11,8 +11,7 @@
 				session_start(['name'=>'SD']); 
 			}
 			
-			$nombre = mainModel::cleanStringConverterCase($_POST['nombre_colaborador']);
-			$apellido = mainModel::cleanStringConverterCase($_POST['apellido_colaborador']);			
+			$nombre = mainModel::cleanStringConverterCase($_POST['nombre_colaborador']);						
 			$identidad = mainModel::cleanString($_POST['identidad_colaborador']);	
 			$telefono = mainModel::cleanString($_POST['telefono_colaborador']);				
 			$puesto = mainModel::cleanString($_POST['puesto_colaborador']);			
@@ -24,8 +23,7 @@
 			$estado = 1;
 			
 			$datos = [
-				"nombre" => $nombre,
-				"apellido" => $apellido,				
+				"nombre" => $nombre,			
 				"identidad" => $identidad,
 				"telefono" => $telefono,				
 				"puesto" => $puesto,				
@@ -79,8 +77,7 @@
 		
 		public function editar_colaborador_controlador(){
 			$colaborador_id = mainModel::cleanStringConverterCase($_POST['colaborador_id']);
-			$nombre = mainModel::cleanStringConverterCase($_POST['nombre_colaborador']);
-			$apellido = mainModel::cleanStringConverterCase($_POST['apellido_colaborador']);				
+			$nombre = mainModel::cleanStringConverterCase($_POST['nombre_colaborador']);							
 			$telefono = mainModel::cleanString($_POST['telefono_colaborador']);				
 			$fecha_ingreso = mainModel::cleanString($_POST['fecha_ingreso_colaborador']);
 			$fecha_egreso = mainModel::cleanString($_POST['fecha_egreso_colaborador']);
@@ -108,7 +105,6 @@
 			$datos = [
 				"colaborador_id" => $colaborador_id,
 				"nombre" => $nombre,
-				"apellido" => $apellido,
 				"telefono" => $telefono,				
 				"puesto" => $puesto,				
 				"estado" => $estado,
