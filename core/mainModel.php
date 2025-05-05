@@ -5270,11 +5270,7 @@ class mainModel
 			c.clientes_id AS clientes_id,
 			c.nombre AS cliente,
 			c.rtn AS rtn,
-			CONCAT(
-					ven.nombre,
-					' ',
-					ven.apellido
-				) AS profesional,
+			ven.nombre AS profesional,
 			f.colaboradores_id AS colaborador_id,
 			f.estado AS estado,
 			f.fecha AS fecha_factura,
