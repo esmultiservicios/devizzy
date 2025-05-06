@@ -15,23 +15,7 @@ $(document).ready(function() {
     getCollaboradoresModalPagoFacturas();
     getFacturador();
     getVendedores();
-    getClientesFacturasCXC();
-
-    // Al cargar la página, verificar el estado del primer checkbox
-    /*if ($('#invoice-form #facturas_activo').is(':checked')) {
-        $('#invoice-form #facturas_proforma_container').hide(); // Ocultar el segundo checkbox
-        $('#invoice-form #facturas_proforma').prop('checked', false); // Deseleccionar el segundo checkbox
-    }  
-    
-    // Manejar el evento change del primer checkbox
-    $('#invoice-form #facturas_activo').change(function() {
-        if ($(this).is(':checked')) {
-            $('#invoice-form #facturas_proforma_container').hide(); // Ocultar el segundo checkbox
-            $('#invoice-form #facturas_proforma').prop('checked', false); // Deseleccionar el segundo checkbox
-        } else {
-            $('#invoice-form #facturas_proforma_container').show(); // Mostrar el segundo checkbox
-        }
-    });  */  
+    getClientesFacturasCXC(); 
 });
 
 function getClientesFacturasCXC() {
@@ -3153,7 +3137,7 @@ $('#formulario_bill #search').on("click", function(e) {
 });
 
 //INICIO DESCUENTO PRODUCTO EN FACTURACION
-$(document).ready(function() {
+$(() => {
     $("#invoice-form #invoiceItem").on('click', '.aplicar_descuento', function(e) {
         e.preventDefault();
         $('#formDescuentoFacturacion')[0].reset();
@@ -3161,18 +3145,20 @@ $(document).ready(function() {
         var row_index = $(this).closest("tr").index();
         var col_index = $(this).closest("td").index();
 
-        if ($('#invoice-form #cliente_id').val() != "" && $(
-                "#invoice-form #invoiceItem #productos_id_" + row_index).val() != "") {
+        if ($('#invoice-form #cliente_id').val() != "" && $("#invoice-form #invoiceItem #productos_id_" + row_index).val() != "") {
             $('#formDescuentoFacturacion #row_index').val(row_index);
             $('#formDescuentoFacturacion #col_index').val(col_index);
 
             var productos_id = $("#invoice-form #invoiceItem #productos_id_" + row_index).val();
             var producto = $("#invoice-form #invoiceItem #productName_" + row_index).val();
             var precio = $("#invoice-form #invoiceItem #price_" + row_index).val();
+            var cantidad = $("#invoice-form #invoiceItem #quantity_" + row_index).val();
+            var total = precio * cantidad;
 
             $('#formDescuentoFacturacion #descuento_productos_id').val(productos_id);
             $('#formDescuentoFacturacion #producto_descuento_fact').val(producto);
-            $('#formDescuentoFacturacion #precio_descuento_fact').val(precio);
+            $('#formDescuentoFacturacion #precio_descuento_fact').val(total); // Guardamos el total, no el precio unitario
+            $('#formDescuentoFacturacion #cantidad_descuento_fact').val(cantidad); // Guardamos la cantidad
 
             $('#formDescuentoFacturacion #pro_descuento_fact').val("Aplicar Descuento");
 
@@ -3182,98 +3168,62 @@ $(document).ready(function() {
                 backdrop: 'static'
             });
         } else {
-            swal({
-                title: "Error",
-                text: "Debe seleccionar un cliente y un producto antes de continuar",
-                icon: "error",
-                dangerMode: true,
-                closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-                closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera 
-            });
+            showNotify('error', 'Error', 'Debe seleccionar un cliente y un producto antes de continuar');
         }
     });
-});
 
-$(document).ready(function() {
+    // Cálculo del descuento en porcentaje
     $("#formDescuentoFacturacion #porcentaje_descuento_fact").on("keyup", function() {
-        var precio;
-        var porcentaje;
+        var total = parseFloat($('#formDescuentoFacturacion #precio_descuento_fact').val());
+        var porcentaje = parseFloat($(this).val()) || 0;
 
-        if ($("#formDescuentoFacturacion #porcentaje_descuento_fact").val()) {
-            precio = parseFloat($('#formDescuentoFacturacion #precio_descuento_fact').val());
-            porcentaje = parseFloat($('#formDescuentoFacturacion #porcentaje_descuento_fact').val());
-
-            $('#formDescuentoFacturacion #descuento_fact').val(parseFloat(precio * (porcentaje / 100))
-                .toFixed(2));
-        } else {
-            $('#formDescuentoFacturacion #descuento_fact').val(0);
-        }
+        var descuento = total * (porcentaje / 100);
+        $('#formDescuentoFacturacion #descuento_fact').val(descuento.toFixed(2));
     });
 
+    // Cálculo del porcentaje cuando se ingresa el monto directo
     $("#formDescuentoFacturacion #descuento_fact").on("keyup", function() {
-        var precio;
-        var descuento_fact;
+        var total = parseFloat($('#formDescuentoFacturacion #precio_descuento_fact').val());
+        var descuento = parseFloat($(this).val()) || 0;
 
-        if ($("#formDescuentoFacturacion #descuento_fact").val() != "") {
-            precio = parseFloat($('#formDescuentoFacturacion #precio_descuento_fact').val());
-            descuento_fact = parseFloat($('#formDescuentoFacturacion #descuento_fact').val());
-
-            $('#formDescuentoFacturacion #porcentaje_descuento_fact').val(parseFloat((descuento_fact /
-                precio) * 100).toFixed(2));
-        } else {
-            $('#formDescuentoFacturacion #porcentaje_descuento_fact').val(0);
-        }
+        var porcentaje = (descuento / total) * 100;
+        $('#formDescuentoFacturacion #porcentaje_descuento_fact').val(porcentaje.toFixed(2));
     });
 });
 
+// Aplicar el descuento
 $("#reg_DescuentoFacturacion").on("click", function(e) {
     e.preventDefault();
     var row_index = $('#formDescuentoFacturacion #row_index').val();
     var col_index = $('#formDescuentoFacturacion #col_index').val();
 
-    var descuento = parseFloat($('#formDescuentoFacturacion #descuento_fact').val()).toFixed(2);
-
-    var precio = $("#invoice-form #invoiceItem #price_" + row_index).val();
-    var cantidad = $("#invoice-form #invoiceItem #quantity_" + row_index).val();
+    var descuento = parseFloat($('#formDescuentoFacturacion #descuento_fact').val()) || 0;
+    var precio = parseFloat($("#invoice-form #invoiceItem #price_" + row_index).val());
+    var cantidad = parseFloat($("#invoice-form #invoiceItem #quantity_" + row_index).val());
     var impuesto_venta = $("#invoice-form #invoiceItem #isv_" + row_index).val();
-    $("#invoice-form #invoiceItem #discount_" + row_index).val(descuento);
+    
+    // Guardamos el descuento en la fila
+    $("#invoice-form #invoiceItem #discount_" + row_index).val(descuento.toFixed(2));
 
+    var total_sin_descuento = precio * cantidad;
+    var total_con_descuento = total_sin_descuento - descuento;
 
-    var isv = 0;
-    var isv_total = 0;
-    var porcentaje_isv = 0;
-    var porcentaje_calculo = 0;
-    var isv_neto = 0;
-    var total_ = (precio * cantidad) - descuento;
-
-    if (total_ >= 0) {
+    if (total_con_descuento >= 0) {
+        // Cálculo de ISV
         if (impuesto_venta == 1) {
-            porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
-            if ($('#invoice-form #taxAmount').val() == "" || $('#invoice-form #taxAmount').val() == 0) {
-                porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
-                isv_neto = porcentaje_calculo;
-                $('#invoice-form #taxAmount').val(porcentaje_calculo);
-                $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
-            } else {
-                isv_total = parseFloat($('#invoice-form #taxAmount').val());
-                porcentaje_calculo = (parseFloat(total_) * porcentaje_isv).toFixed(2);
-                isv_neto = parseFloat(isv_total) + parseFloat(porcentaje_calculo);
-                $('#invoice-form #taxAmount').val(isv_neto);
-                $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(porcentaje_calculo);
-            }
+            var porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
+            var isv_actual = parseFloat($('#invoice-form #taxAmount').val()) || 0;
+            var isv_nuevo = (total_con_descuento * porcentaje_isv).toFixed(2);
+            
+            // Actualizamos el ISV
+            $('#invoice-form #taxAmount').val(parseFloat(isv_actual) + parseFloat(isv_nuevo));
+            $('#invoice-form #invoiceItem #valor_isv_' + row_index).val(isv_nuevo);
         }
 
         $('#modalDescuentoFacturacion').modal('hide');
         calculateTotalFacturas();
     } else {
-        swal({
-            title: "warning",
-            text: "El valor del descuento es mayor al precio total del artículo, por favor corregir",
-            icon: "warning",
-            dangerMode: true,
-            closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-            closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera             
-        });
+        showNotify('warning', 'Advertencia', 'El valor del descuento es mayor al precio total del artículo, por favor corregir');
     }
 });
 //FIN DESCUENTO PRODUCTO EN FACTURACION
