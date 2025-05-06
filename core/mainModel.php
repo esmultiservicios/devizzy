@@ -2080,7 +2080,7 @@ class mainModel
 
 	public function getEmpleado()
 	{
-		$query = "SELECT co.colaborador_id AS 'colaboradores_id', CONCAT(nombre, ' ', apellido) AS 'nombre'
+		$query = "SELECT co.colaborador_id AS 'colaboradores_id', nombre AS 'nombre'
 			FROM contrato AS co
 			INNER JOIN colaboradores AS c ON co.colaborador_id = c.colaboradores_id
 			WHERE co.estado = 1";
